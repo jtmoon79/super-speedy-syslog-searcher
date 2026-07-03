@@ -56,15 +56,13 @@ use ::si_trace_print::{
     pfo,
     pfx,
 };
-use ::tempfile::NamedTempFile;
+use ::tempfile::TempPath;
 
 use crate::common::{
     debug_panic,
     Count,
     FPath,
-    File,
     FileMetadata,
-    FileOpenOptions,
     FileSz,
     FileType,
     PathId,
@@ -86,6 +84,12 @@ use crate::data::evtx::{
 };
 use crate::de_err;
 use crate::readers::filedecompressor::decompress_to_ntf;
+use crate::readers::filehandlemanager::{
+    FileHandleManaged,
+    FileHandleRole,
+    OpenOptionsManaged,
+    FILE_HANDLE_MANAGER,
+};
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::Summary;
 
@@ -180,7 +184,7 @@ pub struct EvtxReader {
     /// The internal [`EvtxParser`] that does the heavy lifting.
     ///
     /// [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
-    evtxparser: EvtxParser<File>,
+    evtxparser: EvtxParser<FileHandleManaged>,
     /// The [`Evtx`]s read from the file, sorted by timestamp and then by
     /// enumeration order.
     events: Events,
@@ -191,7 +195,7 @@ pub struct EvtxReader {
     /// The `FixedOffset` to use for converting `Timestamp`s to `DateTimeL`s.
     fixed_offset: FixedOffset,
     /// If necessary, the extracted evtx file as a temporary file.
-    named_temp_file: Option<NamedTempFile>,
+    named_temp_file: Option<TempPath>,
     /// Summary statistic.
     /// `Count` of [`Evtx`s] processed.
     ///
@@ -284,7 +288,7 @@ impl EvtxReader {
         def1n!("({}, {:?}, {:?})", path_id, path, filetype);
 
         let path_std: &Path = Path::new(&path);
-        let named_temp_file: Option<NamedTempFile>;
+        let named_temp_file: Option<TempPath>;
         let mtime_opt: Option<SystemTime>;
         (named_temp_file, mtime_opt) = match decompress_to_ntf(path_id, path_std, &filetype) {
             Ok(ntf_mtime) => {
@@ -305,16 +309,17 @@ impl EvtxReader {
         def1o!("mtime_opt {:?}", mtime_opt);
 
         let path_actual: &Path = match named_temp_file {
-            Some(ref ntf) => ntf.path(),
+            Some(ref ntf) => ntf.as_ref(),
             None => path_std,
         };
         def1o!("path_actual {:?}", path_actual);
-        let mut open_options = FileOpenOptions::new();
-        def1o!("open_options.read(true).open({:?})", path_actual);
-        let file: File = match open_options
-            .read(true)
-            .open(path_actual)
-        {
+        def1o!("FILE_HANDLE_MANAGER.request_open({:?})", path_actual);
+        let file: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+            path_id,
+            FileHandleRole::PrimaryRead,
+            path_actual,
+            OpenOptionsManaged::read_only(),
+        ) {
             Result::Ok(val) => val,
             Result::Err(err) => {
                 def1x!("return {:?}", err);
@@ -346,11 +351,11 @@ impl EvtxReader {
 
         // create the EvtxParser
         let settings = ParserSettings::default().num_threads(0);
-        def1o!("EvtxParser::from_path({:?})", path_actual);
-        let evtxparser: EvtxParser<File> = match EvtxParser::from_path(path_actual) {
+        def1o!("EvtxParser::from_read_seek({:?})", path_actual);
+        let evtxparser: EvtxParser<FileHandleManaged> = match EvtxParser::from_read_seek(file) {
             Ok(evtxparser) => evtxparser.with_configuration(settings),
             Err(err) => {
-                return Err(Error::new(ErrorKind::Other, format!("EvtxParser::from_path({:?}): {}", path_actual, err)));
+                return Err(Error::new(ErrorKind::Other, format!("EvtxParser::from_read_seek({:?}): {}", path_actual, err)));
             }
         };
         def1x!("return Ok(EvtxReader)");
@@ -600,7 +605,7 @@ impl EvtxReader {
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
         let path_ntf: Option<FPath> = match &self.named_temp_file {
-            Some(ntf) => Some(path_to_fpath(ntf.path())),
+            Some(ntf) => Some(path_to_fpath(ntf.as_ref())),
             None => None,
         };
         let filetype = self.filetype();

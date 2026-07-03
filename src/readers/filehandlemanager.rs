@@ -75,16 +75,21 @@ use crate::debug::printers::e_wrn;
 /// Environment variable used to override [`FILE_HANDLE_OPEN_MAX_DEFAULT`].
 pub const ENV_FILE_HANDLE_OPEN_MAX: &str = "S4_FILE_HANDLE_OPEN_MAX";
 
-/// Default maximum number of simultaneously open managed files.
+/// Number of file descriptors reserved for stdio, temp files, directory walkers,
+/// and other non-managed file handles.
+const FILE_HANDLE_OPEN_MAX_RLIMIT_RESERVE: usize = 5;
+
+/// Default maximum number of simultaneously managed open file handles.
 ///
-/// On a small-resource Debian 12 system the `ulimit -n` limit is 1024.
+/// On a low-resource Debian 12 system the `ulimit -n` limit is 1024.
 /// On Windows the default limit is 512 (see https://superuser.com/a/1356327/167043).
-///
-/// Overrridden by environment variable `S4_FILE_HANDLE_OPEN_MAX`.
-pub const FILE_HANDLE_OPEN_MAX_DEFAULT: OpenMaxCountType = cfg_if::cfg_if! {
-    if #[cfg(windows)] {
+pub const FILE_HANDLE_OPEN_MAX_DEFAULT: OpenMaxCountType = {
+    #[cfg(windows)]
+    {
         unsafe { OpenMaxCountType::new_unchecked(480) }
-    } else {
+    }
+    #[cfg(not(windows))]
+    {
         unsafe { OpenMaxCountType::new_unchecked(980) }
     }
 };
@@ -228,7 +233,7 @@ impl OpenOptionsManaged {
 }
 
 /// Return true if the `err` is a "_too many open files_" error.
-fn is_error_too_many_open_files(err: &Error) -> bool {
+pub(crate) fn is_error_too_many_open_files(err: &Error) -> bool {
     cfg_if::cfg_if! {
         if #[cfg(unix)] {
             err.raw_os_error()
@@ -691,6 +696,15 @@ impl FileHandleManager {
             .summary
     }
 
+    /// Evict one currently-open managed file handle, if possible.
+    pub(crate) fn evict_one(&self) -> bool {
+        def1ñ!();
+        self.state
+            .lock()
+            .expect("file handle manager lock poisoned during evict_one()")
+            .evict_one()
+    }
+
     /// Return the configured maximum number of simultaneously open files.
     pub fn open_max(&self) -> OpenMaxCountType {
         self.state
@@ -911,53 +925,71 @@ static FILE_HANDLE_OPEN_MAX_WRN: AtomicBool = AtomicBool::new(false);
 
 /// wrapper function to get the env. var. `S4_FILE_HANDLE_OPEN_MAX`
 /// and return a valid value.
+/// On Unix, adjusts to `getrlimit`.
 fn file_handle_open_max() -> OpenMaxCountType {
-    match std::env::var(ENV_FILE_HANDLE_OPEN_MAX) {
+    let mut warning_invalid_value: Option<String> = None;
+    let mut warning_env_error: Option<String> = None;
+    let open_max: OpenMaxCountType = match std::env::var(ENV_FILE_HANDLE_OPEN_MAX) {
         Ok(value) => {
             let value_trimmed = value.trim();
             if value_trimmed.is_empty() {
-                defñ!("empty env value, return default {}", FILE_HANDLE_OPEN_MAX_DEFAULT);
-                return FILE_HANDLE_OPEN_MAX_DEFAULT;
-            }
-            match value_trimmed.parse::<usize>() {
-                Ok(value) if value > 0 => {
-                    defñ!("return {}", value);
+                FILE_HANDLE_OPEN_MAX_DEFAULT
+            } else {
+                match value_trimmed.parse::<usize>() {
+                    Ok(value) if value > 0 => OpenMaxCountType::new(value).unwrap(),
+                    _ => {
+                        warning_invalid_value = Some(value);
 
-                    OpenMaxCountType::new(value).unwrap()
-                }
-                _ => {
-                    // only warn once
-                    let wrn = FILE_HANDLE_OPEN_MAX_WRN.load(Ordering::Relaxed);
-                    FILE_HANDLE_OPEN_MAX_WRN.store(true, Ordering::Relaxed);
-                    if !wrn {
-                        e_wrn!(
-                            "environment variable {} value {:?} is not a decimal number greater than 0; using default {}",
-                            ENV_FILE_HANDLE_OPEN_MAX,
-                            value,
-                            FILE_HANDLE_OPEN_MAX_DEFAULT,
-                        );
+                        FILE_HANDLE_OPEN_MAX_DEFAULT
                     }
-                    defñ!("invalid env value, return default {}", FILE_HANDLE_OPEN_MAX_DEFAULT);
-
-                    FILE_HANDLE_OPEN_MAX_DEFAULT
                 }
             }
         }
-        Err(std::env::VarError::NotPresent) => {
-            defñ!("env not present, return default {}", FILE_HANDLE_OPEN_MAX_DEFAULT);
+        Err(std::env::VarError::NotPresent) => FILE_HANDLE_OPEN_MAX_DEFAULT,
+        Err(err) => {
+            warning_env_error = Some(err.to_string());
 
             FILE_HANDLE_OPEN_MAX_DEFAULT
         }
-        Err(err) => {
-            e_wrn!(
-                "environment variable {} could not be read: {}; using default {}",
-                ENV_FILE_HANDLE_OPEN_MAX,
-                err,
-                FILE_HANDLE_OPEN_MAX_DEFAULT,
-            );
-            defñ!("env error, return default {}", FILE_HANDLE_OPEN_MAX_DEFAULT);
+    };
 
-            FILE_HANDLE_OPEN_MAX_DEFAULT
+    #[cfg(unix)]
+    let open_max: OpenMaxCountType = {
+        match ::nix::sys::resource::getrlimit(::nix::sys::resource::Resource::RLIMIT_NOFILE) {
+            Ok((rlimit_soft, _rlimit_hard)) => {
+                let rlimit_soft = usize::try_from(rlimit_soft).unwrap_or(usize::MAX);
+                let adjusted = rlimit_soft
+                    .saturating_sub(FILE_HANDLE_OPEN_MAX_RLIMIT_RESERVE)
+                    .max(1);
+
+                OpenMaxCountType::new(std::cmp::min(open_max.get(), adjusted)).unwrap()
+            }
+            Err(_err) => open_max,
+        }
+    };
+
+    if let Some(value) = warning_invalid_value {
+        // only warn once
+        let wrn = FILE_HANDLE_OPEN_MAX_WRN.load(Ordering::Relaxed);
+        FILE_HANDLE_OPEN_MAX_WRN.store(true, Ordering::Relaxed);
+        if !wrn {
+            e_wrn!(
+                "environment variable {} value {:?} is not a decimal number greater than 0; using default {}",
+                ENV_FILE_HANDLE_OPEN_MAX,
+                value,
+                open_max,
+            );
         }
     }
+    if let Some(err) = warning_env_error {
+        e_wrn!(
+            "environment variable {} could not be read: {}; using default {}",
+            ENV_FILE_HANDLE_OPEN_MAX,
+            err,
+            open_max,
+        );
+    }
+    defñ!("return {}", open_max);
+
+    open_max
 }

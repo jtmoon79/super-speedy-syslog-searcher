@@ -61,7 +61,6 @@ Printed journal events : 0
 Printed ODL events     : 0
 Managed files max def. : 200
 Managed files max adj. : 200
-Managed files high     : 2
 Managed request open   : 2
 Managed request read   : 0
 Managed read calls     : 9

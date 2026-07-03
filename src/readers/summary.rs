@@ -139,9 +139,7 @@ pub struct Summary {
     ///
     /// [`LogMessageType::FixedStruct*`]: crate::common::LogMessageType
     pub readerdata: SummaryReaderData,
-    /// path to [`NamedTempFile`]
-    ///
-    /// [`NamedTempFile`]: tempfile::NamedTempFile
+    /// path to temporary file
     pub path_ntf: Option<FPath>,
     /// The first encountered [`Error`], if any, as a `String`.
     ///
