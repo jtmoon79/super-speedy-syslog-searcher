@@ -37,13 +37,14 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 3
 Printed ODL events     : 0
-Managed files max      : 200
-Managed files high     : 1
-Managed request open   : 1
+Managed files max def. : 200
+Managed files max adj. : 200
+Managed files high     : 2
+Managed request open   : 2
 Managed request read   : 0
-Managed read calls     : 0
+Managed read calls     : 129
 Managed write calls    : 128
-Managed seek calls     : 0
+Managed seek calls     : 1
 Managed metadata calls : 0
 Managed open errors    : 0
 Managed evict fails    : 0
