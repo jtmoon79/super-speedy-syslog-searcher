@@ -1214,9 +1214,9 @@ impl<'a> JournalReader {
         Result::Ok(())
     }
 
-    const BUF_DEFAULT_LARGE_SZ: usize = 0x600;
-    const BUF_DEFAULT_MEDIUM_SZ: usize = 0x500;
-    const BUF_DEFAULT_SMALL_SZ: usize = 0x200;
+    const BUF_DEFAULT_LARGE_SZ: usize = 0x400;
+    const BUF_DEFAULT_MEDIUM_SZ: usize = 0x140;
+    const BUF_DEFAULT_SMALL_SZ: usize = 0xC0;
 
     /// Helper to create an `Error` from an `Errno`.
     #[allow(non_snake_case)]
