@@ -49,7 +49,6 @@ use crate::common::{
     err_from_err_path,
     err_from_err_path_result,
     FPath,
-    File,
     FileMetadata,
     FileSz,
     FileType,
@@ -365,8 +364,8 @@ pub fn decompress_to_ntf(
 
             // open the .tar file
 
-            let mut archive: TarHandle = BlockReader::open_tar(path_tar)?;
-            let entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
+            let mut archive: TarHandle = BlockReader::open_tar(path_id, FileHandleRole::SecondaryRead, path_tar)?;
+            let entry_iter: tar::Entries<FileHandleManaged> = match archive.entries_with_seek() {
                 Ok(val) => val,
                 Err(err) => {
                     defx!("Tar: Err {:?}", err);
@@ -376,11 +375,11 @@ pub fn decompress_to_ntf(
 
             // in the .tar file, find the entry with the matching subpath
 
-            let mut entry_opt: Option<tar::Entry<File>> = None;
+            let mut entry_opt: Option<tar::Entry<FileHandleManaged>> = None;
             let mut filesz_header: FileSz = 0;
             for (_index, entry_res) in entry_iter.enumerate() {
                 defo!("Tar: index {}", _index);
-                let entry: tar::Entry<File> = match entry_res {
+                let entry: tar::Entry<FileHandleManaged> = match entry_res {
                     Ok(val) => val,
                     Err(_err) => {
                         defo!("Tar: match entry_res Err {:?}", _err);

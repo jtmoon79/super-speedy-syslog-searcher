@@ -2,7 +2,28 @@
 //
 // this file initially created by Co-pilot + GPT-5.5, heavily revised by human @jtmoon79
 
-//! Managed file handle cache for limiting simultaneously open files.
+//! Managed file handle cache for limiting simultaneously open files
+//! via a global singleton [`FileHandleManager`].
+//!
+//! The `FileHandleManager` and related structs work two ways:
+//! 1. maximum number of outstanding open files handles
+//!    open/read requests beyond that forcefully close the least recently used
+//!    file handle
+//! 2. upon first error of "_too many open files_" the manager will reduce that
+//!    maximum number of outstanding open files handles to the current number of
+//!    open files and retry the open, and then resume the requested operation.
+//!
+//! This allows the `FileHandleManager` to adapt to the actual system limits of
+//! open files, which may be lower than the configured maximum.
+//!
+//! In theory, only approach 2. could have been implemented but we don't have
+//! certainty about the error code that signifies "_too many open files_" on all
+//! platforms. Relatedly, consequences of hitting the system limit may have other
+//! side effects. So implementing 1. allows the manager to avoid hitting the
+//! system limit in the first place. Possibly overkill, but it works.
+//!
+//! User may adjust the maximum number of simultaneously open files
+//! via environment variable `S4_FILE_HANDLE_OPEN_MAX`.
 
 use std::collections::HashMap;
 use std::hash::Hash;
@@ -19,6 +40,10 @@ use std::num::NonZeroUsize;
 use std::path::{
     Path,
     PathBuf,
+};
+use std::sync::atomic::{
+    AtomicBool,
+    Ordering,
 };
 use std::sync::{
     Arc,
@@ -55,15 +80,19 @@ pub const ENV_FILE_HANDLE_OPEN_MAX: &str = "S4_FILE_HANDLE_OPEN_MAX";
 /// On a small-resource Debian 12 system the `ulimit -n` limit is 1024.
 /// On Windows the default limit is 512 (see https://superuser.com/a/1356327/167043).
 /// Use a smaller number than that.
+///
+/// Overrridden by environment variable `S4_FILE_HANDLE_OPEN_MAX`.
 pub const FILE_HANDLE_OPEN_MAX_DEFAULT: OpenMaxCountType = unsafe { OpenMaxCountType::new_unchecked(480) };
 
 /// The role for a managed handle associated with a [`PathId`].
-/// The `FileHandleManager` does not enforce behaviors for different `FileHandleRole` values.
-/// Merely they are suggestions and internally are used only to
+/// The `FileHandleManager` does not enforce behaviors for different
+/// `FileHandleRole` values.
+/// They are merely suggestions to the user and internally are used to
 /// distinguish multiple managed handles for the same [`PathId`].
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum FileHandleRole {
-    /// Primary read slot for a path.
+    /// Primary read slot for a path. Use this for handles that are owned for
+    /// long lifetimes.
     ///
     /// This role identifies the main reader-owned read handle for a
     /// [`PathId`].
@@ -108,6 +137,8 @@ pub struct OpenOptionsManaged {
     truncate: bool,
     create: bool,
     create_new: bool,
+    #[cfg(test)]
+    force_open_error: Option<(i32, u32)>,
 }
 
 impl OpenOptionsManaged {
@@ -120,6 +151,8 @@ impl OpenOptionsManaged {
             truncate: false,
             create: false,
             create_new: false,
+            #[cfg(test)]
+            force_open_error: None,
         }
     }
 
@@ -132,14 +165,41 @@ impl OpenOptionsManaged {
             truncate: false,
             create: false,
             create_new: false,
+            #[cfg(test)]
+            force_open_error: None,
+        }
+    }
+
+    #[cfg(test)]
+    pub(crate) const fn read_only_force_open_error(
+        raw_os_error: i32,
+        count: u32,
+    ) -> Self {
+        Self {
+            read: true,
+            write: false,
+            append: false,
+            truncate: false,
+            create: false,
+            create_new: false,
+            force_open_error: Some((raw_os_error, count)),
         }
     }
 
     fn open(
-        self,
+        &mut self,
         path: &Path,
     ) -> Result<File> {
         def1n!("({:?}, {:?})", self, path);
+        #[cfg(test)]
+        if let Some((raw_os_error, count)) = &mut self.force_open_error {
+            if *count != 0 {
+                *count -= 1;
+                let err = Error::from_raw_os_error(*raw_os_error);
+                def1x!("return forced Err({:?})", err);
+                return Err(err);
+            }
+        }
         let mut open_options = FileOpenOptions::new();
         let result = open_options
             .read(self.read)
@@ -162,9 +222,33 @@ impl OpenOptionsManaged {
     }
 }
 
+/// Return true if the `err` is a "_too many open files_" error.
+fn is_error_too_many_open_files(err: &Error) -> bool {
+    cfg_if::cfg_if! {
+        if #[cfg(unix)] {
+            err.raw_os_error()
+                .is_some_and(
+                    |raw_os_error|
+                    matches!(
+                        ::nix::errno::Errno::from_raw(raw_os_error),
+                        ::nix::errno::Errno::EMFILE | ::nix::errno::Errno::ENFILE
+                    )
+                )
+        } else if #[cfg(windows)] {
+            const ERROR_TOO_MANY_OPEN_FILES: i32 = 4;
+            err.raw_os_error()
+                .is_some_and(|raw_os_error| raw_os_error == ERROR_TOO_MANY_OPEN_FILES)
+        } else {
+            false
+        }
+    }
+}
+
 /// Summary statistics for [`FileHandleManager`].
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct SummaryFileHandleManager {
+    pub open_max_default: u32,
+    pub open_max_adjusted: u32,
     pub files_opened_hi: u32,
     pub request_open_calls: Count,
     pub request_read_calls: Count,
@@ -178,6 +262,8 @@ pub struct SummaryFileHandleManager {
     pub evict_succeed: Count,
     pub evict_fails: Count,
 }
+
+
 
 #[derive(Debug)]
 struct FileEntryManaged {
@@ -222,12 +308,15 @@ impl FileHandleManagerState {
     fn new(open_max: OpenMaxCountType) -> Self {
         def1ñ!("open_max={}", open_max);
         let lru_capacity = open_max;
+        let mut summary = SummaryFileHandleManager::default();
+        summary_stat!(summary.open_max_default = open_max.get() as u32);
+        summary_stat!(summary.open_max_adjusted = summary.open_max_default);
         Self {
             entries: HashMap::new(),
             lru: LruCache::new(lru_capacity),
             open_count: 0,
             open_max,
-            summary: SummaryFileHandleManager::default(),
+            summary,
         }
     }
 
@@ -358,6 +447,25 @@ impl FileHandleManagerState {
             }
         }
 
+        match self.open_entry_once(key) {
+            Ok(()) => {
+                def1x!("return Ok(())");
+                Ok(())
+            }
+            Err(err) if is_error_too_many_open_files(&err) =>
+                self.open_entry_once_adjust_open_max(key, err),
+            Err(err) => {
+                def1x!("return Err(open failed: {:?})", err);
+                Err(err)
+            }
+        }
+    }
+
+    fn open_entry_once(
+        &mut self,
+        key: FileHandleKey,
+    ) -> Result<()> {
+        def1n!("({:?})", key);
         let entry = match self.entries.get_mut(&key) {
             Some(entry) => entry,
             None => {
@@ -398,6 +506,34 @@ impl FileHandleManagerState {
         def1x!("return Ok(())");
 
         Ok(())
+    }
+
+    fn open_entry_once_adjust_open_max(
+        &mut self,
+        key: FileHandleKey,
+        err: Error,
+    ) -> Result<()> {
+        def1n!("({:?}, {:?})", key, err);
+        let open_count = self
+            .entries
+            .values()
+            .filter(|entry| entry.file.is_some())
+            .count();
+        let Some(open_max) = OpenMaxCountType::new(open_count) else {
+            def1x!("return Err({:?})", err);
+            return Err(err);
+        };
+        self.open_count = open_count as OpenCountType;
+        self.open_max = open_max;
+        summary_stat!(self.summary.open_max_adjusted = open_max.get() as u32);
+        if ! self.evict_one() {
+            def1x!("return Err({:?})", err);
+            return Err(err);
+        }
+        let result = self.open_entry_once(key);
+        def1x!("return {:?}", result.is_ok());
+
+        result
     }
 
     fn with_file_mut<T>(
@@ -684,14 +820,9 @@ impl Read for FileHandleManaged {
         &mut self,
         buf: &mut [u8],
     ) -> Result<usize> {
-        def1n!("({:?}, buf len {})", self.key, buf.len());
-        let result = self.with_state_mut(|state| {
-            summary_stat!(state.summary.read_calls += 1);
-            state.with_file_mut(self.key, |file| file.read(buf))
-        });
-        def1x!("return {:?}", result);
+        let mut handle: &FileHandleManaged = self;
 
-        result
+        <&FileHandleManaged as Read>::read(&mut handle, buf)
     }
 }
 
@@ -734,20 +865,14 @@ impl Write for FileHandleManaged {
         result
     }
 }
-
 impl Seek for FileHandleManaged {
     fn seek(
         &mut self,
         pos: SeekFrom,
     ) -> Result<u64> {
-        def1n!("({:?}, {:?})", self.key, pos);
-        let result = self.with_state_mut(|state| {
-            summary_stat!(state.summary.seek_calls += 1);
-            state.with_file_mut(self.key, |file| file.seek(pos))
-        });
-        def1x!("return {:?}", result);
+        let mut handle: &FileHandleManaged = self;
 
-        result
+        <&FileHandleManaged as Seek>::seek(&mut handle, pos)
     }
 }
 
@@ -776,6 +901,9 @@ lazy_static! {
     };
 }
 
+/// state for `file_handle_open_max`
+static FILE_HANDLE_OPEN_MAX_WRN: AtomicBool = AtomicBool::new(false);
+
 /// wrapper function to get the env. var. `S4_FILE_HANDLE_OPEN_MAX`
 /// and return a valid value.
 fn file_handle_open_max() -> OpenMaxCountType {
@@ -793,12 +921,17 @@ fn file_handle_open_max() -> OpenMaxCountType {
                     OpenMaxCountType::new(value).unwrap()
                 }
                 _ => {
-                    e_wrn!(
-                        "environment variable {} value {:?} is not a decimal number greater than 0; using default {}",
-                        ENV_FILE_HANDLE_OPEN_MAX,
-                        value,
-                        FILE_HANDLE_OPEN_MAX_DEFAULT,
-                    );
+                    // only warn once
+                    let wrn = FILE_HANDLE_OPEN_MAX_WRN.load(Ordering::Relaxed);
+                    FILE_HANDLE_OPEN_MAX_WRN.store(true, Ordering::Relaxed);
+                    if !wrn {
+                        e_wrn!(
+                            "environment variable {} value {:?} is not a decimal number greater than 0; using default {}",
+                            ENV_FILE_HANDLE_OPEN_MAX,
+                            value,
+                            FILE_HANDLE_OPEN_MAX_DEFAULT,
+                        );
+                    }
                     defñ!("invalid env value, return default {}", FILE_HANDLE_OPEN_MAX_DEFAULT);
 
                     FILE_HANDLE_OPEN_MAX_DEFAULT
