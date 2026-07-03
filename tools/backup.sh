@@ -27,12 +27,19 @@ HERE="$(basename -- "$(readlink -f .)")"
 ZIPFILE="${BACKUPDIR}/${HERE}-$(date '+%Y%m%dT%H%M%S')-$(hostname).zip"
 
 (
-set -x
+set -xeuo pipefail
 zip --version
 find . \( -type d \( -name target -or -name .venv \) -prune \) -or -type f -print \
     | sort \
     | zip -9 "${ZIPFILE}" -o -@
-)
+) || true
+
+# `zip` returns non-zero exit code if any files were skipped
+# so ignore `zip` return code
+if [[ ! -e "${ZIPFILE}" ]]; then
+    echo "ERROR failed to create the archive file '${ZIPFILE}'" >&2
+    exit 1
+fi
 
 # remove write permissions from the archive file
 # this may fail on NTFS or SMB mounts
