@@ -10,6 +10,7 @@
 #   VER: version to install
 #   IGNORE_CHECKSUM: if set to 1 then ignore a failed checksum result
 #   ABI: optional override of target triple last ABI field; e.g. `gnu` or `musl`
+#   INSTALL_DIR: optional override of install directory
 #   TEST: if set then do not install
 #
 # to run this file remotely:
@@ -26,6 +27,9 @@ readonly VER
 # e.g. `gnu` vs `musl` for Linux targets
 ABI=${ABI-}
 readonly ABI
+
+# allow override of install directory via environment variable
+INSTALL_DIR=${INSTALL_DIR-}
 
 COLOR_BOLD=$(printf '\033[1m')
 COLOR_BOLD_OFF=$(printf '\033[22m')
@@ -94,6 +98,19 @@ is_in_path() {
 }
 
 choose_install_dir() {
+    if [ -n "${INSTALL_DIR-}" ]; then
+        if [ ! -e "${INSTALL_DIR}" ]; then
+            die "INSTALL_DIR '${INSTALL_DIR}' does not exist."
+        fi
+        if [ ! -d "${INSTALL_DIR}" ]; then
+            die "INSTALL_DIR '${INSTALL_DIR}' is not a directory."
+        fi
+        if [ ! -w "${INSTALL_DIR}" ]; then
+            die "INSTALL_DIR '${INSTALL_DIR}' is not writable."
+        fi
+        echo "${INSTALL_DIR}"
+        return 0
+    fi
     # search these common user bin directories first
     for dir in \
         "${HOME}/.cargo/bin" \

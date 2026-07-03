@@ -17,6 +17,8 @@
     Optional override of target triple; e.g. `x86_64-pc-windows-gnu` vs `x86_64-pc-windows-msvc`.
 .PARAMETER Abi
     Optional override of target triple last ABI field; e.g. `gnu` vs `msvc` for Windows targets.
+.PARAMETER InstallDir
+    Optional override of install directory; must be a writable directory in the user's PATH.
 .PARAMETER Test
     Test the download and run, do not install.
 .PARAMETER trace
@@ -38,6 +40,8 @@ param(
     [string] $Triple,
     [Parameter()]
     [string] $Abi,
+    [Parameter()]
+    [string] $InstallDir,
     [Parameter()]
     [switch] $Test,
     [Parameter()]
@@ -191,6 +195,17 @@ function Test-WritableDirectory {
 function Choose-InstallDirectory {
     [OutputType([string])]
     param()
+
+    if (-not [string]::IsNullOrWhiteSpace($InstallDir)) {
+        if (Test-WritableDirectory -Path $InstallDir) {
+            Write-Verbose "Choose-InstallDirectory: selected override install directory '$InstallDir'"
+            return $InstallDir
+        }
+        else {
+            Write-Error "-InstallDir '$InstallDir' is not writable or not a directory"
+            return $null
+        }
+    }
 
     $homePath = [Environment]::GetFolderPath('UserProfile')
     $localAppData = [Environment]::GetFolderPath('LocalApplicationData')
