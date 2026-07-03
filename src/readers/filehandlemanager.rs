@@ -79,10 +79,15 @@ pub const ENV_FILE_HANDLE_OPEN_MAX: &str = "S4_FILE_HANDLE_OPEN_MAX";
 ///
 /// On a small-resource Debian 12 system the `ulimit -n` limit is 1024.
 /// On Windows the default limit is 512 (see https://superuser.com/a/1356327/167043).
-/// Use a smaller number than that.
 ///
 /// Overrridden by environment variable `S4_FILE_HANDLE_OPEN_MAX`.
-pub const FILE_HANDLE_OPEN_MAX_DEFAULT: OpenMaxCountType = unsafe { OpenMaxCountType::new_unchecked(480) };
+pub const FILE_HANDLE_OPEN_MAX_DEFAULT: OpenMaxCountType = cfg_if::cfg_if! {
+    if #[cfg(windows)] {
+        unsafe { OpenMaxCountType::new_unchecked(480) }
+    } else {
+        unsafe { OpenMaxCountType::new_unchecked(980) }
+    }
+};
 
 /// The role for a managed handle associated with a [`PathId`].
 /// The `FileHandleManager` does not enforce behaviors for different
