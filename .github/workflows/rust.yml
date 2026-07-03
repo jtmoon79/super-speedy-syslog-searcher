@@ -787,7 +787,16 @@ jobs:
           set -eux
           S4=./s4_debug
           chmod -v +x -- ${S4}
-          env S4_FILE_HANDLE_OPEN_MAX=2 ${S4} -s ${S4_TEST_FILES} &>/dev/null
+          export S4_FILE_HANDLE_OPEN_MAX=2
+          ${S4} -s ${S4_TEST_FILES} &>/dev/null
+      - name: ulimit=15 s4_debug -s S4_TEST_FILES
+        shell: bash
+        run: |
+          set -eux
+          S4=./s4_debug
+          chmod -v +x -- ${S4}
+          ulimit -n 15
+          ${S4} -s ./logs/other/tests/dtf5-6b* &>/dev/null
       # run release
       - name: s4_release --help
         shell: bash
@@ -951,7 +960,16 @@ jobs:
           set -eux
           S4=./s4_release
           chmod -v +x -- ${S4}
-          env S4_FILE_HANDLE_OPEN_MAX=2 ${S4} -s ${S4_TEST_FILES} &>/dev/null
+          export S4_FILE_HANDLE_OPEN_MAX=2
+          ${S4} -s ${S4_TEST_FILES} &>/dev/null
+      - name: ulimit=15 s4_release -s S4_TEST_FILES
+        shell: bash
+        run: |
+          set -eux
+          S4=./s4_release
+          chmod -v +x -- ${S4}
+          ulimit -n 15
+          ${S4} -s ./logs/other/tests/dtf5-6b* &>/dev/null
       # compare debug release
       - name: Run Script compare-debug-release.sh
         shell: bash
