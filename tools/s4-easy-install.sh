@@ -27,6 +27,8 @@ readonly VER
 ABI=${ABI-}
 readonly ABI
 
+COLOR_BOLD=$(printf '\033[1m')
+COLOR_BOLD_OFF=$(printf '\033[22m')
 COLOR_GREEN=$(printf '\033[32m')
 COLOR_YELLOW=$(printf '\033[33m')
 COLOR_RED=$(printf '\033[31m')
@@ -290,7 +292,7 @@ main() {
         (set -x; "${binary_name}" --version)
     fi
 
-    info "installed ${binary_name} for platform ${target_triple} version ${VER} to ${install_path}"
+    info "installed ${COLOR_BOLD}${binary_name}${COLOR_BOLD_OFF} for platform ${COLOR_BOLD}${target_triple}${COLOR_BOLD_OFF} version ${COLOR_BOLD}${VER}${COLOR_BOLD_OFF} to ${COLOR_BOLD}${install_path}${COLOR_BOLD_OFF}"
     if [ -f "${NOT_IN_PATH}" ]; then
         warn "Binary was installed to a directory not currently in PATH."
     fi
