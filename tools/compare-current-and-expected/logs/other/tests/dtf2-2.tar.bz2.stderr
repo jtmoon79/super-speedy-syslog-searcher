@@ -16,7 +16,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max      : 200
+Managed files max def. : 200
+Managed files max adj. : 200
 Managed files high     : 0
 Managed request open   : 0
 Managed request read   : 0
