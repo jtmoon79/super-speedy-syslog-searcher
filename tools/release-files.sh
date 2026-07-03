@@ -105,7 +105,7 @@ rm -v "${DIROUT}/massif.out" || true
 ./tools/clean-file.sh "${DIROUT}/compare-grep-sort.txt"
 
 (
-    export PROGRAMS_S4_LISTING=${TMPD}/programs-s4-listing.tsv
+    export PROGRAMS_S4_LISTING=${TMPD-/tmp}/programs-s4-listing.tsv
     echo '
 ./target/release/s4
 ./target/jemalloc/s4
