@@ -1,29 +1,37 @@
 #!/usr/bin/env bash
 #
-# gnuplot `s4` performance when processing increasing number of log files, specifically Max RSS and mean time.
+# gnuplot `s4` performance when processing increasing number of log files,
+# specifically Max RSS and mean time.
+#
 
 if [[ "${1-}" = "-h" || "${1-}" = "--help" || "${1-}" = "-?" ]]; then
     echo "\
 Usage: ${0} [s4-args-for-all-runs]
 
-user must set:
+user must set environment variables:
   FILE         - path to a log file to be used for testing (default: ./tools/compare-log-mergers/gen-5000-1-facesA.log)
   FILE_NUM     - maximum number of files to test (default: 100)
-user may set:
+
+user may set environment variables:
   S4_PROGRAM   - path to the \`s4\` binary to test (default: ./target/release/s4)
   DIROUT       - output directory for markdown and SVG files (default: current directory)
   PYTHON       - python3 interpreter (default: python3)
+
 requires:
-  hyperfine
-  jq
-  gnuplot
-  python3
-  xmllint
+  hyperfine    - measures runtime and memory usage
+  jq           - parses hyperfine JSON output
+  gnuplot      - creates ASCII and SVG graphs
+  python3      - used for some math and string formatting
+  xmllint      - prettify the SVG files
+
 usage:
-  FILE=path/to/log FILE_NUM=N ./tools/performance-plot.sh [<s4-args>]
+  FILE=path/to/some.log FILE_NUM=N ./tools/performance-plot.sh [<s4-args>]
+
 example:
   FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FILE_NUM=200 ./tools/performance-plot.sh --color=never
+
 outputs:
+  performance-plot-data__<log-file-name>__<FILE_NUM>.csv
   performance-plot-data__<log-file-name>__<FILE_NUM>.md
   performance-plot-rss__<log-file-name>__<FILE_NUM>.svg
   performance-plot-time__<log-file-name>__<FILE_NUM>.svg
@@ -99,43 +107,43 @@ declare -ir HYPERFINE_RUNS=${HYPERFINE_RUNS-5}
 TDIR_LOGS=/tmp/s4-performance-plot
 mkdir -vp "${TDIR_LOGS}"
 
+# print a line as wide as the terminal
 function echo_line() {
-    # print a line as wide as the terminal
     python -Bc "import sys; print('─' * ${COLUMNS:-100}, file=sys.stderr)"
     echo >&2
 }
 
+# print file size in bytes
 function file_size() {
-    # print file size in bytes
     stat --printf='%s' "${1}"
 }
 
+# return 0 if file is empty or does not exist, 1 otherwise
 function file_isempty() {
-    # return 0 if file is empty or does not exist, 1 otherwise
     if [[ ! -f "${1}" ]]; then
         return 1
     fi
     [[ $(file_size "${1}") -eq 0 ]]
 }
 
+# print number to 3 decimal places; '0.0034125904' -> '0.003'
+# reads from stdin
 function to_3f() {
-    # print number to 3 decimal places; '0.0034125904' -> '0.003'
-    # reads from stdin
     local data=
     read data
     "${PYTHON}" -c "print('%.3f' % (${data}))"
 }
 
+# from seconds to milliseconds; '0.0034125904' -> '3'
+# reads from stdin
 function to_milliseconds() {
-    # from seconds to milliseconds; '0.0034125904' -> '3'
-    # reads from stdin
     local data=
     read data
     "${PYTHON}" -c "print('%d' % int(${data} * 1000))"
 }
 
+# print $2 string $1 times
 function repeat() {
-    # print $2 string $1 times
     declare -i start=1
     declare -i end=${1:-80}
     declare str=${2}
@@ -144,28 +152,48 @@ function repeat() {
     done
 }
 
+# print CPU model name
 function print_cpu_model () {
-    # print CPU model name
     grep -m1 -Fe 'model name' /proc/cpuinfo | cut -f2 -d':' | sed -Ee 's/^[[:space:]]+//'
 }
 
+# print max integer value of the arguments which are numeric
 function max() {
-    # print max of the arguments which are alphanumeric
-    echo -n "$@" | tr ' ' '\n' | sort -nr | head -n1
+    "${PYTHON}" -c "
+import sys
+data = [int(x) for x in sys.argv[1:]]
+print(max(data))" \
+"${@}"
 }
 
+function min() {
+    "${PYTHON}" -c "
+import sys
+data = [int(x) for x in sys.argv[1:]]
+print(min(data))" \
+"${@}"
+}
+
+function avg() {
+    "${PYTHON}" -c "
+import sys
+data = [int(x) for x in sys.argv[1:]]
+print(int(sum(data) / len(data)))" \
+"${@}"
+}
+
+# print current time in milliseconds
 function print_time_now_ms() {
-    # print current time in milliseconds
     echo -n "${EPOCHREALTIME//./}" | cut -b1-13
 }
 
+# escape XML special characters
 function xml_escape() {
-    # escape XML special characters
     echo -n "${@}" | sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e "s/'/\&apos;/g" -e 's/"/\&quot;/g'
 }
 
+# escape regex special characters
 function regex_escape() {
-    # escape regex special characters
     echo -n "${@}" | "$PYTHON" -c 'import re, sys; print(re.escape(sys.stdin.read().rstrip()))'
 }
 
@@ -297,10 +325,12 @@ declare -a mss_values=()
 declare -a fnum_values=()
 declare -a mss_diff_values=()
 declare s4_command=$(printf "%q" "${S4_PROGRAM}")
+# must pass command as a single shell-escaped string to `hyperfine`
 for arg in "${@}"; do
     arg_escaped=$(printf "%q" "$arg")
     s4_command+=" ${arg_escaped}"
 done
+
 # markdown table rows
 for fnum in $(seq 1 ${FILE_NUM}); do
     echo_line
@@ -315,6 +345,7 @@ for fnum in $(seq 1 ${FILE_NUM}); do
         # XXX: presuming there are no spaces in the file name
         current_files+=("${FILE}")
     done
+    # here is the hyperfine run
     declare -i proc_time_beg=$(print_time_now_ms)
     (
         set -x
@@ -431,11 +462,11 @@ echo >&2
 # gnuplot an ASCII graph for file count vs max RSS
 #
 
-mss_max=$(printf "%s\n" "${mss_values[@]}" | sort -nr | head -n1)
-mss_min=$(printf "%s\n" "${mss_values[@]}" | sort -n | head -n1)
-mss_diff_max=$(printf "%s\n" "${mss_diff_values[@]}" | sort -nr | head -n1)
-mss_diff_min=$(printf "%s\n" "${mss_diff_values[@]}" | sort -n | head -n1)
-mss_diff_avg=$(echo -n "${mss_diff_values[@]}" | awk '{sum=0; for(i=1;i<=NF;i++) sum+=$i; print sum/NF}')
+mss_max=$(max "${mss_values[@]}")
+mss_min=$(min "${mss_values[@]}")
+mss_diff_max=$(max "${mss_diff_values[@]}")
+mss_diff_min=$(min "${mss_diff_values[@]}")
+mss_diff_avg=$(avg "${mss_diff_values[@]}")
 
 declare -i FILE_SZ_MULTIPLE_DENOMINATOR=${FILE_SZ_KB}
 if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
@@ -449,9 +480,9 @@ mss_diff_blocksz_multiple_max=$("${PYTHON}" -c "print('%.1f' % ((${mss_diff_max}
 mss_diff_blocksz_multiple_min=$("${PYTHON}" -c "print('%.1f' % ((${mss_diff_min} * 1024) / ${S4_BLOCKSZ}))")
 mss_diff_blocksz_multiple_avg=$("${PYTHON}" -c "print('%.1f' % ((${mss_diff_avg} * 1024) / ${S4_BLOCKSZ}))")
 
-time_diff_max=$(printf "%s\n" "${time_diff_values[@]}" | sort -nr | head -n1)
-time_diff_min=$(printf "%s\n" "${time_diff_values[@]}" | sort -n | head -n1)
-time_diff_avg=$(echo -n "${time_diff_values[@]}" | awk '{sum=0; for(i=1;i<=NF;i++) sum+=$i; print sum/NF}')
+time_diff_max=$(max "${time_diff_values[@]}")
+time_diff_min=$(min "${time_diff_values[@]}")
+time_diff_avg=$(avg "${time_diff_values[@]}")
 
 let mss_max_x=$((mss_max + 10000)) || true
 let mss_min_x=$((mss_min - 20000)) || true
@@ -660,7 +691,7 @@ elif [[ ${time_max_x} -lt 1000 ]]; then
 elif [[ ${time_max_x} -lt 10000 ]]; then
     xtics_step=1000
 else
-    xtics_step=200000
+    xtics_step=100000
 fi
 
 GNUPLOT_SVG=$(cat <<EOF
