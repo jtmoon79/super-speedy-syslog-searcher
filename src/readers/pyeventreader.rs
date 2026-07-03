@@ -48,7 +48,7 @@ use ::si_trace_print::{
     ef2x,
     ef2ñ,
 };
-use ::tempfile::NamedTempFile;
+use ::tempfile::TempPath;
 
 use crate::common::{
     Bytes,
@@ -144,7 +144,7 @@ pub struct PyEventReader {
     /// The `FPath` of the .etl file being read.
     path: FPath,
     /// If necessary, the extracted ETL file as a temporary file.
-    named_temp_file: Option<NamedTempFile>,
+    named_temp_file: Option<TempPath>,
     /// The `PyRunner` instance for running Python code.
     pyrunner: PyRunner,
     /// Has the Python process exited?
@@ -285,7 +285,7 @@ impl PyEventReader {
         // get the file size according to the file metadata
         let path_std: &Path = Path::new(&path);
         let mut open_options = FileOpenOptions::new();
-        let named_temp_file: Option<NamedTempFile>;
+        let named_temp_file: Option<TempPath>;
         let mtime_opt: Option<SystemTime>;
 
         (named_temp_file, mtime_opt) = match decompress_to_ntf(path_id, path_std, &file_type) {
@@ -302,7 +302,7 @@ impl PyEventReader {
         def1o!("mtime_opt {:?}", mtime_opt);
 
         let path_actual: &Path = match named_temp_file {
-            Some(ref ntf) => ntf.path(),
+            Some(ref ntf) => ntf.as_ref(),
             None => path_std,
         };
         def1o!("path_actual {:?}", path_actual);
@@ -940,7 +940,7 @@ impl PyEventReader {
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
         let path_ntf: Option<FPath> = match &self.named_temp_file {
-            Some(ntf) => Some(path_to_fpath(ntf.path())),
+            Some(ntf) => Some(path_to_fpath(ntf.as_ref())),
             None => None,
         };
         let filetype = self.filetype();

@@ -201,7 +201,7 @@ use ::si_trace_print::{
     pfo,
     pfx,
 };
-use ::tempfile::NamedTempFile;
+use ::tempfile::TempPath;
 
 use crate::bindings::sd_journal_h::{
     sd_id128,
@@ -911,7 +911,7 @@ pub struct JournalReader {
     /// [`FPath`]: crate::common::FPath
     path: FPath,
     /// If necessary, the extracted journal file as a temporary file.
-    named_temp_file: Option<NamedTempFile>,
+    named_temp_file: Option<TempPath>,
     /// The [`JournalOutput`] for the file being read.
     /// Derived from `journalctl --output` options.
     journal_output: JournalOutput,
@@ -1022,7 +1022,7 @@ impl<'a> JournalReader {
         // get the file size according to the file metadata
         let path_std: &Path = Path::new(&path);
         let mut open_options = FileOpenOptions::new();
-        let named_temp_file: Option<NamedTempFile>;
+        let named_temp_file: Option<TempPath>;
         let mtime_opt: Option<SystemTime>;
 
         (named_temp_file, mtime_opt) = match decompress_to_ntf(path_id, path_std, &file_type) {
@@ -1039,7 +1039,7 @@ impl<'a> JournalReader {
         def1o!("mtime_opt {:?}", mtime_opt);
 
         let path_actual: &Path = match named_temp_file {
-            Some(ref ntf) => ntf.path(),
+            Some(ref ntf) => ntf.as_ref(),
             None => path_std,
         };
         def1o!("path_actual {:?}", path_actual);
@@ -1081,7 +1081,7 @@ impl<'a> JournalReader {
         def1o!("journal_handle @{:p}", journal_handle.as_ref());
         let path_cs: CString = match named_temp_file {
             Some(ref ntf) => {
-                let fpath: FPath = path_to_fpath(ntf.path());
+                let fpath: FPath = path_to_fpath(ntf.as_ref());
                 def1o!("fpath {:?}", fpath);
                 CString::new(fpath.as_str()).unwrap()
             }
@@ -2944,7 +2944,7 @@ impl<'a> JournalReader {
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
         let path_ntf: Option<FPath> = match &self.named_temp_file {
-            Some(ntf) => Some(path_to_fpath(ntf.path())),
+            Some(ntf) => Some(path_to_fpath(ntf.as_ref())),
             None => None,
         };
         let filetype = self.filetype();

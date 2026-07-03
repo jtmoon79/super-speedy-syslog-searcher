@@ -17,7 +17,10 @@ use std::io::{
     Write,
 };
 use std::path::Path;
-use std::sync::RwLock;
+use std::sync::{
+    Mutex,
+    RwLock,
+};
 use std::time::SystemTime;
 
 use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
@@ -43,6 +46,7 @@ use ::si_trace_print::{
 use ::tempfile::{
     Builder,
     NamedTempFile,
+    TempPath,
 };
 
 use crate::common::{
@@ -73,6 +77,7 @@ use crate::readers::filehandlemanager::{
     FILE_HANDLE_MANAGER,
     FileHandleRole,
     FileHandleManaged,
+    is_error_too_many_open_files,
     OpenOptionsManaged,
 };
 use crate::{
@@ -97,10 +102,10 @@ const SUFFIX_AODL: &str = ".aodl";
 const SUFFIX_TEXT: &str = ".log";
 
 /// optional tuple value returned by `decompress_to_ntf()`:
-/// - `NamedTempFile` is the temporary file handle
+/// - `TempPath` is the temporary file path
 /// - `Option<SystemTime>` is the file modification time if found
 /// - `FileSz` is the size of the temporary file
-type DecompressToNtfValue = Option<(NamedTempFile, Option<SystemTime>, FileSz)>;
+type DecompressToNtfValue = Option<(TempPath, Option<SystemTime>, FileSz)>;
 /// `Result` wrapper for `DecompressToNtfValue`
 type DecompressToNtfResult = Result<DecompressToNtfValue>;
 
@@ -131,6 +136,11 @@ lazy_static! {
         defñ!("lazy_static! NAMED_TEMP_FILES_COUNT");
 
         RwLock::new(0)
+    };
+    static ref TEMPFILE_CREATE_LOCK: Mutex<()> = {
+        defñ!("lazy_static! TEMPFILE_CREATE_LOCK");
+
+        Mutex::new(())
     };
 }
 
@@ -225,18 +235,34 @@ pub fn decompress_to_ntf(
     temp_name.insert_str(0, "s4-");
     temp_name.push('-');
     defo!("tempfile::Builder::new({:?}, {:?})", temp_name, suffix);
-    let ntf: NamedTempFile = match Builder::new()
-        .prefix(&temp_name)
-        .suffix(suffix)
-        .tempfile()
-    {
-        Ok(val) => val,
-        Err(err) => {
-            defx!("tempfile::Builder::new().tempfile() Error, return {:?}", err);
-            return err_from_err_path_result_dtn!(&err, &fpath, Some("tempfile::Builder::new() failed"));
-        }
+    let temp_path: TempPath = {
+        let _tempfile_create_guard = match (&*TEMPFILE_CREATE_LOCK).lock() {
+            Ok(val) => val,
+            Err(err) => {
+                let ioerr = Error::new(ErrorKind::Other, format!("TEMPFILE_CREATE_LOCK.lock() failed: {:?}", err));
+                defx!("TEMPFILE_CREATE_LOCK.lock() failed, return {:?}", err);
+                return err_from_err_path_result_dtn!(&ioerr, &fpath, Some("TEMPFILE_CREATE_LOCK.lock() failed"));
+            }
+        };
+        let ntf: NamedTempFile = loop {
+            match Builder::new()
+                .prefix(&temp_name)
+                .suffix(suffix)
+                .tempfile()
+            {
+                Ok(val) => break val,
+                Err(err) => {
+                    if is_error_too_many_open_files(&err) && FILE_HANDLE_MANAGER.evict_one() {
+                        continue;
+                    }
+                    defx!("tempfile::Builder::new().tempfile() Error, return {:?}", err);
+                    return err_from_err_path_result_dtn!(&err, &fpath, Some("tempfile::Builder::new() failed"));
+                }
+            }
+        };
+        ntf.into_temp_path()
     };
-    let path_ntf = ntf.path();
+    let path_ntf = temp_path.as_ref();
     defo!("path_ntf {:?}", path_ntf);
     let fpath_ntf = path_to_fpath(path_ntf);
 
@@ -494,8 +520,8 @@ pub fn decompress_to_ntf(
                 );
             }
 
-            defx!("Tar: return Ok(Some(({:?}, {:?}, {:?}))", ntf.path(), mtime_opt, file_sz);
-            return Ok(Some((ntf, mtime_opt, file_sz)));
+            defx!("Tar: return Ok(Some(({:?}, {:?}, {:?}))", path_ntf, mtime_opt, file_sz);
+            return Ok(Some((temp_path, mtime_opt, file_sz)));
         }
     }
 
@@ -770,8 +796,8 @@ pub fn decompress_to_ntf(
     // and return the size of the decompressed temporary file
     let file_sz: FileSz = path_filesz_or_return_err!(path_ntf);
 
-    defx!("return Ok(Some(({:?}, {:?}, {:?}))", ntf.path(), mtime_opt, file_sz);
-    Ok(Some((ntf, mtime_opt, file_sz)))
+    defx!("return Ok(Some(({:?}, {:?}, {:?}))", path_ntf, mtime_opt, file_sz);
+    Ok(Some((temp_path, mtime_opt, file_sz)))
 }
 
 /// remove the named temporary files in the global `NAMED_TEMP_FILES` list.

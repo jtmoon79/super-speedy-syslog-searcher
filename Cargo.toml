@@ -122,7 +122,7 @@ memoffset = "=0.9.1"
 min-max = "=0.1.8"
 more-asserts.workspace = true
 mut_static = "=5.0.0"
-nix = "=0.31.3"
+nix = { version = "=0.31.3", features = ["resource"] }
 numtoa = "=1.0.0"
 # TODO: instead of `once_cell` crate, use `std::sync::OnceLock` and `get_or_try_init`
 #       TRACKING: https://github.com/rust-lang/rust/issues/109737

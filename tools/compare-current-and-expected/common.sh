@@ -96,9 +96,10 @@ function stderr_clean () {
         -e '/^[ ]+storage: BlockReader::read_block.*$/d' \
         -e '/^[ ]+blocks high[ ]+: .*$/d' \
         -e '/^[ ]+lines high[ ]+: .*$/d' \
+        -e '/^Managed evict succeed[ ]*:.*$/d' \
+        -e '/^Managed files high[ ]*:.*$/d' \
         -e '/^Managed physical opens[ ]*:.*$/d' \
         -e '/^Managed physical reopen[ ]*:.*$/d' \
-        -e '/^Managed evict succeed[ ]*:.*$/d' \
         -e '/^Datetime Now[ ]*:.*$/d' \
         -e '/^Python Interpreter[ ]*:.*$/d' \
         -e '/^Program Run Time[ ]+: .*$/d' \
