@@ -28,6 +28,7 @@ use crate::common::{
     FileType,
     ResultFind,
     summary_stats_enable,
+    parse_string_to_number,
 };
 use crate::data::datetime::systemtime_year;
 use crate::debug::helpers::{
@@ -39,6 +40,7 @@ use crate::debug::helpers::{
 };
 use crate::debug::printers::byte_to_char_noraw;
 use crate::readers::blockreader::{
+    blocksz_def,
     BlockOffset,
     BlockReader,
     BlockSz,
@@ -48,6 +50,7 @@ use crate::readers::blockreader::{
     ResultReadData,
     ResultReadDataToBuffer,
     SummaryBlockReader,
+    BLOCKSZ_DEF,
     BLOCKSZ_MIN,
 };
 use crate::readers::helpers::path_to_fpath;
@@ -106,6 +109,44 @@ use crate::tests::common::{
     NTF_XZ_EMPTY_FPATH,
     UTC_NOW,
 };
+
+#[test_case(
+    "0b10101010101",
+    Some(0b10101010101)
+)]
+#[test_case("0o44", Some(0o44))]
+#[test_case("0d77", Some(77))]
+#[test_case("00500", Some(500))]
+#[test_case("503", Some(503))]
+#[test_case("0x4", Some(0x4))]
+#[test_case("0xFFFFFF", Some(0xFFFFFF))]
+#[test_case("BAD_BLOCKSZ_VALUE", None)]
+#[test_case("", None)]
+fn test_parse_string_to_number(
+    blocksz_str: &str,
+    expect_: Option<BlockSz>,
+) {
+    match parse_string_to_number::<BlockSz>(&String::from(blocksz_str)) {
+        Ok(val) => {
+            assert_eq!(expect_, Some(val), "parse_string_to_number({:?})", blocksz_str);
+        }
+        Err(err) => {
+            assert_eq!(expect_, None, "parse_string_to_number({:?}) error {}", blocksz_str, err);
+        }
+    }
+}
+
+#[test]
+fn test_blocksz_def() {
+    match blocksz_def() {
+        Ok(blocksz) => {
+            assert_eq!(blocksz, BLOCKSZ_DEF);
+        }
+        Err(err) => {
+            panic!("blocksz_def failed: {err}");
+        }
+    }
+}
 
 /// Helper wrapper to create a new BlockReader
 fn new_BlockReader(

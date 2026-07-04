@@ -18,6 +18,7 @@ use std::thread;
 
 use ::chrono::FixedOffset;
 use ::kinded::Kinded;
+use ::num_traits::Num;
 
 /// `F`ake `Path` or `F`ile `Path`.
 ///
@@ -1450,6 +1451,47 @@ pub fn threadid_to_u64(tid: thread::ThreadId) -> u64 {
     }
 
     tid_u64
+}
+
+/// Parse string to number type `T`.
+/// Supports binary, octal, decimal, and hexadecimal.
+pub (crate) fn parse_string_to_number<T>(val_s: &String) -> std::result::Result<T, String>
+where
+    T: Num + std::str::FromStr + std::fmt::Debug,
+    <T as Num>::FromStrRadixErr: std::fmt::Display,
+    T::Err: std::fmt::Display,
+{
+    let ret_val: T;
+
+    if val_s.starts_with("0x") {
+        ret_val = match T::from_str_radix(val_s.trim_start_matches("0x"), 16) {
+            Ok(val) => val,
+            Err(err) => return Err(format!("Unable to parse a hexadecimal number for value {val_s:?}: {err}")),
+        };
+    } else if val_s.starts_with("0d") {
+        ret_val = match T::from_str_radix(val_s.trim_start_matches("0d"), 10) {
+            Ok(val) => val,
+            Err(err) => return Err(format!("Unable to parse a decimal number for value {val_s:?}: {err}")),
+        };
+    } else if val_s.starts_with("0o") {
+        ret_val = match T::from_str_radix(val_s.trim_start_matches("0o"), 8) {
+            Ok(val) => val,
+            Err(err) => return Err(format!("Unable to parse an octal number for value {val_s:?}: {err}")),
+        };
+    } else if val_s.starts_with("0b") {
+        ret_val = match T::from_str_radix(val_s.trim_start_matches("0b"), 2) {
+            Ok(val) => val,
+            Err(err) => return Err(format!("Unable to parse a binary number for value {val_s:?}: {err}")),
+        };
+    } else {
+        // must be decimal
+        ret_val = match val_s.parse::<T>() {
+            Ok(val) => val,
+            Err(err) => return Err(format!("Unable to parse a decimal number for value {val_s:?}: {err}")),
+        };
+    }
+
+    Ok(ret_val)
 }
 
 // TRACKING: Tracking Issue for comparing values in const items <https://github.com/rust-lang/rust/issues/92391>

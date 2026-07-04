@@ -522,7 +522,7 @@ Get-ChildItem -File -Recurse -ErrorAction SilentlyContinue `
 
 ### `--help`
 
-```sh
+```text
 Speedily search and merge log messages by datetime.
 DateTime filters may be passed to narrow the search.
 s4 aims to be very fast.
@@ -650,14 +650,6 @@ Options:
           By default, a dark color theme is used (print text with lighter colors).
           Has no effect if --color is not "always" or "auto".
           [env: S4_LIGHT_THEME=]
-
-      --blocksz <BLOCKSZ>
-          Read blocks of this size in bytes.
-          May pass value as any radix (hexadecimal, decimal, octal, binary).
-          Using the default value is recommended.
-          Most useful for developers.
-          [default: 65536]
-          [env: S4_BLOCKSZ=]
 
   -s, --summary
           Print a summary of files processed to stderr.

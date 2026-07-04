@@ -15,13 +15,8 @@ use ::s4lib::data::datetime::{
     FixedOffset,
     MAP_TZZ_TO_TZz,
 };
-use ::s4lib::readers::blockreader::{
-    BlockSz,
-};
 
 use crate::s4::{
-    cli_parse_blocksz,
-    cli_process_blocksz,
     cli_process_tz_offset,
     cli_parser_prepend_dt_format,
     process_dt,
@@ -80,54 +75,6 @@ const FO_W8: FixedOffset = FixedOffset::west_opt(28800).unwrap();
 lazy_static! {
     /// 1970-01-01T01:00:00+01:00
     pub static ref DT_0_E1: DateTimeL = ymdhms(&FO_E1, 0, 0, 0, 1, 0, 0);
-}
-
-#[test_case("500", true)]
-#[test_case("0x2", false)]
-#[test_case("0x4", true)]
-#[test_case("0xFFFFFF", true)]
-#[test_case("BAD_BLOCKSZ_VALUE", false)]
-#[test_case("", false)]
-fn test_cli_parse_blocksz(
-    blocksz_str: &str,
-    is_ok: bool,
-) {
-    match is_ok {
-        true => assert!(cli_parse_blocksz(blocksz_str).is_ok()),
-        false => assert!(!cli_parse_blocksz(blocksz_str).is_ok()),
-    }
-}
-
-#[test_case(
-    "0b10101010101",
-    Some(0b10101010101)
-)]
-#[test_case("0o44", Some(0o44))]
-#[test_case("00500", Some(500))]
-#[test_case("500", Some(500))]
-#[test_case("0x4", Some(0x4))]
-#[test_case("0xFFFFFF", Some(0xFFFFFF))]
-#[test_case("BAD_BLOCKSZ_VALUE", None)]
-#[test_case("", None)]
-fn test_cli_process_blocksz(
-    blocksz_str: &str,
-    expect_: Option<BlockSz>,
-) {
-    match expect_ {
-        Some(val_exp) => {
-            let val_ret = cli_process_blocksz(&String::from(blocksz_str)).unwrap();
-            assert_eq!(val_ret, val_exp);
-        }
-        None => {
-            let ret = cli_process_blocksz(&String::from(blocksz_str));
-            assert!(
-                ret.is_err(),
-                "Expected an Error for cli_process_blocksz({:?}), instead got {:?}",
-                blocksz_str,
-                ret
-            );
-        }
-    }
 }
 
 #[test_case("+00", FO0; "+00 east(0)")]

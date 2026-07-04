@@ -295,8 +295,7 @@ impl SyslogProcessor {
     /// syslog file.
     const DT_PATTERN_MAX: usize = SyslineReader::DT_PATTERN_MAX;
 
-    /// `SyslogProcessor` has it's own miminum requirements for `BlockSz`.
-    ///
+    /// For testing purposes, must enforce a minimum [`BlockSz`].
     /// Necessary for `blockzero_analysis` functions to have chance at success.
     #[cfg(not(any(debug_assertions, test)))]
     pub const BLOCKSZ_MIN: BlockSz = 0x40;

@@ -88,6 +88,7 @@ use crate::common::{
     FileType,
     FileTypeArchive,
     FileTypeTextEncoding,
+    parse_string_to_number,
     PathId,
     SUBPATH_SEP,
     summary_stat,
@@ -231,10 +232,42 @@ macro_rules! read_data_to_buffer_len_check {
 /// Default [`Block`] Size in bytes.
 /// Early-on ad-hoc experiments on my Desktop with a
 /// AMD Ryzen 7, Windows 11 Pro, and Sabrent Rocket 4.0 SSD via NVMe
-/// found this to be the fastest read-time-per-byte size.
-// TODO: should be type `BlockSz`
-// TODO: should be half-open range value `0xFFFF`
-pub const BLOCKSZ_DEF: usize = 0x10000;
+/// found 0x10000 to be the fastest read-time-per-byte size.
+pub(crate) const BLOCKSZ_DEF: BlockSz = 0xFFFF;
+
+/// Environment variable to override the default [`Block`] size in bytes.
+pub const ENV_BLOCKSZ: &str = "S4_BLOCKSZ";
+
+/// Get the default BlockSz.
+/// Check env. var. `S4_BLOCKSZ`, and enforce minimum and maximum values.
+pub fn blocksz_def() -> Result<BlockSz> {
+    let blocksz: BlockSz = match std::env::var(ENV_BLOCKSZ) {
+        Ok(val_s) if !val_s.is_empty() => match parse_string_to_number::<BlockSz>(&val_s) {
+            Ok(val) => val,
+            Err(err) => {
+                return Result::Err(Error::new(
+                    ErrorKind::InvalidInput,
+                    format!("Failed to parse {ENV_BLOCKSZ}: {err}"),
+                ));
+            }
+        },
+        Ok(_) => BLOCKSZ_DEF,
+        Err(_) => BLOCKSZ_DEF,
+    };
+    // largest minimum
+    let max_min: BlockSz = std::cmp::max(
+        BLOCKSZ_MIN,
+        crate::readers::syslogprocessor::SyslogProcessor::BLOCKSZ_MIN
+    );
+    if !(max_min <= blocksz && blocksz <= BLOCKSZ_MAX) {
+        return Result::Err(Error::new(
+            ErrorKind::InvalidInput,
+            format!("{ENV_BLOCKSZ} must be {max_min} ≤ BLOCKSZ ≤ {BLOCKSZ_MAX}, but got {blocksz}"),
+        ));
+    }
+
+    Ok(blocksz)
+}
 
 /// Align `BlockSz` values to this boundary so block boundaries are always on
 /// full UTF code-unit widths for supported encodings.
@@ -247,10 +280,10 @@ pub const BLOCKSZ_MIN: BlockSz = BLOCKSZ_ALIGN;
 pub const BLOCKSZ_MAX: BlockSz = 0xFFFFFF;
 
 assertcp!(
-    BLOCKSZ_DEF >= BLOCKSZ_MIN as usize,
+    BLOCKSZ_DEF >= BLOCKSZ_MIN,
     "Default Block Size {BLOCKSZ_DEF} is too small");
 assertcp!(
-    BLOCKSZ_DEF <= BLOCKSZ_MAX as usize,
+    BLOCKSZ_DEF <= BLOCKSZ_MAX,
     "Default Block Size {BLOCKSZ_DEF} is too big");
 
 /// Data and readers for a bzip2 `.bz2` file, used by [`Bz2DecoderReader`].

@@ -250,9 +250,7 @@ use ::s4lib::python::venv::{
 };
 use ::s4lib::readers::blockreader::{
     BlockSz,
-    BLOCKSZ_DEF,
-    BLOCKSZ_MAX,
-    BLOCKSZ_MIN,
+    blocksz_def,
 };
 use ::s4lib::readers::pyeventreader::{
     PyEventReader,
@@ -3186,20 +3184,6 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     )]
     python_venv: bool,
 
-    /// Read blocks of this size in bytes.
-    /// May pass value as any radix (hexadecimal, decimal, octal, binary).
-    /// Using the default value is recommended.
-    /// Most useful for developers.
-    #[clap(
-        required = false,
-        long,
-        verbatim_doc_comment,
-        default_value_t = BLOCKSZ_DEF.to_string(),
-        value_parser = cli_parse_blocksz,
-        env="S4_BLOCKSZ",
-    )]
-    blocksz: String,
-
     /// Print a summary of files processed to stderr.
     /// Most useful for developers.
     #[clap(
@@ -3228,54 +3212,6 @@ macro_rules! exit_early_check {
             }
         }
     };
-}
-
-/// `clap` argument processor for `--blocksz`.
-/// This implementation, as opposed to clap built-in number parsing, allows more
-/// flexibility for how the user may pass a number
-/// e.g. "0xF00", or "0b10100", etc.
-// XXX: clap Enhancement Issue https://github.com/clap-rs/clap/issues/4564
-pub (crate) fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
-    // TODO: there must be a more concise way to parse numbers with radix formatting
-    let blocksz_: BlockSz;
-    let errs = format!("Unable to parse a number for --blocksz {blockszs:?}");
-
-    if blockszs.starts_with("0x") {
-        blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0x"), 16) {
-            Ok(val) => val,
-            Err(err) => return Err(format!("{errs} {err}")),
-        };
-    } else if blockszs.starts_with("0o") {
-        blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0o"), 8) {
-            Ok(val) => val,
-            Err(err) => return Err(format!("{errs} {err}")),
-        };
-    } else if blockszs.starts_with("0b") {
-        blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0b"), 2) {
-            Ok(val) => val,
-            Err(err) => return Err(format!("{errs} {err}")),
-        };
-    } else {
-        blocksz_ = match blockszs.parse::<BlockSz>() {
-            Ok(val) => val,
-            Err(err) => return Err(format!("{errs} {err}")),
-        };
-    }
-
-    let max_min = std::cmp::max(BLOCKSZ_MIN, SyslogProcessor::BLOCKSZ_MIN);
-    if !(max_min <= blocksz_ && blocksz_ <= BLOCKSZ_MAX) {
-        return Err(format!("--blocksz must be {max_min} ≤ BLOCKSZ ≤ {BLOCKSZ_MAX}, it was {blockszs:?}"));
-    }
-
-    Ok(blocksz_)
-}
-
-/// `clap` argument parser for `--blocksz`.
-pub(crate) fn cli_parse_blocksz(blockszs: &str) -> std::result::Result<String, String> {
-    match cli_process_blocksz(&String::from(blockszs)) {
-        Ok(val) => Ok(val.to_string()),
-        Err(err) => Err(err),
-    }
 }
 
 /// CLI argument processing
@@ -3956,11 +3892,11 @@ fn cli_process_args() -> (
     // process string arguments into specific types
     //
 
-    let blockszs: String = args.blocksz;
-    let blocksz: BlockSz = match cli_process_blocksz(&blockszs) {
+    // process environment variable S4_BLOCKSZ if present
+    let blocksz: BlockSz = match blocksz_def() {
         Ok(val) => val,
         Err(err) => {
-            e_err!("{}", err);
+            e_err!("{err}");
             std::process::exit(EXIT_ERR);
         }
     };

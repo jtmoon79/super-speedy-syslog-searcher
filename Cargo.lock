@@ -5155,6 +5155,7 @@ dependencies = [
  "more-asserts",
  "mut_static",
  "nix 0.31.3",
+ "num-traits",
  "numtoa",
  "once_cell",
  "pathsearch",

@@ -123,6 +123,7 @@ min-max = "=0.1.8"
 more-asserts.workspace = true
 mut_static = "=5.0.0"
 nix = { version = "=0.31.3", features = ["resource"] }
+num-traits = "=0.2.19"
 numtoa = "=1.0.0"
 # TODO: instead of `once_cell` crate, use `std::sync::OnceLock` and `get_or_try_init`
 #       TRACKING: https://github.com/rust-lang/rust/issues/109737
@@ -207,6 +208,7 @@ test-case = "=3.2.1"
 # cargo install --locked cargo-expand cargo-nextest
 
 [features]
+# bench_decode_utf
 bench_jetscii = ["dep:jetscii"]
 bench_memchr = []
 bench_stringzilla = ["dep:stringzilla"]
