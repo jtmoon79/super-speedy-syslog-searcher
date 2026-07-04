@@ -40,9 +40,12 @@ env:
   # so a specific version must be installed for the current MSRV
   FLAMEGRAPH_VERSION: "0.6.13"
   # run options for debug
-  S4_ARGSD: --blocksz 0x40 -s
+  S4_ARGSD: -s
   # run options for release
-  S4_ARGSR: --blocksz 0x40 -s
+  S4_ARGSR: -s
+  S4_BLOCKSZ: 0x40
+  S4R: ./s4_release
+  S4D: ./s4_debug
   # run files
   S4_TEST_FILES: \
     ./logs/CentOS9/x86_64/wtmp
@@ -50,15 +53,64 @@ env:
     ./logs/other/tests/dtf3-2a.log
     ./logs/other/tests/dtf5-6a.log.gz
     ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.tar
     ./logs/other/tests/dtf5-6b.UTF-16BE.log
+    ./logs/other/tests/dtf5-6b.UTF-16BE.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-16BE.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-16BE.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-16BE.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-16BE.tar
+    ./logs/other/tests/dtf5-6b.UTF-16LE.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-16LE.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-16LE.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-16LE.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-16LE.bar
     ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log
-    ./logs/other/tests/dtf5-6b.UTF-16LE.log
+    ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.tar
     ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.tar
     ./logs/other/tests/dtf5-6b.UTF-32BE.log
+    ./logs/other/tests/dtf5-6b.UTF-32BE.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-32BE.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-32BE.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-32BE.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-32BE.tar
     ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.tar
     ./logs/other/tests/dtf5-6b.UTF-32LE.log
+    ./logs/other/tests/dtf5-6b.UTF-32LE.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-32LE.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-32LE.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-32LE.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-32LE.tar
     ./logs/other/tests/dtf5-6b.UTF-8_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-8_BOM.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-8_BOM.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-8_BOM.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-8_BOM.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-8_BOM.tar
     ./logs/other/tests/dtf5-6b.UTF-8.log
+    ./logs/other/tests/dtf5-6b.UTF-8.log.bz2
+    ./logs/other/tests/dtf5-6b.UTF-8.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-8.log.lz4
+    ./logs/other/tests/dtf5-6b.UTF-8.log.xz
+    ./logs/other/tests/dtf5-6b.UTF-8.tar
     ./logs/other/tests/dtf7-20-LEVELS.log.xz
     ./logs/other/tests/gen-2-1.tar
     ./logs/other/tests/gen-20-1-faces.log
@@ -224,34 +276,36 @@ jobs:
           set -eux
           cargo --version
           cargo build --locked --verbose
-          cp -av ./target/debug/s4 ./s4_debug
-          chmod -v 0555 ./s4_debug
-          ./s4_debug --version
+          cp -av ./target/debug/s4 ${S4D}
+          chmod -v 0555 ${S4D}
+          ${S4D} --version
       - name: Upload debug binary for test
         uses: actions/upload-artifact@v7
         with:
           name: s4_debug
-          path: ./s4_debug
+          path: ${S4D}
       # build & upload release
       - name: Build Release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         shell: bash
         run: |
           set -eux
           cargo --version
-          cargo build --locked --release
-          cp -av ./target/release/s4 ./s4_release
-          chmod -v 0555 ./s4_release
-          ./s4_release --version
+          # build the non-optimized release because the optimize step during the --release build
+          # is too long for GitHub Actions; the Github Runner times out
+          cargo build --locked --profile release_O0
+          cp -av ./target/release_O0/s4 ${S4R}
+          chmod -v 0555 ${S4R}
+          ${S4R} --version
       - name: Upload release binary for test
         uses: actions/upload-artifact@v7
         with:
           name: s4_release
-          path: ./s4_release
+          path: ${S4R}
       - name: Upload release binary (Ubuntu Linux)
         uses: actions/upload-artifact@v7
         with:
           name: s4
-          path: ./target/release/s4
+          path: ${S4R}
 
   job_cross_targets:
     name: cross ${{ matrix.target }} on ubuntu-latest
@@ -414,8 +468,8 @@ jobs:
           set -eux
           which python
           python --version
-          chmod +x ./s4_release
-          ./s4_release --venv
+          chmod +x ${S4R}
+          ${S4R} --venv
       - name: nextest (all)
         shell: bash
         run: |
@@ -629,15 +683,22 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: s4_release
+      # set mode
+      - name: chmod +x s4_debug s4_release
+        shell: bash
+        run: |
+          set -eux
+          chmod -v +x ${S4R} ${S4D}
+          find ./tools -name '*.sh' -type f -exec chmod -v +x {} \;
+      #
       # run debug
+      #
       - name: s4_debug --help
         shell: bash
         run: |
           set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} --version
-          ${S4} --help
+          ${S4D} --version
+          ${S4D} --help
       - name: s4_debug --venv
         shell: bash
         run: |
@@ -645,371 +706,172 @@ jobs:
           sudo apt install python3
           which python3
           python3 --version
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} --venv
-      - name: s4_debug --color=never S4_TEST_FILES
+          ${S4D} --venv
+      - shell: bash
+        run: ${S4D} -cn ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} ${S4_ARGSD} -cn ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} ${S4_ARGSD} -cn -l -n -w ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} ${S4_ARGSD} -cn -l -p -w ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} ${S4_ARGSD} -cn -u -n -w ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} ${S4_ARGSD} -cn -u -p -w ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} ${S4_ARGSD} -ca -l -n -w ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} ${S4_ARGSD} -ca -l -p -w ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} ${S4_ARGSD} -ca -u -n -w ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} ${S4_ARGSD} -ca -u -p -w ${S4_TEST_FILES} 2>/dev/null
+      - shell: bash
+        run: ${S4D} -s -cn -l -n -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4D} -s -cn -l -p -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4D} -s -cn -u -n -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4D} -s -cn -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4D} -s -ca -l -n -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4D} -s -ca -l -p -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4D} -s -ca -u -n -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4D} -s -ca -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4D} -s -ca --light-theme -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - name: s4_debug | grep
         shell: bash
         run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} --color=never ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug S4_ARGSD --color=never S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSD} --color=never ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug S4_ARGSD --color=never -l -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSD} --color=never -l -n -w ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug S4_ARGSD --color=never -l -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSD} --color=never -l -p -w ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug S4_ARGSD --color=never -u -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSD} --color=never -u -n -w ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug S4_ARGSD --color=never -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSD} --color=never -u -p -w ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug S4_ARGSD --color=never -l -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSD} --color=always -l -n -w ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug S4_ARGSD --color=never -l -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSD} --color=always -l -p -w ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug S4_ARGSD --color=never -u -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSD} --color=always -u -n -w ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug S4_ARGSD --color=never -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSD} --color=always -u -p -w ${S4_TEST_FILES} 2>/dev/null
-      - name: s4_debug -s S4_ARGSD --color=never -l -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=never -l -n -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_debug -s S4_ARGSD --color=never -l -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=never -l -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_debug -s S4_ARGSD --color=never -u -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=never -u -n -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_debug -s S4_ARGSD --color=never -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=never -u -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_debug -s S4_ARGSD --color=always -l -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always -l -n -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_debug -s S4_ARGSD --color=always -l -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always -l -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_debug -s S4_ARGSD --color=always -u -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always -u -n -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_debug -s S4_ARGSD --color=always -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always -u -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_debug -s S4_ARGSD --color=always --light-theme -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always --light-theme -u -p -w ${S4_TEST_FILES} &>/dev/null
+          set -euxo pipefail
+          ${S4D} -cn -u -p -w ${S4_TEST_FILES} | grep -qFe '6b-abcd'
       - name: S4_FILE_HANDLE_OPEN_MAX=2 s4_debug -s S4_ARGSD S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
           export S4_FILE_HANDLE_OPEN_MAX=2
-          ${S4} -s ${S4_TEST_FILES} &>/dev/null
+          ${S4D} -s ${S4_TEST_FILES} &>/dev/null
       - name: ulimit=15 s4_debug -s S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          S4=./s4_debug
-          chmod -v +x -- ${S4}
           ulimit -n 15
-          ${S4} -s ./logs/other/tests/dtf5-6b* &>/dev/null
+          ${S4D} -s ./logs/other/tests/dtf5-6b* ${S4_TEST_FILES} &>/dev/null
+      #
       # run release
+      #
       - name: s4_release --help
         shell: bash
         run: |
           set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} --version
-          ${S4} --help
+          ${S4R} --version
+          ${S4R} --help
       - name: s4_release --venv
         shell: bash
         run: |
           set -eux
           which python3
           python3 --version
-          S4=./s4_release
-          ${S4} --venv
-      - name: s4_release --color=never S4_TEST_FILES
+          ${S4R} --venv
+      - shell: bash
+        run: ${S4R} -cn ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} ${S4_ARGSR} -cn ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} ${S4_ARGSR} -cn -l -n -w ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} ${S4_ARGSR} -cn -l -p -w ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} ${S4_ARGSR} -cn -u -n -w ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} ${S4_ARGSR} -cn -u -p -w ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} ${S4_ARGSR} -ca -l -n -w ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} ${S4_ARGSR} -ca -l -p -w ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} ${S4_ARGSR} -ca -u -n -w ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} ${S4_ARGSR} -ca -u -p -w ${S4_TEST_FILES}
+      - shell: bash
+        run: ${S4R} -s -cn ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4R} -s -cn -l -n -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4R} -s -cn -l -p -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4R} -s -cn -u -n -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4R} -s -cn -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4R} -s -ca -l -n -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4R} -s -ca -l -p -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4R} -s -ca -u -n -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4R} -s -ca -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - shell: bash
+        run: ${S4R} -s -ca --light-theme -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - name: s4_release | grep
         shell: bash
         run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} --color=never ${S4_TEST_FILES}
-      - name: s4_release S4_ARGSR --color=never S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSR} --color=never ${S4_TEST_FILES}
-      - name: s4_release S4_ARGSR --color=never -l -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSR} --color=never -l -n -w ${S4_TEST_FILES}
-      - name: s4_release S4_ARGSR --color=never -l -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSR} --color=never -l -p -w ${S4_TEST_FILES}
-      - name: s4_release S4_ARGSR --color=never -u -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSR} --color=never -u -n -w ${S4_TEST_FILES}
-      - name: s4_release S4_ARGSR --color=never -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSR} --color=never -u -p -w ${S4_TEST_FILES}
-      - name: s4_release S4_ARGSR --color=never -l -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSR} --color=always -l -n -w ${S4_TEST_FILES}
-      - name: s4_release S4_ARGSR --color=never -l -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSR} --color=always -l -p -w ${S4_TEST_FILES}
-      - name: s4_release S4_ARGSR --color=always -u -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSR} --color=always -u -n -w ${S4_TEST_FILES}
-      - name: s4_release S4_ARGSR --color=always -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} ${S4_ARGSR} --color=always -u -p -w ${S4_TEST_FILES}
-      - name: s4_release -s --color=always S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=never ${S4_TEST_FILES} &>/dev/null
-      - name: s4_release -s --color=never -l -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=never -l -n -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_release -s --color=never -l -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=never -l -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_release -s --color=never -u -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=never -u -n -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_release -s --color=never -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=never -u -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_release -s --color=always -l -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always -l -n -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_release -s --color=always -l -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always -l -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_release -s --color=always -u -n -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always -u -n -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_release -s --color=always -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always -u -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: s4_release -s --color=always --light-theme -u -p -w S4_TEST_FILES
-        shell: bash
-        run: |
-          set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
-          ${S4} -s --color=always --light-theme -u -p -w ${S4_TEST_FILES} &>/dev/null
+          set -euxo pipefail
+          ${S4R} -cn -u -p -w ${S4_TEST_FILES} | grep -qFe '6b-abcd'
       - name: S4_FILE_HANDLE_OPEN_MAX=2 s4_release -s S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
           export S4_FILE_HANDLE_OPEN_MAX=2
-          ${S4} -s ${S4_TEST_FILES} &>/dev/null
+          ${S4R} -s ${S4_TEST_FILES} &>/dev/null
       - name: ulimit=15 s4_release -s S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          S4=./s4_release
-          chmod -v +x -- ${S4}
           ulimit -n 15
-          ${S4} -s ./logs/other/tests/dtf5-6b* &>/dev/null
+          ${S4R} -s ./logs/other/tests/dtf5-6b* ${S4_TEST_FILES} &>/dev/null
+      #
       # compare debug release
-      - name: Run Script compare-debug-release.sh
+      #
+      - name: compare-debug-release.sh
         shell: bash
         run: |
           set -eux
-          export PROGRAM_A=./s4_release
-          export PROGRAM_B=./s4_debug
-          SCRIPT=./tools/compare-debug-release.sh
-          chmod -v +x -- "${PROGRAM_A}" "${PROGRAM_B}" "${SCRIPT}" ./tools/compare-two-s4.sh
-          "${SCRIPT}"
+          export PROGRAM_A=${S4R}
+          export PROGRAM_B=${S4D}
+          ./tools/compare-debug-release.sh
+      #
       # compare grep sort
-      - name: Run Script compare-grep-sort.sh
+      #
+      - name: compare-grep-sort.sh
         shell: bash
         run: |
           set -eux
-          export PROGRAM=./s4_release
-          SCRIPT=./tools/compare-grep-sort.sh
-          chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
-          "${PROGRAM}" --version
-          "${SCRIPT}"
+          export PROGRAM=${S4R}
+          ./tools/compare-grep-sort.sh
+      #
       # compare current and expected
-      - name: Run Script compare-current-and-expected
+      #
+      - name: compare-current-and-expected
         shell: bash
         run: |
           set -eux
-          export PROGRAM=./s4_release
-          SCRIPT=./tools/compare-current-and-expected/compare.sh
-          chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
-          "${PROGRAM}" --version
-          "${SCRIPT}"
+          export PROGRAM=${S4R}
+          ./tools/compare-current-and-expected/compare.sh
+      #
       # compare cat
-      - name: Run Script compare-cat
+      #
+      - name: compare-cat
         shell: bash
         run: |
           set -eux
-          export PROGRAM=./s4_release
-          SCRIPT=./tools/compare-cat.sh
-          chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
-          "${PROGRAM}" --version
-          "${SCRIPT}"
+          export PROGRAM=${S4R}
+          ./tools/compare-cat.sh
 
   # Run code coverage using cargo-llvm-cov then upload to coveralls.io
   job_code_coverage_llvm:
