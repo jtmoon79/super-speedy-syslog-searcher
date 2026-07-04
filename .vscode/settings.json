@@ -17,6 +17,8 @@
         // XXX: for whatever reason the rust-analyzer may insist on using
         //      a different toolchain despite `rustup override` being set.
         "RUSTUP_TOOLCHAIN": "1.88.0",
+        // TODO: set OUT_DIR so the analyzer builds in separate dir
+        //       and stops slowing down/messing up my manual builds from the command line.
     },
     "evenBetterToml.formatter.allowedBlankLines": 2,
     "evenBetterToml.formatter.columnWidth": 100,
