@@ -483,10 +483,10 @@ s4 /var/log -a 10:00 -b @+1h5m
 
 <br/>
 
-Print the log messages that occurred two days ago during the noon hour
+Print the log messages that occurred two days ago from 12:30 to 13:00
 
 ```sh
-s4 /var/log -a='-2d!12' -b @+1h
+s4 /var/log -a='-2d!12:30' -b @+30m
 ```
 
 <br/>
