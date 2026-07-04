@@ -24,6 +24,8 @@
 //!
 //! User may adjust the maximum number of simultaneously open files
 //! via environment variable `S4_FILE_HANDLE_OPEN_MAX`.
+//!
+//! See [Issue #270](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/270).
 
 use std::collections::HashMap;
 use std::hash::Hash;
