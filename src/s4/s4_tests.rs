@@ -26,6 +26,7 @@ use crate::s4::{
     cli_parser_prepend_dt_format,
     process_dt,
     DUR_OFFSET_TYPE,
+    DurationSetType,
     CLI_OPT_PREPEND_FMT,
     CLI_FILTER_PATTERNS,
     CLI_FILTER_PATTERNS_COUNT,
@@ -73,6 +74,8 @@ const FO0: FixedOffset = FIXEDOFFSET0;
 // XXX: these are defined in tests/common.rs but importing that fails
 //      unexpectedly
 const FO_E1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
+const FO_E8: FixedOffset = FixedOffset::east_opt(28800).unwrap();
+const FO_W8: FixedOffset = FixedOffset::west_opt(28800).unwrap();
 
 lazy_static! {
     /// 1970-01-01T01:00:00+01:00
@@ -424,25 +427,25 @@ pub (crate) fn test_process_dt(
     "add 4h1d offset -3600"
 )]
 #[test_case(
-    Some(String::from("@-1d!1")),
+    Some(String::from("@-1d!3")),
     FO0,
     FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
     None;
-    "bad override hour"
+    "bad override hour3"
 )]
 #[test_case(
-    Some(String::from("@-1d!01:")),
+    Some(String::from("@-1d!02:")),
     FO0,
     FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
     None;
-    "bad override hour colon"
+    "bad override hour2 colon"
 )]
 #[test_case(
-    Some(String::from("@-1d!01:5")),
+    Some(String::from("@-1d!09:5")),
     FO0,
     FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
     None;
-    "bad override hour colon 5"
+    "bad override hour9 colon 5"
 )]
 fn test_process_dt_other(
     dts: Option<String>,
@@ -450,13 +453,17 @@ fn test_process_dt_other(
     dt_other: DateTimeL,
     expect: DateTimeLOpt,
 ) {
+    stack_offset_set(None);
     let dt = process_dt(
         &dts,
         &tz_offset,
         &Some(dt_other),
         &UTC_NOW.with(|utc_now| *utc_now),
     );
-    assert_eq!(dt, expect);
+    assert_eq!(dt, expect,
+        "\nexpect {expect:?}\nactual {dt:?}\nfor process_dt({dts:?}, {tz_offset:?}, Some({dt_other:?}), UTC_NOW: {:?})",
+        UTC_NOW.with(|utc_now| *utc_now),
+    );
 }
 
 /// helper to print patterns at index for humans debugging stuff.
@@ -656,48 +663,61 @@ const fn d_w(val: i64) -> Duration {
     Duration::try_weeks(val).unwrap()
 }
 
+const N: Option<FixedOffset> = None;
+
+// bad values
 #[test_case(String::from(""), None)]
 #[test_case(String::from("1s"), None; "1s")]
 #[test_case(String::from("@1s"), None; "at_1s")]
 #[test_case(String::from("+1z"), None; "plus_1z")]
-#[test_case(String::from("-0s"), Some((d_s(0), NOW, EN)))]
-#[test_case(String::from("@+0s"), Some((d_s(0), OTHER, EN)))]
-#[test_case(String::from("-1s"), Some((d_s(-1), NOW, EN)); "minus_1s")]
-#[test_case(String::from("+1s"), Some((d_s(1), NOW, EN)); "plus_1s")]
-#[test_case(String::from("+1m"), Some((d_m(1), NOW, EN)); "plus_1m")]
-#[test_case(String::from("+1h"), Some((d_h(1), NOW, EN)); "plus_1h")]
-#[test_case(String::from("+1d"), Some((d_d(1), NOW, EN)); "plus_1d")]
-#[test_case(String::from("+1w"), Some((d_w(1), NOW, EN)); "plus_1w")]
-#[test_case(String::from("+1w!13"), Some((d_w(1), NOW, EXACT_HMS::HMS(13, 0, 0))); "plus_1w!13")]
-#[test_case(String::from("@-1s"), Some((d_s(-1), OTHER, EN)); "at_minus_1s")]
-#[test_case(String::from("@+1s"), Some((d_s(1), OTHER, EN)); "at_plus_1s")]
-#[test_case(String::from("@+9876s"), Some((d_s(9876), OTHER, EN)); "other_plus_9876")]
-#[test_case(String::from("@-9876s"), Some((d_s(-9876), OTHER, EN)); "other_minus_9876")]
-#[test_case(String::from("-9876s"), Some((d_s(-9876), NOW, EN)); "now_minus_9876")]
-#[test_case(String::from("-3h"), Some((d_h(-3), NOW, EN)))]
-#[test_case(String::from("-4d"), Some((d_d(-4), NOW, EN)))]
-#[test_case(String::from("-5w"), Some((d_w(-5), NOW, EN)))]
-#[test_case(String::from("@+5w"), Some((d_w(5), OTHER, EN)))]
-#[test_case(String::from("-2m1s"), Some((d_m(-2) + d_s(-1), NOW, EN)); "minus_2m1s")]
-#[test_case(String::from("-2d1h"), Some((d_d(-2) + d_h(-1), NOW, EN)); "minus_2d1h")]
-#[test_case(String::from("+2d1h"), Some((d_d(2) + d_h(1), NOW, EN)); "plus_2d1h")]
-#[test_case(String::from("@+2d1h"), Some((d_d(2) + d_h(1), OTHER, EN)); "at_plus_2d1h")]
+// good values
+#[test_case(String::from("-0s"), Some((d_s(0), NOW, EN, N)))]
+#[test_case(String::from("@+0s"), Some((d_s(0), OTHER, EN, N)))]
+#[test_case(String::from("-1s"), Some((d_s(-1), NOW, EN, N)); "minus_1s")]
+#[test_case(String::from("+1s"), Some((d_s(1), NOW, EN, N)); "plus_1s")]
+#[test_case(String::from("+1m"), Some((d_m(1), NOW, EN, N)); "plus_1m")]
+#[test_case(String::from("+1h"), Some((d_h(1), NOW, EN, N)); "plus_1h")]
+#[test_case(String::from("+1d"), Some((d_d(1), NOW, EN, N)); "plus_1d")]
+#[test_case(String::from("+1w"), Some((d_w(1), NOW, EN, N)); "plus_1w")]
+#[test_case(String::from("+1w!13"), Some((d_w(1), NOW, EXACT_HMS::HMS(13, 0, 0), N)); "plus_1w!13")]
+#[test_case(String::from("@-1s"), Some((d_s(-1), OTHER, EN, N)); "at_minus_1s")]
+#[test_case(String::from("@+1s"), Some((d_s(1), OTHER, EN, N)); "at_plus_1s")]
+#[test_case(String::from("@+9876s"), Some((d_s(9876), OTHER, EN, N)); "other_plus_9876")]
+#[test_case(String::from("@-9876s"), Some((d_s(-9876), OTHER, EN, N)); "other_minus_9876")]
+#[test_case(String::from("-9876s"), Some((d_s(-9876), NOW, EN, N)); "now_minus_9876")]
+#[test_case(String::from("-3h"), Some((d_h(-3), NOW, EN, N)))]
+#[test_case(String::from("-4d"), Some((d_d(-4), NOW, EN, N)))]
+#[test_case(String::from("-5w"), Some((d_w(-5), NOW, EN, N)))]
+#[test_case(String::from("@+5w"), Some((d_w(5), OTHER, EN, N)))]
+#[test_case(String::from("-2m1s"), Some((d_m(-2) + d_s(-1), NOW, EN, N)); "minus_2m1s")]
+#[test_case(String::from("-2d1h"), Some((d_d(-2) + d_h(-1), NOW, EN, N)); "minus_2d1h")]
+#[test_case(String::from("+2d1h"), Some((d_d(2) + d_h(1), NOW, EN, N)); "plus_2d1h")]
+#[test_case(String::from("@+2d1h"), Some((d_d(2) + d_h(1), OTHER, EN, N)); "at_plus_2d1h")]
 // "reverse" order should not matter
-#[test_case(String::from("-1h2d"), Some((d_h(-1) + d_d(-2), NOW, EN)); "minus_1h2d")]
-#[test_case(String::from("-4w3d2m1s"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN)))]
+#[test_case(String::from("-1h2d"), Some((d_h(-1) + d_d(-2), NOW, EN, N)); "minus_1h2d")]
+#[test_case(String::from("-4w3d2m1s"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN, N)); "minus_4w3d2m1s")]
 // "mixed" order should not matter
-#[test_case(String::from("-3d4w1s2m"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN)))]
+#[test_case(String::from("-3d4w1s2m"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN, N)))]
 // repeat values; only last is used
-#[test_case(String::from("-6w5w4w"), Some((d_w(-4), NOW, EN)))]
+#[test_case(String::from("-6w5w4w"), Some((d_w(-4), NOW, EN, N)))]
 // repeat values; only last is used
-#[test_case(String::from("-5w4w3d2m1s"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN)))]
+#[test_case(String::from("-5w4w3d2m1s"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN, N)))]
 // repeat values; only last is used
-#[test_case(String::from("-6w5w4w3d2m1s"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN)))]
-#[test_case(String::from("+1d1w!12:33"), Some((d_d(1) + d_w(1), NOW, EXACT_HMS::HMS(12, 33, 0))); "plus_1d_12_33")]
-#[test_case(String::from("+1d!01:02:03"), Some((d_d(1), NOW, EXACT_HMS::HMS(1, 2, 3))); "plus_1d_01_02_03")]
+#[test_case(String::from("-6w5w4w3d2m1s"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN, N)))]
+#[test_case(String::from("+1d1w!12:33"), Some((d_d(1) + d_w(1), NOW, EXACT_HMS::HMS(12, 33, 0), N)); "plus_1d_12_33")]
+#[test_case(String::from("+1d!01:02:03"), Some((d_d(1), NOW, EXACT_HMS::HMS(1, 2, 3), N)); "plus_1d_01_02_03")]
+// with timezone offset bad
+#[test_case(String::from("+1d!01:02:03 PST"), None; "plus_1d_01_02_03 PST")]
+#[test_case(String::from("+1d!01:02:03 9"), None; "plus_1d_01_02_03 9")]
+#[test_case(String::from("+1d!01:02:03 -08A"), None; "plus_1d_01_02_03 sW08A")]
+// with timezone offset good
+#[test_case(String::from("+1d!01:02:03+08:00"), Some((d_d(1), NOW, EXACT_HMS::HMS(1, 2, 3), Some(FO_E8))); "plus_1d_01_02_03 E08:00")]
+#[test_case(String::from("+1d!01:02:03-08:00"), Some((d_d(1), NOW, EXACT_HMS::HMS(1, 2, 3), Some(FO_W8))); "plus_1d_01_02_03 W08:00")]
+#[test_case(String::from("+1d!01:02:03-08"), Some((d_d(1), NOW, EXACT_HMS::HMS(1, 2, 3), Some(FO_W8))); "plus_1d_01_02_03 W08")]
+#[test_case(String::from("+1d!01:02:03 -08"), Some((d_d(1), NOW, EXACT_HMS::HMS(1, 2, 3), Some(FO_W8))); "plus_1d_01_02_03 sW08")]
 fn test_string_wdhms_to_duration(
     input: String,
-    expect: Option<(Duration, DUR_OFFSET_TYPE, EXACT_HMS)>,
+    expect: DurationSetType,
 ) {
     let actual = string_wdhms_to_duration(&input);
     assert_eq!(actual, expect);
