@@ -89,7 +89,7 @@ exclude = [
 [dependencies]
 anyhow = "=1.0.102"
 bitvec.workspace = true
-bstr = "=1.12.1"
+bstr = { version = "=1.12.3", features = ["alloc", "std"] }
 bzip2-rs = "=0.1.2"
 cfg-if = "=1.0.4"
 chardet = "=0.2.4"
