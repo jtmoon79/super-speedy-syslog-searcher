@@ -2628,6 +2628,7 @@ const CGN_DUR_OFFSET_MINUTES: &str = "minutes";
 const CGN_DUR_OFFSET_HOURS: &str = "hours";
 const CGN_DUR_OFFSET_DAYS: &str = "days";
 const CGN_DUR_OFFSET_WEEKS: &str = "weeks";
+const CGN_DUR_OFFSET_TIMEZONE: &str = "timezone";
 
 const CGP_DUR_OFFSET_TYPE: &str = concatcp!("(?P<", CGN_DUR_OFFSET_TYPE, r">[@]?)");
 const CGP_DUR_OFFSET_ADDSUB: &str = concatcp!("(?P<", CGN_DUR_OFFSET_ADDSUB, r">[+\-])");
@@ -2636,6 +2637,8 @@ const CGP_DUR_OFFSET_MINUTES: &str = concatcp!("(?P<", CGN_DUR_OFFSET_MINUTES, r
 const CGP_DUR_OFFSET_HOURS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_HOURS, r">[\d]+h)");
 const CGP_DUR_OFFSET_DAYS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_DAYS, r">[\d]+d)");
 const CGP_DUR_OFFSET_WEEKS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_WEEKS, r">[\d]+w)");
+// XXX: does not support named timezones like `PST`
+const CGP_DUR_OFFSET_TIMEZONE: &str = concatcp!("(?P<", CGN_DUR_OFFSET_TIMEZONE, r">[+-]([\d]{4}|[\d]{2}:[\d]{2}|[\d]{2}))");
 
 const CGN_EXACT_HMS_H: &str = "exact_hours";
 const CGN_EXACT_HMS_M: &str = "exact_minutes";
@@ -2647,7 +2650,7 @@ const CGP_EXACT_HMS_S: &str = concatcp!("(?P<", CGN_EXACT_HMS_S, r">([0-5][\d]))
 
 thread_local! {
     /// user-passed strings of a duration that is a relative offset.
-    /// e.g. `+1w2d3h4m5s` or `-1d12h`
+    /// e.g. `+1w2d3h4m5s` or `-1d12h` or `-1w!12 -05:00`
     static REGEX_DUR_OFFSET: Regex = {
         const REGEX_PATTERN: &str = concatcp!(
             "^",
@@ -2660,7 +2663,9 @@ thread_local! {
                 CGP_DUR_OFFSET_MINUTES, "|",
                 CGP_DUR_OFFSET_SECONDS,
             ")+",
-            r"(\!(", CGP_EXACT_HMS_H, r")(\:", CGP_EXACT_HMS_M, r")?(\:", CGP_EXACT_HMS_S, ")?)?$",
+            r"(\!(", CGP_EXACT_HMS_H, r")(\:", CGP_EXACT_HMS_M, r")?(\:", CGP_EXACT_HMS_S, ")?)?",
+            r"(\s*", CGP_DUR_OFFSET_TIMEZONE, r")?",
+            "$",
         );
         defñ!("thread_local! REGEX_DUR_OFFSET::new({REGEX_PATTERN:?})");
 
@@ -3368,10 +3373,13 @@ fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
     }
 }
 
+/// type returned by `string_wdhms_to_duration` function.
+pub(crate) type DurationSetType = Option<(Duration, DUR_OFFSET_TYPE, EXACT_HMS, Option<FixedOffset>)>;
+
 /// regular expression processing of a user-passed duration string like
 /// `"-4m2s"` becomes duration of 4 minutes + 2 seconds
 /// helper function to `process_dt`
-pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE, EXACT_HMS)> {
+pub(crate) fn string_wdhms_to_duration(val: &String) -> DurationSetType {
     defn!("({:?})", val);
 
     if val.is_empty() {
@@ -3537,6 +3545,19 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
             }
         }
     }
+    let mut fixed_offset: Option<FixedOffset> = None;
+    if let Some(match_) = captures.name(CGN_DUR_OFFSET_TIMEZONE) {
+        defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_TIMEZONE, match_.as_str());
+        match cli_process_tz_offset(match_.as_str()) {
+            Ok(tz_offset) => {
+                fixed_offset = Some(tz_offset);
+            }
+            Err(err) => {
+                e_err!("Unable to parse a timezone offset from {:?} given {err}", match_.as_str());
+                std::process::exit(EXIT_ERR);
+            }
+        }
+    }
 
     // build a `chrono::Duration` from the parsed values
     let duration = match (
@@ -3554,7 +3575,7 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
     };
     defx!("return {:?}, {:?}", duration, duration_offset_type);
 
-    Some((duration, duration_offset_type, exact_hms))
+    Some((duration, duration_offset_type, exact_hms, fixed_offset))
 }
 
 /// Process duration string like `"-4m2s"` as 4 minutes, 2 seconds in the past,
@@ -3569,15 +3590,15 @@ fn string_to_rel_offset_datetime(
     dt_other_opt: &DateTimeLOpt,
     now_utc: &DateTime<Utc>,
 ) -> DateTimeLOpt {
-    defn!("(val={:?}, {:?}, {:?}, now_utc={:?})", val, tz_offset, dt_other_opt, now_utc);
-    let (duration, duration_offset_type, exact_hms) = match string_wdhms_to_duration(val) {
-        Some((dur, dur_type, e_hms)) => (dur, dur_type, e_hms),
+    defn!("(val={val:?}, tz_offset={tz_offset:?}, dt_other_opt={dt_other_opt:?}, now_utc={now_utc:?})");
+    let (duration, duration_offset_type, exact_hms, tz_offset_user) = match string_wdhms_to_duration(val) {
+        Some((dur, dur_type, e_hms, f_offset)) => (dur, dur_type, e_hms, f_offset),
         None => {
             defx!("no match; return None");
             return None;
         }
     };
-    defo!("duration {:?}, duration_offset_type {:?}, exact_hms {:?}", duration, duration_offset_type, exact_hms);
+    defo!("duration={duration:?}, duration_offset_type={duration_offset_type:?}, exact_hms={exact_hms:?}, tz_offset_user={tz_offset_user:?}");
     let mut ret_dt: DateTimeLOpt;
     match duration_offset_type {
         DUR_OFFSET_TYPE::Now => {
@@ -3592,27 +3613,45 @@ fn string_to_rel_offset_datetime(
                     now_utc.second(),
                 )
                 .unwrap();
-            // convert `Utc` to `DateTimeL`
+            //ret_dt = offset.from_utc_datetime(&now_utc_.naive_utc()).checked_add_signed(duration);
+            //defo!("offset={offset:?}; ret_dt {ret_dt:?}");
             let now = tz_offset.from_utc_datetime(&now_utc_.naive_utc());
+            defo!("now={now:?}");
             ret_dt = now.checked_add_signed(duration);
+            defo!("checked_add_signed({duration:?}); ret_dt {ret_dt:?}");
         }
         DUR_OFFSET_TYPE::Other => match dt_other_opt {
             Some(dt_other) => {
-                defo!("other     {:?}", dt_other);
                 ret_dt = dt_other.checked_add_signed(duration);
+                defo!("other {dt_other:?}; ret_dt {ret_dt:?}");
             }
             None => {
-                e_err!("passed relative offset to other datetime {:?}, but other datetime was not set", val);
+                e_err!("passed relative offset to other datetime {val:?}, but other datetime was not set");
                 std::process::exit(EXIT_ERR);
             }
         },
     }
     defo!("ret_dt {ret_dt:?} after duration_offset_type");
     if let EXACT_HMS::HMS(h, m, s) = exact_hms {
-        defo!("exact_hms {:?} after duration_offset_type", exact_hms);
         ret_dt = ret_dt.map(|dt| dt.with_hour(h).unwrap().with_minute(m).unwrap().with_second(s).unwrap());
+        defo!("exact_hms {exact_hms:?}; ret_dt {ret_dt:?}");
     }
-    defx!("ret_dt {ret_dt:?} after exact_hms");
+    // If user-supplied an offset in the `-a` or `-b` argument then
+    // use that offset instead of the default `tz_offset`.
+    // This keeps the same YMDHMS but just swaps out the timezone. It does not
+    // try to maintain the "same instant in time".
+    // So `-a=-2d!05:30 +08:00` is calculated as 2 days ago at 05:30 in the local timezone,
+    // then the timezone is swapped to +08:00, which may be a different instant in time.
+    if let Some(tz_offset_user_) = tz_offset_user && let Some(ret_dt_) = ret_dt {
+        ret_dt = chrono::NaiveDate::from_ymd_opt(ret_dt_.year(), ret_dt_.month(), ret_dt_.day())
+            .unwrap()
+            .and_hms_opt(ret_dt_.hour(), ret_dt_.minute(), ret_dt_.second())
+            .unwrap()
+            .and_local_timezone(tz_offset_user_)
+            .single();
+        defo!("tz_offset_user {tz_offset_user_:?}; ret_dt {ret_dt:?}");
+    };
+    defx!("ret_dt {ret_dt:?}");
 
     ret_dt
 }
@@ -3979,11 +4018,11 @@ fn cli_process_args() -> (
     // else process `-a` then `-b`
     let utc_now = UTC_NOW.with(|utc_now| *utc_now);
     match (string_wdhms_to_duration(args_dt_after_s), string_wdhms_to_duration(args_dt_before_s)) {
-        (Some((_, DUR_OFFSET_TYPE::Other, _)), Some((_, DUR_OFFSET_TYPE::Other, _))) => {
+        (Some((_, DUR_OFFSET_TYPE::Other, _, _)), Some((_, DUR_OFFSET_TYPE::Other, _, _))) => {
             e_err!("cannot pass both --dt-after and --dt-before as relative to the other");
             std::process::exit(EXIT_ERR);
         }
-        (Some((_, DUR_OFFSET_TYPE::Other, _)), _) => {
+        (Some((_, DUR_OFFSET_TYPE::Other, _, _)), _) => {
             // special-case: process `-b` value then process `-a` value
             // e.g. `-a "@+1d" -b "20010203"`
             filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &None, &utc_now);

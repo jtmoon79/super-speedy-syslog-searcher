@@ -493,10 +493,10 @@ s4 /var/log -a='-2d!12' -b @+1h
 
 Print the log messages that occurred two days ago during the noon hour in
 Bengaluru, India (timezone offset +05:30) and prepended with equivalent UTC
-datetime (with the help of GNU `date`)
+datetime
 
 ```sh
-s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
+s4 /var/log -u -a='-2d!12+05:30' -b @+1h
 ```
 
 <br/>
