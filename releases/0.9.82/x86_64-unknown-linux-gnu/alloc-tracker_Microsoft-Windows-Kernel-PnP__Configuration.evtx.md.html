@@ -1,0 +1,1096 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>`Microsoft-Windows-Kernel-PnP__Configuration.evtx`</title>
+  <meta name="GENERATOR" content="github.com/gomarkdown/markdown markdown processor for Go" />
+  <meta charset="utf-8" />
+<style>
+table {  border-collapse: collapse; width: 100%;}
+
+th,
+td {
+  border: 1px solid #666;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: 700;
+  border-bottom: 2px solid #333;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var columnTypes = ['alpha', 'numeric', 'alpha', 'numeric', 'numeric', 'numeric'];
+
+  function numericValue(text) {
+    var match = String(text).replace(/,/g, '').match(/-?[0-9]+(?:[.][0-9]+)?/);
+    return match ? Number(match[0]) : NaN;
+  }
+
+  function compareCells(aText, bText, type, asc) {
+    if (type === 'numeric') {
+      var aNum = numericValue(aText);
+      var bNum = numericValue(bText);
+      var aNaN = Number.isNaN(aNum);
+      var bNaN = Number.isNaN(bNum);
+
+      if (aNaN && bNaN) {
+        return 0;
+      }
+      if (aNaN) {
+        return 1;
+      }
+      if (bNaN) {
+        return -1;
+      }
+      return asc ? aNum - bNum : bNum - aNum;
+    }
+
+    var cmp = String(aText).localeCompare(String(bText), undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    return asc ? cmp : -cmp;
+  }
+
+  function getRowsForSort(table) {
+    if (table.tBodies && table.tBodies.length > 0) {
+      return {
+        container: table.tBodies[0],
+        rows: Array.from(table.tBodies[0].rows)
+      };
+    }
+
+    var allRows = Array.from(table.rows);
+    return {
+      container: table,
+      rows: allRows.slice(1)
+    };
+  }
+
+  Array.from(document.querySelectorAll('table')).forEach(function (table) {
+    var headerRow = table.tHead && table.tHead.rows.length > 0
+      ? table.tHead.rows[0]
+      : table.rows[0];
+
+    if (!headerRow) {
+      return;
+    }
+
+    Array.from(headerRow.cells).forEach(function (th, colIndex) {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', function () {
+        var rowsInfo = getRowsForSort(table);
+        var rows = rowsInfo.rows;
+        var sortType = columnTypes[colIndex] || 'alpha';
+        var currentlyAsc = th.getAttribute('data-sort-dir') === 'asc';
+        var asc = !currentlyAsc;
+
+        Array.from(headerRow.cells).forEach(function (cell) {
+          if (cell !== th) {
+            cell.removeAttribute('data-sort-dir');
+          }
+        });
+
+        rows.sort(function (aRow, bRow) {
+          var aCell = aRow.cells[colIndex];
+          var bCell = bRow.cells[colIndex];
+          var aText = aCell ? aCell.textContent.trim() : '';
+          var bText = bCell ? bCell.textContent.trim() : '';
+          return compareCells(aText, bText, sortType, asc);
+        });
+
+        rows.forEach(function (row) {
+          rowsInfo.container.appendChild(row);
+        });
+
+        th.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
+      });
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<h1><code>Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></h1>
+
+<h2><code>--version</code></h2>
+
+<pre><code class="language-text">s4 (Super Speedy Syslog Searcher)
+Version: 0.9.82
+MSRV: 1.88.0
+Profile: alloc_tracker
+Allocator: alloc_tracker
+Features: alloc_tracker
+Platform: x86_64-unknown-linux-gnu
+Target OS: linux
+Target OS Family: unix
+Arch: x86_64
+Compiled Regular Expressions: 188
+Compiler Version: 1.88.0
+Rust Build Flags: 
+Optimization Level: 0
+Git Commit: 4d4a4cc9f70f8f1548d32fd3660414050e3d6b0e
+Build Date: 2026-07-03T16:43:55
+License: MIT
+Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+Author: James Thomas Moon
+
+</code></pre>
+
+<h2>Command</h2>
+
+<p><code>$ ./target/alloc_tracker/s4 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></p>
+
+<h2>Allocator Tracking results</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left"><strong><em>File:line:col</em></strong><br/><strong><em>Call Site</em></strong></th>
+<th align="right">Thread<br/>ID</th>
+<th align="left">Thread<br/>Name</th>
+<th align="right">Allocations</th>
+<th align="right">Bytes</th>
+<th align="right">Bytes<br/>per Allocation</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><code>src/s4/s4.rs:5406:53</code><br/><code>s4::s4::processing_loop::recv_many_chan::hf2b1c552a15b43da</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">229</td>
+<td align="right">29,312 (28.62 KiB)</td>
+<td align="right">128 (128 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3466:16</code><br/><code>s4::s4::cli_process_args::hbb85d08869f2b49d</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">204</td>
+<td align="right">25,283 (24.69 KiB)</td>
+<td align="right">123 (123 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/evtxreader.rs:346:24</code><br/><code>s4lib::readers::evtxreader::EvtxReader::new::h129ff58be1636272</code></td>
+<td align="right">3</td>
+<td align="left"><code>Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></td>
+<td align="right">172</td>
+<td align="right">56,590 (55.26 KiB)</td>
+<td align="right">329 (329 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/evtxreader.rs:399:32</code><br/><code>s4lib::readers::evtxreader::EvtxReader::analyze::habc1c165435674b3</code></td>
+<td align="right">3</td>
+<td align="left"><code>Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></td>
+<td align="right">60</td>
+<td align="right">3,345,696 (3.19 MiB)</td>
+<td align="right">55,761 (54.45 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2517:10</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">52</td>
+<td align="right">48,677 (47.54 KiB)</td>
+<td align="right">936 (936 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/evtxreader.rs:472:38</code><br/><code>s4lib::readers::evtxreader::EvtxReader::analyze::habc1c165435674b3</code></td>
+<td align="right">3</td>
+<td align="left"><code>Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></td>
+<td align="right">37</td>
+<td align="right">46,656 (45.56 KiB)</td>
+<td align="right">1,260 (1.23 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3825:5</code><br/><code>s4::s4::set_signal_handler::h1be51f5b5f6b4d86</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">7</td>
+<td align="right">181 (181 B)</td>
+<td align="right">25 (25 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5318:15</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">5</td>
+<td align="right">313 (313 B)</td>
+<td align="right">62 (62 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:363:13</code><br/><code>s4::s4::LOCAL_NOW::__init::{{closure}}::h3a2963b7ba27b12e</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">3</td>
+<td align="right">5,924 (5.79 KiB)</td>
+<td align="right">1,974 (1.93 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:440:5</code><br/><code>&lt;s4::s4::CLI_Color_Choice as clap_builder::derive::ValueEnum&gt;::to_possible_value::hea38343b8f5aa490</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">3</td>
+<td align="right">24 (24 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5314:13</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">3,800 (3.71 KiB)</td>
+<td align="right">1,900 (1.86 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/evtxreader.rs:348:50</code><br/><code>s4lib::readers::evtxreader::EvtxReader::new::h129ff58be1636272</code></td>
+<td align="right">3</td>
+<td align="left"><code>Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></td>
+<td align="right">2</td>
+<td align="right">178 (178 B)</td>
+<td align="right">89 (89 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2855:16</code><br/><code>s4::s4::cli_process_blocksz::hdb09b92225a953df</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">156 (156 B)</td>
+<td align="right">78 (78 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3991:11</code><br/><code>s4::s4::chan_send::h1a0f0b137ecf813a</code></td>
+<td align="right">3</td>
+<td align="left"><code>Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></td>
+<td align="right">2</td>
+<td align="right">144 (144 B)</td>
+<td align="right">72 (72 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5435:59</code><br/><code>s4::s4::processing_loop::recv_many_chan::hf2b1c552a15b43da</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">144 (144 B)</td>
+<td align="right">72 (72 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5248:13</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">138 (138 B)</td>
+<td align="right">69 (69 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5205:34</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,452 (2.39 KiB)</td>
+<td align="right">2,452 (2.39 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/printer/printers.rs:828:21</code><br/><code>s4lib::printer::printers::PrinterLogMessage::new::hb43a01fede4ab37f</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,056 (2.01 KiB)</td>
+<td align="right">2,056 (2.01 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/printer/printers.rs:829:32</code><br/><code>s4lib::printer::printers::PrinterLogMessage::new::hb43a01fede4ab37f</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,056 (2.01 KiB)</td>
+<td align="right">2,056 (2.01 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5603:29</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1,248 (1.22 KiB)</td>
+<td align="right">1,248 (1.22 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/printer/printers.rs:792:22</code><br/><code>s4lib::printer::printers::PrinterLogMessage::new::hb43a01fede4ab37f</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1,024 (1.00 KiB)</td>
+<td align="right">1,024 (1.00 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5483:34</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">980 (980 B)</td>
+<td align="right">980 (980 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5121:17</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">368 (368 B)</td>
+<td align="right">368 (368 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5316:9</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">280 (280 B)</td>
+<td align="right">280 (280 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5006:34</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">276 (276 B)</td>
+<td align="right">276 (276 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3762:51</code><br/><code>s4::s4::main::h0da61b24b42f6b8a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">224 (224 B)</td>
+<td align="right">224 (224 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5012:49</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">148 (148 B)</td>
+<td align="right">148 (148 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1472:22</code><br/><code>s4lib::readers::filepreprocessor::process_path::h940fb84aa9eeba43</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">122 (122 B)</td>
+<td align="right">122 (122 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5014:40</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">116 (116 B)</td>
+<td align="right">116 (116 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2566:12</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::FromArgMatches&gt;::from_arg_matches_mut::{{closure}}::h8f4c636549f04554</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">96 (96 B)</td>
+<td align="right">96 (96 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5029:35</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5027:44</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5031:41</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5203:32</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5215:28</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/evtxreader.rs:599:20</code><br/><code>s4lib::readers::evtxreader::EvtxReader::summary_complete::h540981b277b2e6a9</code></td>
+<td align="right">3</td>
+<td align="left"><code>Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></td>
+<td align="right">1</td>
+<td align="right">69 (69 B)</td>
+<td align="right">69 (69 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4534:9</code><br/><code>s4::s4::exec_evtxprocessor::ha911eca878d8b0fa</code></td>
+<td align="right">3</td>
+<td align="left"><code>Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></td>
+<td align="right">1</td>
+<td align="right">69 (69 B)</td>
+<td align="right">69 (69 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3511:29</code><br/><code>s4::s4::cli_process_args::hbb85d08869f2b49d</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">69 (69 B)</td>
+<td align="right">69 (69 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1468:33</code><br/><code>s4lib::readers::filepreprocessor::process_path::h940fb84aa9eeba43</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">69 (69 B)</td>
+<td align="right">69 (69 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1502:87</code><br/><code>s4lib::readers::filepreprocessor::process_path::h940fb84aa9eeba43</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">69 (69 B)</td>
+<td align="right">69 (69 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5121:56</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">69 (69 B)</td>
+<td align="right">69 (69 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/evtxreader.rs:349:31</code><br/><code>s4lib::readers::evtxreader::EvtxReader::new::h129ff58be1636272</code></td>
+<td align="right">3</td>
+<td align="left"><code>Microsoft-Windows-Kernel-PnP__Configuration.evtx</code></td>
+<td align="right">1</td>
+<td align="right">56 (56 B)</td>
+<td align="right">56 (56 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1502:53</code><br/><code>s4lib::readers::filepreprocessor::process_path::h940fb84aa9eeba43</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">56 (56 B)</td>
+<td align="right">56 (56 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5784:62</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5473:26</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5489:52</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3484:33</code><br/><code>s4::s4::cli_process_args::hbb85d08869f2b49d</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5319:19</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/helpers.rs:30:5</code><br/><code>s4lib::readers::helpers::basename::hb2b98f4ae9040d70</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5317:32</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2918:5</code><br/><code>s4::s4::cli_process_tz_offset::h3231a46bb9d02e0c</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2917:28</code><br/><code>s4::s4::cli_process_tz_offset::h3231a46bb9d02e0c</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">20 (20 B)</td>
+<td align="right">20 (20 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2716:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2635:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2729:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2817:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2741:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2621:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2568:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2651:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2681:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2703:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2803:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2607:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2669:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2768:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2555:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2693:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2780:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2578:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2589:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2756:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::h6a34b75517bcc036</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/printer/printers.rs:794:28</code><br/><code>s4lib::printer::printers::PrinterLogMessage::new::hb43a01fede4ab37f</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">14 (14 B)</td>
+<td align="right">14 (14 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2811:27</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::hcf68c27431597d26</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2602:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h79a17608cfbbd63c</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2890:23</code><br/><code>s4::s4::cli_parse_blocksz::h7d22fd388ec587af</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3440:9</code><br/><code>s4::s4::unescape::unescape_str::h8985d470cc66fb45</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5305:26</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5500:26</code><br/><code>s4::s4::processing_loop::h3dbe51f1dd9389a6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2736:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h6b55cb440a7a965d</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2889:32</code><br/><code>s4::s4::cli_parse_blocksz::h7d22fd388ec587af</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2751:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h5b3e8b9496df1070</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2811:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::hcf68c27431597d26</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2775:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h9f9bfb2cadb5032e</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2793:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h740ed821b86ae503</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2763:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h961ed6d112333819</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">4 (4 B)</td>
+<td align="right">4 (4 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:666:31</code><br/><code>s4lib::readers::filepreprocessor::pathbuf_to_filetype_impl::h64191eb604206c63</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">4 (4 B)</td>
+<td align="right">4 (4 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2709:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::ha45a23112ac7249a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1 (1 B)</td>
+<td align="right">1 (1 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2709:27</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::ha45a23112ac7249a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1 (1 B)</td>
+<td align="right">1 (1 B)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Allocator Tracking summary</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">tracked</th>
+<th align="right">bytes</th>
+<th align="right">calls</th>
+<th align="left">about</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">normal allocations</td>
+<td align="right">3,576,438</td>
+<td align="right">857</td>
+<td align="left">normal program allocations; this is the most useful number</td>
+</tr>
+
+<tr>
+<td align="left">total deallocations</td>
+<td align="right">184,512,365</td>
+<td align="right">217,045</td>
+<td align="left">includes normal program deallocations and tracking deallocations</td>
+</tr>
+
+<tr>
+<td align="left">current outstanding</td>
+<td align="right">68,088,994</td>
+<td align="right"></td>
+<td align="left">outstanding allocated bytes as of this print</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Allocator Tracking internals</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">tracked</th>
+<th align="right">bytes</th>
+<th align="right">calls</th>
+<th align="left">about</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">total from tracking</td>
+<td align="right">249,024,898</td>
+<td align="right">315,408</td>
+<td align="left">tracking allocations; not part of the normal program allocations</td>
+</tr>
+
+<tr>
+<td align="left">tracking from backtrace</td>
+<td align="right">246,200,986</td>
+<td align="right"></td>
+<td align="left">tracking allocations specifically for <code>backtrace::trace</code> and <code>backtrace::resolve_frame</code>; subset of &ldquo;total from tracking&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">tracking from other</td>
+<td align="right">2,823,912</td>
+<td align="right"></td>
+<td align="left">other tracking allocations, not &ldquo;from backtrace&rdquo;; subset of &ldquo;total from tracking&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">ratio tracking to normal</td>
+<td align="right">100 to 1</td>
+<td align="right">100 to 0</td>
+<td align="left">ratio of tracking allocations/calls to normal program allocations/calls</td>
+</tr>
+
+<tr>
+<td align="left">diff table vs total</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">sanity check of total numbers and table numbers; should be 0</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th align="left">parameter</th>
+<th align="right">value</th>
+<th align="left">about</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">frame depth</td>
+<td align="right">1</td>
+<td align="left">max depth of backtraced frames for each allocation call site; env var &ldquo;S4_ALLOC_TRACKER_DEPTH&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">call sites</td>
+<td align="right">89</td>
+<td align="left">entries in the table above</td>
+</tr>
+
+<tr>
+<td align="left">cached file names</td>
+<td align="right">5</td>
+<td align="left"></td>
+</tr>
+
+<tr>
+<td align="left">cached function names</td>
+<td align="right">30</td>
+<td align="left"></td>
+</tr>
+
+<tr>
+<td align="left">cached thread names</td>
+<td align="right">2</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>2026-07-03 19:48:17.478445675 -07:00</p>
+
+</body>
+</html>

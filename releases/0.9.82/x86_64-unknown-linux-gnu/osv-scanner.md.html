@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta name="GENERATOR" content="github.com/gomarkdown/markdown markdown processor for Go" />
+  <meta charset="utf-8" />
+<style>
+table {  border-collapse: collapse; width: 100%;}
+
+th,
+td {
+  border: 1px solid #666;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: 700;
+  border-bottom: 2px solid #333;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var columnTypes = ['alpha', 'numeric', 'alpha', 'numeric', 'numeric', 'numeric'];
+
+  function numericValue(text) {
+    var match = String(text).replace(/,/g, '').match(/-?[0-9]+(?:[.][0-9]+)?/);
+    return match ? Number(match[0]) : NaN;
+  }
+
+  function compareCells(aText, bText, type, asc) {
+    if (type === 'numeric') {
+      var aNum = numericValue(aText);
+      var bNum = numericValue(bText);
+      var aNaN = Number.isNaN(aNum);
+      var bNaN = Number.isNaN(bNum);
+
+      if (aNaN && bNaN) {
+        return 0;
+      }
+      if (aNaN) {
+        return 1;
+      }
+      if (bNaN) {
+        return -1;
+      }
+      return asc ? aNum - bNum : bNum - aNum;
+    }
+
+    var cmp = String(aText).localeCompare(String(bText), undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    return asc ? cmp : -cmp;
+  }
+
+  function getRowsForSort(table) {
+    if (table.tBodies && table.tBodies.length > 0) {
+      return {
+        container: table.tBodies[0],
+        rows: Array.from(table.tBodies[0].rows)
+      };
+    }
+
+    var allRows = Array.from(table.rows);
+    return {
+      container: table,
+      rows: allRows.slice(1)
+    };
+  }
+
+  Array.from(document.querySelectorAll('table')).forEach(function (table) {
+    var headerRow = table.tHead && table.tHead.rows.length > 0
+      ? table.tHead.rows[0]
+      : table.rows[0];
+
+    if (!headerRow) {
+      return;
+    }
+
+    Array.from(headerRow.cells).forEach(function (th, colIndex) {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', function () {
+        var rowsInfo = getRowsForSort(table);
+        var rows = rowsInfo.rows;
+        var sortType = columnTypes[colIndex] || 'alpha';
+        var currentlyAsc = th.getAttribute('data-sort-dir') === 'asc';
+        var asc = !currentlyAsc;
+
+        Array.from(headerRow.cells).forEach(function (cell) {
+          if (cell !== th) {
+            cell.removeAttribute('data-sort-dir');
+          }
+        });
+
+        rows.sort(function (aRow, bRow) {
+          var aCell = aRow.cells[colIndex];
+          var bCell = bRow.cells[colIndex];
+          var aText = aCell ? aCell.textContent.trim() : '';
+          var bText = bCell ? bCell.textContent.trim() : '';
+          return compareCells(aText, bText, sortType, asc);
+        });
+
+        rows.forEach(function (row) {
+          rowsInfo.container.appendChild(row);
+        });
+
+        th.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
+      });
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<p>Total 14 packages affected by 22 known vulnerabilities (0 Critical, 12 High, 0 Medium, 3 Low, 7 Unknown) from 2 ecosystems.
+17 vulnerabilities can be fixed.</p>
+
+<table>
+<thead>
+<tr>
+<th>OSV URL</th>
+<th>CVSS</th>
+<th>Ecosystem</th>
+<th>Package</th>
+<th>Version</th>
+<th>Fixed Version</th>
+<th>Source</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><a href="https://osv.dev/GHSA-3936-cmfr-pm3m">https://osv.dev/GHSA-3936-cmfr-pm3m</a></td>
+<td>8.7</td>
+<td>PyPI</td>
+<td>black</td>
+<td>25.11.0</td>
+<td>26.3.1</td>
+<td>src/python/s4_event_readers/requirements-dev.txt</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/PYSEC-2022-43012">https://osv.dev/PYSEC-2022-43012</a><br/><a href="https://osv.dev/GHSA-r9hx-vwmv-q579">https://osv.dev/GHSA-r9hx-vwmv-q579</a></td>
+<td>8.7</td>
+<td>PyPI</td>
+<td>setuptools</td>
+<td>9.1.0</td>
+<td>65.5.1</td>
+<td>src/python/s4_event_readers/requirements-dev.txt</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/PYSEC-2025-49">https://osv.dev/PYSEC-2025-49</a><br/><a href="https://osv.dev/GHSA-5rjg-fvgr-3xxf">https://osv.dev/GHSA-5rjg-fvgr-3xxf</a></td>
+<td>8.8</td>
+<td>PyPI</td>
+<td>setuptools</td>
+<td>9.1.0</td>
+<td>78.1.1</td>
+<td>src/python/s4_event_readers/requirements-dev.txt</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/GHSA-cx63-2mw6-8hw5">https://osv.dev/GHSA-cx63-2mw6-8hw5</a></td>
+<td>8.8</td>
+<td>PyPI</td>
+<td>setuptools</td>
+<td>9.1.0</td>
+<td>70.0.0</td>
+<td>src/python/s4_event_readers/requirements-dev.txt</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0190">https://osv.dev/RUSTSEC-2026-0190</a></td>
+<td></td>
+<td>crates.io</td>
+<td>anyhow</td>
+<td>1.0.102</td>
+<td>1.0.103</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2021-0145">https://osv.dev/RUSTSEC-2021-0145</a><br/><a href="https://osv.dev/GHSA-g98v-hv3f-hcfr">https://osv.dev/GHSA-g98v-hv3f-hcfr</a></td>
+<td></td>
+<td>crates.io</td>
+<td>atty</td>
+<td>0.2.14</td>
+<td>--</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2024-0375">https://osv.dev/RUSTSEC-2024-0375</a></td>
+<td></td>
+<td>crates.io</td>
+<td>atty</td>
+<td>0.2.14</td>
+<td>--</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2021-0153">https://osv.dev/RUSTSEC-2021-0153</a></td>
+<td></td>
+<td>crates.io</td>
+<td>encoding</td>
+<td>0.2.33</td>
+<td>--</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0002">https://osv.dev/RUSTSEC-2026-0002</a><br/><a href="https://osv.dev/GHSA-rhfx-m35p-ff5j">https://osv.dev/GHSA-rhfx-m35p-ff5j</a></td>
+<td>2.7</td>
+<td>crates.io</td>
+<td>lru</td>
+<td>0.12.5</td>
+<td>0.16.3</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0186">https://osv.dev/RUSTSEC-2026-0186</a></td>
+<td></td>
+<td>crates.io</td>
+<td>memmap2</td>
+<td>0.9.10</td>
+<td>0.9.11</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2025-0119">https://osv.dev/RUSTSEC-2025-0119</a></td>
+<td></td>
+<td>crates.io</td>
+<td>number_prefix</td>
+<td>0.4.0</td>
+<td>--</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2024-0370">https://osv.dev/RUSTSEC-2024-0370</a></td>
+<td></td>
+<td>crates.io</td>
+<td>proc-macro-error</td>
+<td>1.0.4</td>
+<td>--</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0194">https://osv.dev/RUSTSEC-2026-0194</a></td>
+<td>7.5</td>
+<td>crates.io</td>
+<td>quick-xml</td>
+<td>0.26.0</td>
+<td>0.41.0</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0195">https://osv.dev/RUSTSEC-2026-0195</a></td>
+<td>7.5</td>
+<td>crates.io</td>
+<td>quick-xml</td>
+<td>0.26.0</td>
+<td>0.41.0</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0194">https://osv.dev/RUSTSEC-2026-0194</a></td>
+<td>7.5</td>
+<td>crates.io</td>
+<td>quick-xml</td>
+<td>0.39.4</td>
+<td>0.41.0</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0195">https://osv.dev/RUSTSEC-2026-0195</a></td>
+<td>7.5</td>
+<td>crates.io</td>
+<td>quick-xml</td>
+<td>0.39.4</td>
+<td>0.41.0</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0194">https://osv.dev/RUSTSEC-2026-0194</a></td>
+<td>7.5</td>
+<td>crates.io</td>
+<td>quick-xml</td>
+<td>0.40.1</td>
+<td>0.41.0</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0195">https://osv.dev/RUSTSEC-2026-0195</a></td>
+<td>7.5</td>
+<td>crates.io</td>
+<td>quick-xml</td>
+<td>0.40.1</td>
+<td>0.41.0</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0185">https://osv.dev/RUSTSEC-2026-0185</a></td>
+<td>7.5</td>
+<td>crates.io</td>
+<td>quinn-proto</td>
+<td>0.11.14</td>
+<td>0.11.15</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0098">https://osv.dev/RUSTSEC-2026-0098</a><br/><a href="https://osv.dev/GHSA-965h-392x-2mh5">https://osv.dev/GHSA-965h-392x-2mh5</a></td>
+<td>2.2</td>
+<td>crates.io</td>
+<td>rustls-webpki</td>
+<td>0.101.7</td>
+<td>0.103.12</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0099">https://osv.dev/RUSTSEC-2026-0099</a><br/><a href="https://osv.dev/GHSA-xgp8-3hg3-c2mh">https://osv.dev/GHSA-xgp8-3hg3-c2mh</a></td>
+<td>2.2</td>
+<td>crates.io</td>
+<td>rustls-webpki</td>
+<td>0.101.7</td>
+<td>0.103.12</td>
+<td>Cargo.lock</td>
+</tr>
+
+<tr>
+<td><a href="https://osv.dev/RUSTSEC-2026-0104">https://osv.dev/RUSTSEC-2026-0104</a><br/><a href="https://osv.dev/GHSA-82j2-j2ch-gfr8">https://osv.dev/GHSA-82j2-j2ch-gfr8</a></td>
+<td>7.5</td>
+<td>crates.io</td>
+<td>rustls-webpki</td>
+<td>0.101.7</td>
+<td>0.103.13</td>
+<td>Cargo.lock</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,977 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" width="1200" height="422" onload="init(evt)" viewBox="0 0 1200 422" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- Flame graph stack visualization. See https://github.com/brendangregg/FlameGraph for latest version, and http://www.brendangregg.com/flamegraphs.html for examples. -->
+<!-- NOTES:  -->
+<defs>
+	<linearGradient id="background" y1="0" y2="1" x1="0" x2="0" >
+		<stop stop-color="#eeeeee" offset="5%" />
+		<stop stop-color="#eeeeb0" offset="95%" />
+	</linearGradient>
+</defs>
+<style type="text/css">
+	text { font-family:Verdana; font-size:12px; fill:rgb(0,0,0); }
+	#search, #ignorecase { opacity:0.1; cursor:pointer; }
+	#search:hover, #search.show, #ignorecase:hover, #ignorecase.show { opacity:1; }
+	#subtitle { text-anchor:middle; font-color:rgb(160,160,160); }
+	#title { text-anchor:middle; font-size:17px}
+	#unzoom { cursor:pointer; }
+	#frames > *:hover { stroke:black; stroke-width:0.5; cursor:pointer; }
+	.hide { display:none; }
+	.parent { opacity:0.5; }
+</style>
+<script type="text/ecmascript">
+<![CDATA[
+	"use strict";
+	var details, searchbtn, unzoombtn, matchedtxt, svg, searching, currentSearchTerm, ignorecase, ignorecaseBtn;
+	function init(evt) {
+		details = document.getElementById("details").firstChild;
+		searchbtn = document.getElementById("search");
+		ignorecaseBtn = document.getElementById("ignorecase");
+		unzoombtn = document.getElementById("unzoom");
+		matchedtxt = document.getElementById("matched");
+		svg = document.getElementsByTagName("svg")[0];
+		searching = 0;
+		currentSearchTerm = null;
+
+		// use GET parameters to restore a flamegraphs state.
+		var params = get_params();
+		if (params.x && params.y)
+			zoom(find_group(document.querySelector('[x="' + params.x + '"][y="' + params.y + '"]')));
+                if (params.s) search(params.s);
+	}
+
+	// event listeners
+	window.addEventListener("click", function(e) {
+		var target = find_group(e.target);
+		if (target) {
+			if (target.nodeName == "a") {
+				if (e.ctrlKey === false) return;
+				e.preventDefault();
+			}
+			if (target.classList.contains("parent")) unzoom(true);
+			zoom(target);
+			if (!document.querySelector('.parent')) {
+				// we have basically done a clearzoom so clear the url
+				var params = get_params();
+				if (params.x) delete params.x;
+				if (params.y) delete params.y;
+				history.replaceState(null, null, parse_params(params));
+				unzoombtn.classList.add("hide");
+				return;
+			}
+
+			// set parameters for zoom state
+			var el = target.querySelector("rect");
+			if (el && el.attributes && el.attributes.y && el.attributes._orig_x) {
+				var params = get_params()
+				params.x = el.attributes._orig_x.value;
+				params.y = el.attributes.y.value;
+				history.replaceState(null, null, parse_params(params));
+			}
+		}
+		else if (e.target.id == "unzoom") clearzoom();
+		else if (e.target.id == "search") search_prompt();
+		else if (e.target.id == "ignorecase") toggle_ignorecase();
+	}, false)
+
+	// mouse-over for info
+	// show
+	window.addEventListener("mouseover", function(e) {
+		var target = find_group(e.target);
+		if (target) details.nodeValue = "Function: " + g_to_text(target);
+	}, false)
+
+	// clear
+	window.addEventListener("mouseout", function(e) {
+		var target = find_group(e.target);
+		if (target) details.nodeValue = ' ';
+	}, false)
+
+	// ctrl-F for search
+	// ctrl-I to toggle case-sensitive search
+	window.addEventListener("keydown",function (e) {
+		if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+			e.preventDefault();
+			search_prompt();
+		}
+		else if (e.ctrlKey && e.keyCode === 73) {
+			e.preventDefault();
+			toggle_ignorecase();
+		}
+	}, false)
+
+	// functions
+	function get_params() {
+		var params = {};
+		var paramsarr = window.location.search.substr(1).split('&');
+		for (var i = 0; i < paramsarr.length; ++i) {
+			var tmp = paramsarr[i].split("=");
+			if (!tmp[0] || !tmp[1]) continue;
+			params[tmp[0]]  = decodeURIComponent(tmp[1]);
+		}
+		return params;
+	}
+	function parse_params(params) {
+		var uri = "?";
+		for (var key in params) {
+			uri += key + '=' + encodeURIComponent(params[key]) + '&';
+		}
+		if (uri.slice(-1) == "&")
+			uri = uri.substring(0, uri.length - 1);
+		if (uri == '?')
+			uri = window.location.href.split('?')[0];
+		return uri;
+	}
+	function find_child(node, selector) {
+		var children = node.querySelectorAll(selector);
+		if (children.length) return children[0];
+	}
+	function find_group(node) {
+		var parent = node.parentElement;
+		if (!parent) return;
+		if (parent.id == "frames") return node;
+		return find_group(parent);
+	}
+	function orig_save(e, attr, val) {
+		if (e.attributes["_orig_" + attr] != undefined) return;
+		if (e.attributes[attr] == undefined) return;
+		if (val == undefined) val = e.attributes[attr].value;
+		e.setAttribute("_orig_" + attr, val);
+	}
+	function orig_load(e, attr) {
+		if (e.attributes["_orig_"+attr] == undefined) return;
+		e.attributes[attr].value = e.attributes["_orig_" + attr].value;
+		e.removeAttribute("_orig_"+attr);
+	}
+	function g_to_text(e) {
+		var text = find_child(e, "title").firstChild.nodeValue;
+		return (text)
+	}
+	function g_to_func(e) {
+		var func = g_to_text(e);
+		// if there's any manipulation we want to do to the function
+		// name before it's searched, do it here before returning.
+		return (func);
+	}
+	function update_text(e) {
+		var r = find_child(e, "rect");
+		var t = find_child(e, "text");
+		var w = parseFloat(r.attributes.width.value) -3;
+		var txt = find_child(e, "title").textContent.replace(/\([^(]*\)$/,"");
+		t.attributes.x.value = parseFloat(r.attributes.x.value) + 3;
+
+		// Smaller than this size won't fit anything
+		if (w < 2 * 12 * 0.59) {
+			t.textContent = "";
+			return;
+		}
+
+		t.textContent = txt;
+		var sl = t.getSubStringLength(0, txt.length);
+		// check if only whitespace or if we can fit the entire string into width w
+		if (/^ *$/.test(txt) || sl < w)
+			return;
+
+		// this isn't perfect, but gives a good starting point
+		// and avoids calling getSubStringLength too often
+		var start = Math.floor((w/sl) * txt.length);
+		for (var x = start; x > 0; x = x-2) {
+			if (t.getSubStringLength(0, x + 2) <= w) {
+				t.textContent = txt.substring(0, x) + "..";
+				return;
+			}
+		}
+		t.textContent = "";
+	}
+
+	// zoom
+	function zoom_reset(e) {
+		if (e.attributes != undefined) {
+			orig_load(e, "x");
+			orig_load(e, "width");
+		}
+		if (e.childNodes == undefined) return;
+		for (var i = 0, c = e.childNodes; i < c.length; i++) {
+			zoom_reset(c[i]);
+		}
+	}
+	function zoom_child(e, x, ratio) {
+		if (e.attributes != undefined) {
+			if (e.attributes.x != undefined) {
+				orig_save(e, "x");
+				e.attributes.x.value = (parseFloat(e.attributes.x.value) - x - 10) * ratio + 10;
+				if (e.tagName == "text")
+					e.attributes.x.value = find_child(e.parentNode, "rect[x]").attributes.x.value + 3;
+			}
+			if (e.attributes.width != undefined) {
+				orig_save(e, "width");
+				e.attributes.width.value = parseFloat(e.attributes.width.value) * ratio;
+			}
+		}
+
+		if (e.childNodes == undefined) return;
+		for (var i = 0, c = e.childNodes; i < c.length; i++) {
+			zoom_child(c[i], x - 10, ratio);
+		}
+	}
+	function zoom_parent(e) {
+		if (e.attributes) {
+			if (e.attributes.x != undefined) {
+				orig_save(e, "x");
+				e.attributes.x.value = 10;
+			}
+			if (e.attributes.width != undefined) {
+				orig_save(e, "width");
+				e.attributes.width.value = parseInt(svg.width.baseVal.value) - (10 * 2);
+			}
+		}
+		if (e.childNodes == undefined) return;
+		for (var i = 0, c = e.childNodes; i < c.length; i++) {
+			zoom_parent(c[i]);
+		}
+	}
+	function zoom(node) {
+		var attr = find_child(node, "rect").attributes;
+		var width = parseFloat(attr.width.value);
+		var xmin = parseFloat(attr.x.value);
+		var xmax = parseFloat(xmin + width);
+		var ymin = parseFloat(attr.y.value);
+		var ratio = (svg.width.baseVal.value - 2 * 10) / width;
+
+		// XXX: Workaround for JavaScript float issues (fix me)
+		var fudge = 0.0001;
+
+		unzoombtn.classList.remove("hide");
+
+		var el = document.getElementById("frames").children;
+		for (var i = 0; i < el.length; i++) {
+			var e = el[i];
+			var a = find_child(e, "rect").attributes;
+			var ex = parseFloat(a.x.value);
+			var ew = parseFloat(a.width.value);
+			var upstack;
+			// Is it an ancestor
+			if (0 == 0) {
+				upstack = parseFloat(a.y.value) > ymin;
+			} else {
+				upstack = parseFloat(a.y.value) < ymin;
+			}
+			if (upstack) {
+				// Direct ancestor
+				if (ex <= xmin && (ex+ew+fudge) >= xmax) {
+					e.classList.add("parent");
+					zoom_parent(e);
+					update_text(e);
+				}
+				// not in current path
+				else
+					e.classList.add("hide");
+			}
+			// Children maybe
+			else {
+				// no common path
+				if (ex < xmin || ex + fudge >= xmax) {
+					e.classList.add("hide");
+				}
+				else {
+					zoom_child(e, xmin, ratio);
+					update_text(e);
+				}
+			}
+		}
+		search();
+	}
+	function unzoom(dont_update_text) {
+		unzoombtn.classList.add("hide");
+		var el = document.getElementById("frames").children;
+		for(var i = 0; i < el.length; i++) {
+			el[i].classList.remove("parent");
+			el[i].classList.remove("hide");
+			zoom_reset(el[i]);
+			if(!dont_update_text) update_text(el[i]);
+		}
+		search();
+	}
+	function clearzoom() {
+		unzoom();
+
+		// remove zoom state
+		var params = get_params();
+		if (params.x) delete params.x;
+		if (params.y) delete params.y;
+		history.replaceState(null, null, parse_params(params));
+	}
+
+	// search
+	function toggle_ignorecase() {
+		ignorecase = !ignorecase;
+		if (ignorecase) {
+			ignorecaseBtn.classList.add("show");
+		} else {
+			ignorecaseBtn.classList.remove("show");
+		}
+		reset_search();
+		search();
+	}
+	function reset_search() {
+		var el = document.querySelectorAll("#frames rect");
+		for (var i = 0; i < el.length; i++) {
+			orig_load(el[i], "fill")
+		}
+		var params = get_params();
+		delete params.s;
+		history.replaceState(null, null, parse_params(params));
+	}
+	function search_prompt() {
+		if (!searching) {
+			var term = prompt("Enter a search term (regexp " +
+			    "allowed, eg: ^ext4_)"
+			    + (ignorecase ? ", ignoring case" : "")
+			    + "\nPress Ctrl-i to toggle case sensitivity", "");
+			if (term != null) search(term);
+		} else {
+			reset_search();
+			searching = 0;
+			currentSearchTerm = null;
+			searchbtn.classList.remove("show");
+			searchbtn.firstChild.nodeValue = "Search"
+			matchedtxt.classList.add("hide");
+			matchedtxt.firstChild.nodeValue = ""
+		}
+	}
+	function search(term) {
+		if (term) currentSearchTerm = term;
+
+		var re = new RegExp(currentSearchTerm, ignorecase ? 'i' : '');
+		var el = document.getElementById("frames").children;
+		var matches = new Object();
+		var maxwidth = 0;
+		for (var i = 0; i < el.length; i++) {
+			var e = el[i];
+			var func = g_to_func(e);
+			var rect = find_child(e, "rect");
+			if (func == null || rect == null)
+				continue;
+
+			// Save max width. Only works as we have a root frame
+			var w = parseFloat(rect.attributes.width.value);
+			if (w > maxwidth)
+				maxwidth = w;
+
+			if (func.match(re)) {
+				// highlight
+				var x = parseFloat(rect.attributes.x.value);
+				orig_save(rect, "fill");
+				rect.attributes.fill.value = "rgb(230,0,230)";
+
+				// remember matches
+				if (matches[x] == undefined) {
+					matches[x] = w;
+				} else {
+					if (w > matches[x]) {
+						// overwrite with parent
+						matches[x] = w;
+					}
+				}
+				searching = 1;
+			}
+		}
+		if (!searching)
+			return;
+		var params = get_params();
+		params.s = currentSearchTerm;
+		history.replaceState(null, null, parse_params(params));
+
+		searchbtn.classList.add("show");
+		searchbtn.firstChild.nodeValue = "Reset Search";
+
+		// calculate percent matched, excluding vertical overlap
+		var count = 0;
+		var lastx = -1;
+		var lastw = 0;
+		var keys = Array();
+		for (k in matches) {
+			if (matches.hasOwnProperty(k))
+				keys.push(k);
+		}
+		// sort the matched frames by their x location
+		// ascending, then width descending
+		keys.sort(function(a, b){
+			return a - b;
+		});
+		// Step through frames saving only the biggest bottom-up frames
+		// thanks to the sort order. This relies on the tree property
+		// where children are always smaller than their parents.
+		var fudge = 0.0001;	// JavaScript floating point
+		for (var k in keys) {
+			var x = parseFloat(keys[k]);
+			var w = matches[keys[k]];
+			if (x >= lastx + lastw - fudge) {
+				count += w;
+				lastx = x;
+				lastw = w;
+			}
+		}
+		// display matched percent
+		matchedtxt.classList.remove("hide");
+		var pct = 100 * count / maxwidth;
+		if (pct != 100) pct = pct.toFixed(1)
+		matchedtxt.firstChild.nodeValue = "Matched: " + pct + "%";
+	}
+]]>
+</script>
+<rect x="0.0" y="0" width="1200.0" height="422.0" fill="url(#background)"  />
+<text id="title" style="font-size:xx-small" x="600.00" y="24" >allocations (s4 -p --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log)</text>
+<text id="details" x="10.00" y="405" > </text>
+<text id="unzoom" x="10.00" y="24" class="hide">Reset Zoom</text>
+<text id="search" x="1090.00" y="24" >Search</text>
+<text id="ignorecase" x="1174.00" y="24" >ic</text>
+<text id="matched" x="1090.00" y="405" > </text>
+<g id="frames">
+<g >
+<title>alloc::collections::btree::map::BTreeMap$LT$K$C$V$C$A$GT$::insert::hd584aa318d1e4b99 (entry.rs) (8,160 allocations, 0.26%)</title><rect x="110.7" y="165" width="3.0" height="15.0" fill="rgb(244,180,43)" rx="2" ry="2" />
+<text  x="113.69" y="175.5" ></text>
+</g>
+<g >
+<title>all (3,179,285 allocations, 100%)</title><rect x="10.0" y="373" width="1180.0" height="15.0" fill="rgb(213,39,9)" rx="2" ry="2" />
+<text  x="13.00" y="383.5" ></text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Leaf$GT$$C$alloc..collections..btree..node..marker..Edge$GT$::insert_recursing::h85f54a1f6f8b900c (alloc.rs) (280 allocations, 0.01%)</title><rect x="10.3" y="181" width="0.1" height="15.0" fill="rgb(238,152,36)" rx="2" ry="2" />
+<text  x="13.29" y="191.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_78::h59356f087f94b1d6 (ere_datetimes_impl.rs) (300 allocations, 0.01%)</title><rect x="27.8" y="165" width="0.1" height="15.0" fill="rgb(245,185,44)" rx="2" ry="2" />
+<text  x="30.75" y="175.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_46::hc6b9b9701c333528 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="11.9" y="165" width="1.2" height="15.0" fill="rgb(224,89,21)" rx="2" ry="2" />
+<text  x="14.94" y="175.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::find_sysline_year::hbd2bd4011b57db04 (syslinereader.rs) (3,025,080 allocations, 95.15%)</title><rect x="48.4" y="197" width="1122.7" height="15.0" fill="rgb(210,23,5)" rx="2" ry="2" />
+<text  x="51.38" y="207.5" >s4lib::readers::syslinereader::SyslineReader::find_sysline_year::hbd2bd4011b57db04 (syslinereader.rs)</text>
+</g>
+<g >
+<title>chardet::detect::h7e7533e2f19369b5 (lib.rs) (2,470 allocations, 0.08%)</title><rect x="28.8" y="197" width="1.0" height="15.0" fill="rgb(210,27,6)" rx="2" ry="2" />
+<text  x="31.84" y="207.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::filepreprocessor::detect_filetype_text_encoding::h826bb4660d7fda9c (filepreprocessor.rs) (2,470 allocations, 0.08%)</title><rect x="28.8" y="213" width="1.0" height="15.0" fill="rgb(236,145,34)" rx="2" ry="2" />
+<text  x="31.84" y="223.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_47::ere_match_struct_47::ENGINE_BYTES::exec::transition_epsilons_exec::ha1309304313209e0 (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="13.1" y="149" width="1.1" height="15.0" fill="rgb(239,158,37)" rx="2" ry="2" />
+<text  x="16.07" y="159.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::linereader::LineReader::find_line::h8e1abb9b326e1151 (linereader.rs) (67,880 allocations, 2.14%)</title><rect x="66.9" y="181" width="25.2" height="15.0" fill="rgb(235,142,34)" rx="2" ry="2" />
+<text  x="69.94" y="191.5" >s..</text>
+</g>
+<g >
+<title>s4::s4::exec_fileprocessor_thread::h622b08d6adfe59f2 (syslogprocessor.rs) (3,075,070 allocations, 96.72%)</title><rect x="29.8" y="245" width="1141.3" height="15.0" fill="rgb(227,104,25)" rx="2" ry="2" />
+<text  x="32.83" y="255.5" >s4::s4::exec_fileprocessor_thread::h622b08d6adfe59f2 (syslogprocessor.rs)</text>
+</g>
+<g >
+<title>s4::s4::exec_fileprocessor_thread::h622b08d6adfe59f2 (s4.rs) (53,415 allocations, 1.68%)</title><rect x="10.0" y="245" width="19.8" height="15.0" fill="rgb(254,228,54)" rx="2" ry="2" />
+<text  x="13.00" y="255.5" ></text>
+</g>
+<g >
+<title>__clone3 (clone3.S) (3,128,529 allocations, 98.40%)</title><rect x="10.0" y="357" width="1161.2" height="15.0" fill="rgb(229,112,26)" rx="2" ry="2" />
+<text  x="13.00" y="367.5" >__clone3 (clone3.S)</text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Leaf$GT$$C$alloc..collections..btree..node..marker..Edge$GT$::insert_recursing::h13bbd6a4be78d526 (node.rs) (1,150 allocations, 0.04%)</title><rect x="91.7" y="133" width="0.4" height="15.0" fill="rgb(232,125,29)" rx="2" ry="2" />
+<text  x="94.71" y="143.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::insert_sysline::h3fcdbc5cf3d941c3 (alloc.rs) (49,990 allocations, 1.57%)</title><rect x="92.1" y="181" width="18.6" height="15.0" fill="rgb(236,144,34)" rx="2" ry="2" />
+<text  x="95.13" y="191.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_75::h0169d21015f7ef6c (ere_datetimes_impl.rs) (280 allocations, 0.01%)</title><rect x="27.4" y="165" width="0.1" height="15.0" fill="rgb(227,102,24)" rx="2" ry="2" />
+<text  x="30.43" y="175.5" ></text>
+</g>
+<g >
+<title>chardet::charsetprober::filter_international_words::h9e116e8c7bc3efdb (mod.rs) (1,540 allocations, 0.05%)</title><rect x="29.2" y="149" width="0.5" height="15.0" fill="rgb(220,71,17)" rx="2" ry="2" />
+<text  x="32.16" y="159.5" ></text>
+</g>
+<g >
+<title>chardet::charsetprober::filter_international_words::h9e116e8c7bc3efdb (mod.rs) (280 allocations, 0.01%)</title><rect x="29.0" y="133" width="0.1" height="15.0" fill="rgb(220,71,17)" rx="2" ry="2" />
+<text  x="31.96" y="143.5" ></text>
+</g>
+<g >
+<title>s4lib::data::line::Line::get_boxptrs::hcb06129e5dc81789 (alloc.rs) (50,050 allocations, 1.57%)</title><rect x="1152.6" y="165" width="18.5" height="15.0" fill="rgb(210,27,6)" rx="2" ry="2" />
+<text  x="1155.57" y="175.5" ></text>
+</g>
+<g >
+<title>s4::s4::main::h7017052a0e9f3d98 (command.rs) (279 allocations, 0.01%)</title><rect x="1171.2" y="165" width="0.1" height="15.0" fill="rgb(227,104,24)" rx="2" ry="2" />
+<text  x="1174.16" y="175.5" ></text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Leaf$GT$$C$alloc..collections..btree..node..marker..Edge$GT$::insert_recursing::h4ace0f9c790ef2b0 (node.rs) (1,010 allocations, 0.03%)</title><rect x="113.3" y="149" width="0.4" height="15.0" fill="rgb(222,78,18)" rx="2" ry="2" />
+<text  x="116.34" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_53::h681869f61370609f (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="19.9" y="165" width="1.1" height="15.0" fill="rgb(254,226,54)" rx="2" ry="2" />
+<text  x="22.86" y="175.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_52::hd24ba5a1ef675fd6 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="18.7" y="165" width="1.2" height="15.0" fill="rgb(210,23,5)" rx="2" ry="2" />
+<text  x="21.73" y="175.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached::h08a31467f192bb60 (syslinereader.rs) (49,443 allocations, 1.56%)</title><rect x="10.5" y="197" width="18.3" height="15.0" fill="rgb(225,94,22)" rx="2" ry="2" />
+<text  x="13.47" y="207.5" ></text>
+</g>
+<g >
+<title>main (50,755 allocations, 1.60%)</title><rect x="1171.2" y="357" width="18.8" height="15.0" fill="rgb(243,179,42)" rx="2" ry="2" />
+<text  x="1174.16" y="367.5" ></text>
+</g>
+<g >
+<title>_$LT$alloc..boxed..Box$LT$F$C$A$GT$$u20$as$u20$core..ops..function..FnOnce$LT$Args$GT$$GT$::call_once::he4962534b56a5929 (boxed.rs) (3,128,496 allocations, 98.40%)</title><rect x="10.0" y="325" width="1161.1" height="15.0" fill="rgb(241,166,39)" rx="2" ry="2" />
+<text  x="13.00" y="335.5" >_$LT$alloc..boxed..Box$LT$F$C$A$GT$$u20$as$u20$core..ops..function..FnOnce$LT$Args$GT$$GT$::call_once::he4962534b56a5929 (boxed.rs)</text>
+</g>
+<g >
+<title>std::sys::backtrace::__rust_begin_short_backtrace::hc569d19e31810f67 (s4.rs) (3,128,485 allocations, 98.40%)</title><rect x="10.0" y="261" width="1161.1" height="15.0" fill="rgb(224,88,21)" rx="2" ry="2" />
+<text  x="13.00" y="271.5" >std::sys::backtrace::__rust_begin_short_backtrace::hc569d19e31810f67 (s4.rs)</text>
+</g>
+<g >
+<title>alloc::collections::btree::map::BTreeMap$LT$K$C$V$C$A$GT$::insert::he5485642ed6f2dc5 (entry.rs) (8,320 allocations, 0.26%)</title><rect x="89.0" y="149" width="3.1" height="15.0" fill="rgb(211,31,7)" rx="2" ry="2" />
+<text  x="92.05" y="159.5" ></text>
+</g>
+<g >
+<title>crossbeam_channel::select::Select::new::he756f9c33a1c4be8 (alloc.rs) (50,030 allocations, 1.57%)</title><rect x="1171.4" y="133" width="18.6" height="15.0" fill="rgb(207,10,2)" rx="2" ry="2" />
+<text  x="1174.38" y="143.5" ></text>
+</g>
+<g >
+<title>std::sys::pal::unix::thread::Thread::new::thread_start::h1822d22fde68314f (thread.rs) (3,128,496 allocations, 98.40%)</title><rect x="10.0" y="293" width="1161.1" height="15.0" fill="rgb(218,61,14)" rx="2" ry="2" />
+<text  x="13.00" y="303.5" >std::sys::pal::unix::thread::Thread::new::thread_start::h1822d22fde68314f (thread.rs)</text>
+</g>
+<g >
+<title>alloc::raw_vec::RawVec$LT$T$C$A$GT$::grow_one::h315e2539f430df80 (mod.rs) (1,540 allocations, 0.05%)</title><rect x="29.2" y="101" width="0.5" height="15.0" fill="rgb(248,198,47)" rx="2" ry="2" />
+<text  x="32.16" y="111.5" ></text>
+</g>
+<g >
+<title>_ZN5alloc7raw_vec11finish_grow17hb9a13c8e90a5a1d2E.llvm.8269110703325880891 (alloc.rs) (49,980 allocations, 1.57%)</title><rect x="1096.9" y="101" width="18.6" height="15.0" fill="rgb(231,122,29)" rx="2" ry="2" />
+<text  x="1099.92" y="111.5" ></text>
+</g>
+<g >
+<title>alloc::raw_vec::RawVecInner$LT$A$GT$::grow_one::h4ff528d1a8fa52e4 (mod.rs) (280 allocations, 0.01%)</title><rect x="29.0" y="101" width="0.1" height="15.0" fill="rgb(251,211,50)" rx="2" ry="2" />
+<text  x="31.96" y="111.5" ></text>
+</g>
+<g >
+<title>alloc::alloc::Global::grow_impl::he86678333de25c05 (alloc.rs) (1,430 allocations, 0.04%)</title><rect x="29.2" y="69" width="0.5" height="15.0" fill="rgb(243,178,42)" rx="2" ry="2" />
+<text  x="32.16" y="79.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_52::ere_match_struct_52::ENGINE_BYTES::exec::transition_epsilons_exec::h24006c9c46a2f455 (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="18.7" y="149" width="1.1" height="15.0" fill="rgb(217,58,13)" rx="2" ry="2" />
+<text  x="21.73" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_25::ere_match_struct_25::ENGINE_BYTES::exec::transition_epsilons_exec::ha281646c70fbc949 (alloc.rs) (1,410 allocations, 0.04%)</title><rect x="10.7" y="149" width="0.6" height="15.0" fill="rgb(236,145,34)" rx="2" ry="2" />
+<text  x="13.73" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_45::hbec3290c0d3b651e (ere_datetimes_impl.rs) (340 allocations, 0.01%)</title><rect x="11.8" y="165" width="0.1" height="15.0" fill="rgb(234,136,32)" rx="2" ry="2" />
+<text  x="14.81" y="175.5" ></text>
+</g>
+<g >
+<title>s4::s4::main::h7017052a0e9f3d98 (s4.rs) (50,465 allocations, 1.59%)</title><rect x="1171.3" y="165" width="18.7" height="15.0" fill="rgb(246,192,46)" rx="2" ry="2" />
+<text  x="1174.27" y="175.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_53::ere_match_struct_53::ENGINE_BYTES::exec::transition_epsilons_exec::h36c127d7b8881605 (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="19.9" y="149" width="1.1" height="15.0" fill="rgb(243,178,42)" rx="2" ry="2" />
+<text  x="22.86" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_55::ere_match_struct_55::ENGINE_BYTES::exec::transition_epsilons_exec::h99e9682222316407 (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="22.1" y="149" width="1.1" height="15.0" fill="rgb(212,33,7)" rx="2" ry="2" />
+<text  x="25.11" y="159.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslogprocessor::SyslogProcessor::process_stage1_blockzero_analysis::hfa0496e736b82396 (syslinereader.rs) (49,563 allocations, 1.56%)</title><rect x="10.4" y="229" width="18.4" height="15.0" fill="rgb(225,92,22)" rx="2" ry="2" />
+<text  x="13.43" y="239.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_79::hafdb405c2967aadb (ere_datetimes_impl.rs) (2,648,940 allocations, 83.32%)</title><rect x="150.9" y="149" width="983.1" height="15.0" fill="rgb(243,177,42)" rx="2" ry="2" />
+<text  x="153.86" y="159.5" >super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_79::hafdb405c2967aadb (ere_datetimes_impl.rs)</text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_77::h0479527a70ebd3b0 (ere_datetimes_impl.rs) (270 allocations, 0.01%)</title><rect x="27.6" y="165" width="0.1" height="15.0" fill="rgb(240,162,38)" rx="2" ry="2" />
+<text  x="30.65" y="175.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_51::he34fc5712081d748 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="17.6" y="165" width="1.1" height="15.0" fill="rgb(237,149,35)" rx="2" ry="2" />
+<text  x="20.60" y="175.5" ></text>
+</g>
+<g >
+<title>core::ops::function::impls::_$LT$impl$u20$core..ops..function..FnOnce$LT$A$GT$$u20$for$u20$$RF$F$GT$::call_once::hb4b7cf0559a1a53b (function.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="341" width="18.8" height="15.0" fill="rgb(236,146,35)" rx="2" ry="2" />
+<text  x="1174.16" y="351.5" ></text>
+</g>
+<g >
+<title>s4lib::data::line::Line::prepend::h3cedfc076a37a2ee (mod.rs) (330 allocations, 0.01%)</title><rect x="67.0" y="165" width="0.1" height="15.0" fill="rgb(222,82,19)" rx="2" ry="2" />
+<text  x="69.96" y="175.5" ></text>
+</g>
+<g >
+<title>alloc::raw_vec::RawVecInner$LT$A$GT$::grow_amortized::h0507b9acd3c5f582 (mod.rs) (1,540 allocations, 0.05%)</title><rect x="29.2" y="133" width="0.5" height="15.0" fill="rgb(225,92,22)" rx="2" ry="2" />
+<text  x="32.16" y="143.5" ></text>
+</g>
+<g >
+<title>std::panic::catch_unwind::h108064a50ee785ec (panic.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="229" width="18.8" height="15.0" fill="rgb(212,36,8)" rx="2" ry="2" />
+<text  x="1174.16" y="239.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_79::hafdb405c2967aadb (ere_datetimes_impl.rs) (1,590 allocations, 0.05%)</title><rect x="27.9" y="165" width="0.6" height="15.0" fill="rgb(243,177,42)" rx="2" ry="2" />
+<text  x="30.88" y="175.5" ></text>
+</g>
+<g >
+<title>alloc::raw_vec::RawVecInner$LT$A$GT$::grow_one::h4ff528d1a8fa52e4 (mod.rs) (1,540 allocations, 0.05%)</title><rect x="29.2" y="117" width="0.5" height="15.0" fill="rgb(251,211,50)" rx="2" ry="2" />
+<text  x="32.16" y="127.5" ></text>
+</g>
+<g >
+<title>chardet::UniversalDetector::feed::h2dda5763cf33acc3 (alloc.rs) (310 allocations, 0.01%)</title><rect x="28.8" y="181" width="0.2" height="15.0" fill="rgb(224,90,21)" rx="2" ry="2" />
+<text  x="31.84" y="191.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::drop_data::hb5b5dd09cad5fd85 (alloc.rs) (620 allocations, 0.02%)</title><rect x="10.0" y="213" width="0.2" height="15.0" fill="rgb(208,18,4)" rx="2" ry="2" />
+<text  x="13.02" y="223.5" ></text>
+</g>
+<g >
+<title>chardet::UniversalDetector::feed::h2dda5763cf33acc3 (lib.rs) (2,120 allocations, 0.07%)</title><rect x="29.0" y="181" width="0.7" height="15.0" fill="rgb(244,179,43)" rx="2" ry="2" />
+<text  x="31.96" y="191.5" ></text>
+</g>
+<g >
+<title>lru::LruCache$LT$K$C$V$C$S$GT$::put::h310cdcdaa45b5628 (alloc.rs) (330 allocations, 0.01%)</title><rect x="67.3" y="133" width="0.1" height="15.0" fill="rgb(228,110,26)" rx="2" ry="2" />
+<text  x="70.33" y="143.5" ></text>
+</g>
+<g >
+<title>_$LT$chardet..hebrewprober..HebrewProber$u20$as$u20$chardet..charsetprober..CharsetProber$GT$::feed::h46416083153190b7 (hebrewprober.rs) (280 allocations, 0.01%)</title><rect x="29.0" y="165" width="0.1" height="15.0" fill="rgb(239,158,37)" rx="2" ry="2" />
+<text  x="31.96" y="175.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_51::ere_match_struct_51::ENGINE_BYTES::exec::transition_epsilons_exec::ha1990c2cac3ba88c (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="17.6" y="149" width="1.1" height="15.0" fill="rgb(209,21,5)" rx="2" ry="2" />
+<text  x="20.60" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_49::ere_match_struct_49::ENGINE_BYTES::exec::transition_epsilons_exec::h2017a6b5441fcc1e (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="15.3" y="149" width="1.1" height="15.0" fill="rgb(228,106,25)" rx="2" ry="2" />
+<text  x="18.33" y="159.5" ></text>
+</g>
+<g >
+<title>std::rt::lang_start_internal::_$u7b$$u7b$closure$u7d$$u7d$::h40fd26f9e7cfe6a7 (rt.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="277" width="18.8" height="15.0" fill="rgb(226,97,23)" rx="2" ry="2" />
+<text  x="1174.16" y="287.5" ></text>
+</g>
+<g >
+<title>_$LT$chardet..sbcharsetprober..SingleByteCharsetProber$u20$as$u20$chardet..charsetprober..CharsetProber$GT$::feed::ha376c51a1de98bd3 (sbcharsetprober.rs) (1,540 allocations, 0.05%)</title><rect x="29.2" y="165" width="0.5" height="15.0" fill="rgb(244,183,43)" rx="2" ry="2" />
+<text  x="32.16" y="175.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::blockreader::BlockReader::read_block::h696e908f32a5d17e (blockreader.rs) (1,040 allocations, 0.03%)</title><rect x="67.1" y="165" width="0.4" height="15.0" fill="rgb(221,76,18)" rx="2" ry="2" />
+<text  x="70.08" y="175.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_50::h3c57181ea1c6e728 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="16.5" y="165" width="1.1" height="15.0" fill="rgb(246,191,45)" rx="2" ry="2" />
+<text  x="19.47" y="175.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::insert_sysline::h3fcdbc5cf3d941c3 (syslinereader.rs) (8,160 allocations, 0.26%)</title><rect x="110.7" y="181" width="3.0" height="15.0" fill="rgb(208,14,3)" rx="2" ry="2" />
+<text  x="113.69" y="191.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::find_sysline_at_datetime_filter_binary_search::h089c062e24d726fc (syslinereader.rs) (3,075,070 allocations, 96.72%)</title><rect x="29.8" y="213" width="1141.3" height="15.0" fill="rgb(229,114,27)" rx="2" ry="2" />
+<text  x="32.83" y="223.5" >s4lib::readers::syslinereader::SyslineReader::find_sysline_at_datetime_filter_binary_search::h089c062e24d726fc (syslinereader.rs)</text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_79::hafdb405c2967aadb (alloc.rs) (49,980 allocations, 1.57%)</title><rect x="132.3" y="149" width="18.6" height="15.0" fill="rgb(238,155,37)" rx="2" ry="2" />
+<text  x="135.31" y="159.5" ></text>
+</g>
+<g >
+<title>core::ops::function::FnOnce::call_once$u7b$$u7b$vtable.shim$u7d$$u7d$::h5b9982a5809b670c (mod.rs) (3,128,495 allocations, 98.40%)</title><rect x="10.0" y="277" width="1161.1" height="15.0" fill="rgb(230,118,28)" rx="2" ry="2" />
+<text  x="13.00" y="287.5" >core::ops::function::FnOnce::call_once$u7b$$u7b$vtable.shim$u7d$$u7d$::h5b9982a5809b670c (mod.rs)</text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_79::ere_match_struct_79::ENGINE_BYTES::exec::transition_epsilons_exec::h00c7c7fe63a07a5c (alloc.rs) (2,548,980 allocations, 80.17%)</title><rect x="150.9" y="133" width="946.0" height="15.0" fill="rgb(240,163,39)" rx="2" ry="2" />
+<text  x="153.86" y="143.5" >super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_79::ere_match_struct_79::ENGINE_BYTES::exec::tr..</text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Leaf$GT$$C$alloc..collections..btree..node..marker..Edge$GT$::insert_recursing::h13bbd6a4be78d526 (alloc.rs) (7,170 allocations, 0.23%)</title><rect x="89.0" y="133" width="2.7" height="15.0" fill="rgb(229,113,27)" rx="2" ry="2" />
+<text  x="92.05" y="143.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::blockreader::BlockReader::read_block_File::h9beef756e581ba9b (alloc.rs) (660 allocations, 0.02%)</title><rect x="67.1" y="149" width="0.2" height="15.0" fill="rgb(241,165,39)" rx="2" ry="2" />
+<text  x="70.08" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_59::hd17b1f3965e213c6 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="25.5" y="165" width="1.2" height="15.0" fill="rgb(251,213,51)" rx="2" ry="2" />
+<text  x="28.53" y="175.5" ></text>
+</g>
+<g >
+<title>alloc::raw_vec::RawVec$LT$T$C$A$GT$::grow_one::h98c8c575560631b7 (mod.rs) (330 allocations, 0.01%)</title><rect x="67.0" y="149" width="0.1" height="15.0" fill="rgb(217,58,14)" rx="2" ry="2" />
+<text  x="69.96" y="159.5" ></text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Leaf$GT$$C$alloc..collections..btree..node..marker..Edge$GT$::insert_recursing::h4ace0f9c790ef2b0 (alloc.rs) (7,150 allocations, 0.22%)</title><rect x="110.7" y="149" width="2.6" height="15.0" fill="rgb(219,67,16)" rx="2" ry="2" />
+<text  x="113.69" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_45::ere_match_struct_45::ENGINE_BYTES::exec::transition_epsilons_exec::ha4bbaaec4cb83c99 (alloc.rs) (310 allocations, 0.01%)</title><rect x="11.8" y="149" width="0.1" height="15.0" fill="rgb(231,121,29)" rx="2" ry="2" />
+<text  x="14.81" y="159.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::new::heae453f0c1273c6d (syslinereader.rs) (380 allocations, 0.01%)</title><rect x="10.3" y="213" width="0.1" height="15.0" fill="rgb(212,34,8)" rx="2" ry="2" />
+<text  x="13.29" y="223.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_55::hbd6a6a579e20fe95 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="22.1" y="165" width="1.1" height="15.0" fill="rgb(249,202,48)" rx="2" ry="2" />
+<text  x="25.11" y="175.5" ></text>
+</g>
+<g >
+<title>_ZN5alloc7raw_vec11finish_grow17hb9a13c8e90a5a1d2E.llvm.8269110703325880891 (mod.rs) (49,980 allocations, 1.57%)</title><rect x="1134.0" y="117" width="18.6" height="15.0" fill="rgb(242,174,41)" rx="2" ry="2" />
+<text  x="1137.02" y="127.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_79::hafdb405c2967aadb (mod.rs) (49,980 allocations, 1.57%)</title><rect x="1134.0" y="149" width="18.6" height="15.0" fill="rgb(250,207,49)" rx="2" ry="2" />
+<text  x="1137.02" y="159.5" ></text>
+</g>
+<g >
+<title>s4lib::data::datetime::bytes_to_regex_to_datetime::hca3cb289e0826679 (datetime.rs) (48,573 allocations, 1.53%)</title><rect x="10.5" y="181" width="18.0" height="15.0" fill="rgb(207,10,2)" rx="2" ry="2" />
+<text  x="13.49" y="191.5" ></text>
+</g>
+<g >
+<title>_$LT$chardet..sbcharsetprober..SingleByteCharsetProber$u20$as$u20$chardet..charsetprober..CharsetProber$GT$::feed::ha376c51a1de98bd3 (sbcharsetprober.rs) (280 allocations, 0.01%)</title><rect x="29.0" y="149" width="0.1" height="15.0" fill="rgb(244,183,43)" rx="2" ry="2" />
+<text  x="31.96" y="159.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslogprocessor::SyslogProcessor::drop_data_try::h86a7c4bd00855f6e (syslogprocessor.rs) (620 allocations, 0.02%)</title><rect x="10.0" y="229" width="0.2" height="15.0" fill="rgb(213,39,9)" rx="2" ry="2" />
+<text  x="13.02" y="239.5" ></text>
+</g>
+<g >
+<title>alloc::raw_vec::RawVec$LT$T$C$A$GT$::grow_one::h315e2539f430df80 (mod.rs) (280 allocations, 0.01%)</title><rect x="29.0" y="85" width="0.1" height="15.0" fill="rgb(248,198,47)" rx="2" ry="2" />
+<text  x="31.96" y="95.5" ></text>
+</g>
+<g >
+<title>alloc::alloc::realloc::hc06f7ffb897e5b90 (alloc.rs) (1,430 allocations, 0.04%)</title><rect x="29.2" y="85" width="0.5" height="15.0" fill="rgb(229,111,26)" rx="2" ry="2" />
+<text  x="32.16" y="95.5" ></text>
+</g>
+<g >
+<title>alloc::collections::btree::map::BTreeMap$LT$K$C$V$C$A$GT$::insert::hf16628c156eb4ff7 (entry.rs) (310 allocations, 0.01%)</title><rect x="10.3" y="197" width="0.1" height="15.0" fill="rgb(211,31,7)" rx="2" ry="2" />
+<text  x="13.29" y="207.5" ></text>
+</g>
+<g >
+<title>_$LT$alloc..boxed..Box$LT$F$C$A$GT$$u20$as$u20$core..ops..function..FnOnce$LT$Args$GT$$GT$::call_once::h95af12d5a868b9d0 (boxed.rs) (3,128,496 allocations, 98.40%)</title><rect x="10.0" y="309" width="1161.1" height="15.0" fill="rgb(249,205,49)" rx="2" ry="2" />
+<text  x="13.00" y="319.5" >_$LT$alloc..boxed..Box$LT$F$C$A$GT$$u20$as$u20$core..ops..function..FnOnce$LT$Args$GT$$GT$::call_once::h95af12d5a868b9d0 (boxed.rs)</text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_49::h86525913e6ee9b93 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="15.3" y="165" width="1.2" height="15.0" fill="rgb(245,185,44)" rx="2" ry="2" />
+<text  x="18.33" y="175.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_54::ere_match_struct_54::ENGINE_BYTES::exec::transition_epsilons_exec::h7a9b5e1f9ecf217b (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="21.0" y="149" width="1.1" height="15.0" fill="rgb(230,117,28)" rx="2" ry="2" />
+<text  x="23.98" y="159.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached::h08a31467f192bb60 (syslinereader.rs) (2,799,000 allocations, 88.04%)</title><rect x="132.3" y="181" width="1038.8" height="15.0" fill="rgb(225,94,22)" rx="2" ry="2" />
+<text  x="135.29" y="191.5" >s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached::h08a31467f192bb60 (syslinereader.rs)</text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_59::ere_match_struct_59::ENGINE_BYTES::exec::transition_epsilons_exec::h71fb211746a557f6 (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="25.5" y="149" width="1.2" height="15.0" fill="rgb(232,124,29)" rx="2" ry="2" />
+<text  x="28.53" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_25::h11f00904f7198df1 (ere_datetimes_impl.rs) (1,440 allocations, 0.05%)</title><rect x="10.7" y="165" width="0.6" height="15.0" fill="rgb(213,37,9)" rx="2" ry="2" />
+<text  x="13.73" y="175.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslogprocessor::SyslogProcessor::new::h8c953f404027dc62 (syslogprocessor.rs) (480 allocations, 0.02%)</title><rect x="10.2" y="229" width="0.2" height="15.0" fill="rgb(244,180,43)" rx="2" ry="2" />
+<text  x="13.25" y="239.5" ></text>
+</g>
+<g >
+<title>alloc::collections::btree::map::BTreeMap$LT$K$C$V$C$A$GT$::insert::h25e0a6d79dcb70a6 (entry.rs) (8,160 allocations, 0.26%)</title><rect x="86.0" y="149" width="3.0" height="15.0" fill="rgb(229,111,26)" rx="2" ry="2" />
+<text  x="89.02" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_48::ere_match_struct_48::ENGINE_BYTES::exec::transition_epsilons_exec::h81affb5629cf118c (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="14.2" y="149" width="1.1" height="15.0" fill="rgb(221,74,17)" rx="2" ry="2" />
+<text  x="17.20" y="159.5" ></text>
+</g>
+<g >
+<title>s4lib::data::datetime::bytes_to_regex_to_datetime::hca3cb289e0826679 (datetime.rs) (2,748,900 allocations, 86.46%)</title><rect x="132.3" y="165" width="1020.3" height="15.0" fill="rgb(207,10,2)" rx="2" ry="2" />
+<text  x="135.31" y="175.5" >s4lib::data::datetime::bytes_to_regex_to_datetime::hca3cb289e0826679 (datetime.rs)</text>
+</g>
+<g >
+<title>_ZN5alloc7raw_vec11finish_grow17hb9a13c8e90a5a1d2E.llvm.8269110703325880891 (mod.rs) (49,980 allocations, 1.57%)</title><rect x="1115.5" y="101" width="18.5" height="15.0" fill="rgb(242,174,41)" rx="2" ry="2" />
+<text  x="1118.47" y="111.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_57::ha7f3a088351197c8 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="24.4" y="165" width="1.1" height="15.0" fill="rgb(229,111,26)" rx="2" ry="2" />
+<text  x="27.37" y="175.5" ></text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Leaf$GT$$C$alloc..collections..btree..node..marker..Edge$GT$::insert_recursing::h4ace0f9c790ef2b0 (node.rs) (1,010 allocations, 0.03%)</title><rect x="88.7" y="133" width="0.3" height="15.0" fill="rgb(222,78,18)" rx="2" ry="2" />
+<text  x="91.67" y="143.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached::h08a31467f192bb60 (alloc.rs) (50,050 allocations, 1.57%)</title><rect x="113.7" y="181" width="18.6" height="15.0" fill="rgb(253,223,53)" rx="2" ry="2" />
+<text  x="116.72" y="191.5" ></text>
+</g>
+<g >
+<title>_ZN5alloc7raw_vec11finish_grow17h46968988520b64d4E.llvm.14093248886744012622 (alloc.rs) (330 allocations, 0.01%)</title><rect x="67.0" y="133" width="0.1" height="15.0" fill="rgb(228,106,25)" rx="2" ry="2" />
+<text  x="69.96" y="143.5" ></text>
+</g>
+<g >
+<title>std::panic::catch_unwind::h6a5f1ccd4faaed9e (panic.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="293" width="18.8" height="15.0" fill="rgb(246,188,45)" rx="2" ry="2" />
+<text  x="1174.16" y="303.5" ></text>
+</g>
+<g >
+<title>s4lib::data::line::Line::get_boxptrs::hcb06129e5dc81789 (alloc.rs) (810 allocations, 0.03%)</title><rect x="28.5" y="181" width="0.3" height="15.0" fill="rgb(210,27,6)" rx="2" ry="2" />
+<text  x="31.52" y="191.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_57::ere_match_struct_57::ENGINE_BYTES::exec::transition_epsilons_exec::hfed4dbe4b7d615bf (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="24.4" y="149" width="1.1" height="15.0" fill="rgb(247,195,46)" rx="2" ry="2" />
+<text  x="27.37" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_56::h80c1c633729f7ba6 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="23.2" y="165" width="1.2" height="15.0" fill="rgb(251,213,51)" rx="2" ry="2" />
+<text  x="26.24" y="175.5" ></text>
+</g>
+<g >
+<title>std::panicking::try::hc44a0c902e55fa8c (panicking.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="309" width="18.8" height="15.0" fill="rgb(220,72,17)" rx="2" ry="2" />
+<text  x="1174.16" y="319.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_56::ere_match_struct_56::ENGINE_BYTES::exec::transition_epsilons_exec::h71d4b8aaae4ddb84 (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="23.2" y="149" width="1.2" height="15.0" fill="rgb(215,49,11)" rx="2" ry="2" />
+<text  x="26.24" y="159.5" ></text>
+</g>
+<g >
+<title>alloc::raw_vec::RawVec$LT$T$C$A$GT$::grow_one::h7ade3041b7f0eb3c (mod.rs) (49,980 allocations, 1.57%)</title><rect x="1134.0" y="133" width="18.6" height="15.0" fill="rgb(228,109,26)" rx="2" ry="2" />
+<text  x="1137.02" y="143.5" ></text>
+</g>
+<g >
+<title>alloc::raw_vec::finish_grow::h61e850b4706b9540 (mod.rs) (1,430 allocations, 0.04%)</title><rect x="29.2" y="37" width="0.5" height="15.0" fill="rgb(244,183,43)" rx="2" ry="2" />
+<text  x="32.16" y="47.5" ></text>
+</g>
+<g >
+<title>alloc::raw_vec::RawVecInner$LT$A$GT$::grow_amortized::h0507b9acd3c5f582 (mod.rs) (280 allocations, 0.01%)</title><rect x="29.0" y="117" width="0.1" height="15.0" fill="rgb(225,92,22)" rx="2" ry="2" />
+<text  x="31.96" y="127.5" ></text>
+</g>
+<g >
+<title>std::rt::lang_start_internal::ha8ef919ae4984948 (rt.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="213" width="18.8" height="15.0" fill="rgb(233,132,31)" rx="2" ry="2" />
+<text  x="1174.16" y="223.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::linereader::LineReader::insert_line::hb7f2e79e383ba129 (linereader.rs) (16,480 allocations, 0.52%)</title><rect x="86.0" y="165" width="6.1" height="15.0" fill="rgb(243,177,42)" rx="2" ry="2" />
+<text  x="89.02" y="175.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_79::ere_match_struct_79::ENGINE_BYTES::exec::transition_epsilons_exec::h00c7c7fe63a07a5c (alloc.rs) (1,530 allocations, 0.05%)</title><rect x="27.9" y="149" width="0.5" height="15.0" fill="rgb(240,163,39)" rx="2" ry="2" />
+<text  x="30.88" y="159.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_54::h11169c7e0684379f (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="21.0" y="165" width="1.1" height="15.0" fill="rgb(226,98,23)" rx="2" ry="2" />
+<text  x="23.98" y="175.5" ></text>
+</g>
+<g >
+<title>alloc::raw_vec::RawVec$LT$T$C$A$GT$::grow_one::h7ade3041b7f0eb3c (mod.rs) (99,960 allocations, 3.14%)</title><rect x="1096.9" y="117" width="37.1" height="15.0" fill="rgb(228,109,26)" rx="2" ry="2" />
+<text  x="1099.92" y="127.5" >all..</text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::find_sysline_between_datetime_filters::hdecf03fab374cebb (syslinereader.rs) (3,075,070 allocations, 96.72%)</title><rect x="29.8" y="229" width="1141.3" height="15.0" fill="rgb(218,61,14)" rx="2" ry="2" />
+<text  x="32.83" y="239.5" >s4lib::readers::syslinereader::SyslineReader::find_sysline_between_datetime_filters::hdecf03fab374cebb (syslinereader.rs)</text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_48::h7e6ce8db81ae7413 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="14.2" y="165" width="1.1" height="15.0" fill="rgb(205,2,0)" rx="2" ry="2" />
+<text  x="17.20" y="175.5" ></text>
+</g>
+<g >
+<title>start_thread (pthread_create.c) (3,128,529 allocations, 98.40%)</title><rect x="10.0" y="341" width="1161.2" height="15.0" fill="rgb(219,65,15)" rx="2" ry="2" />
+<text  x="13.00" y="351.5" >start_thread (pthread_create.c)</text>
+</g>
+<g >
+<title>s4lib::readers::syslogprocessor::SyslogProcessor::process_stage1_blockzero_analysis::hfa0496e736b82396 (syslogprocessor.rs) (2,630 allocations, 0.08%)</title><rect x="28.8" y="229" width="1.0" height="15.0" fill="rgb(226,97,23)" rx="2" ry="2" />
+<text  x="31.82" y="239.5" ></text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Internal$GT$$C$alloc..collections..btree..node..marker..KV$GT$::split::h30c289783e20e2c2 (alloc.rs) (1,150 allocations, 0.04%)</title><rect x="91.7" y="117" width="0.4" height="15.0" fill="rgb(212,36,8)" rx="2" ry="2" />
+<text  x="94.71" y="127.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::find_sysline_year::hbd2bd4011b57db04 (alloc.rs) (49,990 allocations, 1.57%)</title><rect x="29.8" y="197" width="18.6" height="15.0" fill="rgb(238,152,36)" rx="2" ry="2" />
+<text  x="32.83" y="207.5" ></text>
+</g>
+<g >
+<title>s4::s4::processing_loop::hf9a4c2b282d75695 (s4.rs) (50,137 allocations, 1.58%)</title><rect x="1171.4" y="149" width="18.6" height="15.0" fill="rgb(226,100,24)" rx="2" ry="2" />
+<text  x="1174.37" y="159.5" ></text>
+</g>
+<g >
+<title>std::panicking::try::do_call::h8e6004e979ada7de (panicking.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="325" width="18.8" height="15.0" fill="rgb(229,114,27)" rx="2" ry="2" />
+<text  x="1174.16" y="335.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::linereader::LineReader::insert_line::hb7f2e79e383ba129 (alloc.rs) (49,980 allocations, 1.57%)</title><rect x="67.5" y="165" width="18.5" height="15.0" fill="rgb(254,226,54)" rx="2" ry="2" />
+<text  x="70.47" y="175.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_50::ere_match_struct_50::ENGINE_BYTES::exec::transition_epsilons_exec::h324ccebe5b28543a (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="16.5" y="149" width="1.1" height="15.0" fill="rgb(232,127,30)" rx="2" ry="2" />
+<text  x="19.47" y="159.5" ></text>
+</g>
+<g >
+<title>_ZN3std2rt10lang_start28_$u7b$$u7b$closure$u7d$$u7d$17h6fa2f29be5d13997E.llvm.11792522467670585172 (rt.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="197" width="18.8" height="15.0" fill="rgb(219,67,16)" rx="2" ry="2" />
+<text  x="1174.16" y="207.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_47::hcc149ff2da8aaac4 (ere_datetimes_impl.rs) (3,030 allocations, 0.10%)</title><rect x="13.1" y="165" width="1.1" height="15.0" fill="rgb(215,49,11)" rx="2" ry="2" />
+<text  x="16.07" y="175.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::linereader::LineReader::find_line::h8e1abb9b326e1151 (alloc.rs) (49,980 allocations, 1.57%)</title><rect x="48.4" y="181" width="18.5" height="15.0" fill="rgb(246,192,45)" rx="2" ry="2" />
+<text  x="51.39" y="191.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_46::ere_match_struct_46::ENGINE_BYTES::exec::transition_epsilons_exec::hec93df3272bd39f2 (alloc.rs) (3,010 allocations, 0.09%)</title><rect x="11.9" y="149" width="1.2" height="15.0" fill="rgb(234,133,32)" rx="2" ry="2" />
+<text  x="14.94" y="159.5" ></text>
+</g>
+<g >
+<title>std::panicking::try::do_call::h047dd894cf3f6fd1 (panicking.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="261" width="18.8" height="15.0" fill="rgb(229,114,27)" rx="2" ry="2" />
+<text  x="1174.16" y="271.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::blockreader::BlockReader::read_block_File::h9beef756e581ba9b (blockreader.rs) (330 allocations, 0.01%)</title><rect x="67.3" y="149" width="0.1" height="15.0" fill="rgb(240,164,39)" rx="2" ry="2" />
+<text  x="70.33" y="159.5" ></text>
+</g>
+<g >
+<title>std::panicking::try::h921841e1eaed56ce (panicking.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="245" width="18.8" height="15.0" fill="rgb(232,124,29)" rx="2" ry="2" />
+<text  x="1174.16" y="255.5" ></text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Leaf$GT$$C$alloc..collections..btree..node..marker..Edge$GT$::insert_recursing::h4ace0f9c790ef2b0 (alloc.rs) (7,150 allocations, 0.22%)</title><rect x="86.0" y="133" width="2.7" height="15.0" fill="rgb(219,67,16)" rx="2" ry="2" />
+<text  x="89.02" y="143.5" ></text>
+</g>
+<g >
+<title>s4lib::readers::syslinereader::SyslineReader::find_sysline_in_block_year::hb7a3ae2d206ae161 (syslinereader.rs) (49,533 allocations, 1.56%)</title><rect x="10.4" y="213" width="18.4" height="15.0" fill="rgb(245,187,44)" rx="2" ry="2" />
+<text  x="13.44" y="223.5" ></text>
+</g>
+<g >
+<title>std::sys::backtrace::__rust_begin_short_backtrace::h0932206f6dc2c73e (function.rs) (50,748 allocations, 1.60%)</title><rect x="1171.2" y="181" width="18.8" height="15.0" fill="rgb(206,8,1)" rx="2" ry="2" />
+<text  x="1174.16" y="191.5" ></text>
+</g>
+<g >
+<title>_$LT$alloc..alloc..Global$u20$as$u20$core..alloc..Allocator$GT$::grow::h883a6e8c350a5376 (alloc.rs) (1,430 allocations, 0.04%)</title><rect x="29.2" y="53" width="0.5" height="15.0" fill="rgb(207,11,2)" rx="2" ry="2" />
+<text  x="32.16" y="63.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_79::ere_match_struct_79::ENGINE_BYTES::exec::transition_epsilons_exec::h00c7c7fe63a07a5c (mod.rs) (99,960 allocations, 3.14%)</title><rect x="1096.9" y="133" width="37.1" height="15.0" fill="rgb(251,215,51)" rx="2" ry="2" />
+<text  x="1099.92" y="143.5" >sup..</text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Internal$GT$$C$alloc..collections..btree..node..marker..KV$GT$::split::h153e215d156ff1c6 (alloc.rs) (1,010 allocations, 0.03%)</title><rect x="113.3" y="133" width="0.4" height="15.0" fill="rgb(215,49,11)" rx="2" ry="2" />
+<text  x="116.34" y="143.5" ></text>
+</g>
+<g >
+<title>alloc::collections::btree::node::Handle$LT$alloc..collections..btree..node..NodeRef$LT$alloc..collections..btree..node..marker..Mut$C$K$C$V$C$alloc..collections..btree..node..marker..Internal$GT$$C$alloc..collections..btree..node..marker..KV$GT$::split::h153e215d156ff1c6 (alloc.rs) (1,010 allocations, 0.03%)</title><rect x="88.7" y="117" width="0.3" height="15.0" fill="rgb(215,49,11)" rx="2" ry="2" />
+<text  x="91.67" y="127.5" ></text>
+</g>
+<g >
+<title>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_76::h6966edbe50890278 (ere_datetimes_impl.rs) (270 allocations, 0.01%)</title><rect x="27.5" y="165" width="0.1" height="15.0" fill="rgb(251,215,51)" rx="2" ry="2" />
+<text  x="30.54" y="175.5" ></text>
+</g>
+</g>
+</svg>

@@ -1,0 +1,12 @@
++ git log -n1 --oneline -1
++ cat -
+4d4a4cc9 (CI) job cargo check; set rustup default explicitly
++ /usr/bin/time --version
+time (GNU Time) UNKNOWN
++ python --version
+Python 3.12.3
++ /home/ulug/.cargo/bin/hyperfine --version
+hyperfine 1.20.0
++ /usr/bin/jq --version
+jq-1.7
+ERROR: Environment variable PROGRAMS_S4_LISTING must be set to a TSV file
