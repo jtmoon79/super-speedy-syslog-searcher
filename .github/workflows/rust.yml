@@ -43,7 +43,6 @@ env:
   S4_ARGSD: -s
   # run options for release
   S4_ARGSR: -s
-  S4_BLOCKSZ: 0x40
   S4R: ./s4_release
   S4D: ./s4_debug
   # run files
@@ -283,7 +282,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: s4_debug
-          path: ${S4D}
+          path: ./s4_debug
       # build & upload release
       - name: Build Release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         shell: bash
@@ -300,12 +299,12 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: s4_release
-          path: ${S4R}
+          path: ./s4_release
       - name: Upload release binary (Ubuntu Linux)
         uses: actions/upload-artifact@v7
         with:
-          name: s4
-          path: ${S4R}
+          name: s4 Linux release
+          path: ./target/release/s4
 
   job_cross_targets:
     name: cross ${{ matrix.target }} on ubuntu-latest
