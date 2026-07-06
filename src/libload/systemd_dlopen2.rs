@@ -218,7 +218,7 @@ pub struct SdJournalHApi {
     /// [`sd_journal_close`]: https://www.man7.org/linux/man-pages/man3/sd-journal.3.html
     sd_journal_close: unsafe extern "C" fn(
         j: *mut sd_journal,
-    ) -> ::std::os::raw::c_int,
+    ),
 
     /// Function signature for [`sd_journal_open_files`].
     ///
@@ -272,9 +272,7 @@ pub struct SdJournalHApi {
     ///
     /// [`sd_id128_get_boot`]: https://www.man7.org/linux/man-pages/man3/sd_id128_get_boot.3.html
     sd_id128_get_boot: unsafe extern "C" fn(
-        j: *mut sd_journal,
-        ret: *mut u64,
-        ret_boot_id: *mut sd_id128_t,
+        ret: *mut sd_id128_t,
     ) -> ::std::os::raw::c_int,
 
     /// Function signature for [`sd_journal_get_cursor`].
@@ -290,7 +288,7 @@ pub struct SdJournalHApi {
     /// [`sd_journal_restart_data`]: https://man7.org/linux/man-pages/man3/sd_journal_get_data.3.html
     sd_journal_restart_data: unsafe extern "C" fn(
         j: *mut sd_journal,
-    ) -> ::std::os::raw::c_int,
+    ),
 
     /// Function signature for [`sd_journal_get_data`].
     ///
