@@ -980,6 +980,20 @@ impl fmt::Debug for JournalReader {
     }
 }
 
+impl Drop for JournalReader {
+    fn drop(&mut self) {
+        def1n!("({:?})", self.path);
+        if ! self.journal_handle_ptr.is_null() {
+            unsafe {
+                def1o!("sd_journal_close(@{:?})", self.journal_handle_ptr);
+                (*self.journal_api_ptr).sd_journal_close(self.journal_handle_ptr);
+            }
+            self.journal_handle_ptr = ::std::ptr::null_mut();
+        }
+        def1x!();
+    }
+}
+
 // TODO: [2023/04] remove redundant variable prefix name `journalreader_`
 // TODO: [2023/05] instead of having 1:1 manual copying of `JournalReader`
 //       fields to `SummaryJournalReader` fields, just store a
@@ -1111,7 +1125,7 @@ impl<'a> JournalReader {
 
         let mut journal_handle_ptr: *mut sd_journal = ::std::ptr::null_mut();
         def1o!("*journal_handle @{:?}", journal_handle_ptr);
-        let journal_api_ptr = journal_api();
+        let journal_api_ptr: JournalApiPtr = journal_api();
         unsafe {
             //
             // call sd_journal_open_files
@@ -1529,7 +1543,6 @@ impl<'a> JournalReader {
     /// Returns the `Ok(value)` if the call succeeds.
     /// Returns `Err` if the call fails.
     fn call_sd_id128_get_boot(
-        journal_handle_ptr: &mut *mut sd_journal,
         journal_api_ptr: &mut JournalApiPtr,
         api_calls: &mut Count,
         api_call_errors: &mut Count,
@@ -1541,26 +1554,18 @@ impl<'a> JournalReader {
             //
             // call sd_id128_get_boot
             //
-            let mut rt: std::os::raw::c_ulonglong = 0;
-            let prt: *mut std::os::raw::c_ulonglong = &mut rt;
             let pboot: *mut sd_id128 = &mut boot_id_id128 as *mut _ as *mut sd_id128;
-            def1o!("sd_id128_get_boot(@{:p}, @{:p}, @{:p})", journal_handle_ptr, prt, pboot);
-            let r: i32 = (*journal_api_ptr).sd_id128_get_boot(
-                *journal_handle_ptr,
-                prt,
-                pboot
-            );
+            def1o!("sd_id128_get_boot(@{:p})", pboot);
+            let r: i32 = (*journal_api_ptr).sd_id128_get_boot(pboot);
             let e = Errno::from_raw(r.abs());
-            def1o!("sd_journal_get_monotonic_usec returned {}, {:?}", r, e);
+            def1o!("sd_id128_get_boot returned {}, {:?}", r, e);
             summary_stat!(*api_calls += 1);
             if r < 0 {
                 summary_stat!(*api_call_errors += 1);
-                de_err!("sd_journal_get_monotonic_usec() returned {}; {:?}", r, e);
-                let err = Self::Error_from_Errno(r, &e, "sd_journal_get_monotonic_usec", path);
+                de_err!("sd_id128_get_boot() returned {}; {:?}", r, e);
+                let err = Self::Error_from_Errno(r, &e, "sd_id128_get_boot", path);
                 def1x!("return Err");
                 return Result::Err(err);
-            } else {
-                def1o!("sd_journal_get_monotonic_usec realtime {}", rt);
             }
         } // end unsafe
         def1x!();
@@ -1611,7 +1616,6 @@ impl<'a> JournalReader {
     ) -> Option<MonotonicMicroseconds> {
         def1n!();
         let boot_id_opt = match Self::call_sd_id128_get_boot(
-            &mut self.journal_handle_ptr,
             &mut self.journal_api_ptr,
             &mut self.api_calls,
             &mut self.api_call_errors,
