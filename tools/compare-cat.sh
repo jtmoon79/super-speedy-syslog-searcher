@@ -145,8 +145,9 @@ for file in "${files[@]}"; do
     fi
 
     (
+        export S4_BLOCKSZ=${S4_BLOCKSZ-0x200}
         set -x
-        "${PROGRAM}" --blocksz=${BLOCKSZ} ${journal_arg} --color=never "${file}" > "${tmp1}"
+        "${PROGRAM}" ${journal_arg} --color=never "${file}" > "${tmp1}"
     )
     # delete last newline char added by `s4` only if the same file read by `cat` has no ending newline
     # see `fn processing_loop` in `src/bin/s4.rs`
