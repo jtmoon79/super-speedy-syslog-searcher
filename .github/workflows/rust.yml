@@ -291,8 +291,8 @@ jobs:
           cargo --version
           # build the non-optimized release because the optimize step during the --release build
           # is too long for GitHub Actions; the Github Runner times out
-          cargo build --locked --profile release_O0
-          cp -av ./target/release_O0/s4 ${S4R}
+          cargo build --locked --profile release_Opt0
+          cp -av ./target/release_Opt0/s4 ${S4R}
           chmod -v 0555 ${S4R}
           ${S4R} --version
       - name: Upload release binary for test
@@ -300,11 +300,6 @@ jobs:
         with:
           name: s4_release
           path: ./s4_release
-      - name: Upload release binary (Ubuntu Linux)
-        uses: actions/upload-artifact@v7
-        with:
-          name: s4 Linux release
-          path: ./target/release/s4
 
   job_cross_targets:
     name: cross ${{ matrix.target }} on ubuntu-latest

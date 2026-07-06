@@ -85,6 +85,17 @@ wait ${PIDs[@]}
 
 ./target/valgrind/s4 --version
 
+# release_Opt0
+
+declare -a PIDs=()
+
+cargo build --locked --profile release_Opt0 &
+PIDs+=($!)
+
+wait ${PIDs[@]}
+
+./target/release_Opt0/s4 --version
+
 # release_O0_cgu1, release_O0_cgu512_pa
 
 declare -a PIDs=()
