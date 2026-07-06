@@ -288,21 +288,26 @@ opt-level = 0
 # profiles for experiments with build settings + timings
 # for use with `cargo-build-profiles-timeout.sh`
 
-[profile.release_O0]
+[profile.release_O0_cgu1]
 inherits = "release"
 opt-level = 0
+codegen-units = 1
 
-[profile.release_O1]
+[profile.release_O1_cgu1]
 inherits = "release"
 opt-level = 1
+codegen-units = 1
 
-[profile.release_O2]
+[profile.release_O2_cgu1]
 inherits = "release"
 opt-level = 2
+codegen-units = 1
 
-[profile.release_O3]
+[profile.release_O3_cgu1_pa]
 inherits = "release"
 opt-level = 3
+codegen-units = 1
+panic = "abort"
 
 [profile.release_O1_cgu256_pa]
 inherits = "release"

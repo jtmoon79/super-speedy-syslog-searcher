@@ -6,6 +6,10 @@ set -euo pipefail
 
 cd "$(dirname -- "${0}")/.."
 
+# the `rustc` processes are long-running aggressive users of CPU+RAM resources
+# so renice them to ease CPU pressure
+renice -n 20 -p $$
+
 export S4_BUILD_PRINT=1
 export S4_BUILD_REGEX_PRINT=1
 
@@ -80,3 +84,68 @@ PIDs+=($!)
 wait ${PIDs[@]}
 
 ./target/valgrind/s4 --version
+
+# release_O0_cgu1, release_O0_cgu512_pa
+
+declare -a PIDs=()
+
+cargo build --locked --profile release_O0_cgu1 &
+PIDs+=($!)
+cargo build --locked --profile release_O0_cgu512_pa &
+PIDs+=($!)
+
+wait ${PIDs[@]}
+
+./target/release_O0_cgu1/s4 --version
+./target/release_O0_cgu512_pa/s4 --version
+
+# release_O1_cgu1, release_O1_cgu256_pa, release_O1_cgu512_pa
+
+declare -a PIDs=()
+
+cargo build --locked --profile release_O1_cgu1 &
+PIDs+=($!)
+cargo build --locked --profile release_O1_cgu256_pa &
+PIDs+=($!)
+cargo build --locked --profile release_O1_cgu512_pa &
+PIDs+=($!)
+
+wait ${PIDs[@]}
+
+./target/release_O1_cgu1/s4 --version
+./target/release_O1_cgu256_pa/s4 --version
+./target/release_O1_cgu512_pa/s4 --version
+
+# release_O2_cgu1, release_O2_cgu256_pa, release_O2_cgu512_pa
+
+declare -a PIDs=()
+
+cargo build --locked --profile release_O2_cgu1 &
+PIDs+=($!)
+cargo build --locked --profile release_O2_cgu256_pa &
+PIDs+=($!)
+cargo build --locked --profile release_O2_cgu512_pa &
+PIDs+=($!)
+
+wait ${PIDs[@]}
+
+./target/release_O2_cgu1/s4 --version
+./target/release_O2_cgu256_pa/s4 --version
+./target/release_O2_cgu512_pa/s4 --version
+
+# release_O3_cgu1_pa, release_O3_cgu256_pa, release_O3_cgu512_pa
+
+declare -a PIDs=()
+
+cargo build --locked --profile release_O3_cgu1_pa &
+PIDs+=($!)
+cargo build --locked --profile release_O3_cgu256_pa &
+PIDs+=($!)
+cargo build --locked --profile release_O3_cgu512_pa &
+PIDs+=($!)
+
+wait ${PIDs[@]}
+
+./target/release_O3_cgu1_pa/s4 --version
+./target/release_O3_cgu256_pa/s4 --version
+./target/release_O3_cgu512_pa/s4 --version
