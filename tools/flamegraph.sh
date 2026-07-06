@@ -219,10 +219,4 @@ sed -i -Ee 's/(<text id="title" .*>)Flame Graph(<\/text>)/\1Flame Graph: '"${NOT
 # the title is now a long string so make the font smaller
 sed -i -Ee 's/<text id="title" /<text id="title" style="font-size:xx-small" /' --  "${OUT}"
 
-if which xmllint &>/dev/null; then
-    # the generated .svg file is a few huge lines so make it git-friendly (more lines more often)
-    xmllint --format --recover --output "${OUT}" "${OUT}"
-else
-    echo "WARNING: xmllint not found; skip formatting of ${OUT}" >&2
-    echo "         apt install libxml2-utils" >&2
-fi
+"${CWD_}/tools/xmllint.sh" "${OUT}"

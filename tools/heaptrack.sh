@@ -10,6 +10,8 @@
 
 set -euo pipefail
 
+readonly CWD_=$(pwd)
+
 cd "$(dirname -- "${0}")/.."
 
 function did_install () {
@@ -54,7 +56,7 @@ rm -f -- \
 export RUST_BACKTRACE=1
 
 (
-    set -x
+    set -euxo pipefail
 
     "${PROGRAM}" --version
 
@@ -73,3 +75,5 @@ export RUST_BACKTRACE=1
     # the title is now a long string so make the font smaller
     sed -i -Ee 's/<text id="title" /<text id="title" style="font-size:xx-small" /' --  "${OUT_SVG}"
 )
+
+"${CWD_}/tools/xmllint.sh" "${OUT_SVG}"

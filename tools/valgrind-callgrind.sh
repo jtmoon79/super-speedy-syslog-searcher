@@ -17,6 +17,8 @@
 
 set -euo pipefail
 
+readonly CWD_=$(pwd)
+
 cd "$(dirname "${0}")/.."
 
 # use full path to Unix tools
@@ -130,3 +132,5 @@ dot -T svg "${OUTDOT}" -o "${OUTSVG}"
     --show-percs=yes \
     $(find ./src -xdev -type d -exec echo -n '--include={} ' \;) \
     "${OUTOUT}"
+
+"${CWD_}/tools/xmllint.sh" "${OUTSVG}"
