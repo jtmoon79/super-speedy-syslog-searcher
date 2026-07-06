@@ -1,5 +1,11 @@
 # Copilot instructions for this repository
 
+## Code Review Guidelines
+
+- Ignore files that match the glob patterns specificed by `package.exclude` glob patterns in file `Cargo.toml`.
+- Check for rust compatible with the rust version specified by the `package.rust-version` in file `Cargo.toml`.
+- Check for rust expressions or statements that could use succinct or more idiomatic alternatives.
+
 ## Background
 
 This project builds binary program `s4`.
@@ -30,9 +36,3 @@ The type of file is determined by the file extension. The file type is used to d
 - `README.md`: top-level README file for the project
 - `CHANGELOG.md`: Change log file for the project
 - `LICENSE`: license file for the project
-
-## Recommendations for code reviews
-
-- Ignore files that match the glob patterns specificed by `package.exclude` glob patterns in file `Cargo.toml`.
-- Check for rust compatible with the rust version specified by the `package.rust-version` in file `Cargo.toml`.
-- Check for rust expressions or statements that could use succinct or more idiomatic alternatives.
