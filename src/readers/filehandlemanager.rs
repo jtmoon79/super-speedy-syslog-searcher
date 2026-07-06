@@ -641,7 +641,7 @@ impl FileHandleManagerState {
 
     /// Open a managed file handle once, adjusting the maximum open count if necessary.
     ///
-    /// If an `std::io::File::open` call fails then we should:
+    /// If an `std::fs::File::open` call fails then we should:
     /// 1. decrease the `open_max` to the current number of open files
     /// 2. evict (close) a managed file handle if possible
     /// 3. retry the open
