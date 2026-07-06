@@ -34,6 +34,7 @@ fi
 
 profiles=(
     dev
+    release
     release_O0_cgu512_pa
     release_O1_cgu512_pa
     release_O2_cgu512_pa
@@ -41,10 +42,10 @@ profiles=(
     release_O1_cgu256_pa
     release_O2_cgu256_pa
     release_O3_cgu256_pa
-    release_O0
-    release_O1
-    release_O2
-    release_O3
+    release_O0_cgu1
+    release_O1_cgu1
+    release_O2_cgu1
+    release_O3_cgu1_pa
 )
 
 if [[ ${#profiles[@]} -eq 0 ]]; then
