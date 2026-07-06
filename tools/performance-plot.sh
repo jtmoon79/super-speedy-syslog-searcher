@@ -41,6 +41,8 @@ fi
 
 set -euo pipefail
 
+readonly CWD_=$(pwd)
+
 cd "$(dirname "${0}")/.."
 
 declare -r DIROUT=${DIROUT-"."}
@@ -54,16 +56,6 @@ HYPERFINE=$(which hyperfine) || {
 }
 readonly HYPERFINE
 (set -x; "$HYPERFINE" --version)
-
-# check for xmllint
-XMLLINT=$(which xmllint) || {
-    echo "ERROR: xmllint not found in PATH" >&2
-    echo "install:" >&2
-    echo "    sudo apt install libxml2-utils" >&2
-    exit 1
-}
-readonly XMLLINT
-(set -x; "$XMLLINT" --version | head -n1)
 
 # check for jq
 JQ=$(which jq) || {
@@ -572,10 +564,7 @@ function gnuplot_svg_title_replace() {
 }
 
 function xml_format() {
-    local file="${1}"
-    local tmp_file="${tmpD}/$(basename "${file}").tmp"
-    "$XMLLINT" --format "${file}" --output "${tmp_file}"
-    mv -f "${tmp_file}" "${file}"
+    "${CWD_}/tools/xmllint.sh" "${@}"
 }
 
 #
