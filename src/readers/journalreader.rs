@@ -910,6 +910,8 @@ pub struct JournalReader {
     ///
     /// [`FPath`]: crate::common::FPath
     path: FPath,
+    /// Unique identifier for the file processing instance.
+    path_id: PathId,
     /// If necessary, the extracted journal file as a temporary file.
     named_temp_file: Option<TempPath>,
     /// The [`JournalOutput`] for the file being read.
@@ -1124,6 +1126,7 @@ impl<'a> JournalReader {
             next_fill_buffer_index: 0,
             next_fill_buffer_loop: true,
             path,
+            path_id,
             named_temp_file,
             journal_output,
             fixed_offset,
@@ -1147,6 +1150,10 @@ impl<'a> JournalReader {
 
     pub const fn mtime(&self) -> SystemTime {
         self.mtime
+    }
+
+    pub const fn path_id(&self) -> PathId {
+        self.path_id
     }
 
     /// Set the file cursor to the first record after the given
