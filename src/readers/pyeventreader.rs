@@ -143,6 +143,8 @@ pub struct PyEventReader {
     fill_buffer: EntryBuffer,
     /// The `FPath` of the .etl file being read.
     path: FPath,
+    /// Unique identifier for the file processing instance.
+    path_id: PathId,
     /// If necessary, the extracted ETL file as a temporary file.
     named_temp_file: Option<TempPath>,
     /// The `PyRunner` instance for running Python code.
@@ -434,6 +436,7 @@ impl PyEventReader {
             event_type,
             fill_buffer: EntryBuffer::with_capacity(WAIT_INPUT_PER_PRINTS as usize + 3),
             path,
+            path_id,
             named_temp_file,
             pyrunner,
             exited: false,
@@ -457,6 +460,10 @@ impl PyEventReader {
 
     pub const fn mtime(&self) -> SystemTime {
         self.mtime
+    }
+
+    pub const fn path_id(&self) -> PathId {
+        self.path_id
     }
 
     pub const fn pipe_sz_stdout(&self) -> PipeSz {

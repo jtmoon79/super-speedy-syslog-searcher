@@ -192,6 +192,8 @@ pub struct EvtxReader {
     ///
     /// [`FPath`]: crate::common::FPath
     path: FPath,
+    /// Unique identifier for the file processing instance.
+    path_id: PathId,
     /// The `FixedOffset` to use for converting `Timestamp`s to `DateTimeL`s.
     fixed_offset: FixedOffset,
     /// If necessary, the extracted evtx file as a temporary file.
@@ -364,6 +366,7 @@ impl EvtxReader {
             evtxparser,
             events: Events::new(),
             path,
+            path_id,
             fixed_offset,
             named_temp_file,
             events_processed: 0,
@@ -383,6 +386,10 @@ impl EvtxReader {
 
     pub const fn mtime(&self) -> SystemTime {
         self.mtime
+    }
+
+    pub const fn path_id(&self) -> PathId {
+        self.path_id
     }
 
     /// Read the entire file and store in order.
