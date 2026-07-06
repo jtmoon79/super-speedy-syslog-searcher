@@ -17,7 +17,7 @@
         // XXX: for whatever reason the rust-analyzer may insist on using
         //      a different toolchain despite `rustup override` being set.
         "RUSTUP_TOOLCHAIN": "1.88.0",
-        // have `rust-analyzer` compile it's own so it does not block external
+        // have `rust-analyzer` compile its own so it does not block external
         // runs of `cargo build`
         "OUT_DIR": "${workspaceFolder}/target/rust-analyzer"
     },
