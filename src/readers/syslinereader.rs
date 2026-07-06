@@ -3717,3 +3717,9 @@ impl SyslineReader {
         }
     }
 }
+
+impl Drop for SyslineReader {
+    fn drop(&mut self) {
+        def1ñ!();
+    }
+}

@@ -4626,3 +4626,9 @@ impl BlockReader {
         }
     }
 }
+
+impl Drop for BlockReader {
+    fn drop(&mut self) {
+        def1ñ!();
+    }
+}

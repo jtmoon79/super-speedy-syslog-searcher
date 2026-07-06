@@ -978,3 +978,9 @@ impl PyEventReader {
         )
     }
 }
+
+impl Drop for PyEventReader {
+    fn drop(&mut self) {
+        def1ñ!();
+    }
+}

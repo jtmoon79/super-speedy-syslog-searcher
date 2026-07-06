@@ -1562,3 +1562,9 @@ impl FixedStructReader {
         )
     }
 }
+
+impl Drop for FixedStructReader {
+    fn drop(&mut self) {
+        def1ñ!();
+    }
+}
