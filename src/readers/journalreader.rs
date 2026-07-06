@@ -1118,10 +1118,13 @@ impl<'a> JournalReader {
         // create the `JournalFile` file descriptor handle
         let path_cs: CString = match named_temp_file {
             Some(ref ntf) => {
+                // the actual path refers to a temporary file because
+                // the original .journal file was compressed or archived
                 let fpath: FPath = path_to_fpath(ntf.as_ref());
                 def1o!("fpath {:?}", fpath);
                 CString::new(fpath.as_str()).unwrap()
             }
+            // the actual path refers to original .journal file
             None => CString::new(path_std.to_str().unwrap()).unwrap(),
         };
         def1o!("path_cs {:?}", path_cs);
