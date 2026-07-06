@@ -12,10 +12,10 @@ cd "$(dirname "${0}")/.."
 # logs to process listed one per line
 declare -r logs=./tools/compare-debug-release_logs.txt
 
+export S4_BLOCKSZ=${S4_BLOCKSZ-0x200}
 # arguments taken from `compare-debug-release.sh`
 declare -ar S4_ARGS=(
     --color=never
-    --blocksz=0x200
     --tz-offset=+08:00
     --prepend-filename
     --prepend-file-align

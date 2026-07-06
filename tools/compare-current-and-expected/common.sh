@@ -30,6 +30,7 @@ declare -gir LOGS_COUNT
 export TZ='America/New_York'
 declare -gix S4_FILE_HANDLE_OPEN_MAX=${S4_FILE_HANDLE_OPEN_MAX-200}
 
+export S4_BLOCKSZ=${S4_BLOCKSZ-0x100}
 declare -arg S4_ARGS=(
     --color=never
     --tz-offset='+08:00'
@@ -42,7 +43,6 @@ declare -arg S4_ARGS=(
     --journal-output=export
     --dt-after='19990303T000000+0000'
     --dt-before='20260102T000000+0000'
-    --blocksz='0x100'
     --summary
 )
 declare -rg S4_ARGS_QUOTED=$(for arg in "${S4_ARGS[@]}"; do echo -n "'${arg}' "; done)
