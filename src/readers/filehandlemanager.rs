@@ -8,8 +8,8 @@
 //! The [`FileHandleManager`] struct and related structs work two ways:
 //! 1. A maximum number of outstanding open files is configured, `open_max`, and any
 //!    open/read requests beyond `open_max` forcefully close the least recently used
-//!    file handle. Later, that file may re-opened if requested
-//!    and the new handle to the same seek position as the prior closed handle.
+//!    file handle. Later, that file may be re-opened if requested
+//!    and the new handle is set to the same seek position as the prior closed handle.
 //! 2. Upon first open error of "_too many open files_" the manager will reduce
 //!    `open_max` to the current number of
 //!    open files and retry the open. If the retry succeeds then
