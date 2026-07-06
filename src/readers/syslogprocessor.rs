@@ -1534,3 +1534,9 @@ impl SyslogProcessor {
         )
     }
 }
+
+impl Drop for SyslogProcessor {
+    fn drop(&mut self) {
+        def1ñ!();
+    }
+}

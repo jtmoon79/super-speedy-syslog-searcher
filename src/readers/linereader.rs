@@ -2544,3 +2544,9 @@ impl LineReader {
         }
     }
 }
+
+impl Drop for LineReader {
+    fn drop(&mut self) {
+        def1ñ!();
+    }
+}

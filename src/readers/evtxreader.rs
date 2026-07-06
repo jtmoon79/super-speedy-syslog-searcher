@@ -637,3 +637,9 @@ impl EvtxReader {
         )
     }
 }
+
+impl Drop for EvtxReader {
+    fn drop(&mut self) {
+        def1ñ!();
+    }
+}
