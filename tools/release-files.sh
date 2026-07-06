@@ -108,6 +108,18 @@ rm -v "${DIROUT}/massif.out" || true
     export PROGRAMS_S4_LISTING=${TMPD-/tmp}/programs-s4-listing.tsv
     echo '
 ./target/release/s4
+./target/release_O0_cgu1/s4
+./target/release_O0_cgu512_pa/s4
+./target/release_O1_cgu1/s4
+./target/release_O1_cgu256_pa/s4
+./target/release_O1_cgu512_pa/s4
+./target/release_O2_cgu1/s4
+./target/release_O2_cgu256_pa/s4
+./target/release_O2_cgu512_pa/s4
+./target/release_O3_cgu1_pa/s4
+./target/release_O3_cgu256_pa/s4
+./target/release_O3_cgu512_pa/s4
+./target/release_Opt0/s4
 ./target/jemalloc/s4
 ./target/mimalloc/s4
 ./target/rpmalloc/s4

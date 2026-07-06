@@ -288,16 +288,16 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
 
     s4_full_path="${PROJ_DIR}/${s4_prog_path}"
     if ! [[ -f "${s4_full_path}" ]]; then
-        echo "ERROR: s4 program does not exist: ${s4_full_path}" >&2
-        exit 1
+        echo "WARNING: s4 program does not exist: ${s4_full_path}" >&2
+        continue
     fi
     if ! [[ -x "${s4_full_path}" ]]; then
-        echo "ERROR: s4 program is not executable: ${s4_full_path}" >&2
-        exit 1
+        echo "WARNING: s4 program is not executable: ${s4_full_path}" >&2
+        continue
     fi
     if ! (set -x; "${s4_full_path}" --version); then
-        echo "ERROR: failed to run s4 program with --version: ${s4_full_path}" >&2
-        exit 1
+        echo "WARNING: failed to run s4 program with --version: ${s4_full_path}" >&2
+        continue
     fi
 
     echo >&2
