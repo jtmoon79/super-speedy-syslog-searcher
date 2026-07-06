@@ -872,6 +872,7 @@ pub fn print_summary(
     eprintln!("Managed physical reopen: {}", summary_filehandlemanager.physical_reopen_calls);
     eprintln!("Managed evict succeed  : {}", summary_filehandlemanager.evict_succeed);
     eprintln!("Managed evict fails    : {}", summary_filehandlemanager.evict_fails);
+    eprintln!("Unmanaged request open : {}", summary_filehandlemanager.request_unmanaged_open_calls);
     eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN_MAX);
     eprintln!("Regex patterns compiled: {}", DATETIME_PARSE_DATAS_LEN);
 

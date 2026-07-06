@@ -294,17 +294,17 @@ fn test_drop_last_handle_closes_real_file() {
             .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
             .unwrap();
         assert_eq!(manager.open_count(), 1);
-        assert_eq!(manager.active_handles_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
+        assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
     }
 
     assert_eq!(manager.open_count(), 0);
-    assert_eq!(manager.active_handles_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
+    assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
 
     let handle = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
         .unwrap();
     assert_eq!(manager.open_count(), 1);
-    assert_eq!(manager.active_handles_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
+    assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
     drop(handle);
     assert_eq!(manager.open_count(), 0);
 }
@@ -319,15 +319,15 @@ fn test_clone_drop_keeps_file_open_until_last_clone() {
     let handle_clone = handle.clone();
 
     assert_eq!(manager.open_count(), 1);
-    assert_eq!(manager.active_handles_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 2);
+    assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 2);
 
     drop(handle);
     assert_eq!(manager.open_count(), 1);
-    assert_eq!(manager.active_handles_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
+    assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
 
     drop(handle_clone);
     assert_eq!(manager.open_count(), 0);
-    assert_eq!(manager.active_handles_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
+    assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
 }
 
 #[test]
@@ -345,7 +345,7 @@ fn test_drop_saves_seek_position_for_later_request_read() {
     }
 
     assert_eq!(manager.open_count(), 0);
-    assert_eq!(manager.active_handles_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
+    assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
 
     let mut handle = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
@@ -353,4 +353,66 @@ fn test_drop_saves_seek_position_for_later_request_read() {
     let mut second = [0_u8; 2];
     assert_eq!(handle.read(&mut second).unwrap(), 2);
     assert_eq!(&second, b"cd");
+}
+
+#[test]
+fn test_unmanaged_handle_reservation_releases_on_drop() {
+    let ntf: NamedTempFile = create_temp_file("abcdef");
+    let manager = manager(2);
+
+    {
+        let _handle = manager
+            .request_unmanaged_open(PATH_ID_A, FileHandleRole::Unmanaged, ntf.path())
+            .unwrap();
+        assert_eq!(manager.open_count(), 0);
+        assert_eq!(manager.total_open_count(), 1);
+        assert_eq!(manager.unmanaged_handles_helper(PATH_ID_A, FileHandleRole::Unmanaged), 1);
+    }
+
+    assert_eq!(manager.open_count(), 0);
+    assert_eq!(manager.total_open_count(), 0);
+    assert_eq!(manager.unmanaged_handles_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
+
+    let summary = manager.summary();
+    assert_eq!(summary.request_unmanaged_open_calls, 1);
+    assert_eq!(summary.files_opened_hi, 1);
+}
+
+#[test]
+fn test_unmanaged_handle_reservation_forces_managed_eviction() {
+    let ntf_a: NamedTempFile = create_temp_file("abcdef");
+    let ntf_b: NamedTempFile = create_temp_file("wxyz");
+    let manager = manager(1);
+
+    let handle_a = manager
+        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .unwrap();
+    assert_eq!(manager.open_count(), 1);
+
+    let unmanaged = manager
+        .request_unmanaged_open(PATH_ID_B, FileHandleRole::Unmanaged, ntf_b.path())
+        .unwrap();
+    assert_eq!(manager.open_count(), 0);
+    assert_eq!(manager.total_open_count(), 1);
+    assert_eq!(manager.unmanaged_handles_helper(PATH_ID_B, FileHandleRole::Unmanaged), 1);
+
+    let err = manager
+        .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
+        .unwrap_err();
+    assert_eq!(err.kind(), ErrorKind::WouldBlock);
+
+    drop(unmanaged);
+    let handle_a_reopened = manager
+        .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
+        .unwrap();
+    assert_eq!(manager.open_count(), 1);
+    assert_eq!(manager.total_open_count(), 1);
+    drop(handle_a_reopened);
+    drop(handle_a);
+
+    let summary = manager.summary();
+    assert_eq!(summary.request_unmanaged_open_calls, 1);
+    assert_eq!(summary.evict_succeed, 1);
+    assert_eq!(summary.evict_fails, 1);
+    assert_eq!(summary.files_opened_hi, 1);
 }

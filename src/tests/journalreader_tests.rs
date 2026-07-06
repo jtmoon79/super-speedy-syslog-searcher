@@ -228,8 +228,9 @@ fn test_mtime(path: &FPath) {
         return;
     }
     load_library_systemd();
+    let path_id = path_id_generator();
     let jr1 = JournalReader::new(
-        path_id_generator(),
+        path_id,
         path.clone(),
         JournalOutput::Short,
         FO_0,
@@ -237,6 +238,7 @@ fn test_mtime(path: &FPath) {
             archival_type: FileTypeArchive::Normal,
         },
     ).unwrap();
+    assert_eq!(jr1.path_id(), path_id);
     // merely run the function
     _ = jr1.mtime();
 }
@@ -265,15 +267,17 @@ fn test_JournalReader_new_(
         return;
     }
     assert!(matches!(load, LoadLibraryError::Ok));
+    let path_id = path_id_generator();
     match JournalReader::new(
-        path_id_generator(),
+        path_id,
         path.clone(),
         JournalOutput::Short,
         FO_0,
         FT_NORM,
     ) {
-        Ok(_) => {
+        Ok(journalreader) => {
             assert!(ok, "JournalReader::new({:?}) should have failed", path);
+            assert_eq!(journalreader.path_id(), path_id);
         }
         Err(_err) => {
             assert!(!ok, "JournalReader::new({:?}) should have succeeded", path);
