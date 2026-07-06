@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-readonly CWD_=$(pwd)
+SCRIPTD=$(realpath "$(dirname -- "${0}")")
 
 cd "$(dirname "${0}")/.."
 
@@ -133,4 +133,4 @@ dot -T svg "${OUTDOT}" -o "${OUTSVG}"
     $(find ./src -xdev -type d -exec echo -n '--include={} ' \;) \
     "${OUTOUT}"
 
-"${CWD_}/tools/xmllint.sh" "${OUTSVG}"
+"${SCRIPTD}/xmllint.sh" "${OUTSVG}"

@@ -41,7 +41,7 @@ fi
 
 set -euo pipefail
 
-readonly CWD_=$(pwd)
+SCRIPTD=$(realpath "$(dirname -- "${0}")")
 
 cd "$(dirname "${0}")/.."
 
@@ -564,7 +564,7 @@ function gnuplot_svg_title_replace() {
 }
 
 function xml_format() {
-    "${CWD_}/tools/xmllint.sh" "${@}"
+    "${SCRIPTD}/xmllint.sh" "${@}"
 }
 
 #

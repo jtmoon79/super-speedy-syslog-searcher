@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-readonly CWD_=$(pwd)
+SCRIPTD=$(realpath "$(dirname -- "${0}")")
 
 cd "$(dirname -- "${0}")/.."
 
@@ -30,4 +30,4 @@ RUST_BACKTRACE=1 cargo +nightly-2023-11-13 call-stack --bin s4 --target "${TRIPL
 dot -Tsvg "${CALLGRAPH_DOT}" > "${CALLGRAPH_SVG}"
 )
 
-"${CWD_}/tools/xmllint.sh" "${CALLGRAPH_SVG}"
+"${SCRIPTD}/xmllint.sh" "${CALLGRAPH_SVG}"

@@ -22,6 +22,8 @@
 
 set -euo pipefail
 
+readonly SCRIPTD=$(realpath "$(dirname -- "${0}")")
+
 cd "$(dirname -- "${0}")/.."
 
 function did_install () {
@@ -219,4 +221,4 @@ sed -i -Ee 's/(<text id="title" .*>)Flame Graph(<\/text>)/\1Flame Graph: '"${NOT
 # the title is now a long string so make the font smaller
 sed -i -Ee 's/<text id="title" /<text id="title" style="font-size:xx-small" /' --  "${OUT}"
 
-"${CWD_}/tools/xmllint.sh" "${OUT}"
+"${SCRIPTD}/xmllint.sh" "${OUT}"
