@@ -98,8 +98,11 @@ function stderr_clean () {
         -e '/^[ ]+lines high[ ]+: .*$/d' \
         -e '/^Managed evict succeed[ ]*:.*$/d' \
         -e '/^Managed files high[ ]*:.*$/d' \
+        -e '/^Managed\+unmanaged high[ ]*:.*$/d' \
         -e '/^Managed physical opens[ ]*:.*$/d' \
         -e '/^Managed physical reopen[ ]*:.*$/d' \
+        -e '/^Unmanaged files high[ ]*:.*$/d' \
+        -e '/^Unmanaged request open[ ]*:.*$/d' \
         -e '/^Datetime Now[ ]*:.*$/d' \
         -e '/^Python Interpreter[ ]*:.*$/d' \
         -e '/^Program Run Time[ ]+: .*$/d' \

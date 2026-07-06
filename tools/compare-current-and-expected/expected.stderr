@@ -23697,12 +23697,12 @@ Printed journal events : 18
 Printed ODL events     : 1499
 Managed files max def. : 200
 Managed files max adj. : 200
-Managed request open   : 737
+Managed request open   : 757
 Managed request read   : 0
 Managed read calls     : 17057
 Managed write calls    : 555
 Managed seek calls     : 16542
-Managed metadata calls : 616
+Managed metadata calls : 636
 Managed open errors    : 0
 Managed evict fails    : 0
 Regex patterns known   : 188
