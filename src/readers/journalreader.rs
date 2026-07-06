@@ -916,7 +916,10 @@ pub struct JournalReader {
     path_id: PathId,
     /// If necessary, the extracted journal file as a temporary file.
     named_temp_file: Option<TempPath>,
-    /// Reservation for the file handle owned by `libsystemd`.
+    /// Reservation for the real file handle is owned by `libsystemd`.
+    /// When the `JournalReader` is dropped, this `FileHandleUnmanaged`
+    /// instance will be dropped. That will cause the `FILE_HANDLE_MANAGER` to
+    /// update it's tracking of outstanding file handles.
     _file_handle_unmanaged: FileHandleUnmanaged,
     /// The [`JournalOutput`] for the file being read.
     /// Derived from `journalctl --output` options.
@@ -1100,7 +1103,7 @@ impl<'a> JournalReader {
         def1o!("mtime {:?}", mtime);
 
         // This `FileHandleUnmanaged` is a reservation for the file handle owned by `libsystemd`.
-        let file_handle_unmanaged = match FILE_HANDLE_MANAGER.request_unmanaged_open(
+        let file_handle_unmanaged: FileHandleUnmanaged = match FILE_HANDLE_MANAGER.request_unmanaged_open(
             path_id,
             FileHandleRole::Unmanaged,
             path_actual,

@@ -859,8 +859,9 @@ pub fn print_summary(
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
     eprintln!("Managed files max def. : {}", summary_filehandlemanager.open_max_default);
     eprintln!("Managed files max adj. : {}", summary_filehandlemanager.open_max_adjusted);
-    // TODO: print `files_opened_hi` in yellow if it is ==max
-    eprintln!("Managed files high     : {}", summary_filehandlemanager.files_opened_hi);
+    // TODO: print `count_hi` in yellow if it is ==max
+    eprintln!("Managed files high     : {}", summary_filehandlemanager.managed_open_count_hi);
+    eprintln!("Managed+unmanaged high : {}", summary_filehandlemanager.count_hi);
     eprintln!("Managed request open   : {}", summary_filehandlemanager.request_open_calls);
     eprintln!("Managed request read   : {}", summary_filehandlemanager.request_read_calls);
     eprintln!("Managed read calls     : {}", summary_filehandlemanager.read_calls);
@@ -872,6 +873,7 @@ pub fn print_summary(
     eprintln!("Managed physical reopen: {}", summary_filehandlemanager.physical_reopen_calls);
     eprintln!("Managed evict succeed  : {}", summary_filehandlemanager.evict_succeed);
     eprintln!("Managed evict fails    : {}", summary_filehandlemanager.evict_fails);
+    eprintln!("Unmanaged files high   : {}", summary_filehandlemanager.unmanaged_count_hi);
     eprintln!("Unmanaged request open : {}", summary_filehandlemanager.request_unmanaged_open_calls);
     eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN_MAX);
     eprintln!("Regex patterns compiled: {}", DATETIME_PARSE_DATAS_LEN);

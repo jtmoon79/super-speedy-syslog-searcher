@@ -280,7 +280,9 @@ pub(crate) fn is_error_too_many_open_files(err: &Error) -> bool {
 pub struct SummaryFileHandleManager {
     pub open_max_default: u32,
     pub open_max_adjusted: u32,
-    pub files_opened_hi: u32,
+    pub managed_open_count_hi: u32,
+    pub unmanaged_count_hi: u32,
+    pub count_hi: u32,
     pub request_open_calls: Count,
     pub request_read_calls: Count,
     pub request_unmanaged_open_calls: Count,
@@ -371,26 +373,42 @@ impl FileHandleManagerState {
         self.open_count + self.unmanaged_count()
     }
 
-    /// Update the high-water mark for the number of simultaneously open files.
-    fn update_files_opened_hi(&mut self) {
+    /// Update the high-water marks for simultaneously open file handles.
+    fn update_open_count_hi(&mut self) {
+        let unmanaged_count = self.unmanaged_count() as u32;
         summary_stat!(
-            self.summary.files_opened_hi = std::cmp::max(
-                self.summary.files_opened_hi,
-                self.total_open_count() as u32,
+            self.summary.managed_open_count_hi = std::cmp::max(
+                self.summary.managed_open_count_hi,
+                self.open_count as u32,
+            )
+        );
+        summary_stat!(
+            self.summary.unmanaged_count_hi = std::cmp::max(
+                self.summary.unmanaged_count_hi,
+                unmanaged_count,
+            )
+        );
+        summary_stat!(
+            self.summary.count_hi = std::cmp::max(
+                self.summary.count_hi,
+                self.open_count as u32 + unmanaged_count,
             )
         );
     }
 
     /// Make room for one more managed file handle, evicting a different managed file handle if necessary.
-    fn make_room_for_one(&mut self) -> Result<()> {
+    fn make_room_for_one(&mut self, key: FileHandleKey) -> Result<()> {
         def1n!("open_count={} unmanaged_count={} open_max={}", self.open_count, self.unmanaged_count(), self.open_max);
         while self.total_open_count() >= (self.open_max.get() as OpenCountType) {
             if ! self.evict_one() {
                 def1x!("return Err(no managed file handle available)");
+                let uc = self.unmanaged_count();
+                let mc = self.open_count;
+                let om = self.open_max.get();
                 return Err(
                     Error::new(
                         ErrorKind::WouldBlock,
-                        "no managed file handle available for eviction"
+                        format!("no managed file handle available for eviction: currently {uc} unmanaged, {mc} managed, open_max {om}; key {key:?}")
                     )
                 );
             }
@@ -482,9 +500,9 @@ impl FileHandleManagerState {
                 format!("unmanaged file handle {:?} must use FileHandleRole::Unmanaged", key),
             ));
         }
-        self.make_room_for_one()?;
+        self.make_room_for_one(key)?;
         *self.handles_unmanaged.entry(key).or_insert(0) += 1;
-        self.update_files_opened_hi();
+        self.update_open_count_hi();
         def1x!("handles_unmanaged={}, return Ok(())", self.handles_unmanaged.get(&key).copied().unwrap_or_default());
 
         Ok(())
@@ -558,7 +576,7 @@ impl FileHandleManagerState {
             return Ok(());
         }
 
-        self.make_room_for_one()?;
+        self.make_room_for_one(key)?;
 
         match self.open_entry_once(key) {
             Ok(()) => {
@@ -614,7 +632,7 @@ impl FileHandleManagerState {
         if is_reopen {
             summary_stat!(self.summary.physical_reopen_calls += 1);
         }
-        self.update_files_opened_hi();
+        self.update_open_count_hi();
         self.touch(key);
         def1x!("return Ok(())");
 
@@ -840,9 +858,9 @@ impl FileHandleManager {
         &self,
         path_id: PathId,
         role: FileHandleRole,
-        path: &Path,
+        _path: &Path,
     ) -> Result<FileHandleUnmanaged> {
-        def1n!("path_id={} role={:?} path={:?}", path_id, role, path);
+        def1n!("path_id={} role={:?} path={:?}", path_id, role, _path);
         if role != FileHandleRole::Unmanaged {
             def1x!("return Err(unmanaged handle requires FileHandleRole::Unmanaged)");
             return Err(Error::new(

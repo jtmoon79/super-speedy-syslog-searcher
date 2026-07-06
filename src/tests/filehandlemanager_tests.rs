@@ -146,7 +146,9 @@ fn test_request_open_read_seek_and_metadata_update_summary() {
     assert_eq!(summary.read_calls, 1);
     assert_eq!(summary.physical_open_calls, 1);
     assert_eq!(summary.physical_open_error_calls, 0);
-    assert_eq!(summary.files_opened_hi, 1);
+    assert_eq!(summary.managed_open_count_hi, 1);
+    assert_eq!(summary.unmanaged_count_hi, 0);
+    assert_eq!(summary.count_hi, 1);
 }
 
 #[test]
@@ -174,7 +176,9 @@ fn test_evicted_handle_reopens_at_saved_position() {
     assert_eq!(&second, b"cd");
 
     let summary = manager.summary();
-    assert_eq!(summary.files_opened_hi, 1);
+    assert_eq!(summary.managed_open_count_hi, 1);
+    assert_eq!(summary.unmanaged_count_hi, 0);
+    assert_eq!(summary.count_hi, 1);
     assert_eq!(summary.physical_open_calls, 3);
     assert_eq!(summary.physical_reopen_calls, 1);
     assert_eq!(summary.evict_succeed, 2);
@@ -366,16 +370,40 @@ fn test_unmanaged_handle_reservation_releases_on_drop() {
             .unwrap();
         assert_eq!(manager.open_count(), 0);
         assert_eq!(manager.total_open_count(), 1);
-        assert_eq!(manager.unmanaged_handles_helper(PATH_ID_A, FileHandleRole::Unmanaged), 1);
+        assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 1);
     }
 
     assert_eq!(manager.open_count(), 0);
     assert_eq!(manager.total_open_count(), 0);
-    assert_eq!(manager.unmanaged_handles_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
+    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
 
     let summary = manager.summary();
     assert_eq!(summary.request_unmanaged_open_calls, 1);
-    assert_eq!(summary.files_opened_hi, 1);
+    assert_eq!(summary.managed_open_count_hi, 0);
+    assert_eq!(summary.unmanaged_count_hi, 1);
+    assert_eq!(summary.count_hi, 1);
+}
+
+#[test]
+fn test_unmanaged_and_managed_high_water_counts_can_coexist() {
+    let ntf_a: NamedTempFile = create_temp_file("abcdef");
+    let ntf_b: NamedTempFile = create_temp_file("wxyz");
+    let manager = manager(2);
+
+    let _handle_a = manager
+        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .unwrap();
+    let _unmanaged = manager
+        .request_unmanaged_open(PATH_ID_B, FileHandleRole::Unmanaged, ntf_b.path())
+        .unwrap();
+
+    assert_eq!(manager.open_count(), 1);
+    assert_eq!(manager.total_open_count(), 2);
+
+    let summary = manager.summary();
+    assert_eq!(summary.managed_open_count_hi, 1);
+    assert_eq!(summary.unmanaged_count_hi, 1);
+    assert_eq!(summary.count_hi, 2);
 }
 
 #[test]
@@ -394,7 +422,7 @@ fn test_unmanaged_handle_reservation_forces_managed_eviction() {
         .unwrap();
     assert_eq!(manager.open_count(), 0);
     assert_eq!(manager.total_open_count(), 1);
-    assert_eq!(manager.unmanaged_handles_helper(PATH_ID_B, FileHandleRole::Unmanaged), 1);
+    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_B, FileHandleRole::Unmanaged), 1);
 
     let err = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
@@ -414,5 +442,7 @@ fn test_unmanaged_handle_reservation_forces_managed_eviction() {
     assert_eq!(summary.request_unmanaged_open_calls, 1);
     assert_eq!(summary.evict_succeed, 1);
     assert_eq!(summary.evict_fails, 1);
-    assert_eq!(summary.files_opened_hi, 1);
+    assert_eq!(summary.managed_open_count_hi, 1);
+    assert_eq!(summary.unmanaged_count_hi, 1);
+    assert_eq!(summary.count_hi, 1);
 }
