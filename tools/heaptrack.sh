@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-readonly CWD_=$(pwd)
+SCRIPTD=$(realpath "$(dirname -- "${0}")")
 
 cd "$(dirname -- "${0}")/.."
 
@@ -76,4 +76,4 @@ export RUST_BACKTRACE=1
     sed -i -Ee 's/<text id="title" /<text id="title" style="font-size:xx-small" /' --  "${OUT_SVG}"
 )
 
-"${CWD_}/tools/xmllint.sh" "${OUT_SVG}"
+"${SCRIPTD}/xmllint.sh" "${OUT_SVG}"
