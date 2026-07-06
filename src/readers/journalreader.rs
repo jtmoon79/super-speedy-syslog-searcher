@@ -919,7 +919,7 @@ pub struct JournalReader {
     /// Reservation for the real file handle is owned by `libsystemd`.
     /// When the `JournalReader` is dropped, this `FileHandleUnmanaged`
     /// instance will be dropped. That will cause the `FILE_HANDLE_MANAGER` to
-    /// update it's tracking of outstanding file handles.
+    /// update its tracking of outstanding file handles.
     _file_handle_unmanaged: FileHandleUnmanaged,
     /// The [`JournalOutput`] for the file being read.
     /// Derived from `journalctl --output` options.
