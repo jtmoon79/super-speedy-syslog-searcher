@@ -755,11 +755,11 @@ jobs:
           set -eux
           export S4_FILE_HANDLE_OPEN_MAX=2
           ${S4D} -s ${S4_TEST_FILES} &>/dev/null
-      - name: ulimit=15 s4_debug -s S4_TEST_FILES
+      - name: ulimit=20 s4_debug -s S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          ulimit -n 15
+          ulimit -n 20
           ${S4D} -s ./logs/other/tests/dtf5-6b* ${S4_TEST_FILES} &>/dev/null
       #
       # run release
@@ -828,11 +828,11 @@ jobs:
           set -eux
           export S4_FILE_HANDLE_OPEN_MAX=2
           ${S4R} -s ${S4_TEST_FILES} &>/dev/null
-      - name: ulimit=15 s4_release -s S4_TEST_FILES
+      - name: ulimit=20 s4_release -s S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          ulimit -n 15
+          ulimit -n 20
           ${S4R} -s ./logs/other/tests/dtf5-6b* ${S4_TEST_FILES} &>/dev/null
       #
       # compare debug release
