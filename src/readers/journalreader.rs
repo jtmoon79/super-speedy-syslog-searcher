@@ -210,9 +210,6 @@ use crate::bindings::sd_journal_h::{
 use crate::common::{
     Count,
     FPath,
-    File,
-    FileMetadata,
-    FileOpenOptions,
     FileSz,
     FileType,
     FileTypeArchive,
@@ -249,6 +246,13 @@ use crate::libload::systemd_dlopen2::{
     JournalApiPtr,
 };
 use crate::readers::filedecompressor::decompress_to_ntf;
+use crate::readers::filehandlemanager::{
+    FILE_HANDLE_MANAGER,
+    FileHandleManaged,
+    FileHandleRole,
+    FileHandleUnmanaged,
+    OpenOptionsManaged,
+};
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::Summary;
 
@@ -891,8 +895,6 @@ type EntryBuffer = BTreeMap<EntryBufferKey, JournalEntry>;
 /// [`sd_journal_next`]: https://www.man7.org/linux/man-pages/man3/SD_JOURNAL_FOREACH.3.html
 /// [Issue #101]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/101
 pub struct JournalReader {
-    /// The [`sd_journal`] handle stored on the heap.
-    _journal_handle: Box<sd_journal>,
     /// A pointer to the [`sd_journal`] handle.
     journal_handle_ptr: *mut sd_journal,
     /// The [`JournalApiPtr`] dynamic library interface.
@@ -914,6 +916,8 @@ pub struct JournalReader {
     path_id: PathId,
     /// If necessary, the extracted journal file as a temporary file.
     named_temp_file: Option<TempPath>,
+    /// Reservation for the file handle owned by `libsystemd`.
+    _file_handle_unmanaged: FileHandleUnmanaged,
     /// The [`JournalOutput`] for the file being read.
     /// Derived from `journalctl --output` options.
     journal_output: JournalOutput,
@@ -1023,7 +1027,6 @@ impl<'a> JournalReader {
 
         // get the file size according to the file metadata
         let path_std: &Path = Path::new(&path);
-        let mut open_options = FileOpenOptions::new();
         let named_temp_file: Option<TempPath>;
         let mtime_opt: Option<SystemTime>;
 
@@ -1045,22 +1048,26 @@ impl<'a> JournalReader {
             None => path_std,
         };
         def1o!("path_actual {:?}", path_actual);
-        def1o!("open_options.read(true).open({:?})", path_actual);
-        let file: File = match open_options
-            .read(true)
-            .open(path_actual)
-        {
-            Result::Ok(val) => val,
-            Result::Err(err) => {
-                def1x!("return {:?}", err);
-                return Err(err);
-            }
-        };
-        let metadata: FileMetadata = match file.metadata() {
-            Result::Ok(val) => val,
-            Result::Err(err) => {
-                def1x!("return {:?}", err);
-                return Err(err);
+        def1o!("FILE_HANDLE_MANAGER.request_open({:?})", path_actual);
+        let metadata = {
+            let file: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                path_id,
+                FileHandleRole::PrimaryRead,
+                path_actual,
+                OpenOptionsManaged::read_only(),
+            ) {
+                Result::Ok(val) => val,
+                Result::Err(err) => {
+                    def1x!("return {:?}", err);
+                    return Err(err);
+                }
+            };
+            match file.metadata() {
+                Result::Ok(val) => val,
+                Result::Err(err) => {
+                    def1x!("return {:?}", err);
+                    return Err(err);
+                }
             }
         };
         let filesz: FileSz = metadata.len() as FileSz;
@@ -1078,9 +1085,20 @@ impl<'a> JournalReader {
         };
         def1o!("mtime {:?}", mtime);
 
+        // This `FileHandleUnmanaged` is a reservation for the file handle owned by `libsystemd`.
+        let file_handle_unmanaged = match FILE_HANDLE_MANAGER.request_unmanaged_open(
+            path_id,
+            FileHandleRole::Unmanaged,
+            path_actual,
+        ) {
+            Result::Ok(val) => val,
+            Result::Err(err) => {
+                def1x!("return {:?}", err);
+                return Err(err);
+            }
+        };
+
         // create the `JournalFile` file descriptor handle
-        let mut journal_handle: Box<sd_journal> = Box::new(sd_journal { _unused: [0; 0] });
-        def1o!("journal_handle @{:p}", journal_handle.as_ref());
         let path_cs: CString = match named_temp_file {
             Some(ref ntf) => {
                 let fpath: FPath = path_to_fpath(ntf.as_ref());
@@ -1091,7 +1109,7 @@ impl<'a> JournalReader {
         };
         def1o!("path_cs {:?}", path_cs);
 
-        let mut journal_handle_ptr: *mut sd_journal = journal_handle.as_mut();
+        let mut journal_handle_ptr: *mut sd_journal = ::std::ptr::null_mut();
         def1o!("*journal_handle @{:?}", journal_handle_ptr);
         let journal_api_ptr = journal_api();
         unsafe {
@@ -1119,7 +1137,6 @@ impl<'a> JournalReader {
         def1x!("return Ok(JournalReader)");
 
         Result::Ok(JournalReader {
-            _journal_handle: journal_handle,
             journal_handle_ptr,
             journal_api_ptr,
             fill_buffer,
@@ -1128,6 +1145,7 @@ impl<'a> JournalReader {
             path,
             path_id,
             named_temp_file,
+            _file_handle_unmanaged: file_handle_unmanaged,
             journal_output,
             fixed_offset,
             events_processed: 0,

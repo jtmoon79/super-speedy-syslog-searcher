@@ -52,8 +52,9 @@ fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
 
     venv_setup();
 
+    let path_id = path_id_generator();
     let per = PyEventReader::new(
-        path_id_generator(),
+        path_id,
         path,
         Some(EtlParserUsed::DissectEtl),
         FileType::Etl { archival_type: FileTypeArchive::Normal },
@@ -61,6 +62,7 @@ fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
         pipe_sz,
     ).unwrap();
     defo!("per: {:?}", per);
+    assert_eq!(per.path_id(), path_id);
     assert_eq!(per.filesz(), ETL_1_FILESZ);
     defo!("per.mtime(): {:?}", per.mtime());
     defo!("per.path(): {:?}", per.path());
@@ -99,8 +101,9 @@ fn test_PyEventReader_new_asl_odl(
 {
     venv_setup();
 
+    let path_id = path_id_generator();
     let per = PyEventReader::new(
-        path_id_generator(),
+        path_id,
         path.clone(),
         etl_parser_used,
         filetype,
@@ -108,6 +111,7 @@ fn test_PyEventReader_new_asl_odl(
         pipe_sz,
     ).unwrap();
     defo!("per: {:?}", per);
+    assert_eq!(per.path_id(), path_id);
     assert_eq!(per.filesz(), size_expected, "expected filesz {} for path {:?}", size_expected, &path);
     defo!("per.mtime(): {:?}", per.mtime());
     defo!("per.path(): {:?}", per.path());

@@ -54,9 +54,6 @@ use crate::common::{
     Bytes,
     Count,
     FPath,
-    File,
-    FileMetadata,
-    FileOpenOptions,
     FileSz,
     FileType,
     FileTypeArchive,
@@ -95,6 +92,12 @@ use crate::python::pyrunner::{
     RECV_TIMEOUT,
 };
 use crate::readers::filedecompressor::decompress_to_ntf;
+use crate::readers::filehandlemanager::{
+    FILE_HANDLE_MANAGER,
+    FileHandleManaged,
+    FileHandleRole,
+    OpenOptionsManaged,
+};
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::Summary;
 
@@ -286,7 +289,6 @@ impl PyEventReader {
 
         // get the file size according to the file metadata
         let path_std: &Path = Path::new(&path);
-        let mut open_options = FileOpenOptions::new();
         let named_temp_file: Option<TempPath>;
         let mtime_opt: Option<SystemTime>;
 
@@ -308,22 +310,26 @@ impl PyEventReader {
             None => path_std,
         };
         def1o!("path_actual {:?}", path_actual);
-        def1o!("open_options.read(true).open({:?})", path_actual);
-        let file: File = match open_options
-            .read(true)
-            .open(path_actual)
-        {
-            Result::Ok(val) => val,
-            Result::Err(err) => {
-                def1x!("return {:?}", err);
-                return Err(err);
-            }
-        };
-        let metadata: FileMetadata = match file.metadata() {
-            Result::Ok(val) => val,
-            Result::Err(err) => {
-                def1x!("return {:?}", err);
-                return Err(err);
+        def1o!("FILE_HANDLE_MANAGER.request_open({:?})", path_actual);
+        let metadata = {
+            let file: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                path_id,
+                FileHandleRole::PrimaryRead,
+                path_actual,
+                OpenOptionsManaged::read_only(),
+            ) {
+                Result::Ok(val) => val,
+                Result::Err(err) => {
+                    def1x!("return {:?}", err);
+                    return Err(err);
+                }
+            };
+            match file.metadata() {
+                Result::Ok(val) => val,
+                Result::Err(err) => {
+                    def1x!("return {:?}", err);
+                    return Err(err);
+                }
             }
         };
         let filesz: FileSz = metadata.len() as FileSz;
