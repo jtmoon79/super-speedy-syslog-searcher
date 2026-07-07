@@ -285,7 +285,7 @@ pub struct SummaryFileHandleManager {
     pub count_hi: u32,
     pub request_open_calls: Count,
     pub request_read_calls: Count,
-    pub request_unmanaged_open_calls: Count,
+    pub request_open_unmanaged_calls: Count,
     pub read_calls: Count,
     pub write_calls: Count,
     pub seek_calls: Count,
@@ -854,7 +854,7 @@ impl FileHandleManager {
     }
 
     /// Reserve capacity for a file handle owned outside this manager.
-    pub fn request_unmanaged_open(
+    pub fn request_open_unmanaged(
         &self,
         path_id: PathId,
         role: FileHandleRole,
@@ -873,7 +873,7 @@ impl FileHandleManager {
         summary_stat!(
             state
                 .summary
-                .request_unmanaged_open_calls += 1
+                .request_open_unmanaged_calls += 1
         );
         def1x!("return Ok(FileHandleUnmanaged)");
 
