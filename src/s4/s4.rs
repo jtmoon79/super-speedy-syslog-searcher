@@ -238,6 +238,7 @@ use ::s4lib::printer::summary::{
     MapPathIdToPrinterLogMessage,
     MapPathIdToProcessPathResult,
     MapPathIdToProcessPathResultOrdered,
+    MapPathIdToStackSize,
     SummaryPrinted,
 };
 use ::s4lib::python::pyrunner::{
@@ -5630,6 +5631,8 @@ fn processing_loop(
     let mut map_pathid_color = MapPathIdToColor::with_capacity(file_count);
     // mapping PathId to a `Summary` for `--summary`
     let mut map_pathid_summary = MapPathIdSummary::with_capacity(file_count);
+    // mapping PathId to stack size
+    let mut map_pathid_stacksize = MapPathIdToStackSize::with_capacity(file_count);
     // Track if an error has been printed regarding a particular type of
     // logmessage printing problem.
     // Only want to print this particular error once, not hundreds of times.
@@ -5685,6 +5688,7 @@ fn processing_loop(
         //       https://stackoverflow.com/questions/79924143/get-rust-default-stack-size-at-runtime
 
         // values derived from experiments with `tools/build-regex-times.sh`
+        // and `tools/stack-size.sh`
         let mut stack_size = match (cfg!(debug_assertions), filetype) {
             (true, _) =>
                 // ere regex + debug requires a very large stack size
@@ -5717,6 +5721,10 @@ fn processing_loop(
         } else if cfg!(debug_assertions) {
             stack_size *= 2;
         }
+        else if PROFILE_NAME != "release" {
+            // non-debug non-optimized "release" builds
+            stack_size += 1024 * 2000;
+        }
         // compressed versions of files add between 0 to 60KB, depending
         // upon the compression type. This did not vary due to log file size.
         if filetype.is_compressed () {
@@ -5736,6 +5744,7 @@ fn processing_loop(
             }
         }
         defo!("stack_size={stack_size}{}", _from_env.then_some(" (from RUST_MIN_STACK env. var.)").unwrap_or(""));
+        map_pathid_stacksize.insert(*pathid, stack_size);
 
         // TODO: [2026/06] it would be interesting to experiment with different `CHANNEL_CAPACITY` values
         //                 effects on performance.
@@ -5785,6 +5794,7 @@ fn processing_loop(
             map_pathid_modified_time,
             map_pathid_file_processing_result,
             map_pathid_filetype,
+            map_pathid_stacksize,
             map_pathid_logmessagetype,
             map_pathid_color,
             map_pathid_summary,
@@ -6673,6 +6683,7 @@ fn processing_loop(
             map_pathid_modified_time,
             map_pathid_file_processing_result,
             map_pathid_filetype,
+            map_pathid_stacksize,
             map_pathid_logmessagetype,
             map_pathid_color,
             map_pathid_summary,

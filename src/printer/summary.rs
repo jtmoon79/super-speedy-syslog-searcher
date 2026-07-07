@@ -99,6 +99,7 @@ pub type MapPathIdToPrinterLogMessage = HashMap<PathId, PrinterLogMessage>;
 pub type MapPathIdToModifiedTime = HashMap<PathId, DateTimeLOpt>;
 pub type MapPathIdToFileProcessingResultBlockZero = HashMap<PathId, FileProcessingResultBlockZero>;
 pub type MapPathIdToFileType = HashMap<PathId, FileType>;
+pub type MapPathIdToStackSize = HashMap<PathId, usize>;
 pub type MapPathIdToLogMessageType = HashMap<PathId, LogMessageType>;
 
 /// Print the various caching statistics.
@@ -788,6 +789,7 @@ pub fn print_summary(
     map_pathid_modified_time: MapPathIdToModifiedTime,
     map_pathid_file_processing_result: MapPathIdToFileProcessingResultBlockZero,
     map_pathid_filetype: MapPathIdToFileType,
+    map_pathid_stacksize: MapPathIdToStackSize,
     map_pathid_logmessagetype: MapPathIdToLogMessageType,
     map_pathid_color: MapPathIdToColor,
     mut map_pathid_summary: MapPathIdSummary,
@@ -824,6 +826,7 @@ pub fn print_summary(
         &map_pathid_modified_time,
         &map_pathid_file_processing_result,
         &map_pathid_filetype,
+        &map_pathid_stacksize,
         &map_pathid_logmessagetype,
         &map_pathid_color,
         &mut map_pathid_summary,
@@ -994,6 +997,7 @@ fn print_file_about(
     modified_time: &DateTimeLOpt,
     file_processing_result: Option<&FileProcessingResultBlockZero>,
     filetype: &FileType,
+    stack_size: usize,
     logmessagetype: &LogMessageType,
     summary_opt: &SummaryOpt,
     color: &Color,
@@ -1116,6 +1120,8 @@ fn print_file_about(
             _ => {}
         }
     }
+
+    eprintln!("{}thread stack  : {} (bytes)", OPT_SUMMARY_PRINT_INDENT2, stack_size);
 
     // print `FileProcessingResult` if it was not okay
     if let Some(result) = file_processing_result {
@@ -1979,6 +1985,7 @@ fn print_file_summary(
     modified_time: &DateTimeLOpt,
     file_processing_result: Option<&FileProcessingResultBlockZero>,
     filetype: &FileType,
+    stack_size: usize,
     logmessagetype: &LogMessageType,
     summary_opt: &SummaryOpt,
     summary_print_opt: &SummaryPrintedOpt,
@@ -1992,6 +1999,7 @@ fn print_file_summary(
         modified_time,
         file_processing_result,
         filetype,
+        stack_size,
         logmessagetype,
         summary_opt,
         color,
@@ -2031,6 +2039,7 @@ fn print_all_files_summaries(
     map_pathid_modified_time: &MapPathIdToModifiedTime,
     map_pathid_file_processing_result: &MapPathIdToFileProcessingResultBlockZero,
     map_pathid_filetype: &MapPathIdToFileType,
+    map_pathid_stacksize: &MapPathIdToStackSize,
     map_pathid_logmessagetype: &MapPathIdToLogMessageType,
     map_pathid_color: &MapPathIdToColor,
     map_pathid_summary: &mut MapPathIdSummary,
@@ -2070,6 +2079,13 @@ fn print_all_files_summaries(
                     &FileType::Unparsable
                 }
             );
+        let stack_size: usize = *map_pathid_stacksize.get(pathid).unwrap_or_else(
+                || {
+                    debug_panic!("stack_size not found for PathID {:?} (path {:?})", pathid, path);
+
+                    &0
+                }
+            );
         let logmessagetype: &LogMessageType = map_pathid_logmessagetype
             .get(pathid)
             .unwrap_or_else(
@@ -2089,6 +2105,7 @@ fn print_all_files_summaries(
             modified_time,
             file_processing_result,
             filetype,
+            stack_size,
             logmessagetype,
             &summary_opt,
             &summary_print_opt,
