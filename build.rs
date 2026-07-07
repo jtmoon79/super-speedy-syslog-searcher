@@ -265,32 +265,9 @@ fn write_git_commit_file() {
 
 /// Write build `--features` to a file as a string for `include!`.
 fn write_features_file() {
-    let list_features_rs = out_path().join("list_features.rs");
-    let features: String = list_features::list_enabled_as_string("LIST_FEATURES");
-    std::fs::write(&list_features_rs, features).unwrap();
-    // writes a Rust file that looks like:
-    //      pub const LIST_FEATURES: &[&str] = &[
-    //          "alloc_tracker",
-    //      ];
+    let features: Vec<String> = list_features::list_enabled();
+    let features_str = format!("\"{}\"", features.join(", "));
 
-    // scrape that Rust file so it can be included as a `const &str` in `s4.rs`
-    let file = File::open(&list_features_rs).unwrap();
-    let reader = BufReader::new(file);
-    let values: Vec<String> = reader.lines().map(|line| line.unwrap()).collect();
-    let mut features_str = String::from("\"");
-    for line in values[1..values.len() - 1].iter() {
-        let line = line.trim().trim_matches(',').trim_matches('"').to_string();
-        if !line.is_empty() {
-            features_str.push_str(&line);
-            features_str.push_str(", ");
-        }
-    }
-    while features_str.ends_with(',') || features_str.ends_with(' ') {
-        features_str.pop();
-    }
-    features_str.push('"');
-
-    // write the scraped values to a text file
     let list_features_txt = out_path().join("list_features.txt");
     std::fs::write(&list_features_txt, &features_str).unwrap();
     info!("Wrote enabled features {features_str} to file {list_features_txt:?}");
