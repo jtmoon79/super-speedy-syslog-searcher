@@ -5438,7 +5438,7 @@ fn processing_loop(
     // map `PathId` to the last `FileProcessResult
     let mut map_pathid_file_processing_result = MapPathIdToFileProcessingResultBlockZero::with_capacity(file_count);
     // map `PathId` to file's file-system _Modified Time_ attribute
-    let mut map_pathid_modified_time = MapPathIdToModifiedTime::with_capacity(file_count);
+    let mut map_pathid_modifiedtime = MapPathIdToModifiedTime::with_capacity(file_count);
     // map `PathId` to  acknowledgement of receipt of a `ChanDatum::FileInfo` message.
     // Every `exec_*process` thread must first send a `ChanDatum::FileInfo` message
     // before sending any `ChanDatum::NewMessage`.
@@ -5791,7 +5791,7 @@ fn processing_loop(
             map_pathid_results,
             map_pathid_results_invalid,
             map_pathid_path,
-            map_pathid_modified_time,
+            map_pathid_modifiedtime,
             map_pathid_file_processing_result,
             map_pathid_filetype,
             map_pathid_stacksize,
@@ -6019,9 +6019,8 @@ fn processing_loop(
                         ChanDatum::FileInfo(dt_opt, file_processing_result) => {
                             defn!("B1 received ChanDatum::FileInfo for {:?}, modified_time, for {:?}", pathid, dt_opt);
                             defo!("B1 file_processing_result {:?}", file_processing_result);
-                            defo!("B1 map_pathid_modified_time.insert({:?}, {:?})",
-                                  pathid, dt_opt);
-                            if map_pathid_modified_time.insert(pathid, dt_opt).is_some() {
+                            defo!("B1 map_pathid_modifiedtime.insert({pathid:?}, {dt_opt:?})");
+                            if map_pathid_modifiedtime.insert(pathid, dt_opt).is_some() {
                                 debug_panic!("Already had stored DateTimeLOpt for PathID {:?}", pathid)
                             }
                             defo!("B1 received file_processing_result {:?} for {:?}", file_processing_result, pathid);
@@ -6680,7 +6679,7 @@ fn processing_loop(
             map_pathid_results,
             map_pathid_results_invalid,
             map_pathid_path,
-            map_pathid_modified_time,
+            map_pathid_modifiedtime,
             map_pathid_file_processing_result,
             map_pathid_filetype,
             map_pathid_stacksize,

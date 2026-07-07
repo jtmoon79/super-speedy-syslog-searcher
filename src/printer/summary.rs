@@ -786,7 +786,7 @@ pub fn print_summary(
     map_pathid_results: MapPathIdToProcessPathResult,
     map_pathid_results_invalid: MapPathIdToProcessPathResultOrdered,
     map_pathid_path: MapPathIdToFPath,
-    map_pathid_modified_time: MapPathIdToModifiedTime,
+    map_pathid_modifiedtime: MapPathIdToModifiedTime,
     map_pathid_file_processing_result: MapPathIdToFileProcessingResultBlockZero,
     map_pathid_filetype: MapPathIdToFileType,
     map_pathid_stacksize: MapPathIdToStackSize,
@@ -823,7 +823,7 @@ pub fn print_summary(
     // print details about all the valid files
     print_all_files_summaries(
         &map_pathid_path,
-        &map_pathid_modified_time,
+        &map_pathid_modifiedtime,
         &map_pathid_file_processing_result,
         &map_pathid_filetype,
         &map_pathid_stacksize,
@@ -2036,7 +2036,7 @@ fn print_file_summary(
 #[allow(clippy::too_many_arguments)]
 fn print_all_files_summaries(
     map_pathid_path: &MapPathIdToFPath,
-    map_pathid_modified_time: &MapPathIdToModifiedTime,
+    map_pathid_modifiedtime: &MapPathIdToModifiedTime,
     map_pathid_file_processing_result: &MapPathIdToFileProcessingResultBlockZero,
     map_pathid_filetype: &MapPathIdToFileType,
     map_pathid_stacksize: &MapPathIdToStackSize,
@@ -2061,7 +2061,7 @@ fn print_all_files_summaries(
                    color_default
                 }
             );
-        let modified_time: &DateTimeLOpt = map_pathid_modified_time.get(pathid)
+        let modified_time: &DateTimeLOpt = map_pathid_modifiedtime.get(pathid)
             .unwrap_or_else(
                 || {
                     debug_panic!("modified_time not found for PathID {:?} (path {:?})", pathid, path);
