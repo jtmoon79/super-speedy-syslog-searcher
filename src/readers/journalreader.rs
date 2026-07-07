@@ -920,7 +920,8 @@ pub struct JournalReader {
     /// When the `JournalReader` is dropped, this `FileHandleUnmanaged`
     /// instance will be dropped. That will cause the `FILE_HANDLE_MANAGER` to
     /// update its tracking of outstanding file handles.
-    _file_handle_unmanaged: FileHandleUnmanaged,
+    #[allow(dead_code)]
+    file_handle_libsystemd: FileHandleUnmanaged,
     /// The [`JournalOutput`] for the file being read.
     /// Derived from `journalctl --output` options.
     journal_output: JournalOutput,
@@ -1103,7 +1104,7 @@ impl<'a> JournalReader {
         def1o!("mtime {:?}", mtime);
 
         // This `FileHandleUnmanaged` is a reservation for the file handle owned by `libsystemd`.
-        let file_handle_unmanaged: FileHandleUnmanaged = match FILE_HANDLE_MANAGER.request_unmanaged_open(
+        let file_handle_libsystemd: FileHandleUnmanaged = match FILE_HANDLE_MANAGER.request_open_unmanaged(
             path_id,
             FileHandleRole::Unmanaged,
             path_actual,
@@ -1165,7 +1166,7 @@ impl<'a> JournalReader {
             path,
             path_id,
             named_temp_file,
-            _file_handle_unmanaged: file_handle_unmanaged,
+            file_handle_libsystemd: file_handle_libsystemd,
             journal_output,
             fixed_offset,
             events_processed: 0,
