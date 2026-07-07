@@ -366,7 +366,7 @@ fn test_unmanaged_handle_reservation_releases_on_drop() {
 
     {
         let _handle = manager
-            .request_unmanaged_open(PATH_ID_A, FileHandleRole::Unmanaged, ntf.path())
+            .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, ntf.path())
             .unwrap();
         assert_eq!(manager.open_count(), 0);
         assert_eq!(manager.total_open_count(), 1);
@@ -378,7 +378,7 @@ fn test_unmanaged_handle_reservation_releases_on_drop() {
     assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
 
     let summary = manager.summary();
-    assert_eq!(summary.request_unmanaged_open_calls, 1);
+    assert_eq!(summary.request_open_unmanaged_calls, 1);
     assert_eq!(summary.managed_open_count_hi, 0);
     assert_eq!(summary.unmanaged_count_hi, 1);
     assert_eq!(summary.count_hi, 1);
@@ -394,7 +394,7 @@ fn test_unmanaged_and_managed_high_water_counts_can_coexist() {
         .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
     let _unmanaged = manager
-        .request_unmanaged_open(PATH_ID_B, FileHandleRole::Unmanaged, ntf_b.path())
+        .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, ntf_b.path())
         .unwrap();
 
     assert_eq!(manager.open_count(), 1);
@@ -418,7 +418,7 @@ fn test_unmanaged_handle_reservation_forces_managed_eviction() {
     assert_eq!(manager.open_count(), 1);
 
     let unmanaged = manager
-        .request_unmanaged_open(PATH_ID_B, FileHandleRole::Unmanaged, ntf_b.path())
+        .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, ntf_b.path())
         .unwrap();
     assert_eq!(manager.open_count(), 0);
     assert_eq!(manager.total_open_count(), 1);
@@ -439,7 +439,7 @@ fn test_unmanaged_handle_reservation_forces_managed_eviction() {
     drop(handle_a);
 
     let summary = manager.summary();
-    assert_eq!(summary.request_unmanaged_open_calls, 1);
+    assert_eq!(summary.request_open_unmanaged_calls, 1);
     assert_eq!(summary.evict_succeed, 1);
     assert_eq!(summary.evict_fails, 1);
     assert_eq!(summary.managed_open_count_hi, 1);

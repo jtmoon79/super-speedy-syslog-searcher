@@ -877,7 +877,7 @@ pub fn print_summary(
     eprintln!("Managed evict succeed  : {}", summary_filehandlemanager.evict_succeed);
     eprintln!("Managed evict fails    : {}", summary_filehandlemanager.evict_fails);
     eprintln!("Unmanaged files high   : {}", summary_filehandlemanager.unmanaged_count_hi);
-    eprintln!("Unmanaged request open : {}", summary_filehandlemanager.request_unmanaged_open_calls);
+    eprintln!("Unmanaged request open : {}", summary_filehandlemanager.request_open_unmanaged_calls);
     eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN_MAX);
     eprintln!("Regex patterns compiled: {}", DATETIME_PARSE_DATAS_LEN);
 
