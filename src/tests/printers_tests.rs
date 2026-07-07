@@ -62,6 +62,7 @@ use crate::printer::summary::{
     MapPathIdToModifiedTime,
     MapPathIdToProcessPathResult,
     MapPathIdToProcessPathResultOrdered,
+    MapPathIdToStackSize,
     SummaryPrinted,
 };
 use crate::readers::blockreader::BlockSz;
@@ -707,6 +708,7 @@ fn test_print_summary_empty() {
         MapPathIdToModifiedTime::new(),
         MapPathIdToFileProcessingResultBlockZero::new(),
         MapPathIdToFileType::new(),
+        MapPathIdToStackSize::new(),
         MapPathIdToLogMessageType::new(),
         MapPathIdToColor::new(),
         MapPathIdSummary::new(),
