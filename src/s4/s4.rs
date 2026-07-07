@@ -5895,9 +5895,9 @@ fn processing_loop(
         };
         def1o!("soper.recv({:?})", chan);
         // Get the result of the `recv` done during `select`
-        let result = soper.recv(chan);
-        def1o!("soper.recv returned {:?}", result);
-        def1x!("pathid {:?}", pathid);
+        let result: RecvResult4 = soper.recv(chan);
+
+        def1x!("pathid {:?}. soper.recv returned {:?}", pathid, result);
 
         Some((*pathid, result))
     }
