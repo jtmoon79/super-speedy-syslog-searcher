@@ -33,5 +33,4 @@
 
 - start bash shells with options `--norc --noprofile`.
   Or use plain POSIX `sh` shells.
-  Plain POSIX `sh` avoids common prompt error `"bash: __zoxide_hook: command not found"`.
-- run `cargo` commands with `S4_BUILD_REGEX=ALL`
+  Plain POSIX `sh` avoids common prompt error `bash: __zoxide_hook: command not found`.
