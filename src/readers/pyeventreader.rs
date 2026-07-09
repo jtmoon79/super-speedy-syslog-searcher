@@ -439,6 +439,7 @@ impl PyEventReader {
         );
         let pyrunner: PyRunner = match PyRunner::new(
             PythonToUse::EnvVenv,
+            path_id,
             std::cmp::min(pipe_sz, 32768),
             RECV_TIMEOUT,
             Some(DELIMITER_EVENTS),
@@ -1000,6 +1001,6 @@ impl PyEventReader {
 
 impl Drop for PyEventReader {
     fn drop(&mut self) {
-        def1ñ!();
+        def1ñ!("PathID {} path {:?}", self.path_id(), self.path());
     }
 }

@@ -3720,6 +3720,6 @@ impl SyslineReader {
 
 impl Drop for SyslineReader {
     fn drop(&mut self) {
-        def1ñ!();
+        def1ñ!("PathID {} Path {:?}", self.path_id(), self.path());
     }
 }
