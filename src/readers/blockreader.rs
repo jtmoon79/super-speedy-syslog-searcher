@@ -724,8 +724,8 @@ impl BlockReader {
         let path = path.clone();
         let path_std: &Path = Path::new(&path);
 
-        def1o!("FILE_HANDLE_MANAGER.request_open({:?})", path);
-        let file_handle: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+        def1o!("FILE_HANDLE_MANAGER.request_open_managed({:?})", path);
+        let file_handle: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
             path_id,
             FileHandleRole::PrimaryRead,
             path_std,
@@ -850,7 +850,7 @@ impl BlockReader {
                     ));
                 }
 
-                let file_handle2: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                let file_handle2: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
                     path_id,
                     FileHandleRole::SecondaryRead,
                     path_std,
@@ -896,7 +896,7 @@ impl BlockReader {
                 def1o!("Bz2: filesz_uncompressed {}", filesz_uncompressed);
                 filesz_actual = filesz_uncompressed;
 
-                let file_handle3: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                let file_handle3: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
                     path_id,
                     FileHandleRole::SecondaryRead,
                     path_std,
@@ -1024,7 +1024,7 @@ impl BlockReader {
                 }
 
                 def1o!("FileGz: open_options.read(true).open({:?})", path_std);
-                let file_gz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                let file_gz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
                     path_id,
                     FileHandleRole::SecondaryRead,
                     path_std,
@@ -1101,7 +1101,7 @@ impl BlockReader {
                 blocksz = blocksz_;
                 def1o!("FileLz4: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
                 def1o!("FileLz4: open_options.read(true).open({:?})", path_std);
-                let file_lz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                let file_lz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
                     path_id,
                     FileHandleRole::SecondaryRead,
                     path_std,
@@ -1155,7 +1155,7 @@ impl BlockReader {
 
                 // recreate the `lz4_decoder` so it is at the start of the file
 
-                let file_lz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                let file_lz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
                     path_id,
                     FileHandleRole::SecondaryRead,
                     path_std,
@@ -1289,7 +1289,7 @@ impl BlockReader {
                 blocksz = blocksz_;
                 def1o!("FileXz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
                 def1o!("FileXz: open_options.read(true).open({:?})", path_std);
-                let mut file_xz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                let mut file_xz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
                     path_id,
                     FileHandleRole::SecondaryRead,
                     path_std,
@@ -4540,13 +4540,13 @@ impl BlockReader {
         role: FileHandleRole,
         path_tar: &Path,
     ) -> Result<TarHandle> {
-        defo!("FILE_HANDLE_MANAGER.request_open({:?})", path_tar);
+        defo!("FILE_HANDLE_MANAGER.request_open_managed({:?})", path_tar);
         let file_tar: FileHandleManaged = match FILE_HANDLE_MANAGER
-            .request_open(path_id, role, path_tar, OpenOptionsManaged::read_only())
+            .request_open_managed(path_id, role, path_tar, OpenOptionsManaged::read_only())
         {
             Ok(val) => val,
             Err(err) => {
-                defx!("FILE_HANDLE_MANAGER.request_open({:?}) Error, return {:?}", path_tar, err);
+                defx!("FILE_HANDLE_MANAGER.request_open_managed({:?}) Error, return {:?}", path_tar, err);
                 return Err(err);
             }
         };

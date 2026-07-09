@@ -263,7 +263,10 @@ use ::s4lib::readers::filedecompressor::{
     count_temporary_files,
     remove_temporary_files,
 };
-use ::s4lib::readers::filehandlemanager::FILE_HANDLE_MANAGER;
+use ::s4lib::readers::filehandlemanager::{
+    filetype_handle_counts,
+    FILE_HANDLE_MANAGER,
+};
 use ::s4lib::readers::filepreprocessor::{
     process_path,
     ProcessPathResult,
@@ -5566,6 +5569,8 @@ fn processing_loop(
     map_pathid_logmessagetype.shrink_to_fit();
     map_pathid_results.shrink_to_fit();
 
+    FILE_HANDLE_MANAGER.handle_reservations(&map_pathid_filetype);
+
     // rebind to be immutable just to be extra cautious
     let map_pathid_logmessagetype = map_pathid_logmessagetype;
 
@@ -5656,7 +5661,21 @@ fn processing_loop(
     // very unlikely to be `true` already but check anyway before starting threads
     exit_early_check!();
 
-    for (pathid, path) in map_pathid_path.iter() {
+    let mut pathids_processing_order: Vec<PathId> = map_pathid_path
+        .keys()
+        .copied()
+        .collect();
+    pathids_processing_order.sort_by_key(|path_id| {
+        let count_unmanaged = map_pathid_filetype
+            .get(path_id)
+            .map_or(0, |filetype| filetype_handle_counts(*filetype).1);
+        (count_unmanaged != 0, *path_id)
+    });
+
+    for pathid in pathids_processing_order.iter() {
+        let path = map_pathid_path
+            .get(pathid)
+            .unwrap_or_else(|| panic!("bad pathid {pathid}"));
         let (filetype, _) = match map_pathid_results.get(pathid) {
             Some(processpathresult) => match processpathresult {
                 ProcessPathResult::FileValid(_path, filetype) => (filetype, _path),
