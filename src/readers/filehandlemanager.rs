@@ -387,8 +387,8 @@ impl FileHandleManagerState {
         def1ñ!("open_max={}", open_max);
         let lru_capacity = open_max;
         let mut summary = SummaryFileHandleManager::default();
-        summary_stat!(summary.open_max_default = open_max.get() as u32);
-        summary_stat!(summary.open_max_adjusted = summary.open_max_default);
+        summary_stat!(summary.open_max_default = FILE_HANDLE_OPEN_MAX_DEFAULT.get() as u32);
+        summary_stat!(summary.open_max_adjusted = open_max.get() as u32);
         Self {
             handles_managed: HashMap::new(),
             handles_unmanaged: HashMap::new(),
