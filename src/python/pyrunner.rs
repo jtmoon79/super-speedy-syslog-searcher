@@ -82,11 +82,17 @@ use crate::common::{
     Bytes,
     Count,
     FPath,
+    PathId,
     threadid_to_u64,
     summary_stat,
 };
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::buffer_to_string_noraw;
+use crate::readers::filehandlemanager::{
+    FILE_HANDLE_MANAGER,
+    FileHandleUnmanaged,
+    FileHandleRole,
+};
 use crate::readers::helpers::path_to_fpath;
 use crate::python::venv::venv_path;
 
@@ -658,6 +664,10 @@ pub struct PyRunner {
     pub pipe_sz_stdout: PipeSz,
     /// pipe buffer size in bytes for stderr `PipeStreamReader`
     pub pipe_sz_stderr: PipeSz,
+    /// Unmanaged file handle to represent the Python process.
+    /// When this `PyEventReader` is dropped then the `FILE_HANDLE_MANAGER` is updated.
+    #[allow(dead_code)]
+    file_handle_python_proc: FileHandleUnmanaged,
     /// `Instant` Python process was started.
     time_beg: Instant,
     /// `Instant` the Python process was first known to be exited.
@@ -802,6 +812,19 @@ impl PyRunner {
             }
         );
 
+        // reserve the open file handle for the new Python process
+        let file_handle_python_proc: FileHandleUnmanaged = match FILE_HANDLE_MANAGER.request_open_unmanaged(
+            path_id,
+            FileHandleRole::Unmanaged,
+            &python_path_,
+        ) {
+            Result::Ok(val) => val,
+            Result::Err(err) => {
+                def1x!("return {:?}", err);
+                return Err(err);
+            }
+        };
+
         def1o!("Command::new({:?}).args({:?}).spawn()", python_path_, Vec::from_iter(argv_.iter().skip(1)));
         let time_beg: Instant = Instant::now();
         let result = Command::new(python_path_.as_str())
@@ -895,6 +918,7 @@ impl PyRunner {
             pipe_sent_exit: false,
             pipe_sz_stdout,
             pipe_sz_stderr,
+            file_handle_python_proc,
             pid_: pid,
             tid,
             _d_p,

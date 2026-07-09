@@ -315,8 +315,8 @@ impl EvtxReader {
             None => path_std,
         };
         def1o!("path_actual {:?}", path_actual);
-        def1o!("FILE_HANDLE_MANAGER.request_open({:?})", path_actual);
-        let file: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+        def1o!("FILE_HANDLE_MANAGER.request_open_managed({:?})", path_actual);
+        let file: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
             path_id,
             FileHandleRole::PrimaryRead,
             path_actual,

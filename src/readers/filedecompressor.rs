@@ -292,8 +292,8 @@ pub fn decompress_to_ntf(
         }
     }
 
-    defo!("FILE_HANDLE_MANAGER.request_open({:?})", path_ntf);
-    let file_ntf: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+    defo!("FILE_HANDLE_MANAGER.request_open_managed({:?})", path_ntf);
+    let file_ntf: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
         path_id,
         FileHandleRole::SecondaryWrite,
         path_ntf,
@@ -321,8 +321,8 @@ pub fn decompress_to_ntf(
         | FileTypeArchive::Lz4
         | FileTypeArchive::Xz
         => {
-            defo!("FILE_HANDLE_MANAGER.request_open({:?})", path_std);
-            file_compressed = match FILE_HANDLE_MANAGER.request_open(
+            defo!("FILE_HANDLE_MANAGER.request_open_managed({:?})", path_std);
+            file_compressed = match FILE_HANDLE_MANAGER.request_open_managed(
                 path_id,
                 FileHandleRole::SecondaryRead,
                 path_std,

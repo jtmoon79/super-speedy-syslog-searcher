@@ -95,7 +95,6 @@ use crate::readers::filedecompressor::decompress_to_ntf;
 use crate::readers::filehandlemanager::{
     FILE_HANDLE_MANAGER,
     FileHandleManaged,
-    FileHandleUnmanaged,
     FileHandleRole,
     OpenOptionsManaged,
 };
@@ -153,10 +152,6 @@ pub struct PyEventReader {
     named_temp_file: Option<TempPath>,
     /// The `PyRunner` instance for running Python code.
     pyrunner: PyRunner,
-    /// Unmanaged file handle to represent the Python process.
-    /// When this `PyEventReader` is dropped then the `FILE_HANDLE_MANAGER` is updated.
-    #[allow(dead_code)]
-    file_handle_python_proc: FileHandleUnmanaged,
     /// Has the Python process exited?
     exited: bool,
     /// Summary statistic.
@@ -315,9 +310,9 @@ impl PyEventReader {
             None => path_std,
         };
         def1o!("path_actual {:?}", path_actual);
-        def1o!("FILE_HANDLE_MANAGER.request_open({:?})", path_actual);
+        def1o!("FILE_HANDLE_MANAGER.request_open_managed({:?})", path_actual);
         let metadata = {
-            let file: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+            let file: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open_managed(
                 path_id,
                 FileHandleRole::PrimaryRead,
                 path_actual,
@@ -351,19 +346,6 @@ impl PyEventReader {
             },
         };
         def1o!("mtime {:?}", mtime);
-
-        // reserve the open file handle for the new Python process
-        let file_handle_python_proc: FileHandleUnmanaged = match FILE_HANDLE_MANAGER.request_open_unmanaged(
-            path_id,
-            FileHandleRole::Unmanaged,
-            path_actual,
-        ) {
-            Result::Ok(val) => val,
-            Result::Err(err) => {
-                def1x!("return {:?}", err);
-                return Err(err);
-            }
-        };
 
         // prepare the arguments to pass to the Python script
 
@@ -464,7 +446,6 @@ impl PyEventReader {
             path_id,
             named_temp_file,
             pyrunner,
-            file_handle_python_proc,
             exited: false,
             python_arguments,
             fixed_offset,

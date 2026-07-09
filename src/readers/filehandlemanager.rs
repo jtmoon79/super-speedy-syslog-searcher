@@ -78,6 +78,8 @@ use crate::common::{
     File,
     FileMetadata,
     FileOpenOptions,
+    FileType,
+    FPath,
     PathId,
     summary_stat,
 };
@@ -108,17 +110,47 @@ pub const FILE_HANDLE_OPEN_MAX_DEFAULT: OpenMaxCountType = {
     }
 };
 
+/// Default number of unmanaged OS handles represented by one unplanned
+/// [`FileHandleUnmanaged`] reservation.
+const FILE_HANDLE_UNMANAGED_DEFAULT_COUNT: usize = 1;
+
+/// Expected number of unmanaged OS handles owned by one `PyRunner`.
+///
+/// `PyRunner` starts a child process with piped stdin, stdout, and stderr.
+pub(crate) const FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT: u8 = 3;
+
+/// Expected number of unmanaged OS handles owned by one `JournalReader`.
+const FILE_HANDLE_UNMANAGED_JOURNAL_COUNT: u8 = 1;
+
+/// Return the expected managed and unmanaged file handle counts for `filetype`.
+pub const fn filetype_handle_counts(filetype: FileType) -> (u8, u8) {
+    match filetype {
+        FileType::Asl { .. }
+        | FileType::Etl { .. }
+        | FileType::Odl { .. } => (1, FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT),
+        FileType::Journal { .. } => (1, FILE_HANDLE_UNMANAGED_JOURNAL_COUNT),
+        FileType::Evtx { .. }
+        | FileType::FixedStruct { .. }
+        | FileType::Text { .. } => (1, 0),
+        FileType::Unparsable => (0, 0),
+    }
+}
+
 /// The role for a handle associated with a [`PathId`].
 /// The `FileHandleManager` does not enforce behaviors for different
 /// `FileHandleRole` values.
-/// They identify distinct handle slots for the same [`PathId`].
+/// They identify distinct handle slots for the same `PathId`.
+/// In other words, these allow the same file-processing thread to hold thee distinct
+/// `FileHandleManaged` handles that will be treated separately by the `FileHandleManager`.
+// TODO: change the enums to `Managed(ManagedId:u8)` and `Unmanaged`. I think that's less confusing
+//       about the purpose of this enum. Then each `*Reader` should declare a `const FileHandleRole` for it's
+//       known use cases.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum FileHandleRole {
     /// Primary read slot for a path. Use this for handles that are owned for
     /// long lifetimes.
     ///
-    /// This role identifies the main reader-owned read handle for a
-    /// [`PathId`].
+    /// This role identifies the main reader-owned read handle for a [`PathId`].
     PrimaryRead,
     /// Secondary read slot for a path.
     ///
@@ -227,7 +259,7 @@ impl OpenOptionsManaged {
             if *count != 0 {
                 *count -= 1;
                 let err = Error::from_raw_os_error(*raw_os_error);
-                def1x!("return forced Err({:?})", err);
+                def1x!("return Err({:?})", err);
                 return Err(err);
             }
         }
@@ -280,8 +312,8 @@ pub(crate) fn is_error_too_many_open_files(err: &Error) -> bool {
 pub struct SummaryFileHandleManager {
     pub open_max_default: u32,
     pub open_max_adjusted: u32,
-    pub managed_open_count_hi: u32,
-    pub unmanaged_count_hi: u32,
+    pub managed_count_open_hi: u32,
+    pub count_unmanaged_hi: u32,
     pub count_hi: u32,
     pub request_open_calls: Count,
     pub request_read_calls: Count,
@@ -333,10 +365,16 @@ struct FileHandleManagerState {
     handles_managed: HashMap<FileHandleKey, FileEntryManaged>,
     /// Collection of unmanaged file handles.
     handles_unmanaged: HashMap<FileHandleKey, usize>,
+    /// Planned unmanaged file handles that have not yet been opened.
+    handles_unmanaged_pending: HashMap<FileHandleKey, usize>,
+    /// Expected number of managed file handles for the current processing run.
+    handles_managed_expected: usize,
+    /// Expected number of unmanaged file handles for the current processing run.
+    handles_unmanaged_expected: usize,
     /// Least-recently-used cache of managed file handles.
     lru: LruCache<FileHandleKey, ()>,
     /// Current number of open managed file handles.
-    open_count: OpenCountType,
+    count_open: OpenCountType,
     /// Configured maximum number of simultaneously open file handles, managed and unmanaged.
     open_max: OpenMaxCountType,
     /// A summary of activity and statistics for the file handle manager.
@@ -354,68 +392,122 @@ impl FileHandleManagerState {
         Self {
             handles_managed: HashMap::new(),
             handles_unmanaged: HashMap::new(),
+            handles_unmanaged_pending: HashMap::new(),
+            handles_managed_expected: 0,
+            handles_unmanaged_expected: 0,
             lru: LruCache::new(lru_capacity),
-            open_count: 0,
+            count_open: 0,
             open_max,
             summary,
         }
     }
 
     /// Return the number of unmanaged handles currently open.
-    fn unmanaged_count(&self) -> OpenCountType {
+    fn count_unmanaged_usize(&self) -> usize {
         self.handles_unmanaged
             .values()
-            .sum::<usize>() as OpenCountType
+            .sum::<usize>()
+    }
+
+    /// Return the number of unmanaged handles currently open.
+    fn count_unmanaged(&self) -> OpenCountType {
+        self.count_unmanaged_usize() as OpenCountType
+    }
+
+    /// Return the number of planned unmanaged handles not yet open.
+    fn count_pending_unmanaged(&self) -> usize {
+        self.handles_unmanaged_pending
+            .values()
+            .sum::<usize>()
     }
 
     /// Return the total number of open handles, managed and unmanaged.
-    fn total_open_count(&self) -> OpenCountType {
-        self.open_count + self.unmanaged_count()
+    fn count_open_total(&self) -> OpenCountType {
+        self.count_open + self.count_unmanaged()
+    }
+
+    /// Return the total number of open and pending handles.
+    fn count_total_reserved(&self) -> usize {
+        self.count_open as usize
+            + self.count_unmanaged_usize()
+            + self.count_pending_unmanaged()
     }
 
     /// Update the high-water marks for simultaneously open file handles.
-    fn update_open_count_hi(&mut self) {
-        let unmanaged_count = self.unmanaged_count() as u32;
+    fn count_open_hi_update(&mut self) {
+        let count_unmanaged = self.count_unmanaged() as u32;
         summary_stat!(
-            self.summary.managed_open_count_hi = std::cmp::max(
-                self.summary.managed_open_count_hi,
-                self.open_count as u32,
+            self.summary.managed_count_open_hi = std::cmp::max(
+                self.summary.managed_count_open_hi,
+                self.count_open as u32,
             )
         );
         summary_stat!(
-            self.summary.unmanaged_count_hi = std::cmp::max(
-                self.summary.unmanaged_count_hi,
-                unmanaged_count,
+            self.summary.count_unmanaged_hi = std::cmp::max(
+                self.summary.count_unmanaged_hi,
+                count_unmanaged,
             )
         );
         summary_stat!(
             self.summary.count_hi = std::cmp::max(
                 self.summary.count_hi,
-                self.open_count as u32 + unmanaged_count,
+                self.count_open as u32 + count_unmanaged,
             )
         );
     }
 
-    /// Make room for one more managed file handle, evicting a different managed file handle if necessary.
-    fn make_room_for_one(&mut self, key: FileHandleKey) -> Result<()> {
-        def1n!("open_count={} unmanaged_count={} open_max={}", self.open_count, self.unmanaged_count(), self.open_max);
-        while self.total_open_count() >= (self.open_max.get() as OpenCountType) {
+    /// Make room for `requested_count` more file handles, evicting managed file
+    /// handles if necessary.
+    fn make_room_for_count(
+        &mut self,
+        key: FileHandleKey,
+        requested_count: usize,
+    ) -> Result<()> {
+        def1n!("count_open={} count_unmanaged={} count_pending_unmanaged={} open_max={} requested_count={}",
+               self.count_open, self.count_unmanaged(), self.count_pending_unmanaged(), self.open_max, requested_count);
+        while self
+            .count_total_reserved()
+            .saturating_add(requested_count) > self.open_max.get()
+        {
             if ! self.evict_one() {
                 def1x!("return Err(no managed file handle available)");
-                let uc = self.unmanaged_count();
-                let mc = self.open_count;
+                let uc = self.count_unmanaged();
+                let puc = self.count_pending_unmanaged();
+                let mc = self.count_open;
                 let om = self.open_max.get();
                 return Err(
                     Error::new(
                         ErrorKind::WouldBlock,
-                        format!("no managed file handle available for eviction: currently {uc} unmanaged, {mc} managed, open_max {om}; key {key:?}")
+                        format!("no managed file handle available for eviction: currently {uc} unmanaged, {puc} pending unmanaged, {mc} managed, open_max {om}; requested {requested_count}; key {key:?}")
                     )
                 );
             }
         }
-        def1x!("return Ok(())");
+        def1x!("return Ok");
 
         Ok(())
+    }
+
+    /// Make room for one more managed file handle.
+    fn make_room_for_managed(&mut self, key: FileHandleKey) -> Result<()> {
+        def1n!("key={:?}", key);
+        let result = self.make_room_for_count(key, 1);
+        def1x!("ok? {:?}", result.is_ok());
+
+        result
+    }
+
+    /// Make room for one or more unmanaged file handles.
+    fn make_room_for_unmanaged(
+        &mut self,
+        key: FileHandleKey,
+        count: usize,
+    ) -> Result<()> {
+        def1n!("key={:?} count={}", key, count);
+        let result = self.make_room_for_count(key, count);
+        def1x!("ok? {:?}", result.is_ok());
+
+        result
     }
 
     /// Mark a managed file handle as recently used.
@@ -428,7 +520,7 @@ impl FileHandleManagerState {
     }
 
     /// Retain a managed file handle, incrementing its active handle count.
-    fn retain_handle(
+    fn retain_handle_managed(
         &mut self,
         key: FileHandleKey,
     ) -> Result<()> {
@@ -447,7 +539,7 @@ impl FileHandleManagerState {
     }
 
     /// Release a managed file handle, decrementing its active handle count.
-    fn release_handle(
+    fn release_handle_managed(
         &mut self,
         key: FileHandleKey,
     ) {
@@ -476,22 +568,22 @@ impl FileHandleManagerState {
                     def1o!("stream_position failed for {:?}: {:?}", key, _err);
                 }
             }
-            self.open_count = self
-                .open_count
+            self.count_open = self
+                .count_open
                 .saturating_sub(1);
             remove_lru_key = true;
         }
         if remove_lru_key {
             self.lru.pop(&key);
         }
-        def1x!("return");
+        def1x!();
     }
 
     /// Retain an unmanaged file handle, incrementing its active handle count.
-    fn retain_unmanaged_handle(
+    fn retain_handle_unmanaged(
         &mut self,
         key: FileHandleKey,
-    ) -> Result<()> {
+    ) -> Result<usize> {
         def1n!("key={:?}", key);
         if key.role != FileHandleRole::Unmanaged {
             def1x!("return Err(invalid unmanaged key {:?})", key);
@@ -500,35 +592,45 @@ impl FileHandleManagerState {
                 format!("unmanaged file handle {:?} must use FileHandleRole::Unmanaged", key),
             ));
         }
-        self.make_room_for_one(key)?;
-        *self.handles_unmanaged.entry(key).or_insert(0) += 1;
-        self.update_open_count_hi();
-        def1x!("handles_unmanaged={}, return Ok(())", self.handles_unmanaged.get(&key).copied().unwrap_or_default());
+        let pending_count = self.handles_unmanaged_pending.remove(&key);
+        let count = pending_count.unwrap_or(FILE_HANDLE_UNMANAGED_DEFAULT_COUNT);
+        let requested_count = if pending_count.is_some() { 0 } else { count };
+        if let Err(err) = self.make_room_for_unmanaged(key, requested_count) {
+            if let Some(pending_count) = pending_count {
+                self.handles_unmanaged_pending.insert(key, pending_count);
+            }
+            def1x!("return Err({:?})", err);
+            return Err(err);
+        }
+        *self.handles_unmanaged.entry(key).or_insert(0) += count;
+        self.count_open_hi_update();
+        def1x!("handles_unmanaged={}, count={}, return Ok(())", self.handles_unmanaged.get(&key).copied().unwrap_or_default(), count);
 
-        Ok(())
+        Ok(count)
     }
 
     /// Release an unmanaged file handle, decrementing its active handle count.
-    fn release_unmanaged_handle(
+    fn release_handle_unmanaged(
         &mut self,
         key: FileHandleKey,
+        count: usize,
     ) {
-        def1n!("key={:?}", key);
-        let Some(count) = self.handles_unmanaged.get_mut(&key) else {
+        def1n!("key={:?} count={}", key, count);
+        let Some(active_count) = self.handles_unmanaged.get_mut(&key) else {
             def1x!("missing unmanaged entry for {:?}", key);
             return;
         };
-        *count = count.saturating_sub(1);
-        if *count == 0 {
+        *active_count = active_count.saturating_sub(count);
+        if *active_count == 0 {
             self.handles_unmanaged.remove(&key);
         }
-        def1x!("return");
+        def1x!();
     }
 
     /// Evict one currently-open managed file handle, if possible.
     fn evict_one(&mut self) -> bool {
-        def1n!("open_count={} open_max={}", self.open_count, self.open_max);
-        debug_assert_eq!(self.open_count as usize, self.lru.len(), "open_count {} != lru.len() {}", self.open_count, self.lru.len());
+        def1n!("count_open={} open_max={}", self.count_open, self.open_max);
+        debug_assert_eq!(self.count_open as usize, self.lru.len(), "count_open {} != lru.len() {}", self.count_open, self.lru.len());
         while let Some((key, ())) = self.lru.pop_lru() {
             def1o!("consider evict key {:?}", key);
             let Some(entry) = self.handles_managed.get_mut(&key) else {
@@ -546,8 +648,8 @@ impl FileHandleManagerState {
                         def1o!("stream_position failed for {:?}: {:?}", key, _err);
                     }
                 }
-                self.open_count = self
-                    .open_count
+                self.count_open = self
+                    .count_open
                     .saturating_sub(1);
                 summary_stat!(self.summary.evict_succeed += 1);
                 def1x!("evicted {:?}, return true", key);
@@ -576,7 +678,7 @@ impl FileHandleManagerState {
             return Ok(());
         }
 
-        self.make_room_for_one(key)?;
+        self.make_room_for_managed(key)?;
 
         match self.open_entry_once(key) {
             Ok(()) => {
@@ -627,12 +729,12 @@ impl FileHandleManagerState {
         }
         entry.opened_once = true;
         entry.file = Some(file);
-        self.open_count += 1;
+        self.count_open += 1;
         summary_stat!(self.summary.physical_open_calls += 1);
         if is_reopen {
             summary_stat!(self.summary.physical_reopen_calls += 1);
         }
-        self.update_open_count_hi();
+        self.count_open_hi_update();
         self.touch(key);
         def1x!("return Ok(())");
 
@@ -657,20 +759,29 @@ impl FileHandleManagerState {
         // recalculate the number of open files, managed and unmanaged,
         // to adjust the maximum open count.
         // This typically runs after a OS-level "too many open files" open error occurs.
-        let managed_open_count = self
+        let managed_count_open = self
             .handles_managed
             .values()
             .filter(|entry| entry.file.is_some())
             .count();
-        let open_count = managed_open_count + self.unmanaged_count() as usize;
-        let Some(open_max) = OpenMaxCountType::new(open_count) else {
+        let count_unmanaged = self.count_unmanaged() as usize;
+        let managed_retry_count = if managed_count_open == 0
+            && count_unmanaged != 0
+            && self.handles_managed_expected != 0
+        {
+            1
+        } else {
+            0
+        };
+        let count_open = managed_count_open + count_unmanaged + managed_retry_count;
+        let Some(open_max) = OpenMaxCountType::new(count_open) else {
             def1x!("return Err({:?})", err);
             return Err(err);
         };
-        self.open_count = managed_open_count as OpenCountType;
+        self.count_open = managed_count_open as OpenCountType;
         self.open_max = open_max;
         summary_stat!(self.summary.open_max_adjusted = open_max.get() as u32);
-        if ! self.evict_one() {
+        if self.count_open_total() >= self.open_max.get() as OpenCountType && ! self.evict_one() {
             def1x!("return Err({:?})", err);
             return Err(err);
         }
@@ -736,13 +847,13 @@ impl FileHandleManager {
     }
 
     /// Create a new managed file handle.
-    fn managed_handle(
+    fn handle_managed(
         &self,
         state: &mut FileHandleManagerState,
         key: FileHandleKey,
     ) -> Result<FileHandleManaged> {
         def1n!("key={:?}", key);
-        state.retain_handle(key)?;
+        state.retain_handle_managed(key)?;
         def1x!("return Ok(FileHandleManaged)");
 
         Ok(FileHandleManaged {
@@ -752,23 +863,24 @@ impl FileHandleManager {
     }
 
     /// Create a new unmanaged file handle.
-    fn unmanaged_handle(
+    fn handle_unmanaged(
         &self,
         state: &mut FileHandleManagerState,
         key: FileHandleKey,
     ) -> Result<FileHandleUnmanaged> {
         def1n!("key={:?}", key);
-        state.retain_unmanaged_handle(key)?;
+        let count = state.retain_handle_unmanaged(key)?;
         def1x!("return Ok(FileHandleUnmanaged)");
 
         Ok(FileHandleUnmanaged {
             key,
+            count,
             state: Arc::downgrade(&self.state),
         })
     }
 
     /// Register and open a managed file handle.
-    pub fn request_open(
+    pub fn request_open_managed(
         &self,
         path_id: PathId,
         role: FileHandleRole,
@@ -804,14 +916,14 @@ impl FileHandleManager {
                 .insert(key, FileEntryManaged::new(path, open_options));
         }
         if closed_existing {
-            state.open_count = state
-                .open_count
+            state.count_open = state
+                .count_open
                 .saturating_sub(1);
         }
         state.ensure_open(key)?;
         def1x!("return Ok(FileHandleManaged)");
 
-        self.managed_handle(&mut state, key)
+        self.handle_managed(&mut state, key)
     }
 
     /// Return a previously registered managed file handle.
@@ -850,7 +962,7 @@ impl FileHandleManager {
         state.ensure_open(key)?;
         def1x!("return Ok(FileHandleManaged)");
 
-        self.managed_handle(&mut state, key)
+        self.handle_managed(&mut state, key)
     }
 
     /// Reserve capacity for a file handle owned outside this manager.
@@ -858,7 +970,7 @@ impl FileHandleManager {
         &self,
         path_id: PathId,
         role: FileHandleRole,
-        _path: &Path,
+        _path: &FPath,
     ) -> Result<FileHandleUnmanaged> {
         def1n!("path_id={} role={:?} path={:?}", path_id, role, _path);
         if role != FileHandleRole::Unmanaged {
@@ -877,7 +989,38 @@ impl FileHandleManager {
         );
         def1x!("return Ok(FileHandleUnmanaged)");
 
-        self.unmanaged_handle(&mut state, key)
+        self.handle_unmanaged(&mut state, key)
+    }
+
+    /// Plan file handle reservations for the files that will be processed.
+    pub fn handle_reservations(
+        &self,
+        list_files: &HashMap<PathId, FileType>,
+    ) {
+        def1n!("list_files.len()={}", list_files.len());
+        let mut state = self
+            .state
+            .lock()
+            .expect("file handle manager lock poisoned during handle_reservations()");
+        state.handles_unmanaged_pending.clear();
+        let mut _managed_count_total: usize = 0;
+        let mut _count_unmanaged_total: usize = 0;
+        for (path_id, filetype) in list_files.iter() {
+            let (managed_count, count_unmanaged) = filetype_handle_counts(*filetype);
+            _managed_count_total += managed_count as usize;
+            _count_unmanaged_total += count_unmanaged as usize;
+            def1o!("path_id={} filetype={:?} managed_count={} count_unmanaged={}", path_id, filetype, managed_count, count_unmanaged);
+            if count_unmanaged != 0 {
+                state.handles_unmanaged_pending.insert(
+                    FileHandleKey::new(*path_id, FileHandleRole::Unmanaged),
+                    count_unmanaged as usize,
+                );
+            }
+        }
+        state.handles_unmanaged_pending.shrink_to_fit();
+        state.handles_managed_expected = _managed_count_total;
+        state.handles_unmanaged_expected = _count_unmanaged_total;
+        def1x!("managed_count_total={} count_unmanaged_total={} count_pending_unmanaged={} count_open={} count_unmanaged={} open_max={}", _managed_count_total, _count_unmanaged_total, state.count_pending_unmanaged(), state.count_open, state.count_unmanaged(), state.open_max);
     }
 
     /// Return a copy of the current manager summary.
@@ -908,20 +1051,20 @@ impl FileHandleManager {
 
     /// Return the number of managed open handles.
     #[allow(unused)]
-    pub(crate) fn open_count(&self) -> u32 {
+    pub(crate) fn count_open(&self) -> u32 {
         self.state
             .lock()
-            .expect("file handle manager lock poisoned during open_count()")
-            .open_count
+            .expect("file handle manager lock poisoned during count_open()")
+            .count_open
     }
 
     /// Return the number of managed and unmanaged open handles.
     #[allow(unused)]
-    pub(crate) fn total_open_count(&self) -> u32 {
+    pub(crate) fn count_open_total(&self) -> u32 {
         self.state
             .lock()
-            .expect("file handle manager lock poisoned during total_open_count()")
-            .total_open_count()
+            .expect("file handle manager lock poisoned during count_open_total()")
+            .count_open_total()
     }
 
     /// Return the number of managed active handles for a given `path_id` and `role`.
@@ -957,6 +1100,23 @@ impl FileHandleManager {
             .unwrap_or_default()
     }
 
+    /// Return the number of pending unmanaged handles for a given `path_id` and `role`.
+    #[allow(unused)]
+    pub(crate) fn handles_unmanaged_pending_helper(
+        &self,
+        path_id: PathId,
+        role: FileHandleRole,
+    ) -> usize {
+        def1ñ!("path_id={} role={:?}", path_id, role);
+        self.state
+            .lock()
+            .expect("file handle manager lock poisoned during handles_unmanaged_pending_helper()")
+            .handles_unmanaged_pending
+            .get(&FileHandleKey::new(path_id, role))
+            .copied()
+            .unwrap_or_default()
+    }
+
     /// Testing helper.
     #[cfg(test)]
     pub(crate) fn with_file_mut_helper<T>(
@@ -972,7 +1132,7 @@ impl FileHandleManager {
             .expect("file handle manager lock poisoned during with_file_mut_helper()");
         update_summary(&mut state.summary);
         let result = state.with_file_mut(handle.key, f);
-        def1x!("return {:?}", result.is_ok());
+        def1x!("{:?}", result.is_ok());
 
         result
     }
@@ -989,21 +1149,22 @@ pub struct FileHandleManaged {
 #[derive(Debug)]
 pub struct FileHandleUnmanaged {
     key: FileHandleKey,
+    count: usize,
     state: Weak<Mutex<FileHandleManagerState>>,
 }
 
 impl Drop for FileHandleUnmanaged {
     fn drop(&mut self) {
-        def1n!("({:?})", self.key);
+        def1n!("({:?}) count={}", self.key, self.count);
         if let Some(state) = self.state.upgrade() {
             match state.lock() {
-                Ok(mut state) => state.release_unmanaged_handle(self.key),
+                Ok(mut state) => state.release_handle_unmanaged(self.key, self.count),
                 Err(_err) => {
                     def1o!("file handle manager lock poisoned during unmanaged drop(): {:?}", _err);
                 }
             }
         }
-        def1x!("return");
+        def1x!();
     }
 }
 
@@ -1022,7 +1183,7 @@ impl FileHandleManaged {
             .lock()
             .map_err(|_| Error::new(ErrorKind::Other, "file handle manager lock poisoned"))?;
         let result = f(&mut state);
-        def1x!("return {:?}", result.is_ok());
+        def1x!("ok? {:?}", result.is_ok());
 
         result
     }
@@ -1034,7 +1195,7 @@ impl FileHandleManaged {
             summary_stat!(state.summary.metadata_calls += 1);
             state.with_file_mut(self.key, |file| file.metadata())
         });
-        def1x!("return result");
+        def1x!("ok? {:?}", result.is_ok());
 
         result
     }
@@ -1050,8 +1211,8 @@ impl Clone for FileHandleManaged {
         if let Some(state) = self.state.upgrade() {
             match state.lock() {
                 Ok(mut state) => {
-                    if let Err(_err) = state.retain_handle(self.key) {
-                        def1o!("retain_handle({:?}) failed: {:?}", self.key, _err);
+                    if let Err(_err) = state.retain_handle_managed(self.key) {
+                        def1o!("retain_handle_managed({:?}) failed: {:?}", self.key, _err);
                     }
                 }
                 Err(_err) => {
@@ -1059,7 +1220,7 @@ impl Clone for FileHandleManaged {
                 }
             }
         }
-        def1x!("return clone");
+        def1x!();
 
         Self {
             key: self.key,
@@ -1073,13 +1234,13 @@ impl Drop for FileHandleManaged {
         def1n!("({:?})", self.key);
         if let Some(state) = self.state.upgrade() {
             match state.lock() {
-                Ok(mut state) => state.release_handle(self.key),
+                Ok(mut state) => state.release_handle_managed(self.key),
                 Err(_err) => {
                     def1o!("file handle manager lock poisoned during drop(): {:?}", _err);
                 }
             }
         }
-        def1x!("return");
+        def1x!();
     }
 }
 
@@ -1104,7 +1265,7 @@ impl Read for &FileHandleManaged {
             summary_stat!(state.summary.read_calls += 1);
             state.with_file_mut(self.key, |file| file.read(buf))
         });
-        def1x!("return {:?}", result);
+        def1x!("ok? {:?}", result.is_ok());
 
         result
     }
@@ -1120,7 +1281,7 @@ impl Write for FileHandleManaged {
             summary_stat!(state.summary.write_calls += 1);
             state.with_file_mut(self.key, |file| file.write(buf))
         });
-        def1x!("return {:?}", result);
+        def1x!("ok? {:?}", result.is_ok());
 
         result
     }
@@ -1128,7 +1289,7 @@ impl Write for FileHandleManaged {
     fn flush(&mut self) -> Result<()> {
         def1n!("({:?})", self.key);
         let result = self.with_state_mut(|state| state.with_file_mut(self.key, |file| file.flush()));
-        def1x!("return {:?}", result);
+        def1x!("ok? {:?}", result.is_ok());
 
         result
     }
@@ -1154,7 +1315,7 @@ impl Seek for &FileHandleManaged {
             summary_stat!(state.summary.seek_calls += 1);
             state.with_file_mut(self.key, |file| file.seek(pos))
         });
-        def1x!("return {:?}", result);
+        def1x!("ok? {:?}", result.is_ok());
 
         result
     }

@@ -4,6 +4,7 @@
 
 //! Tests for `FileHandleManager`.
 
+use std::collections::HashMap;
 use std::io::{
     ErrorKind,
     Read,
@@ -15,6 +16,11 @@ use std::io::{
 
 use crate::common::{
     FileMetadata,
+    FileType,
+    FileTypeArchive,
+    FileTypeTextEncoding,
+    FPath,
+    OdlSubType,
     PathId,
     summary_stat,
     summary_stats_enable,
@@ -24,16 +30,20 @@ use crate::debug::helpers::{
     NamedTempFile,
 };
 use crate::readers::filehandlemanager::{
+    filetype_handle_counts,
     FileHandleManager,
     FileHandleRole,
     FileHandleManaged,
+    FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT,
     OpenOptionsManaged,
     OpenMaxCountType,
 };
+use crate::readers::helpers::path_to_fpath;
 
 const PATH_ID_A: PathId = 99_000;
 const PATH_ID_B: PathId = 99_001;
 const PATH_ID_C: PathId = 99_002;
+const PATH_ID_D: PathId = 99_003;
 
 fn raw_os_error_too_many_open_files() -> i32 {
     cfg_if::cfg_if! {
@@ -123,11 +133,42 @@ fn metadata_helper(
 }
 
 #[test]
+fn test_filetype_handle_counts() {
+    assert_eq!(
+        filetype_handle_counts(FileType::Text {
+            archival_type: FileTypeArchive::Normal,
+            encoding_type: FileTypeTextEncoding::Utf8Ascii,
+        }),
+        (1, 0),
+    );
+    assert_eq!(
+        filetype_handle_counts(FileType::Etl {
+            archival_type: FileTypeArchive::Normal,
+        }),
+        (1, FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT),
+    );
+    assert_eq!(
+        filetype_handle_counts(FileType::Odl {
+            archival_type: FileTypeArchive::Normal,
+            odl_sub_type: OdlSubType::Odl,
+        }),
+        (1, FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT),
+    );
+    assert_eq!(
+        filetype_handle_counts(FileType::Journal {
+            archival_type: FileTypeArchive::Normal,
+        }),
+        (1, 1),
+    );
+    assert_eq!(filetype_handle_counts(FileType::Unparsable), (0, 0));
+}
+
+#[test]
 fn test_request_open_read_seek_and_metadata_update_summary() {
     let ntf: NamedTempFile = create_temp_file("abcdef");
     let manager = manager(2);
     let handle = manager
-        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
+        .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
         .unwrap();
 
     assert_eq!(manager.open_max(), OpenMaxCountType::new(2).unwrap());
@@ -146,8 +187,8 @@ fn test_request_open_read_seek_and_metadata_update_summary() {
     assert_eq!(summary.read_calls, 1);
     assert_eq!(summary.physical_open_calls, 1);
     assert_eq!(summary.physical_open_error_calls, 0);
-    assert_eq!(summary.managed_open_count_hi, 1);
-    assert_eq!(summary.unmanaged_count_hi, 0);
+    assert_eq!(summary.managed_count_open_hi, 1);
+    assert_eq!(summary.count_unmanaged_hi, 0);
     assert_eq!(summary.count_hi, 1);
 }
 
@@ -158,14 +199,14 @@ fn test_evicted_handle_reopens_at_saved_position() {
     let manager = manager(1);
 
     let handle_a = manager
-        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
     let mut first = [0_u8; 2];
     assert_eq!(read_helper(&manager, &handle_a, &mut first).unwrap(), 2);
     assert_eq!(&first, b"ab");
 
     let _handle_b = manager
-        .request_open(PATH_ID_B, FileHandleRole::PrimaryRead, ntf_b.path(), OpenOptionsManaged::read_only())
+        .request_open_managed(PATH_ID_B, FileHandleRole::PrimaryRead, ntf_b.path(), OpenOptionsManaged::read_only())
         .unwrap();
 
     let handle_a = manager
@@ -176,8 +217,8 @@ fn test_evicted_handle_reopens_at_saved_position() {
     assert_eq!(&second, b"cd");
 
     let summary = manager.summary();
-    assert_eq!(summary.managed_open_count_hi, 1);
-    assert_eq!(summary.unmanaged_count_hi, 0);
+    assert_eq!(summary.managed_count_open_hi, 1);
+    assert_eq!(summary.count_unmanaged_hi, 0);
     assert_eq!(summary.count_hi, 1);
     assert_eq!(summary.physical_open_calls, 3);
     assert_eq!(summary.physical_reopen_calls, 1);
@@ -190,7 +231,7 @@ fn test_open_errors_are_counted() {
     let missing_path = std::env::temp_dir().join("s4-filehandlemanager-tests-missing-file");
 
     let err = manager
-        .request_open(PATH_ID_C, FileHandleRole::PrimaryRead, &missing_path, OpenOptionsManaged::read_only())
+        .request_open_managed(PATH_ID_C, FileHandleRole::PrimaryRead, &missing_path, OpenOptionsManaged::read_only())
         .unwrap_err();
 
     assert_eq!(err.kind(), ErrorKind::NotFound);
@@ -207,12 +248,12 @@ fn test_too_many_open_files_error_reduces_open_max_evicts_and_retries() {
     let manager = manager(3);
 
     let handle_a = manager
-        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
-    assert_eq!(manager.open_count(), 1);
+    assert_eq!(manager.count_open(), 1);
 
     let handle_b = manager
-        .request_open(
+        .request_open_managed(
             PATH_ID_B,
             FileHandleRole::PrimaryRead,
             ntf_b.path(),
@@ -221,7 +262,7 @@ fn test_too_many_open_files_error_reduces_open_max_evicts_and_retries() {
         .unwrap();
 
     assert_eq!(manager.open_max(), OpenMaxCountType::new(1).unwrap());
-    assert_eq!(manager.open_count(), 1);
+    assert_eq!(manager.count_open(), 1);
     let summary = manager.summary();
     assert_eq!(summary.open_max_default, 3);
     assert_eq!(summary.physical_open_calls, 2);
@@ -242,11 +283,11 @@ fn test_other_open_errors_do_not_reduce_open_max_or_evict() {
     let manager = manager(3);
 
     let _handle_a = manager
-        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
 
     let err = manager
-        .request_open(
+        .request_open_managed(
             PATH_ID_B,
             FileHandleRole::PrimaryRead,
             ntf_b.path(),
@@ -256,7 +297,7 @@ fn test_other_open_errors_do_not_reduce_open_max_or_evict() {
 
     assert_eq!(err.kind(), ErrorKind::NotFound);
     assert_eq!(manager.open_max(), OpenMaxCountType::new(3).unwrap());
-    assert_eq!(manager.open_count(), 1);
+    assert_eq!(manager.count_open(), 1);
     let summary = manager.summary();
     assert_eq!(summary.open_max_default, 3);
     assert_eq!(summary.physical_open_calls, 1);
@@ -270,7 +311,7 @@ fn test_write_existing_updates_file_and_summary() {
     let ntf: NamedTempFile = create_temp_file("0000");
     let manager = manager(2);
     let handle = manager
-        .request_open(
+        .request_open_managed(
             PATH_ID_A,
             FileHandleRole::SecondaryWrite,
             ntf.path(),
@@ -295,22 +336,22 @@ fn test_drop_last_handle_closes_real_file() {
 
     {
         let _handle = manager
-            .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
+            .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
             .unwrap();
-        assert_eq!(manager.open_count(), 1);
+        assert_eq!(manager.count_open(), 1);
         assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
     }
 
-    assert_eq!(manager.open_count(), 0);
+    assert_eq!(manager.count_open(), 0);
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
 
     let handle = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
         .unwrap();
-    assert_eq!(manager.open_count(), 1);
+    assert_eq!(manager.count_open(), 1);
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
     drop(handle);
-    assert_eq!(manager.open_count(), 0);
+    assert_eq!(manager.count_open(), 0);
 }
 
 #[test]
@@ -318,19 +359,19 @@ fn test_clone_drop_keeps_file_open_until_last_clone() {
     let ntf: NamedTempFile = create_temp_file("abcdef");
     let manager = manager(2);
     let handle = manager
-        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
+        .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
         .unwrap();
     let handle_clone = handle.clone();
 
-    assert_eq!(manager.open_count(), 1);
+    assert_eq!(manager.count_open(), 1);
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 2);
 
     drop(handle);
-    assert_eq!(manager.open_count(), 1);
+    assert_eq!(manager.count_open(), 1);
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
 
     drop(handle_clone);
-    assert_eq!(manager.open_count(), 0);
+    assert_eq!(manager.count_open(), 0);
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
 }
 
@@ -341,14 +382,14 @@ fn test_drop_saves_seek_position_for_later_request_read() {
 
     {
         let mut handle = manager
-            .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
+            .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
             .unwrap();
         let mut first = [0_u8; 2];
         assert_eq!(handle.read(&mut first).unwrap(), 2);
         assert_eq!(&first, b"ab");
     }
 
-    assert_eq!(manager.open_count(), 0);
+    assert_eq!(manager.count_open(), 0);
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
 
     let mut handle = manager
@@ -360,27 +401,28 @@ fn test_drop_saves_seek_position_for_later_request_read() {
 }
 
 #[test]
-fn test_unmanaged_handle_reservation_releases_on_drop() {
+fn test_handle_unmanaged_reservation_releases_on_drop() {
     let ntf: NamedTempFile = create_temp_file("abcdef");
     let manager = manager(2);
 
     {
+        let fpath: FPath = path_to_fpath(&ntf.path());
         let _handle = manager
-            .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, ntf.path())
+            .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
             .unwrap();
-        assert_eq!(manager.open_count(), 0);
-        assert_eq!(manager.total_open_count(), 1);
+        assert_eq!(manager.count_open(), 0);
+        assert_eq!(manager.count_open_total(), 1);
         assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 1);
     }
 
-    assert_eq!(manager.open_count(), 0);
-    assert_eq!(manager.total_open_count(), 0);
+    assert_eq!(manager.count_open(), 0);
+    assert_eq!(manager.count_open_total(), 0);
     assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
 
     let summary = manager.summary();
     assert_eq!(summary.request_open_unmanaged_calls, 1);
-    assert_eq!(summary.managed_open_count_hi, 0);
-    assert_eq!(summary.unmanaged_count_hi, 1);
+    assert_eq!(summary.managed_count_open_hi, 0);
+    assert_eq!(summary.count_unmanaged_hi, 1);
     assert_eq!(summary.count_hi, 1);
 }
 
@@ -391,37 +433,156 @@ fn test_unmanaged_and_managed_high_water_counts_can_coexist() {
     let manager = manager(2);
 
     let _handle_a = manager
-        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
+    let fpath: FPath = path_to_fpath(&ntf_b.path());
     let _unmanaged = manager
-        .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, ntf_b.path())
+        .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, &fpath)
         .unwrap();
 
-    assert_eq!(manager.open_count(), 1);
-    assert_eq!(manager.total_open_count(), 2);
+    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open_total(), 2);
 
     let summary = manager.summary();
-    assert_eq!(summary.managed_open_count_hi, 1);
-    assert_eq!(summary.unmanaged_count_hi, 1);
+    assert_eq!(summary.managed_count_open_hi, 1);
+    assert_eq!(summary.count_unmanaged_hi, 1);
     assert_eq!(summary.count_hi, 2);
 }
 
 #[test]
-fn test_unmanaged_handle_reservation_forces_managed_eviction() {
+fn test_pending_unmanaged_reservations_constrain_managed_opens() {
+    let ntf_a: NamedTempFile = create_temp_file("abcdef");
+    let ntf_b: NamedTempFile = create_temp_file("wxyz");
+    let manager = manager(FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize + 1);
+    let mut list_files = HashMap::new();
+    list_files.insert(
+        PATH_ID_B,
+        FileType::Etl {
+            archival_type: FileTypeArchive::Normal,
+        },
+    );
+
+    manager.handle_reservations(&list_files);
+    assert_eq!(
+        manager.handles_unmanaged_pending_helper(PATH_ID_B, FileHandleRole::Unmanaged),
+        FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+    );
+
+    let handle_a = manager
+        .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .unwrap();
+    assert_eq!(manager.count_open(), 1);
+
+    let handle_d = manager
+        .request_open_managed(PATH_ID_D, FileHandleRole::PrimaryRead, ntf_b.path(), OpenOptionsManaged::read_only())
+        .unwrap();
+    assert_eq!(manager.count_open(), 1);
+    assert_eq!(
+        manager.handles_unmanaged_pending_helper(PATH_ID_B, FileHandleRole::Unmanaged),
+        FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+    );
+    drop(handle_d);
+    drop(handle_a);
+
+    let summary = manager.summary();
+    assert_eq!(summary.evict_succeed, 1);
+    assert_eq!(summary.evict_fails, 0);
+}
+
+#[test]
+fn test_planned_unmanaged_request_consumes_multi_slot_reservation() {
+    let ntf: NamedTempFile = create_temp_file("abcdef");
+    let manager = manager(FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize);
+    let mut list_files = HashMap::new();
+    list_files.insert(
+        PATH_ID_A,
+        FileType::Etl {
+            archival_type: FileTypeArchive::Normal,
+        },
+    );
+
+    manager.handle_reservations(&list_files);
+    let fpath: FPath = path_to_fpath(&ntf.path());
+    {
+        let _handle = manager
+            .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
+            .unwrap();
+        assert_eq!(manager.count_open(), 0);
+        assert_eq!(manager.count_open_total(), FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32);
+        assert_eq!(
+            manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged),
+            FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+        );
+        assert_eq!(manager.handles_unmanaged_pending_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
+    }
+
+    assert_eq!(manager.count_open_total(), 0);
+    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
+}
+
+#[test]
+fn test_too_many_open_files_retry_preserves_planned_managed_slot() {
+    let ntf_a: NamedTempFile = create_temp_file("abcdef");
+    let ntf_b: NamedTempFile = create_temp_file("wxyz");
+    let manager = manager(FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize + 1);
+    let mut list_files = HashMap::new();
+    list_files.insert(
+        PATH_ID_A,
+        FileType::Etl {
+            archival_type: FileTypeArchive::Normal,
+        },
+    );
+    list_files.insert(
+        PATH_ID_B,
+        FileType::Text {
+            archival_type: FileTypeArchive::Normal,
+            encoding_type: FileTypeTextEncoding::Utf8Ascii,
+        },
+    );
+
+    manager.handle_reservations(&list_files);
+    let fpath: FPath = path_to_fpath(&ntf_a.path());
+    let unmanaged = manager
+        .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
+        .unwrap();
+    assert_eq!(manager.count_open_total(), FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32);
+
+    let managed = manager
+        .request_open_managed(
+            PATH_ID_B,
+            FileHandleRole::PrimaryRead,
+            ntf_b.path(),
+            OpenOptionsManaged::read_only_force_open_error(raw_os_error_too_many_open_files(), 1),
+        )
+        .unwrap();
+    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open_total(), FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32 + 1);
+
+    drop(managed);
+    drop(unmanaged);
+    let summary = manager.summary();
+    assert_eq!(summary.physical_open_error_calls, 1);
+    assert_eq!(summary.physical_open_calls, 1);
+    assert_eq!(summary.evict_fails, 0);
+}
+
+#[test]
+fn test_handle_unmanaged_reservation_forces_managed_eviction() {
     let ntf_a: NamedTempFile = create_temp_file("abcdef");
     let ntf_b: NamedTempFile = create_temp_file("wxyz");
     let manager = manager(1);
 
     let handle_a = manager
-        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
-    assert_eq!(manager.open_count(), 1);
+    assert_eq!(manager.count_open(), 1);
 
+    let fpath: FPath = path_to_fpath(&ntf_b.path());
     let unmanaged = manager
-        .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, ntf_b.path())
+        .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, &fpath)
         .unwrap();
-    assert_eq!(manager.open_count(), 0);
-    assert_eq!(manager.total_open_count(), 1);
+    assert_eq!(manager.count_open(), 0);
+    assert_eq!(manager.count_open_total(), 1);
     assert_eq!(manager.handles_unmanaged_helper(PATH_ID_B, FileHandleRole::Unmanaged), 1);
 
     let err = manager
@@ -433,8 +594,8 @@ fn test_unmanaged_handle_reservation_forces_managed_eviction() {
     let handle_a_reopened = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
         .unwrap();
-    assert_eq!(manager.open_count(), 1);
-    assert_eq!(manager.total_open_count(), 1);
+    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open_total(), 1);
     drop(handle_a_reopened);
     drop(handle_a);
 
@@ -442,7 +603,7 @@ fn test_unmanaged_handle_reservation_forces_managed_eviction() {
     assert_eq!(summary.request_open_unmanaged_calls, 1);
     assert_eq!(summary.evict_succeed, 1);
     assert_eq!(summary.evict_fails, 1);
-    assert_eq!(summary.managed_open_count_hi, 1);
-    assert_eq!(summary.unmanaged_count_hi, 1);
+    assert_eq!(summary.managed_count_open_hi, 1);
+    assert_eq!(summary.count_unmanaged_hi, 1);
     assert_eq!(summary.count_hi, 1);
 }
