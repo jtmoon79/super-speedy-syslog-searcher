@@ -317,6 +317,10 @@ enum ProcessStatus {
 struct PipeStreamReader {
     chunk_receiver: Receiver<core::result::Result<PipedChunk, Error>>,
     exit_sender: Sender<ProcessStatus>,
+    #[allow(dead_code)]
+    pid: u32,
+    #[allow(dead_code)]
+    name: String,
 }
 
 impl PipeStreamReader {
@@ -348,17 +352,18 @@ impl PipeStreamReader {
         def1o!("PipeStreamReader {:?} create bounded({}) channel", name, CHANNEL_CAPACITY);
         let (tx_exit, rx_exit) =
             ::crossbeam_channel::bounded(CHANNEL_CAPACITY);
+        let name_: String = name.clone();
 
         PipeStreamReader {
             chunk_receiver: {
                 let thread_name: String = format!("{}_PipeStreamReader", name);
                 let _thread_name2: String = thread_name.clone();
                 // parent thread ID
-                let _tidn_p: u64 = threadid_to_u64(thread::current().id());
+                let _tid_p: u64 = threadid_to_u64(thread::current().id());
                 // debug message prepend
                 let _d_p = format!(
                     "PipeStreamReader {:?} PID {:?} PTID {:?}",
-                    name, pid, _tidn_p
+                    name, pid, _tid_p
                 );
                 def1o!("{_d_p} create unbounded() channel");
                 let (tx_parent, rx_parent) =
@@ -372,7 +377,7 @@ impl PipeStreamReader {
                     // debug message prepend
                     let _d_p = format!(
                         "PipeStreamReader {:?} PID {:?} PTID {:?} TID {:?}",
-                        name, pid, _tidn_p, threadid_to_u64(thread::current().id()));
+                        name, pid, _tid_p, threadid_to_u64(thread::current().id()));
                     def2n!("{_d_p} start, pipe_sz {}", pipe_sz);
                     let mut _recv_bytes: usize = 0;
                     let mut reads: usize = 0;
@@ -600,7 +605,15 @@ impl PipeStreamReader {
                 rx_parent
             },
             exit_sender: tx_exit,
+            pid,
+            name: name_,
         }
+    }
+}
+
+impl Drop for PipeStreamReader {
+    fn drop(&mut self) {
+        def1ñ!("PipeStreamReader name {} PID {}", self.name, self.pid);
     }
 }
 
@@ -626,8 +639,7 @@ impl PipeStreamReader {
 /// [`PyO3::Python::attach`]: https://docs.rs/pyo3/0.27.1/pyo3/marker/struct.Python.html#method.attach
 /// [PyO3 Issue #576]: https://github.com/PyO3/pyo3/issues/576
 pub struct PyRunner {
-    /// handle to the Python process
-    //pub process: subprocess::Popen,
+    path_id: PathId,
     pub process: Child,
     pipe_stdout: PipeStreamReader,
     pipe_stderr: PipeStreamReader,
@@ -653,7 +665,7 @@ pub struct PyRunner {
     /// process ID of the Python process
     pid_: u32,
     /// this thread ID. For help during debugging.
-    _tidn: u64,
+    tid: u64,
     /// debug message prepend. For help during debugging.
     _d_p: String,
     /// all stderr is stored in case the process exits with an error
@@ -707,7 +719,7 @@ impl std::fmt::Debug for PyRunner {
             .field("time_beg", &self.time_beg)
             .field("time_end", &self.time_end)
             .field("pid_", &self.pid_)
-            .field("_tidn", &self._tidn)
+            .field("tid", &self.tid)
             .finish()
     }
 }
@@ -722,6 +734,7 @@ impl PyRunner {
     /// `argv` is the list of arguments to pass to the Python executable.
     pub fn new(
         python_to_use: PythonToUse,
+        path_id: PathId,
         pipe_sz: PipeSz,
         recv_timeout: Duration,
         chunk_delimiter_stdout: Option<ChunkDelimiter>,
@@ -866,10 +879,11 @@ impl PyRunner {
             Box::new(process_stderr)
         );
 
-        let _tidn: u64 = threadid_to_u64(thread::current().id());
-        defx!("{_d_p} PyRunner created for Python process PID {}, TID {}", pid, _tidn);
+        let tid: u64 = threadid_to_u64(thread::current().id());
+        defx!("{_d_p} PyRunner created for Python process PID {}, TID {}", pid, tid);
 
         Result::Ok(Self {
+            path_id,
             process,
             pipe_stdout,
             pipe_stderr,
@@ -882,7 +896,7 @@ impl PyRunner {
             pipe_sz_stdout,
             pipe_sz_stderr,
             pid_: pid,
-            _tidn,
+            tid,
             _d_p,
             stderr_all: None,
             time_beg,
@@ -903,6 +917,16 @@ impl PyRunner {
     #[allow(dead_code)]
     pub fn pid(&self) -> u32 {
         self.pid_
+    }
+
+    #[allow(dead_code)]
+    pub fn tid(&self) -> u32 {
+        self.tid as u32
+    }
+
+    #[inline(always)]
+    pub const fn path_id(&self) -> PathId {
+        self.path_id
     }
 
     /// Returns the process exit status.
@@ -942,7 +966,7 @@ impl PyRunner {
     /// If the process is still running, returns `None`.
     pub fn poll(&mut self) -> Option<ExitStatus> {
         let _d_p: &String = &self._d_p;
-        def1n!("{_d_p} poll()");
+        def1n!("PathID {} {_d_p} poll()", self.path_id());
 
         summary_stat!(self.count_proc_polls += 1);
 
@@ -1501,6 +1525,7 @@ impl PyRunner {
         def1ñ!("({:?}, {:?}, {:?})", python_to_use, python_path, argv);
         let mut pyrunner = match PyRunner::new(
             python_to_use,
+            PathId::default(),
             pipe_sz,
             recv_timeout,
             Some(chunk_delimiter),
@@ -1527,5 +1552,11 @@ impl PyRunner {
                 Result::Err(err)
             }
         }
+    }
+}
+
+impl Drop for PyRunner {
+    fn drop(&mut self) {
+        def1ñ!("PathID {} PID {} TID {}", self.path_id(), self.pid(), self.tid());
     }
 }

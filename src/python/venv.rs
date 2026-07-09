@@ -50,6 +50,7 @@ use crate::{
 use crate::de_err;
 use crate::common::{
     Bytes,
+    PathId,
     Result3E,
 };
 use crate::python::pyrunner::{
@@ -224,6 +225,7 @@ pub fn create() -> Result3E<()> {
     // TODO: warn if version is less than required minimum
     let mut pyrunner = match PyRunner::new(
         PythonToUse::EnvPath,
+        PathId::default(),
         PIPE_SZ,
         RECV_TIMEOUT,
         Some(CHUNK_DELIMITER),
@@ -260,7 +262,7 @@ pub fn create() -> Result3E<()> {
         }
     }
     // remember the python path used
-    let python_path = pyrunner.python_path;
+    let python_path = pyrunner.python_path.clone();
 
     // rm the prior venv
     let venv_path_pb: PathBuf = venv_path();
@@ -316,7 +318,7 @@ pub fn create() -> Result3E<()> {
         PIPE_SZ,
         RECV_TIMEOUT,
         CHUNK_DELIMITER,
-        Some(python_path),
+        Some(python_path.to_string()),
         vec![
             "-m",
             "venv",
