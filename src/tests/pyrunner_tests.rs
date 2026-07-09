@@ -35,6 +35,8 @@ use crate::python::pyrunner::{
     RECV_TIMEOUT,
 };
 use crate::tests::venv_tests::venv_setup;
+use crate::tests::common::path_id_generator;
+
 
 fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
     let e_s = data.as_ref().unwrap().clone();
@@ -207,6 +209,7 @@ fn test_PyRunner_new_run_run_once(
     // try with `new()` and `run()`
     let mut pyr = PyRunner::new(
         PythonToUse::Value,
+        path_id_generator(),
         pipe_sz,
         recv_timeout,
         Some(b'\n'),
@@ -421,6 +424,7 @@ fn test_PyRunner_stdout_run_many_times(
 
     let result = PyRunner::new(
         PythonToUse::Value,
+        path_id_generator(),
         pipe_sz,
         recv_timeout,
         Some(chunk_delimiter),
@@ -652,6 +656,7 @@ fn test_PyRunner_stdout_stderr_run_many_times(
 
     let result = PyRunner::new(
         PythonToUse::Value,
+        path_id_generator(),
         pipe_sz,
         recv_timeout,
         chunk_delimiter_stdout,
@@ -857,6 +862,7 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
 
     let result = PyRunner::new(
         PythonToUse::Value,
+        path_id_generator(),
         pipe_sz,
         recv_timeout,
         chunk_delimiter_stdout,
@@ -1032,6 +1038,7 @@ fn test_PyRunner_exit_early(
 
     let result = PyRunner::new(
         PythonToUse::Value,
+        path_id_generator(),
         pipe_sz,
         RECV_TIMEOUT,
         chunk_delimiter_stdout,
