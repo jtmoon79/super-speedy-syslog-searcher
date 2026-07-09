@@ -1565,6 +1565,6 @@ impl FixedStructReader {
 
 impl Drop for FixedStructReader {
     fn drop(&mut self) {
-        def1ñ!();
+        def1ñ!("PathID {} Path {:?}", self.path_id(), self.path());
     }
 }

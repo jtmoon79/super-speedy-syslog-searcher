@@ -986,7 +986,7 @@ impl fmt::Debug for JournalReader {
 
 impl Drop for JournalReader {
     fn drop(&mut self) {
-        def1n!("({:?})", self.path);
+        def1n!("PathID {} Path {:?}", self.path_id(), self.path());
         if ! self.journal_handle_ptr.is_null() {
             unsafe {
                 def1o!("sd_journal_close(@{:?})", self.journal_handle_ptr);
@@ -1107,7 +1107,7 @@ impl<'a> JournalReader {
         let file_handle_libsystemd: FileHandleUnmanaged = match FILE_HANDLE_MANAGER.request_open_unmanaged(
             path_id,
             FileHandleRole::Unmanaged,
-            path_actual,
+            &path,
         ) {
             Result::Ok(val) => val,
             Result::Err(err) => {
