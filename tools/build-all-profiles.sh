@@ -6,9 +6,11 @@ set -euo pipefail
 
 cd "$(dirname -- "${0}")/.."
 
-# the `rustc` processes are long-running aggressive users of CPU+RAM resources
-# so renice them to ease CPU pressure
-renice -n 20 -p $$
+if which renice &>/dev/null; then
+    # the `rustc` processes are long-running aggressive users of CPU+RAM resources
+    # so renice them to ease CPU pressure
+    renice -n 20 -p $$
+fi
 
 export S4_BUILD_PRINT=1
 export S4_BUILD_REGEX_PRINT=1
