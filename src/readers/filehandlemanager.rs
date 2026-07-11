@@ -140,8 +140,9 @@ pub const fn filetype_handle_counts(filetype: FileType) -> (u8, u8) {
 /// The `FileHandleManager` does not enforce behaviors for different
 /// `FileHandleRole` values.
 /// They identify distinct handle slots for the same `PathId`.
-/// In other words, these allow the same file-processing thread to hold thee distinct
-/// `FileHandleManaged` handles that will be treated separately by the `FileHandleManager`.
+/// In other words, these allow the same file-processing thread to hold three
+/// distinct `FileHandleManaged` handles that will be treated separately by the
+/// `FileHandleManager`.
 // TODO: change the enums to `Managed(ManagedId:u8)` and `Unmanaged`. I think that's less confusing
 //       about the purpose of this enum. Then each `*Reader` should declare a `const FileHandleRole` for it's
 //       known use cases.
@@ -426,11 +427,10 @@ impl FileHandleManagerState {
         self.count_open + self.count_unmanaged()
     }
 
-    /// Return the total number of open and pending handles.
-    fn count_total_reserved(&self) -> usize {
+    /// Return the total number of handles consuming capacity.
+    fn count_capacity_used(&self) -> usize {
         self.count_open as usize
             + self.count_unmanaged_usize()
-            + self.count_pending_unmanaged()
     }
 
     /// Update the high-water marks for simultaneously open file handles.
@@ -466,7 +466,7 @@ impl FileHandleManagerState {
         def1n!("count_open={} count_unmanaged={} count_pending_unmanaged={} open_max={} requested_count={}",
                self.count_open, self.count_unmanaged(), self.count_pending_unmanaged(), self.open_max, requested_count);
         while self
-            .count_total_reserved()
+            .count_capacity_used()
             .saturating_add(requested_count) > self.open_max.get()
         {
             if ! self.evict_one() {
@@ -592,15 +592,17 @@ impl FileHandleManagerState {
                 format!("unmanaged file handle {:?} must use FileHandleRole::Unmanaged", key),
             ));
         }
-        let pending_count = self.handles_unmanaged_pending.remove(&key);
+        let pending_count = self
+            .handles_unmanaged_pending
+            .get(&key)
+            .copied();
         let count = pending_count.unwrap_or(FILE_HANDLE_UNMANAGED_DEFAULT_COUNT);
-        let requested_count = if pending_count.is_some() { 0 } else { count };
-        if let Err(err) = self.make_room_for_unmanaged(key, requested_count) {
-            if let Some(pending_count) = pending_count {
-                self.handles_unmanaged_pending.insert(key, pending_count);
-            }
+        if let Err(err) = self.make_room_for_unmanaged(key, count) {
             def1x!("return Err({:?})", err);
             return Err(err);
+        }
+        if pending_count.is_some() {
+            self.handles_unmanaged_pending.remove(&key);
         }
         *self.handles_unmanaged.entry(key).or_insert(0) += count;
         self.count_open_hi_update();

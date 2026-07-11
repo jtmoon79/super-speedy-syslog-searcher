@@ -1166,7 +1166,7 @@ impl<'a> JournalReader {
             path,
             path_id,
             named_temp_file,
-            file_handle_libsystemd: file_handle_libsystemd,
+            file_handle_libsystemd,
             journal_output,
             fixed_offset,
             events_processed: 0,
