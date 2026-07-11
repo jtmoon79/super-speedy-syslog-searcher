@@ -944,8 +944,8 @@ impl PyRunner {
     }
 
     #[allow(dead_code)]
-    pub fn tid(&self) -> u32 {
-        self.tid as u32
+    pub fn tid(&self) -> u64 {
+        self.tid
     }
 
     #[inline(always)]
