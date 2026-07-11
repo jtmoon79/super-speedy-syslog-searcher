@@ -665,7 +665,8 @@ pub struct PyRunner {
     /// pipe buffer size in bytes for stderr `PipeStreamReader`
     pub pipe_sz_stderr: PipeSz,
     /// Unmanaged file handle to represent the Python process.
-    /// When this `PyEventReader` is dropped then the `FILE_HANDLE_MANAGER` is updated.
+    /// When this `PyRunner` is dropped then the `FILE_HANDLE_MANAGER` is
+    /// updated.
     #[allow(dead_code)]
     file_handle_python_proc: FileHandleUnmanaged,
     /// `Instant` Python process was started.
