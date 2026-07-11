@@ -869,12 +869,12 @@ pub fn print_summary(
     eprintln!("Paths not processed    : {}", map_pathid_results_invalid.len());
     eprintln!("Files processed        : {}", map_pathid_results.len());
     eprintln!("Files printed          : {}", paths_printed_logmessages.len());
+    eprintln!("Longest Line           : {}", longest_line);
+    eprintln!("Longest Sysline        : {}", longest_sysline);
     eprintln!("Printed bytes          : {}", summaryprinted.bytes);
     eprintln!("Printed flushes        : {}", summaryprinted.flushed);
     eprintln!("Printed lines          : {}", summaryprinted.lines);
     eprintln!("Printed syslines       : {}", summaryprinted.syslines);
-    eprintln!("Longest Line           : {}", longest_line);
-    eprintln!("Longest Sysline        : {}", longest_sysline);
     eprintln!("Printed ASL events     : {}", summaryprinted.aslentries);
     eprintln!("Printed ETL events     : {}", summaryprinted.etlentries);
     eprintln!("Printed EVTX events    : {}", summaryprinted.evtxentries);
@@ -886,7 +886,7 @@ pub fn print_summary(
     eprintln!("Managed files max deflt: {}", summary_filehandlemanager.open_max_default);
     eprintln!("Managed files max adjus: {}", summary_filehandlemanager.open_max_adjusted);
     // TODO: print `count_hi` in yellow if it is ==max
-    eprintln!("Managed files high     : {}", summary_filehandlemanager.managed_count_open_hi);
+    eprintln!("Managed handles high   : {}", summary_filehandlemanager.managed_count_open_hi);
     eprintln!("Managed+unmanaged high : {}", summary_filehandlemanager.count_hi);
     eprintln!("Managed request open   : {}", summary_filehandlemanager.request_open_calls);
     eprintln!("Managed request read   : {}", summary_filehandlemanager.request_read_calls);
@@ -899,7 +899,7 @@ pub fn print_summary(
     eprintln!("Managed physical reopen: {}", summary_filehandlemanager.physical_reopen_calls);
     eprintln!("Managed evict succeed  : {}", summary_filehandlemanager.evict_succeed);
     eprintln!("Managed evict fails    : {}", summary_filehandlemanager.evict_fails);
-    eprintln!("Unmanaged files high   : {}", summary_filehandlemanager.count_unmanaged_hi);
+    eprintln!("Unmanaged handles high : {}", summary_filehandlemanager.count_unmanaged_hi);
     eprintln!("Unmanaged request open : {}", summary_filehandlemanager.request_open_unmanaged_calls);
     eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN_MAX);
     eprintln!("Regex patterns compiled: {}", DATETIME_PARSE_DATAS_LEN);
@@ -1045,7 +1045,7 @@ fn print_file_about(
     if let Ok(pathb) = std::fs::canonicalize(path1) {
         if let Some(s) = pathb.to_str() {
             if s != path.as_str() {
-                eprintln!("{}real path      : {}", OPT_SUMMARY_PRINT_INDENT2, s);
+                eprintln!("{}real path     : {}", OPT_SUMMARY_PRINT_INDENT2, s);
             }
         }
     } else {
