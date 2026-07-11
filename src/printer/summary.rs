@@ -764,7 +764,7 @@ impl SummaryPrinted {
     }
 }
 
-/// Helper function to function `processing_loop`.
+/// Helper to function `processing_loop`.
 #[inline(always)]
 pub fn summary_update(
     pathid: &PathId,
