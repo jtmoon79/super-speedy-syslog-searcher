@@ -1172,6 +1172,7 @@ fn test_SyslogProcessor_summary_empty(
         blockreader_blocks_dropped_err: 0,
     },
     SummaryLineReader {
+        linereader_line_longest_processed: 25,
         linereader_lines: 5,
         linereader_lines_stored_highest: 5,
         linereader_lines_hits: 0,
@@ -1184,6 +1185,7 @@ fn test_SyslogProcessor_summary_empty(
         linereader_drop_line_errors: 0,
     },
     SummarySyslineReader {
+        syslinereader_sysline_longest: 25,
         syslinereader_syslines: 5,
         syslinereader_syslines_stored_highest: 5,
         syslinereader_syslines_hit: 0,

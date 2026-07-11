@@ -18,6 +18,7 @@ use ::test_case::test_case;
 
 use crate::common::{
     AllocatorChosen,
+    Count,
     FPath,
     FileOffset,
     FileType,
@@ -52,6 +53,7 @@ use crate::printer::printers::{
 };
 use crate::printer::summary::{
     print_summary,
+    summary_longest_line_sysline,
     MapPathIdSummary,
     MapPathIdSummaryPrint,
     MapPathIdToColor,
@@ -65,7 +67,10 @@ use crate::printer::summary::{
     MapPathIdToStackSize,
     SummaryPrinted,
 };
-use crate::readers::blockreader::BlockSz;
+use crate::readers::blockreader::{
+    BlockSz,
+    SummaryBlockReader,
+};
 use crate::readers::evtxreader::EvtxReader;
 use crate::readers::filehandlemanager::FILE_HANDLE_MANAGER;
 use crate::readers::filepreprocessor::{
@@ -82,10 +87,17 @@ use crate::readers::journalreader::{
     JournalReader,
     ResultNext,
 };
+use crate::readers::linereader::SummaryLineReader;
+use crate::readers::summary::{
+    Summary,
+    SummaryReaderData,
+};
 use crate::readers::syslinereader::{
     ResultFindSysline,
+    SummarySyslineReader,
     SyslineReader,
 };
+use crate::readers::syslogprocessor::SummarySyslogProcessor;
 use crate::tests::common::{
     path_id_generator,
     EVTX_KPNP_EVENT_COUNT,
@@ -126,6 +138,39 @@ const FT_EVTX_NORM: FileType = FileType::Evtx { archival_type: FileTypeArchive::
 lazy_static! {
     static ref NTF5: NamedTempFile = create_temp_file(NTF5_DATA);
     static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
+}
+
+/// helper to `test_summary_longest_line_sysline`
+fn summary_with_longest_values(
+    line_longest: Count,
+    sysline_longest: Count,
+) -> Summary {
+    Summary {
+        readerdata: SummaryReaderData::Syslog((
+            SummaryBlockReader::default(),
+            SummaryLineReader {
+                linereader_line_longest_processed: line_longest,
+                ..Default::default()
+            },
+            SummarySyslineReader {
+                syslinereader_sysline_longest: sysline_longest,
+                ..Default::default()
+            },
+            SummarySyslogProcessor::default(),
+        )),
+        ..Default::default()
+    }
+}
+
+#[test]
+fn test_summary_longest_line_sysline() {
+    let mut map_pathid_summary = MapPathIdSummary::new();
+    map_pathid_summary.insert(1, Summary::default());
+    assert_eq!((0, 0), summary_longest_line_sysline(&map_pathid_summary));
+
+    map_pathid_summary.insert(2, summary_with_longest_values(123, 55));
+    map_pathid_summary.insert(3, summary_with_longest_values(80, 456));
+    assert_eq!((123, 456), summary_longest_line_sysline(&map_pathid_summary));
 }
 
 #[test]

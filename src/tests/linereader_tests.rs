@@ -2258,6 +2258,7 @@ fn test_LineReader_summary_empty(
     4,
     1,
     1,
+    1,
     0,
     1,
     1,
@@ -2270,6 +2271,7 @@ fn test_LineReader_summary_empty(
 #[test_case(
     &NTF_SYSLINE_2_PATH,
     4,
+    46,
     2,
     2,
     0,
@@ -2287,6 +2289,7 @@ fn test_LineReader_summary_empty(
 fn test_SummaryLineReader(
     path: &FPath,
     blocksz: BlockSz,
+    linereader_line_longest_processed: Count,
     linereader_lines: Count,
     linereader_lines_stored_highest: usize,
     linereader_lines_hits: Count,
@@ -2317,6 +2320,11 @@ fn test_SummaryLineReader(
     }
 
     let summary: SummaryLineReader = lr.summary();
+    assert_eq!(
+        summary.linereader_line_longest_processed,
+        linereader_line_longest_processed,
+        "linereader_line_longest_processed 0"
+    );
     assert_eq!(
         summary.linereader_lines,
         linereader_lines,
