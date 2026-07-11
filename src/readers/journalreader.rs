@@ -457,7 +457,7 @@ pub type ResultNext = ResultFind4<JournalEntry, Error>;
 /// Return type for [`JournalReader::next_common`] method.
 ///
 /// [`JournalReader::next_common`]: JournalReader::next_common
-pub type ResultNextCommon = ResultFind4<(EpochMicroseconds, EpochMicrosecondsOpt, DtUsesSource), Error>;
+pub type ResultNextCommon = ResultFind4<(EpochMicroseconds, EpochMicrosecondsOpt, DtUsesSource, Count), Error>;
 
 #[cfg(test)]
 pub type ForceErrorRange = Range<Count>;
@@ -934,6 +934,12 @@ pub struct JournalReader {
     /// `Count` of `JournalEntry`s accepted by the datetime filters.
     pub(super) events_accepted: Count,
     /// Summary statistic.
+    /// Largest raw journal event processed, in bytes.
+    pub(super) journal_event_largest_processed: Count,
+    /// Summary statistic.
+    /// Largest raw journal event accepted by the datetime filters, in bytes.
+    pub(super) journal_event_largest_accepted: Count,
+    /// Summary statistic.
     /// First (soonest) accepted (printed) `EpochMicroseconds`.
     pub(super) ts_first_accepted: EpochMicrosecondsOpt,
     /// Summary statistic.
@@ -1009,6 +1015,10 @@ pub struct SummaryJournalReader {
     pub journalreader_events_processed: Count,
     /// Acceptable to datetime filters and sent to main thread for printing.
     pub journalreader_events_accepted: Count,
+    /// Largest raw journal event processed, in bytes.
+    pub journalreader_journal_event_largest_processed: Count,
+    /// Largest raw journal event accepted by the datetime filters, in bytes.
+    pub journalreader_journal_event_largest_accepted: Count,
     /// datetime soonest accepted (printed)
     pub journalreader_datetime_first_accepted: DateTimeLOpt,
     /// datetime latest accepted (printed)
@@ -1171,6 +1181,8 @@ impl<'a> JournalReader {
             fixed_offset,
             events_processed: 0,
             events_accepted: 0,
+            journal_event_largest_processed: 0,
+            journal_event_largest_accepted: 0,
             ts_first_accepted: EpochMicrosecondsOpt::None,
             ts_last_accepted: EpochMicrosecondsOpt::None,
             ts_first_processed: EpochMicrosecondsOpt::None,
@@ -1498,6 +1510,37 @@ impl<'a> JournalReader {
         def1x!("return Found");
 
         ResultFind::Found(data)
+    }
+
+    fn journal_event_size_current(&mut self) -> Count {
+        if ! summary_stats_enabled() {
+            return 0;
+        }
+
+        let mut journal_event_size: Count = 0;
+        let mut emerg_stop_data_enumerate = 0;
+        while emerg_stop_data_enumerate < 200 {
+            emerg_stop_data_enumerate += 1;
+            let data = match Self::call_sd_journal_enumerate_available_data(
+                &mut self.journal_handle_ptr,
+                &mut self.journal_api_ptr,
+                &mut self.api_calls,
+                &mut self.api_call_errors,
+                &self.path,
+                #[cfg(test)]
+                &self.force_error_range_opt,
+            ) {
+                ResultFind::Found(d) => d,
+                ResultFind::Done => break,
+                ResultFind::Err(_err) => {
+                    de_err!("call_sd_journal_enumerate_available_data() failed while measuring journal event size (continue): {:?}", _err);
+                    continue;
+                }
+            };
+            journal_event_size += data.len() as Count;
+        }
+
+        journal_event_size
     }
 
     /// Wrapper to call `sd_journal_get_monotonic_usec`.
@@ -1861,6 +1904,11 @@ impl<'a> JournalReader {
             }
         };
         self.em_first_last_update_processed(&actual_epoch_usec);
+        let journal_event_size: Count = self.journal_event_size_current();
+        summary_stat!(self.journal_event_largest_processed = std::cmp::max(
+            self.journal_event_largest_processed,
+            journal_event_size,
+        ));
         match em_after_or_before(&actual_epoch_usec, rts_filter_before) {
             Result_Filter_DateTime1::OccursAtOrAfter => {
                 def1x!("OccursAtOrAfter: return Done");
@@ -1878,7 +1926,7 @@ impl<'a> JournalReader {
         summary_stat!(self.api_calls += 1);
         def1x!("return Found({})", realtime_timestamp);
 
-        ResultNextCommon::Found((realtime_timestamp, source_realtime_timestamp, dt_uses_source))
+        ResultNextCommon::Found((realtime_timestamp, source_realtime_timestamp, dt_uses_source, journal_event_size))
     }
 
     /// Journal entry output matching `--output=short` and `short*` variations.
@@ -1913,12 +1961,14 @@ impl<'a> JournalReader {
         let realtime_timestamp: EpochMicroseconds;
         let source_realtime_timestamp: EpochMicrosecondsOpt;
         let dt_uses_source: DtUsesSource;
+        let journal_event_size: Count;
 
         match self.next_common(rts_filter_before) {
-            ResultNextCommon::Found((rt, srt, dt)) => {
+            ResultNextCommon::Found((rt, srt, dt, event_size)) => {
                 realtime_timestamp = rt;
                 source_realtime_timestamp = srt;
                 dt_uses_source = dt;
+                journal_event_size = event_size;
             }
             ResultNextCommon::Done => {
                 def1x!("return Done");
@@ -2140,6 +2190,10 @@ impl<'a> JournalReader {
             &realtime_timestamp,
             &source_realtime_timestamp,
         );
+        summary_stat!(self.journal_event_largest_accepted = std::cmp::max(
+            self.journal_event_largest_accepted,
+            journal_event_size,
+        ));
         summary_stat!(self.events_accepted += 1);
         def1x!();
 
@@ -2210,12 +2264,14 @@ impl<'a> JournalReader {
         let realtime_timestamp: EpochMicroseconds;
         let source_realtime_timestamp: EpochMicrosecondsOpt;
         let dt_uses_source: DtUsesSource;
+        let journal_event_size: Count;
 
         match self.next_common(rts_filter_before) {
-            ResultNextCommon::Found((rt, srt, dt)) => {
+            ResultNextCommon::Found((rt, srt, dt, event_size)) => {
                 realtime_timestamp = rt;
                 source_realtime_timestamp = srt;
                 dt_uses_source = dt;
+                journal_event_size = event_size;
             }
             ResultNextCommon::Done => {
                 def1x!("return Done");
@@ -2306,6 +2362,10 @@ impl<'a> JournalReader {
             &realtime_timestamp,
             &source_realtime_timestamp,
         );
+        summary_stat!(self.journal_event_largest_accepted = std::cmp::max(
+            self.journal_event_largest_accepted,
+            journal_event_size,
+        ));
         summary_stat!(self.events_accepted += 1);
         def1x!();
 
@@ -2490,12 +2550,14 @@ impl<'a> JournalReader {
         let realtime_timestamp: EpochMicroseconds;
         let source_realtime_timestamp: EpochMicrosecondsOpt;
         let dt_uses_source: DtUsesSource;
+        let journal_event_size: Count;
 
         match self.next_common(rts_filter_before) {
-            ResultNextCommon::Found((rt, srt, dt)) => {
+            ResultNextCommon::Found((rt, srt, dt, event_size)) => {
                 realtime_timestamp = rt;
                 source_realtime_timestamp = srt;
                 dt_uses_source = dt;
+                journal_event_size = event_size;
             }
             ResultNextCommon::Done => {
                 def1x!("return Done");
@@ -2573,6 +2635,10 @@ impl<'a> JournalReader {
             &realtime_timestamp,
             &source_realtime_timestamp,
         );
+        summary_stat!(self.journal_event_largest_accepted = std::cmp::max(
+            self.journal_event_largest_accepted,
+            journal_event_size,
+        ));
         summary_stat!(self.events_accepted += 1);
 
         // write it all to one buffer
@@ -2692,12 +2758,14 @@ impl<'a> JournalReader {
         let realtime_timestamp: EpochMicroseconds;
         let source_realtime_timestamp: EpochMicrosecondsOpt;
         let dt_uses_source: DtUsesSource;
+        let journal_event_size: Count;
 
         match self.next_common(rts_filter_before) {
-            ResultNextCommon::Found((rt, srt, dt)) => {
+            ResultNextCommon::Found((rt, srt, dt, event_size)) => {
                 realtime_timestamp = rt;
                 source_realtime_timestamp = srt;
                 dt_uses_source = dt;
+                journal_event_size = event_size;
             }
             ResultNextCommon::Done => {
                 def1x!("return Done");
@@ -2757,6 +2825,10 @@ impl<'a> JournalReader {
             &realtime_timestamp,
             &source_realtime_timestamp,
         );
+        summary_stat!(self.journal_event_largest_accepted = std::cmp::max(
+            self.journal_event_largest_accepted,
+            journal_event_size,
+        ));
         summary_stat!(self.events_accepted += 1);
         def1x!();
 
@@ -2951,6 +3023,8 @@ impl<'a> JournalReader {
     pub fn summary(&self) -> SummaryJournalReader {
         let journalreader_events_processed: Count = self.events_processed;
         let journalreader_events_accepted: Count = self.events_accepted;
+        let journalreader_journal_event_largest_processed: Count = self.journal_event_largest_processed;
+        let journalreader_journal_event_largest_accepted: Count = self.journal_event_largest_accepted;
         let journalreader_datetime_first_accepted = self.dt_first_accepted();
         let journalreader_datetime_last_accepted = self.dt_last_accepted();
         let journalreader_datetime_first_processed = self.dt_first_processed();
@@ -2963,6 +3037,8 @@ impl<'a> JournalReader {
         SummaryJournalReader {
             journalreader_events_processed,
             journalreader_events_accepted,
+            journalreader_journal_event_largest_processed,
+            journalreader_journal_event_largest_accepted,
             journalreader_datetime_first_accepted,
             journalreader_datetime_last_accepted,
             journalreader_datetime_first_processed,

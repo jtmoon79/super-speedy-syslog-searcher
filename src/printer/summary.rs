@@ -363,7 +363,7 @@ impl SummaryPrinted {
             eprintln!("{}flushes       : {}", indent2, self.flushed);
 
             if summarylinereader_opt.is_some() {
-                eprint!("{}lines         : ", indent2);
+                eprint!("{}Lines         : ", indent2);
                 let is_err: bool = self.lines == 0 && summaryblockreader.blockreader_bytes != 0;
                 eprintln_display_color_error(
                     &self.lines,
@@ -374,7 +374,7 @@ impl SummaryPrinted {
         }
 
         if let Some(summaryfixedstructreader) = summaryfixedstructreader_opt {
-            eprint!("{}entries       : ", indent2);
+            eprint!("{}Entries       : ", indent2);
             let is_err: bool = self.fixedstructentries == 0 && summaryfixedstructreader.fixedstructreader_utmp_entries != 0;
             eprintln_display_color_error(
                 &self.fixedstructentries,
@@ -386,7 +386,7 @@ impl SummaryPrinted {
         if let Some(summarylinereader) = summarylinereader_opt {
             // if lines were processed but no syslines were processed
             // then hint at an error with colored text
-            eprint!("{}syslines      : ", indent2);
+            eprint!("{}Syslines      : ", indent2);
             let is_err: bool = self.syslines == 0 && summarylinereader.linereader_lines != 0;
             eprintln_display_color_error(
                 &self.syslines,
@@ -399,7 +399,7 @@ impl SummaryPrinted {
             if self.dt_first.is_none() && summarylinereader.linereader_lines != 0 {
                 // if no datetime_first was processed but lines were processed
                 // then hint at an error with colored text
-                eprint!("{}datetime first: ", indent2);
+                eprint!("{}Datetime first: ", indent2);
                 print_colored_stderr(
                     COLOR_ERROR,
                     color_choice_opt,
@@ -407,18 +407,18 @@ impl SummaryPrinted {
                 );
                 eprintln!();
             } else if let Some(dt) = self.dt_first {
-                eprint!("{}datetime first: ", indent2);
+                eprint!("{}Datetime first: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
             if self.dt_last.is_none() && summarylinereader.linereader_lines != 0 {
                 // if no datetime_last was processed but lines were processed
                 // then hint at an error with colored text
-                eprint!("{}datetime last : ", indent2);
+                eprint!("{}Datetime last : ", indent2);
                 print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes());
                 eprintln!();
             } else if let Some(dt) = self.dt_last {
-                eprint!("{}datetime last : ", indent2);
+                eprint!("{}Datetime last : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
@@ -427,15 +427,15 @@ impl SummaryPrinted {
         if let Some(summarypyeventreader) = summarypyeventreader_opt {
             eprintln!("{}bytes         : {}", indent2, self.bytes);
             eprintln!("{}flushes       : {}", indent2, self.flushed);
-            eprintln!("{}events        : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
+            eprintln!("{}Events        : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
             if let Some(dt) = summarypyeventreader.pyeventreader_datetime_first_accepted {
-                eprint!("{}datetime first: ", indent2);
+                eprint!("{}Datetime first: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
             match summarypyeventreader.pyeventreader_datetime_last_accepted {
                 Some(dt) => {
-                    eprint!("{}datetime last : ", indent2);
+                    eprint!("{}Datetime last : ", indent2);
                     print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                     eprintln!();
                     debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_some());
@@ -451,20 +451,20 @@ impl SummaryPrinted {
             eprintln!("{}flushes       : {}", indent2, self.flushed);
             eprintln!("{}Events        : {}", indent2, self.evtxentries);
             eprintln!(
-                "{}event largest processed: {} (bytes)",
+                "{}Event largest processed: {} (bytes)",
                 indent2, summaryevtxreader.evtxreader_event_largest_processed
             );
             eprintln!(
-                "{}event largest accepted : {} (bytes)",
+                "{}Event largest accepted : {} (bytes)",
                 indent2, summaryevtxreader.evtxreader_event_largest_accepted
             );
             if let Some(dt) = summaryevtxreader.evtxreader_datetime_first_accepted {
-                eprint!("{}datetime first: ", indent2);
+                eprint!("{}Datetime first: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
             if let Some(dt) = summaryevtxreader.evtxreader_datetime_last_accepted {
-                eprint!("{}datetime last : ", indent2);
+                eprint!("{}Datetime last : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
@@ -473,14 +473,22 @@ impl SummaryPrinted {
         if let Some(summaryjournalreader) = summaryjournalreader_opt {
             eprintln!("{}bytes         : {}", indent2, self.bytes);
             eprintln!("{}flushes       : {}", indent2, self.flushed);
-            eprintln!("{}journal events: {}", indent2, self.journalentries);
+            eprintln!("{}Journal events: {}", indent2, self.journalentries);
+            eprintln!(
+                "{}Journal event largest processed: {} (bytes)",
+                indent2, summaryjournalreader.journalreader_journal_event_largest_processed,
+            );
+            eprintln!(
+                "{}Journal event largest accepted : {} (bytes)",
+                indent2, summaryjournalreader.journalreader_journal_event_largest_accepted,
+            );
             if let Some(dt) = summaryjournalreader.journalreader_datetime_first_accepted {
-                eprint!("{}datetime first: ", indent2);
+                eprint!("{}Datetime first: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
             if let Some(dt) = summaryjournalreader.journalreader_datetime_last_accepted {
-                eprint!("{}datetime last : ", indent2);
+                eprint!("{}Datetime last : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
@@ -827,6 +835,26 @@ pub(crate) fn summary_largest_evtx_event(map_pathid_summary: &MapPathIdSummary) 
     (largest_processed, largest_accepted)
 }
 
+/// Helper to function `print_summary`
+pub(crate) fn summary_largest_journal_event(map_pathid_summary: &MapPathIdSummary) -> (Count, Count) {
+    let mut largest_processed: Count = 0;
+    let mut largest_accepted: Count = 0;
+    for summary in map_pathid_summary.values() {
+        if let SummaryReaderData::Journal(summaryjournalreader) = &summary.readerdata {
+            largest_processed = std::cmp::max(
+                largest_processed,
+                summaryjournalreader.journalreader_journal_event_largest_processed,
+            );
+            largest_accepted = std::cmp::max(
+                largest_accepted,
+                summaryjournalreader.journalreader_journal_event_largest_accepted,
+            );
+        }
+    }
+
+    (largest_processed, largest_accepted)
+}
+
 /// Print the entire `--summary`.
 /// This is the "entry point" for print the summary of all files.
 #[allow(clippy::too_many_arguments)]
@@ -869,6 +897,7 @@ pub fn print_summary(
     );
     let (longest_line, longest_sysline) = summary_longest_line_sysline(&map_pathid_summary);
     let (event_largest_processed, event_largest_accepted) = summary_largest_evtx_event(&map_pathid_summary);
+    let (journal_event_largest_processed, journal_event_largest_accepted) = summary_largest_journal_event(&map_pathid_summary);
 
     // print details about all the valid files
     print_all_files_summaries(
@@ -893,27 +922,29 @@ pub fn print_summary(
     );
 
     // here is the final printed summary of the all files
-    eprintln!("Program Summary:\n");
+    eprintln!("Program summary:\n");
     eprintln!("Paths considered       : {}", paths_total);
     eprintln!("Paths not processed    : {}", map_pathid_results_invalid.len());
     eprintln!("Files processed        : {}", map_pathid_results.len());
     eprintln!("Files printed          : {}", paths_printed_logmessages.len());
-    eprintln!("Longest Line           : {}", longest_line);
-    eprintln!("Longest Sysline        : {}", longest_sysline);
     eprintln!("Printed bytes          : {}", summaryprinted.bytes);
     eprintln!("Printed flushes        : {}", summaryprinted.flushed);
-    eprintln!("Printed lines          : {}", summaryprinted.lines);
-    eprintln!("Printed syslines       : {}", summaryprinted.syslines);
+    eprintln!("Printed Lines          : {}", summaryprinted.lines);
+    eprintln!("Printed Syslines       : {}", summaryprinted.syslines);
     eprintln!("Printed ASL events     : {}", summaryprinted.aslentries);
     eprintln!("Printed ETL events     : {}", summaryprinted.etlentries);
     eprintln!("Printed EVTX events    : {}", summaryprinted.evtxentries);
-    eprintln!("EVTX Event Largest Proc: {}", event_largest_processed);
-    eprintln!("EVTX Event Largest Acc : {}", event_largest_accepted);
     // TODO: [2023/03/26] eprint count of EVTX files "out of order".
-    eprintln!("Printed fixedstruct    : {}", summaryprinted.fixedstructentries);
+    eprintln!("Printed FixedStruct    : {}", summaryprinted.fixedstructentries);
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
-    eprintln!("Printed journal events : {}", summaryprinted.journalentries);
+    eprintln!("Printed Journal events : {}", summaryprinted.journalentries);
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
+    eprintln!("Line longest                   : {}", longest_line);
+    eprintln!("Sysline longest                : {}", longest_sysline);
+    eprintln!("EVTX event largest processed   : {}", event_largest_processed);
+    eprintln!("EVTX event largest accepted    : {}", event_largest_accepted);
+    eprintln!("Journal event largest processed: {}", journal_event_largest_processed);
+    eprintln!("Journal event largest accepted : {}", journal_event_largest_accepted);
     eprintln!("Managed files max deflt: {}", summary_filehandlemanager.open_max_default);
     eprintln!("Managed files max adjus: {}", summary_filehandlemanager.open_max_adjusted);
     // TODO: print `count_hi` in yellow if it is ==max
@@ -1012,10 +1043,10 @@ pub fn print_summary(
         }
     }
     // print basic stats about the channel
-    eprintln!("Channel Receive ok     : {}", chan_recv_ok);
-    eprintln!("Channel Receive err    : {}", chan_recv_err);
-    eprintln!("Threads Spawned        : {}", thread_count);
-    eprintln!("Thread Spawn errors    : {}", thread_err_count);
+    eprintln!("Channel receive ok     : {}", chan_recv_ok);
+    eprintln!("Channel receive err    : {}", chan_recv_err);
+    eprintln!("Threads spawned        : {}", thread_count);
+    eprintln!("Thread spawn errors    : {}", thread_err_count);
     let run_time = finish_time.checked_duration_since(start_time);
     let run_time_w_summary = Instant::now().checked_duration_since(start_time);
     match (run_time, run_time_w_summary) {
@@ -1083,16 +1114,16 @@ fn print_file_about(
         de_err!("Unable to canonicalize path {:?}", path1);
     }
     if !subpath.is_empty() {
-        eprintln!("{}archive subpath: {}", OPT_SUMMARY_PRINT_INDENT2, subpath);
+        eprintln!("{}Archive subpath: {}", OPT_SUMMARY_PRINT_INDENT2, subpath);
     }
     if let Some(summary) = summary_opt {
         if let Some(path_ntf) = &summary.path_ntf {
-            eprintln!("{}temporary path : {}", OPT_SUMMARY_PRINT_INDENT2, path_ntf);
+            eprintln!("{}Temporary path : {}", OPT_SUMMARY_PRINT_INDENT2, path_ntf);
         }
     }
     // print other facts
     if let Some(dt) = modified_time {
-        eprint!("{}modified time : ", OPT_SUMMARY_PRINT_INDENT2);
+        eprint!("{}Modified time : ", OPT_SUMMARY_PRINT_INDENT2);
         print_datetime_asis_utc_dimmed(dt, Some(*color_choice));
         eprintln!();
     }
@@ -1111,7 +1142,7 @@ fn print_file_about(
         }
     }
     // print filetype leadin
-    eprint!("{}filetype      : ", OPT_SUMMARY_PRINT_INDENT2);
+    eprint!("{}FileType      : ", OPT_SUMMARY_PRINT_INDENT2);
     // print the filetype basic info
     match filetype {
         FileType::Text { encoding_type: et, .. } => {
@@ -1155,17 +1186,17 @@ fn print_file_about(
     eprintln!(" ({})", filetype.pretty_name());
     // print about FixedStruct types if applicable
     if let FileType::FixedStruct { archival_type: _, fixedstruct_type: fst } = filetype {
-        eprintln!("{}fixedstructtype: {:?}", OPT_SUMMARY_PRINT_INDENT2, fst);
+        eprintln!("{}FixedStructTyp: {:?}", OPT_SUMMARY_PRINT_INDENT2, fst);
     }
     // print log message type
-    eprintln!("{}logmessagetype: {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
+    eprintln!("{}LogMessageType: {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
 
     if let Some(summary) = summary_opt {
         match &summary.readerdata {
             SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => {
                 if let Some(fst) = summaryfixedstructreader.fixedstructreader_fixedstructtype_opt {
                     eprintln!(
-                        "{}fixedstructtype: {:?}",
+                        "{}specific type : {:?}",
                         OPT_SUMMARY_PRINT_INDENT2,
                         fst,
                     );
@@ -1175,7 +1206,7 @@ fn print_file_about(
         }
     }
 
-    eprintln!("{}thread stack  : {} (bytes)", OPT_SUMMARY_PRINT_INDENT2, stack_size);
+    eprintln!("{}Thread stack  : {} (bytes)", OPT_SUMMARY_PRINT_INDENT2, stack_size);
 
     // print `FileProcessingResult` if it was not okay
     if let Some(result) = file_processing_result {
@@ -1275,25 +1306,25 @@ fn print_summary_opt_processed(
                 _summarysyslogprocessor,
             ),
         ) => {
-            eprintln!("{}lines         : {}", indent2, summarylinereader.linereader_lines);
+            eprintln!("{}Lines         : {}", indent2, summarylinereader.linereader_lines);
             eprintln!(
-                "{}line longest  : {} (bytes)",
+                "{}Line longest  : {} (bytes)",
                 indent2, summarylinereader.linereader_line_longest_processed
             );
             eprintln!(
-                "{}lines high    : {}",
+                "{}Lines high    : {}",
                 indent2, summarylinereader.linereader_lines_stored_highest
             );
             eprintln!(
-                "{}line parts    : {}", indent2, summarylinereader.linereader_line_parts_created,
+                "{}Line parts    : {}", indent2, summarylinereader.linereader_line_parts_created,
             );
-            eprintln!("{}syslines      : {}", indent2, summarysyslinereader.syslinereader_syslines);
+            eprintln!("{}Syslines      : {}", indent2, summarysyslinereader.syslinereader_syslines);
             eprintln!(
-                "{}sysline longest: {} (bytes)",
+                "{}Sysline longest: {} (bytes)",
                 indent2, summarysyslinereader.syslinereader_sysline_longest
             );
             eprintln!(
-                "{}syslines high : {}",
+                "{}Syslines high : {}",
                 indent2, summarysyslinereader.syslinereader_syslines_stored_highest
             );
         }
@@ -1301,19 +1332,19 @@ fn print_summary_opt_processed(
             _summaryblockreader,
             summaryfixedstructreader,
         )) => {
-            eprintln!("{}entries       : {}", indent2, summaryfixedstructreader.fixedstructreader_utmp_entries);
-            eprintln!("{}entry size    : {} (bytes)",
+            eprintln!("{}Entries       : {}", indent2, summaryfixedstructreader.fixedstructreader_utmp_entries);
+            eprintln!("{}Entry size    : {} (bytes)",
                 indent2, summaryfixedstructreader.fixedstructreader_fixedstruct_size
             );
-            eprintln!("{}entry hi-score: {}",
+            eprintln!("{}Entry hi-score: {}",
                 indent2, summaryfixedstructreader.fixedstructreader_high_score
             );
-            eprint!("{}first entry   : ",
+            eprint!("{}first Entry   : ",
                 indent2,
             );
             eprintln!("@{:?}", summaryfixedstructreader.fixedstructreader_first_entry_fileoffset);
             eprintln!(
-                "{}entry high    : {}",
+                "{}Entry high    : {}",
                 indent2, summaryfixedstructreader.fixedstructreader_utmp_entries_max,
             );
             eprintln!(
@@ -1326,10 +1357,10 @@ fn print_summary_opt_processed(
                 "{}file size          : {1} (0x{1:X}) (bytes)",
                 indent2, summarypyeventreader.pyeventreader_filesz,
             );
-            eprintln!("{}events processed   : {}", indent2, summarypyeventreader.pyeventreader_events_processed);
-            eprintln!("{}events accepted    : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
-            eprintln!("{}events read max    : {}", indent2, summarypyeventreader.pyeventreader_events_read_max);
-            eprintln!("{}events queue high  : {}", indent2, summarypyeventreader.pyeventreader_events_held_max);
+            eprintln!("{}Events processed   : {}", indent2, summarypyeventreader.pyeventreader_events_processed);
+            eprintln!("{}Events accepted    : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
+            eprintln!("{}Events read max    : {}", indent2, summarypyeventreader.pyeventreader_events_read_max);
+            eprintln!("{}Events queue high  : {}", indent2, summarypyeventreader.pyeventreader_events_held_max);
             eprintln!("{}Python process polls       : {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_polls);
             eprintln!("{}Python process reads stdout: {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_reads_stdout);
             eprintln!("{}Python process reads stderr: {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_reads_stderr);
@@ -1368,12 +1399,12 @@ fn print_summary_opt_processed(
             eprintln!("{}Events processed   : {}", indent2, summaryevtxreader.evtxreader_events_processed);
             eprintln!("{}Events accepted    : {}", indent2, summaryevtxreader.evtxreader_events_accepted);
             if let Some(dt) = summaryevtxreader.evtxreader_datetime_first_processed {
-                eprint!("{}datetime first     : ", indent2);
+                eprint!("{}Datetime first     : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                 eprintln!();
             }
             if let Some(dt) = summaryevtxreader.evtxreader_datetime_last_processed {
-                eprint!("{}datetime last      : ", indent2);
+                eprint!("{}Datetime last      : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                 eprintln!();
             }
@@ -1388,11 +1419,11 @@ fn print_summary_opt_processed(
         }
         SummaryReaderData::Journal(summaryjournalreader) => {
             eprintln!(
-                "{}file size     : {1} (0x{1:X}) (bytes)",
+                "{}File size     : {1} (0x{1:X}) (bytes)",
                 indent2, summaryjournalreader.journalreader_filesz,
             );
             eprintln!(
-                "{}journal events: {}",
+                "{}Journal events: {}",
                 indent2, summaryjournalreader.journalreader_events_processed,
             );
             eprintln!(
@@ -1407,12 +1438,12 @@ fn print_summary_opt_processed(
                 color_choice,
             );
             if let Some(dt) = summaryjournalreader.journalreader_datetime_first_processed {
-                eprint!("{}datetime first: ", indent2);
+                eprint!("{}Datetime first: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                 eprintln!();
             }
             if let Some(dt) = summaryjournalreader.journalreader_datetime_last_processed {
-                eprint!("{}datetime last : ", indent2);
+                eprint!("{}Datetime last : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                 eprintln!();
             }
@@ -1430,14 +1461,14 @@ fn print_summary_opt_processed(
     // print datetime first processed
     let dt_first = summary.datetime_first_processed();
     if let Some(dt_first_) = dt_first {
-        eprint!("{}datetime first: ", indent2);
+        eprint!("{}Datetime first: ", indent2);
         print_datetime_asis_utc_dimmed(dt_first_, Some(*color_choice));
         eprintln!();
     }
     // print datetime last processed
     let dt_last = summary.datetime_last_processed();
     if let Some(dt_last_) = dt_last {
-        eprint!("{}datetime last : ", indent2);
+        eprint!("{}Datetime last : ", indent2);
         print_datetime_asis_utc_dimmed(dt_last_, Some(*color_choice));
         eprintln!();
     }
@@ -1565,20 +1596,20 @@ fn print_summary_opt_processed_summaryblockreader(
     // TODO: [2024/05/05] `bytes total` repeats `file size` printed above.
     //       Remove it entirely.
     eprintln!("{}bytes total   : {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes_total);
-    eprintln!("{}block size    : {1} (0x{1:X})", indent, summaryblockreader.blockreader_blocksz);
-    eprintln!("{}blocks        : {}", indent, summaryblockreader.blockreader_blocks);
+    eprintln!("{}Block size    : {1} (0x{1:X})", indent, summaryblockreader.blockreader_blocksz);
+    eprintln!("{}Blocks        : {}", indent, summaryblockreader.blockreader_blocks);
     let bytes_total: Count =
         summaryblockreader.blockreader_blocks_total
         * (summaryblockreader.blockreader_blocksz as Count);
     eprintln!(
-        "{}blocks total  : {} ({} bytes)",
+        "{}Blocks total  : {} ({} bytes)",
         indent, summaryblockreader.blockreader_blocks_total, bytes_total,
     );
     let bytes_high: Count =
         (summaryblockreader.blockreader_blocks_highest as Count)
         * (summaryblockreader.blockreader_blocksz as Count);
     eprintln!(
-        "{}blocks high   : {} ({} bytes)",
+        "{}Blocks high   : {} ({} bytes)",
         indent, summaryblockreader.blockreader_blocks_highest, bytes_high,
     );
 }
@@ -1879,7 +1910,7 @@ fn print_cache_stats(
             summarysyslinereader,
             _summarysyslogprocessor,
         )) => {
-            eprintln!("{}Processing Stores:", OPT_SUMMARY_PRINT_INDENT1);
+            eprintln!("{}Processing stores:", OPT_SUMMARY_PRINT_INDENT1);
             print_cache_stats_summaryblockreader(
                 summaryblockreader,
                 color_choice,
@@ -1901,7 +1932,7 @@ fn print_cache_stats(
             summaryblockreader,
             summaryfixedstructreader,
         )) => {
-            eprintln!("{}Processing Stores:", OPT_SUMMARY_PRINT_INDENT1);
+            eprintln!("{}Processing stores:", OPT_SUMMARY_PRINT_INDENT1);
             print_cache_stats_summaryfixedstructreader(
                 summaryfixedstructreader,
                 OPT_SUMMARY_PRINT_INDENT2,
