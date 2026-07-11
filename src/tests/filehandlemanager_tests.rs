@@ -455,7 +455,7 @@ fn test_unmanaged_and_managed_high_water_counts_can_coexist() {
 }
 
 #[test]
-fn test_pending_unmanaged_reservations_constrain_managed_opens() {
+fn test_pending_unmanaged_plans_do_not_constrain_managed_opens() {
     let ntf_a: NamedTempFile = create_temp_file("abcdef");
     let ntf_b: NamedTempFile = create_temp_file("wxyz");
     let manager = manager(FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize + 1);
@@ -466,10 +466,21 @@ fn test_pending_unmanaged_reservations_constrain_managed_opens() {
             archival_type: FileTypeArchive::Normal,
         },
     );
+    list_files.insert(
+        PATH_ID_C,
+        FileType::Etl {
+            archival_type: FileTypeArchive::Normal,
+        },
+    );
 
     manager.handle_reservations(&list_files);
     assert_eq!(
         manager.handles_unmanaged_pending_helper(PATH_ID_B, FileHandleRole::Unmanaged),
+        FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+        "handles_unmanaged_pending_helper() after handle_reservations()"
+    );
+    assert_eq!(
+        manager.handles_unmanaged_pending_helper(PATH_ID_C, FileHandleRole::Unmanaged),
         FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
         "handles_unmanaged_pending_helper() after handle_reservations()"
     );
@@ -482,9 +493,14 @@ fn test_pending_unmanaged_reservations_constrain_managed_opens() {
     let handle_d = manager
         .request_open_managed(PATH_ID_D, FileHandleRole::PrimaryRead, ntf_b.path(), OpenOptionsManaged::read_only())
         .unwrap();
-    assert_eq!(manager.count_open(), 1, "count_open() after opening managed handle_d");
+    assert_eq!(manager.count_open(), 2, "count_open() after opening managed handle_d");
     assert_eq!(
         manager.handles_unmanaged_pending_helper(PATH_ID_B, FileHandleRole::Unmanaged),
+        FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+        "handles_unmanaged_pending_helper() after opening managed handle_d"
+    );
+    assert_eq!(
+        manager.handles_unmanaged_pending_helper(PATH_ID_C, FileHandleRole::Unmanaged),
         FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
         "handles_unmanaged_pending_helper() after opening managed handle_d"
     );
@@ -492,7 +508,7 @@ fn test_pending_unmanaged_reservations_constrain_managed_opens() {
     drop(handle_a);
 
     let summary = manager.summary();
-    assert_eq!(summary.evict_succeed, 1, "evict_succeed after dropping handles");
+    assert_eq!(summary.evict_succeed, 0, "evict_succeed after dropping handles");
     assert_eq!(summary.evict_fails, 0, "evict_fails after dropping handles");
 }
 
@@ -507,8 +523,17 @@ fn test_planned_unmanaged_request_consumes_multi_slot_reservation() {
             archival_type: FileTypeArchive::Normal,
         },
     );
+    list_files.insert(
+        PATH_ID_B,
+        FileType::Etl {
+            archival_type: FileTypeArchive::Normal,
+        },
+    );
 
     manager.handle_reservations(&list_files);
+    let managed = manager
+        .request_open_managed(PATH_ID_C, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
+        .unwrap();
     let fpath: FPath = path_to_fpath(&ntf.path());
     {
         let _handle = manager
@@ -522,10 +547,48 @@ fn test_planned_unmanaged_request_consumes_multi_slot_reservation() {
             "handles_unmanaged_helper() inside unmanaged handle scope"
         );
         assert_eq!(manager.handles_unmanaged_pending_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_pending_helper() inside unmanaged handle scope");
+        assert_eq!(
+            manager.handles_unmanaged_pending_helper(PATH_ID_B, FileHandleRole::Unmanaged),
+            FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+            "handles_unmanaged_pending_helper() for another file inside unmanaged handle scope"
+        );
     }
 
     assert_eq!(manager.count_open_total(), 0, "count_open_total() after unmanaged handle scope");
     assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_helper() after unmanaged handle scope");
+    drop(managed);
+
+    let summary = manager.summary();
+    assert_eq!(summary.evict_succeed, 1, "evict_succeed after activating unmanaged reservation");
+    assert_eq!(summary.evict_fails, 0, "evict_fails after activating unmanaged reservation");
+}
+
+#[test]
+fn test_planned_unmanaged_request_failure_preserves_reservation() {
+    let ntf: NamedTempFile = create_temp_file("abcdef");
+    let manager = manager(FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize - 1);
+    let mut list_files = HashMap::new();
+    list_files.insert(
+        PATH_ID_A,
+        FileType::Etl {
+            archival_type: FileTypeArchive::Normal,
+        },
+    );
+
+    manager.handle_reservations(&list_files);
+    let fpath: FPath = path_to_fpath(&ntf.path());
+    let err = manager
+        .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
+        .unwrap_err();
+
+    assert_eq!(err.kind(), ErrorKind::WouldBlock, "ErrorKind after oversized unmanaged request");
+    assert_eq!(manager.count_open_total(), 0, "count_open_total() after oversized unmanaged request");
+    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_helper() after oversized unmanaged request");
+    assert_eq!(
+        manager.handles_unmanaged_pending_helper(PATH_ID_A, FileHandleRole::Unmanaged),
+        FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+        "handles_unmanaged_pending_helper() after oversized unmanaged request"
+    );
 }
 
 #[test]
