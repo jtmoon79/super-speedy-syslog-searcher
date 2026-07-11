@@ -8,6 +8,8 @@
 #![allow(non_upper_case_globals)]
 #![allow(clippy::too_many_arguments)]
 
+use std::io::ErrorKind;
+
 use ::lazy_static::lazy_static;
 use ::more_asserts::{
     assert_ge,
@@ -63,6 +65,7 @@ use crate::readers::helpers::{
 };
 use crate::readers::linereader::{
     LineReader,
+    LINE_SEARCH_MAX,
     ResultFindLine,
     SummaryLineReader,
 };
@@ -81,6 +84,8 @@ use crate::tests::common::{
     NTF_NL_3_PATH,
     NTF_NL_4_PATH,
     NTF_NL_5_PATH,
+    NTF_LINE_TOO_LONG_UTF8_FPATH,
+    NTF_LINE_TOO_LONG_UTF8_LONG_LINE_OFFSET,
     NTF_SYSLINE_2_PATH,
     FILE_UTF16LE_ABC_FPATH,
     FILE_UTF16LE_ABC_NL_FPATH,
@@ -2238,6 +2243,49 @@ fn test_find_line(
         }
         ResultFindLine::Err(err) => {
             panic!("LineReader::new({:?}, {:?}) ResultFindLine::Err {}", fpath, blocksz, err);
+        }
+    }
+}
+
+#[test_case(
+    NTF_LINE_TOO_LONG_UTF8_LONG_LINE_OFFSET,
+    &NTF_LINE_TOO_LONG_UTF8_FPATH,
+    ErrorKind::InvalidData;
+    "long line start"
+)]
+#[test_case(
+    NTF_LINE_TOO_LONG_UTF8_LONG_LINE_OFFSET + (LINE_SEARCH_MAX / 2),
+    &NTF_LINE_TOO_LONG_UTF8_FPATH,
+    ErrorKind::InvalidData;
+    "long line middle"
+)]
+#[test_case(
+    NTF_LINE_TOO_LONG_UTF8_LONG_LINE_OFFSET + LINE_SEARCH_MAX,
+    &NTF_LINE_TOO_LONG_UTF8_FPATH,
+    ErrorKind::InvalidData;
+    "long line beyond search max"
+)]
+fn test_LineReader_find_line_line_too_long(
+    fileoffset: FileOffset,
+    fpath: &FPath,
+    expected_error_kind: ErrorKind,
+) {
+    let mut lr1 = new_LineReader(fpath, 0x100);
+    match lr1.find_line(fileoffset) {
+        ResultFindLine::Err(err) => {
+            assert_eq!(err.kind(), expected_error_kind);
+        }
+        ResultFindLine::Found((fo, linep)) => {
+            panic!(
+                "find_line({fileoffset}) returned Found({}, Line len {}) for {:?}, expected {:?}",
+                fo,
+                (*linep).len(),
+                fpath,
+                expected_error_kind,
+            );
+        }
+        ResultFindLine::Done => {
+            panic!("find_line({fileoffset}) returned Done for {:?}, expected {:?}", fpath, expected_error_kind);
         }
     }
 }

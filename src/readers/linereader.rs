@@ -12,6 +12,7 @@ use std::collections::HashSet;
 use std::fmt;
 use std::io::{
     Error,
+    ErrorKind,
     Result,
 };
 use std::sync::Arc;
@@ -67,6 +68,7 @@ use crate::readers::blockreader::{
     BlockReader,
     BlockSz,
     ResultFindReadBlock,
+    BLOCKSZ_DEF,
 };
 
 // ----------
@@ -231,6 +233,12 @@ const CHARSZ_MIN: CharSz = 1;
 /// Default char storage size in bytes.
 const CHARSZ: CharSz = CHARSZ_MIN;
 
+/// Maximum bytes `LineReader` searches from a requested file offset
+/// for one line.
+/// This is a sanity check to avoid searching too far in
+/// a malicious or malformed file.
+pub const LINE_SEARCH_MAX: u64 = BLOCKSZ_DEF * 6 - 1;
+
 /// Implement the LineReader.
 impl LineReader {
     /// Internal LRU cache size (entries).
@@ -297,6 +305,28 @@ impl LineReader {
     #[inline(always)]
     pub const fn charsz(&self) -> CharSz {
         self.charsz_
+    }
+
+    /// Check if the line search has exceeded the maximum allowed length.
+    /// Helper to `find_line`.
+    fn find_line_search_max(
+        &self,
+        fileoffset_start: FileOffset,
+        fileoffset_current: FileOffset,
+    ) -> Result<()> {
+        if fileoffset_current.abs_diff(fileoffset_start) >= LINE_SEARCH_MAX {
+            Err(
+                Error::new(
+                    ErrorKind::InvalidData,
+                    format!(
+                        "line search exceeded maximum length {LINE_SEARCH_MAX} from file offset {fileoffset_start} to {fileoffset_current} for file {:?}",
+                        self.path()
+                    ),
+                )
+            )
+        } else {
+            Ok(())
+        }
     }
 
     /// See [`BlockReader::blocksz`].
@@ -1184,6 +1214,14 @@ impl LineReader {
             bi_stop
         );
         loop {
+            let fo_at: FileOffset = self.file_offset_at_block_offset_index(
+                bo_middle,
+                std::cmp::min(bi_at + charsz_bi - 1, bi_stop - 1),
+            );
+            if let Err(err) = self.find_line_search_max(fileoffset_orig, fo_at) {
+                defx!("({}): B1 line search exceeded maximum; return {:?}, None", fileoffset, err);
+                return (ResultFindLine::Err(err), None);
+            }
             if self.is_newline_at(bptr_middle.as_slice(), bi_at) {
                 found_nl_b = true;
                 // include the full encoded newline code unit bytes
@@ -1218,6 +1256,10 @@ impl LineReader {
                 blockoffset_last,
             );
             nl_b_eof = true;
+            if let Err(err) = self.find_line_search_max(fileoffset_orig, fo_nl_b) {
+                defx!("({}): B1 EOF line search exceeded maximum; return {:?}, None", fileoffset, err);
+                return (ResultFindLine::Err(err), None);
+            }
             debug_assert_eq!(
                 fo_nl_b, filesz - 1,
                 "newline B1 fileoffset {} is at end of file, yet filesz is {}; there was a bad calculation of newline B1 from blockoffset {} blockindex {} (blockoffset last {}), for file {:?}",
@@ -1293,6 +1335,10 @@ impl LineReader {
                 return (ResultFindLine::Done, Some(line));
             }
 
+            if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
+                defx!("({}): A0 line length exceeded maximum; return {:?}, None", fileoffset, err);
+                return (ResultFindLine::Err(err), None);
+            }
             let linep: LineP = self.insert_line(line);
             let fo_next: FileOffset = fo_nl_b + 1;
             debug_assert_eq!(
@@ -1372,6 +1418,10 @@ impl LineReader {
                 );
                 summary_stat!(self.line_parts_created += 1);
                 line.prepend(li);
+                if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
+                    defx!("({}): A1a line length exceeded maximum; return {:?}, None", fileoffset, err);
+                    return (ResultFindLine::Err(err), None);
+                }
                 let linep: LineP = self.insert_line(line);
                 let fo_next: FileOffset = fo_nl_b + 1;
                 if nl_b_eof {
@@ -1450,6 +1500,10 @@ impl LineReader {
                         );
                         summary_stat!(self.line_parts_created += 1);
                         line.prepend(li);
+                        if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
+                            defx!("({}): A1b line length exceeded maximum; return {:?}, None", fileoffset, err);
+                            return (ResultFindLine::Err(err), None);
+                        }
                         let linep: LineP = self.insert_line(line);
                         let fo_next: FileOffset = fo_nl_b + 1;
                         if nl_b_eof {
@@ -1574,6 +1628,11 @@ impl LineReader {
                 bi_at += charsz_bi;
                 break;
             }
+            let fo_at: FileOffset = self.file_offset_at_block_offset_index(bo_middle, bi_at);
+            if let Err(err) = self.find_line_search_max(fileoffset_orig, fo_at) {
+                defx!("({}): A2a line search exceeded maximum; return {:?}, None", fileoffset, err);
+                return (ResultFindLine::Err(err), None);
+            }
             if bi_at == BI_STOP {
                 break;
             }
@@ -1619,6 +1678,13 @@ impl LineReader {
         if line.is_empty() {
             defx!("({}): line is empty after searching for newline A and newline B, return Done, None", fileoffset);
             return (ResultFindLine::Done, None);
+        }
+
+        if !partial_line {
+            if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
+                defx!("({}): line length exceeded maximum; return {:?}, None", fileoffset, err);
+                return (ResultFindLine::Err(err), None);
+            }
         }
 
         if partial_line {
@@ -1866,6 +1932,14 @@ impl LineReader {
             defo!("B1: scan middle block {} forwards (block len {}), starting from blockindex {} (fileoffset {}) searching for newline B", bo_middle, (*bptr_middle).len(), bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at));
             loop {
                 // TODO: [2024/07] cost-savings: use memchr to scan
+                let fo_at: FileOffset = self.file_offset_at_block_offset_index(
+                    bo_middle,
+                    std::cmp::min(bi_at + charsz_bi - 1, bi_stop - 1),
+                );
+                if let Err(err) = self.find_line_search_max(fileoffset_orig, fo_at) {
+                    defx!("({}): B1 line search exceeded maximum; return {:?}", fileoffset, err);
+                    return ResultFindLine::Err(err);
+                }
                 if self.is_newline_at(bptr_middle.as_slice(), bi_at) {
                     found_nl_b = true;
                     bi_middle_end = bi_at + charsz_bi - 1;
@@ -1902,6 +1976,10 @@ impl LineReader {
                 );
                 fo_nl_b_in_middle = true;
                 nl_b_eof = true;
+                if let Err(err) = self.find_line_search_max(fileoffset_orig, fo_nl_b) {
+                    defx!("({}): B1 EOF line search exceeded maximum; return {:?}", fileoffset, err);
+                    return ResultFindLine::Err(err);
+                }
                 debug_assert_eq!(
                     fo_nl_b, filesz - 1,
                     "newline B1 fileoffset {} is at end of file, yet filesz is {}; there was a bad calculation of newline B1 from blockoffset {} blockindex {} (blockoffset last {}) for file {:?}",
@@ -1976,6 +2054,14 @@ impl LineReader {
                 if bi_end >= charsz_bi {
                     loop {
                         // TODO: [2024/07] cost-savings: use memchr to scan
+                        let fo_at: FileOffset = self.file_offset_at_block_offset_index(
+                            bof,
+                            std::cmp::min(bi_beg + charsz_bi - 1, bi_end - 1),
+                        );
+                        if let Err(err) = self.find_line_search_max(fileoffset_orig, fo_at) {
+                            defx!("({}): B2 line search exceeded maximum; return {:?}", fileoffset, err);
+                            return ResultFindLine::Err(err);
+                        }
                         if self.is_newline_at(bptr.as_slice(), bi_beg) {
                             found_nl_b = true;
                             let bi_nl_end = bi_beg + charsz_bi - 1;
@@ -2053,6 +2139,10 @@ impl LineReader {
                 let bi_: BlockIndex = bi_nl_end;
                 fo_nl_b = self.file_offset_at_block_offset_index(bof, bi_nl_end);
                 nl_b_eof = true;
+                if let Err(err) = self.find_line_search_max(fileoffset_orig, fo_nl_b) {
+                    defx!("({}): B2 EOF line search exceeded maximum; return {:?}", fileoffset, err);
+                    return ResultFindLine::Err(err);
+                }
                 defo!(
                     "B2: newline B is end of file; blockoffset {} blockindex {} fileoffset {} (blockoffset last {})",
                     bof,
@@ -2105,6 +2195,10 @@ impl LineReader {
             );
             summary_stat!(self.line_parts_created += 1);
             line.prepend(li);
+            if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
+                defx!("({}): A0 line length exceeded maximum; return {:?}", fileoffset, err);
+                return ResultFindLine::Err(err);
+            }
             let linep: LineP = self.insert_line(line);
             let fo_next: FileOffset = fo_nl_b + 1;
             debug_assert_eq!(
@@ -2180,6 +2274,10 @@ impl LineReader {
                 );
                 summary_stat!(self.line_parts_created += 1);
                 line.prepend(li);
+                if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
+                    defx!("({}): A1a line length exceeded maximum; return {:?}", fileoffset, err);
+                    return ResultFindLine::Err(err);
+                }
                 let linep: LineP = self.insert_line(line);
                 let fo_next: FileOffset = fo_nl_b + 1;
                 if self.find_line_lru_cache_enabled {
@@ -2226,6 +2324,10 @@ impl LineReader {
                     );
                     summary_stat!(self.line_parts_created += 1);
                     line.prepend(li);
+                    if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
+                        defx!("({}): A1b line length exceeded maximum; return {:?}", fileoffset, err);
+                        return ResultFindLine::Err(err);
+                    }
                     let linep: LineP = self.insert_line(line);
                     let fo_next: FileOffset = fo_nl_b + 1;
                     if self.find_line_lru_cache_enabled {
@@ -2295,6 +2397,11 @@ impl LineReader {
                     fo_nl_a1 = fo_nl_a + charsz_fo;
                     bi_at += charsz_bi;
                     break;
+                }
+                let fo_at: FileOffset = self.file_offset_at_block_offset_index(bo_middle, bi_at);
+                if let Err(err) = self.find_line_search_max(fileoffset_orig, fo_at) {
+                    defx!("({}): A2a line search exceeded maximum; return {:?}", fileoffset, err);
+                    return ResultFindLine::Err(err);
                 }
                 if bi_at == BI_STOP {
                     break;
@@ -2451,6 +2558,11 @@ impl LineReader {
                         }
                         break;
                     }
+                    let fo_at: FileOffset = self.file_offset_at_block_offset_index(bof, bi_at);
+                    if let Err(err) = self.find_line_search_max(fileoffset_orig, fo_at) {
+                        defx!("({}): A5 line search exceeded maximum; return {:?}", fileoffset, err);
+                        return ResultFindLine::Err(err);
+                    }
                     if bi_at == BI_STOP {
                         break;
                     }
@@ -2506,6 +2618,10 @@ impl LineReader {
         }
 
         defo!("D: return {:?};", line);
+        if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
+            defx!("({}): D line length exceeded maximum; return {:?}", fileoffset, err);
+            return ResultFindLine::Err(err);
+        }
         let fo_end: FileOffset = line.fileoffset_end();
         let linep: LineP = self.insert_line(line);
         if self.find_line_lru_cache_enabled {

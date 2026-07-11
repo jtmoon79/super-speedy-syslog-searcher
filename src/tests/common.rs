@@ -79,6 +79,7 @@ use crate::readers::helpers::{
     fpath_to_path,
     path_to_fpath,
 };
+use crate::readers::linereader::LINE_SEARCH_MAX;
 
 static PATH_ID_GENERATOR: AtomicU32 = AtomicU32::new(1_000_000);
 
@@ -208,9 +209,8 @@ pub const TS_1: EpochMicroseconds = 1_000_000_456_123;
 // ---------------------
 // very simple log files
 
-lazy_static! {
-    static ref STRING_LOG: String = String::from(".log");
-}
+pub const NTF_LINE_TOO_LONG_UTF8_SHORT_LINE_LEN: FileOffset = 30;
+pub const NTF_LINE_TOO_LONG_UTF8_LONG_LINE_OFFSET: FileOffset = 5 * NTF_LINE_TOO_LONG_UTF8_SHORT_LINE_LEN;
 
 /// create a temp file filled with `data` ending in `.log`
 fn create_temp_log(data: &str) -> NamedTempFile {
@@ -218,6 +218,8 @@ fn create_temp_log(data: &str) -> NamedTempFile {
 }
 
 lazy_static! {
+    static ref STRING_LOG: String = String::from(".log");
+
     // files with only newlines
 
     pub static ref NTF_NL_1: NamedTempFile = create_temp_log("\n");
@@ -295,6 +297,17 @@ lazy_static! {
     pub static ref NTF_SYSLINE_2_SZ: FileSz = {
         (*NTF_SYSLINE_2_DATA).as_bytes().len() as FileSz
     };
+
+    pub static ref NTF_LINE_TOO_LONG_UTF8: NamedTempFile = {
+        let mut data = String::new();
+        for index in 1..=5 {
+            data.push_str(&format!("[2026/01/01T00:00:00] hello {index}\n"));
+        }
+        data.push_str("[2026/01/01T00:00:00] ");
+        data.push_str(&"a".repeat(LINE_SEARCH_MAX as usize + 1));
+        create_temp_log(&data)
+    };
+    pub static ref NTF_LINE_TOO_LONG_UTF8_FPATH: FPath = ntf_fpath(&NTF_LINE_TOO_LONG_UTF8);
 
 }
 
