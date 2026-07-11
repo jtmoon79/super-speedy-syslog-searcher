@@ -14,6 +14,8 @@ use std::io::{
     Write,
 };
 
+use ::more_asserts::assert_ge;
+
 use crate::common::{
     FileMetadata,
     FileType,
@@ -39,6 +41,9 @@ use crate::readers::filehandlemanager::{
     OpenMaxCountType,
 };
 use crate::readers::helpers::path_to_fpath;
+
+/// sanity check `open_max_default`  is not too small
+const OPEN_MAX_DEFAULT_GT: u32 = 450;
 
 const PATH_ID_A: PathId = 99_000;
 const PATH_ID_B: PathId = 99_001;
@@ -171,25 +176,25 @@ fn test_request_open_read_seek_and_metadata_update_summary() {
         .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
         .unwrap();
 
-    assert_eq!(manager.open_max(), OpenMaxCountType::new(2).unwrap());
-    assert_eq!(metadata_helper(&manager, &handle).unwrap().len(), 6);
-    assert_eq!(seek_helper(&manager, &handle, SeekFrom::Start(1)).unwrap(), 1);
+    assert_eq!(manager.open_max(), OpenMaxCountType::new(2).unwrap(), "open_max()");
+    assert_eq!(metadata_helper(&manager, &handle).unwrap().len(), 6, "metadata_helper() file length");
+    assert_eq!(seek_helper(&manager, &handle, SeekFrom::Start(1)).unwrap(), 1, "seek_helper() to position 1");
 
     let mut buf = [0_u8; 3];
-    assert_eq!(read_helper(&manager, &handle, &mut buf).unwrap(), 3);
-    assert_eq!(&buf, b"bcd");
+    assert_eq!(read_helper(&manager, &handle, &mut buf).unwrap(), 3, "read_helper() read 3 bytes");
+    assert_eq!(&buf, b"bcd", "read_helper() content read");
 
     let summary = manager.summary();
-    assert_eq!(summary.open_max_default, 2);
-    assert_eq!(summary.request_open_calls, 1);
-    assert_eq!(summary.metadata_calls, 1);
-    assert_eq!(summary.seek_calls, 1);
-    assert_eq!(summary.read_calls, 1);
-    assert_eq!(summary.physical_open_calls, 1);
-    assert_eq!(summary.physical_open_error_calls, 0);
-    assert_eq!(summary.managed_count_open_hi, 1);
-    assert_eq!(summary.count_unmanaged_hi, 0);
-    assert_eq!(summary.count_hi, 1);
+    assert_ge!(summary.open_max_default, OPEN_MAX_DEFAULT_GT, "open_max_default");
+    assert_eq!(summary.request_open_calls, 1, "request_open_calls");
+    assert_eq!(summary.metadata_calls, 1, "metadata_calls");
+    assert_eq!(summary.seek_calls, 1, "seek_calls");
+    assert_eq!(summary.read_calls, 1, "read_calls");
+    assert_eq!(summary.physical_open_calls, 1, "physical_open_calls");
+    assert_eq!(summary.physical_open_error_calls, 0, "physical_open_error_calls");
+    assert_eq!(summary.managed_count_open_hi, 1, "managed_count_open_hi");
+    assert_eq!(summary.count_unmanaged_hi, 0, "count_unmanaged_hi");
+    assert_eq!(summary.count_hi, 1, "count_hi");
 }
 
 #[test]
@@ -250,7 +255,7 @@ fn test_too_many_open_files_error_reduces_open_max_evicts_and_retries() {
     let handle_a = manager
         .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
-    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open(), 1, "count_open() after opening managed handle_a");
 
     let handle_b = manager
         .request_open_managed(
@@ -261,18 +266,18 @@ fn test_too_many_open_files_error_reduces_open_max_evicts_and_retries() {
         )
         .unwrap();
 
-    assert_eq!(manager.open_max(), OpenMaxCountType::new(1).unwrap());
-    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.open_max(), OpenMaxCountType::new(1).unwrap(), "open_max()");
+    assert_eq!(manager.count_open(), 1, "count_open()");
     let summary = manager.summary();
-    assert_eq!(summary.open_max_default, 3);
-    assert_eq!(summary.physical_open_calls, 2);
-    assert_eq!(summary.physical_open_error_calls, 1);
-    assert_eq!(summary.evict_succeed, 1);
-    assert_eq!(summary.evict_fails, 0);
+    assert_ge!(summary.open_max_default, OPEN_MAX_DEFAULT_GT, "open_max_default");
+    assert_eq!(summary.physical_open_calls, 2, "physical_open_calls");
+    assert_eq!(summary.physical_open_error_calls, 1, "physical_open_error_calls");
+    assert_eq!(summary.evict_succeed, 1, "evict_succeed");
+    assert_eq!(summary.evict_fails, 0, "evict_fails");
 
     let mut buf = [0_u8; 2];
-    assert_eq!(read_helper(&manager, &handle_b, &mut buf).unwrap(), 2);
-    assert_eq!(&buf, b"wx");
+    assert_eq!(read_helper(&manager, &handle_b, &mut buf).unwrap(), 2, "read_helper()");
+    assert_eq!(&buf, b"wx", "read_helper() content");
     drop(handle_a);
 }
 
@@ -295,15 +300,15 @@ fn test_other_open_errors_do_not_reduce_open_max_or_evict() {
         )
         .unwrap_err();
 
-    assert_eq!(err.kind(), ErrorKind::NotFound);
-    assert_eq!(manager.open_max(), OpenMaxCountType::new(3).unwrap());
-    assert_eq!(manager.count_open(), 1);
+    assert_eq!(err.kind(), ErrorKind::NotFound, "ErrorKind");
+    assert_eq!(manager.open_max(), OpenMaxCountType::new(3).unwrap(), "open_max()");
+    assert_eq!(manager.count_open(), 1, "count_open()");
     let summary = manager.summary();
-    assert_eq!(summary.open_max_default, 3);
-    assert_eq!(summary.physical_open_calls, 1);
-    assert_eq!(summary.physical_open_error_calls, 1);
-    assert_eq!(summary.evict_succeed, 0);
-    assert_eq!(summary.evict_fails, 0);
+    assert_ge!(summary.open_max_default, OPEN_MAX_DEFAULT_GT, "open_max_default");
+    assert_eq!(summary.physical_open_calls, 1, "physical_open_calls");
+    assert_eq!(summary.physical_open_error_calls, 1, "physical_open_error_calls");
+    assert_eq!(summary.evict_succeed, 0, "evict_succeed");
+    assert_eq!(summary.evict_fails, 0, "evict_fails");
 }
 
 #[test]
@@ -322,11 +327,11 @@ fn test_write_existing_updates_file_and_summary() {
     assert_eq!(write_helper(&manager, &handle, b"xy").unwrap(), 2);
     flush_helper(&manager, &handle).unwrap();
 
-    assert_eq!(std::fs::read(ntf.path()).unwrap(), b"xy00");
+    assert_eq!(std::fs::read(ntf.path()).unwrap(), b"xy00", "File content after write");
     let summary = manager.summary();
-    assert_eq!(summary.request_open_calls, 1);
-    assert_eq!(summary.write_calls, 1);
-    assert_eq!(summary.physical_open_calls, 1);
+    assert_eq!(summary.request_open_calls, 1, "request_open_calls");
+    assert_eq!(summary.write_calls, 1, "write_calls");
+    assert_eq!(summary.physical_open_calls, 1, "physical_open_calls");
 }
 
 #[test]
@@ -338,20 +343,20 @@ fn test_drop_last_handle_closes_real_file() {
         let _handle = manager
             .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
             .unwrap();
-        assert_eq!(manager.count_open(), 1);
+        assert_eq!(manager.count_open(), 1, "count_open()");
         assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
     }
 
-    assert_eq!(manager.count_open(), 0);
+    assert_eq!(manager.count_open(), 0, "count_open() after drop");
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
 
     let handle = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
         .unwrap();
-    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open(), 1, "count_open()");
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
     drop(handle);
-    assert_eq!(manager.count_open(), 0);
+    assert_eq!(manager.count_open(), 0, "count_open() after drop");
 }
 
 #[test]
@@ -363,15 +368,15 @@ fn test_clone_drop_keeps_file_open_until_last_clone() {
         .unwrap();
     let handle_clone = handle.clone();
 
-    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open(), 1, "count_open()");
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 2);
 
     drop(handle);
-    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open(), 1, "count_open() after drop handle");
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 1);
 
     drop(handle_clone);
-    assert_eq!(manager.count_open(), 0);
+    assert_eq!(manager.count_open(), 0, "count_open() after drop handle_clone");
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
 }
 
@@ -385,19 +390,19 @@ fn test_drop_saves_seek_position_for_later_request_read() {
             .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
             .unwrap();
         let mut first = [0_u8; 2];
-        assert_eq!(handle.read(&mut first).unwrap(), 2);
-        assert_eq!(&first, b"ab");
+        assert_eq!(handle.read(&mut first).unwrap(), 2, "read first 2 bytes");
+        assert_eq!(&first, b"ab", "first 2 bytes content");
     }
 
-    assert_eq!(manager.count_open(), 0);
+    assert_eq!(manager.count_open(), 0, "count_open() after drop");
     assert_eq!(manager.handles_managed_active_helper(PATH_ID_A, FileHandleRole::PrimaryRead), 0);
 
     let mut handle = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
         .unwrap();
     let mut second = [0_u8; 2];
-    assert_eq!(handle.read(&mut second).unwrap(), 2);
-    assert_eq!(&second, b"cd");
+    assert_eq!(handle.read(&mut second).unwrap(), 2, "read second 2 bytes");
+    assert_eq!(&second, b"cd", "second 2 bytes content");
 }
 
 #[test]
@@ -410,20 +415,20 @@ fn test_handle_unmanaged_reservation_releases_on_drop() {
         let _handle = manager
             .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
             .unwrap();
-        assert_eq!(manager.count_open(), 0);
-        assert_eq!(manager.count_open_total(), 1);
-        assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 1);
+        assert_eq!(manager.count_open(), 0, "count_open() inside scope");
+        assert_eq!(manager.count_open_total(), 1, "count_open_total() inside scope");
+        assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 1, "handles_unmanaged_helper() inside scope");
     }
 
-    assert_eq!(manager.count_open(), 0);
-    assert_eq!(manager.count_open_total(), 0);
-    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
+    assert_eq!(manager.count_open(), 0, "count_open() after scope");
+    assert_eq!(manager.count_open_total(), 0, "count_open_total() after scope");
+    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_helper() after scope");
 
     let summary = manager.summary();
-    assert_eq!(summary.request_open_unmanaged_calls, 1);
-    assert_eq!(summary.managed_count_open_hi, 0);
-    assert_eq!(summary.count_unmanaged_hi, 1);
-    assert_eq!(summary.count_hi, 1);
+    assert_eq!(summary.request_open_unmanaged_calls, 1, "request_open_unmanaged_calls");
+    assert_eq!(summary.managed_count_open_hi, 0, "managed_count_open_hi");
+    assert_eq!(summary.count_unmanaged_hi, 1, "count_unmanaged_hi");
+    assert_eq!(summary.count_hi, 1, "count_hi");
 }
 
 #[test]
@@ -440,13 +445,13 @@ fn test_unmanaged_and_managed_high_water_counts_can_coexist() {
         .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, &fpath)
         .unwrap();
 
-    assert_eq!(manager.count_open(), 1);
-    assert_eq!(manager.count_open_total(), 2);
+    assert_eq!(manager.count_open(), 1, "count_open() after opening managed and unmanaged");
+    assert_eq!(manager.count_open_total(), 2, "count_open_total() after opening managed and unmanaged");
 
     let summary = manager.summary();
-    assert_eq!(summary.managed_count_open_hi, 1);
-    assert_eq!(summary.count_unmanaged_hi, 1);
-    assert_eq!(summary.count_hi, 2);
+    assert_eq!(summary.managed_count_open_hi, 1, "managed_count_open_hi after opening managed and unmanaged");
+    assert_eq!(summary.count_unmanaged_hi, 1, "count_unmanaged_hi after opening managed and unmanaged");
+    assert_eq!(summary.count_hi, 2, "count_hi after opening managed and unmanaged");
 }
 
 #[test]
@@ -466,27 +471,29 @@ fn test_pending_unmanaged_reservations_constrain_managed_opens() {
     assert_eq!(
         manager.handles_unmanaged_pending_helper(PATH_ID_B, FileHandleRole::Unmanaged),
         FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+        "handles_unmanaged_pending_helper() after handle_reservations()"
     );
 
     let handle_a = manager
         .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
-    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open(), 1, "count_open() after opening managed handle_a");
 
     let handle_d = manager
         .request_open_managed(PATH_ID_D, FileHandleRole::PrimaryRead, ntf_b.path(), OpenOptionsManaged::read_only())
         .unwrap();
-    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open(), 1, "count_open() after opening managed handle_d");
     assert_eq!(
         manager.handles_unmanaged_pending_helper(PATH_ID_B, FileHandleRole::Unmanaged),
         FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+        "handles_unmanaged_pending_helper() after opening managed handle_d"
     );
     drop(handle_d);
     drop(handle_a);
 
     let summary = manager.summary();
-    assert_eq!(summary.evict_succeed, 1);
-    assert_eq!(summary.evict_fails, 0);
+    assert_eq!(summary.evict_succeed, 1, "evict_succeed after dropping handles");
+    assert_eq!(summary.evict_fails, 0, "evict_fails after dropping handles");
 }
 
 #[test]
@@ -507,17 +514,18 @@ fn test_planned_unmanaged_request_consumes_multi_slot_reservation() {
         let _handle = manager
             .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
             .unwrap();
-        assert_eq!(manager.count_open(), 0);
-        assert_eq!(manager.count_open_total(), FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32);
+        assert_eq!(manager.count_open(), 0, "count_open() inside unmanaged handle scope");
+        assert_eq!(manager.count_open_total(), FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32, "count_open_total() inside unmanaged handle scope");
         assert_eq!(
             manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged),
             FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
+            "handles_unmanaged_helper() inside unmanaged handle scope"
         );
-        assert_eq!(manager.handles_unmanaged_pending_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
+        assert_eq!(manager.handles_unmanaged_pending_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_pending_helper() inside unmanaged handle scope");
     }
 
-    assert_eq!(manager.count_open_total(), 0);
-    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0);
+    assert_eq!(manager.count_open_total(), 0, "count_open_total() after unmanaged handle scope");
+    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_helper() after unmanaged handle scope");
 }
 
 #[test]
@@ -555,15 +563,15 @@ fn test_too_many_open_files_retry_preserves_planned_managed_slot() {
             OpenOptionsManaged::read_only_force_open_error(raw_os_error_too_many_open_files(), 1),
         )
         .unwrap();
-    assert_eq!(manager.count_open(), 1);
-    assert_eq!(manager.count_open_total(), FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32 + 1);
+    assert_eq!(manager.count_open(), 1, "count_open() after opening managed handle");
+    assert_eq!(manager.count_open_total(), FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32 + 1, "count_open_total() after opening managed handle");
 
     drop(managed);
     drop(unmanaged);
     let summary = manager.summary();
-    assert_eq!(summary.physical_open_error_calls, 1);
-    assert_eq!(summary.physical_open_calls, 1);
-    assert_eq!(summary.evict_fails, 0);
+    assert_eq!(summary.physical_open_error_calls, 1, "physical_open_error_calls after dropping handles");
+    assert_eq!(summary.physical_open_calls, 1, "physical_open_calls after dropping handles");
+    assert_eq!(summary.evict_fails, 0, "evict_fails after dropping handles");
 }
 
 #[test]
@@ -575,35 +583,35 @@ fn test_handle_unmanaged_reservation_forces_managed_eviction() {
     let handle_a = manager
         .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
-    assert_eq!(manager.count_open(), 1);
+    assert_eq!(manager.count_open(), 1, "count_open() after opening managed handle_a");
 
     let fpath: FPath = path_to_fpath(&ntf_b.path());
     let unmanaged = manager
         .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, &fpath)
         .unwrap();
-    assert_eq!(manager.count_open(), 0);
-    assert_eq!(manager.count_open_total(), 1);
-    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_B, FileHandleRole::Unmanaged), 1);
+    assert_eq!(manager.count_open(), 0, "count_open() after opening unmanaged handle");
+    assert_eq!(manager.count_open_total(), 1, "count_open_total() after opening unmanaged handle");
+    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_B, FileHandleRole::Unmanaged), 1, "handles_unmanaged_helper() after opening unmanaged handle");
 
     let err = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
         .unwrap_err();
-    assert_eq!(err.kind(), ErrorKind::WouldBlock);
+    assert_eq!(err.kind(), ErrorKind::WouldBlock, "ErrorKind after trying to request_read() on evicted managed handle");
 
     drop(unmanaged);
     let handle_a_reopened = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
         .unwrap();
-    assert_eq!(manager.count_open(), 1);
-    assert_eq!(manager.count_open_total(), 1);
+    assert_eq!(manager.count_open(), 1, "count_open() after reopening managed handle");
+    assert_eq!(manager.count_open_total(), 1, "count_open_total() after reopening managed handle");
     drop(handle_a_reopened);
     drop(handle_a);
 
     let summary = manager.summary();
-    assert_eq!(summary.request_open_unmanaged_calls, 1);
-    assert_eq!(summary.evict_succeed, 1);
-    assert_eq!(summary.evict_fails, 1);
-    assert_eq!(summary.managed_count_open_hi, 1);
-    assert_eq!(summary.count_unmanaged_hi, 1);
-    assert_eq!(summary.count_hi, 1);
+    assert_eq!(summary.request_open_unmanaged_calls, 1, "request_open_unmanaged_calls in summary");
+    assert_eq!(summary.evict_succeed, 1, "evict_succeed in summary");
+    assert_eq!(summary.evict_fails, 1, "evict_fails in summary");
+    assert_eq!(summary.managed_count_open_hi, 1, "managed_count_open_hi in summary");
+    assert_eq!(summary.count_unmanaged_hi, 1, "count_unmanaged_hi in summary");
+    assert_eq!(summary.count_hi, 1, "count_hi in summary");
 }
