@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2259
       flushes       : 13
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 13
+      line longest  : 84 (bytes)
       line parts    : 17
       syslines      : 13
+      sysline longest: 84 (bytes)
       syslines high : 12
       datetime first: 2017-02-23 14:52:10 -08:00 (2017-02-23 22:52:10.000000 +00:00)
       datetime last : 2017-10-19 10:21:14 -07:00 (2017-10-19 17:21:14.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2311
 Printed flushes        : 26
 Printed lines          : 13
 Printed syslines       : 13
+Longest Line           : 84
+Longest Sysline        : 84
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 5

@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 174135
       flushes       : 160
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       blocks        : 465
       blocks total  : 465 (119040 bytes)
       lines         : 1233
+      line longest  : 378 (bytes)
       line parts    : 1688
       syslines      : 101
+      sysline longest: 5230 (bytes)
       syslines high : 7
       datetime first: 2019-01-29 02:07:21 +08:00 (2019-01-28 18:07:21.228000 +00:00)
       datetime last : 2021-05-01 21:39:34 +08:00 (2021-05-01 13:39:34.643000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 174539
 Printed flushes        : 261
 Printed lines          : 1233
 Printed syslines       : 101
+Longest Line           : 378
+Longest Sysline        : 5230
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 465

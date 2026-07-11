@@ -5,6 +5,7 @@ File: ./logs/Debian9/samba/log.nmbd
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 406
       flushes       : 1
@@ -20,8 +21,10 @@ File: ./logs/Debian9/samba/log.nmbd
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line longest  : 109 (bytes)
       line parts    : 3
       syslines      : 1
+      sysline longest: 226 (bytes)
       syslines high : 1
       datetime first: 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)
       datetime last : 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 410
 Printed flushes        : 2
 Printed lines          : 3
 Printed syslines       : 1
+Longest Line           : 109
+Longest Sysline        : 226
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 1

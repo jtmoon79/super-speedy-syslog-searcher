@@ -5,6 +5,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
   About:
       filetype      : ETL (Windows Event Trace Log)
       logmessagetype: Python parsed events (ASL/ETL/ODL)
+      thread stack  : 2160640 (bytes)
   Printed:
       bytes         : 12019
       flushes       : 21
@@ -34,14 +35,16 @@ Printed bytes          : 12103
 Printed flushes        : 42
 Printed lines          : 0
 Printed syslines       : 0
+Longest Line           : 0
+Longest Sysline        : 0
 Printed ASL events     : 0
 Printed ETL events     : 21
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 0

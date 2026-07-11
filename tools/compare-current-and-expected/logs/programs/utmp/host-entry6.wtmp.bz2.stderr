@@ -6,6 +6,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.bz2
       filetype      : UTMP/WTMP (BZIP2) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      thread stack  : 2227200 (bytes)
       Processing Err : no valid fixed-structure records found in file
 
 Program Summary:
@@ -18,14 +19,16 @@ Printed bytes          : 0
 Printed flushes        : 0
 Printed lines          : 0
 Printed syslines       : 0
+Longest Line           : 0
+Longest Sysline        : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 3
 Managed request read   : 0
 Managed read calls     : 6

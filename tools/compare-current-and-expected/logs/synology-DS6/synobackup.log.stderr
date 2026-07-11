@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/synobackup.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2529
       flushes       : 14
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/synobackup.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 15
+      line longest  : 225 (bytes)
       line parts    : 21
       syslines      : 14
+      sysline longest: 226 (bytes)
       syslines high : 10
       datetime first: 2017-02-21 21:36:10 +08:00 (2017-02-21 13:36:10.000000 +00:00)
       datetime last : 2017-02-24 03:43:57 +08:00 (2017-02-23 19:43:57.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2585
 Printed flushes        : 28
 Printed lines          : 15
 Printed syslines       : 14
+Longest Line           : 225
+Longest Sysline        : 226
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7

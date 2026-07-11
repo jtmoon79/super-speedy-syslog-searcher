@@ -5,6 +5,7 @@ File: ./logs/Debian9/aptitude.4
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 1815
       flushes       : 1
@@ -20,8 +21,10 @@ File: ./logs/Debian9/aptitude.4
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line longest  : 70 (bytes)
       line parts    : 23
       syslines      : 1
+      sysline longest: 807 (bytes)
       syslines high : 1
       datetime first: 2019-09-12 22:23:40 -07:00 (2019-09-13 05:23:40.000000 +00:00)
       datetime last : 2019-09-12 22:23:40 -07:00 (2019-09-13 05:23:40.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 1819
 Printed flushes        : 2
 Printed lines          : 18
 Printed syslines       : 1
+Longest Line           : 70
+Longest Sysline        : 807
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 4

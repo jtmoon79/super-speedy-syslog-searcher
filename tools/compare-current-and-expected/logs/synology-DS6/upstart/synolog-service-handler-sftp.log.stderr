@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 965
       flushes       : 7
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 7
+      line longest  : 62 (bytes)
       line parts    : 8
       syslines      : 7
+      sysline longest: 62 (bytes)
       syslines high : 7
       datetime first: 2016-12-08 18:56:19 -08:00 (2016-12-09 02:56:19.000000 +00:00)
       datetime last : 2016-12-08 18:56:19 -08:00 (2016-12-09 02:56:19.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 993
 Printed flushes        : 14
 Printed lines          : 7
 Printed syslines       : 7
+Longest Line           : 62
+Longest Sysline        : 62
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 2

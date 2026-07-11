@@ -5,6 +5,7 @@ File: ./logs/Debian9/apt/term.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 34358
       flushes       : 21
@@ -20,8 +21,10 @@ File: ./logs/Debian9/apt/term.log
       blocks        : 69
       blocks total  : 69 (17664 bytes)
       lines         : 292
+      line longest  : 6021 (bytes)
       line parts    : 361
       syslines      : 7
+      sysline longest: 14453 (bytes)
       syslines high : 5
       datetime first: 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)
       datetime last : 2019-10-26 16:20:13 +08:00 (2019-10-26 08:20:13.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 34386
 Printed flushes        : 28
 Printed lines          : 292
 Printed syslines       : 7
+Longest Line           : 6021
+Longest Sysline        : 14453
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 69

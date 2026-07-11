@@ -5,6 +5,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
   About:
       filetype      : EVTX (GZIP) (Windows XML EventLog)
       logmessagetype: EVTX entries (Windows XML EventLog)
+      thread stack  : 2237440 (bytes)
   Printed:
       bytes         : 1184407
       flushes       : 678
@@ -29,14 +30,16 @@ Printed bytes          : 1185315
 Printed flushes        : 905
 Printed lines          : 0
 Printed syslines       : 0
+Longest Line           : 0
+Longest Sysline        : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 227
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 3
 Managed request read   : 0
 Managed read calls     : 67

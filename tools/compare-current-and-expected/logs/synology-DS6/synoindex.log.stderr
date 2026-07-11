@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/synoindex.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 1947
       flushes       : 8
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/synoindex.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 8
+      line longest  : 191 (bytes)
       line parts    : 14
       syslines      : 8
+      sysline longest: 191 (bytes)
       syslines high : 7
       datetime first: 2018-12-06 02:30:31 -08:00 (2018-12-06 10:30:31.000000 +00:00)
       datetime last : 2018-12-06 04:15:48 -08:00 (2018-12-06 12:15:48.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 1979
 Printed flushes        : 16
 Printed lines          : 8
 Printed syslines       : 8
+Longest Line           : 191
+Longest Sysline        : 191
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 6

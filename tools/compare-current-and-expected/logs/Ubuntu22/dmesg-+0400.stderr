@@ -5,6 +5,7 @@ File: ./logs/Ubuntu22/dmesg-+0400
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
       Processing Err : failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -21,8 +22,10 @@ File: ./logs/Ubuntu22/dmesg-+0400
       blocks        : 2
       blocks total  : 4 (1024 bytes)
       lines         : 2
+      line longest  : 52 (bytes)
       line parts    : 3
       syslines      : 1
+      sysline longest: 52 (bytes)
       syslines high : 1
       datetime first: 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.000000 +00:00)
       datetime last : 1970-01-01 00:00:06 +08:00 (1969-12-31 16:00:06.407400 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 0
 Printed flushes        : 0
 Printed lines          : 0
 Printed syslines       : 0
+Longest Line           : 52
+Longest Sysline        : 52
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 2

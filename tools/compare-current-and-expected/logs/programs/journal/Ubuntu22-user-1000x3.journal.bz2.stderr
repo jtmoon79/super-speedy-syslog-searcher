@@ -5,6 +5,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
   About:
       filetype      : JOURNAL (BZIP2) (systemd Journal)
       logmessagetype: systemd journal entries
+      thread stack  : 2237440 (bytes)
   Printed:
       bytes         : 12966
       flushes       : 8
@@ -30,14 +31,16 @@ Printed bytes          : 12978
 Printed flushes        : 11
 Printed lines          : 0
 Printed syslines       : 0
+Longest Line           : 0
+Longest Sysline        : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 3
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 3
 Managed request read   : 0
 Managed read calls     : 8

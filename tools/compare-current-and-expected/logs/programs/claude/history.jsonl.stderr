@@ -5,6 +5,7 @@ File: ./logs/programs/claude/history.jsonl
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -20,8 +21,10 @@ File: ./logs/programs/claude/history.jsonl
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line longest  : 78 (bytes)
       line parts    : 3
       syslines      : 4
+      sysline longest: 78 (bytes)
       syslines high : 3
       datetime first: 2026-05-23 03:03:34 +08:00 (2026-05-22 19:03:34.374000 +00:00)
       datetime last : 2026-05-23 03:05:01 +08:00 (2026-05-22 19:05:01.309000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 0
 Printed flushes        : 0
 Printed lines          : 0
 Printed syslines       : 0
+Longest Line           : 78
+Longest Sysline        : 78
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 1

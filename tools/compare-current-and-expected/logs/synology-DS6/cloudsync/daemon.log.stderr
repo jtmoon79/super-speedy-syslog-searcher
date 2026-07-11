@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 1310
       flushes       : 7
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 7
+      line longest  : 211 (bytes)
       line parts    : 11
       syslines      : 7
+      sysline longest: 211 (bytes)
       syslines high : 7
       datetime first: 2018-02-09 21:25:05 +08:00 (2018-02-09 13:25:05.000000 +00:00)
       datetime last : 2018-02-09 21:25:06 +08:00 (2018-02-09 13:25:06.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 1338
 Printed flushes        : 14
 Printed lines          : 7
 Printed syslines       : 7
+Longest Line           : 211
+Longest Sysline        : 211
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 4

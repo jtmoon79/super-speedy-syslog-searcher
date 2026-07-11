@@ -5,6 +5,7 @@ File: ./logs/RockyLinux9/dnf.rpm.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 4779
       flushes       : 36
@@ -20,8 +21,10 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 39
+      line longest  : 129 (bytes)
       line parts    : 48
       syslines      : 36
+      sysline longest: 183 (bytes)
       syslines high : 12
       datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
       datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 4924
 Printed flushes        : 73
 Printed lines          : 39
 Printed syslines       : 36
+Longest Line           : 129
+Longest Sysline        : 183
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 10

@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2271
       flushes       : 16
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 16
+      line longest  : 85 (bytes)
       line parts    : 19
       syslines      : 16
+      sysline longest: 85 (bytes)
       syslines high : 16
       datetime first: 2016-12-05 21:16:11 -08:00 (2016-12-06 05:16:11.000000 +00:00)
       datetime last : 2016-12-30 00:36:57 -08:00 (2016-12-30 08:36:57.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2335
 Printed flushes        : 32
 Printed lines          : 16
 Printed syslines       : 16
+Longest Line           : 85
+Longest Sysline        : 85
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 4

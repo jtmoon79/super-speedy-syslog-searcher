@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 3601
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line longest  : 90 (bytes)
       line parts    : 25
       syslines      : 19
+      sysline longest: 90 (bytes)
       syslines high : 11
       datetime first: 2018-12-06 02:31:29 -08:00 (2018-12-06 10:31:29.000000 +00:00)
       datetime last : 2019-01-26 03:37:38 -08:00 (2019-01-26 11:37:38.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3677
 Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 90
+Longest Sysline        : 90
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7

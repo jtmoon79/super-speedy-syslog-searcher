@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/fsck/root.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 6191
       flushes       : 6
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/fsck/root.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 66
+      line longest  : 58 (bytes)
       line parts    : 74
       syslines      : 3
+      sysline longest: 656 (bytes)
       syslines high : 3
       datetime first: 2020-03-07 03:19:50 +08:00 (2020-03-06 19:19:50.000000 +00:00)
       datetime last : 2020-03-07 20:25:30 +08:00 (2020-03-07 12:25:30.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 6204
 Printed flushes        : 10
 Printed lines          : 66
 Printed syslines       : 3
+Longest Line           : 58
+Longest Sysline        : 656
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 8

@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/opentftp.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2497
       flushes       : 21
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/opentftp.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 21
+      line longest  : 108 (bytes)
       line parts    : 25
       syslines      : 21
+      sysline longest: 108 (bytes)
       syslines high : 17
       datetime first: 2017-01-31 11:25:20 +08:00 (2017-01-31 03:25:20.000000 +00:00)
       datetime last : 2017-02-22 21:46:30 +08:00 (2017-02-22 13:46:30.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2582
 Printed flushes        : 43
 Printed lines          : 21
 Printed syslines       : 21
+Longest Line           : 108
+Longest Sysline        : 108
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 5

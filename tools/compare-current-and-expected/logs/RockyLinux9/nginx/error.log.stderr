@@ -5,6 +5,7 @@ File: ./logs/RockyLinux9/nginx/error.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 591
       flushes       : 2
@@ -20,8 +21,10 @@ File: ./logs/RockyLinux9/nginx/error.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 2
+      line longest  : 237 (bytes)
       line parts    : 4
       syslines      : 2
+      sysline longest: 237 (bytes)
       syslines high : 2
       datetime first: 2022-10-08 22:27:40 +08:00 (2022-10-08 14:27:40.000000 +00:00)
       datetime last : 2022-10-08 22:27:55 +08:00 (2022-10-08 14:27:55.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 600
 Printed flushes        : 5
 Printed lines          : 2
 Printed syslines       : 2
+Longest Line           : 237
+Longest Sysline        : 237
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 2

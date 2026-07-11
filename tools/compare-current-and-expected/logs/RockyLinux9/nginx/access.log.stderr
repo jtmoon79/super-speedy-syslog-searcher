@@ -5,6 +5,7 @@ File: ./logs/RockyLinux9/nginx/access.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 816
       flushes       : 4
@@ -20,8 +21,10 @@ File: ./logs/RockyLinux9/nginx/access.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 4
+      line longest  : 161 (bytes)
       line parts    : 6
       syslines      : 4
+      sysline longest: 161 (bytes)
       syslines high : 4
       datetime first: 2022-10-08 22:26:35 +00:00 (2022-10-08 22:26:35.000000 +00:00)
       datetime last : 2022-10-08 22:27:55 +00:00 (2022-10-08 22:27:55.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 833
 Printed flushes        : 9
 Printed lines          : 4
 Printed syslines       : 4
+Longest Line           : 161
+Longest Sysline        : 161
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 3

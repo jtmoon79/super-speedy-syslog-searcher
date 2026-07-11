@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 4269
       flushes       : 5
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/debug/mrt.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 49
+      line longest  : 88 (bytes)
       line parts    : 54
       syslines      : 5
+      sysline longest: 277 (bytes)
       syslines high : 5
       datetime first: 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
       datetime last : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 4290
 Printed flushes        : 11
 Printed lines          : 47
 Printed syslines       : 5
+Longest Line           : 88
+Longest Sysline        : 277
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 6

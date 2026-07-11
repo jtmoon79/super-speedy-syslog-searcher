@@ -5,6 +5,7 @@ File: ./logs/other/tests/simple-14s_b.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 82
       flushes       : 1
@@ -20,8 +21,10 @@ File: ./logs/other/tests/simple-14s_b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line longest  : 16 (bytes)
       line parts    : 1
       syslines      : 2
+      sysline longest: 16 (bytes)
       syslines high : 1
       datetime first: 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
       datetime last : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 87
 Printed flushes        : 3
 Printed lines          : 1
 Printed syslines       : 1
+Longest Line           : 16
+Longest Sysline        : 16
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 1

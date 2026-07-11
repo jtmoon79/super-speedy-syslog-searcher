@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 24705
       flushes       : 105
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       blocks        : 60
       blocks total  : 60 (15360 bytes)
       lines         : 105
+      line longest  : 230 (bytes)
       line parts    : 164
       syslines      : 105
+      sysline longest: 230 (bytes)
       syslines high : 7
       datetime first: 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
       datetime last : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 25125
 Printed flushes        : 210
 Printed lines          : 105
 Printed syslines       : 105
+Longest Line           : 230
+Longest Sysline        : 230
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 60

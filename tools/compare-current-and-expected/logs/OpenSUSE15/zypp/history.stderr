@@ -5,6 +5,7 @@ File: ./logs/OpenSUSE15/zypp/history
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 7144
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/OpenSUSE15/zypp/history
       blocks        : 19
       blocks total  : 19 (4864 bytes)
       lines         : 39
+      line longest  : 871 (bytes)
       line parts    : 58
       syslines      : 19
+      sysline longest: 871 (bytes)
       syslines high : 7
       datetime first: 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
       datetime last : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 7220
 Printed flushes        : 38
 Printed lines          : 39
 Printed syslines       : 19
+Longest Line           : 871
+Longest Sysline        : 871
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 19

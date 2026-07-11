@@ -5,6 +5,7 @@ File: ./logs/Debian9/alternatives.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 3941
       flushes       : 14
@@ -20,8 +21,10 @@ File: ./logs/Debian9/alternatives.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line longest  : 272 (bytes)
       line parts    : 29
       syslines      : 14
+      sysline longest: 272 (bytes)
       syslines high : 7
       datetime first: 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)
       datetime last : 2020-02-03 13:57:14 +08:00 (2020-02-03 05:57:14.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3997
 Printed flushes        : 28
 Printed lines          : 19
 Printed syslines       : 14
+Longest Line           : 272
+Longest Sysline        : 272
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 11

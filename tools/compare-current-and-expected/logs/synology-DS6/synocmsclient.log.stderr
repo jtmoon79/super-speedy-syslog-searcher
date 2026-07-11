@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/synocmsclient.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 1900
       flushes       : 11
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/synocmsclient.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line longest  : 45 (bytes)
       line parts    : 21
       syslines      : 11
+      sysline longest: 91 (bytes)
       syslines high : 11
       datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
       datetime last : 2016-12-05 21:34:33 -08:00 (2016-12-06 05:34:33.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 1944
 Printed flushes        : 22
 Printed lines          : 19
 Printed syslines       : 11
+Longest Line           : 45
+Longest Sysline        : 91
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 3

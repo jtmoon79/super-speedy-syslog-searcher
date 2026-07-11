@@ -5,6 +5,7 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.gz
   About:
       filetype      : TEXT UTF8/ASCII (GZIP) (text log)
       logmessagetype: text log lines
+      thread stack  : 2227200 (bytes)
   Printed:
       bytes         : 1173
       flushes       : 6
@@ -21,8 +22,10 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.gz
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 12
+      line longest  : 76 (bytes)
       line parts    : 13
       syslines      : 6
+      sysline longest: 92 (bytes)
       syslines high : 6
       datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 1198
 Printed flushes        : 13
 Printed lines          : 12
 Printed syslines       : 6
+Longest Line           : 76
+Longest Sysline        : 92
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 2
 Managed request read   : 0
 Managed read calls     : 3

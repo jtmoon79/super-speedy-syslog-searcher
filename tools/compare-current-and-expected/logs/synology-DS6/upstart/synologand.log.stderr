@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/synologand.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2348
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/synologand.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line longest  : 70 (bytes)
       line parts    : 22
       syslines      : 19
+      sysline longest: 70 (bytes)
       syslines high : 17
       datetime first: 2018-08-01 14:16:55 -07:00 (2018-08-01 21:16:55.000000 +00:00)
       datetime last : 2018-10-15 14:09:07 -07:00 (2018-10-15 21:09:07.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2424
 Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 70
+Longest Sysline        : 70
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 4

@@ -5,6 +5,7 @@ File: ./logs/other/tests/invalid.journal
   About:
       filetype      : JOURNAL (systemd Journal)
       logmessagetype: systemd journal entries
+      thread stack  : 2160640 (bytes)
       Processing Err : sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
   Error: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
 
@@ -18,14 +19,16 @@ Printed bytes          : 0
 Printed flushes        : 0
 Printed lines          : 0
 Printed syslines       : 0
+Longest Line           : 0
+Longest Sysline        : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 0

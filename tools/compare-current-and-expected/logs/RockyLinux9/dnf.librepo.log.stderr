@@ -5,6 +5,7 @@ File: ./logs/RockyLinux9/dnf.librepo.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 22911
       flushes       : 104
@@ -20,8 +21,10 @@ File: ./logs/RockyLinux9/dnf.librepo.log
       blocks        : 64
       blocks total  : 64 (16384 bytes)
       lines         : 104
+      line longest  : 231 (bytes)
       line parts    : 166
       syslines      : 104
+      sysline longest: 231 (bytes)
       syslines high : 8
       datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
       datetime last : 2022-10-08 22:26:51 +00:00 (2022-10-08 22:26:51.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 23328
 Printed flushes        : 209
 Printed lines          : 104
 Printed syslines       : 104
+Longest Line           : 231
+Longest Sysline        : 231
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 64

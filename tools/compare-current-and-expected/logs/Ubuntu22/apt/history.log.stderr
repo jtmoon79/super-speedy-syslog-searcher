@@ -5,6 +5,7 @@ File: ./logs/Ubuntu22/apt/history.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2202
       flushes       : 5
@@ -20,8 +21,10 @@ File: ./logs/Ubuntu22/apt/history.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line longest  : 600 (bytes)
       line parts    : 20
       syslines      : 5
+      sysline longest: 674 (bytes)
       syslines high : 5
       datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       datetime last : 2022-10-04 06:22:44 +08:00 (2022-10-03 22:22:44.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2222
 Printed flushes        : 10
 Printed lines          : 13
 Printed syslines       : 5
+Longest Line           : 600
+Longest Sysline        : 674
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 6

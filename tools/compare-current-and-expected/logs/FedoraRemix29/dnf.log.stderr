@@ -5,6 +5,7 @@ File: ./logs/FedoraRemix29/dnf.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 64719
       flushes       : 239
@@ -20,8 +21,10 @@ File: ./logs/FedoraRemix29/dnf.log
       blocks        : 144
       blocks total  : 144 (36864 bytes)
       lines         : 476
+      line longest  : 1344 (bytes)
       line parts    : 617
       syslines      : 226
+      sysline longest: 9518 (bytes)
       syslines high : 13
       datetime first: 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
       datetime last : 2019-06-16 14:11:21 +00:00 (2019-06-16 14:11:21.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 65624
 Printed flushes        : 466
 Printed lines          : 476
 Printed syslines       : 226
+Longest Line           : 1344
+Longest Sysline        : 9518
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 144

@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 26266
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       blocks        : 50
       blocks total  : 50 (12800 bytes)
       lines         : 161
+      line longest  : 352 (bytes)
       line parts    : 211
       syslines      : 9
+      sysline longest: 9988 (bytes)
       syslines high : 5
       datetime first: 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
       datetime last : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 26303
 Printed flushes        : 29
 Printed lines          : 152
 Printed syslines       : 9
+Longest Line           : 352
+Longest Sysline        : 9988
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 50

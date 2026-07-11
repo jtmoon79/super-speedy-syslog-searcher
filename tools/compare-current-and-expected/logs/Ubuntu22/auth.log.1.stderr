@@ -5,6 +5,7 @@ File: ./logs/Ubuntu22/auth.log.1
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2230
       flushes       : 14
@@ -20,8 +21,10 @@ File: ./logs/Ubuntu22/auth.log.1
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line longest  : 137 (bytes)
       line parts    : 19
       syslines      : 15
+      sysline longest: 137 (bytes)
       syslines high : 14
       datetime first: 2022-09-18 07:00:12 +08:00 (2022-09-17 23:00:12.000000 +00:00)
       datetime last : 2022-09-18 07:00:35 +08:00 (2022-09-17 23:00:35.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 2286
 Printed flushes        : 28
 Printed lines          : 14
 Printed syslines       : 14
+Longest Line           : 137
+Longest Sysline        : 137
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 6
