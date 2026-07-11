@@ -53,6 +53,7 @@ use crate::printer::printers::{
 };
 use crate::printer::summary::{
     print_summary,
+    summary_largest_evtx_event,
     summary_longest_line_sysline,
     MapPathIdSummary,
     MapPathIdSummaryPrint,
@@ -71,7 +72,10 @@ use crate::readers::blockreader::{
     BlockSz,
     SummaryBlockReader,
 };
-use crate::readers::evtxreader::EvtxReader;
+use crate::readers::evtxreader::{
+    EvtxReader,
+    SummaryEvtxReader,
+};
 use crate::readers::filehandlemanager::FILE_HANDLE_MANAGER;
 use crate::readers::filepreprocessor::{
     fpath_to_filetype,
@@ -160,6 +164,34 @@ fn summary_with_longest_values(
         )),
         ..Default::default()
     }
+}
+
+/// helper to `test_summary_largest_evtx_event`
+fn summary_with_largest_evtx_values(
+    event_largest_processed: Count,
+    event_largest_accepted: Count,
+) -> Summary {
+    Summary {
+        readerdata: SummaryReaderData::Etvx(
+            SummaryEvtxReader {
+                evtxreader_event_largest_processed: event_largest_processed,
+                evtxreader_event_largest_accepted: event_largest_accepted,
+                ..Default::default()
+            }
+        ),
+        ..Default::default()
+    }
+}
+
+#[test]
+fn test_summary_largest_evtx_event() {
+    let mut map_pathid_summary = MapPathIdSummary::new();
+    map_pathid_summary.insert(1, Summary::default());
+    assert_eq!((0, 0), summary_largest_evtx_event(&map_pathid_summary));
+
+    map_pathid_summary.insert(2, summary_with_largest_evtx_values(123, 55));
+    map_pathid_summary.insert(3, summary_with_largest_evtx_values(80, 456));
+    assert_eq!((123, 456), summary_largest_evtx_event(&map_pathid_summary));
 }
 
 #[test]

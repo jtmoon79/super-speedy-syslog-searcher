@@ -210,6 +210,12 @@ pub struct EvtxReader {
     /// [`Evtx`s]: crate::data::evtx::Evtx
     pub(crate) events_accepted: Count,
     /// Summary statistic.
+    /// Largest processed `record.data` size in bytes.
+    pub(crate) event_largest_processed: Count,
+    /// Summary statistic.
+    /// Largest accepted `record.data` size in bytes.
+    pub(crate) event_largest_accepted: Count,
+    /// Summary statistic.
     /// First (soonest) processed [`Timestamp`].
     pub(crate) ts_first_processed: TimestampOpt,
     /// Summary statistic.
@@ -263,6 +269,8 @@ impl fmt::Debug for EvtxReader {
 pub struct SummaryEvtxReader {
     pub evtxreader_events_processed: Count,
     pub evtxreader_events_accepted: Count,
+    pub evtxreader_event_largest_processed: Count,
+    pub evtxreader_event_largest_accepted: Count,
     /// datetime soonest processed
     pub evtxreader_datetime_first_processed: DateTimeLOpt,
     /// datetime latest processed
@@ -371,6 +379,8 @@ impl EvtxReader {
             named_temp_file,
             events_processed: 0,
             events_accepted: 0,
+            event_largest_processed: 0,
+            event_largest_accepted: 0,
             ts_first_processed: TimestampOpt::None,
             ts_last_processed: TimestampOpt::None,
             ts_first_accepted: TimestampOpt::None,
@@ -418,8 +428,10 @@ impl EvtxReader {
             match result {
                 Ok(record) => {
                     let timestamp: Timestamp = record.timestamp;
+                    let record_data_len: Count = record.data.len() as Count;
 
                     summary_stat!(self.events_processed += 1);
+                    summary_stat!(self.event_largest_processed = std::cmp::max(self.event_largest_processed, record_data_len));
 
                     summary_stat!(
                         match self.ts_first_processed.as_ref()
@@ -488,6 +500,7 @@ impl EvtxReader {
                     }
 
                     summary_stat!(self.events_accepted += 1);
+                    summary_stat!(self.event_largest_accepted = std::cmp::max(self.event_largest_accepted, record_data_len));
 
                     summary_stat!(
                         match self.ts_first_accepted.as_ref()
@@ -587,6 +600,8 @@ impl EvtxReader {
     pub fn summary(&self) -> SummaryEvtxReader {
         let evtxreader_events_processed: Count = self.events_processed;
         let evtxreader_events_accepted: Count = self.events_accepted;
+        let evtxreader_event_largest_processed: Count = self.event_largest_processed;
+        let evtxreader_event_largest_accepted: Count = self.event_largest_accepted;
         let evtxreader_datetime_first_processed = self.dt_first_processed();
         let evtxreader_datetime_last_processed = self.dt_last_processed();
         let evtxreader_datetime_first_accepted = self.dt_first_accepted();
@@ -597,6 +612,8 @@ impl EvtxReader {
         SummaryEvtxReader {
             evtxreader_events_processed,
             evtxreader_events_accepted,
+            evtxreader_event_largest_processed,
+            evtxreader_event_largest_accepted,
             evtxreader_datetime_first_processed,
             evtxreader_datetime_last_processed,
             evtxreader_datetime_first_accepted,
