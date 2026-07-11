@@ -5,6 +5,7 @@ File: ./logs/Ubuntu22/dpkg.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 1794
       flushes       : 14
@@ -20,8 +21,10 @@ File: ./logs/Ubuntu22/dpkg.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 14
+      line longest  : 86 (bytes)
       line parts    : 17
       syslines      : 14
+      sysline longest: 86 (bytes)
       syslines high : 13
       datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       datetime last : 2022-10-04 06:22:30 +08:00 (2022-10-03 22:22:30.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 1850
 Printed flushes        : 28
 Printed lines          : 14
 Printed syslines       : 14
+Longest Line           : 86
+Longest Sysline        : 86
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 4

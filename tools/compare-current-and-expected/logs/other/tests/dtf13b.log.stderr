@@ -5,6 +5,7 @@ File: ./logs/other/tests/dtf13b.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 408
       flushes       : 3
@@ -20,8 +21,10 @@ File: ./logs/other/tests/dtf13b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line longest  : 77 (bytes)
       line parts    : 3
       syslines      : 3
+      sysline longest: 77 (bytes)
       syslines high : 3
       datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
       datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638300 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 421
 Printed flushes        : 7
 Printed lines          : 3
 Printed syslines       : 3
+Longest Line           : 77
+Longest Sysline        : 77
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 1

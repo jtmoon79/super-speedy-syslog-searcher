@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2532
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line longest  : 146 (bytes)
       line parts    : 23
       syslines      : 19
+      sysline longest: 146 (bytes)
       syslines high : 13
       datetime first: 2016-12-05 20:32:50 -08:00 (2016-12-06 04:32:50.000000 +00:00)
       datetime last : 2016-12-05 20:33:03 -08:00 (2016-12-06 04:33:03.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2608
 Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 146
+Longest Sysline        : 146
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 5

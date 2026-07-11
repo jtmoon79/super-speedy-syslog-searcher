@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2967
       flushes       : 13
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line longest  : 98 (bytes)
       line parts    : 24
       syslines      : 13
+      sysline longest: 143 (bytes)
       syslines high : 9
       datetime first: 2019-06-23 21:14:45 +08:00 (2019-06-23 13:14:45.000000 +00:00)
       datetime last : 2019-08-31 23:53:59 +08:00 (2019-08-31 15:53:59.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3019
 Printed flushes        : 26
 Printed lines          : 19
 Printed syslines       : 13
+Longest Line           : 98
+Longest Sysline        : 143
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 6

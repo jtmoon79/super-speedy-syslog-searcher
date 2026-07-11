@@ -5,6 +5,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2374
       flushes       : 23
@@ -20,8 +21,10 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 24
+      line longest  : 23 (bytes)
       line parts    : 26
       syslines      : 45
+      sysline longest: 45 (bytes)
       syslines high : 23
       datetime first: 2001-11-11 11:00:00 -09:00 (2001-11-11 20:00:00.000000 +00:00)
       datetime last : 2022-01-01 01:00:00 -09:00 (2022-01-01 10:00:00.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 2466
 Printed flushes        : 46
 Printed lines          : 24
 Printed syslines       : 23
+Longest Line           : 23
+Longest Sysline        : 45
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 3

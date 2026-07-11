@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/synoupdate.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2466
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/synoupdate.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line longest  : 135 (bytes)
       line parts    : 23
       syslines      : 19
+      sysline longest: 135 (bytes)
       syslines high : 14
       datetime first: 2016-12-05 21:34:42 +08:00 (2016-12-05 13:34:42.000000 +00:00)
       datetime last : 2017-02-23 14:45:26 +08:00 (2017-02-23 06:45:26.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2542
 Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 135
+Longest Sysline        : 135
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 5

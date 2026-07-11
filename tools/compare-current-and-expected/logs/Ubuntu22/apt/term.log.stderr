@@ -5,6 +5,7 @@ File: ./logs/Ubuntu22/apt/term.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2147
       flushes       : 2
@@ -20,8 +21,10 @@ File: ./logs/Ubuntu22/apt/term.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line longest  : 615 (bytes)
       line parts    : 20
       syslines      : 1
+      sysline longest: 1380 (bytes)
       syslines high : 1
       datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       datetime last : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2151
 Printed flushes        : 3
 Printed lines          : 13
 Printed syslines       : 1
+Longest Line           : 615
+Longest Sysline        : 1380
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 6

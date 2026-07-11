@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 6367
       flushes       : 4
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       blocks        : 15
       blocks total  : 15 (3840 bytes)
       lines         : 50
+      line longest  : 152 (bytes)
       line parts    : 65
       syslines      : 2
+      sysline longest: 3383 (bytes)
       syslines high : 2
       datetime first: 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
       datetime last : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 6376
 Printed flushes        : 7
 Printed lines          : 41
 Printed syslines       : 2
+Longest Line           : 152
+Longest Sysline        : 3383
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 15

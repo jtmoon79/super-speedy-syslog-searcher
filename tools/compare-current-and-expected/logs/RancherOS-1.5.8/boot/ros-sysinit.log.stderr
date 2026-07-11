@@ -5,6 +5,7 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 3053
       flushes       : 18
@@ -20,8 +21,10 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 21
+      line longest  : 120 (bytes)
       line parts    : 26
       syslines      : 18
+      sysline longest: 120 (bytes)
       syslines high : 11
       datetime first: 2022-10-09 21:31:23 +00:00 (2022-10-09 21:31:23.000000 +00:00)
       datetime last : 2022-10-10 20:23:36 +00:00 (2022-10-10 20:23:36.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3126
 Printed flushes        : 37
 Printed lines          : 21
 Printed syslines       : 18
+Longest Line           : 120
+Longest Sysline        : 120
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 6

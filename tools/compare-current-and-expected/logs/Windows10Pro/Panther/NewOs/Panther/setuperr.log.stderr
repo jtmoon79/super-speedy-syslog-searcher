@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 5521
       flushes       : 16
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 33
+      line longest  : 181 (bytes)
       line parts    : 43
       syslines      : 15
+      sysline longest: 1072 (bytes)
       syslines high : 10
       datetime first: 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
       datetime last : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 5582
 Printed flushes        : 32
 Printed lines          : 33
 Printed syslines       : 15
+Longest Line           : 181
+Longest Sysline        : 1072
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 11

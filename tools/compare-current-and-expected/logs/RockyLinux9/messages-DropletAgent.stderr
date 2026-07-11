@@ -5,6 +5,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 7856
       flushes       : 37
@@ -20,8 +21,10 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       blocks        : 21
       blocks total  : 21 (5376 bytes)
       lines         : 37
+      line longest  : 191 (bytes)
       line parts    : 58
       syslines      : 37
+      sysline longest: 191 (bytes)
       syslines high : 37
       datetime first: 2022-10-08 06:18:58 +08:00 (2022-10-07 22:18:58.000000 +00:00)
       datetime last : 2022-10-08 06:22:55 +08:00 (2022-10-07 22:22:55.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 8004
 Printed flushes        : 74
 Printed lines          : 37
 Printed syslines       : 37
+Longest Line           : 191
+Longest Sysline        : 191
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 21

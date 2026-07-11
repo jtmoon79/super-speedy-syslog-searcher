@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2525
       flushes       : 5
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line longest  : 77 (bytes)
       line parts    : 24
       syslines      : 5
+      sysline longest: 239 (bytes)
       syslines high : 5
       datetime first: 2019-06-23 21:10:22 -07:00 (2019-06-24 04:10:22.000000 +00:00)
       datetime last : 2019-10-19 19:02:43 -07:00 (2019-10-20 02:02:43.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2545
 Printed flushes        : 10
 Printed lines          : 19
 Printed syslines       : 5
+Longest Line           : 77
+Longest Sysline        : 239
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 5

@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/esynoscheduler.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2938
       flushes       : 3
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/esynoscheduler.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line longest  : 156 (bytes)
       line parts    : 26
       syslines      : 3
+      sysline longest: 925 (bytes)
       syslines high : 3
       datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
       datetime last : 2016-12-05 21:39:53 -08:00 (2016-12-06 05:39:53.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2950
 Printed flushes        : 6
 Printed lines          : 19
 Printed syslines       : 3
+Longest Line           : 156
+Longest Sysline        : 925
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7

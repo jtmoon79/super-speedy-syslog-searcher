@@ -5,6 +5,7 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 3843
       flushes       : 2
@@ -20,8 +21,10 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 21
+      line longest  : 243 (bytes)
       line parts    : 31
       syslines      : 1
+      sysline longest: 2423 (bytes)
       syslines high : 1
       datetime first: 2022-10-09 21:31:23 +00:00 (2022-10-09 21:31:23.000000 +00:00)
       datetime last : 2022-10-09 21:31:23 +00:00 (2022-10-09 21:31:23.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3848
 Printed flushes        : 4
 Printed lines          : 20
 Printed syslines       : 1
+Longest Line           : 243
+Longest Sysline        : 2423
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 10

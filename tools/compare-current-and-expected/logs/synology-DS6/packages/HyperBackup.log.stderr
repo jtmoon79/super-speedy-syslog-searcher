@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 3025
       flushes       : 16
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line longest  : 97 (bytes)
       line parts    : 25
       syslines      : 16
+      sysline longest: 160 (bytes)
       syslines high : 9
       datetime first: 2019-06-23 21:13:21 +08:00 (2019-06-23 13:13:21.000000 +00:00)
       datetime last : 2019-08-31 15:06:05 +08:00 (2019-08-31 07:06:05.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3089
 Printed flushes        : 32
 Printed lines          : 19
 Printed syslines       : 16
+Longest Line           : 97
+Longest Sysline        : 160
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7

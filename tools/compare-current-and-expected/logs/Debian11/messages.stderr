@@ -5,6 +5,7 @@ File: ./logs/Debian11/messages
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 4413
       flushes       : 20
@@ -20,8 +21,10 @@ File: ./logs/Debian11/messages
       blocks        : 13
       blocks total  : 13 (3328 bytes)
       lines         : 21
+      line longest  : 267 (bytes)
       line parts    : 34
       syslines      : 20
+      sysline longest: 267 (bytes)
       syslines high : 20
       datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
       datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 4494
 Printed flushes        : 41
 Printed lines          : 21
 Printed syslines       : 20
+Longest Line           : 267
+Longest Sysline        : 267
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 13

@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2951
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line longest  : 152 (bytes)
       line parts    : 25
       syslines      : 19
+      sysline longest: 152 (bytes)
       syslines high : 13
       datetime first: 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
       datetime last : 2017-09-17 10:11:43 -07:00 (2017-09-17 17:11:43.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3027
 Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 152
+Longest Sysline        : 152
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7

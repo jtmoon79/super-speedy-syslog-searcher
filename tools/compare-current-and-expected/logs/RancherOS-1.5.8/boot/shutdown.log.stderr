@@ -5,6 +5,7 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 1536
       flushes       : 10
@@ -20,8 +21,10 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 10
+      line longest  : 113 (bytes)
       line parts    : 13
       syslines      : 10
+      sysline longest: 113 (bytes)
       syslines high : 10
       datetime first: 2022-10-10 20:23:14 +00:00 (2022-10-10 20:23:14.000000 +00:00)
       datetime last : 2022-10-10 20:23:15 +00:00 (2022-10-10 20:23:15.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 1577
 Printed flushes        : 21
 Printed lines          : 10
 Printed syslines       : 10
+Longest Line           : 113
+Longest Sysline        : 113
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 4

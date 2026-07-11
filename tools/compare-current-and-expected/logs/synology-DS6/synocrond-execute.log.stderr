@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/synocrond-execute.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 3821
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/synocrond-execute.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 19
+      line longest  : 174 (bytes)
       line parts    : 29
       syslines      : 19
+      sysline longest: 174 (bytes)
       syslines high : 19
       datetime first: 2020-12-06 00:59:44 +08:00 (2020-12-05 16:59:44.000000 +00:00)
       datetime last : 2020-12-11 04:56:46 +08:00 (2020-12-10 20:56:46.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 3897
 Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 174
+Longest Sysline        : 174
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 10

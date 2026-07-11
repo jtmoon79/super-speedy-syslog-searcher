@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2040
       flushes       : 15
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 15
+      line longest  : 63 (bytes)
       line parts    : 18
       syslines      : 15
+      sysline longest: 63 (bytes)
       syslines high : 15
       datetime first: 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
       datetime last : 2020-03-07 12:23:02 -08:00 (2020-03-07 20:23:02.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2100
 Printed flushes        : 30
 Printed lines          : 15
 Printed syslines       : 15
+Longest Line           : 63
+Longest Sysline        : 63
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 4

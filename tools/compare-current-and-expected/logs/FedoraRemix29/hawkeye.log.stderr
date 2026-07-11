@@ -5,6 +5,7 @@ File: ./logs/FedoraRemix29/hawkeye.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 5798
       flushes       : 36
@@ -20,8 +21,10 @@ File: ./logs/FedoraRemix29/hawkeye.log
       blocks        : 14
       blocks total  : 14 (3584 bytes)
       lines         : 37
+      line longest  : 198 (bytes)
       line parts    : 50
       syslines      : 37
+      sysline longest: 198 (bytes)
       syslines high : 36
       datetime first: 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
       datetime last : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 5943
 Printed flushes        : 73
 Printed lines          : 37
 Printed syslines       : 36
+Longest Line           : 198
+Longest Sysline        : 198
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 14

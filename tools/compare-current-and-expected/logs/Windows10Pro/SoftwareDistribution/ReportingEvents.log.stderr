@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 61384
       flushes       : 163
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
       blocks        : 356
       blocks total  : 356 (91136 bytes)
       lines         : 175
+      line longest  : 832 (bytes)
       line parts    : 531
       syslines      : 163
+      sysline longest: 832 (bytes)
       syslines high : 5
       datetime first: 2022-08-05 22:17:58 -07:00 (2022-08-06 05:17:58.914000 +00:00)
       datetime last : 2022-10-12 09:26:48 -07:00 (2022-10-12 16:26:48.872000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 62036
 Printed flushes        : 326
 Printed lines          : 175
 Printed syslines       : 163
+Longest Line           : 832
+Longest Sysline        : 832
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 356

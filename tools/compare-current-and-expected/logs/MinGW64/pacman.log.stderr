@@ -5,6 +5,7 @@ File: ./logs/MinGW64/pacman.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 11411
       flushes       : 102
@@ -20,8 +21,10 @@ File: ./logs/MinGW64/pacman.log
       blocks        : 23
       blocks total  : 23 (5888 bytes)
       lines         : 102
+      line longest  : 92 (bytes)
       line parts    : 124
       syslines      : 102
+      sysline longest: 92 (bytes)
       syslines high : 15
       datetime first: 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
       datetime last : 2018-05-31 12:21:00 +08:00 (2018-05-31 04:21:00.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 11819
 Printed flushes        : 204
 Printed lines          : 102
 Printed syslines       : 102
+Longest Line           : 92
+Longest Sysline        : 92
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 23

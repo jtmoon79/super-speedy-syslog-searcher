@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 242226
       flushes       : 1205
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       blocks        : 490
       blocks total  : 490 (125440 bytes)
       lines         : 1300
+      line longest  : 230 (bytes)
       line parts    : 1786
       syslines      : 1205
+      sysline longest: 230 (bytes)
       syslines high : 11
       datetime first: 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
       datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 247046
 Printed flushes        : 2410
 Printed lines          : 1300
 Printed syslines       : 1205
+Longest Line           : 230
+Longest Sysline        : 230
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 490

@@ -5,6 +5,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 6694
       flushes       : 30
@@ -20,8 +21,10 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       blocks        : 16
       blocks total  : 16 (4096 bytes)
       lines         : 33
+      line longest  : 245 (bytes)
       line parts    : 48
       syslines      : 30
+      sysline longest: 245 (bytes)
       syslines high : 9
       datetime first: 2022-10-08 06:18:26 +08:00 (2022-10-07 22:18:26.935000 +00:00)
       datetime last : 2022-10-08 06:22:57 +08:00 (2022-10-07 22:22:57.587000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 6815
 Printed flushes        : 61
 Printed lines          : 33
 Printed syslines       : 30
+Longest Line           : 245
+Longest Sysline        : 245
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 16

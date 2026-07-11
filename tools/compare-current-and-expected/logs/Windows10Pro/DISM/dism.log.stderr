@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/DISM/dism.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 22536
       flushes       : 94
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/DISM/dism.log
       blocks        : 61
       blocks total  : 61 (15616 bytes)
       lines         : 111
+      line longest  : 259 (bytes)
       line parts    : 172
       syslines      : 94
+      sysline longest: 428 (bytes)
       syslines high : 7
       datetime first: 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)
       datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 22912
 Printed flushes        : 188
 Printed lines          : 111
 Printed syslines       : 94
+Longest Line           : 259
+Longest Sysline        : 428
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 61

@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/CBS/CBS.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 29416
       flushes       : 152
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       blocks        : 77
       blocks total  : 77 (19712 bytes)
       lines         : 159
+      line longest  : 343 (bytes)
       line parts    : 235
       syslines      : 152
+      sysline longest: 343 (bytes)
       syslines high : 10
       datetime first: 2022-09-14 22:18:06 +08:00 (2022-09-14 14:18:06.000000 +00:00)
       datetime last : 2022-10-12 13:28:23 +08:00 (2022-10-12 05:28:23.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 30025
 Printed flushes        : 305
 Printed lines          : 159
 Printed syslines       : 152
+Longest Line           : 343
+Longest Sysline        : 343
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 77

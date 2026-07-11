@@ -5,6 +5,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 3179
       flushes       : 20
@@ -20,8 +21,10 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 21
+      line longest  : 164 (bytes)
       line parts    : 27
       syslines      : 20
+      sysline longest: 164 (bytes)
       syslines high : 13
       datetime first: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
       datetime last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3260
 Printed flushes        : 41
 Printed lines          : 21
 Printed syslines       : 20
+Longest Line           : 164
+Longest Sysline        : 164
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7

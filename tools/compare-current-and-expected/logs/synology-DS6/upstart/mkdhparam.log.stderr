@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 1588
       flushes       : 8
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 12
+      line longest  : 90 (bytes)
       line parts    : 14
       syslines      : 8
+      sysline longest: 156 (bytes)
       syslines high : 8
       datetime first: 2016-12-05 20:32:06 -08:00 (2016-12-06 04:32:06.000000 +00:00)
       datetime last : 2016-12-05 22:19:48 -08:00 (2016-12-06 06:19:48.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 1620
 Printed flushes        : 16
 Printed lines          : 12
 Printed syslines       : 8
+Longest Line           : 90
+Longest Sysline        : 156
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 3

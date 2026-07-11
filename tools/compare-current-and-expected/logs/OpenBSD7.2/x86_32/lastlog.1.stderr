@@ -7,6 +7,7 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog.1
       fixedstructtype: Lastlog
       logmessagetype: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Openbsd_x86_Lastlog
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 127
       flushes       : 1
@@ -41,14 +42,16 @@ Printed bytes          : 131
 Printed flushes        : 2
 Printed lines          : 0
 Printed syslines       : 0
+Longest Line           : 0
+Longest Sysline        : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 1
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 2

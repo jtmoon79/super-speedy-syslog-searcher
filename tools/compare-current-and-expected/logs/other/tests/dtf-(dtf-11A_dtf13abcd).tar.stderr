@@ -6,6 +6,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       archive subpath: ./logs/other/tests/dtf11-A.log
       filetype      : TEXT UTF8/ASCII (TAR) (text log)
       logmessagetype: text log lines
+      thread stack  : 2206720 (bytes)
   Printed:
       bytes         : 1884
       flushes       : 13
@@ -22,8 +23,10 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 13
+      line longest  : 42 (bytes)
       line parts    : 14
       syslines      : 13
+      sysline longest: 42 (bytes)
       syslines high : 13
       datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       datetime last : 2000-12-31 00:00:00 +08:00 (2000-12-30 16:00:00.000000 +00:00)
@@ -48,6 +51,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       archive subpath: ./logs/other/tests/dtf13a.log
       filetype      : TEXT UTF8/ASCII (TAR) (text log)
       logmessagetype: text log lines
+      thread stack  : 2206720 (bytes)
   Printed:
       bytes         : 555
       flushes       : 3
@@ -64,8 +68,10 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line longest  : 78 (bytes)
       line parts    : 3
       syslines      : 3
+      sysline longest: 78 (bytes)
       syslines high : 3
       datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
       datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.628322 +00:00)
@@ -90,6 +96,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       archive subpath: ./logs/other/tests/dtf13b.log
       filetype      : TEXT UTF8/ASCII (TAR) (text log)
       logmessagetype: text log lines
+      thread stack  : 2206720 (bytes)
   Printed:
       bytes         : 552
       flushes       : 3
@@ -106,8 +113,10 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line longest  : 77 (bytes)
       line parts    : 3
       syslines      : 3
+      sysline longest: 77 (bytes)
       syslines high : 3
       datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
       datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638300 +00:00)
@@ -132,6 +141,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       archive subpath: ./logs/other/tests/dtf13c.log
       filetype      : TEXT UTF8/ASCII (TAR) (text log)
       logmessagetype: text log lines
+      thread stack  : 2206720 (bytes)
   Printed:
       bytes         : 555
       flushes       : 3
@@ -148,8 +158,10 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line longest  : 78 (bytes)
       line parts    : 3
       syslines      : 3
+      sysline longest: 78 (bytes)
       syslines high : 3
       datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
       datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
@@ -174,6 +186,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       archive subpath: ./logs/other/tests/dtf13d.log
       filetype      : TEXT UTF8/ASCII (TAR) (text log)
       logmessagetype: text log lines
+      thread stack  : 2206720 (bytes)
   Printed:
       bytes         : 546
       flushes       : 3
@@ -190,8 +203,10 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line longest  : 75 (bytes)
       line parts    : 3
       syslines      : 3
+      sysline longest: 75 (bytes)
       syslines high : 3
       datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
       datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
@@ -221,14 +236,16 @@ Printed bytes          : 4197
 Printed flushes        : 55
 Printed lines          : 25
 Printed syslines       : 25
+Longest Line           : 78
+Longest Sysline        : 78
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 15
 Managed request read   : 0
 Managed read calls     : 36

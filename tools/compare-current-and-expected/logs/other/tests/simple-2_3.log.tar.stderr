@@ -6,6 +6,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       archive subpath: simple-2.log
       filetype      : TEXT UTF8/ASCII (TAR) (text log)
       logmessagetype: text log lines
+      thread stack  : 2206720 (bytes)
       Processing Err : file too small
   Printed:
       bytes         : 0
@@ -21,8 +22,10 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line longest  : 0 (bytes)
       line parts    : 0
       syslines      : 0
+      sysline longest: 0 (bytes)
       syslines high : 0
       out of order  : 0
   Processing Stores:
@@ -44,6 +47,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       archive subpath: simple-3.log
       filetype      : TEXT UTF8/ASCII (TAR) (text log)
       logmessagetype: text log lines
+      thread stack  : 2206720 (bytes)
       Processing Err : file too small
   Printed:
       bytes         : 0
@@ -59,8 +63,10 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line longest  : 0 (bytes)
       line parts    : 0
       syslines      : 0
+      sysline longest: 0 (bytes)
       syslines high : 0
       out of order  : 0
   Processing Stores:
@@ -87,14 +93,16 @@ Printed bytes          : 0
 Printed flushes        : 0
 Printed lines          : 0
 Printed syslines       : 0
+Longest Line           : 0
+Longest Sysline        : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 6
 Managed request read   : 0
 Managed read calls     : 8

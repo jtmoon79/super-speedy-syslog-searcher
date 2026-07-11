@@ -5,6 +5,7 @@ File: ./logs/programs/pacman/pacman.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 24563
       flushes       : 195
@@ -20,8 +21,10 @@ File: ./logs/programs/pacman/pacman.log
       blocks        : 48
       blocks total  : 48 (12288 bytes)
       lines         : 195
+      line longest  : 214 (bytes)
       line parts    : 241
       syslines      : 195
+      sysline longest: 214 (bytes)
       syslines high : 14
       datetime first: 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
       datetime last : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 25344
 Printed flushes        : 391
 Printed lines          : 195
 Printed syslines       : 195
+Longest Line           : 214
+Longest Sysline        : 214
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 48

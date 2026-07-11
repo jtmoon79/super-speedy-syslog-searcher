@@ -5,6 +5,7 @@ File: ./logs/other/tests/dtf10-10a.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 802
       flushes       : 8
@@ -20,8 +21,10 @@ File: ./logs/other/tests/dtf10-10a.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 8
+      line longest  : 39 (bytes)
       line parts    : 9
       syslines      : 8
+      sysline longest: 39 (bytes)
       syslines high : 8
       datetime first: 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
       datetime last : 2022-06-28 01:51:11 +00:30 (2022-06-28 01:21:11.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 835
 Printed flushes        : 17
 Printed lines          : 8
 Printed syslines       : 8
+Longest Line           : 39
+Longest Sysline        : 39
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 2

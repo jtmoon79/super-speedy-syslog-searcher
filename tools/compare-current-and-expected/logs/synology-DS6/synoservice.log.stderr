@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/synoservice.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 3198
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/synoservice.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line longest  : 113 (bytes)
       line parts    : 26
       syslines      : 19
+      sysline longest: 113 (bytes)
       syslines high : 10
       datetime first: 2020-02-11 03:24:26 -08:00 (2020-02-11 11:24:26.000000 +00:00)
       datetime last : 2020-02-12 02:44:29 -08:00 (2020-02-12 10:44:29.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3274
 Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 113
+Longest Sysline        : 113
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 8

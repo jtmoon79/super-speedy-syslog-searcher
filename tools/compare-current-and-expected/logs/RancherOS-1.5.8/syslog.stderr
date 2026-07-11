@@ -5,6 +5,7 @@ File: ./logs/RancherOS-1.5.8/syslog
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 1867
       flushes       : 10
@@ -20,8 +21,10 @@ File: ./logs/RancherOS-1.5.8/syslog
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 10
+      line longest  : 177 (bytes)
       line parts    : 14
       syslines      : 11
+      sysline longest: 177 (bytes)
       syslines high : 10
       datetime first: 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
       datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 1908
 Printed flushes        : 21
 Printed lines          : 10
 Printed syslines       : 10
+Longest Line           : 177
+Longest Sysline        : 177
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 5

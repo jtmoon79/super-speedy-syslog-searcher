@@ -6,6 +6,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       archive subpath: dtf7-20-LEVELS.log
       filetype      : TEXT UTF8/ASCII (TAR) (text log)
       logmessagetype: text log lines
+      thread stack  : 2206720 (bytes)
   Printed:
       bytes         : 3640
       flushes       : 20
@@ -22,8 +23,10 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line longest  : 73 (bytes)
       line parts    : 24
       syslines      : 20
+      sysline longest: 73 (bytes)
       syslines high : 15
       datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
@@ -48,6 +51,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       archive subpath: dtf7-5-LEVELS.log
       filetype      : TEXT UTF8/ASCII (TAR) (text log)
       logmessagetype: text log lines
+      thread stack  : 2206720 (bytes)
   Printed:
       bytes         : 867
       flushes       : 5
@@ -64,8 +68,10 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line longest  : 57 (bytes)
       line parts    : 6
       syslines      : 5
+      sysline longest: 57 (bytes)
       syslines high : 5
       datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       datetime last : 2000-01-01 00:00:05 -04:00 (2000-01-01 04:00:05.000000 +00:00)
@@ -95,14 +101,16 @@ Printed bytes          : 4609
 Printed flushes        : 52
 Printed lines          : 25
 Printed syslines       : 25
+Longest Line           : 73
+Longest Sysline        : 73
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 6
 Managed request read   : 0
 Managed read calls     : 13

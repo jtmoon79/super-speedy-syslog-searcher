@@ -5,6 +5,7 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 6271
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       blocks        : 20
       blocks total  : 20 (5120 bytes)
       lines         : 19
+      line longest  : 477 (bytes)
       line parts    : 39
       syslines      : 19
+      sysline longest: 477 (bytes)
       syslines high : 19
       datetime first: 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
       datetime last : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 6348
 Printed flushes        : 39
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 477
+Longest Sysline        : 477
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 20

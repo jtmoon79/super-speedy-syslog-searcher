@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2576
       flushes       : 18
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line longest  : 71 (bytes)
       line parts    : 23
       syslines      : 18
+      sysline longest: 117 (bytes)
       syslines high : 14
       datetime first: 2016-12-05 21:00:55 -08:00 (2016-12-06 05:00:55.000000 +00:00)
       datetime last : 2017-02-23 14:49:29 -08:00 (2017-02-23 22:49:29.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 2648
 Printed flushes        : 36
 Printed lines          : 19
 Printed syslines       : 18
+Longest Line           : 71
+Longest Sysline        : 117
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 5

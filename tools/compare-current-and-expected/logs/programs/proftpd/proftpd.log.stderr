@@ -5,6 +5,7 @@ File: ./logs/programs/proftpd/proftpd.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 3328
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/programs/proftpd/proftpd.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line longest  : 141 (bytes)
       line parts    : 27
       syslines      : 19
+      sysline longest: 141 (bytes)
       syslines high : 10
       datetime first: 2020-10-03 11:24:09 +08:00 (2020-10-03 03:24:09.447000 +00:00)
       datetime last : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.134000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 3404
 Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 141
+Longest Sysline        : 141
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 9

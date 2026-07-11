@@ -5,6 +5,7 @@ File: ./logs/synology-DS6/synocontentextractd.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 5032
       flushes       : 19
@@ -20,8 +21,10 @@ File: ./logs/synology-DS6/synocontentextractd.log
       blocks        : 15
       blocks total  : 15 (3840 bytes)
       lines         : 19
+      line longest  : 204 (bytes)
       line parts    : 34
       syslines      : 19
+      sysline longest: 204 (bytes)
       syslines high : 6
       datetime first: 2019-01-07 00:12:20 -08:00 (2019-01-07 08:12:20.000000 +00:00)
       datetime last : 2019-01-07 00:18:50 -08:00 (2019-01-07 08:18:50.000000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 5108
 Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
+Longest Line           : 204
+Longest Sysline        : 204
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 15

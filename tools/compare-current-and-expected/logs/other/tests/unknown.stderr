@@ -5,6 +5,7 @@ File: ./logs/other/tests/unknown
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 420
       flushes       : 4
@@ -20,8 +21,10 @@ File: ./logs/other/tests/unknown
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line longest  : 51 (bytes)
       line parts    : 4
       syslines      : 4
+      sysline longest: 51 (bytes)
       syslines high : 4
       datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626000 +00:00)
       datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.648000 +00:00)
@@ -51,14 +54,16 @@ Printed bytes          : 437
 Printed flushes        : 9
 Printed lines          : 4
 Printed syslines       : 4
+Longest Line           : 51
+Longest Sysline        : 51
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 1

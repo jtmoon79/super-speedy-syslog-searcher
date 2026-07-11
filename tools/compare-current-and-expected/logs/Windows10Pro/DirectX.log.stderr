@@ -5,6 +5,7 @@ File: ./logs/Windows10Pro/DirectX.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 5411
       flushes       : 16
@@ -20,8 +21,10 @@ File: ./logs/Windows10Pro/DirectX.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 43
+      line longest  : 137 (bytes)
       line parts    : 53
       syslines      : 17
+      sysline longest: 1321 (bytes)
       syslines high : 15
       datetime first: 2020-01-19 20:03:29 +08:00 (2020-01-19 12:03:29.000000 +00:00)
       datetime last : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 5472
 Printed flushes        : 32
 Printed lines          : 43
 Printed syslines       : 15
+Longest Line           : 137
+Longest Sysline        : 1321
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 11

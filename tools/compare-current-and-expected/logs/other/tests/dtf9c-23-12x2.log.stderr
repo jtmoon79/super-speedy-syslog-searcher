@@ -5,6 +5,7 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
       logmessagetype: text log lines
+      thread stack  : 2150400 (bytes)
   Printed:
       bytes         : 2106
       flushes       : 23
@@ -20,8 +21,10 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 25
+      line longest  : 19 (bytes)
       line parts    : 26
       syslines      : 25
+      sysline longest: 35 (bytes)
       syslines high : 23
       datetime first: 2017-01-01 01:00:00 +08:00 (2016-12-31 17:00:00.000000 +00:00)
       datetime last : 2018-12-12 12:00:00 +08:00 (2018-12-12 04:00:00.000000 +00:00)
@@ -52,14 +55,16 @@ Printed bytes          : 2198
 Printed flushes        : 46
 Printed lines          : 25
 Printed syslines       : 23
+Longest Line           : 19
+Longest Sysline        : 35
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Managed files max def. : 200
-Managed files max adj. : 200
+Managed files max deflt: 980
+Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 2
