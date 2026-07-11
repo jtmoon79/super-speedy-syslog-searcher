@@ -54,6 +54,7 @@ use crate::printer::printers::{
 use crate::printer::summary::{
     print_summary,
     summary_largest_evtx_event,
+    summary_largest_journal_event,
     summary_longest_line_sysline,
     MapPathIdSummary,
     MapPathIdSummaryPrint,
@@ -90,6 +91,7 @@ use crate::readers::journalreader::{
     JournalOutput,
     JournalReader,
     ResultNext,
+    SummaryJournalReader,
 };
 use crate::readers::linereader::SummaryLineReader;
 use crate::readers::summary::{
@@ -181,6 +183,34 @@ fn summary_with_largest_evtx_values(
         ),
         ..Default::default()
     }
+}
+
+/// helper to `test_summary_largest_journal_event`
+fn summary_with_largest_journal_event_values(
+    journal_event_largest_processed: Count,
+    journal_event_largest_accepted: Count,
+) -> Summary {
+    Summary {
+        readerdata: SummaryReaderData::Journal(
+            SummaryJournalReader {
+                journalreader_journal_event_largest_processed: journal_event_largest_processed,
+                journalreader_journal_event_largest_accepted: journal_event_largest_accepted,
+                ..Default::default()
+            }
+        ),
+        ..Default::default()
+    }
+}
+
+#[test]
+fn test_summary_largest_journal_event() {
+    let mut map_pathid_summary = MapPathIdSummary::new();
+    map_pathid_summary.insert(1, Summary::default());
+    assert_eq!((0, 0), summary_largest_journal_event(&map_pathid_summary));
+
+    map_pathid_summary.insert(2, summary_with_largest_journal_event_values(123, 55));
+    map_pathid_summary.insert(3, summary_with_largest_journal_event_values(80, 456));
+    assert_eq!((123, 456), summary_largest_journal_event(&map_pathid_summary));
 }
 
 #[test]

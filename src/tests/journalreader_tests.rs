@@ -424,11 +424,13 @@ fn test_JournalReader_entry1_output(
     FT_NORM,
     *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
     *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
+    1568,
+    1568,
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT),
-    55099,
+    102775,
     0,
     ForceErrorRangeOpt::None;
     "RHE91"
@@ -439,11 +441,13 @@ fn test_JournalReader_entry1_output(
     FT_GZ,
     *JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT,
     *JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT,
+    1568,
+    1568,
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT),
-    55099,
+    102775,
     0,
     ForceErrorRangeOpt::None;
     "RHE91 GZ"
@@ -454,11 +458,13 @@ fn test_JournalReader_entry1_output(
     FT_LZ4,
     *JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT,
     *JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT,
+    1568,
+    1568,
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT),
-    55099,
+    102775,
     0,
     ForceErrorRangeOpt::None;
     "RHE91 LZ4"
@@ -469,11 +475,13 @@ fn test_JournalReader_entry1_output(
     FT_XZ,
     *JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT,
     *JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT,
+    1568,
+    1568,
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT),
-    55099,
+    102775,
     0,
     ForceErrorRangeOpt::None;
     "RHE91 XZ"
@@ -484,11 +492,13 @@ fn test_JournalReader_entry1_output(
     FT_NORM,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
+    932,
+    932,
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT),
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT),
-    113,
+    211,
     0,
     ForceErrorRangeOpt::None;
     "UBUNTU22"
@@ -499,11 +509,13 @@ fn test_JournalReader_entry1_output(
     FT_NORM,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
+    932,
+    932,
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT),
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT),
-    115,
+    213,
     2,
     ForceErrorRangeOpt::Some(Range { start: 45, end: 46 });
     "UBUNTU22 errors 45 46"
@@ -514,11 +526,13 @@ fn test_JournalReader_entry1_output(
     FT_NORM,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
+    932,
+    932,
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT),
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT),
-    118,
+    216,
     5,
     ForceErrorRangeOpt::Some(Range { start: 110, end: 114 });
     "UBUNTU22 errors 110 114"
@@ -529,6 +543,8 @@ fn test_JournalReader_next_summary(
     filetype: FileType,
     events_processed: Count,
     events_accepted: Count,
+    journal_event_largest_processed: Count,
+    journal_event_largest_accepted: Count,
     datetime_first_accepted: DateTimeLOpt,
     datetime_last_accepted: DateTimeLOpt,
     datetime_first_processed: DateTimeLOpt,
@@ -611,6 +627,10 @@ fn test_JournalReader_next_summary(
         "summary.count_events_processed");
     assert_eq!(summary.journalreader_events_accepted, events_accepted,
         "summary.count_events_accepted");
+    assert_eq!(summary.journalreader_journal_event_largest_processed, journal_event_largest_processed,
+        "summary.journal_event_largest_processed");
+    assert_eq!(summary.journalreader_journal_event_largest_accepted, journal_event_largest_accepted,
+        "summary.journal_event_largest_accepted");
     assert_eq!(summary.journalreader_filesz, filesz, "summary.filesz");
     assert_eq!(summary.journalreader_datetime_first_accepted, datetime_first_accepted,
         "summary.datetime_first_accepted");
