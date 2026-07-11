@@ -450,6 +450,14 @@ impl SummaryPrinted {
             eprintln!("{}bytes         : {}", indent2, self.bytes);
             eprintln!("{}flushes       : {}", indent2, self.flushed);
             eprintln!("{}Events        : {}", indent2, self.evtxentries);
+            eprintln!(
+                "{}event largest processed: {} (bytes)",
+                indent2, summaryevtxreader.evtxreader_event_largest_processed
+            );
+            eprintln!(
+                "{}event largest accepted : {} (bytes)",
+                indent2, summaryevtxreader.evtxreader_event_largest_accepted
+            );
             if let Some(dt) = summaryevtxreader.evtxreader_datetime_first_accepted {
                 eprint!("{}datetime first: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
@@ -799,6 +807,26 @@ pub(crate) fn summary_longest_line_sysline(map_pathid_summary: &MapPathIdSummary
     (longest_line, longest_sysline)
 }
 
+/// Helper to function `print_summary`
+pub(crate) fn summary_largest_evtx_event(map_pathid_summary: &MapPathIdSummary) -> (Count, Count) {
+    let mut largest_processed: Count = 0;
+    let mut largest_accepted: Count = 0;
+    for summary in map_pathid_summary.values() {
+        if let SummaryReaderData::Etvx(summaryevtxreader) = &summary.readerdata {
+            largest_processed = std::cmp::max(
+                largest_processed,
+                summaryevtxreader.evtxreader_event_largest_processed,
+            );
+            largest_accepted = std::cmp::max(
+                largest_accepted,
+                summaryevtxreader.evtxreader_event_largest_accepted,
+            );
+        }
+    }
+
+    (largest_processed, largest_accepted)
+}
+
 /// Print the entire `--summary`.
 /// This is the "entry point" for print the summary of all files.
 #[allow(clippy::too_many_arguments)]
@@ -840,6 +868,7 @@ pub fn print_summary(
         "".as_bytes()
     );
     let (longest_line, longest_sysline) = summary_longest_line_sysline(&map_pathid_summary);
+    let (event_largest_processed, event_largest_accepted) = summary_largest_evtx_event(&map_pathid_summary);
 
     // print details about all the valid files
     print_all_files_summaries(
@@ -878,6 +907,8 @@ pub fn print_summary(
     eprintln!("Printed ASL events     : {}", summaryprinted.aslentries);
     eprintln!("Printed ETL events     : {}", summaryprinted.etlentries);
     eprintln!("Printed EVTX events    : {}", summaryprinted.evtxentries);
+    eprintln!("EVTX Event Largest Proc: {}", event_largest_processed);
+    eprintln!("EVTX Event Largest Acc : {}", event_largest_accepted);
     // TODO: [2023/03/26] eprint count of EVTX files "out of order".
     eprintln!("Printed fixedstruct    : {}", summaryprinted.fixedstructentries);
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".

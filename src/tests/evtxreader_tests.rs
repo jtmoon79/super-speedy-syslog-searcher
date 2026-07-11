@@ -159,7 +159,9 @@ fn test_mtime(path: &FPath) {
 #[test_case(&EVTX_KPNP_FPATH)]
 fn test_EvtxReader_summary_empty(path: &FPath) {
     let evtxreader = EvtxReader::new(path_id_generator(), path.clone(), FT_NORM, FO_E8).unwrap();
-    _ = evtxreader.summary();
+    let summary = evtxreader.summary();
+    assert_eq!(summary.evtxreader_event_largest_processed, 0, "summary.event_largest_processed");
+    assert_eq!(summary.evtxreader_event_largest_accepted, 0, "summary.event_largest_accepted");
     _ = evtxreader.summary_complete();
 }
 
@@ -168,6 +170,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
 #[test_case(
     &EVTX_NE_FPATH,
     FT_NORM,
+    0,
+    0,
     0,
     0,
     69632,
@@ -183,6 +187,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     FT_NORM,
     *EVTX_KPNP_EVENT_COUNT,
     *EVTX_KPNP_EVENT_COUNT,
+    1778,
+    1778,
     1052672,
     1,
     Some(*EVTX_KPNP_ENTRY1_DT),
@@ -196,6 +202,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     FT_GZ,
     *EVTX_KPNP_GZ_EVENT_COUNT,
     *EVTX_KPNP_GZ_EVENT_COUNT,
+    1778,
+    1778,
     1052672,
     1,
     Some(*EVTX_KPNP_GZ_ENTRY1_DT),
@@ -209,6 +217,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     FT_LZ4,
     *EVTX_KPNP_LZ4_EVENT_COUNT,
     *EVTX_KPNP_LZ4_EVENT_COUNT,
+    1778,
+    1778,
     1052672,
     1,
     Some(*EVTX_KPNP_LZ4_ENTRY1_DT),
@@ -222,6 +232,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     FT_TAR,
     *EVTX_KPNP_TAR_EVENT_COUNT,
     *EVTX_KPNP_TAR_EVENT_COUNT,
+    1778,
+    1778,
     1052672,
     1,
     Some(*EVTX_KPNP_TAR_ENTRY1_DT),
@@ -235,6 +247,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     FT_XZ,
     *EVTX_KPNP_XZ_EVENT_COUNT,
     *EVTX_KPNP_XZ_EVENT_COUNT,
+    1778,
+    1778,
     1052672,
     1,
     Some(*EVTX_KPNP_XZ_ENTRY1_DT),
@@ -248,6 +262,8 @@ fn test_EvtxReader_next_summary(
     filetype: FileType,
     events_processed: Count,
     events_accepted: Count,
+    event_largest_processed: Count,
+    event_largest_accepted: Count,
     filesz: FileSz,
     out_of_order: Count,
     datetime_first_accepted: DateTimeLOpt,
@@ -288,6 +304,8 @@ fn test_EvtxReader_next_summary(
     // assert EvtxReader
     assert_eq!(evtxreader.events_processed, events_processed, "count_events_processed");
     assert_eq!(evtxreader.events_accepted, events_accepted, "count_events_accepted");
+    assert_eq!(evtxreader.event_largest_processed, event_largest_processed, "event_largest_processed");
+    assert_eq!(evtxreader.event_largest_accepted, event_largest_accepted, "event_largest_accepted");
     assert_eq!(evtxreader.filesz(), filesz, "filesz");
 
     // assert SummaryEvtxReader
@@ -296,6 +314,10 @@ fn test_EvtxReader_next_summary(
         "summary.count_events_processed");
     assert_eq!(summary.evtxreader_events_accepted, events_accepted,
         "summary.count_events_accepted");
+    assert_eq!(summary.evtxreader_event_largest_processed, event_largest_processed,
+        "summary.event_largest_processed");
+    assert_eq!(summary.evtxreader_event_largest_accepted, event_largest_accepted,
+        "summary.event_largest_accepted");
     assert_eq!(summary.evtxreader_filesz, filesz, "summary.filesz");
     assert_eq!(summary.evtxreader_out_of_order, out_of_order,
         "summary.out_of_order");
