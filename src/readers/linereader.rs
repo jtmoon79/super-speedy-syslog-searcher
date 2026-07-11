@@ -120,6 +120,10 @@ pub struct LineReader {
     /// [`Line`]: crate::data::line::Line
     pub(crate) lines: FoToLine,
     /// Summary statistic.
+    /// Longest `Line` processed by `LineReader` in bytes.
+    /// Not necessarily the longest line in the file.
+    line_longest_processed: Count,
+    /// Summary statistic.
     /// Internal stats - "high watermark" of Lines stored in `self.lines`
     lines_stored_highest: usize,
     /// Summary statistic.
@@ -195,6 +199,9 @@ impl fmt::Debug for LineReader {
 //       `SummaryLineReader` in `LineReader` and update directly.
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct SummaryLineReader {
+    /// Longest `Line` processed by `LineReader` in bytes.
+    /// Not necessarily the longest line in the file.
+    pub linereader_line_longest_processed: Count,
     /// `Count` of `Lines` processed by `LineReader`
     pub linereader_lines: Count,
     /// "high watermark" of Lines stored in `LineReader.lines`
@@ -263,6 +270,7 @@ impl LineReader {
         Ok(LineReader {
             blockreader,
             lines: FoToLine::new(),
+            line_longest_processed: 0,
             lines_stored_highest: 0,
             lines_hits: 0,
             lines_miss: 0,
@@ -630,6 +638,9 @@ impl LineReader {
             .insert(fo_beg, LineP::clone(&linep));
         defo!("foend_to_fobeg.insert({}, {})", fo_end, fo_beg);
         summary_stat!(
+            self.line_longest_processed = std::cmp::max(self.line_longest_processed, linep.len() as Count)
+        );
+        summary_stat!(
             self.lines_stored_highest = std::cmp::max(self.lines_stored_highest, self.lines.len())
         );
         debug_assert!(
@@ -976,7 +987,7 @@ impl LineReader {
     /// That is, a `Line` that starts in `Block` but extends to the next
     /// `Block`. In this case, the result, the first tuple parameter,
     /// will be `ResultFindLine::Done`. The returned `Line` is not stored
-    /// by this `LineReader` and should be quickly dropped by the caller. If
+    /// by this `LineReader` and should be dropped by the caller. If
     /// the "partial" `Line` is held too long then the underlying `Block`
     /// cannot be dropped during the "[streaming stage]".
     ///
@@ -2519,6 +2530,7 @@ impl LineReader {
     }
 
     pub fn summary(&self) -> SummaryLineReader {
+        let linereader_line_longest_processed = self.line_longest_processed;
         let linereader_lines = self.count_lines_processed();
         let linereader_lines_stored_highest = self.lines_stored_highest();
         let linereader_lines_hits = self.lines_hits;
@@ -2531,6 +2543,7 @@ impl LineReader {
         let linereader_drop_line_errors = self.drop_line_errors;
 
         SummaryLineReader {
+            linereader_line_longest_processed,
             linereader_lines,
             linereader_lines_stored_highest,
             linereader_lines_hits,

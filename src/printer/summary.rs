@@ -779,6 +779,26 @@ pub fn summary_update(
     };
 }
 
+/// Helper to function `print_summary`
+pub(crate) fn summary_longest_line_sysline(map_pathid_summary: &MapPathIdSummary) -> (Count, Count) {
+    let mut longest_line: Count = 0;
+    let mut longest_sysline: Count = 0;
+    for summary in map_pathid_summary.values() {
+        if let SummaryReaderData::Syslog((
+            _summaryblockreader,
+            summarylinereader,
+            summarysyslinereader,
+            _summarysyslogprocessor,
+        )) = &summary.readerdata
+        {
+            longest_line = std::cmp::max(longest_line, summarylinereader.linereader_line_longest_processed);
+            longest_sysline = std::cmp::max(longest_sysline, summarysyslinereader.syslinereader_sysline_longest);
+        }
+    }
+
+    (longest_line, longest_sysline)
+}
+
 /// Print the entire `--summary`.
 /// This is the "entry point" for print the summary of all files.
 #[allow(clippy::too_many_arguments)]
@@ -819,6 +839,7 @@ pub fn print_summary(
         Some(color_choice),
         "".as_bytes()
     );
+    let (longest_line, longest_sysline) = summary_longest_line_sysline(&map_pathid_summary);
 
     // print details about all the valid files
     print_all_files_summaries(
@@ -852,6 +873,8 @@ pub fn print_summary(
     eprintln!("Printed flushes        : {}", summaryprinted.flushed);
     eprintln!("Printed lines          : {}", summaryprinted.lines);
     eprintln!("Printed syslines       : {}", summaryprinted.syslines);
+    eprintln!("Longest Line           : {}", longest_line);
+    eprintln!("Longest Sysline        : {}", longest_sysline);
     eprintln!("Printed ASL events     : {}", summaryprinted.aslentries);
     eprintln!("Printed ETL events     : {}", summaryprinted.etlentries);
     eprintln!("Printed EVTX events    : {}", summaryprinted.evtxentries);
@@ -860,8 +883,8 @@ pub fn print_summary(
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
     eprintln!("Printed journal events : {}", summaryprinted.journalentries);
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
-    eprintln!("Managed files max def. : {}", summary_filehandlemanager.open_max_default);
-    eprintln!("Managed files max adj. : {}", summary_filehandlemanager.open_max_adjusted);
+    eprintln!("Managed files max deflt: {}", summary_filehandlemanager.open_max_default);
+    eprintln!("Managed files max adjus: {}", summary_filehandlemanager.open_max_adjusted);
     // TODO: print `count_hi` in yellow if it is ==max
     eprintln!("Managed files high     : {}", summary_filehandlemanager.managed_count_open_hi);
     eprintln!("Managed+unmanaged high : {}", summary_filehandlemanager.count_hi);
@@ -1223,6 +1246,10 @@ fn print_summary_opt_processed(
         ) => {
             eprintln!("{}lines         : {}", indent2, summarylinereader.linereader_lines);
             eprintln!(
+                "{}line longest  : {} (bytes)",
+                indent2, summarylinereader.linereader_line_longest_processed
+            );
+            eprintln!(
                 "{}lines high    : {}",
                 indent2, summarylinereader.linereader_lines_stored_highest
             );
@@ -1230,6 +1257,10 @@ fn print_summary_opt_processed(
                 "{}line parts    : {}", indent2, summarylinereader.linereader_line_parts_created,
             );
             eprintln!("{}syslines      : {}", indent2, summarysyslinereader.syslinereader_syslines);
+            eprintln!(
+                "{}sysline longest: {} (bytes)",
+                indent2, summarysyslinereader.syslinereader_sysline_longest
+            );
             eprintln!(
                 "{}syslines high : {}",
                 indent2, summarysyslinereader.syslinereader_syslines_stored_highest

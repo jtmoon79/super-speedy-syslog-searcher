@@ -593,6 +593,9 @@ pub struct SyslineReader {
     /// Syslines keyed by `Sysline.fileoffset_begin`.
     pub(super) syslines: Syslines,
     /// Summary statistic.
+    /// Longest `Sysline` processed by `SyslineReader` in bytes.
+    sysline_longest: Count,
+    /// Summary statistic.
     /// `Count` of Syslines processed.
     syslines_count: Count,
     /// Summary statistic.
@@ -840,6 +843,8 @@ where
 //       `SummarySyslineReader` in `SyslineReader` and update directly.
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct SummarySyslineReader {
+    /// Longest `Sysline` processed by `SyslineReader` in bytes.
+    pub syslinereader_sysline_longest: Count,
     /// `Count` of `Syslines` processed by `SyslineReader`
     pub syslinereader_syslines: Count,
     /// "high watermark"` of `Sysline`s stored by `SyslineReader.syslines`
@@ -963,6 +968,7 @@ impl SyslineReader {
         Ok(SyslineReader {
             linereader: lr,
             syslines: Syslines::new(),
+            sysline_longest: 0,
             syslines_count: 0,
             syslines_stored_highest: 0,
             syslines_by_range: SyslinesRangeMap::new(),
@@ -1445,6 +1451,7 @@ impl SyslineReader {
     ) -> SyslineP {
         let fo_beg: FileOffset = sysline.fileoffset_begin();
         let fo_end: FileOffset = sysline.fileoffset_end();
+        let sysline_len: Count = sysline.len() as Count;
         let syslinep: SyslineP = SyslineP::new(sysline);
         defn!(
             "syslines.insert({}, Sysline @[{}, {}] datetime: {:?})",
@@ -1455,6 +1462,7 @@ impl SyslineReader {
         );
         self.syslines.insert(fo_beg, SyslineP::clone(&syslinep));
         summary_stat!(self.syslines_count += 1);
+        summary_stat!(self.sysline_longest = max(self.sysline_longest, sysline_len));
         summary_stat!(self.syslines_stored_highest = max(self.syslines.len(), self.syslines_stored_highest));
         if self.range_lookups {
             let fo_end1: FileOffset = fo_end + 1;
@@ -3634,6 +3642,7 @@ impl SyslineReader {
     }
 
     pub fn summary(&self) -> SummarySyslineReader {
+        let syslinereader_sysline_longest = self.sysline_longest;
         let syslinereader_syslines = self.count_syslines_processed();
         let syslinereader_syslines_stored_highest = self.syslines_stored_highest();
         let syslinereader_syslines_hit = self.syslines_hit;
@@ -3681,6 +3690,7 @@ impl SyslineReader {
         let syslinereader_datetime_out_of_order = self.out_of_order;
 
         SummarySyslineReader {
+            syslinereader_sysline_longest,
             syslinereader_syslines,
             syslinereader_syslines_stored_highest,
             syslinereader_syslines_hit,

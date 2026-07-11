@@ -233,7 +233,7 @@ macro_rules! read_data_to_buffer_len_check {
 /// Early-on ad-hoc experiments on my Desktop with a
 /// AMD Ryzen 7, Windows 11 Pro, and Sabrent Rocket 4.0 SSD via NVMe
 /// found 0x10000 to be the fastest read-time-per-byte size.
-pub(crate) const BLOCKSZ_DEF: BlockSz = 0xFFFF;
+pub const BLOCKSZ_DEF: BlockSz = 0xFFFF;
 
 /// Environment variable to override the default [`Block`] size in bytes.
 pub const ENV_BLOCKSZ: &str = "S4_BLOCKSZ";
