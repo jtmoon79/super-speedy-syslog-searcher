@@ -92,6 +92,7 @@ pub const ENV_FILE_HANDLE_OPEN_MAX: &str = "S4_FILE_HANDLE_OPEN_MAX";
 /// any use of `FILE_HANDLE_MANAGER` occurs.
 /// Typically these are file handles created automatically by the Operating System
 /// when loading external libraries during program startup.
+#[cfg(unix)]
 const FILE_HANDLE_OPEN_MAX_RLIMIT_RESERVE: usize = 8;
 
 /// Default maximum number of simultaneously managed open file handles.
