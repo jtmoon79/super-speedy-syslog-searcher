@@ -31,7 +31,7 @@ use ::lazy_static::lazy_static;
 // `lz4_flex` is for lz4 files.
 use ::lz4_flex;
 // `lzma_rs` is for xz files.
-use ::lzma_rs;
+use crate::subprojects::lzma_rs;
 #[allow(unused_imports)]
 use ::si_trace_print::{
     defn,

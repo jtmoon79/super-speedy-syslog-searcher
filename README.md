@@ -1486,6 +1486,7 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
 - Code in `src/python/s4_event_readers/s4_event_readers/odl_reader.py`
   is [licensed under the MIT License](src/python/s4_event_readers/s4_event_readers/LICENSE-odl_reader.txt).
 - Some code under `subprojects/ere` is [licensed under the MIT License](https://github.com/2kai2kai2/ere/blob/9ae714909f24e025612e385419af17aaed843a60/LICENSE).
+- Code under `src/subprojects/lzma_rs` is [licensed under the MIT License](https://github.com/gendx/lzma-rs/blob/1f14478def43b8ea0d27a6b3db88bb307aafd18a/LICENSE).
 
 ## Stargazers<!-- omit in toc -->
 

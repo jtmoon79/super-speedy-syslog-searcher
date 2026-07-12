@@ -1935,6 +1935,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "env_filter"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "900d271a03799a1ee8d1ca9b19893b48ca674a9284fefcfb85f05e74ed314217"
+dependencies = [
+ "log",
+ "regex",
+]
+
+[[package]]
+name = "env_logger"
+version = "0.11.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "de671bd27a75a797dc9ae289ba1e77276e75e2026408aab65185384e2d5cd3f6"
+dependencies = [
+ "anstream",
+ "anstyle",
+ "env_filter",
+ "jiff",
+ "log",
+]
+
+[[package]]
 name = "equator"
 version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3141,9 +3164,9 @@ dependencies = [
 
 [[package]]
 name = "log"
-version = "0.4.29"
+version = "0.4.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e5032e24019045c762d3c0f28f5b6b8bbf38563a65908389bf7978758920897"
+checksum = "0ceec5bc11778974d1bcb055b18002eba7f4b3518b6a0081b3af5f21666da9ad"
 
 [[package]]
 name = "lru"
@@ -3176,16 +3199,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7ef0d4ed8669f8f8826eb00dc878084aa8f253506c4fd5e8f58f5bce72ddb97e"
 dependencies = [
  "twox-hash",
-]
-
-[[package]]
-name = "lzma-rs"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "297e814c836ae64db86b36cf2a557ba54368d03f6afcd7d947c266692f71115e"
-dependencies = [
- "byteorder",
- "crc",
 ]
 
 [[package]]
@@ -4683,6 +4696,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "seq-macro"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1bc711410fbe7399f390ca1c3b60ad0f53f80e95c5eb935e52268a0e2cd49acc"
+
+[[package]]
 name = "serde"
 version = "1.0.228"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5115,6 +5134,7 @@ dependencies = [
  "bitvec",
  "bstr",
  "build-print",
+ "byteorder",
  "bzip2-rs",
  "cargo-msrv",
  "cfg-if",
@@ -5124,6 +5144,7 @@ dependencies = [
  "const-str",
  "const_env",
  "const_format",
+ "crc",
  "criterion 0.8.2",
  "cross",
  "crossbeam-channel",
@@ -5132,6 +5153,7 @@ dependencies = [
  "dlopen2",
  "dotenvy",
  "encoding_rs",
+ "env_logger",
  "evtx",
  "filepath",
  "filetime",
@@ -5145,9 +5167,9 @@ dependencies = [
  "lazy_static",
  "libc",
  "list-features",
+ "log",
  "lru 0.18.0",
  "lz4_flex",
- "lzma-rs",
  "memchr",
  "memoffset",
  "mimalloc",
@@ -5168,6 +5190,7 @@ dependencies = [
  "rpmalloc",
  "rustc-demangle",
  "rustc_version_runtime",
+ "seq-macro",
  "shell-escape",
  "si_trace_print",
  "static_assertions",
