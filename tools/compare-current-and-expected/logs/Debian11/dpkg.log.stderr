@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Debian11/dpkg.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 5755
       flushes       : 48
-      lines         : 49
-      syslines      : 48
-      datetime first: 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
-      datetime last : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)
+      Lines         : 49
+      Syslines      : 48
+      Datetime first: 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
+      Datetime last : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)
   Processed:
       file size     : 3060 (0xBF4) (bytes)
       bytes         : 3060 (0xBF4)
       bytes total   : 3060 (0xBF4)
-      block size    : 256 (0x100)
-      blocks        : 12
-      blocks total  : 12 (3072 bytes)
-      lines         : 49
-      line longest  : 76 (bytes)
-      line parts    : 60
-      syslines      : 48
-      sysline longest: 76 (bytes)
-      syslines high : 15
-      datetime first: 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
-      datetime last : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 12
+      Blocks total  : 12 (3072 bytes)
+      Blocks high   : 5 (1280 bytes)
+      Lines         : 49
+      Line longest  : 76 (bytes)
+      Lines high    : 16
+      Line parts    : 60
+      Syslines      : 48
+      Sysline longest: 76 (bytes)
+      Syslines high : 15
+      Datetime first: 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
+      Datetime last : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  96,  1.0%
       caching: LineReader::find_line() LRU cache                   : hit  48, miss  49, 49.5%, put  49
       copying: SyslineReader::get_boxptrs()                        : sgl 116, dbl   10, mult   0
@@ -44,7 +46,7 @@ File: ./logs/Debian11/dpkg.log
       process: regex captures                                      : hit  48, miss  78
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5947
 Printed flushes        : 96
-Printed lines          : 49
-Printed syslines       : 48
-Longest Line           : 76
-Longest Sysline        : 76
+Printed Lines          : 49
+Printed Syslines       : 48
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 76
+Sysline longest                : 76
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 12
@@ -72,16 +79,17 @@ Managed seek calls     : 12
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
 Datetime printed last  : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 50
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 50
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

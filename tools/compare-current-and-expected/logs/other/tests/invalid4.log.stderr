@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/other/tests/invalid4.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 233
       flushes       : 2
-      lines         : 2
-      syslines      : 2
-      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
-      datetime last : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
+      Lines         : 2
+      Syslines      : 2
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
   Processed:
       file size     : 109 (0x6D) (bytes)
       bytes         : 109 (0x6D)
       bytes total   : 109 (0x6D)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 2
-      line longest  : 64 (bytes)
-      line parts    : 2
-      syslines      : 2
-      sysline longest: 64 (bytes)
-      syslines high : 2
-      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
-      datetime last : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 1
+      Blocks total  : 1 (256 bytes)
+      Blocks high   : 1 (256 bytes)
+      Lines         : 2
+      Line longest  : 64 (bytes)
+      Lines high    : 2
+      Line parts    : 2
+      Syslines      : 2
+      Sysline longest: 64 (bytes)
+      Syslines high : 2
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   2, miss   2, 50.0%, put   2
       copying: SyslineReader::get_boxptrs()                        : sgl 142, dbl    0, mult   0
@@ -44,7 +46,7 @@ File: ./logs/other/tests/invalid4.log
       process: regex captures                                      : hit   2, miss 140
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 242
 Printed flushes        : 5
-Printed lines          : 2
-Printed syslines       : 2
-Longest Line           : 64
-Longest Sysline        : 64
+Printed Lines          : 2
+Printed Syslines       : 2
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 64
+Sysline longest                : 64
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 1
@@ -72,16 +79,17 @@ Managed seek calls     : 1
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
 Datetime printed last  : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 4
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 4
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

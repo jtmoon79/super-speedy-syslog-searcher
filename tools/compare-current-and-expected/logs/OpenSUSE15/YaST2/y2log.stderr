@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/OpenSUSE15/YaST2/y2log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 3179
       flushes       : 20
-      lines         : 20
-      syslines      : 20
-      datetime first: 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)
-      datetime last : 2019-09-17 07:08:12 +08:00 (2019-09-16 23:08:12.000000 +00:00)
+      Lines         : 20
+      Syslines      : 20
+      Datetime first: 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)
+      Datetime last : 2019-09-17 07:08:12 +08:00 (2019-09-16 23:08:12.000000 +00:00)
   Processed:
       file size     : 1979 (0x7BB) (bytes)
       bytes         : 1979 (0x7BB)
       bytes total   : 1979 (0x7BB)
-      block size    : 256 (0x100)
-      blocks        : 8
-      blocks total  : 8 (2048 bytes)
-      lines         : 20
-      line longest  : 136 (bytes)
-      line parts    : 28
-      syslines      : 20
-      sysline longest: 136 (bytes)
-      syslines high : 10
-      datetime first: 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)
-      datetime last : 2019-09-17 07:08:12 +08:00 (2019-09-16 23:08:12.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 8
+      Blocks total  : 8 (2048 bytes)
+      Blocks high   : 5 (1280 bytes)
+      Lines         : 20
+      Line longest  : 136 (bytes)
+      Lines high    : 11
+      Line parts    : 28
+      Syslines      : 20
+      Sysline longest: 136 (bytes)
+      Syslines high : 10
+      Datetime first: 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)
+      Datetime last : 2019-09-17 07:08:12 +08:00 (2019-09-16 23:08:12.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 41,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 21, miss 21, 50.0%, put 20
       copying: SyslineReader::get_boxptrs()                        : sgl 95, dbl   3, mult  0
@@ -44,7 +46,7 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       process: regex captures                                      : hit 20, miss 78
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3260
 Printed flushes        : 41
-Printed lines          : 20
-Printed syslines       : 20
-Longest Line           : 136
-Longest Sysline        : 136
+Printed Lines          : 20
+Printed Syslines       : 20
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 136
+Sysline longest                : 136
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 8
@@ -72,16 +79,17 @@ Managed seek calls     : 8
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)
 Datetime printed last  : 2019-09-17 07:08:12 +08:00 (2019-09-16 23:08:12.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 22
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 22
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

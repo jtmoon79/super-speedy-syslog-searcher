@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/RockyLinux9/hawkey.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 3359
       flushes       : 28
-      lines         : 28
-      syslines      : 28
-      datetime first: 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)
-      datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
+      Lines         : 28
+      Syslines      : 28
+      Datetime first: 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)
+      Datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
   Processed:
       file size     : 1679 (0x68F) (bytes)
       bytes         : 1679 (0x68F)
       bytes total   : 1679 (0x68F)
-      block size    : 256 (0x100)
-      blocks        : 7
-      blocks total  : 7 (1792 bytes)
-      lines         : 28
-      line longest  : 60 (bytes)
-      line parts    : 34
-      syslines      : 28
-      sysline longest: 60 (bytes)
-      syslines high : 15
-      datetime first: 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)
-      datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 7
+      Blocks total  : 7 (1792 bytes)
+      Blocks high   : 4 (1024 bytes)
+      Lines         : 28
+      Line longest  : 60 (bytes)
+      Lines high    : 16
+      Line parts    : 34
+      Syslines      : 28
+      Sysline longest: 60 (bytes)
+      Syslines high : 15
+      Datetime first: 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)
+      Datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 55,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 28, miss 28, 50.0%, put 28
       copying: SyslineReader::get_boxptrs()                        : sgl 96, dbl   6, mult  0
@@ -44,7 +46,7 @@ File: ./logs/RockyLinux9/hawkey.log
       process: regex captures                                      : hit 28, miss 74
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3472
 Printed flushes        : 57
-Printed lines          : 28
-Printed syslines       : 28
-Longest Line           : 60
-Longest Sysline        : 60
+Printed Lines          : 28
+Printed Syslines       : 28
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 60
+Sysline longest                : 60
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7
@@ -72,16 +79,17 @@ Managed seek calls     : 7
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)
 Datetime printed last  : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 30
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 30
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

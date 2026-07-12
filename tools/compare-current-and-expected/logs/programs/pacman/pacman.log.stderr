@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/programs/pacman/pacman.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 24563
       flushes       : 195
-      lines         : 195
-      syslines      : 195
-      datetime first: 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
-      datetime last : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)
+      Lines         : 195
+      Syslines      : 195
+      Datetime first: 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
+      Datetime last : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)
   Processed:
       file size     : 12083 (0x2F33) (bytes)
       bytes         : 12083 (0x2F33)
       bytes total   : 12083 (0x2F33)
-      block size    : 256 (0x100)
-      blocks        : 48
-      blocks total  : 48 (12288 bytes)
-      lines         : 195
-      line longest  : 214 (bytes)
-      line parts    : 241
-      syslines      : 195
-      sysline longest: 214 (bytes)
-      syslines high : 14
-      datetime first: 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
-      datetime last : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 48
+      Blocks total  : 48 (12288 bytes)
+      Blocks high   : 5 (1280 bytes)
+      Lines         : 195
+      Line longest  : 214 (bytes)
+      Lines high    : 18
+      Line parts    : 241
+      Syslines      : 195
+      Sysline longest: 214 (bytes)
+      Syslines high : 14
+      Datetime first: 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
+      Datetime last : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 389,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 195, miss 195, 50.0%, put 195
       copying: SyslineReader::get_boxptrs()                        : sgl 277, dbl   14, mult   0
@@ -44,7 +46,7 @@ File: ./logs/programs/pacman/pacman.log
       process: regex captures                                      : hit 195, miss  96
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 25344
 Printed flushes        : 391
-Printed lines          : 195
-Printed syslines       : 195
-Longest Line           : 214
-Longest Sysline        : 214
+Printed Lines          : 195
+Printed Syslines       : 195
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 214
+Sysline longest                : 214
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 48
@@ -72,16 +79,17 @@ Managed seek calls     : 48
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
 Datetime printed last  : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 197
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 197
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

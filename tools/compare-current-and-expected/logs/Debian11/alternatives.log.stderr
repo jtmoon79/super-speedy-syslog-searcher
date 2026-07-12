@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Debian11/alternatives.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 5167
       flushes       : 15
-      lines         : 15
-      syslines      : 15
-      datetime first: 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
-      datetime last : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
+      Lines         : 15
+      Syslines      : 15
+      Datetime first: 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
+      Datetime last : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
   Processed:
       file size     : 4222 (0x107E) (bytes)
       bytes         : 4222 (0x107E)
       bytes total   : 4222 (0x107E)
-      block size    : 256 (0x100)
-      blocks        : 17
-      blocks total  : 17 (4352 bytes)
-      lines         : 15
-      line longest  : 1345 (bytes)
-      line parts    : 32
-      syslines      : 15
-      sysline longest: 1345 (bytes)
-      syslines high : 8
-      datetime first: 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
-      datetime last : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 17
+      Blocks total  : 17 (4352 bytes)
+      Blocks high   : 13 (3328 bytes)
+      Lines         : 15
+      Line longest  : 1345 (bytes)
+      Lines high    : 8
+      Line parts    : 32
+      Syslines      : 15
+      Sysline longest: 1345 (bytes)
+      Syslines high : 8
+      Datetime first: 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
+      Datetime last : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  31,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  16, miss  16, 50.0%, put  15
       copying: SyslineReader::get_boxptrs()                        : sgl 146, dbl    7, mult   2
@@ -44,7 +46,7 @@ File: ./logs/Debian11/alternatives.log
       process: regex captures                                      : hit  15, miss 138
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5228
 Printed flushes        : 31
-Printed lines          : 15
-Printed syslines       : 15
-Longest Line           : 1345
-Longest Sysline        : 1345
+Printed Lines          : 15
+Printed Syslines       : 15
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 1345
+Sysline longest                : 1345
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 17
@@ -72,16 +79,17 @@ Managed seek calls     : 17
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
 Datetime printed last  : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 17
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 17
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

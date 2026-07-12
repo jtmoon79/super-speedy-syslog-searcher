@@ -3,24 +3,26 @@ Files:
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
-      filetype      : EVTX (Windows XML EventLog)
-      logmessagetype: EVTX entries (Windows XML EventLog)
-      thread stack  : 2160640 (bytes)
+      FileType      : EVTX (Windows XML EventLog)
+      LogMessageType: EVTX entries (Windows XML EventLog)
+      Thread stack  : 112640 (bytes)
   Printed:
       bytes         : 1159282
       flushes       : 678
       Events        : 227
-      datetime first: 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
-      datetime last : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
+      Event largest processed: 1778 (bytes)
+      Event largest accepted : 1778 (bytes)
+      Datetime first: 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
+      Datetime last : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
   Processed:
       file size          : 1052672 (0x101000) (bytes)
       Events processed   : 227
       Events accepted    : 227
-      datetime first     : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
-      datetime last      : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
+      Datetime first     : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
+      Datetime last      : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
       out of order       : 1
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -28,18 +30,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1160190
 Printed flushes        : 905
-Printed lines          : 0
-Printed syslines       : 0
-Longest Line           : 0
-Longest Sysline        : 0
+Printed Lines          : 0
+Printed Syslines       : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 227
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 0
+Sysline longest                : 0
+EVTX event largest processed   : 1778
+EVTX event largest accepted    : 1778
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 66
@@ -48,16 +55,17 @@ Managed seek calls     : 20
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
 Datetime printed last  : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 229
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 229
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

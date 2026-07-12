@@ -3,35 +3,37 @@ Files:
 
 File: ./logs/RockyLinux9/cron
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 18796
       flushes       : 116
-      lines         : 116
-      syslines      : 116
-      datetime first: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
-      datetime last : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
+      Lines         : 116
+      Syslines      : 116
+      Datetime first: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
+      Datetime last : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
   Processed:
       file size     : 12532 (0x30F4) (bytes)
       bytes         : 12532 (0x30F4)
       bytes total   : 12532 (0x30F4)
-      block size    : 256 (0x100)
-      blocks        : 49
-      blocks total  : 49 (12544 bytes)
-      lines         : 116
-      line longest  : 133 (bytes)
-      line parts    : 164
-      syslines      : 117
-      sysline longest: 133 (bytes)
-      syslines high : 116
-      datetime first: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
-      datetime last : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 49
+      Blocks total  : 49 (12544 bytes)
+      Blocks high   : 49 (12544 bytes)
+      Lines         : 116
+      Line longest  : 133 (bytes)
+      Lines high    : 116
+      Line parts    : 164
+      Syslines      : 117
+      Sysline longest: 133 (bytes)
+      Syslines high : 116
+      Datetime first: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
+      Datetime last : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit 115, miss 233, 33.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss 233,  0.4%, put 233
       copying: SyslineReader::get_boxptrs()                        : sgl 138, dbl   12, mult   0
@@ -45,7 +47,7 @@ File: ./logs/RockyLinux9/cron
       process: regex captures                                      : hit 118, miss  32
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -53,18 +55,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 19261
 Printed flushes        : 233
-Printed lines          : 116
-Printed syslines       : 116
-Longest Line           : 133
-Longest Sysline        : 133
+Printed Lines          : 116
+Printed Syslines       : 116
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 133
+Sysline longest                : 133
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 49
@@ -73,16 +80,17 @@ Managed seek calls     : 49
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
 Datetime printed last  : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 118
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 118
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

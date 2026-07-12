@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 2631
       flushes       : 12
-      lines         : 12
-      syslines      : 12
-      datetime first: 2017-05-08 08:32:33 -07:00 (2017-05-08 15:32:33.000000 +00:00)
-      datetime last : 2019-11-16 14:56:41 -08:00 (2019-11-16 22:56:41.000000 +00:00)
+      Lines         : 12
+      Syslines      : 12
+      Datetime first: 2017-05-08 08:32:33 -07:00 (2017-05-08 15:32:33.000000 +00:00)
+      Datetime last : 2019-11-16 14:56:41 -08:00 (2019-11-16 22:56:41.000000 +00:00)
   Processed:
       file size     : 1683 (0x693) (bytes)
       bytes         : 1683 (0x693)
       bytes total   : 1683 (0x693)
-      block size    : 256 (0x100)
-      blocks        : 7
-      blocks total  : 7 (1792 bytes)
-      lines         : 12
-      line longest  : 155 (bytes)
-      line parts    : 17
-      syslines      : 12
-      sysline longest: 155 (bytes)
-      syslines high : 8
-      datetime first: 2017-05-08 08:32:33 -07:00 (2017-05-08 15:32:33.000000 +00:00)
-      datetime last : 2019-11-16 14:56:41 -08:00 (2019-11-16 22:56:41.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 7
+      Blocks total  : 7 (1792 bytes)
+      Blocks high   : 5 (1280 bytes)
+      Lines         : 12
+      Line longest  : 155 (bytes)
+      Lines high    : 9
+      Line parts    : 17
+      Syslines      : 12
+      Sysline longest: 155 (bytes)
+      Syslines high : 8
+      Datetime first: 2017-05-08 08:32:33 -07:00 (2017-05-08 15:32:33.000000 +00:00)
+      Datetime last : 2019-11-16 14:56:41 -08:00 (2019-11-16 22:56:41.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 12, miss 12, 50.0%, put 12
       copying: SyslineReader::get_boxptrs()                        : sgl 85, dbl   1, mult  0
@@ -44,7 +46,7 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
       process: regex captures                                      : hit 12, miss 74
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2679
 Printed flushes        : 24
-Printed lines          : 12
-Printed syslines       : 12
-Longest Line           : 155
-Longest Sysline        : 155
+Printed Lines          : 12
+Printed Syslines       : 12
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 155
+Sysline longest                : 155
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7
@@ -72,16 +79,17 @@ Managed seek calls     : 7
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2017-05-08 08:32:33 -07:00 (2017-05-08 15:32:33.000000 +00:00)
 Datetime printed last  : 2019-11-16 14:56:41 -08:00 (2019-11-16 22:56:41.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 14
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 14
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

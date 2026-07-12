@@ -3,35 +3,37 @@ Files:
 
 File: ./logs/FreeBSD13.1/devd.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 1714
       flushes       : 9
-      lines         : 19
-      syslines      : 9
-      datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
-      datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
+      Lines         : 19
+      Syslines      : 9
+      Datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
+      Datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
   Processed:
       file size     : 612 (0x264) (bytes)
       bytes         : 612 (0x264)
       bytes total   : 612 (0x264)
-      block size    : 256 (0x100)
-      blocks        : 3
-      blocks total  : 3 (768 bytes)
-      lines         : 19
-      line longest  : 59 (bytes)
-      line parts    : 21
-      syslines      : 10
-      sysline longest: 69 (bytes)
-      syslines high : 9
-      datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
-      datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 3
+      Blocks total  : 3 (768 bytes)
+      Blocks high   : 3 (768 bytes)
+      Lines         : 19
+      Line longest  : 59 (bytes)
+      Lines high    : 19
+      Line parts    : 21
+      Syslines      : 10
+      Sysline longest: 69 (bytes)
+      Syslines high : 9
+      Datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
+      Datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
       out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2023
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  17, miss  40, 29.8%
       caching: LineReader::find_line() LRU cache                   : hit   2, miss  39,  4.9%, put  39
       copying: SyslineReader::get_boxptrs()                        : sgl 249, dbl    0, mult   0
@@ -45,7 +47,7 @@ File: ./logs/FreeBSD13.1/devd.log
       process: regex captures                                      : hit  11, miss  32
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -53,18 +55,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1750
 Printed flushes        : 18
-Printed lines          : 19
-Printed syslines       : 9
-Longest Line           : 59
-Longest Sysline        : 69
+Printed Lines          : 19
+Printed Syslines       : 9
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 59
+Sysline longest                : 69
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 3
@@ -73,16 +80,17 @@ Managed seek calls     : 3
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
 Datetime printed last  : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 11
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 11
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

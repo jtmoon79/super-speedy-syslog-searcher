@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/MinGW64/pacman.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 11411
       flushes       : 102
-      lines         : 102
-      syslines      : 102
-      datetime first: 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
-      datetime last : 2018-05-31 12:21:00 +08:00 (2018-05-31 04:21:00.000000 +00:00)
+      Lines         : 102
+      Syslines      : 102
+      Datetime first: 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
+      Datetime last : 2018-05-31 12:21:00 +08:00 (2018-05-31 04:21:00.000000 +00:00)
   Processed:
       file size     : 5699 (0x1643) (bytes)
       bytes         : 5699 (0x1643)
       bytes total   : 5699 (0x1643)
-      block size    : 256 (0x100)
-      blocks        : 23
-      blocks total  : 23 (5888 bytes)
-      lines         : 102
-      line longest  : 92 (bytes)
-      line parts    : 124
-      syslines      : 102
-      sysline longest: 92 (bytes)
-      syslines high : 15
-      datetime first: 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
-      datetime last : 2018-05-31 12:21:00 +08:00 (2018-05-31 04:21:00.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 23
+      Blocks total  : 23 (5888 bytes)
+      Blocks high   : 4 (1024 bytes)
+      Lines         : 102
+      Line longest  : 92 (bytes)
+      Lines high    : 16
+      Line parts    : 124
+      Syslines      : 102
+      Sysline longest: 92 (bytes)
+      Syslines high : 15
+      Datetime first: 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
+      Datetime last : 2018-05-31 12:21:00 +08:00 (2018-05-31 04:21:00.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 203,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 102, miss 102, 50.0%, put 102
       copying: SyslineReader::get_boxptrs()                        : sgl 185, dbl   13, mult   0
@@ -44,7 +46,7 @@ File: ./logs/MinGW64/pacman.log
       process: regex captures                                      : hit 102, miss  96
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 11819
 Printed flushes        : 204
-Printed lines          : 102
-Printed syslines       : 102
-Longest Line           : 92
-Longest Sysline        : 92
+Printed Lines          : 102
+Printed Syslines       : 102
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 92
+Sysline longest                : 92
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 23
@@ -72,16 +79,17 @@ Managed seek calls     : 23
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
 Datetime printed last  : 2018-05-31 12:21:00 +08:00 (2018-05-31 04:21:00.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 104
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 104
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

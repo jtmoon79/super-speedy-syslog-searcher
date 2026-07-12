@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/synology-DS6/upstart/is_plugind.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 3880
       flushes       : 19
-      lines         : 19
-      syslines      : 19
-      datetime first: 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
-      datetime last : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
+      Lines         : 19
+      Syslines      : 19
+      Datetime first: 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
+      Datetime last : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
   Processed:
       file size     : 2493 (0x9BD) (bytes)
       bytes         : 2493 (0x9BD)
       bytes total   : 2493 (0x9BD)
-      block size    : 256 (0x100)
-      blocks        : 10
-      blocks total  : 10 (2560 bytes)
-      lines         : 19
-      line longest  : 163 (bytes)
-      line parts    : 28
-      syslines      : 19
-      sysline longest: 163 (bytes)
-      syslines high : 8
-      datetime first: 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
-      datetime last : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 10
+      Blocks total  : 10 (2560 bytes)
+      Blocks high   : 5 (1280 bytes)
+      Lines         : 19
+      Line longest  : 163 (bytes)
+      Lines high    : 9
+      Line parts    : 28
+      Syslines      : 19
+      Sysline longest: 163 (bytes)
+      Syslines high : 8
+      Datetime first: 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
+      Datetime last : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 19, miss 19, 50.0%, put 19
       copying: SyslineReader::get_boxptrs()                        : sgl 93, dbl   1, mult  0
@@ -44,7 +46,7 @@ File: ./logs/synology-DS6/upstart/is_plugind.log
       process: regex captures                                      : hit 19, miss 75
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3956
 Printed flushes        : 38
-Printed lines          : 19
-Printed syslines       : 19
-Longest Line           : 163
-Longest Sysline        : 163
+Printed Lines          : 19
+Printed Syslines       : 19
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 163
+Sysline longest                : 163
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 10
@@ -72,16 +79,17 @@ Managed seek calls     : 10
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
 Datetime printed last  : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 21
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 21
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

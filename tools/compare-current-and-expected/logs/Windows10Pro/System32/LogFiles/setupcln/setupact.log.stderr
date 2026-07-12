@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 242226
       flushes       : 1205
-      lines         : 1300
-      syslines      : 1205
-      datetime first: 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
-      datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
+      Lines         : 1300
+      Syslines      : 1205
+      Datetime first: 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
+      Datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
   Processed:
       file size     : 125229 (0x1E92D) (bytes)
       bytes         : 125229 (0x1E92D)
       bytes total   : 125229 (0x1E92D)
-      block size    : 256 (0x100)
-      blocks        : 490
-      blocks total  : 490 (125440 bytes)
-      lines         : 1300
-      line longest  : 230 (bytes)
-      line parts    : 1786
-      syslines      : 1205
-      sysline longest: 230 (bytes)
-      syslines high : 11
-      datetime first: 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
-      datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 490
+      Blocks total  : 490 (125440 bytes)
+      Blocks high   : 29 (7424 bytes)
+      Lines         : 1300
+      Line longest  : 230 (bytes)
+      Lines high    : 267
+      Line parts    : 1786
+      Syslines      : 1205
+      Sysline longest: 230 (bytes)
+      Syslines high : 11
+      Datetime first: 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
+      Datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit    0, miss 2599,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 1205, miss 1300, 48.1%, put 1300
       copying: SyslineReader::get_boxptrs()                        : sgl 1053, dbl   230, mult    0
@@ -44,7 +46,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       process: regex captures                                      : hit 1205, miss   78
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 247046
 Printed flushes        : 2410
-Printed lines          : 1300
-Printed syslines       : 1205
-Longest Line           : 230
-Longest Sysline        : 230
+Printed Lines          : 1300
+Printed Syslines       : 1205
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 230
+Sysline longest                : 230
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 490
@@ -72,16 +79,17 @@ Managed seek calls     : 490
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
 Datetime printed last  : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 1207
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 1207
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system
