@@ -28,12 +28,16 @@ use std::io::{
     Seek,
     SeekFrom,
     Take,
+    Write,
 };
 use std::path::Path;
 use std::sync::Arc;
+use std::thread::{self, JoinHandle};
 
 use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
 use ::const_format::assertcp;
+use ::crc::{Crc, CRC_32_ISO_HDLC};
+use ::crossbeam_channel::{bounded, Receiver, Sender};
 // `flate2` is for gzip files.
 use ::flate2::read::GzDecoder;
 use ::flate2::GzHeader;
@@ -41,7 +45,7 @@ use ::lru::LruCache;
 // `lz4_flex` is for lz4 files.
 use ::lz4_flex;
 // `lzma_rs` is for xz files.
-use ::lzma_rs;
+use crate::subprojects::lzma_rs;
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,
@@ -336,6 +340,282 @@ pub struct Lz4Data {
 
 type BufReaderXz = BufReader<FileHandleManaged>;
 
+const XZ_MAGIC_HEADER: [u8; 6] = [0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00];
+const XZ_MAGIC_FOOTER: [u8; 2] = [0x59, 0x5A];
+const XZ_STREAM_HEADER_SIZE: FileSz = 12;
+const XZ_STREAM_FOOTER_SIZE: FileSz = 12;
+
+fn xz_read_vli<R: Read>(
+    reader: &mut R,
+    digest: &mut crc::Digest<'_, u32>,
+) -> Result<u64> {
+    let mut value: u64 = 0;
+    for index in 0..9 {
+        let mut byte: [u8; 1] = [0];
+        reader.read_exact(&mut byte)?;
+        digest.update(&byte);
+        let byte = byte[0];
+        if index > 0 && byte == 0 {
+            return Err(Error::new(
+                ErrorKind::InvalidData,
+                "XZ index contains a non-canonical variable-length integer",
+            ));
+        }
+        value |= ((byte & 0x7F) as u64) << (index * 7);
+        if byte & 0x80 == 0 {
+            return Ok(value);
+        }
+    }
+
+    Err(Error::new(
+        ErrorKind::InvalidData,
+        "XZ index variable-length integer exceeds nine bytes",
+    ))
+}
+
+fn xz_uncompressed_size(
+    file_xz: &mut FileHandleManaged,
+    filesz: FileSz,
+    path: &FPath,
+) -> Result<FileSz> {
+    const XZ_STREAM_MIN_SIZE: FileSz = 32;
+    if filesz < XZ_STREAM_MIN_SIZE {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("XZ file is too small ({filesz} bytes) for file {path:?}"),
+        ));
+    }
+
+    file_xz.seek(SeekFrom::Start(0))?;
+    let mut header: [u8; XZ_STREAM_HEADER_SIZE as usize] = [0; XZ_STREAM_HEADER_SIZE as usize];
+    file_xz.read_exact(&mut header)?;
+    if header[..XZ_MAGIC_HEADER.len()] != XZ_MAGIC_HEADER {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("failed to find XZ stream header magic bytes for {path:?}"),
+        ));
+    }
+    if header[6] != 0 || header[7] & 0xF0 != 0 {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("invalid XZ stream header flags {:?} for {path:?}", &header[6..8]),
+        ));
+    }
+
+    let crc32 = Crc::<u32>::new(&CRC_32_ISO_HDLC);
+    let header_crc32 = u32::from_le_bytes(header[8..12].try_into().unwrap());
+    if header_crc32 != crc32.checksum(&header[6..8]) {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("invalid XZ stream header CRC32 for {path:?}"),
+        ));
+    }
+
+    file_xz.seek(SeekFrom::End(-(XZ_STREAM_FOOTER_SIZE as i64)))?;
+    let mut footer: [u8; XZ_STREAM_FOOTER_SIZE as usize] = [0; XZ_STREAM_FOOTER_SIZE as usize];
+    file_xz.read_exact(&mut footer)?;
+    if footer[10..] != XZ_MAGIC_FOOTER {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("failed to find XZ stream footer magic bytes for {path:?}"),
+        ));
+    }
+    if footer[8..10] != header[6..8] {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("XZ stream header and footer flags differ for {path:?}"),
+        ));
+    }
+    let footer_crc32 = u32::from_le_bytes(footer[..4].try_into().unwrap());
+    if footer_crc32 != crc32.checksum(&footer[4..10]) {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("invalid XZ stream footer CRC32 for {path:?}"),
+        ));
+    }
+
+    let backward_size = u32::from_le_bytes(footer[4..8].try_into().unwrap()) as FileSz;
+    let index_size = backward_size
+        .checked_add(1)
+        .and_then(|value| value.checked_mul(4))
+        .ok_or_else(|| Error::new(ErrorKind::InvalidData, format!("XZ index size overflow for {path:?}")))?;
+    if index_size < 8 || index_size > filesz - XZ_STREAM_HEADER_SIZE - XZ_STREAM_FOOTER_SIZE {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("invalid XZ index size {index_size} for {path:?}"),
+        ));
+    }
+    let index_offset = filesz - XZ_STREAM_FOOTER_SIZE - index_size;
+    file_xz.seek(SeekFrom::Start(index_offset))?;
+
+    let index_body_size = index_size - 4;
+    let mut digest = crc32.digest();
+    let (filesz_uncompressed, blocks_padded_size, index_crc32) = {
+        let mut index_reader = (&mut *file_xz).take(index_body_size);
+        let mut indicator: [u8; 1] = [0];
+        index_reader.read_exact(&mut indicator)?;
+        digest.update(&indicator);
+        if indicator[0] != 0 {
+            return Err(Error::new(
+                ErrorKind::InvalidData,
+                format!("invalid XZ index indicator for {path:?}"),
+            ));
+        }
+
+        let record_count = xz_read_vli(&mut index_reader, &mut digest)?;
+        let mut filesz_uncompressed: FileSz = 0;
+        let mut blocks_padded_size: FileSz = 0;
+        for _ in 0..record_count {
+            let unpadded_size = xz_read_vli(&mut index_reader, &mut digest)?;
+            let unpacked_size = xz_read_vli(&mut index_reader, &mut digest)?;
+            let padded_size = unpadded_size
+                .checked_add(3)
+                .map(|value| value & !3)
+                .ok_or_else(|| Error::new(ErrorKind::InvalidData, format!("XZ block size overflow for {path:?}")))?;
+            blocks_padded_size = blocks_padded_size
+                .checked_add(padded_size)
+                .ok_or_else(|| Error::new(ErrorKind::InvalidData, format!("XZ stream size overflow for {path:?}")))?;
+            filesz_uncompressed = filesz_uncompressed
+                .checked_add(unpacked_size)
+                .ok_or_else(|| Error::new(ErrorKind::InvalidData, format!("XZ uncompressed size overflow for {path:?}")))?;
+        }
+
+        if index_reader.limit() > 3 {
+            return Err(Error::new(
+                ErrorKind::InvalidData,
+                format!("invalid XZ index padding length for {path:?}"),
+            ));
+        }
+        while index_reader.limit() > 0 {
+            let mut padding: [u8; 1] = [0];
+            index_reader.read_exact(&mut padding)?;
+            digest.update(&padding);
+            if padding[0] != 0 {
+                return Err(Error::new(
+                    ErrorKind::InvalidData,
+                    format!("invalid XZ index padding for {path:?}"),
+                ));
+            }
+        }
+
+        (filesz_uncompressed, blocks_padded_size, digest.finalize())
+    };
+
+    let mut index_crc32_stored: [u8; 4] = [0; 4];
+    file_xz.read_exact(&mut index_crc32_stored)?;
+    if u32::from_le_bytes(index_crc32_stored) != index_crc32 {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("invalid XZ index CRC32 for {path:?}"),
+        ));
+    }
+
+    let stream_start = index_offset
+        .checked_sub(blocks_padded_size)
+        .and_then(|value| value.checked_sub(XZ_STREAM_HEADER_SIZE))
+        .ok_or_else(|| Error::new(ErrorKind::InvalidData, format!("invalid XZ stream extent for {path:?}")))?;
+    if stream_start != 0 {
+        return Err(Error::new(
+            ErrorKind::InvalidData,
+            format!("multiple XZ streams or stream padding are not supported for {path:?}"),
+        ));
+    }
+
+    file_xz.seek(SeekFrom::Start(0))?;
+
+    Ok(filesz_uncompressed)
+}
+
+#[derive(Debug)]
+enum XzMessage {
+    Block(Block),
+    Done,
+    Error(Error),
+}
+
+struct XzBlockWriter {
+    sender: Sender<XzMessage>,
+    block: Block,
+    blocksz: usize,
+}
+
+impl XzBlockWriter {
+    fn new(
+        sender: Sender<XzMessage>,
+        blocksz: usize,
+    ) -> Self {
+        def1ñ!();
+        Self {
+            sender,
+            block: Block::with_capacity(blocksz),
+            blocksz,
+        }
+    }
+
+    fn send(
+        &self,
+        message: XzMessage,
+    ) -> Result<()> {
+        def1ñ!("message={:?}", message);
+        self.sender
+            .send(message)
+            .map_err(|_| Error::new(ErrorKind::BrokenPipe, "XZ block receiver disconnected"))
+    }
+
+    fn finish(&mut self) -> Result<()> {
+        def1ñ!();
+        if !self.block.is_empty() {
+            let block = std::mem::replace(&mut self.block, Block::with_capacity(self.blocksz));
+            self.send(XzMessage::Block(block))?;
+        }
+
+        Ok(())
+    }
+}
+
+impl Write for XzBlockWriter {
+    fn write(
+        &mut self,
+        buffer: &[u8],
+    ) -> Result<usize> {
+        let mut offset: usize = 0;
+        while offset < buffer.len() {
+            let count = std::cmp::min(self.blocksz - self.block.len(), buffer.len() - offset);
+            self.block
+                .extend_from_slice(&buffer[offset..offset + count]);
+            offset += count;
+            if self.block.len() == self.blocksz {
+                let block = std::mem::replace(&mut self.block, Block::with_capacity(self.blocksz));
+                self.send(XzMessage::Block(block))?;
+            }
+        }
+
+        Ok(buffer.len())
+    }
+
+    fn flush(&mut self) -> Result<()> {
+        // lzma_rs flushes at XZ block boundaries, which need not align with
+        // BlockReader block boundaries.
+        Ok(())
+    }
+}
+
+fn xz_decompress_error(
+    error: lzma_rs::error::Error,
+    path: &FPath,
+) -> Error {
+    match error {
+        lzma_rs::error::Error::IoError(error)
+        | lzma_rs::error::Error::HeaderTooShort(error) => {
+            err_from_err_path(&error, path, Some("(xz_decompress failed)"))
+        }
+        error => Error::new(
+            ErrorKind::InvalidData,
+            format!("{error} for file {path:?}"),
+        ),
+    }
+}
+
 /// Data and readers for a LZMA `.xz` file, used by [`BlockReader`].
 #[derive(Debug)]
 pub struct XzData {
@@ -347,7 +627,93 @@ pub struct XzData {
     /// [`BufReader`]: std::io::BufReader
     /// [`File`]: std::fs::File
     /// [`lzma_rs`]: https://docs.rs/lzma-rs/0.2.0/lzma_rs/index.html
-    pub bufreader: BufReaderXz,
+    pub bufreader: Option<BufReaderXz>,
+    receiver: Option<Receiver<XzMessage>>,
+    producer: Option<JoinHandle<()>>,
+    finished: bool,
+}
+
+impl XzData {
+    fn start(
+        &mut self,
+        blocksz: BlockSz,
+        path: &FPath,
+    ) -> Result<()> {
+        def1n!("path={:?}, blocksz={}", path, blocksz);
+        if self.finished || self.producer.is_some() {
+            def1x!("XZ decompressor already started for {path:?}");
+            return Ok(());
+        }
+        let mut bufreader: BufReaderXz = self
+            .bufreader
+            .take()
+            .ok_or_else(
+                || Error::new(
+                    ErrorKind::InvalidData,
+                    format!("XZ reader not initialized for {path:?}")
+                )
+            )?;
+        let (sender, receiver) = bounded::<XzMessage>(1);
+        let path_thread: FPath = path.clone();
+        let thread_name: String = format!("{:?}-xz-decoder", path);
+        let producer = thread::Builder::new()
+            .name(thread_name)
+            .spawn(move || {
+                let mut writer = XzBlockWriter::new(sender, blocksz as usize);
+                match lzma_rs::xz_decompress(&mut bufreader, &mut writer) {
+                    Ok(()) => {
+                        if writer.finish().is_ok() {
+                            _ = writer.send(XzMessage::Done);
+                        }
+                    }
+                    Err(error) => {
+                        _ = writer.send(XzMessage::Error(xz_decompress_error(error, &path_thread)));
+                    }
+                }
+            })
+            .map_err(|error|
+                err_from_err_path(&error, path, Some("(spawn XZ decompressor failed)"))
+            )?;
+        self.receiver = Some(receiver);
+        self.producer = Some(producer);
+
+        def1x!("started thread for {path:?}");
+
+        Ok(())
+    }
+
+    fn recv(&self) -> Result<XzMessage> {
+        def1ñ!();
+        self.receiver
+            .as_ref()
+            .ok_or_else(|| Error::new(ErrorKind::InvalidData, "XZ block receiver not initialized"))?
+            .recv()
+            .map_err(|_| Error::new(ErrorKind::UnexpectedEof, "XZ decompressor stopped without a terminal message"))
+    }
+
+    fn finish_producer(&mut self) -> Result<()> {
+        def1ñ!();
+        self.receiver = None;
+        self.finished = true;
+        if let Some(producer) = self.producer.take() {
+            producer
+                .join()
+                .map_err(|_| Error::new(ErrorKind::Other, "XZ decompressor thread panicked"))?;
+        }
+
+        Ok(())
+    }
+}
+
+impl Drop for XzData {
+    fn drop(&mut self) {
+        self.receiver = None;
+        if let Some(producer) = self.producer.take() {
+            if producer.join().is_err() {
+                de_wrn!("XZ decompressor thread panicked during drop");
+            }
+        }
+    }
 }
 
 /// crate `tar` handle for a managed file handle.
@@ -738,8 +1104,8 @@ impl BlockReader {
                 return err_from_err_path_result::<BlockReader>(&err, &path, None);
             }
         };
-        let mut blocks: Blocks = Blocks::new();
-        let mut blocks_read: BlocksTracked = BlocksTracked::new();
+        let blocks: Blocks = Blocks::new();
+        let blocks_read: BlocksTracked = BlocksTracked::new();
         let mut count_bytes_read: Count = 0;
         def1o!("count_bytes_read={}", count_bytes_read);
         let filesz: FileSz;
@@ -776,7 +1142,7 @@ impl BlockReader {
         let mut lz_opt: Option<Lz4Data> = None;
         let mut xz_opt: Option<XzData> = None;
         let mut tar_opt: Option<TarData> = None;
-        let mut read_blocks_put: Count = 0;
+        let read_blocks_put: Count = 0;
 
         match filetype {
             FileType::Asl { .. } => {
@@ -1793,97 +2159,15 @@ impl BlockReader {
                     }
                 }
 
-                // TODO: Issue #12
-                // HACK: Read the entire xz file into memory.
-                //       Extracting the size from the header is difficult
-                //       (I haven't implemented it). So the file size is only known from
-                //       decompressing the entire file here (and counting the bytes returned).
-                //       The `self.filesz_actual` must be set before exiting this function `new`,
-                //       else various byte offset and block offset calcutions will fail, and the
-                //       processing of this file will fail.
-                //       The `lzma_rs` crate does not provide file size for xz files.
-                //       Putting this hack here until the implementation of reading the
-                //       header/blocks of the underlying .xz file
-                // TODO: cannot read the file in chunks, `xz_decompress` does not accept
-                //       `Options` with `memset`.
-                //       See <https://github.com/gendx/lzma-rs/issues/110>
-                let mut bufreader: BufReaderXz = BufReaderXz::new(file_xz);
-                let mut buffer = Vec::<u8>::with_capacity(blocksz as usize);
-                let mut _count_xz_decompress: usize = 0;
-                #[allow(clippy::never_loop)]
-                loop {
-                    def1o!(
-                        "FileXz: xz_decompress({:?}, buffer (len {}, capacity {}))",
-                        bufreader,
-                        buffer.len(),
-                        buffer.capacity()
-                    );
-                    _count_xz_decompress += 1;
-                    // XXX: xz_decompress may resize the passed `buffer`
-                    match lzma_rs::xz_decompress(&mut bufreader, &mut buffer) {
-                        Ok(_) => {
-                            def1o!(
-                                "FileXz: xz_decompress returned buffer len {}, capacity {}",
-                                buffer.len(),
-                                buffer.capacity(),
-                            );
-                        }
-                        Err(err) => {
-                            match &err {
-                                lzma_rs::error::Error::IoError(ioerr) => {
-                                    def1o!("FileXz: ioerr.kind() {:?}", ioerr.kind());
-                                    if ioerr.kind() == ErrorKind::UnexpectedEof {
-                                        def1o!("FileXz: xz_decompress Error UnexpectedEof, break!");
-                                        break;
-                                    }
-                                    return err_from_err_path_result::<BlockReader>(
-                                        ioerr,
-                                        &path,
-                                        Some("(xz_decompress failed)"),
-                                    );
-                                }
-                                _err => {
-                                    def1o!("FileXz: err {:?}", _err);
-                                }
-                            }
-                            def1x!("FileXz: xz_decompress Error, return Err({:?})", err);
-                            return Err(Error::new(ErrorKind::Other, format!("{} for file {:?}", err, path)));
-                        }
-                    }
-                    if buffer.is_empty() {
-                        def1o!("buffer.is_empty()");
-                        break;
-                    }
-                    let blocksz_u: usize = blocksz as usize;
-                    let mut blockoffset: BlockOffset = 0;
-                    // the `block`
-                    while blockoffset <= ((buffer.len() / blocksz_u) as BlockOffset) {
-                        let mut block: Block = Block::with_capacity(blocksz_u);
-                        let a: usize = (blockoffset * blocksz) as usize;
-                        let b: usize = a + (std::cmp::min(blocksz_u, buffer.len() - a));
-                        def1o!("FileXz: block.extend_from_slice(&buffer[{}‥{}])", a, b);
-                        block.extend_from_slice(&buffer[a..b]);
-                        let blockp: BlockP = BlockP::new(block);
-                        if let Some(bp_) = blocks.insert(
-                            blockoffset, BlockP::clone(&blockp)
-                        ) {
-                            debug_panic!("blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}, path {:?}", blockoffset, blockp, bp_, path_std);
-                        }
-                        summary_stat!(read_blocks_put += 1);
-                        count_bytes_read += (*blockp).len() as Count;
-                        def1o!("FileXz: count_bytes_read={}", count_bytes_read);
-                        blocks_read.insert(blockoffset);
-                        blockoffset += 1;
-                    }
-                }
-                def1o!("FileXz: count_bytes_read {}", count_bytes_read);
-                def1o!("FileXz: _count_xz_decompress {}", _count_xz_decompress);
-
-                let filesz_uncompressed: FileSz = count_bytes_read as FileSz;
+                let filesz_uncompressed = xz_uncompressed_size(&mut file_xz, filesz, &path)?;
                 filesz_actual = filesz_uncompressed;
+                let bufreader: BufReaderXz = BufReaderXz::new(file_xz);
                 xz_opt = Some(XzData {
                     filesz: filesz_uncompressed,
-                    bufreader,
+                    bufreader: Some(bufreader),
+                    receiver: None,
+                    producer: None,
+                    finished: false,
                 });
                 def1o!("FileXz: created {:?}", xz_opt.as_ref().unwrap());
             }
@@ -1964,9 +2248,7 @@ impl BlockReader {
     /// For compressed or archived files, returns the original file size
     /// (uncompressed or unarchived) as found in the header.
     ///
-    /// An exception is `.xz` files, which are entirely read during function
-    /// `new`, and the file size determined from the uncompressed bytes.
-    /// See Issue #12.
+    /// For `.xz` files, the uncompressed size is read from the stream index.
     ///
     /// For plain files, returns the file size reported by the filesystem.
     ///
@@ -3724,10 +4006,54 @@ impl BlockReader {
             self.filetype
         );
 
-        // handle special case immediately
-        if self.filesz_actual == 0 {
-            defx!("filesz 0; return Done");
+        let path: FPath = self.path.clone();
+        if self.xz.as_ref().unwrap().finished {
+            if let Some(blockp) = self.blocks.get(&blockoffset).cloned() {
+                self.store_block_in_LRU_cache(blockoffset, &blockp);
+                defx!("({blockoffset}): return Found");
+                return ResultFindReadBlock::Found(blockp);
+            }
+            if self.blocks_read.contains(&blockoffset) {
+                return ResultFindReadBlock::Err(Error::new(
+                    ErrorKind::InvalidInput,
+                    format!("XZ block {blockoffset} was previously dropped for file {:?}", self.path),
+                ));
+            }
+            defx!("XZ producer finished; return Done");
             return ResultFindReadBlock::Done;
+        }
+        let xz: &mut XzData = self.xz.as_mut().unwrap();
+        if let Err(error) = xz.start(self.blocksz, &path) {
+            defx!("XZ producer start failed; return Err({error})");
+            return ResultFindReadBlock::Err(error);
+        }
+
+        if self.filesz_actual == 0 {
+            let message = self.xz.as_ref().unwrap().recv();
+            return match message {
+                Ok(XzMessage::Done) => match self.xz.as_mut().unwrap().finish_producer() {
+                    Ok(()) => {
+                        defx!("filesz 0; return Done");
+                        ResultFindReadBlock::Done
+                    }
+                    Err(error) => ResultFindReadBlock::Err(error),
+                },
+                Ok(XzMessage::Error(error)) => {
+                    _ = self.xz.as_mut().unwrap().finish_producer();
+                    ResultFindReadBlock::Err(error)
+                }
+                Ok(XzMessage::Block(block)) => {
+                    _ = self.xz.as_mut().unwrap().finish_producer();
+                    ResultFindReadBlock::Err(Error::new(
+                        ErrorKind::InvalidData,
+                        format!("xz_decompress produced {} bytes for empty file {:?}", block.len(), self.path),
+                    ))
+                }
+                Err(error) => {
+                    _ = self.xz.as_mut().unwrap().finish_producer();
+                    ResultFindReadBlock::Err(error)
+                }
+            };
         }
 
         let blockoffset_last: BlockOffset = self.blockoffset_last();
@@ -3735,134 +4061,102 @@ impl BlockReader {
             Some(bo_) => *bo_,
             None => 0,
         };
+        let mut bo_at_old: BlockOffset = bo_at;
 
         while bo_at <= blockoffset {
-            // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
-            // was *ever* read.
-            // TODO: [2022/06/18] add another stat tracker for lookups in `self.blocks_read`
-            if self
-                .blocks_read
-                .contains(&bo_at)
-            {
+            if self.blocks_read.contains(&bo_at) {
                 summary_stat!(self.read_blocks_hit += 1);
                 if bo_at == blockoffset {
-                    // XXX: this will panic if the key+value in `self.blocks` was dropped
-                    //      which could happen during streaming stage
-                    let blockp: BlockP = BlockP::clone(self
-                        .blocks
-                        .get_mut(&bo_at)
-                        .unwrap());
-                    // drop "old" blocks
-                    let mut bo_drop = bo_at;
-                    while bo_drop > 0 && bo_drop <= blockoffset {
-                        defo!("drop old block {}", bo_drop - 1);
-                        self.drop_block(bo_drop - 1);
-                        bo_drop += 1;
-                    }
+                    let blockp = match self.blocks.get(&bo_at) {
+                        Some(blockp) => BlockP::clone(blockp),
+                        None => {
+                            return ResultFindReadBlock::Err(Error::new(
+                                ErrorKind::InvalidInput,
+                                format!("XZ block {bo_at} was previously dropped for file {:?}", self.path),
+                            ));
+                        }
+                    };
+                    self.store_block_in_LRU_cache(bo_at, &blockp);
                     defx!("({}): return Found", blockoffset);
                     return ResultFindReadBlock::Found(blockp);
                 }
                 bo_at += 1;
                 continue;
-            } else {
-                defo!("blocks_read.contains({}) missed (does not contain key)", bo_at);
-                debug_assert!(
-                    !self
-                        .blocks
-                        .contains_key(&bo_at),
-                    "blocks has element {} not in blocks_read",
-                    bo_at
-                );
-                summary_stat!(self.read_blocks_miss += 1);
             }
 
-            let blocksz_u: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
-            let mut block = Block::with_capacity(blocksz_u);
-            let mut bufreader: &mut BufReaderXz = &mut self
-                .xz
-                .as_mut()
-                .unwrap()
-                .bufreader;
-            deo!("xz_decompress({:?}, block (len {}, capacity {}))", bufreader, block.len(), block.capacity());
-            // XXX: xz_decompress may resize the passed `buffer`
-            match lzma_rs::xz_decompress(&mut bufreader, &mut block) {
-                Ok(_) => {
-                    deo!("xz_decompress returned block len {}, capacity {}", block.len(), block.capacity());
-                }
-                Err(err) => {
-                    // XXX: would typically `return Err(err)` but the `err` is of type
-                    //      `lzma_rs::error::Error`
-                    //      https://docs.rs/lzma-rs/0.2.0/lzma_rs/error/enum.Error.html
-                    match &err {
-                        lzma_rs::error::Error::IoError(ioerr) => {
-                            defo!("ioerr.kind() {:?}", ioerr.kind());
-                            if ioerr.kind() == ErrorKind::UnexpectedEof {
-                                defo!("xz_decompress Error UnexpectedEof, break!");
-                                break;
-                            }
-                        }
-                        _err => {
-                            defo!("err {:?}", _err);
-                        }
-                    }
-                    defx!("xz_decompress Error, return Err({:?})", err);
-                    return ResultFind::Err(Error::new(ErrorKind::Other, format!("{:?}", err)));
-                }
-            }
-            deo!("xz_decompress returned block len {}, capacity {}", block.len(), block.capacity());
-            self.count_bytes_read += block.len() as Count;
-            deo!("xz_decompress count_bytes_read={}", self.count_bytes_read);
-            // check returned Block is expected number of bytes
-            let blocklen_sz: BlockSz = block.len() as BlockSz;
-            if block.is_empty() {
-                let byte_at = self.file_offset_at_block_offset_self(bo_at);
-                defx!("({}): return Err", blockoffset);
-                return ResultFindReadBlock::Err(Error::new(
-                    ErrorKind::UnexpectedEof,
-                    format!(
-                        "xz_decompress read zero bytes from block {} (at byte {}), requested {} bytes. filesz {}, filesz uncompressed {} (according to gzip header), last block {}; file {:?}",
-                        bo_at, byte_at, blocksz_u, self.filesz, self.filesz_actual, blockoffset_last, self.path,
-                    ),
-                ));
-            } else if bo_at == blockoffset_last {
-                // last block, is blocksz correct?
-                if blocklen_sz > self.blocksz {
-                    let byte_at = self.file_offset_at_block_offset_self(bo_at);
-                    defx!("({}): return Err", blockoffset);
+            summary_stat!(self.read_blocks_miss += 1);
+            let block = match self.xz.as_ref().unwrap().recv() {
+                Ok(XzMessage::Block(block)) => block,
+                Ok(XzMessage::Done) => {
+                    _ = self.xz.as_mut().unwrap().finish_producer();
                     return ResultFindReadBlock::Err(Error::new(
-                        ErrorKind::InvalidData,
-                        format!(
-                            "xz_decompress read {} bytes for last block {} (at byte {}) which is larger than block size {} bytes; file {:?}",
-                            blocklen_sz, bo_at, byte_at, self.blocksz, self.path,
-                        ),
+                        ErrorKind::UnexpectedEof,
+                        format!("xz_decompress ended before block {bo_at} for file {:?}", self.path),
                     ));
                 }
-            } else if blocklen_sz != self.blocksz {
-                // not last block, is blocksz correct?
-                let byte_at = self.file_offset_at_block_offset_self(bo_at) + blocklen_sz;
-                defx!("({}): return Err", blockoffset);
-                return ResultFindReadBlock::Err(
-                    Error::new(
-                        ErrorKind::InvalidData,
-                        format!(
-                            "xz_decompress read only {} bytes for block {} expected to read {} bytes (block size), inflate stopped at byte {}. block last {}, filesz {}, filesz uncompressed {} (according to gzip header); file {:?}",
-                            blocklen_sz, bo_at, self.blocksz, byte_at, blockoffset_last, self.filesz, self.filesz_actual, self.path,
-                        )
-                    )
-                );
+                Ok(XzMessage::Error(error)) => {
+                    _ = self.xz.as_mut().unwrap().finish_producer();
+                    return ResultFindReadBlock::Err(error);
+                }
+                Err(error) => {
+                    _ = self.xz.as_mut().unwrap().finish_producer();
+                    return ResultFindReadBlock::Err(error);
+                }
+            };
+
+            let blocksz_expect = self.blocksz_at_blockoffset(&bo_at) as usize;
+            if block.len() != blocksz_expect {
+                _ = self.xz.as_mut().unwrap().finish_producer();
+                return ResultFindReadBlock::Err(Error::new(
+                    ErrorKind::InvalidData,
+                    format!(
+                        "xz_decompress read {} bytes for block {}, expected {}; file {:?}",
+                        block.len(), bo_at, blocksz_expect, self.path,
+                    ),
+                ));
+            }
+            self.count_bytes_read += block.len() as Count;
+            let blockp = BlockP::new(block);
+
+            if bo_at == blockoffset_last {
+                match self.xz.as_ref().unwrap().recv() {
+                    Ok(XzMessage::Done) => {
+                        if let Err(error) = self.xz.as_mut().unwrap().finish_producer() {
+                            return ResultFindReadBlock::Err(error);
+                        }
+                    }
+                    Ok(XzMessage::Error(error)) => {
+                        _ = self.xz.as_mut().unwrap().finish_producer();
+                        return ResultFindReadBlock::Err(error);
+                    }
+                    Ok(XzMessage::Block(block)) => {
+                        _ = self.xz.as_mut().unwrap().finish_producer();
+                        return ResultFindReadBlock::Err(Error::new(
+                            ErrorKind::InvalidData,
+                            format!("xz_decompress produced {} bytes after the final block for file {:?}", block.len(), self.path),
+                        ));
+                    }
+                    Err(error) => {
+                        _ = self.xz.as_mut().unwrap().finish_producer();
+                        return ResultFindReadBlock::Err(error);
+                    }
+                }
             }
 
-            // store decompressed block
-            let blockp = BlockP::new(block);
             self.store_block_in_storage(bo_at, &blockp);
+            self.store_block_in_LRU_cache(bo_at, &blockp);
+            if BlockReader::READ_BLOCK_LOOKBACK_DROP && bo_at_old < bo_at {
+                self.drop_block(bo_at_old);
+            }
             if bo_at == blockoffset {
                 defx!("({}): return Found", blockoffset);
                 return ResultFindReadBlock::Found(blockp);
             }
+            bo_at_old = bo_at;
             bo_at += 1;
         }
-        defx!("({}): return Done", blockoffset);
 
+        defx!("({}): return Done", blockoffset);
         ResultFindReadBlock::Done
     }
 

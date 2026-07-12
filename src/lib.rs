@@ -56,6 +56,7 @@ pub mod libload;
 pub mod printer;
 pub mod python;
 pub mod readers;
+pub mod subprojects;
 #[cfg(test)]
 pub mod tests;
 

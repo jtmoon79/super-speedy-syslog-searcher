@@ -19,6 +19,7 @@ use ::si_trace_print::{
 };
 use ::test_case::test_case;
 
+use crate::subprojects::lzma_rs;
 use crate::common::{
     Bytes,
     Count,
@@ -108,6 +109,7 @@ use crate::tests::common::{
     NTF_XZ_8BYTE_FPATH,
     NTF_XZ_EMPTY_FPATH,
     UTC_NOW,
+    XZ_8BYTE_DATA,
 };
 
 #[test_case(
@@ -440,7 +442,7 @@ fn test_new_read_block_basic10_34_Done_34() {
 // reading bz2 file tests
 
 #[test]
-fn test_new_read_block_bz2_0bytes_bszmin() {
+fn test_bz2_new_read_block_bz2_0bytes_bszmin() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (vec![], DONE)));
@@ -448,7 +450,7 @@ fn test_new_read_block_bz2_0bytes_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_bz2_1bytes_bszmin() {
+fn test_bz2_new_read_block_bz2_1bytes_bszmin() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (vec![b'A'], FOUND)));
@@ -457,7 +459,7 @@ fn test_new_read_block_bz2_1bytes_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_0_bsz2_0_0() {
+fn test_bz2_new_read_block_bz2_8bytes_0_bsz2_0_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -466,7 +468,7 @@ fn test_new_read_block_bz2_8bytes_0_bsz2_0_0() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_0_bsz2_1_0() {
+fn test_bz2_new_read_block_bz2_8bytes_0_bsz2_1_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((1, (BYTES_EFGH.clone(), FOUND)));
@@ -475,7 +477,7 @@ fn test_new_read_block_bz2_8bytes_0_bsz2_1_0() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_0_1_bszmin() {
+fn test_bz2_new_read_block_bz2_8bytes_0_1_bszmin() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -484,7 +486,7 @@ fn test_new_read_block_bz2_8bytes_0_1_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_0_1_0_1_bszmin() {
+fn test_bz2_new_read_block_bz2_8bytes_0_1_0_1_bszmin() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -495,7 +497,7 @@ fn test_new_read_block_bz2_8bytes_0_1_0_1_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_1_0_bszmin() {
+fn test_bz2_new_read_block_bz2_8bytes_1_0_bszmin() {
     let offsets: Vec<BlockOffset> = vec![1, 0];
     let mut checks = Checks::new();
     checks.push((1, (BYTES_EFGH.clone(), FOUND)));
@@ -504,7 +506,7 @@ fn test_new_read_block_bz2_8bytes_1_0_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_bsz4() {
+fn test_bz2_new_read_block_bz2_8bytes_bsz4() {
     let offsets: Vec<BlockOffset> = vec![];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -513,7 +515,7 @@ fn test_new_read_block_bz2_8bytes_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_0_bsz4() {
+fn test_bz2_new_read_block_bz2_8bytes_0_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -522,7 +524,7 @@ fn test_new_read_block_bz2_8bytes_0_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_0_1_bsz4() {
+fn test_bz2_new_read_block_bz2_8bytes_0_1_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -530,7 +532,7 @@ fn test_new_read_block_bz2_8bytes_0_1_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_0_1_Done_bsz4() {
+fn test_bz2_new_read_block_bz2_8bytes_0_1_Done_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -538,7 +540,7 @@ fn test_new_read_block_bz2_8bytes_0_1_Done_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_bz2_8bytes_0_bsz16() {
+fn test_bz2_new_read_block_bz2_8bytes_0_bsz16() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCDEFGH.clone(), FOUND)));
@@ -554,7 +556,7 @@ fn test_new_read_block_bz2_8bytes_0_bsz16() {
 // reading gz file tests
 
 #[test]
-fn test_new_read_block_gz_0bytes_bszmin() {
+fn test_gz_new_read_block_gz_0bytes_bszmin() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (vec![], DONE)));
@@ -562,7 +564,7 @@ fn test_new_read_block_gz_0bytes_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_gz_1bytes_bszmin() {
+fn test_gz_new_read_block_gz_1bytes_bszmin() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (vec![b'A'], FOUND)));
@@ -571,7 +573,7 @@ fn test_new_read_block_gz_1bytes_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_0_bsz2_0_0() {
+fn test_gz_new_read_block_gz_8bytes_0_bsz2_0_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -580,7 +582,7 @@ fn test_new_read_block_gz_8bytes_0_bsz2_0_0() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_0_bsz2_1_0() {
+fn test_gz_new_read_block_gz_8bytes_0_bsz2_1_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((1, (BYTES_EFGH.clone(), FOUND)));
@@ -589,7 +591,7 @@ fn test_new_read_block_gz_8bytes_0_bsz2_1_0() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_0_1_bszmin() {
+fn test_gz_new_read_block_gz_8bytes_0_1_bszmin() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -598,7 +600,7 @@ fn test_new_read_block_gz_8bytes_0_1_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_0_1_0_bszmin() {
+fn test_gz_new_read_block_gz_8bytes_0_1_0_bszmin() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -608,7 +610,7 @@ fn test_new_read_block_gz_8bytes_0_1_0_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_1_0_bszmin() {
+fn test_gz_new_read_block_gz_8bytes_1_0_bszmin() {
     let offsets: Vec<BlockOffset> = vec![1, 0];
     let mut checks = Checks::new();
     checks.push((1, (BYTES_EFGH.clone(), FOUND)));
@@ -617,7 +619,7 @@ fn test_new_read_block_gz_8bytes_1_0_bszmin() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_bsz4() {
+fn test_gz_new_read_block_gz_8bytes_bsz4() {
     let offsets: Vec<BlockOffset> = vec![];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -626,7 +628,7 @@ fn test_new_read_block_gz_8bytes_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_0_bsz4() {
+fn test_gz_new_read_block_gz_8bytes_0_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -635,7 +637,7 @@ fn test_new_read_block_gz_8bytes_0_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_0_1_bsz4() {
+fn test_gz_new_read_block_gz_8bytes_0_1_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -643,7 +645,7 @@ fn test_new_read_block_gz_8bytes_0_1_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_0_1_Done_bsz4() {
+fn test_gz_new_read_block_gz_8bytes_0_1_Done_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -651,7 +653,7 @@ fn test_new_read_block_gz_8bytes_0_1_Done_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_gz_8bytes_0_bsz16() {
+fn test_gz_new_read_block_gz_8bytes_0_bsz16() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCDEFGH.clone(), FOUND)));
@@ -667,7 +669,7 @@ fn test_new_read_block_gz_8bytes_0_bsz16() {
 // reading lz4 file tests
 
 #[test]
-fn test_new_read_block_lz4_8bytes_0_1_bsz4() {
+fn test_lz4_new_read_block_lz4_8bytes_0_1_bsz4() {
     let offsets: Vec<BlockOffset> = vec![];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -676,7 +678,7 @@ fn test_new_read_block_lz4_8bytes_0_1_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_lz4_8bytes_0_1_Done_bsz4() {
+fn test_lz4_new_read_block_lz4_8bytes_0_1_Done_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -686,7 +688,7 @@ fn test_new_read_block_lz4_8bytes_0_1_Done_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_lz4_8bytes_0_bsz16() {
+fn test_lz4_new_read_block_lz4_8bytes_0_bsz16() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCDEFGH.clone(), FOUND)));
@@ -701,8 +703,84 @@ fn test_new_read_block_lz4_8bytes_0_bsz16() {
 
 // reading xz file tests
 
+fn create_xz_temp_file(mut data: &[u8]) -> NamedTempFile {
+    let mut compressed: Vec<u8> = Vec::new();
+    lzma_rs::xz_compress(&mut data, &mut compressed).unwrap();
+
+    create_temp_file_bytes_with_suffix(&compressed, &String::from("-streamed.xz"))
+}
+
 #[test]
-fn test_new_read_block_xz_0bytes() {
+fn test_xz_new_xz_does_not_decompress_data() {
+    let br = new_BlockReader(&NTF_XZ_8BYTE_FPATH, FILETYPE_UTF8_XZ, BLOCKSZ_MIN);
+
+    assert_eq!(br.filesz(), 8);
+    assert_eq!(br.count_bytes(), 0);
+    assert_eq!(br.count_blocks_processed(), 0);
+    assert!(br.get_block(&0).is_none());
+}
+
+#[test]
+fn test_xz_read_block_xz_forward_request_streams_intermediate_blocks() {
+    let data: Vec<u8> = (0..40).collect();
+    let ntf = create_xz_temp_file(&data);
+    let path = ntf_fpath(&ntf);
+    let mut br = new_BlockReader(&path, FILETYPE_UTF8_XZ, BLOCKSZ_MIN);
+
+    match br.read_block(5) {
+        ResultFindReadBlock::Found(blockp) => assert_eq!(blockp.as_slice(), &data[20..24]),
+        result => panic!("read_block(5) returned {result:?}"),
+    }
+    assert_eq!(br.count_bytes(), 24);
+    assert_eq!(br.count_blocks_processed(), 6);
+    for blockoffset in 0..5 {
+        assert!(br.get_block(&blockoffset).is_none(), "block {blockoffset} was not dropped");
+    }
+    assert_eq!(br.get_block(&5).unwrap().as_slice(), &data[20..24]);
+}
+
+#[test]
+fn test_xz_read_block_xz_reports_terminal_checksum_error() {
+    let mut data = XZ_8BYTE_DATA;
+    data[36] ^= 0x01;
+    let ntf = create_temp_file_bytes_with_suffix(&data, &String::from("-bad-check.xz"));
+    let path = ntf_fpath(&ntf);
+    let mut br = new_BlockReader(&path, FILETYPE_UTF8_XZ, BLOCKSZ_MIN);
+
+    match br.read_block(1) {
+        ResultFindReadBlock::Err(error) => assert_eq!(error.kind(), std::io::ErrorKind::InvalidData),
+        result => panic!("read_block(1) returned {result:?}"),
+    }
+    assert!(br.get_block(&1).is_none());
+}
+
+#[test]
+fn test_xz_new_xz_rejects_bad_index_crc() {
+    let mut data = XZ_8BYTE_DATA;
+    let index_crc_at = data.len() - 13;
+    data[index_crc_at] ^= 0x01;
+    let ntf = create_temp_file_bytes_with_suffix(&data, &String::from("-bad-index.xz"));
+    let path = ntf_fpath(&ntf);
+
+    match BlockReader::new(path_id_generator(), path, FILETYPE_UTF8_XZ, BLOCKSZ_MIN) {
+        Ok(_) => panic!("BlockReader::new accepted an XZ file with a bad index CRC"),
+        Err(error) => assert_eq!(error.kind(), std::io::ErrorKind::InvalidData),
+    }
+}
+
+#[test]
+fn test_xz_drop_xz_reader_with_pending_output() {
+    let data: Vec<u8> = (0..64).collect();
+    let ntf = create_xz_temp_file(&data);
+    let path = ntf_fpath(&ntf);
+    let mut br = new_BlockReader(&path, FILETYPE_UTF8_XZ, BLOCKSZ_MIN);
+
+    assert!(br.read_block(0).is_found());
+    drop(br);
+}
+
+#[test]
+fn test_xz_new_read_block_xz_0bytes() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (vec![], DONE)));
@@ -710,7 +788,7 @@ fn test_new_read_block_xz_0bytes() {
 }
 
 #[test]
-fn test_new_read_block_xz_1bytes() {
+fn test_xz_new_read_block_xz_1bytes() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (vec![b'A'], FOUND)));
@@ -719,7 +797,7 @@ fn test_new_read_block_xz_1bytes() {
 }
 
 #[test]
-fn test_new_read_block_xz_8bytes_0() {
+fn test_xz_new_read_block_xz_8bytes_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -727,7 +805,7 @@ fn test_new_read_block_xz_8bytes_0() {
 }
 
 #[test]
-fn test_new_read_block_xz_8bytes_0_1() {
+fn test_xz_new_read_block_xz_8bytes_0_1() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -736,7 +814,7 @@ fn test_new_read_block_xz_8bytes_0_1() {
 }
 
 #[test]
-fn test_new_read_block_xz_8bytes_0_1_0() {
+fn test_xz_new_read_block_xz_8bytes_0_1_0() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -746,7 +824,7 @@ fn test_new_read_block_xz_8bytes_0_1_0() {
 }
 
 #[test]
-fn test_new_read_block_xz_8bytes_1_0() {
+fn test_xz_new_read_block_xz_8bytes_1_0() {
     let offsets: Vec<BlockOffset> = vec![1, 0];
     let mut checks = Checks::new();
     checks.push((1, (BYTES_EFGH.clone(), FOUND)));
@@ -755,7 +833,7 @@ fn test_new_read_block_xz_8bytes_1_0() {
 }
 
 #[test]
-fn test_new_read_block_xz_8bytes_0_1_bsz4() {
+fn test_xz_new_read_block_xz_8bytes_0_1_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -764,7 +842,7 @@ fn test_new_read_block_xz_8bytes_0_1_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_xz_8bytes_0_1_Done_bsz4() {
+fn test_xz_new_read_block_xz_8bytes_0_1_Done_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -775,7 +853,7 @@ fn test_new_read_block_xz_8bytes_0_1_Done_bsz4() {
 }
 
 #[test]
-fn test_new_read_block_xz_8bytes_0_bsz16() {
+fn test_xz_new_read_block_xz_8bytes_0_bsz16() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCDEFGH.clone(), FOUND)));
@@ -791,7 +869,7 @@ fn test_new_read_block_xz_8bytes_0_bsz16() {
 // reading tar file tests
 
 #[test]
-fn test_new_read_block_tar_0byte_0() {
+fn test_tar_new_read_block_tar_0byte_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (vec![], DONE)));
@@ -799,7 +877,7 @@ fn test_new_read_block_tar_0byte_0() {
 }
 
 #[test]
-fn test_new_read_block_tar_1byte_0() {
+fn test_tar_new_read_block_tar_1byte_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (vec![b'A'], FOUND)));
@@ -807,7 +885,7 @@ fn test_new_read_block_tar_1byte_0() {
 }
 
 #[test]
-fn test_new_read_block_tar_3byte_oldgnu_0() {
+fn test_tar_new_read_block_tar_3byte_oldgnu_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABC.clone(), FOUND)));
@@ -816,7 +894,7 @@ fn test_new_read_block_tar_3byte_oldgnu_0() {
 }
 
 #[test]
-fn test_new_read_block_tar_3byte_oldgnu_0_1() {
+fn test_tar_new_read_block_tar_3byte_oldgnu_0_1() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABC.clone(), FOUND)));
@@ -825,7 +903,7 @@ fn test_new_read_block_tar_3byte_oldgnu_0_1() {
 }
 
 #[test]
-fn test_new_read_block_tar_3byte_pax_0() {
+fn test_tar_new_read_block_tar_3byte_pax_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABC.clone(), FOUND)));
@@ -833,7 +911,7 @@ fn test_new_read_block_tar_3byte_pax_0() {
 }
 
 #[test]
-fn test_new_read_block_tar_3byte_pax_0_1() {
+fn test_tar_new_read_block_tar_3byte_pax_0_1() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABC.clone(), FOUND)));
@@ -842,7 +920,7 @@ fn test_new_read_block_tar_3byte_pax_0_1() {
 }
 
 #[test]
-fn test_new_read_block_tar_3byte_ustar_0() {
+fn test_tar_new_read_block_tar_3byte_ustar_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABC.clone(), FOUND)));
@@ -850,7 +928,7 @@ fn test_new_read_block_tar_3byte_ustar_0() {
 }
 
 #[test]
-fn test_new_read_block_tar_3byte_ustar_0_1() {
+fn test_tar_new_read_block_tar_3byte_ustar_0_1() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABC.clone(), FOUND)));
@@ -859,7 +937,7 @@ fn test_new_read_block_tar_3byte_ustar_0_1() {
 }
 
 #[test]
-fn test_new_read_block_tar_8byte_0() {
+fn test_tar_new_read_block_tar_8byte_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -867,7 +945,7 @@ fn test_new_read_block_tar_8byte_0() {
 }
 
 #[test]
-fn test_new_read_block_tar_8byte_0_1_0_1() {
+fn test_tar_new_read_block_tar_8byte_0_1_0_1() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((0, (BYTES_ABCD.clone(), FOUND)));
@@ -878,7 +956,7 @@ fn test_new_read_block_tar_8byte_0_1_0_1() {
 }
 
 #[test]
-fn test_new_read_block_tar_8byte_1() {
+fn test_tar_new_read_block_tar_8byte_1() {
     let offsets: Vec<BlockOffset> = vec![1];
     let mut checks = Checks::new();
     checks.push((1, (BYTES_EFGH.clone(), FOUND)));
@@ -886,7 +964,7 @@ fn test_new_read_block_tar_8byte_1() {
 }
 
 #[test]
-fn test_new_read_block_tar_8byte_99() {
+fn test_tar_new_read_block_tar_8byte_99() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
     checks.push((99, (vec![], DONE)));
