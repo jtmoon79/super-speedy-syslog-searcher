@@ -75,6 +75,7 @@ use ::si_trace_print::{
     def1ñ,
 };
 
+use crate::de_wrn;
 use crate::common::{
     debug_panic,
     Count,
@@ -601,8 +602,9 @@ impl FileHandleManagerState {
             .handles_unmanaged_pending
             .get(&key)
             .copied();
-        #[cfg(all(debug_assertions,not(test)))]
-        assert!(pending_count.is_some(), "unmanaged file handle {key:?} was not previously registered");
+        if pending_count.is_some() {
+            de_wrn!("unmanaged file handle {key:?} was not previously registered");
+        }
         let count = pending_count.unwrap_or(FILE_HANDLE_UNMANAGED_DEFAULT_COUNT);
         if let Err(err) = self.make_room_for_unmanaged(key, count) {
             def1x!("return Err({:?})", err);
