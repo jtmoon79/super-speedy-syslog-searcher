@@ -35,6 +35,7 @@ impl Lzma2Decoder {
         }
     }
 
+    /// Reset the decoder.
     #[cfg(feature = "raw_decoder")]
     pub fn reset(&mut self) {
         self.lzma_state.reset_state(LzmaProperties {
@@ -44,6 +45,7 @@ impl Lzma2Decoder {
         });
     }
 
+    /// Decompresses LZMA2 data from the input stream and writes the decompressed data to the output stream.
     pub fn decompress<W: io::Write, R: io::BufRead>(
         &mut self,
         input: &mut R,
@@ -78,6 +80,7 @@ impl Lzma2Decoder {
         Ok(())
     }
 
+    /// Parses LZMA2 compressed data from the input stream and writes the decompressed data to the output stream.
     fn parse_lzma<R, W>(
         &mut self,
         accum: &mut impl LzBuffer<W>,
