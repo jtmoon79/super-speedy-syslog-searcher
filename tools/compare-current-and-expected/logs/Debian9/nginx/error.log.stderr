@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Debian9/nginx/error.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 5149
       flushes       : 19
-      lines         : 19
-      syslines      : 19
-      datetime first: 2020-03-06 06:30:43 +08:00 (2020-03-05 22:30:43.000000 +00:00)
-      datetime last : 2020-03-06 11:00:42 +08:00 (2020-03-06 03:00:42.000000 +00:00)
+      Lines         : 19
+      Syslines      : 19
+      Datetime first: 2020-03-06 06:30:43 +08:00 (2020-03-05 22:30:43.000000 +00:00)
+      Datetime last : 2020-03-06 11:00:42 +08:00 (2020-03-06 03:00:42.000000 +00:00)
   Processed:
       file size     : 3990 (0xF96) (bytes)
       bytes         : 3990 (0xF96)
       bytes total   : 3990 (0xF96)
-      block size    : 256 (0x100)
-      blocks        : 16
-      blocks total  : 16 (4096 bytes)
-      lines         : 19
-      line longest  : 210 (bytes)
-      line parts    : 35
-      syslines      : 19
-      sysline longest: 210 (bytes)
-      syslines high : 6
-      datetime first: 2020-03-06 06:30:43 +08:00 (2020-03-05 22:30:43.000000 +00:00)
-      datetime last : 2020-03-06 11:00:42 +08:00 (2020-03-06 03:00:42.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 16
+      Blocks total  : 16 (4096 bytes)
+      Blocks high   : 8 (2048 bytes)
+      Lines         : 19
+      Line longest  : 210 (bytes)
+      Lines high    : 9
+      Line parts    : 35
+      Syslines      : 19
+      Sysline longest: 210 (bytes)
+      Syslines high : 6
+      Datetime first: 2020-03-06 06:30:43 +08:00 (2020-03-05 22:30:43.000000 +00:00)
+      Datetime last : 2020-03-06 11:00:42 +08:00 (2020-03-06 03:00:42.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 20, miss 20, 50.0%, put 19
       copying: SyslineReader::get_boxptrs()                        : sgl 93, dbl   4, mult  0
@@ -44,7 +46,7 @@ File: ./logs/Debian9/nginx/error.log
       process: regex captures                                      : hit 19, miss 78
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5225
 Printed flushes        : 38
-Printed lines          : 19
-Printed syslines       : 19
-Longest Line           : 210
-Longest Sysline        : 210
+Printed Lines          : 19
+Printed Syslines       : 19
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 210
+Sysline longest                : 210
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 16
@@ -72,16 +79,17 @@ Managed seek calls     : 16
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-06 06:30:43 +08:00 (2020-03-05 22:30:43.000000 +00:00)
 Datetime printed last  : 2020-03-06 11:00:42 +08:00 (2020-03-06 03:00:42.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 21
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 21
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

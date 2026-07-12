@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 1137
       flushes       : 6
-      lines         : 12
-      syslines      : 6
-      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
-      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      Lines         : 12
+      Syslines      : 6
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size     : 1000 (0x3E8) (bytes)
       bytes         : 1000 (0x3E8)
       bytes total   : 1000 (0x3E8)
-      block size    : 256 (0x100)
-      blocks        : 4
-      blocks total  : 4 (1024 bytes)
-      lines         : 12
-      line longest  : 152 (bytes)
-      line parts    : 16
-      syslines      : 6
-      sysline longest: 184 (bytes)
-      syslines high : 6
-      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
-      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 4
+      Blocks total  : 4 (1024 bytes)
+      Blocks high   : 4 (1024 bytes)
+      Lines         : 12
+      Line longest  : 152 (bytes)
+      Lines high    : 12
+      Line parts    : 16
+      Syslines      : 6
+      Sysline longest: 184 (bytes)
+      Syslines high : 6
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  25,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   8, miss  13, 38.1%, put  12
       copying: SyslineReader::get_boxptrs()                        : sgl 275, dbl    3, mult   0
@@ -44,7 +46,7 @@ File: ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log
       process: regex captures                                      : hit   6, miss 272
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1162
 Printed flushes        : 13
-Printed lines          : 12
-Printed syslines       : 6
-Longest Line           : 152
-Longest Sysline        : 184
+Printed Lines          : 12
+Printed Syslines       : 6
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 152
+Sysline longest                : 184
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 4
@@ -72,16 +79,17 @@ Managed seek calls     : 4
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
 Datetime printed last  : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 8
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 8
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

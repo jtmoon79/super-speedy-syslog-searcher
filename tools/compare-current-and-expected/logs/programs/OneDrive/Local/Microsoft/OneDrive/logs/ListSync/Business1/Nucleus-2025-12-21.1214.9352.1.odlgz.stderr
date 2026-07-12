@@ -3,29 +3,29 @@ Files:
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz
   About:
-      filetype      : ODLGZ (OneDrive Log)
-      logmessagetype: Python parsed events (ASL/ETL/ODL)
-      thread stack  : 2160640 (bytes)
+      FileType      : ODLGZ (OneDrive Log)
+      LogMessageType: Python parsed events (ASL/ETL/ODL)
+      Thread stack  : 112640 (bytes)
   Printed:
       bytes         : 188146
       flushes       : 619
-      events        : 615
-      datetime first: 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
-      datetime last : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
+      Events        : 615
+      Datetime first: 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
+      Datetime last : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
   Processed:
       file size          : 20499 (0x5013) (bytes)
-      events processed   : 615
-      events accepted    : 615
-      events read max    : 1
-      events queue high  : 1
+      Events processed   : 615
+      Events accepted    : 615
+      Events read max    : 1
+      Events queue high  : 1
       Python pipe size stdout    : 256
       Python pipe size stderr    : 256
       Python exit status         : 0
-      datetime first: 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
-      datetime last : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
+      Datetime first: 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
+      Datetime last : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
       out of order  : 0
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -33,18 +33,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 190606
 Printed flushes        : 1234
-Printed lines          : 0
-Printed syslines       : 0
-Longest Line           : 0
-Longest Sysline        : 0
+Printed Lines          : 0
+Printed Syslines       : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 615
+Line longest                   : 0
+Sysline longest                : 0
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 0
@@ -53,16 +58,17 @@ Managed seek calls     : 0
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 3
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
 Datetime printed last  : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 617
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 617
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

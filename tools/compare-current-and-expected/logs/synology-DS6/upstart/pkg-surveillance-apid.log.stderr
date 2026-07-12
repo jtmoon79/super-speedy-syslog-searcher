@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 1864
       flushes       : 4
-      lines         : 14
-      syslines      : 4
-      datetime first: 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
-      datetime last : 2017-02-18 14:59:18 -08:00 (2017-02-18 22:59:18.000000 +00:00)
+      Lines         : 14
+      Syslines      : 4
+      Datetime first: 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
+      Datetime last : 2017-02-18 14:59:18 -08:00 (2017-02-18 22:59:18.000000 +00:00)
   Processed:
       file size     : 688 (0x2B0) (bytes)
       bytes         : 688 (0x2B0)
       bytes total   : 688 (0x2B0)
-      block size    : 256 (0x100)
-      blocks        : 3
-      blocks total  : 3 (768 bytes)
-      lines         : 14
-      line longest  : 85 (bytes)
-      line parts    : 16
-      syslines      : 4
-      sysline longest: 274 (bytes)
-      syslines high : 4
-      datetime first: 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
-      datetime last : 2017-02-18 14:59:18 -08:00 (2017-02-18 22:59:18.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 3
+      Blocks total  : 3 (768 bytes)
+      Blocks high   : 3 (768 bytes)
+      Lines         : 14
+      Line longest  : 85 (bytes)
+      Lines high    : 14
+      Line parts    : 16
+      Syslines      : 4
+      Sysline longest: 274 (bytes)
+      Syslines high : 4
+      Datetime first: 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
+      Datetime last : 2017-02-18 14:59:18 -08:00 (2017-02-18 22:59:18.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 27,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  4, miss 14, 22.2%, put 14
       copying: SyslineReader::get_boxptrs()                        : sgl 85, dbl   1, mult  0
@@ -44,7 +46,7 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       process: regex captures                                      : hit  4, miss 80
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1880
 Printed flushes        : 8
-Printed lines          : 14
-Printed syslines       : 4
-Longest Line           : 85
-Longest Sysline        : 274
+Printed Lines          : 14
+Printed Syslines       : 4
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 85
+Sysline longest                : 274
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 3
@@ -72,16 +79,17 @@ Managed seek calls     : 3
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
 Datetime printed last  : 2017-02-18 14:59:18 -08:00 (2017-02-18 22:59:18.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 6
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 6
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

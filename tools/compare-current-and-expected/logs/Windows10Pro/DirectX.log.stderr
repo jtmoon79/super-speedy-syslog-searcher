@@ -3,35 +3,37 @@ Files:
 
 File: ./logs/Windows10Pro/DirectX.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 5411
       flushes       : 16
-      lines         : 43
-      syslines      : 15
-      datetime first: 2020-12-19 19:17:32 +08:00 (2020-12-19 11:17:32.000000 +00:00)
-      datetime last : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
+      Lines         : 43
+      Syslines      : 15
+      Datetime first: 2020-12-19 19:17:32 +08:00 (2020-12-19 11:17:32.000000 +00:00)
+      Datetime last : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
   Processed:
       file size     : 2745 (0xAB9) (bytes)
       bytes         : 2745 (0xAB9)
       bytes total   : 2745 (0xAB9)
-      block size    : 256 (0x100)
-      blocks        : 11
-      blocks total  : 11 (2816 bytes)
-      lines         : 43
-      line longest  : 137 (bytes)
-      line parts    : 53
-      syslines      : 17
-      sysline longest: 1321 (bytes)
-      syslines high : 15
-      datetime first: 2020-01-19 20:03:29 +08:00 (2020-01-19 12:03:29.000000 +00:00)
-      datetime last : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 11
+      Blocks total  : 11 (2816 bytes)
+      Blocks high   : 11 (2816 bytes)
+      Lines         : 43
+      Line longest  : 137 (bytes)
+      Lines high    : 43
+      Line parts    : 53
+      Syslines      : 17
+      Sysline longest: 1321 (bytes)
+      Syslines high : 15
+      Datetime first: 2020-01-19 20:03:29 +08:00 (2020-01-19 12:03:29.000000 +00:00)
+      Datetime last : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2021
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  39, miss  87, 31.0%
       caching: LineReader::find_line() LRU cache                   : hit   6, miss  84,  6.7%, put  84
       copying: SyslineReader::get_boxptrs()                        : sgl 232, dbl   14, mult   0
@@ -45,7 +47,7 @@ File: ./logs/Windows10Pro/DirectX.log
       process: regex captures                                      : hit  19, miss 227
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -53,18 +55,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5472
 Printed flushes        : 32
-Printed lines          : 43
-Printed syslines       : 15
-Longest Line           : 137
-Longest Sysline        : 1321
+Printed Lines          : 43
+Printed Syslines       : 15
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 137
+Sysline longest                : 1321
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 11
@@ -73,16 +80,17 @@ Managed seek calls     : 11
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-12-19 19:17:32 +08:00 (2020-12-19 11:17:32.000000 +00:00)
 Datetime printed last  : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 17
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 17
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

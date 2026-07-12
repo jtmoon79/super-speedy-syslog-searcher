@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/FedoraRemix29/dnf.librepo.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 4980
       flushes       : 27
-      lines         : 27
-      syslines      : 27
-      datetime first: 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
-      datetime last : 2019-06-16 14:09:37 +00:00 (2019-06-16 14:09:37.000000 +00:00)
+      Lines         : 27
+      Syslines      : 27
+      Datetime first: 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
+      Datetime last : 2019-06-16 14:09:37 +00:00 (2019-06-16 14:09:37.000000 +00:00)
   Processed:
       file size     : 3171 (0xC63) (bytes)
       bytes         : 3171 (0xC63)
       bytes total   : 3171 (0xC63)
-      block size    : 256 (0x100)
-      blocks        : 13
-      blocks total  : 13 (3328 bytes)
-      lines         : 27
-      line longest  : 229 (bytes)
-      line parts    : 40
-      syslines      : 27
-      sysline longest: 229 (bytes)
-      syslines high : 9
-      datetime first: 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
-      datetime last : 2019-06-16 14:09:37 +00:00 (2019-06-16 14:09:37.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 13
+      Blocks total  : 13 (3328 bytes)
+      Blocks high   : 5 (1280 bytes)
+      Lines         : 27
+      Line longest  : 229 (bytes)
+      Lines high    : 10
+      Line parts    : 40
+      Syslines      : 27
+      Sysline longest: 229 (bytes)
+      Syslines high : 9
+      Datetime first: 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
+      Datetime last : 2019-06-16 14:09:37 +00:00 (2019-06-16 14:09:37.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 55,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 28, miss 28, 50.0%, put 27
       copying: SyslineReader::get_boxptrs()                        : sgl 97, dbl   7, mult  0
@@ -44,7 +46,7 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       process: regex captures                                      : hit 27, miss 77
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5089
 Printed flushes        : 55
-Printed lines          : 27
-Printed syslines       : 27
-Longest Line           : 229
-Longest Sysline        : 229
+Printed Lines          : 27
+Printed Syslines       : 27
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 229
+Sysline longest                : 229
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 13
@@ -72,16 +79,17 @@ Managed seek calls     : 13
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
 Datetime printed last  : 2019-06-16 14:09:37 +00:00 (2019-06-16 14:09:37.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 29
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 29
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

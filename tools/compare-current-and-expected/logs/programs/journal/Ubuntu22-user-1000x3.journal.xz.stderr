@@ -3,25 +3,28 @@ Files:
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
   About:
-      filetype      : JOURNAL (XZ) (systemd Journal)
-      logmessagetype: systemd journal entries
-      thread stack  : 2237440 (bytes)
+      Temporary path : /tmp/s4-Ubuntu22-user-1000x3.journal.xz-TkbyJB.journal
+      FileType      : JOURNAL (XZ) (systemd Journal)
+      LogMessageType: systemd journal entries
+      Thread stack  : 189440 (bytes)
   Printed:
       bytes         : 12856
       flushes       : 8
-      journal events: 3
-      datetime first: 2023-04-02 15:06:40 +08:00 (2023-04-02 07:06:40.060134 +00:00)
-      datetime last : 2023-04-02 15:07:00 +08:00 (2023-04-02 07:07:00.789680 +00:00)
+      Journal events: 3
+      Journal event largest processed: 932 (bytes)
+      Journal event largest accepted : 932 (bytes)
+      Datetime first: 2023-04-02 15:06:40 +08:00 (2023-04-02 07:06:40.060134 +00:00)
+      Datetime last : 2023-04-02 15:07:00 +08:00 (2023-04-02 07:07:00.789680 +00:00)
   Processed:
-      file size     : 8388608 (0x800000) (bytes)
-      journal events: 3
-      lib. API calls: 122
+      File size     : 8388608 (0x800000) (bytes)
+      Journal events: 3
+      lib. API calls: 220
       API errors    : 0
-      datetime first: 2023-04-02 15:06:40 +08:00 (2023-04-02 07:06:40.060134 +00:00)
-      datetime last : 2023-04-02 15:07:00 +08:00 (2023-04-02 07:07:00.789680 +00:00)
+      Datetime first: 2023-04-02 15:06:40 +08:00 (2023-04-02 07:06:40.060134 +00:00)
+      Datetime last : 2023-04-02 15:07:00 +08:00 (2023-04-02 07:07:00.789680 +00:00)
       out of order  : 0
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -29,18 +32,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 12868
 Printed flushes        : 11
-Printed lines          : 0
-Printed syslines       : 0
-Longest Line           : 0
-Longest Sysline        : 0
+Printed Lines          : 0
+Printed Syslines       : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 3
+Printed FixedStruct    : 0
+Printed Journal events : 3
 Printed ODL events     : 0
+Line longest                   : 0
+Sysline longest                : 0
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 932
+Journal event largest accepted : 932
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 2
 Managed request open   : 3
 Managed request read   : 0
 Managed read calls     : 2
@@ -49,16 +57,17 @@ Managed seek calls     : 0
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 1
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-04-02 15:06:40 +08:00 (2023-04-02 07:06:40.060134 +00:00)
 Datetime printed last  : 2023-04-02 15:07:00 +08:00 (2023-04-02 07:07:00.789680 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 5
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 5
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 1
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

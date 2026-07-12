@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Windows10Pro/DISM/dism.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 22536
       flushes       : 94
-      lines         : 111
-      syslines      : 94
-      datetime first: 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)
-      datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
+      Lines         : 111
+      Syslines      : 94
+      Datetime first: 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)
+      Datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
   Processed:
       file size     : 15435 (0x3C4B) (bytes)
       bytes         : 15435 (0x3C4B)
       bytes total   : 15435 (0x3C4B)
-      block size    : 256 (0x100)
-      blocks        : 61
-      blocks total  : 61 (15616 bytes)
-      lines         : 111
-      line longest  : 259 (bytes)
-      line parts    : 172
-      syslines      : 94
-      sysline longest: 428 (bytes)
-      syslines high : 7
-      datetime first: 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)
-      datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 61
+      Blocks total  : 61 (15616 bytes)
+      Blocks high   : 28 (7168 bytes)
+      Lines         : 111
+      Line longest  : 259 (bytes)
+      Lines high    : 60
+      Line parts    : 172
+      Syslines      : 94
+      Sysline longest: 428 (bytes)
+      Syslines high : 7
+      Datetime first: 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)
+      Datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  11, miss 212,  4.9%
       caching: LineReader::find_line() LRU cache                   : hit  95, miss 112, 45.9%, put 111
       copying: SyslineReader::get_boxptrs()                        : sgl 157, dbl   21, mult   0
@@ -44,7 +46,7 @@ File: ./logs/Windows10Pro/DISM/dism.log
       process: regex captures                                      : hit  94, miss  84
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 22912
 Printed flushes        : 188
-Printed lines          : 111
-Printed syslines       : 94
-Longest Line           : 259
-Longest Sysline        : 428
+Printed Lines          : 111
+Printed Syslines       : 94
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 259
+Sysline longest                : 428
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 61
@@ -72,16 +79,17 @@ Managed seek calls     : 61
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)
 Datetime printed last  : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 96
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 96
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

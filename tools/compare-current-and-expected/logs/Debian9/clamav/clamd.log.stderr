@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Debian9/clamav/clamd.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 1066
       flushes       : 8
-      lines         : 8
-      syslines      : 8
-      datetime first: 2019-10-04 13:21:36 +08:00 (2019-10-04 05:21:36.000000 +00:00)
-      datetime last : 2019-10-04 13:21:37 +08:00 (2019-10-04 05:21:37.000000 +00:00)
+      Lines         : 8
+      Syslines      : 8
+      Datetime first: 2019-10-04 13:21:36 +08:00 (2019-10-04 05:21:36.000000 +00:00)
+      Datetime last : 2019-10-04 13:21:37 +08:00 (2019-10-04 05:21:37.000000 +00:00)
   Processed:
       file size     : 570 (0x23A) (bytes)
       bytes         : 570 (0x23A)
       bytes total   : 570 (0x23A)
-      block size    : 256 (0x100)
-      blocks        : 3
-      blocks total  : 3 (768 bytes)
-      lines         : 8
-      line longest  : 92 (bytes)
-      line parts    : 10
-      syslines      : 8
-      sysline longest: 92 (bytes)
-      syslines high : 8
-      datetime first: 2019-10-04 13:21:36 +08:00 (2019-10-04 05:21:36.000000 +00:00)
-      datetime last : 2019-10-04 13:21:37 +08:00 (2019-10-04 05:21:37.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 3
+      Blocks total  : 3 (768 bytes)
+      Blocks high   : 3 (768 bytes)
+      Lines         : 8
+      Line longest  : 92 (bytes)
+      Lines high    : 8
+      Line parts    : 10
+      Syslines      : 8
+      Sysline longest: 92 (bytes)
+      Syslines high : 8
+      Datetime first: 2019-10-04 13:21:36 +08:00 (2019-10-04 05:21:36.000000 +00:00)
+      Datetime last : 2019-10-04 13:21:37 +08:00 (2019-10-04 05:21:37.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 15,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  8, miss  8, 50.0%, put  8
       copying: SyslineReader::get_boxptrs()                        : sgl 95, dbl   2, mult  0
@@ -44,7 +46,7 @@ File: ./logs/Debian9/clamav/clamd.log
       process: regex captures                                      : hit  8, miss 89
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1098
 Printed flushes        : 16
-Printed lines          : 8
-Printed syslines       : 8
-Longest Line           : 92
-Longest Sysline        : 92
+Printed Lines          : 8
+Printed Syslines       : 8
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 92
+Sysline longest                : 92
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 3
@@ -72,16 +79,17 @@ Managed seek calls     : 3
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-10-04 13:21:36 +08:00 (2019-10-04 05:21:36.000000 +00:00)
 Datetime printed last  : 2019-10-04 13:21:37 +08:00 (2019-10-04 05:21:37.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 10
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 10
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

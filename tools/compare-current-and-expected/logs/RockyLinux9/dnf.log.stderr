@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/RockyLinux9/dnf.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 100464
       flushes       : 677
-      lines         : 763
-      syslines      : 677
-      datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
-      datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
+      Lines         : 763
+      Syslines      : 677
+      Datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
+      Datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
   Processed:
       file size     : 56973 (0xDE8D) (bytes)
       bytes         : 56973 (0xDE8D)
       bytes total   : 56973 (0xDE8D)
-      block size    : 256 (0x100)
-      blocks        : 223
-      blocks total  : 223 (57088 bytes)
-      lines         : 763
-      line longest  : 254 (bytes)
-      line parts    : 984
-      syslines      : 677
-      sysline longest: 1260 (bytes)
-      syslines high : 13
-      datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
-      datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 223
+      Blocks total  : 223 (57088 bytes)
+      Blocks high   : 11 (2816 bytes)
+      Lines         : 763
+      Line longest  : 254 (bytes)
+      Lines high    : 58
+      Line parts    : 984
+      Syslines      : 677
+      Sysline longest: 1260 (bytes)
+      Syslines high : 13
+      Datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
+      Datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   12, miss 1513,  0.8%
       caching: LineReader::find_line() LRU cache                   : hit  677, miss  763, 47.0%, put  763
       copying: SyslineReader::get_boxptrs()                        : sgl  691, dbl   134, mult    0
@@ -44,7 +46,7 @@ File: ./logs/RockyLinux9/dnf.log
       process: regex captures                                      : hit  677, miss   86
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 103173
 Printed flushes        : 1355
-Printed lines          : 763
-Printed syslines       : 677
-Longest Line           : 254
-Longest Sysline        : 1260
+Printed Lines          : 763
+Printed Syslines       : 677
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 254
+Sysline longest                : 1260
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 223
@@ -72,16 +79,17 @@ Managed seek calls     : 223
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
 Datetime printed last  : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 679
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 679
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

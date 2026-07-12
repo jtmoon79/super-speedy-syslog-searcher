@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/cygwin/setup.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 10282
       flushes       : 76
-      lines         : 77
-      syslines      : 76
-      datetime first: 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)
-      datetime last : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
+      Lines         : 77
+      Syslines      : 76
+      Datetime first: 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)
+      Datetime last : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
   Processed:
       file size     : 6124 (0x17EC) (bytes)
       bytes         : 6124 (0x17EC)
       bytes total   : 6124 (0x17EC)
-      block size    : 256 (0x100)
-      blocks        : 24
-      blocks total  : 24 (6144 bytes)
-      lines         : 77
-      line longest  : 133 (bytes)
-      line parts    : 100
-      syslines      : 76
-      sysline longest: 133 (bytes)
-      syslines high : 13
-      datetime first: 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)
-      datetime last : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 24
+      Blocks total  : 24 (6144 bytes)
+      Blocks high   : 5 (1280 bytes)
+      Lines         : 77
+      Line longest  : 133 (bytes)
+      Lines high    : 17
+      Line parts    : 100
+      Syslines      : 76
+      Sysline longest: 133 (bytes)
+      Syslines high : 13
+      Datetime first: 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)
+      Datetime last : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   1, miss 152,  0.7%
       caching: LineReader::find_line() LRU cache                   : hit  76, miss  77, 49.7%, put  77
       copying: SyslineReader::get_boxptrs()                        : sgl 139, dbl   15, mult   0
@@ -44,7 +46,7 @@ File: ./logs/cygwin/setup.log
       process: regex captures                                      : hit  76, miss  78
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 10586
 Printed flushes        : 152
-Printed lines          : 77
-Printed syslines       : 76
-Longest Line           : 133
-Longest Sysline        : 133
+Printed Lines          : 77
+Printed Syslines       : 76
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 133
+Sysline longest                : 133
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 24
@@ -72,16 +79,17 @@ Managed seek calls     : 24
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)
 Datetime printed last  : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 78
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 78
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

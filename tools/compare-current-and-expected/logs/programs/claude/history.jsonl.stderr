@@ -3,35 +3,37 @@ Files:
 
 File: ./logs/programs/claude/history.jsonl
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      Lines         : 0
+      Syslines      : 0
+      Datetime first: None Found
+      Datetime last : None Found
   Processed:
       file size     : 215 (0xD7) (bytes)
       bytes         : 215 (0xD7)
       bytes total   : 215 (0xD7)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 3
-      line longest  : 78 (bytes)
-      line parts    : 3
-      syslines      : 4
-      sysline longest: 78 (bytes)
-      syslines high : 3
-      datetime first: 2026-05-23 03:03:34 +08:00 (2026-05-22 19:03:34.374000 +00:00)
-      datetime last : 2026-05-23 03:05:01 +08:00 (2026-05-22 19:05:01.309000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 1
+      Blocks total  : 1 (256 bytes)
+      Blocks high   : 1 (256 bytes)
+      Lines         : 3
+      Line longest  : 78 (bytes)
+      Lines high    : 3
+      Line parts    : 3
+      Syslines      : 4
+      Sysline longest: 78 (bytes)
+      Syslines high : 3
+      Datetime first: 2026-05-23 03:03:34 +08:00 (2026-05-22 19:03:34.374000 +00:00)
+      Datetime last : 2026-05-23 03:05:01 +08:00 (2026-05-22 19:05:01.309000 +00:00)
       out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2026
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   1, miss   7, 12.5%
       caching: LineReader::find_line() LRU cache                   : hit   2, miss   6, 25.0%, put   6
       copying: SyslineReader::get_boxptrs()                        : sgl 128, dbl    0, mult   0
@@ -45,7 +47,7 @@ File: ./logs/programs/claude/history.jsonl
       process: regex captures                                      : hit   5, miss  46
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -53,18 +55,23 @@ Files processed        : 1
 Files printed          : 0
 Printed bytes          : 0
 Printed flushes        : 0
-Printed lines          : 0
-Printed syslines       : 0
-Longest Line           : 78
-Longest Sysline        : 78
+Printed Lines          : 0
+Printed Syslines       : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 78
+Sysline longest                : 78
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 1
@@ -73,16 +80,17 @@ Managed seek calls     : 1
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :
 Datetime printed last  :
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 2
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 2
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

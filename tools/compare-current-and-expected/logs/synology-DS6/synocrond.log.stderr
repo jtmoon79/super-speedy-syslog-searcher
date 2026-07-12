@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/synology-DS6/synocrond.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 2343
       flushes       : 11
-      lines         : 11
-      syslines      : 11
-      datetime first: 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)
-      datetime last : 2019-09-04 02:42:28 -07:00 (2019-09-04 09:42:28.000000 +00:00)
+      Lines         : 11
+      Syslines      : 11
+      Datetime first: 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)
+      Datetime last : 2019-09-04 02:42:28 -07:00 (2019-09-04 09:42:28.000000 +00:00)
   Processed:
       file size     : 1639 (0x667) (bytes)
       bytes         : 1639 (0x667)
       bytes total   : 1639 (0x667)
-      block size    : 256 (0x100)
-      blocks        : 7
-      blocks total  : 7 (1792 bytes)
-      lines         : 11
-      line longest  : 159 (bytes)
-      line parts    : 18
-      syslines      : 11
-      sysline longest: 159 (bytes)
-      syslines high : 8
-      datetime first: 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)
-      datetime last : 2019-09-04 02:42:28 -07:00 (2019-09-04 09:42:28.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 7
+      Blocks total  : 7 (1792 bytes)
+      Blocks high   : 6 (1536 bytes)
+      Lines         : 11
+      Line longest  : 159 (bytes)
+      Lines high    : 9
+      Line parts    : 18
+      Syslines      : 11
+      Sysline longest: 159 (bytes)
+      Syslines high : 8
+      Datetime first: 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)
+      Datetime last : 2019-09-04 02:42:28 -07:00 (2019-09-04 09:42:28.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 12, miss 12, 50.0%, put 11
       copying: SyslineReader::get_boxptrs()                        : sgl 84, dbl   2, mult  0
@@ -44,7 +46,7 @@ File: ./logs/synology-DS6/synocrond.log
       process: regex captures                                      : hit 11, miss 75
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2387
 Printed flushes        : 22
-Printed lines          : 11
-Printed syslines       : 11
-Longest Line           : 159
-Longest Sysline        : 159
+Printed Lines          : 11
+Printed Syslines       : 11
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 159
+Sysline longest                : 159
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7
@@ -72,16 +79,17 @@ Managed seek calls     : 7
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)
 Datetime printed last  : 2019-09-04 02:42:28 -07:00 (2019-09-04 09:42:28.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 13
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 13
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

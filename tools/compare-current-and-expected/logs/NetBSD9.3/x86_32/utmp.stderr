@@ -3,36 +3,37 @@ Files:
 
 File: ./logs/NetBSD9.3/x86_32/utmp
   About:
-      filetype      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
-      fixedstructtype: Utmp
-      logmessagetype: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      fixedstructtype: Fs_Netbsd_x8664_Utmp
-      thread stack  : 2150400 (bytes)
+      FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+      FixedStructTyp: Utmp
+      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      specific type : Fs_Netbsd_x8664_Utmp
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 136
       flushes       : 1
-      entries       : 1
+      Entries       : 1
   Processed:
       file size     : 760 (0x2F8) (bytes)
       bytes         : 760 (0x2F8)
       bytes total   : 760 (0x2F8)
-      block size    : 256 (0x100)
-      blocks        : 3
-      blocks total  : 3 (768 bytes)
-      entries       : 1
-      entry size    : 40 (bytes)
-      entry hi-score: 96
-      first entry   : @720
-      entry high    : 1
+      Block size    : 256 (0x100)
+      Blocks        : 3
+      Blocks total  : 3 (768 bytes)
+      Blocks high   : 3 (768 bytes)
+      Entries       : 1
+      Entry size    : 40 (bytes)
+      Entry hi-score: 96
+      first Entry   : @720
+      Entry high    : 1
       peak map size : 1
-      datetime first: 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
-      datetime last : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
+      Datetime first: 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
+      Datetime last : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
       out of order  : 0
-  Processing Stores:
+  Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  1, miss  0, 100.0%
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -40,18 +41,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 140
 Printed flushes        : 2
-Printed lines          : 0
-Printed syslines       : 0
-Longest Line           : 0
-Longest Sysline        : 0
+Printed Lines          : 0
+Printed Syslines       : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 1
-Printed journal events : 0
+Printed FixedStruct    : 1
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 0
+Sysline longest                : 0
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 3
@@ -60,16 +66,17 @@ Managed seek calls     : 3
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
 Datetime printed last  : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 3
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 3
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

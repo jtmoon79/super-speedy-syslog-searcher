@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/programs/tomcat/catalina.out
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 3218
       flushes       : 8
-      lines         : 21
-      syslines      : 7
-      datetime first: 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
-      datetime last : 2023-02-08 12:12:48 +08:00 (2023-02-08 04:12:48.822000 +00:00)
+      Lines         : 21
+      Syslines      : 7
+      Datetime first: 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
+      Datetime last : 2023-02-08 12:12:48 +08:00 (2023-02-08 04:12:48.822000 +00:00)
   Processed:
       file size     : 1832 (0x728) (bytes)
       bytes         : 1832 (0x728)
       bytes total   : 1832 (0x728)
-      block size    : 256 (0x100)
-      blocks        : 8
-      blocks total  : 8 (2048 bytes)
-      lines         : 21
-      line longest  : 366 (bytes)
-      line parts    : 28
-      syslines      : 7
-      sysline longest: 1089 (bytes)
-      syslines high : 7
-      datetime first: 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
-      datetime last : 2023-02-08 12:12:48 +08:00 (2023-02-08 04:12:48.822000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 8
+      Blocks total  : 8 (2048 bytes)
+      Blocks high   : 8 (2048 bytes)
+      Lines         : 21
+      Line longest  : 366 (bytes)
+      Lines high    : 21
+      Line parts    : 28
+      Syslines      : 7
+      Sysline longest: 1089 (bytes)
+      Syslines high : 7
+      Datetime first: 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
+      Datetime last : 2023-02-08 12:12:48 +08:00 (2023-02-08 04:12:48.822000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit  2, miss 39,  4.9%
       caching: LineReader::find_line() LRU cache                   : hit  7, miss 21, 25.0%, put 21
       copying: SyslineReader::get_boxptrs()                        : sgl 72, dbl   4, mult  0
@@ -44,7 +46,7 @@ File: ./logs/programs/tomcat/catalina.out
       process: regex captures                                      : hit  7, miss 57
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3246
 Printed flushes        : 15
-Printed lines          : 21
-Printed syslines       : 7
-Longest Line           : 366
-Longest Sysline        : 1089
+Printed Lines          : 21
+Printed Syslines       : 7
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 366
+Sysline longest                : 1089
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 8
@@ -72,16 +79,17 @@ Managed seek calls     : 8
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
 Datetime printed last  : 2023-02-08 12:12:48 +08:00 (2023-02-08 04:12:48.822000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 9
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 9
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

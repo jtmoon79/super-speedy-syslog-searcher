@@ -3,35 +3,37 @@ Files:
 
 File: ./logs/CentOS7/yum.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 16271
       flushes       : 142
-      lines         : 145
-      syslines      : 142
-      datetime first: 2019-10-06 01:14:54 +08:00 (2019-10-05 17:14:54.000000 +00:00)
-      datetime last : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
+      Lines         : 145
+      Syslines      : 142
+      Datetime first: 2019-10-06 01:14:54 +08:00 (2019-10-05 17:14:54.000000 +00:00)
+      Datetime last : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
   Processed:
       file size     : 8586 (0x218A) (bytes)
       bytes         : 8586 (0x218A)
       bytes total   : 8586 (0x218A)
-      block size    : 256 (0x100)
-      blocks        : 34
-      blocks total  : 34 (8704 bytes)
-      lines         : 145
-      line longest  : 75 (bytes)
-      line parts    : 177
-      syslines      : 146
-      sysline longest: 75 (bytes)
-      syslines high : 142
-      datetime first: 2019-04-12 14:00:30 +08:00 (2019-04-12 06:00:30.000000 +00:00)
-      datetime last : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 34
+      Blocks total  : 34 (8704 bytes)
+      Blocks high   : 34 (8704 bytes)
+      Lines         : 145
+      Line longest  : 75 (bytes)
+      Lines high    : 145
+      Line parts    : 177
+      Syslines      : 146
+      Sysline longest: 75 (bytes)
+      Syslines high : 142
+      Datetime first: 2019-04-12 14:00:30 +08:00 (2019-04-12 06:00:30.000000 +00:00)
+      Datetime last : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit 141, miss 291, 32.6%
       caching: LineReader::find_line() LRU cache                   : hit  12, miss 288,  4.0%, put 288
       copying: SyslineReader::get_boxptrs()                        : sgl 173, dbl    9, mult   0
@@ -45,7 +47,7 @@ File: ./logs/CentOS7/yum.log
       process: regex captures                                      : hit 150, miss  32
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -53,18 +55,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 16840
 Printed flushes        : 285
-Printed lines          : 145
-Printed syslines       : 142
-Longest Line           : 75
-Longest Sysline        : 75
+Printed Lines          : 145
+Printed Syslines       : 142
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 75
+Sysline longest                : 75
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 34
@@ -73,16 +80,17 @@ Managed seek calls     : 34
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-10-06 01:14:54 +08:00 (2019-10-05 17:14:54.000000 +00:00)
 Datetime printed last  : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 144
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 144
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

@@ -3,32 +3,34 @@ Files:
 
 File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
   About:
-      archive subpath: simple-2.log
-      filetype      : TEXT UTF8/ASCII (TAR) (text log)
-      logmessagetype: text log lines
-      thread stack  : 2206720 (bytes)
+      Archive subpath: simple-2.log
+      FileType      : TEXT UTF8/ASCII (TAR) (text log)
+      LogMessageType: text log lines
+      Thread stack  : 158720 (bytes)
       Processing Err : file too small
   Printed:
       bytes         : 0
       flushes       : 0
-      lines         : 0
-      syslines      : 0
+      Lines         : 0
+      Syslines      : 0
   Processed:
       file size archive   : 3072 (0xC00) (bytes)
       file size unarchived: 2 (0x2) (bytes)
       bytes         : 2 (0x2)
       bytes total   : 2 (0x2)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 0
-      line longest  : 0 (bytes)
-      line parts    : 0
-      syslines      : 0
-      sysline longest: 0 (bytes)
-      syslines high : 0
+      Block size    : 256 (0x100)
+      Blocks        : 1
+      Blocks total  : 1 (256 bytes)
+      Blocks high   : 1 (256 bytes)
+      Lines         : 0
+      Line longest  : 0 (bytes)
+      Lines high    : 0
+      Line parts    : 0
+      Syslines      : 0
+      Sysline longest: 0 (bytes)
+      Syslines high : 0
       out of order  : 0
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
       copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
@@ -44,32 +46,34 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
 
 File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
   About:
-      archive subpath: simple-3.log
-      filetype      : TEXT UTF8/ASCII (TAR) (text log)
-      logmessagetype: text log lines
-      thread stack  : 2206720 (bytes)
+      Archive subpath: simple-3.log
+      FileType      : TEXT UTF8/ASCII (TAR) (text log)
+      LogMessageType: text log lines
+      Thread stack  : 158720 (bytes)
       Processing Err : file too small
   Printed:
       bytes         : 0
       flushes       : 0
-      lines         : 0
-      syslines      : 0
+      Lines         : 0
+      Syslines      : 0
   Processed:
       file size archive   : 3072 (0xC00) (bytes)
       file size unarchived: 3 (0x3) (bytes)
       bytes         : 3 (0x3)
       bytes total   : 3 (0x3)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 0
-      line longest  : 0 (bytes)
-      line parts    : 0
-      syslines      : 0
-      sysline longest: 0 (bytes)
-      syslines high : 0
+      Block size    : 256 (0x100)
+      Blocks        : 1
+      Blocks total  : 1 (256 bytes)
+      Blocks high   : 1 (256 bytes)
+      Lines         : 0
+      Line longest  : 0 (bytes)
+      Lines high    : 0
+      Line parts    : 0
+      Syslines      : 0
+      Sysline longest: 0 (bytes)
+      Syslines high : 0
       out of order  : 0
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
       copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
@@ -83,7 +87,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       process: regex captures                                      : hit 0, miss 0
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 2
 Paths not processed    : 0
@@ -91,18 +95,23 @@ Files processed        : 2
 Files printed          : 0
 Printed bytes          : 0
 Printed flushes        : 0
-Printed lines          : 0
-Printed syslines       : 0
-Longest Line           : 0
-Longest Sysline        : 0
+Printed Lines          : 0
+Printed Syslines       : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 0
+Sysline longest                : 0
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 4
 Managed request open   : 6
 Managed request read   : 0
 Managed read calls     : 8
@@ -111,16 +120,17 @@ Managed seek calls     : 6
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :
 Datetime printed last  :
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 4
-Channel Receive err    : 0
-Threads Spawned        : 2
-Thread Spawn errors    : 0
+Channel receive ok     : 4
+Channel receive err    : 0
+Threads spawned        : 2
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

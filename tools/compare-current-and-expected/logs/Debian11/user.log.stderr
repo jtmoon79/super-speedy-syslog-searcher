@@ -3,35 +3,37 @@ Files:
 
 File: ./logs/Debian11/user.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 4513
       flushes       : 25
-      lines         : 25
-      syslines      : 25
-      datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
-      datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
+      Lines         : 25
+      Syslines      : 25
+      Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
+      Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
   Processed:
       file size     : 3138 (0xC42) (bytes)
       bytes         : 3138 (0xC42)
       bytes total   : 3138 (0xC42)
-      block size    : 256 (0x100)
-      blocks        : 13
-      blocks total  : 13 (3328 bytes)
-      lines         : 25
-      line longest  : 169 (bytes)
-      line parts    : 37
-      syslines      : 26
-      sysline longest: 169 (bytes)
-      syslines high : 25
-      datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
-      datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 13
+      Blocks total  : 13 (3328 bytes)
+      Blocks high   : 13 (3328 bytes)
+      Lines         : 25
+      Line longest  : 169 (bytes)
+      Lines high    : 25
+      Line parts    : 37
+      Syslines      : 26
+      Sysline longest: 169 (bytes)
+      Syslines high : 25
+      Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
+      Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit 24, miss 51, 32.0%
       caching: LineReader::find_line() LRU cache                   : hit  1, miss 51,  1.9%, put 51
       copying: SyslineReader::get_boxptrs()                        : sgl 56, dbl   3, mult  0
@@ -45,7 +47,7 @@ File: ./logs/Debian11/user.log
       process: regex captures                                      : hit 27, miss 32
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -53,18 +55,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 4613
 Printed flushes        : 50
-Printed lines          : 25
-Printed syslines       : 25
-Longest Line           : 169
-Longest Sysline        : 169
+Printed Lines          : 25
+Printed Syslines       : 25
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 169
+Sysline longest                : 169
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 13
@@ -73,16 +80,17 @@ Managed seek calls     : 13
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
 Datetime printed last  : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 27
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 27
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

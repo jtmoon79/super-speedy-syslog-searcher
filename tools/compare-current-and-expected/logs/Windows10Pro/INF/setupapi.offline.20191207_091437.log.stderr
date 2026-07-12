@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 26266
       flushes       : 19
-      lines         : 152
-      syslines      : 9
-      datetime first: 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
-      datetime last : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
+      Lines         : 152
+      Syslines      : 9
+      Datetime first: 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
+      Datetime last : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
   Processed:
       file size     : 12586 (0x312A) (bytes)
       bytes         : 12586 (0x312A)
       bytes total   : 12586 (0x312A)
-      block size    : 256 (0x100)
-      blocks        : 50
-      blocks total  : 50 (12800 bytes)
-      lines         : 161
-      line longest  : 352 (bytes)
-      line parts    : 211
-      syslines      : 9
-      sysline longest: 9988 (bytes)
-      syslines high : 5
-      datetime first: 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
-      datetime last : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 50
+      Blocks total  : 50 (12800 bytes)
+      Blocks high   : 47 (12032 bytes)
+      Lines         : 161
+      Line longest  : 352 (bytes)
+      Lines high    : 151
+      Line parts    : 211
+      Syslines      : 9
+      Sysline longest: 9988 (bytes)
+      Syslines high : 5
+      Datetime first: 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
+      Datetime last : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   23, miss  312,  6.9%
       caching: LineReader::find_line() LRU cache                   : hit   10, miss  174,  5.4%, put  173
       copying: SyslineReader::get_boxptrs()                        : sgl 1741, dbl    49, mult    0
@@ -44,7 +46,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       process: regex captures                                      : hit    9, miss  804
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 26303
 Printed flushes        : 29
-Printed lines          : 152
-Printed syslines       : 9
-Longest Line           : 352
-Longest Sysline        : 9988
+Printed Lines          : 152
+Printed Syslines       : 9
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 352
+Sysline longest                : 9988
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 50
@@ -72,16 +79,17 @@ Managed seek calls     : 50
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
 Datetime printed last  : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 11
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 11
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

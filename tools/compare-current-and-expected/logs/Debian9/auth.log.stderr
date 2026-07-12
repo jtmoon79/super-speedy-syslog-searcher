@@ -3,35 +3,37 @@ Files:
 
 File: ./logs/Debian9/auth.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 2778
       flushes       : 19
-      lines         : 19
-      syslines      : 19
-      datetime first: 2020-02-23 06:37:40 +08:00 (2020-02-22 22:37:40.000000 +00:00)
-      datetime last : 2020-02-23 13:17:11 +08:00 (2020-02-23 05:17:11.000000 +00:00)
+      Lines         : 19
+      Syslines      : 19
+      Datetime first: 2020-02-23 06:37:40 +08:00 (2020-02-22 22:37:40.000000 +00:00)
+      Datetime last : 2020-02-23 13:17:11 +08:00 (2020-02-23 05:17:11.000000 +00:00)
   Processed:
       file size     : 1752 (0x6D8) (bytes)
       bytes         : 1752 (0x6D8)
       bytes total   : 1752 (0x6D8)
-      block size    : 256 (0x100)
-      blocks        : 7
-      blocks total  : 7 (1792 bytes)
-      lines         : 19
-      line longest  : 98 (bytes)
-      line parts    : 25
-      syslines      : 20
-      sysline longest: 98 (bytes)
-      syslines high : 19
-      datetime first: 2020-02-23 06:37:40 +08:00 (2020-02-22 22:37:40.000000 +00:00)
-      datetime last : 2020-02-23 13:17:11 +08:00 (2020-02-23 05:17:11.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 7
+      Blocks total  : 7 (1792 bytes)
+      Blocks high   : 7 (1792 bytes)
+      Lines         : 19
+      Line longest  : 98 (bytes)
+      Lines high    : 19
+      Line parts    : 25
+      Syslines      : 20
+      Sysline longest: 98 (bytes)
+      Syslines high : 19
+      Datetime first: 2020-02-23 06:37:40 +08:00 (2020-02-22 22:37:40.000000 +00:00)
+      Datetime last : 2020-02-23 13:17:11 +08:00 (2020-02-23 05:17:11.000000 +00:00)
       out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2020
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit 18, miss 39, 31.6%
       caching: LineReader::find_line() LRU cache                   : hit  1, miss 39,  2.5%, put 39
       copying: SyslineReader::get_boxptrs()                        : sgl 52, dbl   1, mult  0
@@ -45,7 +47,7 @@ File: ./logs/Debian9/auth.log
       process: regex captures                                      : hit 21, miss 32
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -53,18 +55,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2854
 Printed flushes        : 38
-Printed lines          : 19
-Printed syslines       : 19
-Longest Line           : 98
-Longest Sysline        : 98
+Printed Lines          : 19
+Printed Syslines       : 19
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 98
+Sysline longest                : 98
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 7
@@ -73,16 +80,17 @@ Managed seek calls     : 7
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-02-23 06:37:40 +08:00 (2020-02-22 22:37:40.000000 +00:00)
 Datetime printed last  : 2020-02-23 13:17:11 +08:00 (2020-02-23 05:17:11.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 21
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 21
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Debian9/apt/term.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 34358
       flushes       : 21
-      lines         : 292
-      syslines      : 7
-      datetime first: 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)
-      datetime last : 2019-10-26 16:20:13 +08:00 (2019-10-26 08:20:13.000000 +00:00)
+      Lines         : 292
+      Syslines      : 7
+      Datetime first: 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)
+      Datetime last : 2019-10-26 16:20:13 +08:00 (2019-10-26 08:20:13.000000 +00:00)
   Processed:
       file size     : 17422 (0x440E) (bytes)
       bytes         : 17422 (0x440E)
       bytes total   : 17422 (0x440E)
-      block size    : 256 (0x100)
-      blocks        : 69
-      blocks total  : 69 (17664 bytes)
-      lines         : 292
-      line longest  : 6021 (bytes)
-      line parts    : 361
-      syslines      : 7
-      sysline longest: 14453 (bytes)
-      syslines high : 5
-      datetime first: 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)
-      datetime last : 2019-10-26 16:20:13 +08:00 (2019-10-26 08:20:13.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 69
+      Blocks total  : 69 (17664 bytes)
+      Blocks high   : 68 (17408 bytes)
+      Lines         : 292
+      Line longest  : 6021 (bytes)
+      Lines high    : 273
+      Line parts    : 361
+      Syslines      : 7
+      Sysline longest: 14453 (bytes)
+      Syslines high : 5
+      Datetime first: 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)
+      Datetime last : 2019-10-26 16:20:13 +08:00 (2019-10-26 08:20:13.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   13, miss  581,  2.2%
       caching: LineReader::find_line() LRU cache                   : hit    7, miss  302,  2.3%, put  301
       copying: SyslineReader::get_boxptrs()                        : sgl 1772, dbl    42, mult    0
@@ -44,7 +46,7 @@ File: ./logs/Debian9/apt/term.log
       process: regex captures                                      : hit    7, miss 1378
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 34386
 Printed flushes        : 28
-Printed lines          : 292
-Printed syslines       : 7
-Longest Line           : 6021
-Longest Sysline        : 14453
+Printed Lines          : 292
+Printed Syslines       : 7
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 6021
+Sysline longest                : 14453
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 69
@@ -72,16 +79,17 @@ Managed seek calls     : 69
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)
 Datetime printed last  : 2019-10-26 16:20:13 +08:00 (2019-10-26 08:20:13.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 9
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 9
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

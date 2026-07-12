@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 5748
       flushes       : 6
-      lines         : 41
-      syslines      : 4
-      datetime first: 2020-05-27 12:23:20 +08:00 (2020-05-27 04:23:20.500000 +00:00)
-      datetime last : 2020-05-27 12:30:05 +08:00 (2020-05-27 04:30:05.362000 +00:00)
+      Lines         : 41
+      Syslines      : 4
+      Datetime first: 2020-05-27 12:23:20 +08:00 (2020-05-27 04:23:20.500000 +00:00)
+      Datetime last : 2020-05-27 12:30:05 +08:00 (2020-05-27 04:30:05.362000 +00:00)
   Processed:
       file size     : 2335 (0x91F) (bytes)
       bytes         : 2335 (0x91F)
       bytes total   : 2335 (0x91F)
-      block size    : 256 (0x100)
-      blocks        : 10
-      blocks total  : 10 (2560 bytes)
-      lines         : 50
-      line longest  : 143 (bytes)
-      line parts    : 59
-      syslines      : 4
-      sysline longest: 1905 (bytes)
-      syslines high : 4
-      datetime first: 2020-05-27 12:23:20 +08:00 (2020-05-27 04:23:20.500000 +00:00)
-      datetime last : 2020-05-27 12:30:05 +08:00 (2020-05-27 04:30:05.362000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 10
+      Blocks total  : 10 (2560 bytes)
+      Blocks high   : 10 (2560 bytes)
+      Lines         : 50
+      Line longest  : 143 (bytes)
+      Lines high    : 50
+      Line parts    : 59
+      Syslines      : 4
+      Sysline longest: 1905 (bytes)
+      Syslines high : 4
+      Datetime first: 2020-05-27 12:23:20 +08:00 (2020-05-27 04:23:20.500000 +00:00)
+      Datetime last : 2020-05-27 12:30:05 +08:00 (2020-05-27 04:30:05.362000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   17, miss   96, 15.0%
       caching: LineReader::find_line() LRU cache                   : hit    5, miss   63,  7.4%, put   62
       copying: SyslineReader::get_boxptrs()                        : sgl 1677, dbl     8, mult    0
@@ -44,7 +46,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
       process: regex captures                                      : hit    4, miss  880
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5765
 Printed flushes        : 11
-Printed lines          : 41
-Printed syslines       : 4
-Longest Line           : 143
-Longest Sysline        : 1905
+Printed Lines          : 41
+Printed Syslines       : 4
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 143
+Sysline longest                : 1905
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 10
@@ -72,16 +79,17 @@ Managed seek calls     : 10
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-05-27 12:23:20 +08:00 (2020-05-27 04:23:20.500000 +00:00)
 Datetime printed last  : 2020-05-27 12:30:05 +08:00 (2020-05-27 04:30:05.362000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 6
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 6
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

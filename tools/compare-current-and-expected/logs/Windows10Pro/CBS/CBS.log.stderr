@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Windows10Pro/CBS/CBS.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 29416
       flushes       : 152
-      lines         : 159
-      syslines      : 152
-      datetime first: 2022-09-14 22:18:06 +08:00 (2022-09-14 14:18:06.000000 +00:00)
-      datetime last : 2022-10-12 13:28:23 +08:00 (2022-10-12 05:28:23.000000 +00:00)
+      Lines         : 159
+      Syslines      : 152
+      Datetime first: 2022-09-14 22:18:06 +08:00 (2022-09-14 14:18:06.000000 +00:00)
+      Datetime last : 2022-10-12 13:28:23 +08:00 (2022-10-12 05:28:23.000000 +00:00)
   Processed:
       file size     : 19561 (0x4C69) (bytes)
       bytes         : 19561 (0x4C69)
       bytes total   : 19561 (0x4C69)
-      block size    : 256 (0x100)
-      blocks        : 77
-      blocks total  : 77 (19712 bytes)
-      lines         : 159
-      line longest  : 343 (bytes)
-      line parts    : 235
-      syslines      : 152
-      sysline longest: 343 (bytes)
-      syslines high : 10
-      datetime first: 2022-09-14 22:18:06 +08:00 (2022-09-14 14:18:06.000000 +00:00)
-      datetime last : 2022-10-12 13:28:23 +08:00 (2022-10-12 05:28:23.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 77
+      Blocks total  : 77 (19712 bytes)
+      Blocks high   : 12 (3072 bytes)
+      Lines         : 159
+      Line longest  : 343 (bytes)
+      Lines high    : 40
+      Line parts    : 235
+      Syslines      : 152
+      Sysline longest: 343 (bytes)
+      Syslines high : 10
+      Datetime first: 2022-09-14 22:18:06 +08:00 (2022-09-14 14:18:06.000000 +00:00)
+      Datetime last : 2022-10-12 13:28:23 +08:00 (2022-10-12 05:28:23.000000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   7, miss 310,  2.2%
       caching: LineReader::find_line() LRU cache                   : hit 152, miss 159, 48.9%, put 159
       copying: SyslineReader::get_boxptrs()                        : sgl 207, dbl   23, mult   0
@@ -44,7 +46,7 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       process: regex captures                                      : hit 152, miss  78
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 30025
 Printed flushes        : 305
-Printed lines          : 159
-Printed syslines       : 152
-Longest Line           : 343
-Longest Sysline        : 343
+Printed Lines          : 159
+Printed Syslines       : 152
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 343
+Sysline longest                : 343
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 77
@@ -72,16 +79,17 @@ Managed seek calls     : 77
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-09-14 22:18:06 +08:00 (2022-09-14 14:18:06.000000 +00:00)
 Datetime printed last  : 2022-10-12 13:28:23 +08:00 (2022-10-12 05:28:23.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 154
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 154
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

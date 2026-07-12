@@ -3,29 +3,30 @@ Files:
 
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
   About:
-      filetype      : ETL (GZIP) (Windows Event Trace Log)
-      logmessagetype: Python parsed events (ASL/ETL/ODL)
-      thread stack  : 2237440 (bytes)
+      Temporary path : /tmp/s4-waasmedic.20251005_113019_195.etl.gz-M63FBq.etl
+      FileType      : ETL (GZIP) (Windows Event Trace Log)
+      LogMessageType: Python parsed events (ASL/ETL/ODL)
+      Thread stack  : 189440 (bytes)
   Printed:
       bytes         : 12082
       flushes       : 21
-      events        : 21
-      datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
-      datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+      Events        : 21
+      Datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      Datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
   Processed:
       file size          : 16384 (0x4000) (bytes)
-      events processed   : 21
-      events accepted    : 21
-      events read max    : 1
-      events queue high  : 1
+      Events processed   : 21
+      Events accepted    : 21
+      Events read max    : 1
+      Events queue high  : 1
       Python pipe size stdout    : 256
       Python pipe size stderr    : 256
       Python exit status         : 0
-      datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
-      datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+      Datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      Datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
       out of order  : 0
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -33,18 +34,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 12166
 Printed flushes        : 42
-Printed lines          : 0
-Printed syslines       : 0
-Longest Line           : 0
-Longest Sysline        : 0
+Printed Lines          : 0
+Printed Syslines       : 0
 Printed ASL events     : 0
 Printed ETL events     : 21
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 0
+Sysline longest                : 0
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 2
 Managed request open   : 3
 Managed request read   : 0
 Managed read calls     : 1
@@ -53,16 +59,17 @@ Managed seek calls     : 0
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 3
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
 Datetime printed last  : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 23
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 23
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 1
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

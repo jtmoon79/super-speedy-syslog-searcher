@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/OpenSUSE15/zypp/history
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 7144
       flushes       : 19
-      lines         : 39
-      syslines      : 19
-      datetime first: 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
-      datetime last : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
+      Lines         : 39
+      Syslines      : 19
+      Datetime first: 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
+      Datetime last : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
   Processed:
       file size     : 4765 (0x129D) (bytes)
       bytes         : 4765 (0x129D)
       bytes total   : 4765 (0x129D)
-      block size    : 256 (0x100)
-      blocks        : 19
-      blocks total  : 19 (4864 bytes)
-      lines         : 39
-      line longest  : 871 (bytes)
-      line parts    : 58
-      syslines      : 19
-      sysline longest: 871 (bytes)
-      syslines high : 7
-      datetime first: 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
-      datetime last : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 19
+      Blocks total  : 19 (4864 bytes)
+      Blocks high   : 11 (2816 bytes)
+      Lines         : 39
+      Line longest  : 871 (bytes)
+      Lines high    : 29
+      Line parts    : 58
+      Syslines      : 19
+      Sysline longest: 871 (bytes)
+      Syslines high : 7
+      Datetime first: 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
+      Datetime last : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
       out of order  : 14
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  79,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  20, miss  40, 33.3%, put  39
       copying: SyslineReader::get_boxptrs()                        : sgl 109, dbl    3, mult   0
@@ -44,7 +46,7 @@ File: ./logs/OpenSUSE15/zypp/history
       process: regex captures                                      : hit  19, miss  85
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 7220
 Printed flushes        : 38
-Printed lines          : 39
-Printed syslines       : 19
-Longest Line           : 871
-Longest Sysline        : 871
+Printed Lines          : 39
+Printed Syslines       : 19
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 871
+Sysline longest                : 871
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 19
@@ -72,16 +79,17 @@ Managed seek calls     : 19
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
 Datetime printed last  : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 21
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 21
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

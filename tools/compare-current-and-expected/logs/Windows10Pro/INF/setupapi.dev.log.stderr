@@ -3,34 +3,36 @@ Files:
 
 File: ./logs/Windows10Pro/INF/setupapi.dev.log
   About:
-      filetype      : TEXT UTF8/ASCII (text log)
-      logmessagetype: text log lines
-      thread stack  : 2150400 (bytes)
+      FileType      : TEXT UTF8/ASCII (text log)
+      LogMessageType: text log lines
+      Thread stack  : 102400 (bytes)
   Printed:
       bytes         : 6367
       flushes       : 4
-      lines         : 41
-      syslines      : 2
-      datetime first: 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
-      datetime last : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
+      Lines         : 41
+      Syslines      : 2
+      Datetime first: 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
+      Datetime last : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
   Processed:
       file size     : 3610 (0xE1A) (bytes)
       bytes         : 3610 (0xE1A)
       bytes total   : 3610 (0xE1A)
-      block size    : 256 (0x100)
-      blocks        : 15
-      blocks total  : 15 (3840 bytes)
-      lines         : 50
-      line longest  : 152 (bytes)
-      line parts    : 65
-      syslines      : 2
-      sysline longest: 3383 (bytes)
-      syslines high : 2
-      datetime first: 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
-      datetime last : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
+      Block size    : 256 (0x100)
+      Blocks        : 15
+      Blocks total  : 15 (3840 bytes)
+      Blocks high   : 15 (3840 bytes)
+      Lines         : 50
+      Line longest  : 152 (bytes)
+      Lines high    : 50
+      Line parts    : 65
+      Syslines      : 2
+      Sysline longest: 3383 (bytes)
+      Syslines high : 2
+      Datetime first: 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
+      Datetime last : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
       out of order  : 0
   Parsers:
-  Processing Stores:
+  Processing stores:
       storage: LineReader::find_line() lines                       : hit   15, miss   98, 13.3%
       caching: LineReader::find_line() LRU cache                   : hit    3, miss   63,  4.5%, put   62
       copying: SyslineReader::get_boxptrs()                        : sgl 1673, dbl    14, mult    0
@@ -44,7 +46,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       process: regex captures                                      : hit    2, miss  899
   Processing Drops:
 
-Program Summary:
+Program summary:
 
 Paths considered       : 1
 Paths not processed    : 0
@@ -52,18 +54,23 @@ Files processed        : 1
 Files printed          : 1
 Printed bytes          : 6376
 Printed flushes        : 7
-Printed lines          : 41
-Printed syslines       : 2
-Longest Line           : 152
-Longest Sysline        : 3383
+Printed Lines          : 41
+Printed Syslines       : 2
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
-Printed journal events : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
 Printed ODL events     : 0
+Line longest                   : 152
+Sysline longest                : 3383
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
+Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed read calls     : 15
@@ -72,16 +79,17 @@ Managed seek calls     : 15
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
+Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
 Datetime printed last  : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 4
-Channel Receive err    : 0
-Threads Spawned        : 1
-Thread Spawn errors    : 0
+Channel receive ok     : 4
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
 Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system
