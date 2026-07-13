@@ -1,6 +1,8 @@
-#[cfg(feature = "enable_logging")]
+#[cfg(feature = "lzma_rs_enable_logging")]
 use log::{debug, info};
 use std::io::{self, BufReader, Cursor, Read, Write};
+
+use crate::subprojects::lzma_rs;
 
 /// Utility function to read a file into memory
 fn read_all_file(filename: &str) -> std::io::Result<Vec<u8>> {
@@ -12,9 +14,9 @@ fn read_all_file(filename: &str) -> std::io::Result<Vec<u8>> {
 fn round_trip(x: &[u8]) {
     let mut compressed: Vec<u8> = Vec::new();
     lzma_rs::xz_compress(&mut std::io::BufReader::new(x), &mut compressed).unwrap();
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     info!("Compressed {} -> {} bytes", x.len(), compressed.len());
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     debug!("Compressed content: {:?}", compressed);
     let mut bf = BufReader::new(compressed.as_slice());
     let mut decomp: Vec<u8> = Vec::new();
@@ -60,7 +62,7 @@ impl Write for WriteCounter {
 
 #[test]
 fn round_trip_basics() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     round_trip(b"");
     // Note: we use vec! to avoid storing the slice in the binary
@@ -70,16 +72,16 @@ fn round_trip_basics() {
 
 #[test]
 fn round_trip_hello() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     round_trip(b"Hello world");
 }
 
 #[test]
 fn round_trip_files() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
-    round_trip_file("tests/files/foo.txt");
+    round_trip_file("./src/subprojects/lzma_rs/tests/files/foo.txt");
 }
 
 fn decomp_big_file(compfile: &str, plainfile: &str) {
@@ -92,30 +94,30 @@ fn decomp_big_file(compfile: &str, plainfile: &str) {
 
 #[test]
 fn big_file() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
-    decomp_big_file("tests/files/foo.txt.xz", "tests/files/foo.txt");
+    decomp_big_file("./src/subprojects/lzma_rs/tests/files/foo.txt.xz", "./src/subprojects/lzma_rs/tests/files/foo.txt");
     decomp_big_file(
-        "tests/files/good-1-lzma2-1.xz",
-        "tests/files/good-1-lzma2-1",
+        "./src/subprojects/lzma_rs/tests/files/good-1-lzma2-1.xz",
+        "./src/subprojects/lzma_rs/tests/files/good-1-lzma2-1",
     );
     decomp_big_file(
-        "tests/files/good-1-lzma2-2.xz",
-        "tests/files/good-1-lzma2-2",
+        "./src/subprojects/lzma_rs/tests/files/good-1-lzma2-2.xz",
+        "./src/subprojects/lzma_rs/tests/files/good-1-lzma2-2",
     );
     decomp_big_file(
-        "tests/files/good-1-lzma2-3.xz",
-        "tests/files/good-1-lzma2-3",
+        "./src/subprojects/lzma_rs/tests/files/good-1-lzma2-3.xz",
+        "./src/subprojects/lzma_rs/tests/files/good-1-lzma2-3",
     );
     decomp_big_file(
-        "tests/files/good-1-lzma2-4.xz",
-        "tests/files/good-1-lzma2-4",
+        "./src/subprojects/lzma_rs/tests/files/good-1-lzma2-4.xz",
+        "./src/subprojects/lzma_rs/tests/files/good-1-lzma2-4",
     );
 }
 
 #[test]
 fn decompress_empty_world() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     let mut x: &[u8] = b"\xfd\x37\x7a\x58\x5a\x00\x00\x04\xe6\xd6\xb4\x46\x00\x00\x00\x00\
                          \x1c\xdf\x44\x21\x1f\xb6\xf3\x7d\x01\x00\x00\x00\x00\x04\x59\x5a\
@@ -127,7 +129,7 @@ fn decompress_empty_world() {
 
 #[test]
 fn decompress_hello_world() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     let mut x: &[u8] = b"\xfd\x37\x7a\x58\x5a\x00\x00\x04\xe6\xd6\xb4\x46\x02\x00\x21\x01\
                          \x16\x00\x00\x00\x74\x2f\xe5\xa3\x01\x00\x0b\x48\x65\x6c\x6c\x6f\
@@ -141,21 +143,21 @@ fn decompress_hello_world() {
 
 #[test]
 fn test_xz_block_check_crc32() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
 
     decomp_big_file(
-        "tests/files/block-check-crc32.txt.xz",
-        "tests/files/block-check-crc32.txt",
+        "./src/subprojects/lzma_rs/tests/files/block-check-crc32.txt.xz",
+        "./src/subprojects/lzma_rs/tests/files/block-check-crc32.txt",
     );
 }
 
 #[test]
 fn test_xz_block_check_crc32_invalid() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
 
-    let testcase = "tests/files/block-check-crc32.txt.xz";
+    let testcase = "./src/subprojects/lzma_rs/tests/files/block-check-crc32.txt.xz";
     let mut corrupted = {
         let mut buf = read_all_file(testcase).unwrap();
         // Mangle the "Block Check" field.
@@ -178,11 +180,11 @@ fn test_xz_block_check_crc32_invalid() {
 
 #[test]
 fn test_true_streaming_decompression() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
 
     // This file contains 16384 bytes of zeros, compressed with a 4096 byte dictionary.
-    let mut f = BufReader::new(std::fs::File::open("tests/files/streaming_test.xz").unwrap());
+    let mut f = BufReader::new(std::fs::File::open("./src/subprojects/lzma_rs/tests/files/streaming_test.xz").unwrap());
     let mut writer = WriteCounter::new();
     
     lzma_rs::xz_decompress(&mut f, &mut writer).unwrap();

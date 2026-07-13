@@ -15,6 +15,9 @@ pub mod error;
 mod util;
 mod xz;
 
+#[cfg(test)]
+pub mod tests;
+
 use std::io;
 
 /// Compression helpers.
