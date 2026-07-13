@@ -760,8 +760,8 @@ xml_format "${OUT_SVG_TIME}"
 echo_line
 
 declare -ir FILE_RUNS_BLOCKSZ=${FILE_RUNS_BLOCKSZ-40}
-declare -ir BLOCKSZ_ALIGN=${BLOCKSZ_ALIGN-1024}
-declare -ir BLOCKSZ_MIN=$(((${BLOCKSZ_MIN-1024} / ${BLOCKSZ_ALIGN} + 1) * ${BLOCKSZ_ALIGN}))
+declare -ir BLOCKSZ_ALIGN=${BLOCKSZ_ALIGN-4096}
+declare -ir BLOCKSZ_MIN=$(((${BLOCKSZ_MIN-4096} / ${BLOCKSZ_ALIGN} + 1) * ${BLOCKSZ_ALIGN}))
 declare -ir BLOCKSZ_MAX=$(((${BLOCKSZ_MAX-131072} / ${BLOCKSZ_ALIGN}) * ${BLOCKSZ_ALIGN}))
 
 echo -e "${CLR_INFO}Block sizes from ${BLOCKSZ_MIN} to ${BLOCKSZ_MAX} in increments of ${BLOCKSZ_ALIGN}${CLR_RESET}" >&2
