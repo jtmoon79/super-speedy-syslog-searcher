@@ -1,6 +1,8 @@
-#[cfg(feature = "enable_logging")]
+#[cfg(feature = "lzma_rs_enable_logging")]
 use log::{debug, info};
 use std::io::Read;
+
+use crate::subprojects::lzma_rs;
 
 /// Utility function to read a file into memory
 fn read_all_file(filename: &str) -> std::io::Result<Vec<u8>> {
@@ -12,9 +14,9 @@ fn read_all_file(filename: &str) -> std::io::Result<Vec<u8>> {
 fn round_trip(x: &[u8]) {
     let mut compressed: Vec<u8> = Vec::new();
     lzma_rs::lzma2_compress(&mut std::io::BufReader::new(x), &mut compressed).unwrap();
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     info!("Compressed {} -> {} bytes", x.len(), compressed.len());
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     debug!("Compressed content: {:?}", compressed);
     let mut bf = std::io::BufReader::new(compressed.as_slice());
     let mut decomp: Vec<u8> = Vec::new();
@@ -29,7 +31,7 @@ fn round_trip_file(filename: &str) {
 
 #[test]
 fn round_trip_basics() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     round_trip(b"");
     // Note: we use vec! to avoid storing the slice in the binary
@@ -39,14 +41,14 @@ fn round_trip_basics() {
 
 #[test]
 fn round_trip_hello() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     round_trip(b"Hello world");
 }
 
 #[test]
 fn round_trip_files() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
-    round_trip_file("tests/files/foo.txt");
+    round_trip_file("./src/subprojects/lzma_rs/tests/files/foo.txt");
 }

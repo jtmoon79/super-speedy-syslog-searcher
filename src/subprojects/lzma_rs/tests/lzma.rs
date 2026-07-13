@@ -1,14 +1,20 @@
+/* Commented out by @jtmoon79; no function `decompress` in crate `lzma` <https://docs.rs/lzma/0.2.2/lzma/index.html?search=compress>
 extern crate lzma;
+*/
 
-#[cfg(feature = "enable_logging")]
+#[cfg(feature = "lzma_rs_enable_logging")]
 use log::{debug, info};
 use std::io::Read;
 #[cfg(feature = "stream")]
 use std::io::Write;
 
+use crate::subprojects::lzma_rs;
+
 /// Utility function to read a file into memory
 fn read_all_file(filename: &str) -> std::io::Result<Vec<u8>> {
     let mut data = Vec::new();
+    eprintln!("CWD={:?}", std::env::current_dir().unwrap());
+    eprintln!("read_all_file({:?})", filename);
     std::fs::File::open(filename).and_then(|mut file| file.read_to_end(&mut data))?;
     Ok(data)
 }
@@ -30,9 +36,9 @@ fn round_trip(x: &[u8]) {
 fn round_trip_no_options(x: &[u8]) {
     let mut compressed: Vec<u8> = Vec::new();
     lzma_rs::lzma_compress(&mut std::io::BufReader::new(x), &mut compressed).unwrap();
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     info!("Compressed {} -> {} bytes", x.len(), compressed.len());
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     debug!("Compressed content: {:?}", compressed);
 
     assert_decomp_eq(&compressed, x, /* compare_to_liblzma */ true);
@@ -50,9 +56,9 @@ fn assert_round_trip_with_options(
         encode_options,
     )
     .unwrap();
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     info!("Compressed {} -> {} bytes", x.len(), compressed.len());
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     debug!("Compressed content: {:?}", compressed);
 
     // test non-streaming decompression
@@ -97,6 +103,7 @@ fn round_trip_file(filename: &str) {
     round_trip(x.as_slice());
 }
 
+#[allow(unused_variables)]
 fn assert_decomp_eq(compressed: &[u8], expected: &[u8], compare_to_liblzma: bool) {
     // Test regular decompression.
     {
@@ -108,10 +115,12 @@ fn assert_decomp_eq(compressed: &[u8], expected: &[u8], compare_to_liblzma: bool
 
     // Test consistency with lzma crate. Sometimes that crate fails (e.g. huge
     // dictionary), so we have a flag to skip that.
+    /* Commented out by @jtmoon79; no function `decompress` in crate `lzma`
     if compare_to_liblzma {
         let decomp = lzma::decompress(compressed).unwrap();
         assert_eq!(decomp, expected);
     }
+    */
 
     #[cfg(feature = "stream")]
     {
@@ -135,7 +144,7 @@ fn assert_decomp_eq(compressed: &[u8], expected: &[u8], compare_to_liblzma: bool
 #[test]
 #[should_panic(expected = "HeaderTooShort")]
 fn decompress_short_header() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     let mut decomp: Vec<u8> = Vec::new();
     // TODO: compare io::Errors?
@@ -144,7 +153,7 @@ fn decompress_short_header() {
 
 #[test]
 fn round_trip_basics() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     round_trip(b"");
     // Note: we use vec! to avoid storing the slice in the binary
@@ -154,75 +163,75 @@ fn round_trip_basics() {
 
 #[test]
 fn round_trip_hello() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     round_trip(b"Hello world");
 }
 
 #[test]
 fn round_trip_files() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
-    round_trip_file("tests/files/foo.txt");
-    round_trip_file("tests/files/range-coder-edge-case");
+    round_trip_file("./src/subprojects/lzma_rs/tests/files/foo.txt");
+    round_trip_file("./src/subprojects/lzma_rs/tests/files/range-coder-edge-case");
 }
 
 #[test]
 fn decompress_big_file() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
-    let compressed = read_all_file("tests/files/foo.txt.lzma").unwrap();
-    let expected = read_all_file("tests/files/foo.txt").unwrap();
-    assert_decomp_eq(&compressed, &expected, /* compare_to_liblzma */ true);
+    let compressed = read_all_file("./src/subprojects/lzma_rs/tests/files/foo.txt.lzma").unwrap();
+    let expected = read_all_file("./src/subprojects/lzma_rs/tests/files/foo.txt").unwrap();
+    assert_decomp_eq(&compressed, &expected, /* compare_to_liblzma */ false);
 }
 
 #[test]
 fn decompress_big_file_with_huge_dict() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
-    let compressed = read_all_file("tests/files/hugedict.txt.lzma").unwrap();
-    let expected = read_all_file("tests/files/foo.txt").unwrap();
+    let compressed = read_all_file("./src/subprojects/lzma_rs/tests/files/hugedict.txt.lzma").unwrap();
+    let expected = read_all_file("./src/subprojects/lzma_rs/tests/files/foo.txt").unwrap();
     assert_decomp_eq(&compressed, &expected, /* compare_to_liblzma */ false);
 }
 
 #[test]
 fn decompress_range_coder_edge_case() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
-    let compressed = read_all_file("tests/files/range-coder-edge-case.lzma").unwrap();
-    let expected = read_all_file("tests/files/range-coder-edge-case").unwrap();
-    assert_decomp_eq(&compressed, &expected, /* compare_to_liblzma */ true);
+    let compressed = read_all_file("./src/subprojects/lzma_rs/tests/files/range-coder-edge-case.lzma").unwrap();
+    let expected = read_all_file("./src/subprojects/lzma_rs/tests/files/range-coder-edge-case").unwrap();
+    assert_decomp_eq(&compressed, &expected, /* compare_to_liblzma */ false);
 }
 
 #[test]
 fn decompress_empty_world() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     assert_decomp_eq(
         b"\x5d\x00\x00\x80\x00\xff\xff\xff\xff\xff\xff\xff\xff\x00\x83\xff\
           \xfb\xff\xff\xc0\x00\x00\x00",
         b"",
-        /* compare_to_liblzma */ true,
+        /* compare_to_liblzma */ false,
     );
 }
 
 #[test]
 fn decompress_hello_world() {
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     assert_decomp_eq(
         b"\x5d\x00\x00\x80\x00\xff\xff\xff\xff\xff\xff\xff\xff\x00\x24\x19\
           \x49\x98\x6f\x10\x19\xc6\xd7\x31\xeb\x36\x50\xb2\x98\x48\xff\xfe\
           \xa5\xb0\x00",
         b"Hello world\x0a",
-        /* compare_to_liblzma */ true,
+        /* compare_to_liblzma */ false,
     );
 }
 
 #[test]
 fn decompress_huge_dict() {
     // Hello world with a dictionary of size 0x7F7F7F7F
-    #[cfg(feature = "enable_logging")]
+    #[cfg(feature = "lzma_rs_enable_logging")]
     let _ = env_logger::try_init();
     assert_decomp_eq(
         b"\x5d\x7f\x7f\x7f\x7f\xff\xff\xff\xff\xff\xff\xff\xff\x00\x24\x19\
