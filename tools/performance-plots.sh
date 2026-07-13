@@ -38,6 +38,11 @@ else
         # TODO: [2026/05] log file gen-99999-1-Motley_Crue.log tends to stall around 125 FILE_NUM
         #       probably worth understanding why
         "./logs/other/tests/gen-99999-1-Motley_Crue.log${SEP}100"
+        "./logs/other/tests/gen-99999-1-Motley_Crue.log.bz2${SEP}100"
+        "./logs/other/tests/gen-99999-1-Motley_Crue.log.gz${SEP}100"
+        "./logs/other/tests/gen-99999-1-Motley_Crue.log.lz4${SEP}100"
+        "./logs/other/tests/gen-99999-1-Motley_Crue.log.tar${SEP}100"
+        "./logs/other/tests/gen-99999-1-Motley_Crue.log.xz${SEP}100"
         ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
         ./logs/programs/journal/RHE_91_system.journal
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1216.11020.2.odl
