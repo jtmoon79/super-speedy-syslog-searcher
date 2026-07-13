@@ -3143,9 +3143,9 @@ checksum = "32a66949e030da00e8c7d4434b251670a91556f4144941d37452769c25d58a53"
 
 [[package]]
 name = "list-features"
-version = "0.1.2"
+version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "325df3490db0ede5362a985f7360a22be979472df3c2482f8d9633f4de912a43"
+checksum = "bf109b7d2fa8f00cdf89cb563b8d28d64657f54b189229c01620b42922daf095"
 
 [[package]]
 name = "litemap"
