@@ -87,8 +87,8 @@ declare -ar S4_ARGS=(
     --prepend-separator='┋'
     --separator='⇳\n'
     --journal-output=export
-    --dt-after='19990303T000000+0000'
-    --dt-before='20260210T221032+0000'
+    --after='19990303T000000+0000'
+    --before='20260210T221032+0000'
     --summary
     "${@}"
 )

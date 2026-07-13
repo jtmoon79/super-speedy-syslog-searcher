@@ -61,8 +61,8 @@ Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-
 
 ## DateTime Filters
 
-- `-a, --dt-after <DT>` prints log messages at or after the datetime.
-- `-b, --dt-before <DT>` prints log messages at or before the datetime.
+- `-a, --after <DT>` prints log messages at or after the datetime.
+- `-b, --before <DT>` prints log messages at or before the datetime.
 - `-t, --tz-offset <TZ>` supplies the default timezone for datetimes that do not include one. For leading negative offsets, use equals syntax, such as `-t=-0800`.
 
 Useful datetime forms include:

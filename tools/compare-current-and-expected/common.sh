@@ -41,8 +41,8 @@ declare -arg S4_ARGS=(
     --prepend-separator='┋'
     --separator='⇳\n'
     --journal-output=export
-    --dt-after='19990303T000000+0000'
-    --dt-before='20260102T000000+0000'
+    --after='19990303T000000+0000'
+    --before='20260102T000000+0000'
     --summary
 )
 declare -rg S4_ARGS_QUOTED=$(for arg in "${S4_ARGS[@]}"; do echo -n "'${arg}' "; done)
