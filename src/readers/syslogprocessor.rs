@@ -705,7 +705,7 @@ impl SyslogProcessor {
                 // fileoffset is at the beginning of the file (or, cannot be moved back any more)
                 break;
             }
-            // if user-passed `--dt-after` and the sysline is prior to that filter then
+            // if user-passed `--after` and the sysline is prior to that filter then
             // stop processing
             match dt_after_or_before(syslinep.dt(), filter_dt_after_opt) {
                 Result_Filter_DateTime1::OccursBefore => {
@@ -1047,7 +1047,7 @@ impl SyslogProcessor {
     }
 
     /// Stage 2: Given the an optional datetime filter (user-passed
-    /// `--dt-after`), can a log message with a datetime after that filter be
+    /// `--after`), can a log message with a datetime after that filter be
     /// found?
     pub fn process_stage2_find_dt(
         &mut self,

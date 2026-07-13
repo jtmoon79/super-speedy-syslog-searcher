@@ -2819,7 +2819,7 @@ Command-line passed timezones may be numeric timezone offsets,
 e.g. "+09:00", "+0900", or "+09", or named timezone offsets, e.g. "JST".
 Ambiguous named timezones will be rejected, e.g. "SST".
 
-Resolved values of "--dt-after" and "--dt-before" can be reviewed in
+Resolved values of "--after" and "--before" can be reviewed in
 the "--summary" output.
 
 
@@ -2959,9 +2959,9 @@ struct CLI_Args {
         short = 'a',
         long,
         verbatim_doc_comment,
-        env="S4_DT_AFTER",
+        env="S4_AFTER",
     )]
-    dt_after: Option<String>,
+    after: Option<String>,
 
     /// DateTime Filter Before: print log messages with a datetime that is at
     /// or before this datetime.
@@ -2970,9 +2970,9 @@ struct CLI_Args {
         short = 'b',
         long,
         verbatim_doc_comment,
-        env="S4_DT_BEFORE",
+        env="S4_BEFORE",
     )]
-    dt_before: Option<String>,
+    before: Option<String>,
 
     /// Default timezone offset for datetimes without a timezone.
     /// For example, log message "{20200102T120000} Starting service" has a
@@ -3944,11 +3944,11 @@ fn cli_process_args() -> (
     let filter_dt_before: DateTimeLOpt;
     let empty_str: String = String::from("");
     let args_dt_after_s: &String = args
-        .dt_after
+        .after
         .as_ref()
         .unwrap_or(&empty_str);
     let args_dt_before_s: &String = args
-        .dt_before
+        .before
         .as_ref()
         .unwrap_or(&empty_str);
 
@@ -3959,22 +3959,22 @@ fn cli_process_args() -> (
     let utc_now = UTC_NOW.with(|utc_now| *utc_now);
     match (string_wdhms_to_duration(args_dt_after_s), string_wdhms_to_duration(args_dt_before_s)) {
         (Some((_, DUR_OFFSET_TYPE::Other, _, _)), Some((_, DUR_OFFSET_TYPE::Other, _, _))) => {
-            e_err!("cannot pass both --dt-after and --dt-before as relative to the other");
+            e_err!("cannot pass both --after and --before as relative to the other");
             std::process::exit(EXIT_ERR);
         }
         (Some((_, DUR_OFFSET_TYPE::Other, _, _)), _) => {
             // special-case: process `-b` value then process `-a` value
             // e.g. `-a "@+1d" -b "20010203"`
-            filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &None, &utc_now);
+            filter_dt_before = process_dt_exit(&args.before, &tz_offset, &None, &utc_now);
             defo!("filter_dt_before {:?}", filter_dt_before);
-            filter_dt_after = process_dt_exit(&args.dt_after, &tz_offset, &filter_dt_before, &utc_now);
+            filter_dt_after = process_dt_exit(&args.after, &tz_offset, &filter_dt_before, &utc_now);
             defo!("filter_dt_after {:?}", filter_dt_after);
         }
         _ => {
             // normal case: process `-a` value then process `-b` value
-            filter_dt_after = process_dt_exit(&args.dt_after, &tz_offset, &None, &utc_now);
+            filter_dt_after = process_dt_exit(&args.after, &tz_offset, &None, &utc_now);
             defo!("filter_dt_after {:?}", filter_dt_after);
-            filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &filter_dt_after, &utc_now);
+            filter_dt_before = process_dt_exit(&args.before, &tz_offset, &filter_dt_after, &utc_now);
             defo!("filter_dt_before {:?}", filter_dt_before);
         }
     }
@@ -3983,7 +3983,7 @@ fn cli_process_args() -> (
     match (filter_dt_after, filter_dt_before) {
         (Some(dta), Some(dtb)) => {
             if dta > dtb {
-                e_err!("Datetime --dt-after ({}) is after Datetime --dt-before ({})", dta, dtb);
+                e_err!("Datetime --after ({}) is after Datetime --before ({})", dta, dtb);
                 std::process::exit(EXIT_ERR);
             }
         }

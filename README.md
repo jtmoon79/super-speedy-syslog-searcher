@@ -531,16 +531,16 @@ Arguments:
 
 Options:
 
-  -a, --dt-after <DT_AFTER>
+  -a, --after <DT_AFTER>
           DateTime Filter After: print log messages with a datetime that is at
           or after this datetime. For example, "20200102T120000" or "-5d".
-          [env: S4_DT_AFTER=]
+          [env: S4_AFTER=]
 
-  -b, --dt-before <DT_BEFORE>
+  -b, --before <DT_BEFORE>
           DateTime Filter Before: print log messages with a datetime that is at
           or before this datetime.
           For example, "2020-01-03T23:00:00.321-05:30" or "@+1d+11h"
-          [env: S4_DT_BEFORE=]
+          [env: S4_BEFORE=]
 
   -t, --tz-offset <TZ_OFFSET>
           Default timezone offset for datetimes without a timezone.
@@ -748,7 +748,7 @@ do not have a timezone offset.
     "\0", "\a", "\b", "\e", "\f", "\n", "\r", "\\", "\t", "\v",
  and "\xhh" where "hh" is a 2-digit hexadecimal value.
 
-Resolved values of "--dt-after" and "--dt-before" can be reviewed in
+Resolved values of "--after" and "--before" can be reviewed in
 the "--summary" output.
 
 s4 uses file naming to determine the file type.
