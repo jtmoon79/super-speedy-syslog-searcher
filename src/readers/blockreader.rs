@@ -514,6 +514,10 @@ fn xz_uncompressed_size(
         .checked_sub(blocks_padded_size)
         .and_then(|value| value.checked_sub(XZ_STREAM_HEADER_SIZE))
         .ok_or_else(|| Error::new(ErrorKind::InvalidData, format!("invalid XZ stream extent for {path:?}")))?;
+    // XXX: This is where multiple streams would be handled, but currently
+    //      only a single stream starting at offset 0 is supported.
+    //      See Issue #11
+    //      <https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11>
     if stream_start != 0 {
         return Err(Error::new(
             ErrorKind::InvalidData,
