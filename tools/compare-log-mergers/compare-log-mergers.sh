@@ -125,7 +125,7 @@ PYSITE_PKG_PATH=$("${PYTHON}" -c "import sysconfig; print(sysconfig.get_path('pu
 readonly PYSITE_PKG_PATH
 (
     set -x
-    "${PYTHON}" -m compileall -q "${PYSITE_PKG_PATH}"
+    "${PYTHON}" -m compileall -o 0 -o 1 -o 2 -q "${PYSITE_PKG_PATH}"
 )
 
 declare -ar files=(
@@ -238,6 +238,20 @@ function s4_version() {
     fi
 }
 
+function s4_profile() {
+    declare -r prog=$1
+    declare out=
+    out=$("${prog}" --version)
+    # check if new version
+    if echo -n "${out}" | grep -qE '^Profile: ' &> /dev/null; then
+        # new version format
+        echo -n "${out}" | grep -Ee '^Profile: ' | sed -E 's/^Profile: (.+)$/\1/'
+    else
+        # old version format
+        echo "WARNING: no Profile found for s4 program ${prog}" >&2
+    fi
+}
+
 # print the s4 allocator from the --version string
 function s4_allocator() {
     declare -r prog=$1
@@ -265,6 +279,19 @@ function s4_platform() {
     else
         # try to grep the platform from the file name
         echo -n "${prog}" | sed -E 's/.+\/s4_(.+)_v[0-9.]+/\1/'
+    fi
+}
+
+# print the s4 `Optimization Level` from the --version string
+function s4_opt_lvl() {
+    declare -r prog=$1
+    declare out=
+    out=$("${prog}" --version)
+    # check if version
+    if echo -n "${out}" | grep -qE '^Optimization Level: ' &> /dev/null; then
+        echo -n "${out}" | grep -Ee '^Optimization Level: ' | sed -E 's/^Optimization Level: (.+)$/\1/'
+    else
+        echo "WARNING: no Optimization Level found for s4 program ${prog}" >&2
     fi
 }
 
@@ -316,10 +343,12 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
     (
         files_caching
         version=$(s4_version "${s4_full_path}")
+        profile=$(s4_profile "${s4_full_path}")
         allocator=$(s4_allocator "${s4_full_path}")
         platform=$(s4_platform "${s4_full_path}")
+        opt_lvl=$(s4_opt_lvl "${s4_full_path}")
         set -x
-        "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
+        "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
             -- \
             "${s4_full_path}" \
             "-a=${after_dt}" \
@@ -355,13 +384,28 @@ tm_file=$(tm_file_new)
 (
     files_caching
     version=$("${GREP}" --version | head -n1 | cut -f4 -d' ')
+    profile=' '
     allocator=' '
-    platform=' '
+    platform=$(arch)
+    opt_lvl=' '
     set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
         -- \
         sh -c "'"${GREP}"' -hEe '${regex_dt}' -- ${files[*]} | '${SORT}' -t ' ' -k 1 -s" > "${tmpOut}"
 )
+
+# BUG: [20260712] lnav schema input is broken!? Using lnav 0.13.2, get this error:
+#
+#      $ lnav -N -n -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime("2000-01-01T00:20:00") AND Datetime("2000-01-01T00:50:00")' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log
+#      ✘ error: “title” is not a valid log format
+#       reason: no regexes specified
+#       --> /home/user/.config/lnav/formats/installed/title.json:3
+#      ✘ error: “title” is not a valid log format
+#       reason: log message samples must be included in a format definition
+#       --> /home/user/.config/lnav/formats/installed/title.json:3
+#
+
+if false; then
 
 echo_line
 echo_title "lnav"
@@ -383,16 +427,18 @@ ${files[*]}"
 (
     files_caching
     version=$("${PROGRAM_LNAV}" --version | head -n1 | cut -d' ' -f2)
+    profile=$(arch)
     allocator=' '
     platform=' '
+    opt_lvl=' '
     set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
         -- \
         "${PROGRAM_LNAV}" -N -n \
             -c ";SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('${after_dt}') AND Datetime('${befor_dt}')" \
             "${files[@]}" > "${tmpOut}"
 )
-
+fi
 
 echo_line
 echo_title "logmerger"
@@ -405,7 +451,7 @@ echo "${PS4}logmerger --version"
 # precompile logmerger
 (
     set -x
-    "${PYTHON}" -m compileall "${PYSITE_PKG_PATH}/logmerger"*
+    "${PYTHON}" -m compileall -o 0 -o 1 -o 2 -q "${PYSITE_PKG_PATH}/logmerger"*
 )
 
 echo
@@ -414,6 +460,7 @@ json_file=$(json_file_new)
 tm_file=$(tm_file_new)
 (
     files_caching
+    export PYTHONOPTIMIZE=2
     set -x
     "${HYPERFINE}" -i --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" \
         --shell sh -n "${PROGRAM_LM}" \
@@ -423,10 +470,13 @@ tm_file=$(tm_file_new)
 (
     files_caching
     version=$("${PYTHON}" -m pip list | grep -Fe 'logmerger' | awk '{print $2}')
+    profile=' '
     allocator=' '
     platform=$("${PYTHON}" --version)
+    export PYTHONOPTIMIZE=2
+    opt_lvl='2'
     set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
         -- \
         "${PROGRAM_LM}" \
         "--inline" \
@@ -453,10 +503,12 @@ echo
     exit 0
     files_caching
     version=$("${PROGRAM_LD}" --version | head -n1)
+    profile=$("${PYTHON}" -c 'import platform; print(platform.machine())')
     allocator=' '
     platform=' '
+    opt_lvl=' '
     set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm}" \
         -- \
         "${PROGRAM_LD}" \
         --range "${after_dt_ld}-${befor_dt_ld}" \
@@ -477,7 +529,7 @@ PROGRAM_TL=${PROGRAM_TL-tl}
 (
     # precompile toolong
     set -x
-    "${PYTHON}" -m compileall "${PYSITE_PKG_PATH}/toolong"
+    "${PYTHON}" -m compileall -o 0 -o 1 -o 2 -q "${PYSITE_PKG_PATH}/toolong"
 )
 
 echo
@@ -489,11 +541,14 @@ if ! ${skip_tl}; then
         # tl, version 1.5.0
         version=$("${PROGRAM_TL}" --version | head -n1 | cut -d' ' -f3)
         allocator=' '
+        profile=' '
         platform=$("${PYTHON}" --version)
+        export PYTHONOPTIMIZE=2
+        opt_lvl='2'
         # run toolong (tl)
         # there is no way to make toolong automatically exit after processing input
         # the user must manually exit the TUI
-        "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
+        "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
             -- \
             "${PROGRAM_TL}" \
             --merge \
@@ -573,8 +628,8 @@ function to_milliseconds() {
 }
 
 # markdown table header
-echo '|Program|Version|Allocator|Platform|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
-echo '|:---   |:---   |:---     |:---    |---:     |---:    |---:    |---:        |---: |' >> "${tmpOut}"
+echo '|Program|Version|Profile|Allocator|Platform|Opt Level|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
+echo '|:---   |:---   |:---   |:---     |:---    |:---     |---:    |---:    |---:      |---:       |---: |' >> "${tmpOut}"
 
 json_count=$(wc -l < "${json_files}")
 tm_count=$(wc -l < "${tm_files}")
@@ -609,9 +664,11 @@ while IFS= read -r json <&3 && IFS= read -r tm <&4; do
         cpup=$(cat "${tm}" | cut -d'|' -f2)
         elapsed=$(cat "${tm}" | cut -d'|' -f3)
         version=$(cat "${tm}" | cut -d'|' -f4)
-        allocator=$(cat "${tm}" | cut -d'|' -f5)
-        platform=$(cat "${tm}" | cut -d'|' -f6)
-        echo "|\`${command}\`|${version}|${allocator}|${platform}|${mean} ± ${stddev}|${min}|${max}|${mss}|${cpup}|"
+        profile=$(cat "${tm}" | cut -d'|' -f5)
+        allocator=$(cat "${tm}" | cut -d'|' -f6)
+        platform=$(cat "${tm}" | cut -d'|' -f7)
+        opt_lvl=$(cat "${tm}" | cut -d'|' -f8)
+        echo "|\`${command}\`|${version}|${profile}|${allocator}|${platform}|${opt_lvl}|${mean} ± ${stddev}|${min}|${max}|${mss}|${cpup}|"
     ) >> "${tmpOut}"
 done
 exec 3<&-
