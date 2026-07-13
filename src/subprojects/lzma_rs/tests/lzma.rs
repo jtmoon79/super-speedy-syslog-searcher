@@ -5,7 +5,7 @@ extern crate lzma;
 #[cfg(feature = "lzma_rs_enable_logging")]
 use log::{debug, info};
 use std::io::Read;
-#[cfg(feature = "stream")]
+//#[cfg(feature = "stream")]
 use std::io::Write;
 
 use crate::subprojects::lzma_rs;
@@ -69,7 +69,7 @@ fn assert_round_trip_with_options(
         assert_eq!(decomp, x);
     }
 
-    #[cfg(feature = "stream")]
+    //#[cfg(feature = "stream")]
     // test streaming decompression
     {
         let mut stream = lzma_rs::decompress::Stream::new_with_options(decode_options, Vec::new());
@@ -122,7 +122,7 @@ fn assert_decomp_eq(compressed: &[u8], expected: &[u8], compare_to_liblzma: bool
     }
     */
 
-    #[cfg(feature = "stream")]
+    //#[cfg(feature = "stream")]
     {
         let mut stream = lzma_rs::decompress::Stream::new(Vec::new());
         stream.write_all(compressed).unwrap();
@@ -344,7 +344,7 @@ fn memlimit() {
         );
     }
 
-    #[cfg(feature = "stream")]
+    //#[cfg(feature = "stream")]
     // test streaming decompression
     {
         let mut stream = lzma_rs::decompress::Stream::new_with_options(&decode_options, Vec::new());

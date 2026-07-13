@@ -79,7 +79,7 @@ pub struct LzmaParams {
 
 impl LzmaParams {
     /// Create an new instance of LZMA parameters.
-    #[cfg(feature = "raw_decoder")]
+    //#[cfg(feature = "raw_decoder")]
     pub fn new(
         properties: LzmaProperties,
         dict_size: u32,
@@ -260,7 +260,7 @@ impl DecoderState {
         self.process_mode(output, rangecoder, ProcessingMode::Finish)
     }
 
-    #[cfg(feature = "stream")]
+    //#[cfg(feature = "stream")]
     pub fn process_stream<W: io::Write, LZB: LzBuffer<W>, R: io::BufRead>(
         &mut self,
         output: &mut LZB,
@@ -621,7 +621,7 @@ impl LzmaDecoder {
     ///
     /// This function may not allocate memory and will attempt to reuse any
     /// previously allocated resources.
-    #[cfg(feature = "raw_decoder")]
+    //#[cfg(feature = "raw_decoder")]
     pub fn reset(&mut self, unpacked_size: Option<Option<u64>>) {
         self.state.reset_state(self.params.properties);
 
