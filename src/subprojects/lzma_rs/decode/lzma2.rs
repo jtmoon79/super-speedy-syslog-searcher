@@ -36,7 +36,7 @@ impl Lzma2Decoder {
     }
 
     /// Reset the decoder.
-    #[cfg(feature = "raw_decoder")]
+    //#[cfg(feature = "raw_decoder")]
     pub fn reset(&mut self) {
         self.lzma_state.reset_state(LzmaProperties {
             lc: 0,

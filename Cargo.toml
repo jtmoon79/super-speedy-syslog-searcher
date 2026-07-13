@@ -210,7 +210,6 @@ test-case = "=3.2.1"
 seq-macro = "0.3"
 
 [features]
-default = ["stream"]
 # bench_decode_utf
 bench_jetscii = ["dep:jetscii"]
 bench_memchr = []
@@ -229,8 +228,6 @@ tcmalloc = ["dep:tcmalloc"]
 alloc_tracker = ["dep:backtrace", "dep:project-root", "dep:rustc-demangle", "dep:thousands", "dep:unit-prefix"]
 # src/subprojects/lzma_rs/
 lzma_rs_enable_logging = ["dep:log", "dep:env_logger"]
-stream = []
-raw_decoder = []
 
 # release build optimizations
 # from https://github.com/johnthagen/min-sized-rust
