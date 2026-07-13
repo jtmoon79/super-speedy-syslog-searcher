@@ -945,7 +945,7 @@ set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FO
 set encoding utf8
 set color
 set key off
-set title "Command: S4_BLOCKSZ=(${BLOCKSZ_MIN}..${BLOCKSZ_MAX} step by ${BLOCKSZ_ALIGN}) ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}, Cores: ${CpuCores}, RAM: ${RamSize} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+set title "Command: S4_BLOCKSZ=(${BLOCKSZ_MIN}..${BLOCKSZ_MAX} step by ${BLOCKSZ_ALIGN}) ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}, Cores: ${CpuCores}, RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set output "${OUT_SVG_BLOCKSZ}"
