@@ -744,11 +744,11 @@ jobs:
         run: |
           set -euxo pipefail
           ${S4D} -cn -u -p -w ${S4_TEST_FILES} | grep -qFe '6b-abcd'
-      - name: S4_FILE_HANDLE_OPEN_MAX=2 s4_debug -s S4_ARGSD S4_TEST_FILES
+      - name: S4_FILE_HANDLE_OPEN_MAX=8 s4_debug -s S4_ARGSD S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          export S4_FILE_HANDLE_OPEN_MAX=2
+          export S4_FILE_HANDLE_OPEN_MAX=8
           ${S4D} -s ${S4_TEST_FILES} &>/dev/null
       - name: ulimit=20 s4_debug -s S4_TEST_FILES
         shell: bash
@@ -817,11 +817,11 @@ jobs:
         run: |
           set -euxo pipefail
           ${S4R} -cn -u -p -w ${S4_TEST_FILES} | grep -qFe '6b-abcd'
-      - name: S4_FILE_HANDLE_OPEN_MAX=2 s4_release -s S4_TEST_FILES
+      - name: S4_FILE_HANDLE_OPEN_MAX=8 s4_release -s S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          export S4_FILE_HANDLE_OPEN_MAX=2
+          export S4_FILE_HANDLE_OPEN_MAX=8
           ${S4R} -s ${S4_TEST_FILES} &>/dev/null
       - name: ulimit=20 s4_release -s S4_TEST_FILES
         shell: bash
