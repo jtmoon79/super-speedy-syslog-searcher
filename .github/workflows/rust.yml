@@ -5,7 +5,7 @@
 # yamllint disable-line rule:line-length
 # yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
 ---
-name: Rust
+name: Build, Test
 on:  # yamllint disable-line rule:truthy
   push:
     paths:
