@@ -98,7 +98,7 @@ clap = { version = "=4.6.1", features = ["derive", "env"] }
 const_env = "=0.1.5"
 const_format = { version = "=0.2.36", features = ["assertcp", "rust_1_83"] }
 const-str.workspace = true
-crossbeam-channel = "=0.5.15"
+crossbeam-channel = "=0.5.16"
 ctrlc = "=3.5.2"
 current_platform = "=0.2.0"
 dlopen2 = "=0.8"
@@ -116,7 +116,7 @@ kinded = "=0.5.0"
 lazy_static.workspace = true
 lru = "=0.18.0"
 lz4_flex = "=0.13.1"
-memchr = "=2.8.2"
+memchr = "=2.8.3"
 memoffset = "=0.9.1"
 min-max = "=0.1.8"
 more-asserts.workspace = true
@@ -131,7 +131,7 @@ pathsearch = "=0.2.0"
 phf = { version = "=0.14.0", features = ["macros"] }
 rand = { version = "=0.10.2", features = ["thread_rng"] }
 rangemap = "=1.7.1"
-regex = { version = "=1.12.4", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
+regex = { version = "=1.13.0", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
 shell-escape = "=0.1.5"
 si_trace_print.workspace = true
 stringzilla = { version = "=3.12.6", optional = true }
@@ -165,7 +165,7 @@ env_logger = { version = "0.11.11", optional = true }
 build-print.workspace = true
 chrono = "=0.4.45"
 dotenvy.workspace = true
-list-features = "=0.1.2"
+list-features = "=1.0.0"
 rustc_version_runtime = "=0.3.0"
 windows_exe_info = { version = "=0.5", features = ["versioninfo", "windows_only"] }
 
