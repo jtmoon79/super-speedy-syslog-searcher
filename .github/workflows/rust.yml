@@ -746,11 +746,11 @@ jobs:
         run: |
           set -euxo pipefail
           ${S4D} -cn -u -p -w ${S4_TEST_FILES} | grep -qFe '6b-abcd'
-      - name: S4_FILE_HANDLE_OPEN_MAX=8 s4_debug -s S4_ARGSD S4_TEST_FILES
+      - name: S4_FILE_HANDLE_OPEN_MAX=12 s4_debug -s S4_ARGSD S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          export S4_FILE_HANDLE_OPEN_MAX=8
+          export S4_FILE_HANDLE_OPEN_MAX=12
           ${S4D} -s ${S4_TEST_FILES} &>/dev/null
       - name: ulimit=20 s4_debug -s S4_TEST_FILES
         shell: bash
@@ -775,25 +775,25 @@ jobs:
           python3 --version
           ${S4R} --venv
       - shell: bash
-        run: ${S4R} -cn ${S4_TEST_FILES}
+        run: ${S4R} -cn ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
-        run: ${S4R} ${S4_ARGSR} -cn ${S4_TEST_FILES}
+        run: ${S4R} ${S4_ARGSR} -cn ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
-        run: ${S4R} ${S4_ARGSR} -cn -l -n -w ${S4_TEST_FILES}
+        run: ${S4R} ${S4_ARGSR} -cn -l -n -w ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
-        run: ${S4R} ${S4_ARGSR} -cn -l -p -w ${S4_TEST_FILES}
+        run: ${S4R} ${S4_ARGSR} -cn -l -p -w ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
-        run: ${S4R} ${S4_ARGSR} -cn -u -n -w ${S4_TEST_FILES}
+        run: ${S4R} ${S4_ARGSR} -cn -u -n -w ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
-        run: ${S4R} ${S4_ARGSR} -cn -u -p -w ${S4_TEST_FILES}
+        run: ${S4R} ${S4_ARGSR} -cn -u -p -w ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
-        run: ${S4R} ${S4_ARGSR} -ca -l -n -w ${S4_TEST_FILES}
+        run: ${S4R} ${S4_ARGSR} -ca -l -n -w ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
-        run: ${S4R} ${S4_ARGSR} -ca -l -p -w ${S4_TEST_FILES}
+        run: ${S4R} ${S4_ARGSR} -ca -l -p -w ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
-        run: ${S4R} ${S4_ARGSR} -ca -u -n -w ${S4_TEST_FILES}
+        run: ${S4R} ${S4_ARGSR} -ca -u -n -w ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
-        run: ${S4R} ${S4_ARGSR} -ca -u -p -w ${S4_TEST_FILES}
+        run: ${S4R} ${S4_ARGSR} -ca -u -p -w ${S4_TEST_FILES} 1>/dev/null
       - shell: bash
         run: ${S4R} -s -cn ${S4_TEST_FILES} &>/dev/null
       - shell: bash
@@ -819,11 +819,11 @@ jobs:
         run: |
           set -euxo pipefail
           ${S4R} -cn -u -p -w ${S4_TEST_FILES} | grep -qFe '6b-abcd'
-      - name: S4_FILE_HANDLE_OPEN_MAX=8 s4_release -s S4_TEST_FILES
+      - name: S4_FILE_HANDLE_OPEN_MAX=12 s4_release -s S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          export S4_FILE_HANDLE_OPEN_MAX=8
+          export S4_FILE_HANDLE_OPEN_MAX=12
           ${S4R} -s ${S4_TEST_FILES} &>/dev/null
       - name: ulimit=20 s4_release -s S4_TEST_FILES
         shell: bash
