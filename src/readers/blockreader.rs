@@ -658,8 +658,12 @@ impl XzData {
                 )
             )?;
         let (sender, receiver) = bounded::<XzMessage>(1);
-        let path_thread: FPath = path.clone();
-        let thread_name: String = format!("{:?}-xz-decoder", path);
+        let thread_name_cur: String = match std::thread::current().name() {
+            Some(name) => name.to_string(),
+            None => path.clone()
+        };
+        let path2 = path.clone();
+        let thread_name: String = format!("{:?}-xz-decoder", thread_name_cur);
         let producer = thread::Builder::new()
             .name(thread_name)
             .spawn(move || {
@@ -671,7 +675,7 @@ impl XzData {
                         }
                     }
                     Err(error) => {
-                        _ = writer.send(XzMessage::Error(xz_decompress_error(error, &path_thread)));
+                        _ = writer.send(XzMessage::Error(xz_decompress_error(error, &path2)));
                     }
                 }
             })
