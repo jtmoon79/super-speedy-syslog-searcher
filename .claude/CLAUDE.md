@@ -34,3 +34,5 @@
 - start bash shells with options `--norc --noprofile`.
   Or use plain POSIX `sh` shells.
   Plain POSIX `sh` avoids common prompt error `bash: __zoxide_hook: command not found`.
+- to build a _release_ build faster, build profile `release_Opt0` which inherits from `release` but no optimizations so it compiles faster
+- do not make changes to files using `cargo fmt` or `rustfmt`. The format changes will obscure the important changes.
