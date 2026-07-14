@@ -74,17 +74,16 @@ and Apple System Logs (`.asl`).
   - [Why `s4`?](#why-s4)
   - [Features](#features)
   - [Limitations](#limitations)
-  - [Hacks](#hacks)
+  - [Antifeatures](#antifeatures)
   - [Feature Comparisons](#feature-comparisons)
   - [Performance Comparison](#performance-comparison)
-- [More](#more)
   - [Building locally](#building-locally)
   - [Parsing `.journal` files](#parsing-journal-files)
   - [Requesting Support For DateTime Formats; your particular log file](#requesting-support-for-datetime-formats-your-particular-log-file)
-- [Logging Chaos: The Problem `s4` Solves](#logging-chaos-the-problem-s4-solves)
-  - [Open-Source Software Examples](#open-source-software-examples)
-  - [Commercial Software Examples](#commercial-software-examples)
-  - [Summary](#summary)
+  - [Logging Chaos: The Problem `s4` Solves](#logging-chaos-the-problem-s4-solves)
+    - [Open-Source Software Examples](#open-source-software-examples)
+    - [Commercial Software Examples](#commercial-software-examples)
+    - [Summary](#summary)
 - [Licenses](#licenses)
 
 <!-- toc end -->
@@ -853,8 +852,7 @@ See the real-world example rationale in the section below,
   (see project path [`./logs/`])
 - Prepends datetime and file paths, for easy programmatic parsing or
   visual traversal of varying log messages
-- [Comparable speed as GNU `grep` and `sort`](#speed-comparison)
-- Accepts arbitrarily large files <sup><a href="#hacks">see _Hacks_</a></sup>
+- [Comparable speed as GNU `grep` and `sort`](#performance-comparison)
 
 [`acct`, `pacct`]: https://www.man7.org/linux/man-pages/man5/acct.5.html
 [`lastlog`]: https://man.netbsd.org/lastlog.5
@@ -953,7 +951,6 @@ See the latest [release] for pre-compiled binaries.
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
 [Issue #11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11
 [Issue #14]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14
-[Issue #12]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12
 [Issue #39]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39
 [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
 [Issue #443]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/443
@@ -962,13 +959,12 @@ See the latest [release] for pre-compiled binaries.
 [_Week dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates
 [without minutes and seconds]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times
 
-### Hacks
+### Antifeatures
 
 - Entire `.bz2` files are read once before processing ([Issue #300])
 - Entire `.lz4` files are read once before processing ([Issue #293])
 - Ad-hoc text log files without a year in the date are read once before
   processing.
-- Entire `.xz` files are read into memory before printing ([Issue #12])
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
 - Entire files within a `.tar` file are read into memory before printing ([Issue #13])
 - Entire [user accounting record files are read into memory] before printing
@@ -1162,8 +1158,6 @@ See further performance measurements in the [`releases`] directory.
 
 ---
 
-## More
-
 ### Building locally
 
 First see section [_manual build_].
@@ -1237,7 +1231,7 @@ Windows Event Log, a formal RFC 5424 syslog message, or an ad-hoc log message.
 
 ---
 
-## Logging Chaos: The Problem `s4` Solves
+### Logging Chaos: The Problem `s4` Solves
 
 In practice, most log file formats are an ad-hoc format. And among formally
 defined log formats, there are many variations. The result is merging varying
@@ -1249,9 +1243,9 @@ Log files can not be merged for a single coherent view.
 The following real-world example log files are available in project directory
 `./logs`.
 
-### Open-Source Software Examples
+#### Open-Source Software Examples
 
-#### nginx Webserver<!-- omit in toc -->
+##### nginx Webserver<!-- omit in toc -->
 
 For example, the open-source nginx web server
 [logs access attempts in an ad-hoc format] in the file `access.log`
@@ -1269,7 +1263,7 @@ which is an entirely dissimilar log format to the neighboring nginx log file,
 
 nginx is following the bad example set by the Apache Web Server.
 
-#### Debian 11<!-- omit in toc -->
+##### Debian 11<!-- omit in toc -->
 
 Here are log snippets from a Debian 11 host.
 
@@ -1303,7 +1297,7 @@ file `/var/log/unattended-upgrades/unattended-upgrades-shutdown.log`
 2022-10-10 23:07:16,775 WARNING - Unable to monitor PrepareForShutdown() signal, polling instead.
 ```
 
-#### Binary Files<!-- omit in toc -->
+##### Binary Files<!-- omit in toc -->
 
 And then there are binary files, such as the `wtmp` file on Linux and other
 Unix Operating Systems.
@@ -1334,13 +1328,13 @@ Additionally, if the `wtmp` file is from a different architecture
 or Operating System, then the binary record structure is likely not parseable
 by the resident `utmpdump` tool. What then!?
 
-### Commercial Software Examples
+#### Commercial Software Examples
 
 Commercial software and computer hardware vendors nearly always use
 ad-hoc log message formatting that is even more unpredictable among each log
 file on the same system.
 
-#### Synology DiskStation<!-- omit in toc -->
+##### Synology DiskStation<!-- omit in toc -->
 
 Here are log file snippets from a Synology DiskStation host.
 
@@ -1364,7 +1358,7 @@ info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task starte
 
 (yes, those are tab characters)
 
-#### Mac OS 12<!-- omit in toc -->
+##### Mac OS 12<!-- omit in toc -->
 
 Here are log file snippets from a Mac OS 12.6 host.
 
@@ -1415,7 +1409,7 @@ Oct 26 17:02:00: aslmanager starting
 
 Did you also notice how the log file _names_ differ in unexpected ways?
 
-#### Microsoft Windows 10<!-- omit in toc -->
+##### Microsoft Windows 10<!-- omit in toc -->
 
 Here are log snippets from a Windows 10 host.
 
@@ -1454,7 +1448,7 @@ file `${env:SystemRoot}/Performance/WinSAT/winsat.log`
 
 (yes, it reads hour `14`, and `PM`…  🙄)
 
-### Summary
+#### Summary
 
 This chaotic logging approach is typical of commercial and open-source software,
 __*AND IT'S A MESS!*__
