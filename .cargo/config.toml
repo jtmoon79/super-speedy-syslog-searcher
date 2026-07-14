@@ -1,0 +1,21 @@
+# .cargo/config.toml
+#
+# When building the Debian package, dependencies are sourced from the
+# vendor/ directory (created via `cargo vendor vendor/`) to allow offline
+# builds in Debian's build infrastructure.
+#
+# To prepare the vendor directory before building the package:
+#   cargo vendor vendor/
+#
+# This file is only used when a vendor/ directory is present. The
+# [source.crates-io] section is commented out so that normal development
+# builds continue to use crates.io.
+
+# Uncomment the following section when building the Debian package with
+# a populated vendor/ directory:
+#
+# [source.crates-io]
+# replace-with = "vendored-sources"
+#
+# [source.vendored-sources]
+# directory = "vendor"

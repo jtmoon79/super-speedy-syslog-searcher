@@ -1,0 +1,5 @@
+super-speedy-syslog-searcher (0.9.81-1) unstable; urgency=medium
+
+  * Initial Debian package.
+
+ -- James Thomas Moon <jtmoon79@users.noreply.github.com>  Sat, 14 Jun 2026 05:27:00 +0000
