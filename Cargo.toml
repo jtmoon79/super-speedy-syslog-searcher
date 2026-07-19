@@ -110,7 +110,6 @@ evtx = { version = "=0.12.2", features = ["multithreading"] }
 flate2 = "=1.1.9"
 include_dir = "=0.7.4"
 itertools = "=0.15.0"
-jetscii = { version = "=0.5.3", optional = true }
 jwalk = "=0.8.1"
 kinded = "=0.5.0"
 lazy_static.workspace = true
@@ -134,13 +133,11 @@ rangemap = "=1.7.1"
 regex = { version = "=1.13.0", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
 shell-escape = "=0.1.5"
 si_trace_print.workspace = true
-stringzilla = { version = "=3.12.6", optional = true }
 static_assertions = "=1.1.0"
 tar = "=0.4.46"
 tempfile = "=3.27.0"
 termcolor = "=1.4.1"
 unicode-width = "=0.2.2"
-unit-prefix = { version = "=0.5.2", optional = true }
 unroll = "=0.1.5"
 utf8_iter = "=1.0.4"
 version-compare = "=0.2.1"
@@ -150,16 +147,21 @@ mimalloc = { version = "=0.1.52", optional = true }
 rpmalloc = { version = "=0.2.2", optional = true }
 tcmalloc = { version = "=0.3.0", optional = true }
 tikv-jemallocator = { version = "=0.7.0", optional = true }
-# custom allocator `alloc_tracker` debug
+# custom allocator `alloc_tracker`
 backtrace = { version = "=0.3.76", optional = true }
 project-root = { version = "=0.2.2", optional = true }
 rustc-demangle = { version = "=0.1.27", optional = true }
 thousands = { version = "=0.2.0", optional = true }
+unit-prefix = { version = "=0.5.2", optional = true }
 # src/subprojects/lzma_rs/
 byteorder = "1.5.0"
 crc = "3.4.0"
 log = { version = "0.4.33", optional = true }
 env_logger = { version = "0.11.11", optional = true }
+# benches-only
+jetscii = { version = "=0.5.3", optional = true }
+range-set-blaze = { version = "0.6.1", optional = true }
+stringzilla = { version = "=3.12.6", optional = true }
 
 [build-dependencies]
 build-print.workspace = true
@@ -214,6 +216,7 @@ seq-macro = "0.3"
 bench_jetscii = ["dep:jetscii"]
 bench_memchr = []
 bench_stringzilla = ["dep:stringzilla"]
+bench_ranges = ["dep:range-set-blaze"]
 # allocator jemallocator
 jemalloc = ["dep:tikv-jemallocator"]
 # allocator mimalloc
@@ -358,14 +361,21 @@ panic = "abort"
 [[bench]]
 name = "bench_decode_utf"
 harness = false
+dependency = ["dep:jetscii"]
 
 [[bench]]
 name = "bench_prints"
 harness = false
 
 [[bench]]
+name = "bench_ranges"
+harness = false
+dependency = ["dep:range-set-blaze", "dep:rangemap"]
+
+[[bench]]
 name = "bench_regex"
 harness = false
+dependency = ["dep:regex", "dep:regex-automata"]
 
 [[bench]]
 name = "bench_slice_contains"
