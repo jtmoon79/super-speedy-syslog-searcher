@@ -20,7 +20,6 @@ exclude = [
 ]
 
 [dependencies]
-bitvec.workspace = true
 ere-core = { version = "=0.10.3", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
 ere-macros = { version = "=0.10.3", path = "../ere-macros", package = "super-speedy-syslog-searcher_ere-macros" }
 
