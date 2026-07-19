@@ -191,10 +191,17 @@ function echo_line() {
 }
 
 function echo_title() {
-    # black bold with a orange background for titles
+    # black bold with orange background for titles
     echo -e "\033[1;4;38;5;0;48;5;214m${*}\033[0m"
     echo
 }
+
+function echo_command() {
+    # green bold with default background for commands
+    echo -e "\033[1;32m${PS4}${*}\033[0m"
+    echo
+}
+
 
 function file_size() {
     stat --printf='%s' "${1}"
@@ -335,10 +342,11 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
         if [[ -n "${s4_prog_extra-}" ]]; then
             s4_prog_extra=" ${s4_prog_extra}"
         fi
+        echo_command "${s4_full_path} -a='${after_dt}' -b='${befor_dt}' -cn ${files[*]}"
         set -x
         "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "s4${s4_prog_extra-}" \
             -- \
-            "'${s4_full_path}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+            "'${s4_full_path}' -a='${after_dt}' -b='${befor_dt}' -cn ${files[*]} > /dev/null"
     )
     (
         files_caching
@@ -376,6 +384,7 @@ tm_file=$(tm_file_new)
     files_caching
     # search for datetimes between $after_dt $befor_dt
     # using decently constrained regexp to match meaning
+    echo_command "${GREP} -hEe '${regex_dt}' -- ${files[*]} | ${SORT} -t ' ' -k 1 -s"
     set -x
     "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" --shell sh -n "grep+sort" \
         -- \
@@ -414,6 +423,7 @@ json_file=$(json_file_new)
 tm_file=$(tm_file_new)
 (
     files_caching
+    echo_command "${PROGRAM_LNAV}' -N -n -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime(\"${after_dt}\") AND Datetime(\"${befor_dt}\")' ${files[*]}"
     set -x
     "${PROGRAM_LNAV}" --version
     "${PROGRAM_LNAV}" -i -W ./tools/compare-log-mergers/lnav1.json
@@ -461,6 +471,7 @@ tm_file=$(tm_file_new)
 (
     files_caching
     export PYTHONOPTIMIZE=2
+    echo_command "${PROGRAM_LM} --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]}"
     set -x
     "${HYPERFINE}" -i --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" \
         --shell sh -n "${PROGRAM_LM}" \
@@ -507,6 +518,7 @@ echo
     allocator=' '
     platform=' '
     opt_lvl=' '
+    echo_command "${PROGRAM_LD}" --range "'${after_dt_ld}-${befor_dt_ld}'" "${files[@]}" >&2
     set -x
     "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm}" \
         -- \
@@ -545,9 +557,11 @@ if ! ${skip_tl}; then
         platform=$("${PYTHON}" --version)
         export PYTHONOPTIMIZE=2
         opt_lvl='2'
+        echo_command "${PROGRAM_TL}" --merge --output-merge "${tmpOut}" "${files[@]}"
         # run toolong (tl)
         # there is no way to make toolong automatically exit after processing input
         # the user must manually exit the TUI
+        set -x
         "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
             -- \
             "${PROGRAM_TL}" \
