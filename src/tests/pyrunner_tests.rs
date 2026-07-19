@@ -9,7 +9,18 @@
 
 use std::env;
 use std::path::PathBuf;
-use std::time::Duration;
+use std::sync::{
+    atomic::{
+        AtomicBool,
+        Ordering,
+    },
+    Arc,
+};
+use std::thread;
+use std::time::{
+    Duration,
+    Instant,
+};
 
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
@@ -1111,6 +1122,46 @@ fn test_PyRunner_exit_early(
         buffer_to_string_noraw(expect_stderr.as_slice()));
 
     defx!();
+}
+
+#[test]
+fn test_PyRunner_cancel_silent_process() {
+    venv_setup();
+
+    let python_path = find_python_executable(PythonToUse::Path)
+        .as_ref().expect("failed to find python executable in the PATH");
+    let mut pyr = PyRunner::new(
+        PythonToUse::Value,
+        path_id_generator(),
+        8,
+        RECV_TIMEOUT,
+        Some(b'\n'),
+        None,
+        Some(python_path.clone()),
+        vec!["-c", "import time; time.sleep(60)"],
+    ).expect("PyRunner new failed");
+
+    let cancel = Arc::new(AtomicBool::new(false));
+    let cancel_setter = Arc::clone(&cancel);
+    let cancel_thread = thread::spawn(move || {
+        thread::sleep(Duration::from_millis(25));
+        cancel_setter.store(true, Ordering::Relaxed);
+    });
+
+    let start = Instant::now();
+    let result = pyr.write_read_cancel(None, &cancel);
+    let elapsed = start.elapsed();
+    cancel_thread.join().expect("cancellation thread panicked");
+
+    assert!(result.is_none(), "write_read_cancel did not report cancellation");
+    assert!(elapsed < Duration::from_secs(5), "cancellation took {elapsed:?}");
+    assert!(pyr.exited(), "cancelled Python process was not reaped");
+    let exit_status = pyr.exit_status().expect("cancelled Python process has no exit status");
+    assert_eq!(
+        pyr.terminate().expect("repeated terminate failed"),
+        exit_status,
+        "repeated terminate changed the exit status"
+    );
 }
 
 // XXX: cannot test `find_python_executable(PythonToUse::Env)` because `find_python_executable`

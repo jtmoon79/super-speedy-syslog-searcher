@@ -10,6 +10,7 @@ use std::io::{
     Result,
 };
 use std::path::Path;
+use std::sync::atomic::AtomicBool;
 use std::time::Duration;
 
 use chrono::{TimeZone, Timelike};
@@ -630,6 +631,26 @@ impl PyEventReader {
         dt_filter_after: &DateTimeLOpt,
         dt_filter_before: &DateTimeLOpt,
     ) -> ResultNextPyDataEvent {
+        self.next_impl(dt_filter_after, dt_filter_before, None)
+            .expect("next without cancellation cannot be cancelled")
+    }
+
+    #[inline(always)]
+    pub fn next_cancel(
+        &mut self,
+        dt_filter_after: &DateTimeLOpt,
+        dt_filter_before: &DateTimeLOpt,
+        cancel: &AtomicBool,
+    ) -> Option<ResultNextPyDataEvent> {
+        self.next_impl(dt_filter_after, dt_filter_before, Some(cancel))
+    }
+
+    fn next_impl(
+        &mut self,
+        dt_filter_after: &DateTimeLOpt,
+        dt_filter_before: &DateTimeLOpt,
+        cancel: Option<&AtomicBool>,
+    ) -> Option<ResultNextPyDataEvent> {
         def1n!("({:?}, {:?})", dt_filter_after, dt_filter_before);
 
         while !self.exited {
@@ -654,7 +675,10 @@ impl PyEventReader {
                     }
                 };
 
-                let outputs = self.pyrunner.write_read(stdin_data.as_deref());
+                let outputs = match cancel {
+                    Some(cancel_) => self.pyrunner.write_read_cancel(stdin_data.as_deref(), cancel_)?,
+                    None => self.pyrunner.write_read(stdin_data.as_deref()),
+                };
                 (stdout_data, _stderr_data) = match outputs {
                     (exited, out, err) => {
                         if ! exited {
@@ -747,7 +771,7 @@ impl PyEventReader {
                 Some(event) => {
                     def1x!("return event with {} bytes, fill_buffer has {} events",
                         event.len(), self.fill_buffer.len());
-                    return ResultNextPyDataEvent::Found(event);
+                    return Some(ResultNextPyDataEvent::Found(event));
                 },
                 None => {
                     // no events in the fill_buffer
@@ -764,7 +788,7 @@ impl PyEventReader {
                             );
                             def1x!("empty fill_buffer, process exited with {:?}, return Err",
                                 self.pyrunner.exit_status());
-                            return ResultNextPyDataEvent::Err(
+                            return Some(ResultNextPyDataEvent::Err(
                                 Error::new(
                                     ErrorKind::Other,
                                     format!(
@@ -774,12 +798,12 @@ impl PyEventReader {
                                         self.error.as_ref().unwrap_or(&String::from("Unknown error")),
                                     ),
                                 )
-                            );
+                            ));
                         }
                         // process exited okay
                         def1x!("empty fill_buffer, process exited with {:?}, return Done",
                             self.pyrunner.exit_status());
-                        return ResultNextPyDataEvent::Done;
+                        return Some(ResultNextPyDataEvent::Done);
                     }
                     def1o!("empty fill_buffer, process not exited or exhausted, continue…");
                     continue;
@@ -802,16 +826,16 @@ impl PyEventReader {
                 stderr_data_all.len()
             );
             let s = String::from_utf8_lossy(stderr_data_all);
-            return ResultNextPyDataEvent::Err(
+            return Some(ResultNextPyDataEvent::Err(
                 Error::new(
                     ErrorKind::Other,
                     s,
-                ));
+                )));
         }
 
         def1x!("return ResultNextPyDataEvent::Done");
 
-        ResultNextPyDataEvent::Done
+        Some(ResultNextPyDataEvent::Done)
     }
 
     #[inline(always)]

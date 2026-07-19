@@ -79,7 +79,10 @@ use crate::readers::blockreader::SummaryBlockReader;
 use crate::readers::filehandlemanager::SummaryFileHandleManager;
 use crate::readers::filepreprocessor::ProcessPathResult;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
-use crate::readers::linereader::SummaryLineReader;
+use crate::readers::linereader::{
+    LINE_SEARCH_MAX,
+    SummaryLineReader,
+};
 use crate::readers::pyeventreader::PyEventType;
 use crate::readers::summary::{
     Summary,
@@ -939,6 +942,7 @@ pub fn print_summary(
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
     eprintln!("Printed Journal events : {}", summaryprinted.journalentries);
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
+    eprintln!("Line Maximum                   : {}", LINE_SEARCH_MAX);
     eprintln!("Line longest                   : {}", longest_line);
     eprintln!("Sysline longest                : {}", longest_sysline);
     eprintln!("EVTX event largest processed   : {}", event_largest_processed);

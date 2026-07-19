@@ -2,6 +2,8 @@
 
 //! Tests for `s4.rs`
 
+use std::collections::HashMap;
+
 use ::s4lib::common::{
     FIXEDOFFSET0,
 };
@@ -71,6 +73,37 @@ const FO0: FixedOffset = FIXEDOFFSET0;
 const FO_E1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
 const FO_E8: FixedOffset = FixedOffset::east_opt(28800).unwrap();
 const FO_W8: FixedOffset = FixedOffset::west_opt(28800).unwrap();
+
+#[test]
+fn test_select_remove_reregister_and_signal() {
+    let (signal_send, signal_recv) = crossbeam_channel::bounded::<()>(1);
+    let (data_send, data_recv) = crossbeam_channel::bounded::<usize>(1);
+    let mut select = crossbeam_channel::Select::new();
+    let signal_index = select.recv(&signal_recv);
+    let data_index = select.recv(&data_recv);
+    let mut index_pathid = HashMap::from([(data_index, 7_u64)]);
+    let mut pathid_index = HashMap::from([(7_u64, data_index)]);
+
+    data_send.send(42).unwrap();
+    let operation = select.select();
+    assert_eq!(operation.index(), data_index);
+    assert_eq!(operation.recv(&data_recv), Ok(42));
+
+    select.remove(data_index);
+    index_pathid.remove(&data_index);
+    pathid_index.remove(&7_u64);
+    let data_index_reregistered = select.recv(&data_recv);
+    assert_ne!(data_index_reregistered, data_index);
+    index_pathid.insert(data_index_reregistered, 7_u64);
+    pathid_index.insert(7_u64, data_index_reregistered);
+    assert_eq!(index_pathid.get(&data_index_reregistered), Some(&7_u64));
+    assert_eq!(pathid_index.get(&7_u64), Some(&data_index_reregistered));
+
+    signal_send.try_send(()).unwrap();
+    let operation = select.select();
+    assert_eq!(operation.index(), signal_index);
+    assert_eq!(operation.recv(&signal_recv), Ok(()));
+}
 
 lazy_static! {
     /// 1970-01-01T01:00:00+01:00

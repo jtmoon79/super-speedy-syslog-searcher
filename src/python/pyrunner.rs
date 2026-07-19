@@ -28,7 +28,13 @@ use std::process::{
     Command,
     Stdio,
 };
-use std::sync::RwLock;
+use std::sync::{
+    atomic::{
+        AtomicBool,
+        Ordering,
+    },
+    RwLock,
+};
 use std::thread;
 use std::time::{
     Duration,
@@ -1100,6 +1106,34 @@ impl PyRunner {
     /// stderr are preserved in stderr_all because they often have the crucial error
     /// information e.g. a Python stack trace.
     pub fn write_read(&mut self, input_data: Option<&[u8]>) -> (bool, Option<Bytes>, Option<Bytes>) {
+        self.write_read_impl(input_data, None)
+            .expect("write_read without cancellation cannot be cancelled")
+    }
+
+    /// Cancellation-aware variant of [`Self::write_read`].
+    ///
+    /// Returns `None` after terminating and reaping the Python process when
+    /// `cancel` becomes `true`.
+    pub fn write_read_cancel(
+        &mut self,
+        input_data: Option<&[u8]>,
+        cancel: &AtomicBool,
+    ) -> Option<(bool, Option<Bytes>, Option<Bytes>)> {
+        self.write_read_impl(input_data, Some(cancel))
+    }
+
+    fn write_read_impl(
+        &mut self,
+        input_data: Option<&[u8]>,
+        cancel: Option<&AtomicBool>,
+    ) -> Option<(bool, Option<Bytes>, Option<Bytes>)> {
+        if cancel.is_some_and(|cancel_| cancel_.load(Ordering::Relaxed)) {
+            if let Err(_err) = self.terminate() {
+                de_err!("Failed to terminate Python process {}: {}", self.pid_, _err);
+            }
+            return None;
+        }
+
         let _len = input_data.unwrap_or(&[]).len();
         def1n!("{} input_data: {} bytes", self._d_p, _len);
 
@@ -1167,12 +1201,28 @@ impl PyRunner {
 
         if sel_out == 0 && sel_err == 0 {
             def1o!("{_d_p} both stdout and stderr EOF; return");
-            return (self.exited_exhausted(), None, None);
+            return Some((self.exited_exhausted(), None, None));
         }
 
         def1o!("{_d_p} wait on {} selects…", _sel_counts);
         let d1: Instant = Instant::now();
-        let sel_oper = sel.select();
+        let sel_oper = match cancel {
+            None => sel.select(),
+            Some(cancel_) => loop {
+                if cancel_.load(Ordering::Relaxed) {
+                    summary_stat!(self.duration_proc_wait += d1.elapsed());
+                    drop(sel);
+                    if let Err(_err) = self.terminate() {
+                        de_err!("Failed to terminate Python process {}: {}", self.pid_, _err);
+                    }
+                    return None;
+                }
+                match sel.select_timeout(RECV_TIMEOUT) {
+                    Ok(sel_oper) => break sel_oper,
+                    Err(_) => continue,
+                }
+            },
+        };
         summary_stat!(self.duration_proc_wait += d1.elapsed());
         let sel_index: usize = sel_oper.index() + 1; // avoid zero index
         def1o!("{_d_p} selected {}", sel_index);
@@ -1324,7 +1374,7 @@ impl PyRunner {
                 self.pipe_stderr_eof
         );
 
-        (self.exited_exhausted(), stdout_data, stderr_data)
+        Some((self.exited_exhausted(), stdout_data, stderr_data))
     }
 
     /// Has a `subprocess::poll` or `subprocess::wait` already returned an `ExitStatus`?
@@ -1336,6 +1386,32 @@ impl PyRunner {
     /// *and* have both stdout and stderr streams reached EOF?
     pub fn exited_exhausted(&self) -> bool {
         self.exit_status.is_some() && self.pipe_stdout_eof && self.pipe_stderr_eof
+    }
+
+    /// Terminates the Python process if it is still running and waits for it
+    /// to be reaped. Calling this after the process has exited is a no-op.
+    pub fn terminate(&mut self) -> Result<ExitStatus> {
+        self.process.stdin.take();
+
+        if let Some(exit_status) = self.poll() {
+            return Ok(exit_status);
+        }
+
+        let kill_result = self.process.kill();
+        self.pipes_exit_sender(ProcessStatus::Exited);
+        let wait_result = self.wait();
+
+        match (kill_result, wait_result) {
+            (_, Ok(exit_status)) => Ok(exit_status),
+            (Err(kill_error), Err(wait_error)) => Err(Error::new(
+                wait_error.kind(),
+                format!(
+                    "Python process {} kill() failed: {}; wait() failed: {}",
+                    self.pid_, kill_error, wait_error
+                ),
+            )),
+            (Ok(_), Err(wait_error)) => Err(wait_error),
+        }
     }
 
     /// Wait for the Python process to exit.
@@ -1583,5 +1659,8 @@ impl PyRunner {
 impl Drop for PyRunner {
     fn drop(&mut self) {
         def1ñ!("PathID {} PID {} TID {}", self.path_id(), self.pid(), self.tid());
+        if !self.exited() && let Err(_err) = self.terminate() {
+            de_err!("Failed to terminate Python process {} during drop: {}", self.pid_, _err);
+        }
     }
 }

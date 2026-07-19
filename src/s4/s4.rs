@@ -114,7 +114,12 @@ use std::io::{
     Error,
 };
 use std::process::ExitCode;
-use std::sync::RwLock;
+use std::sync::{
+    atomic::{
+        AtomicBool,
+        Ordering,
+    },
+};
 use std::time::Instant;
 use std::{
     str,
@@ -141,7 +146,6 @@ use ::const_env;
 use ::const_format::concatcp;
 use ::crossbeam_channel;
 use ::current_platform::CURRENT_PLATFORM;
-use ::lazy_static::lazy_static;
 use ::regex::Regex;
 use ::si_trace_print::stack::stack_offset_set;
 use ::si_trace_print::{
@@ -3199,21 +3203,27 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     summary: bool,
 }
 
-/// wrapper for checking `EARLY_EXIT`, returns if necessary
-macro_rules! exit_early_check {
+#[inline(always)]
+fn exit_early() -> bool {
+    EXIT_EARLY.load(Ordering::Relaxed)
+}
+
+/// wrapper for checking `EXIT_EARLY`, returns if necessary
+macro_rules! exit_early_return {
     () => {
-        match EXIT_EARLY.read() {
-            Ok(exit_early) => {
-                if *exit_early {
-                    defx!("EXIT_EARLY.read() true; return false");
-                    return false;
-                }
-            }
-            Err(err) => {
-                e_err!("EXIT_EARLY.read() failed: {:?}", err);
-                defx!("return false");
-                return false;
-            }
+        if exit_early() {
+            defx!("exit early! return");
+            return;
+        }
+    };
+}
+
+/// wrapper for checking `EXIT_EARLY`, returns `false` if necessary
+macro_rules! exit_early_return_false {
+    () => {
+        if exit_early() {
+            defx!("exit early! return false");
+            return false;
         }
     };
 }
@@ -4219,31 +4229,11 @@ pub fn main() -> ExitCode {
     exitcode
 }
 
-lazy_static! {
-    /// mapping of PathId to received data. Most important collection for function
-    /// `processing_loop`.
-    /// Must be lazy static (global) so that is may be called from the
-    /// `ctrlc::set_handler` signal handler.
-    //
-    // XXX: there's a few imperfect uses that read then read-again with presumption
-    //      `MAP_PATHID_CHANRECVDATUM` was not written to in-between. In the rare
-    //      case that occurs, it should not be a problem.
-    static ref MAP_PATHID_CHANRECVDATUM: RwLock<MapPathIdChanRecvDatum> = {
-        defñ!("lazy_static! map_pathid_chanrecvdatum");
-
-        RwLock::new(MapPathIdChanRecvDatum::new())
-    };
-    /// flag to signal to main thread should return ASAP.
-    /// Polled by function `processing_loop`.
-    static ref EXIT_EARLY: RwLock<bool> = {
-        defñ!("lazy_static! exit_early");
-
-        RwLock::new(false)
-    };
-}
+/// Flag signaling that processing should stop as soon as possible.
+static EXIT_EARLY: AtomicBool = AtomicBool::new(false);
 
 /// set a process signal handler
-pub fn set_signal_handler() -> anyhow::Result<(), ctrlc::Error> {
+pub fn set_signal_handler(signal_send: crossbeam_channel::Sender<()>) -> anyhow::Result<(), ctrlc::Error> {
     defn!();
 
     // define the signal handler
@@ -4251,25 +4241,8 @@ pub fn set_signal_handler() -> anyhow::Result<(), ctrlc::Error> {
         defn!();
         // XXX: could also use libc::pthread_kill ?
 
-        // drop all receiver channels causing the receiver to close
-        // the corresponding sender side will get an error on it's next `send`
-        let mut map_pathid_chanrecvdatum = MAP_PATHID_CHANRECVDATUM.write().unwrap();
-        defo!("map_pathid_chanrecvdatum.clear() {} entries", (*map_pathid_chanrecvdatum).len());
-        (*map_pathid_chanrecvdatum).clear();
-
-        // remove the named temporary files
-        // (the entire reason this complex signal handler had to be implemented)
-        _ = remove_temporary_files();
-
-        // signal the `processing_loop` to return early
-        match EXIT_EARLY.write() {
-            Ok(mut exit_early) => {
-                *exit_early = true;
-            }
-            Err(_err) => {
-                de_err!("EXIT_EARLY.write().unwrap() failed {}", _err);
-            }
-        }
+        EXIT_EARLY.store(true, Ordering::Relaxed);
+        _ = signal_send.try_send(());
 
         defx!();
     })?;
@@ -4400,7 +4373,8 @@ fn chan_send(
     chan_send_dt: &ChanSendDatum,
     chan_datum: ChanDatum,
     _path: &FPath,
-) {
+) -> bool {
+    exit_early_return_false!();
     if cfg!(debug_assertions) {
         let _err_s: String = match &chan_datum {
             ChanDatum::FileInfo(_, fileprocessingresult) => {
@@ -4414,8 +4388,11 @@ fn chan_send(
         def1ñ!("chan_send(..., chan_datum={}, _path={:?})", _err_s, _path);
     }
     match chan_send_dt.send(chan_datum) {
-        Ok(_) => {}
-        Err(_err) => de_err!("chan_send_dt.send(…) failed {} for {:?}", _err, _path),
+        Ok(_) => true,
+        Err(_err) => {
+            de_err!("chan_send_dt.send(…) failed {} for {:?}", _err, _path);
+            false
+        }
     }
 }
 
@@ -4451,6 +4428,8 @@ fn exec_syslogprocessor(
     ) = thread_init_data;
     defn!("({:?})", path);
     debug_assert!(matches!(_filetypeexecdata, FileTypeExecData::None));
+
+    exit_early_return!();
 
     // TODO: add thread runtime tracking with `Instant::now()`
     //       create an `Instant::now()` in the `SyslogProcessor::new()`
@@ -4501,11 +4480,14 @@ fn exec_syslogprocessor(
     let result = syslogproc.process_stage0_valid_file_check();
     let mtime = syslogproc.mtime();
     let dt = systemtime_to_datetime(&tz_offset, &mtime);
-    chan_send(
+    if !chan_send(
         &chan_send_dt,
         ChanDatum::FileInfo(DateTimeLOpt::Some(dt), result),
         &path,
-    );
+    ) {
+        defx!("({:?}) return early during stage 0, chan_send_dt.send failed", path);
+        return;
+    }
 
     deo!("{:?}({}): processing stage 1", _tid, _tname);
 
@@ -4555,14 +4537,17 @@ fn exec_syslogprocessor(
             fo1 = fo;
             let is_last: IsLastLogMessage = syslogproc.is_sysline_last(&syslinep) as IsLastLogMessage;
             deo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", _tid, _tname, syslinep, is_last);
-            chan_send(
+            if !chan_send(
                 &chan_send_dt,
                 ChanDatum::NewMessage(
                     LogMessage::Sysline(syslinep),
                     is_last,
                 ),
                 &path
-            );
+            ) {
+                defx!("({:?}) return early during stage 2, chan_send_dt.send failed", path);
+                return;
+            }
             if is_last {
                 // XXX: sanity check
                 debug_assert!(
@@ -4609,6 +4594,7 @@ fn exec_syslogprocessor(
     // the majority of sysline processing for this file occurs in this loop
     let mut syslinep_last_opt: Option<SyslineP> = None;
     loop {
+        exit_early_return!();
         // TODO: [2022/06/20] see note about refactoring `find` functions so
         //                    they are more intuitive
         let result: ResultFindSysline = syslogproc.find_sysline_between_datetime_filters(fo1);
@@ -4616,14 +4602,17 @@ fn exec_syslogprocessor(
             ResultFindSysline::Found((fo, syslinep)) => {
                 let syslinep_tmp = syslinep.clone();
                 let is_last: IsLastLogMessage = syslogproc.is_sysline_last(&syslinep);
-                chan_send(
+                if !chan_send(
                     &chan_send_dt,
                     ChanDatum::NewMessage(
                         LogMessage::Sysline(syslinep),
                         is_last,
                     ),
                     &path
-                );
+                ) {
+                    defx!("({:?}) return early during stage 3, chan_send_dt.send failed", path);
+                    return;
+                }
                 fo1 = fo;
                 // XXX: sanity check
                 if is_last {
@@ -4695,6 +4684,7 @@ fn exec_fixedstructprocessor(
             return;
         }
     };
+    exit_early_return!();
 
     let mut fixedstructreader: FixedStructReader = match FixedStructReader::new(
         pathid,
@@ -4886,18 +4876,22 @@ fn exec_fixedstructprocessor(
     defo!("starting process_entry_at loop from fileoffset_first {:?}", fo);
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
     loop {
+        exit_early_return!();
         let fo_next = match fixedstructreader.process_entry_at(fo, &mut buffer) {
             ResultFindFixedStruct::Found((fo_, fixedstruct)) => {
                 defo!("ResultFindFixedStruct::Found({}, …)", fo_);
                 let is_last = fixedstructreader.is_last(&fixedstruct);
-                chan_send(
+                if !chan_send(
                     &chan_send_dt,
                     ChanDatum::NewMessage(
                         LogMessage::FixedStruct(fixedstruct),
                         is_last,
                     ),
                     &path
-                );
+                ) {
+                    defx!("({:?}) return early during process_entry_at loop, chan_send_dt.send failed", path);
+                    return;
+                }
 
                 fo_
             }
@@ -4956,6 +4950,7 @@ fn exec_evtxprocessor(
     defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
     debug_assert!(filetype.is_evtx());
     debug_assert!(matches!(_filetypeexecdata, FileTypeExecData::None));
+    exit_early_return!();
 
     let mut evtxreader: EvtxReader = match EvtxReader::new(
         pathid,
@@ -5008,18 +5003,23 @@ fn exec_evtxprocessor(
         &filter_dt_before_opt,
     );
 
-    while let Some(evtx) = evtxreader.next()
+    while !exit_early() && let Some(evtx) = evtxreader.next()
     {
         let is_last = false;
-        chan_send(
+        if !chan_send(
             &chan_send_dt,
             ChanDatum::NewMessage(
                 LogMessage::Evtx(evtx),
                 is_last,
             ),
             &path
-        );
+        ) {
+            defx!("({:?}) return early during evtxreader.next() loop, chan_send_dt.send failed", path);
+            return;
+        }
     }
+
+    exit_early_return!();
 
     let summary = evtxreader.summary_complete();
     chan_send(
@@ -5054,6 +5054,8 @@ fn exec_pyeventprocessor(
     ) = thread_init_data;
     defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
     debug_assert!(filetype.is_etl() || filetype.is_odl() || filetype.is_asl());
+
+    exit_early_return!();
 
     let etl_parser_used: Option<EtlParserUsed> = match filetypeexecdata {
         FileTypeExecData::Etl(etl_parser_used) => Some(etl_parser_used),
@@ -5135,20 +5137,28 @@ fn exec_pyeventprocessor(
     let mut result_err: Option<FileProcessingResult<Error>> = None;
     // call py_event_reader.next() until exhausted
     loop {
-        match py_event_reader.next(
+        exit_early_return!();
+        let Some(next_result) = py_event_reader.next_cancel(
             &filter_dt_after_opt,
             &filter_dt_before_opt,
-        ) {
+            &EXIT_EARLY,
+        ) else {
+            return;
+        };
+        match next_result {
             ResultNextPyDataEvent::Found(etl_event) => {
                 def1o!("ResultNextPyDataEvent::Found({} bytes); chan_send()…", etl_event.len());
-                chan_send(
+                if !chan_send(
                     &chan_send_dt,
                     ChanDatum::NewMessage(
                         LogMessage::PyEvent(etl_event, pyevent_type),
                         false,
                     ),
                     &path
-                );
+                ) {
+                    defx!("({:?}) return early during py_event_reader.next() loop, chan_send_dt.send failed", path);
+                    return;
+                }
             }
             ResultNextPyDataEvent::Done => {
                 def1o!("ResultNextPyDataEvent::Done");
@@ -5166,6 +5176,8 @@ fn exec_pyeventprocessor(
             }
         }
     };
+
+    exit_early_return!();
 
     let summary = py_event_reader.summary_complete();
     chan_send(
@@ -5201,6 +5213,8 @@ fn exec_journalprocessor(
     defn!("{:?}({}): ({:?})", _tid, _tname, path);
     debug_assert!(filetype.is_journal());
     debug_assert!(matches!(filetypeexecdata, FileTypeExecData::Journal(_)));
+
+    exit_early_return!();
 
     let journal_output: JournalOutput = match filetypeexecdata {
         FileTypeExecData::Journal(journal_output) => journal_output,
@@ -5282,18 +5296,22 @@ fn exec_journalprocessor(
 
     let mut result_err: Option<FileProcessingResult<Error>> = None;
     loop {
+        exit_early_return!();
         let result = journalreader.next(&ts_filter_before);
         match result {
             ResultNext::Found(journalentry) => {
                 let is_last: IsLastLogMessage = false;
-                chan_send(
+                if !chan_send(
                     &chan_send_dt,
                     ChanDatum::NewMessage(
                         LogMessage::Journal(journalentry),
                         is_last,
                     ),
                     &path
-                );
+                ) {
+                    defx!("({:?}) return early during journalreader.next() loop, chan_send_dt.send failed", path);
+                    return;
+                }
             }
             ResultNext::Done => {
                 break;
@@ -5308,15 +5326,19 @@ fn exec_journalprocessor(
         }
     }
 
+    exit_early_return!();
+
     let summary = journalreader.summary_complete();
-    chan_send(
+    if !chan_send(
         &chan_send_dt,
         ChanDatum::FileSummary(
             Some(summary),
             result_err.unwrap_or(FILEOK),
         ),
         &path
-    );
+    ) {
+        defo!("({:?}) last chan_send failed", path);
+    }
 
     defx!("({:?})", path);
 }
@@ -5604,10 +5626,13 @@ fn processing_loop(
         }
     }
 
+    // special channel for signal handling, i.e. ctrl+c handling
+    let (signal_send, signal_recv) = crossbeam_channel::bounded::<()>(1);
     if !map_pathid_path.is_empty() {
         // there may be threads to process (and possible NamedTemporaryFiles to create)
         // so set up signal handling
-        match set_signal_handler() {
+        EXIT_EARLY.store(false, Ordering::Relaxed);
+        match set_signal_handler(signal_send) {
             Ok(_) => {}
             Err(err) => {
                 e_err!("set_signal_handler() failed: {:?}", err);
@@ -5646,9 +5671,6 @@ fn processing_loop(
     // e.g. `s4 /var/logs | head -n1` will causes an error message during printing.
     // This `has_print_err` prevents deluge of error messages.
     let mut has_print_err: bool = false;
-    // "mapping" of PathId to select index, used in `recv_many_data`
-    let mut index_select = MapIndexToPathId::with_capacity(file_count);
-
     // initialize processing channels/threads, one per `PathId`
     for pathid in map_pathid_path.keys() {
         map_pathid_color.insert(*pathid, color_rand());
@@ -5657,9 +5679,11 @@ fn processing_loop(
     map_pathid_color.shrink_to_fit();
     let mut thread_count: usize = 0;
     let mut thread_err_count: usize = 0;
+    let mut thread_handles = Vec::<(PathId, thread::JoinHandle<()>)>::with_capacity(file_count);
+    let mut map_pathid_chanrecvdatum = MapPathIdChanRecvDatum::new();
 
     // very unlikely to be `true` already but check anyway before starting threads
-    exit_early_check!();
+    exit_early_return_false!();
 
     let mut pathids_processing_order: Vec<PathId> = map_pathid_path
         .keys()
@@ -5770,27 +5794,30 @@ fn processing_loop(
         let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) =
             crossbeam_channel::bounded(CHANNEL_CAPACITY);
         defo!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
-        MAP_PATHID_CHANRECVDATUM.write().unwrap().insert(*pathid, chan_recv_dt);
+        map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
         let basename_: FPath = basename(path).replace(SUBPATH_SEP, SUBPATH_SEP_DISPLAY_STR);
         match thread::Builder::new()
             .name(basename_.clone())
             .stack_size(stack_size)
             .spawn(move || exec_fileprocessor_thread(chan_send_dt, thread_data))
         {
-            Ok(_joinhandle) => {
+            Ok(joinhandle) => {
                 thread_count += 1;
+                thread_handles.push((*pathid, joinhandle));
             }
             Err(err) => {
                 thread_err_count += 1;
                 e_err!("thread.name({:?}).spawn() pathid {} failed {:?}; {}", basename_, pathid, err, path);
-                MAP_PATHID_CHANRECVDATUM.write().unwrap().remove(pathid);
+                map_pathid_chanrecvdatum.remove(pathid);
                 map_pathid_color.remove(pathid);
                 continue;
             }
         }
     }
 
-    if MAP_PATHID_CHANRECVDATUM.read().unwrap().is_empty() {
+    exit_early_return_false!();
+
+    if map_pathid_chanrecvdatum.is_empty() {
         // No threads were created. This can happen if user passes only paths
         // that do not exist.
         if !cli_opt_summary {
@@ -5846,55 +5873,34 @@ fn processing_loop(
 
     type RecvResult4 = std::result::Result<ChanDatum, crossbeam_channel::RecvError>;
 
+    enum RecvManyResult {
+        Signal,
+        Channel(PathId, usize, RecvResult4),
+    }
+
     /// run `.recv` on many Receiver channels simultaneously using `crossbeam_channel::Select`
     /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
     #[inline(always)]
     fn recv_many_chan<'a>(
+        select: &mut crossbeam_channel::Select<'a>,
+        signal_index: usize,
+        signal_recv: &'a crossbeam_channel::Receiver<()>,
         pathid_chans: &'a MapPathIdChanRecvDatum,
-        map_index_pathid: &'a mut MapIndexToPathId,
-        filter_: &SetPathId,
-    ) -> Option<(PathId, RecvResult4)> {
-        def1n!("(pathid_chans {} entries, map_index_pathid {} entries, filter_ {} entries)",
-               pathid_chans.len(), map_index_pathid.len(), filter_.len());
-        // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures,
-        // order should match index numeric value returned by `select`
-        map_index_pathid.clear();
-        // Build a list of operations
-        // TODO: 2026/05/02 only create this `Select` once. It is a large allocation
-        //       done once per log message.
-        let mut select: crossbeam_channel::Select = crossbeam_channel::Select::new();
-        let mut index: usize = 0;
-        for pathid_chan in pathid_chans.iter() {
-            // if there is already a DateTime "on hand" for the given pathid then
-            // skip receiving on the associated channel
-            if filter_.contains(pathid_chan.0) {
-                continue;
-            }
-            map_index_pathid.insert(index, *(pathid_chan.0));
-            index += 1;
-            def1o!("select.recv({:?});", pathid_chan.1);
-            // load `select` with "operations" (receive channels)
-            select.recv(pathid_chan.1);
-        }
-        if map_index_pathid.is_empty() {
-            // no channels to receive from.
-            // this can occur if a file processing thread exits improperly
-            // or
-            // the interrupt handler has been triggered and it has cleared
-            // `MAP_PATHID_CHANRECVDATUM`
-            de_wrn!(
-                "Did not load any recv operations for select.select(). Overzealous filter? possible channels count {}, filter {:?}",
-                pathid_chans.len(),
-                filter_
-            );
-            return None;
-        }
+        map_index_pathid: &MapIndexToPathId,
+    ) -> Option<RecvManyResult> {
+        def1n!("(pathid_chans {} entries, map_index_pathid {} entries)",
+               pathid_chans.len(), map_index_pathid.len());
         def1o!("map_index_pathid: {:?}", map_index_pathid);
         // `select()` blocks until one of the loaded channel operations becomes ready
         let soper: crossbeam_channel::SelectedOperation = select.select();
         // get the index of the chosen "winner" of the `select` operation
         let index: usize = soper.index();
         def1o!("soper.index() returned {}", index);
+        if index == signal_index {
+            _ = soper.recv(signal_recv);
+            def1x!("signal received");
+            return Some(RecvManyResult::Signal);
+        }
         let pathid: &PathId = match map_index_pathid.get(&index) {
             Some(pathid_) => pathid_,
             None => {
@@ -5918,18 +5924,33 @@ fn processing_loop(
 
         def1x!("pathid {:?}. soper.recv returned {:?}", pathid, result);
 
-        Some((*pathid, result))
+        Some(RecvManyResult::Channel(*pathid, index, result))
     }
 
     //
     // preparation for the main coordination loop (e.g. the "game loop", or the "printing loop")
     //
 
+    // create a `crossbeam_channel::Select` to wait on multiple channels
+    // simultaneously
+    let mut select = crossbeam_channel::Select::new();
+    // first set the special signal channel to be waited on, so that it is
+    // always checked first
+    let signal_index = select.recv(&signal_recv);
+    let mut index_select = MapIndexToPathId::with_capacity(file_count);
+    let mut map_pathid_selectindex = HashMap::<PathId, usize>::with_capacity(file_count);
+    let mut active_pathids = SetPathId::with_capacity(file_count);
+    // add each file processing thread to the `select` and record the index
+    // of it
+    for (pathid, chan_recv_dt) in map_pathid_chanrecvdatum.iter() {
+        let index = select.recv(chan_recv_dt);
+        index_select.insert(index, *pathid);
+        map_pathid_selectindex.insert(*pathid, index);
+        active_pathids.insert(*pathid);
+    }
+
     let mut first_print = true;
     let mut map_pathid_datum: MapPathIdDatum = MapPathIdDatum::new();
-    // `set_pathid_datum` shadows `map_pathid_datum` for faster filters in `recv_many_chan`
-    // precreated buffer
-    let mut set_pathid = SetPathId::with_capacity(file_count);
     let mut map_pathid_sumpr = MapPathIdSummaryPrint::new();
     // crude debugging stats
     let mut chan_recv_ok: Count = 0;
@@ -5970,7 +5991,9 @@ fn processing_loop(
     loop {
         disconnect.clear();
 
-        exit_early_check!();
+        if exit_early() {
+            break;
+        }
 
         #[cfg(debug_assertions)]
         {
@@ -5981,8 +6004,9 @@ fn processing_loop(
                     .unwrap();
                 defo!("map_pathid_datum: thread {} {} has data", _path, pathid);
             }
-            defo!("map_pathid_chanrecvdatum.len() {}", MAP_PATHID_CHANRECVDATUM.read().unwrap().len());
-            for (pathid, _chanrdatum) in MAP_PATHID_CHANRECVDATUM.read().unwrap().iter() {
+            defo!("active_pathids.len() {}", active_pathids.len());
+            for pathid in active_pathids.iter() {
+                let _chanrdatum = map_pathid_chanrecvdatum.get(pathid).unwrap();
                 let _path: &FPath = map_pathid_path
                     .get(pathid)
                     .unwrap();
@@ -5995,7 +6019,7 @@ fn processing_loop(
             }
         }
 
-        if MAP_PATHID_CHANRECVDATUM.read().unwrap().len() != map_pathid_datum.len()
+        if active_pathids.len() != map_pathid_datum.len()
             || ! map_pathid_received_fileinfo.is_empty()
         {
             // IF…
@@ -6012,17 +6036,21 @@ fn processing_loop(
             // a `ChanDatum`.
 
             let pathid: PathId;
+            let select_index: usize;
             let result: RecvResult4;
             // here is the wait on the channels (file processing threads)
-            (pathid, result) = match recv_many_chan(
-                &MAP_PATHID_CHANRECVDATUM.read().unwrap(),
-                &mut index_select,
-                &set_pathid,
+            (pathid, select_index, result) = match recv_many_chan(
+                &mut select,
+                signal_index,
+                &signal_recv,
+                &map_pathid_chanrecvdatum,
+                &index_select,
             ) {
-                Some(val) => val,
+                Some(RecvManyResult::Channel(pathid, select_index, result)) => {
+                    (pathid, select_index, result)
+                }
+                Some(RecvManyResult::Signal) => break,
                 None => {
-                    // this occurs during an interrupt, after the interrupt handler has
-                    // cleared `MAP_PATHID_CHANRECVDATUM`
                     de_wrn!("recv_many_chan returned None which is unexpected");
                     break;
                 }
@@ -6059,7 +6087,9 @@ fn processing_loop(
                             defn!("B2 received ChanDatum::NewMessage for PathID {:?}, is_last_message {:?}",
                                   pathid, is_last_message);
                             map_pathid_datum.insert(pathid, (log_message, is_last_message));
-                            set_pathid.insert(pathid);
+                            select.remove(select_index);
+                            index_select.remove(&select_index);
+                            map_pathid_selectindex.remove(&pathid);
                             defx!("B2");
                         }
                         // only expect 1 FileSummary per processing thread
@@ -6071,6 +6101,9 @@ fn processing_loop(
                                 None => debug_panic!("No summary received for FileSummary with PathID {}", pathid),
                             }
                             defo!("B4 will disconnect channel {:?}", pathid);
+                            select.remove(select_index);
+                            index_select.remove(&select_index);
+                            map_pathid_selectindex.remove(&pathid);
                             disconnect.push(pathid);
                             if !file_processing_result.is_ok() {
                                 _fileprocessing_not_okay += 1;
@@ -6101,6 +6134,9 @@ fn processing_loop(
                 Err(crossbeam_channel::RecvError) => {
                     defo!("B6 crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
                     // this channel was closed by the sender, it should be disconnected
+                    select.remove(select_index);
+                    index_select.remove(&select_index);
+                    map_pathid_selectindex.remove(&pathid);
                     disconnect.push(pathid);
                     chan_recv_err += 1;
                 }
@@ -6211,9 +6247,7 @@ fn processing_loop(
 
             #[cfg(debug_assertions)]
             {
-                for (_i, (_k, _v)) in MAP_PATHID_CHANRECVDATUM
-                    .read()
-                    .unwrap()
+                for (_i, (_k, _v)) in map_pathid_chanrecvdatum
                     .iter()
                     .enumerate()
                 {
@@ -6404,7 +6438,8 @@ fn processing_loop(
                                 // BUG: Issue #3 colorization settings in the context of a pipe
                                 de_err!("failed to print {}", _err);
                             }
-                            defo!("print error, will disconnect channel {:?}", pathid);
+                            defo!("print error, cancel processing at channel {:?}", pathid);
+                            EXIT_EARLY.store(true, Ordering::Relaxed);
                             disconnect.push(*pathid);
                         }
                     }
@@ -6449,7 +6484,8 @@ fn processing_loop(
                                 // BUG: Issue #3 colorization settings in the context of a pipe
                                 de_err!("failed to print {}", _err);
                             }
-                            defo!("print error, will disconnect channel {:?}", pathid);
+                            defo!("print error, cancel processing at channel {:?}", pathid);
+                            EXIT_EARLY.store(true, Ordering::Relaxed);
                             disconnect.push(*pathid);
                         }
                     }
@@ -6491,7 +6527,8 @@ fn processing_loop(
                                 // BUG: Issue #3 colorization settings in the context of a pipe
                                 de_err!("failed to print {}", _err);
                             }
-                            defo!("print error, will disconnect channel {:?}", pathid);
+                            defo!("print error, cancel processing at channel {:?}", pathid);
+                            EXIT_EARLY.store(true, Ordering::Relaxed);
                             disconnect.push(*pathid);
                         }
                     }
@@ -6533,7 +6570,8 @@ fn processing_loop(
                                 // BUG: Issue #3 colorization settings in the context of a pipe
                                 de_err!("failed to print {}", _err);
                             }
-                            defo!("print error, will disconnect channel {:?}", pathid);
+                            defo!("print error, cancel processing at channel {:?}", pathid);
+                            EXIT_EARLY.store(true, Ordering::Relaxed);
                             disconnect.push(*pathid);
                         }
                     }
@@ -6580,7 +6618,8 @@ fn processing_loop(
                                 // BUG: Issue #3 colorization settings in the context of a pipe
                                 de_err!("failed to print {}", _err);
                             }
-                            defo!("print error, will disconnect channel {:?}", pathid);
+                            defo!("print error, cancel processing at channel {:?}", pathid);
+                            EXIT_EARLY.store(true, Ordering::Relaxed);
                             disconnect.push(*pathid);
                         }
                     }
@@ -6624,35 +6663,79 @@ fn processing_loop(
             //         cannot borrow `map_pathid_datum` as mutable more than once at a time
             let pathid_: PathId = *pathid;
             map_pathid_datum.remove(&pathid_);
-            set_pathid.remove(&pathid_);
+            if !disconnect.contains(&pathid_) && active_pathids.contains(&pathid_) {
+                let chan_recv_dt = map_pathid_chanrecvdatum
+                    .get(&pathid_)
+                    .unwrap_or_else(|| panic!("bad pathid {pathid_}"));
+                let index = select.recv(chan_recv_dt);
+                index_select.insert(index, pathid_);
+                map_pathid_selectindex.insert(pathid_, index);
+            }
         } // else (datetime available)
 
         // remove channels (and keys) that are marked disconnected
-        let mut map_pathid_chanrecvdatum = MAP_PATHID_CHANRECVDATUM.write().unwrap();
         for pathid in disconnect.iter() {
-            defo!("D disconnect channel: map_pathid_chanrecvdatum.remove({:?});", pathid);
-            map_pathid_chanrecvdatum.remove(pathid);
+            if let Some(index) = map_pathid_selectindex.remove(pathid) {
+                select.remove(index);
+                index_select.remove(&index);
+            }
+            defo!("D disconnect channel operation for {:?};", pathid);
+            active_pathids.remove(pathid);
             defo!("D pathid_to_prependname.remove({:?});", pathid);
             pathid_to_prependname.remove(pathid);
             defo!("D map_pathid_printer.remove({:?});", pathid);
             map_pathid_printer.remove(pathid);
         }
         // are there any channels to receive from?
-        if map_pathid_chanrecvdatum.is_empty() {
-            defo!("E map_pathid_chanrecvdatum.is_empty(); no more channels to receive from!");
+        if active_pathids.is_empty() {
+            defo!("E active_pathids.is_empty(); no more channels to receive from!");
             // all channels are closed, break from main processing loop
             break;
         }
-        defo!("F map_pathid_chanrecvdatum: {:?}", map_pathid_chanrecvdatum);
+        defo!("F active_pathids: {:?}", active_pathids);
         defo!("F map_pathid_datum: {:?}", map_pathid_datum);
-        defo!("F set_pathid: {:?}", set_pathid);
-    } // end loop
+        defo!("F map_pathid_selectindex: {:?}", map_pathid_selectindex);
+    } // end main "game loop"
+
+    let cancelled = exit_early();
+
+    // Release all channel borrows and receivers before waiting for workers.
+    // A worker still trying to send should observe disconnection and exit.
+    drop(select);
+    drop(map_pathid_chanrecvdatum);
+
+    let mut thread_panic_count: usize = 0;
+    for (pathid, thread_handle) in thread_handles {
+        if thread_handle.join().is_err() {
+            thread_panic_count += 1;
+            let path = map_pathid_path
+                .get(&pathid)
+                .unwrap_or_else(|| panic!("bad pathid {pathid}"));
+            e_err!("processing thread for {:?} panicked", path);
+        }
+    }
+
+    // Temporary files owned by workers have now been dropped. Clean up any
+    // leftovers before either normal summary processing or cancellation exit.
+    let temporary_files_removed = remove_temporary_files();
+    if !temporary_files_removed {
+        de_err!("there was an error removing temporary files");
+    }
+
+    if cancelled {
+        #[cfg(feature = "alloc_tracker")]
+        {
+            alloc_tracker::print_tracking_map();
+        }
+        defx!("cancelled; return false");
+        return false;
+    }
 
     // Getting here means main program processing has completed.
     // Now to print the `--summary` (if it was requested).
 
     // quick count of `Summary` attached Errors
-    let mut error_count: usize = 0;
+    let mut error_count: usize = thread_panic_count;
     for (_pathid, summary) in map_pathid_summary.iter() {
         if summary.error.is_some() {
             error_count += 1;
@@ -6660,15 +6743,7 @@ fn processing_loop(
     }
     defo!("G summary error_count: {:?}", error_count);
 
-    // check again before writing the final summary
-    exit_early_check!();
-
-    // temporary files should have been removed when the processing thread
-    // dropped the `NamedTempFile` object.
-    // But in case something went wrong, check them all again.
-    // TODO: this has never proven to be needed; remove it
-    if !remove_temporary_files() {
-        de_err!("there was an error removing temporary files");
+    if !temporary_files_removed {
         error_count += 1;
     }
 
