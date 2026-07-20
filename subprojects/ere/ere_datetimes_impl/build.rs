@@ -39,7 +39,8 @@ fn is_env_var_truthy(env_var: &str) -> bool {
 }
 
 fn info_enabled() -> bool {
-    is_env_var_truthy(ENV_BUILD_EPRINT)
+    !is_env_var_truthy("CARGO_TERM_QUIET")
+    && (is_env_var_truthy(ENV_BUILD_EPRINT) || is_env_var_truthy("CARGO_TERM_VERBOSE"))
 }
 
 /// `info` if `info_enabled()` is true
