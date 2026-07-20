@@ -199,7 +199,13 @@ function print_time_now_ms() {
 
 # escape XML special characters
 function xml_escape() {
-    echo -n "${@}" | sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e "s/'/\&apos;/g" -e 's/"/\&quot;/g'
+    echo -n "${@}" | \
+        sed \
+            -e 's/&/\&amp;/g' \
+            -e 's/</\&lt;/g' \
+            -e 's/>/\&gt;/g' \
+            -e "s/'/\&apos;/g" \
+            -e 's/"/\&quot;/g'
 }
 
 # escape regex special characters
