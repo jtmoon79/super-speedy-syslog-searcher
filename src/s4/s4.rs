@@ -5739,20 +5739,20 @@ fn processing_loop(
             (false, FileType::Asl {..})
             | (false, FileType::Etl {..})
             | (false, FileType::Odl {..}) =>
-                // experiments showed 89Ki, not compressed
-                1024 * 110,
+                // experiments showed 114Ki, not compressed
+                1024 * 134,
             (false, FileType::Evtx {..}) =>
-                // experiments showed 87 KiB, not compressed
-                1024 * 110,
+                // experiments showed 108 KiB, not compressed
+                1024 * 128,
             (false, FileType::FixedStruct {..}) =>
-                // experiments showed 61Ki, not compressed
-                1024 * 100,
+                // experiments showed 82Ki, not compressed
+                1024 * 102,
             (false, FileType::Journal {..}) =>
-                // experiments showed 87 KiB, not compressed
-                1024 * 110,
+                // experiments showed 108 KiB, not compressed
+                1024 * 128,
             (false, FileType::Text {..}) =>
-                // experiments showed 59 KiB, not compressed
-                1024 * 100,
+                // experiments showed 78 KiB, not compressed
+                1024 * 98,
             (_, FileType::Unparsable) => {
                 debug_panic!("Unhandled file_type {filetype} for stack_size setting");
                 1024 * 512
@@ -5762,7 +5762,7 @@ fn processing_loop(
         if cfg!(feature = "alloc_tracker") {
             stack_size += 12 * 1024 * 1024;
         } else if cfg!(debug_assertions) {
-            stack_size *= 2;
+            stack_size += 1024 * 1000;
         }
         else if PROFILE_NAME != "release" {
             // non-debug non-optimized "release" builds
