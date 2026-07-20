@@ -21,7 +21,7 @@ set -x
 
 declare -a PIDs=()
 
-cargo build --locked &
+cargo build --locked --profile dev &
 PIDs+=($!)
 cargo build --locked --profile release &
 PIDs+=($!)
