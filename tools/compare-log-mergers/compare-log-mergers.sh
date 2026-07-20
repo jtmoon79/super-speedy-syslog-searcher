@@ -190,6 +190,11 @@ function echo_line() {
     echo
 }
 
+function echo_warn() {
+    # yellow bold with default background for warnings
+    echo -e "\033[1;33mWARNING: ${*}\033[0m"
+}
+
 function echo_title() {
     # black bold with orange background for titles
     echo -e "\033[1;4;38;5;0;48;5;214m${*}\033[0m"
@@ -255,7 +260,7 @@ function s4_profile() {
         echo -n "${out}" | grep -Ee '^Profile: ' | sed -E 's/^Profile: (.+)$/\1/'
     else
         # old version format
-        echo "WARNING: no Profile found for s4 program ${prog}" >&2
+        echo_warn "no Profile found for s4 program ${prog}" >&2
     fi
 }
 
@@ -298,7 +303,7 @@ function s4_opt_lvl() {
     if echo -n "${out}" | grep -qE '^Optimization Level: ' &> /dev/null; then
         echo -n "${out}" | grep -Ee '^Optimization Level: ' | sed -E 's/^Optimization Level: (.+)$/\1/'
     else
-        echo "WARNING: no Optimization Level found for s4 program ${prog}" >&2
+        echo_warn "no Optimization Level found for s4 program ${prog}" >&2
     fi
 }
 
@@ -317,20 +322,23 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
         continue
     fi
 
+    s4_full_path=$(readlink -f "${PROJ_DIR}/${s4_prog_path}") || {
+        echo_warn "failed to resolve full path for s4 program '${PROJ_DIR}/${s4_prog_path}'" >&2
+        continue
+    }
     echo_line
-    echo_title "Super Speedy Syslog Searcher (S4) ${s4_prog_path} ${s4_prog_extra}"
+    echo_title "Super Speedy Syslog Searcher (S4) ${s4_full_path} ${s4_prog_extra}"
 
-    s4_full_path="${PROJ_DIR}/${s4_prog_path}"
     if ! [[ -f "${s4_full_path}" ]]; then
-        echo "WARNING: s4 program does not exist: ${s4_full_path}" >&2
+        echo_warn "s4 program does not exist: ${s4_full_path}" >&2
         continue
     fi
     if ! [[ -x "${s4_full_path}" ]]; then
-        echo "WARNING: s4 program is not executable: ${s4_full_path}" >&2
+        echo_warn "s4 program is not executable: ${s4_full_path}" >&2
         continue
     fi
     if ! (set -x; "${s4_full_path}" --version); then
-        echo "WARNING: failed to run s4 program with --version: ${s4_full_path}" >&2
+        echo_warn "failed to run s4 program with --version: ${s4_full_path}" >&2
         continue
     fi
 
@@ -500,7 +508,6 @@ tm_file=$(tm_file_new)
          > "${tmpOut}"
 ) || true
 
-
 echo_line
 echo_title "logdissect"
 
@@ -528,7 +535,6 @@ echo
         > "${tmpOut}"
 )
 echo
-# cat "${tmpOut}" | wc -l -
 
 echo_line
 echo_title "TooLong"
@@ -593,7 +599,6 @@ echo '{
 
 echo_line
 
-#
 # merge separate files into one final markdown file
 #
 # example json output:
