@@ -24,12 +24,12 @@ if [[ ! "${S4_ALLOC_TRACKER_LINK-}" ]]; then
     export S4_ALLOC_TRACKER_LINK="https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/${commit_hash}/"
 fi
 
-export DIROUT=${DIROUT-.}
-
 if [[ ! "${VIRTUAL_ENV+x}" ]]; then
     echo "ERROR: not running within a Python virtual environment" >&2
     exit 1
 fi
+
+export DIROUT=${DIROUT-.}
 
 sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
