@@ -8,7 +8,8 @@ cd "$(dirname -- "${0}")/.."
 
 SCRIPT="./tools/flamegraph.sh"
 
-DIROUT=${DIROUT-.}
+DIROUT=${DIROUT-flamegraphs-$(date '+%Y%m%dT%H%M%S')}
+mkdir -p "${DIROUT}"
 
 export OUT="${DIROUT}/flamegraph-help.svg"
 FREQ=9999 "${SCRIPT}" '--help'
