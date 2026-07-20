@@ -56,7 +56,7 @@ if [[ $STACK_SIZE_STEP -le 0 ]]; then
 fi
 
 declare -ag rows=()
-declare -rg SEP_IN='║'
+declare -rg SEP_IN=$(printf "\x1E")  # ASCII record separator
 declare -rg SEP_MD='|'  # markdown table separator
 declare -rg SEP_OUT='┊'  # separator for printed table
 declare -i failed=0
@@ -77,6 +77,7 @@ function float_subtract() {
     awk -v a="$1" -v b="$2" 'BEGIN { printf "%.1f", (a - b) }'
 }
 
+# Print rows in a table format to stdout.
 function print_rows() {
     declare -a rows2=()
     if $SORTED; then
@@ -103,7 +104,7 @@ function print_rows() {
     echo -ne "${C_OFF}"
 }
 
-# write to markdown table format
+# Write markdown table format to file $OUT_MD
 function write_rows_markdown () {
     echo
     declare -ar rows2=("${@}")
@@ -125,13 +126,6 @@ function write_rows_markdown () {
     else
         cat "${OUT_MD}"
     fi
-}
-
-function sanitize_field() {
-    local s="$1"
-    # Avoid breaking the internal table separator.
-    s=${s//|/¦}
-    echo -n "$s"
 }
 
 function exit_print_rows() {
@@ -219,7 +213,7 @@ for file in "$@"; do
 
     cmd="RUST_MIN_STACK=<step loop from ${STACK_SIZE_START}> ${PROGRAM} -- ${file}"
     row="\
-$(sanitize_field "$file")${SEP_IN}\
+${file}${SEP_IN}\
 ${stack_size_hr}${SEP_IN}\
 ${stack_size}${SEP_IN}\
 "
