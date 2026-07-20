@@ -24,6 +24,7 @@ if [[ -z "${EPOCHREALTIME:-}" ]]; then
     exit 1
 fi
 
+declare -r OUT_MD=${OUT_MD-stack-sizes.md}
 declare -r PROGRAM=${PROGRAM-./target/release/s4}
 declare -ir STACK_SIZE_START=${STACK_SIZE_START-1024}
 declare -ir STACK_SIZE_STEP=${STACK_SIZE_STEP-1024}
@@ -34,8 +35,8 @@ if [[ ${#@} -eq 0 ]]; then
     exit 2
 fi
 
-if [[ ! -x "$PROGRAM" ]]; then
-    echo "PROGRAM '$PROGRAM' not found or not executable." >&2
+if [[ ! -f "$PROGRAM" ]]; then
+    echo "PROGRAM '$PROGRAM' not found." >&2
     exit 1
 fi
 
@@ -55,13 +56,13 @@ if [[ $STACK_SIZE_STEP -le 0 ]]; then
 fi
 
 declare -ag rows=()
-declare -rg SEP='|'
-declare -rg BL='┊'
+declare -rg SEP_IN='║'
+declare -rg SEP_MD='|'  # markdown table separator
+declare -rg SEP_OUT='┊'  # separator for printed table
 declare -i failed=0
 
 declare -rg COLUMNS_N="\
 FILE,\
-${BL},\
 STACK MIN,\
 (B)"
 declare -rg COLUMNS_RA="STACK MIN,(B)"
@@ -81,7 +82,7 @@ function print_rows() {
     if $SORTED; then
         mapfile -t rows2 < <(
             printf '%s\n' "${@}" \
-            | sort -t"$SEP" -k${COL_STACK}n -k${COL_ELAPSED}n
+            | sort -t"$SEP_IN" -k${COL_STACK}n -k${COL_ELAPSED}n
         )
     else
         rows2=("${@}")
@@ -95,11 +96,35 @@ function print_rows() {
     printf '%s\n' "${rows2[@]}" \
         | column \
             --table \
-            -s "$SEP" \
-            -o ' ' \
-            -N "$COLUMNS_N" \
-            -R "$COLUMNS_RA"
+            -s "${SEP_IN}" \
+            -o "${SEP_OUT}" \
+            -N "${COLUMNS_N}" \
+            -R "${COLUMNS_RA}"
     echo -ne "${C_OFF}"
+}
+
+# write to markdown table format
+function write_rows_markdown () {
+    echo
+    declare -ar rows2=("${@}")
+    printf "${SEP_MD}%s\n" \
+        "FILE${SEP_IN}RUST_MIN_STACK${SEP_IN}(B)" \
+        ":---${SEP_IN}---:${SEP_IN}---:" \
+        "${rows2[@]}" \
+        | column \
+            --table \
+            --table-noheadings \
+            -s "${SEP_IN}" \
+            -o "${SEP_MD}" \
+            -N "${COLUMNS_N}" \
+            -R "${COLUMNS_RA}" > "${OUT_MD}"
+    echo
+    echo "Markdown table written to ${OUT_MD}"
+    if which glow &> /dev/null; then
+        glow "${OUT_MD}"
+    else
+        cat "${OUT_MD}"
+    fi
 }
 
 function sanitize_field() {
@@ -125,6 +150,7 @@ function exit_print_rows() {
         echo "Results sorted by stack size and elapsed time:"
         print_rows "${rows[@]}"
     fi
+    write_rows_markdown "${rows[@]}"
 }
 
 trap exit_print_rows EXIT
@@ -193,10 +219,9 @@ for file in "$@"; do
 
     cmd="RUST_MIN_STACK=<step loop from ${STACK_SIZE_START}> ${PROGRAM} -- ${file}"
     row="\
-$(sanitize_field "$file")${SEP}\
-${BL}${SEP}\
-${stack_size_hr}${SEP}\
-${stack_size}${SEP}\
+$(sanitize_field "$file")${SEP_IN}\
+${stack_size_hr}${SEP_IN}\
+${stack_size}${SEP_IN}\
 "
     rows+=("$row")
 

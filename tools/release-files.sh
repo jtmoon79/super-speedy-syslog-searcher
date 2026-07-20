@@ -44,6 +44,11 @@ mkdir -vp "${DIROUT}"
 
 (
     set -x
+    ./tools/stack-sizes.sh
+)
+
+(
+    set -x
     export RUST_MIN_STACK=50000000  # 50 MB
     ./tools/s4-alloc_trackers.sh
 )
