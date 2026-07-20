@@ -20,10 +20,8 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
       Block size    : 256 (0x100)
       Blocks        : 3
       Blocks total  : 3 (768 bytes)
-      Blocks high   : 3 (768 bytes)
       Lines         : 64
       Line longest  : 29 (bytes)
-      Lines high    : 64
       Line parts    : 66
       Syslines      : 10
       Sysline longest: 128 (bytes)
@@ -62,6 +60,7 @@ Printed EVTX events    : 0
 Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
+Line Maximum                   : 393209
 Line longest                   : 29
 Sysline longest                : 128
 EVTX event largest processed   : 0
@@ -73,13 +72,11 @@ Managed files max adjus: 200
 Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
-Managed read calls     : 3
 Managed write calls    : 0
 Managed seek calls     : 3
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)

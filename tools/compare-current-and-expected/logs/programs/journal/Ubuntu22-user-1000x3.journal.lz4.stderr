@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
   About:
-      Temporary path : /tmp/s4-Ubuntu22-user-1000x3.journal.lz4-lcKZpv.journal
       FileType      : JOURNAL (LZMA4) (systemd Journal)
       LogMessageType: systemd journal entries
       Thread stack  : 189440 (bytes)
@@ -40,6 +39,7 @@ Printed EVTX events    : 0
 Printed FixedStruct    : 0
 Printed Journal events : 3
 Printed ODL events     : 0
+Line Maximum                   : 393209
 Line longest                   : 0
 Sysline longest                : 0
 EVTX event largest processed   : 0
@@ -51,13 +51,11 @@ Managed files max adjus: 200
 Managed handles high   : 2
 Managed request open   : 3
 Managed request read   : 0
-Managed read calls     : 5
 Managed write calls    : 128
 Managed seek calls     : 0
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
-Unmanaged handles high : 1
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)

@@ -22,10 +22,8 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       Block size    : 256 (0x100)
       Blocks        : 5
       Blocks total  : 5 (1280 bytes)
-      Blocks high   : 5 (1280 bytes)
       Lines         : 20
       Line longest  : 73 (bytes)
-      Lines high    : 16
       Line parts    : 24
       Syslines      : 20
       Sysline longest: 73 (bytes)
@@ -69,10 +67,8 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       Block size    : 256 (0x100)
       Blocks        : 2
       Blocks total  : 2 (512 bytes)
-      Blocks high   : 2 (512 bytes)
       Lines         : 5
       Line longest  : 57 (bytes)
-      Lines high    : 5
       Line parts    : 6
       Syslines      : 5
       Sysline longest: 57 (bytes)
@@ -111,6 +107,7 @@ Printed EVTX events    : 0
 Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
+Line Maximum                   : 393209
 Line longest                   : 73
 Sysline longest                : 73
 EVTX event largest processed   : 0
@@ -120,15 +117,13 @@ Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
 Managed handles high   : 4
-Managed request open   : 6
+Managed request open   : 4
 Managed request read   : 0
-Managed read calls     : 13
 Managed write calls    : 0
-Managed seek calls     : 6
+Managed seek calls     : 8
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
-Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)

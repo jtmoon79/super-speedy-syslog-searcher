@@ -7,33 +7,8 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 158720 (bytes)
-  Printed:
-      bytes         : 1685
-      flushes       : 6
-      Entries       : 6
-  Processed:
-      file size archive   : 5120 (0x1400) (bytes)
-      file size unarchived: 2304 (0x900) (bytes)
-      bytes         : 2304 (0x900)
-      bytes total   : 2304 (0x900)
-      Block size    : 256 (0x100)
-      Blocks        : 9
-      Blocks total  : 9 (2304 bytes)
-      Blocks high   : 9 (2304 bytes)
-      Entries       : 6
-      Entry size    : 384 (bytes)
-      Entry hi-score: 135
-      first Entry   : @0
-      Entry high    : 5
-      peak map size : 6
-      Datetime first: 2023-02-24 16:40:27 +08:00 (2023-02-24 08:40:27.123636 +00:00)
-      Datetime last : 2023-02-24 16:52:26 +08:00 (2023-02-24 08:52:26.987104 +00:00)
-      out of order  : 0
-  Processing stores:
-      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
-  Processing Drops:
+      Processing Err : no valid fixed-structure records found in file
 
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
   About:
@@ -49,17 +24,18 @@ Program summary:
 Paths considered       : 2
 Paths not processed    : 0
 Files processed        : 2
-Files printed          : 1
-Printed bytes          : 1709
-Printed flushes        : 12
+Files printed          : 0
+Printed bytes          : 0
+Printed flushes        : 0
 Printed Lines          : 0
 Printed Syslines       : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed FixedStruct    : 6
+Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
+Line Maximum                   : 393209
 Line longest                   : 0
 Sysline longest                : 0
 EVTX event largest processed   : 0
@@ -69,22 +45,20 @@ Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
 Managed handles high   : 4
-Managed request open   : 6
+Managed request open   : 4
 Managed request read   : 0
-Managed read calls     : 17
 Managed write calls    : 0
-Managed seek calls     : 6
+Managed seek calls     : 8
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
-Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first : 2023-02-24 16:40:27 +08:00 (2023-02-24 08:40:27.123636 +00:00)
-Datetime printed last  : 2023-02-24 16:52:26 +08:00 (2023-02-24 08:52:26.987104 +00:00)
+Datetime printed first :
+Datetime printed last  :
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel receive ok     : 10
+Channel receive ok     : 4
 Channel receive err    : 0
 Threads spawned        : 2
 Thread spawn errors    : 0

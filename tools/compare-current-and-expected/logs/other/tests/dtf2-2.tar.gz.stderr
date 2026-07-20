@@ -16,6 +16,7 @@ Printed EVTX events    : 0
 Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
+Line Maximum                   : 393209
 Line longest                   : 0
 Sysline longest                : 0
 EVTX event largest processed   : 0
@@ -27,13 +28,11 @@ Managed files max adjus: 200
 Managed handles high   : 0
 Managed request open   : 0
 Managed request read   : 0
-Managed read calls     : 0
 Managed write calls    : 0
 Managed seek calls     : 0
 Managed metadata calls : 0
 Managed open errors    : 0
 Managed evict fails    : 0
-Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
