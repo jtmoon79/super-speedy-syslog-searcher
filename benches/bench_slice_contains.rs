@@ -1,6 +1,6 @@
 // benches/bench_slice_contains.rs
-//
-// compare `slice.contains` to a custom search
+
+//! Compare `slice.contains` to a custom search.
 
 #![allow(non_snake_case)]
 #![allow(unused)]
