@@ -90,18 +90,20 @@ function stderr_clean () {
         -e '/^[ ]+Python script arguments[ ]*:.*$/d' \
         -e '/^[ ]+realpath .*$/d' \
         -e '/^[ ]+real path .*$/d' \
-        -e '/^[ ]+temporary path .*$/d' \
+        -e '/^[ ]+[Tt]emporary path[ ]*:.*$/d' \
         -e '/^[ ]+streaming: .*$/d' \
         -e '/^[ ]+caching: BlockReader::read_block.*$/d' \
         -e '/^[ ]+storage: BlockReader::read_block.*$/d' \
-        -e '/^[ ]+blocks high[ ]+: .*$/d' \
-        -e '/^[ ]+lines high[ ]+: .*$/d' \
+        -e '/^[ ]+[Bb]locks high[ ]+: .*$/d' \
+        -e '/^[ ]+[Ll]ines high[ ]+: .*$/d' \
         -e '/^Managed evict succeed[ ]*:.*$/d' \
         -e '/^Managed files high[ ]*:.*$/d' \
         -e '/^Managed\+unmanaged high[ ]*:.*$/d' \
         -e '/^Managed physical opens[ ]*:.*$/d' \
         -e '/^Managed physical reopen[ ]*:.*$/d' \
+        -e '/^Managed read calls[ ]*:.*$/d' \
         -e '/^Unmanaged files high[ ]*:.*$/d' \
+        -e '/^Unmanaged handles high[ ]*:.*$/d' \
         -e '/^Unmanaged request open[ ]*:.*$/d' \
         -e '/^Datetime Now[ ]*:.*$/d' \
         -e '/^Python Interpreter[ ]*:.*$/d' \

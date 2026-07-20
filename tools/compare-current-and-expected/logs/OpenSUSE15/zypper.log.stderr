@@ -20,10 +20,8 @@ File: ./logs/OpenSUSE15/zypper.log
       Block size    : 256 (0x100)
       Blocks        : 11
       Blocks total  : 11 (2816 bytes)
-      Blocks high   : 8 (2048 bytes)
       Lines         : 19
       Line longest  : 969 (bytes)
-      Lines high    : 11
       Line parts    : 30
       Syslines      : 19
       Sysline longest: 969 (bytes)
@@ -62,6 +60,7 @@ Printed EVTX events    : 0
 Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
+Line Maximum                   : 393209
 Line longest                   : 969
 Sysline longest                : 969
 EVTX event largest processed   : 0
@@ -73,13 +72,11 @@ Managed files max adjus: 200
 Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
-Managed read calls     : 11
 Managed write calls    : 0
 Managed seek calls     : 11
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)

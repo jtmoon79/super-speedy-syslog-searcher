@@ -22,10 +22,8 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       Block size    : 256 (0x100)
       Blocks        : 2
       Blocks total  : 2 (512 bytes)
-      Blocks high   : 2 (512 bytes)
       Lines         : 25
       Line longest  : 19 (bytes)
-      Lines high    : 25
       Line parts    : 26
       Syslines      : 25
       Sysline longest: 35 (bytes)
@@ -65,6 +63,7 @@ Printed EVTX events    : 0
 Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
+Line Maximum                   : 393209
 Line longest                   : 19
 Sysline longest                : 35
 EVTX event largest processed   : 0
@@ -74,15 +73,13 @@ Journal event largest accepted : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
 Managed handles high   : 2
-Managed request open   : 3
+Managed request open   : 2
 Managed request read   : 0
-Managed read calls     : 4
 Managed write calls    : 0
-Managed seek calls     : 2
+Managed seek calls     : 3
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)

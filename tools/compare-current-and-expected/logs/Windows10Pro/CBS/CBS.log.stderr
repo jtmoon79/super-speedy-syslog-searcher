@@ -20,10 +20,8 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       Block size    : 256 (0x100)
       Blocks        : 77
       Blocks total  : 77 (19712 bytes)
-      Blocks high   : 12 (3072 bytes)
       Lines         : 159
       Line longest  : 343 (bytes)
-      Lines high    : 40
       Line parts    : 235
       Syslines      : 152
       Sysline longest: 343 (bytes)
@@ -62,6 +60,7 @@ Printed EVTX events    : 0
 Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
+Line Maximum                   : 393209
 Line longest                   : 343
 Sysline longest                : 343
 EVTX event largest processed   : 0
@@ -73,13 +72,11 @@ Managed files max adjus: 200
 Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
-Managed read calls     : 77
 Managed write calls    : 0
 Managed seek calls     : 77
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)

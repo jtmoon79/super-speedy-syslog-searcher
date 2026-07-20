@@ -20,10 +20,8 @@ File: ./logs/other/tests/dtf16b.log
       Block size    : 256 (0x100)
       Blocks        : 1
       Blocks total  : 1 (256 bytes)
-      Blocks high   : 1 (256 bytes)
       Lines         : 5
       Line longest  : 67 (bytes)
-      Lines high    : 5
       Line parts    : 5
       Syslines      : 3
       Sysline longest: 86 (bytes)
@@ -62,6 +60,7 @@ Printed EVTX events    : 0
 Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
+Line Maximum                   : 393209
 Line longest                   : 67
 Sysline longest                : 86
 EVTX event largest processed   : 0
@@ -73,13 +72,11 @@ Managed files max adjus: 200
 Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
-Managed read calls     : 1
 Managed write calls    : 0
 Managed seek calls     : 1
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Unmanaged handles high : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
