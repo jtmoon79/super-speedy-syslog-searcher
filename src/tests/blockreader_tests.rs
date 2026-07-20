@@ -921,6 +921,20 @@ fn test_tar_read_block_tar_reads_only_requested_block() {
 }
 
 #[test]
+fn test_tar_read_block_rejects_dropped_block() {
+    let mut br = new_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, FILETYPE_UTF8_TAR, BLOCKSZ_MIN);
+
+    assert!(br.read_block(0).is_found());
+    assert!(br.read_block(1).is_found());
+    assert!(br.get_block(&0).is_none());
+    match br.read_block(0) {
+        ResultFindReadBlock::Err(error) => assert_eq!(error.kind(), std::io::ErrorKind::InvalidInput),
+        result => panic!("read_block(0) returned {result:?}"),
+    }
+    assert_eq!(br.count_blocks_processed(), 2);
+}
+
+#[test]
 fn test_tar_drop_reader_with_pending_output() {
     let mut br = new_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, FILETYPE_UTF8_TAR, BLOCKSZ_MIN);
 

@@ -4625,17 +4625,8 @@ impl BlockReader {
                     {
                         Some(blockp) => BlockP::clone(&blockp),
                         None => {
-                            // BUG: getting here means something is wrong
-                            //      with the internal state of `BlockReader` and likely
-                            //      related to the caller's use of `drop_block`.
-                            //      `self.blocks_read` says the Block was read but
-                            //      `self.blocks` does not have the Block.
-                            //      But we can go ahead and just read the block again though
-                            //      that is inefficient and some day should be fixed.
-                            // UPDATE: this can happen when streaming a file and using a very
-                            //         small `blocksz` value like 100.
-                            //         this will happen with file
-                            //         `./logs/programs/utmp/host-entry6.wtmp.gz`
+                            // A streamed file cannot seek backward to recreate a Block
+                            // after it has been dropped. A non-streamed file can reread it.
                             de_wrn!(
                                 "requested block {} is in self.blocks_read but not in self.blocks for file {:?}",
                                 blockoffset,
@@ -4643,6 +4634,16 @@ impl BlockReader {
                             );
                             summary_stat!(self.read_blocks_reread_error += 1);
                             summary_stat!(self.read_blocks_miss += 1);
+                            if self.is_streamed_file() {
+                                defx!("streamed block {} was previously dropped; return Err", blockoffset);
+                                return ResultFindReadBlock::Err(Error::new(
+                                    ErrorKind::InvalidInput,
+                                    format!(
+                                        "streamed block {blockoffset} was previously dropped for file {:?}",
+                                        self.path,
+                                    ),
+                                ));
+                            }
                             self.blocks_read
                                 .remove(&blockoffset);
                             break;
