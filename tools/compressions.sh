@@ -245,7 +245,6 @@ for tar in "${tar_out}" "${tar_gz_out}" "${tar_lz_out}" "${tar_lzo_out}" "${tar_
             -b1 \
             --preserve-permissions --xattrs \
             --numeric-owner \
-            --verify \
             --totals \
             --record-size=512 \
             --acls \
