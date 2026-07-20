@@ -30,6 +30,7 @@ use crate::common::{
     ResultFind,
     summary_stats_enable,
     parse_string_to_number,
+    SUBPATH_SEP,
 };
 use crate::data::datetime::systemtime_year;
 use crate::debug::helpers::{
@@ -867,6 +868,78 @@ fn test_xz_new_read_block_xz_8bytes_0_bsz16() {
 // -------------------------------------------------------------------------------------------------
 
 // reading tar file tests
+
+fn tar_temp_file(
+    data: &[u8],
+    truncate_at: Option<usize>,
+) -> (NamedTempFile, FPath) {
+    const ENTRY_PATH: &str = "fileA.txt";
+
+    let mut tar_data: Vec<u8> = Vec::new();
+    {
+        let mut builder = ::tar::Builder::new(&mut tar_data);
+        let mut header = ::tar::Header::new_gnu();
+        header.set_size(data.len() as u64);
+        header.set_mode(0o644);
+        header.set_mtime(0);
+        header.set_cksum();
+        builder
+            .append_data(&mut header, ENTRY_PATH, data)
+            .unwrap();
+        builder.finish().unwrap();
+    }
+    if let Some(at) = truncate_at {
+        tar_data.truncate(at);
+    }
+    let ntf = create_temp_file_bytes_with_suffix(&tar_data, &String::from("-streamed.tar"));
+    let path = format!("{}{}{}", ntf_fpath(&ntf), SUBPATH_SEP, ENTRY_PATH);
+
+    (ntf, path)
+}
+
+#[test]
+fn test_tar_new_tar_does_not_read_entry_data() {
+    let br = new_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, FILETYPE_UTF8_TAR, BLOCKSZ_MIN);
+
+    assert_eq!(br.filesz(), 8);
+    assert_eq!(br.count_bytes(), 0);
+    assert_eq!(br.count_blocks_processed(), 0);
+    assert!(br.get_block(&0).is_none());
+}
+
+#[test]
+fn test_tar_read_block_tar_reads_only_requested_block() {
+    let mut br = new_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, FILETYPE_UTF8_TAR, BLOCKSZ_MIN);
+
+    match br.read_block(0) {
+        ResultFindReadBlock::Found(blockp) => assert_eq!(blockp.as_slice(), BYTES_ABCD.as_slice()),
+        result => panic!("read_block(0) returned {result:?}"),
+    }
+    assert_eq!(br.count_bytes(), BLOCKSZ_MIN);
+    assert_eq!(br.count_blocks_processed(), 1);
+    assert!(br.get_block(&1).is_none());
+}
+
+#[test]
+fn test_tar_drop_reader_with_pending_output() {
+    let mut br = new_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, FILETYPE_UTF8_TAR, BLOCKSZ_MIN);
+
+    assert!(br.read_block(0).is_found());
+    drop(br);
+}
+
+#[test]
+fn test_tar_read_block_tar_reports_truncated_entry() {
+    let (_ntf, path) = tar_temp_file(BYTES_ABCDEFGH.as_slice(), Some(512 + BLOCKSZ_MIN as usize));
+    let mut br = new_BlockReader(&path, FILETYPE_UTF8_TAR, BLOCKSZ_MIN);
+
+    assert!(br.read_block(0).is_found());
+    match br.read_block(1) {
+        ResultFindReadBlock::Err(error) => assert_eq!(error.kind(), std::io::ErrorKind::UnexpectedEof),
+        result => panic!("read_block(1) returned {result:?}"),
+    }
+    assert!(br.get_block(&1).is_none());
+}
 
 #[test]
 fn test_tar_new_read_block_tar_0byte_0() {

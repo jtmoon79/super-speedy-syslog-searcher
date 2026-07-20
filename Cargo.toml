@@ -158,9 +158,9 @@ byteorder = "1.5.0"
 crc = "3.4.0"
 log = { version = "0.4.33", optional = true }
 env_logger = { version = "0.11.11", optional = true }
-# benches-only
+# benches
 jetscii = { version = "=0.5.3", optional = true }
-range-set-blaze = { version = "0.6.1", optional = true }
+regex-automata = { version = "=0.4.14", optional = true }
 stringzilla = { version = "=3.12.6", optional = true }
 
 [build-dependencies]
@@ -203,11 +203,13 @@ criterion = "0.8.2"
 cross = "0.2.5"
 filepath = "0.2.0"
 filetime = "0.2.27"
-# XXX: flamegraph version must match `.github/workflows/rust.yml:FLAMEGRAPH_VERSION`
-flamegraph = "=0.6.13"
+flamegraph = "=0.6.13"  # XXX: flamegraph version must match `.github/workflows/rust.yml:FLAMEGRAPH_VERSION`
+test-case = "=3.2.1"  # XXX: cannot upgrade `test-case` beyond `3.2.1` until fix of https://github.com/frondeus/test-case/issues/153
+# benches
+jetscii = "=0.5.3"
 regex-automata = "=0.4.14"
-# XXX: cannot upgrade `test-case` beyond `3.2.1` until fix of https://github.com/frondeus/test-case/issues/153
-test-case = "=3.2.1"
+range-set-blaze = "0.6.1"
+stringzilla = "=3.12.6"
 # src/subprojects/lzma_rs/
 seq-macro = "0.3"
 
@@ -216,7 +218,6 @@ seq-macro = "0.3"
 bench_jetscii = ["dep:jetscii"]
 bench_memchr = []
 bench_stringzilla = ["dep:stringzilla"]
-bench_ranges = ["dep:range-set-blaze"]
 # allocator jemallocator
 jemalloc = ["dep:tikv-jemallocator"]
 # allocator mimalloc
@@ -361,7 +362,7 @@ panic = "abort"
 [[bench]]
 name = "bench_decode_utf"
 harness = false
-dependency = ["dep:jetscii"]
+#dependency = ["dep:jetscii"]
 
 [[bench]]
 name = "bench_prints"
@@ -370,12 +371,12 @@ harness = false
 [[bench]]
 name = "bench_ranges"
 harness = false
-dependency = ["dep:range-set-blaze", "dep:rangemap"]
+#dependency = ["dep:range-set-blaze", "dep:rangemap"]
 
 [[bench]]
 name = "bench_regex"
 harness = false
-dependency = ["dep:regex", "dep:regex-automata"]
+#dependency = ["dep:regex", "dep:regex-automata"]
 
 [[bench]]
 name = "bench_slice_contains"
