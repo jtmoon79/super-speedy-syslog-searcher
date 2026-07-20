@@ -1,5 +1,8 @@
 // bench_regex.rs
 
+//! Compare different regular expression engines and their performance on the
+//! same regex pattern and haystack.
+
 #![allow(non_snake_case)]
 
 use ::criterion::{

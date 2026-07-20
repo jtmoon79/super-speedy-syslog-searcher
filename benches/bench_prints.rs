@@ -1,6 +1,6 @@
 // benches/bench_prints.rs
-//
-// benchmark different printing approaches
+
+//! Benchmark different printing approaches.
 
 #![allow(
     non_upper_case_globals,
