@@ -31,6 +31,7 @@ for FLAMGRAPHOUT_S4FILE in \
     "flamegraph-syslog-empty.svg|./logs/other/tests/empty.log" \
     "flamegraph-syslog-no-matches__numbers3.log.svg|./logs/other/tests/numbers3.log" \
     "flamegraph-syslog__gen-99999-1-Motley_Crue.log.svg|./logs/other/tests/gen-99999-1-Motley_Crue.log" \
+    "flamegraph-syslog__gen-99999-1-Motley_Crue.tar.svg|./logs/other/tests/gen-99999-1-Motley_Crue.tar" \
     "flamegraph-syslog-bz2__gen-1000-3-foobar.log.bz2.svg|./logs/other/tests/gen-1000-3-foobar.log.bz2" \
     "flamegraph-syslog-gz__gen-1000-3-foobar.log.gz.svg|./logs/other/tests/gen-1000-3-foobar.log.gz" \
     "flamegraph-syslog-lz4__gen-1000-3-foobar.log.lz4.svg|./logs/other/tests/gen-1000-3-foobar.log.lz4" \

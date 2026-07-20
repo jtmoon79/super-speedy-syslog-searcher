@@ -638,6 +638,9 @@ pub struct XzData {
 }
 
 impl XzData {
+    /// Start the XZ reader thread to read blocks from the file.
+    /// Creates one thread on the first call, and subsequent calls
+    /// are a no-op.
     fn start(
         &mut self,
         blocksz: BlockSz,
@@ -645,6 +648,7 @@ impl XzData {
     ) -> Result<()> {
         def1n!("path={:?}, blocksz={}", path, blocksz);
         if self.finished || self.producer.is_some() {
+            // thread already created
             def1x!("XZ decompressor already started for {path:?}");
             return Ok(());
         }
@@ -662,7 +666,7 @@ impl XzData {
             Some(name) => name.to_string(),
             None => path.clone()
         };
-        let path2 = path.clone();
+        let path2: FPath = path.clone();
         let thread_name: String = format!("{:?}-xz-decoder", thread_name_cur);
         let producer = thread::Builder::new()
             .name(thread_name)
@@ -715,10 +719,15 @@ impl XzData {
 
 impl Drop for XzData {
     fn drop(&mut self) {
+        def1ñ!();
         self.receiver = None;
         if let Some(producer) = self.producer.take() {
-            if producer.join().is_err() {
-                de_wrn!("XZ decompressor thread panicked during drop");
+            // wait for the thread to finish
+            match producer.join() {
+                Ok(_) => {}
+                Err(_err) => {
+                    debug_panic!("XZ decompressor thread panicked during drop: {_err:?}");
+                }
             }
         }
     }
@@ -743,6 +752,13 @@ pub type TarChecksum = u32;
 /// [`tar::Archive::headers`]: https://docs.rs/tar/0.4.38/tar/struct.Header.html
 pub type TarMTime = u64;
 
+#[derive(Debug)]
+enum TarMessage {
+    Block(Block),
+    Done,
+    Error(Error),
+}
+
 /// Data and readers for a file within a `.tar` file, used by [`BlockReader`].
 pub struct TarData {
     /// Size of the file unarchived.
@@ -761,6 +777,144 @@ pub struct TarData {
     /// > the time it was archived. It represents the integer number of seconds
     /// > since January 1, 1970, 00:00 Coordinated Universal Time.
     pub mtime: TarMTime,
+    archive: Option<TarHandle>,
+    receiver: Option<Receiver<TarMessage>>,
+    producer: Option<JoinHandle<()>>,
+    finished: bool,
+}
+
+impl TarData {
+    /// Start the tar reader thread to read blocks from the file within the tar
+    /// archive. Creates one thread on the first call, and subsequent calls
+    /// are a no-op.
+    fn start(
+        &mut self,
+        blocksz: BlockSz,
+        path: &FPath,
+    ) -> Result<()> {
+        def1n!("path={:?}, blocksz={}", path, blocksz);
+        if self.finished || self.producer.is_some() {
+            // thread already created
+            def1x!("tar reader already started for {path:?}");
+            return Ok(());
+        }
+        let mut archive: TarHandle = self
+            .archive
+            .take()
+            .ok_or_else(
+                || Error::new(
+                    ErrorKind::InvalidData,
+                    format!("tar archive not initialized for {path:?}")
+                )
+            )?;
+        let entry_index = self.entry_index;
+        let filesz = self.filesz;
+        let (sender, receiver) = bounded::<TarMessage>(1);
+        let thread_name_cur: String = match std::thread::current().name() {
+            Some(name) => name.to_string(),
+            None => path.clone(),
+        };
+        let path2 = path.clone();
+        let thread_name: String = format!("{}-tar-reader", thread_name_cur);
+        let producer = thread::Builder::new()
+            .name(thread_name)
+            .spawn(move || {
+                let mut entry_iter: tar::Entries<FileHandleManaged> = match archive.entries_with_seek() {
+                    Ok(entry_iter) => entry_iter,
+                    Err(error) => {
+                        _ = sender.send(TarMessage::Error(err_from_err_path(
+                            &error,
+                            &path2,
+                            Some("(tar entries_with_seek failed)"),
+                        )));
+                        return;
+                    }
+                };
+                let mut entry: tar::Entry<FileHandleManaged> = match entry_iter.nth(entry_index) {
+                    Some(Ok(entry)) => entry,
+                    Some(Err(error)) => {
+                        _ = sender.send(TarMessage::Error(err_from_err_path(
+                            &error,
+                            &path2,
+                            Some("(tar entry selection failed)"),
+                        )));
+                        return;
+                    }
+                    None => {
+                        _ = sender.send(TarMessage::Error(Error::new(
+                            ErrorKind::UnexpectedEof,
+                            format!("tar entry {entry_index} not found for file {path2:?}"),
+                        )));
+                        return;
+                    }
+                };
+                let mut remaining = filesz;
+                while remaining > 0 {
+                    let blocksz_at = std::cmp::min(blocksz, remaining) as usize;
+                    let mut block: Block = vec![0; blocksz_at];
+                    if let Err(error) = entry.read_exact(block.as_mut_slice()) {
+                        _ = sender.send(TarMessage::Error(err_from_err_path(
+                            &error,
+                            &path2,
+                            Some("(tar entry read_exact failed)"),
+                        )));
+                        return;
+                    }
+                    remaining -= block.len() as FileSz;
+                    if sender.send(TarMessage::Block(block)).is_err() {
+                        return;
+                    }
+                }
+                _ = sender.send(TarMessage::Done);
+            })
+            .map_err(|error|
+                err_from_err_path(&error, path, Some("(spawn tar reader failed)"))
+            )?;
+        self.receiver = Some(receiver);
+        self.producer = Some(producer);
+
+        def1x!("started thread for {path:?}");
+
+        Ok(())
+    }
+
+    fn recv(&self) -> Result<TarMessage> {
+        def1ñ!();
+        self.receiver
+            .as_ref()
+            .ok_or_else(|| Error::new(ErrorKind::InvalidData, "tar block receiver not initialized"))?
+            .recv()
+            .map_err(|_| Error::new(ErrorKind::UnexpectedEof, "tar reader stopped without a terminal message"))
+    }
+
+    fn finish_producer(&mut self) -> Result<()> {
+        def1ñ!();
+        self.receiver = None;
+        self.finished = true;
+        if let Some(producer) = self.producer.take() {
+            producer
+                .join()
+                .map_err(|_| Error::new(ErrorKind::Other, "tar reader thread panicked"))?;
+        }
+
+        Ok(())
+    }
+}
+
+impl Drop for TarData {
+    fn drop(&mut self) {
+        def1ñ!();
+        self.receiver = None;
+        if let Some(producer) = self.producer.take() {
+            // wait for the thread to finish
+            match producer.join() {
+                Ok(_) => {}
+                Err(_err) => {
+                    debug_panic!("tar reader thread panicked during drop: {_err:?}");
+                }
+            }
+        }
+    }
 }
 
 /// A `BlockReader` reads a file in [`BlockSz`] byte-sized [`Block`s]. It
@@ -1644,11 +1798,19 @@ impl BlockReader {
                     break;
                 }
 
+                let mut file_tar: FileHandleManaged = archive.into_inner();
+                file_tar.seek(SeekFrom::Start(0)).map_err(|err|
+                    err_from_err_path(&err, &path, Some("(reset tar archive failed)"))
+                )?;
                 tar_opt = Some(TarData {
                     filesz: filesz_actual,
                     entry_index,
                     checksum,
                     mtime,
+                    archive: Some(TarHandle::new(file_tar)),
+                    receiver: None,
+                    producer: None,
+                    finished: false,
                 });
             }
             FileType::FixedStruct {
@@ -4014,7 +4176,6 @@ impl BlockReader {
             self.filetype
         );
 
-        let path: FPath = self.path.clone();
         if self.xz.as_ref().unwrap().finished {
             if let Some(blockp) = self.blocks.get(&blockoffset).cloned() {
                 self.store_block_in_LRU_cache(blockoffset, &blockp);
@@ -4031,27 +4192,37 @@ impl BlockReader {
             return ResultFindReadBlock::Done;
         }
         let xz: &mut XzData = self.xz.as_mut().unwrap();
-        if let Err(error) = xz.start(self.blocksz, &path) {
+        if let Err(error) = xz.start(self.blocksz, &self.path) {
             defx!("XZ producer start failed; return Err({error})");
             return ResultFindReadBlock::Err(error);
         }
 
+        // handle zero-length file special case immediately
         if self.filesz_actual == 0 {
             let message = self.xz.as_ref().unwrap().recv();
             return match message {
                 Ok(XzMessage::Done) => match self.xz.as_mut().unwrap().finish_producer() {
                     Ok(()) => {
                         defx!("filesz 0; return Done");
+
                         ResultFindReadBlock::Done
                     }
-                    Err(error) => ResultFindReadBlock::Err(error),
+                    Err(error) => {
+                        defx!("filesz 0; return XzMessage::Done finish_producer error {error}");
+
+                        ResultFindReadBlock::Err(error)
+                    },
                 },
                 Ok(XzMessage::Error(error)) => {
                     _ = self.xz.as_mut().unwrap().finish_producer();
+                    defx!("filesz 0; return XzMessage::Error({error})");
+
                     ResultFindReadBlock::Err(error)
                 }
                 Ok(XzMessage::Block(block)) => {
                     _ = self.xz.as_mut().unwrap().finish_producer();
+                    defx!("filesz 0; return XzMessage::Block({} bytes) which is unexpected", block.len());
+
                     ResultFindReadBlock::Err(Error::new(
                         ErrorKind::InvalidData,
                         format!("xz_decompress produced {} bytes for empty file {:?}", block.len(), self.path),
@@ -4059,6 +4230,8 @@ impl BlockReader {
                 }
                 Err(error) => {
                     _ = self.xz.as_mut().unwrap().finish_producer();
+                    defx!("filesz 0; return xz_decompress recv error {error}");
+
                     ResultFindReadBlock::Err(error)
                 }
             };
@@ -4078,6 +4251,8 @@ impl BlockReader {
                     let blockp = match self.blocks.get(&bo_at) {
                         Some(blockp) => BlockP::clone(blockp),
                         None => {
+                            defx!("({}): XZ block {} was previously dropped for file {:?}",
+                                  blockoffset, bo_at, self.path);
                             return ResultFindReadBlock::Err(Error::new(
                                 ErrorKind::InvalidInput,
                                 format!("XZ block {bo_at} was previously dropped for file {:?}", self.path),
@@ -4097,6 +4272,7 @@ impl BlockReader {
                 Ok(XzMessage::Block(block)) => block,
                 Ok(XzMessage::Done) => {
                     _ = self.xz.as_mut().unwrap().finish_producer();
+                    defx!("({}): xz_decompress ended before block {} for file {:?}", blockoffset, bo_at, self.path);
                     return ResultFindReadBlock::Err(Error::new(
                         ErrorKind::UnexpectedEof,
                         format!("xz_decompress ended before block {bo_at} for file {:?}", self.path),
@@ -4104,10 +4280,14 @@ impl BlockReader {
                 }
                 Ok(XzMessage::Error(error)) => {
                     _ = self.xz.as_mut().unwrap().finish_producer();
+                    defx!("({}): xz_decompress error before block {} for file {:?}: {:?}",
+                          blockoffset, bo_at, self.path, error);
                     return ResultFindReadBlock::Err(error);
                 }
                 Err(error) => {
                     _ = self.xz.as_mut().unwrap().finish_producer();
+                    defx!("({}): xz_decompress recv error before block {} for file {:?}: {:?}",
+                          blockoffset, bo_at, self.path, error);
                     return ResultFindReadBlock::Err(error);
                 }
             };
@@ -4115,6 +4295,8 @@ impl BlockReader {
             let blocksz_expect = self.blocksz_at_blockoffset(&bo_at) as usize;
             if block.len() != blocksz_expect {
                 _ = self.xz.as_mut().unwrap().finish_producer();
+                defx!("({}): xz_decompress read {} bytes for block {}, expected {}; file {:?}",
+                      blockoffset, block.len(), bo_at, blocksz_expect, self.path);
                 return ResultFindReadBlock::Err(Error::new(
                     ErrorKind::InvalidData,
                     format!(
@@ -4130,22 +4312,30 @@ impl BlockReader {
                 match self.xz.as_ref().unwrap().recv() {
                     Ok(XzMessage::Done) => {
                         if let Err(error) = self.xz.as_mut().unwrap().finish_producer() {
+                            defx!("({}): xz.recv() finish_producer error for last block {} for file {:?}: {:?}",
+                                  blockoffset, bo_at, self.path, error);
                             return ResultFindReadBlock::Err(error);
                         }
                     }
                     Ok(XzMessage::Error(error)) => {
                         _ = self.xz.as_mut().unwrap().finish_producer();
+                        defx!("({}): xz.recv() error after last block {} for file {:?}: {:?}",
+                              blockoffset, bo_at, self.path, error);
                         return ResultFindReadBlock::Err(error);
                     }
                     Ok(XzMessage::Block(block)) => {
                         _ = self.xz.as_mut().unwrap().finish_producer();
+                        defx!("({}): xz.recv() received {} bytes after the final block for file {:?}",
+                              blockoffset, block.len(), self.path);
                         return ResultFindReadBlock::Err(Error::new(
                             ErrorKind::InvalidData,
-                            format!("xz_decompress produced {} bytes after the final block for file {:?}", block.len(), self.path),
+                            format!("xz.recv() received {} bytes after the final block for file {:?}", block.len(), self.path),
                         ));
                     }
                     Err(error) => {
                         _ = self.xz.as_mut().unwrap().finish_producer();
+                        defx!("({}): xz.recv() error after last block {} for file {:?}: {:?}",
+                              blockoffset, bo_at, self.path, error);
                         return ResultFindReadBlock::Err(error);
                     }
                 }
@@ -4157,7 +4347,7 @@ impl BlockReader {
                 self.drop_block(bo_at_old);
             }
             if bo_at == blockoffset {
-                defx!("({}): return Found", blockoffset);
+                defx!("({}): return Found Block of len {}", blockoffset, blockp.len());
                 return ResultFindReadBlock::Found(blockp);
             }
             bo_at_old = bo_at;
@@ -4174,18 +4364,22 @@ impl BlockReader {
     ///
     /// Called from `read_block`.
     ///
-    /// XXX: This reads the entire file within the `.tar` file during the first call.
-    ///      See Issue #13
+    /// A `.tar` file must read as a stream, from beginning to end
+    /// (cannot jump forward).
+    /// So read the entire file up to passed `blockoffset`, storing each
+    /// decompressed `Block`.
     ///
-    /// This one big read is due to crate `tar` not providing a method to store
-    /// [`tar::Archive`] or [`tar::Entry`] due to inter-instance references and
-    /// explicit lifetimes.
-    /// A `tar::Entry` holds a reference to data within the `tar::Archive`.
-    /// I found it impossible to store both related instances and then
-    /// later utilize the `tar::Entry`.
+    /// A producer thread owns the [`tar::Archive`] and its borrowed
+    /// [`tar::Entry`] for the lifetime of the read. Blocks are sent to this
+    /// `BlockReader` through a bounded channel as they are requested.
     ///
-    /// [`tar::Archive`]: https://docs.rs/tar/0.4.38/tar/struct.Archive.html
-    /// [`tar::Entry`]: https://docs.rs/tar/0.4.38/tar/struct.Entry.html
+    /// It must be this complicated because the [`tar::Archive`] and its
+    /// borrowed [`tar::Entry`] cannot be both saved as fields of the
+    /// `BlockReader` struct because the [`tar::Entry`] is a borrowed reference
+    /// to the [`tar::Archive`]; borrow-checker refuses.
+    ///
+    /// [`tar::Archive`]: https://docs.rs/tar/0.4.46/tar/struct.Archive.html
+    /// [`tar::Entry`]: https://docs.rs/tar/0.4.46/tar/struct.Entry.html
     /// [`FileType::Tar`]: crate::common::FileType
     #[allow(non_snake_case)]
     fn read_block_FileTar(
@@ -4211,142 +4405,143 @@ impl BlockReader {
             "wrong FileType {:?} for calling read_block_FileTar",
             self.filetype
         );
-        debug_assert_le!(
-            self.count_blocks_processed(),
-            blockoffset,
-            "count_blocks_processed() {}, blockoffset {}; has read_block_FileTar been errantly called?",
-            self.count_blocks_processed(),
-            blockoffset
-        );
 
-        let path_ = self.path.clone();
-        let path_std: &Path = Path::new(&path_);
-        let mut archive: TarHandle = match BlockReader::open_tar(self.path_id(), FileHandleRole::SecondaryRead, path_std) {
-            Ok(val) => val,
-            Err(err) => {
-                defx!("Err {:?}", err);
-                return err_from_err_path_results3(&err, &self.path, Some("(open_tar(…) failed)"));
+        if self.tar.as_ref().unwrap().finished {
+            if let Some(blockp) = self.blocks.get(&blockoffset).cloned() {
+                self.store_block_in_LRU_cache(blockoffset, &blockp);
+                defx!("({blockoffset}): return Found");
+                return ResultFindReadBlock::Found(blockp);
             }
-        };
-
-        // get the file entry from the `.tar` file
-        let mut entry = {
-            let index = self
-                .tar
-                .as_ref()
-                .unwrap()
-                .entry_index;
-            defx!("index {:?}", index);
-            let mut entry_iter: tar::Entries<FileHandleManaged> = match archive.entries_with_seek() {
-                Ok(val) => val,
-                Err(err) => {
-                    defx!("Err {:?}", err);
-                    return err_from_err_path_results3(&err, &self.path, Some("(entries_with_seek() failed)"));
-                }
-            };
-            match entry_iter.nth(index) {
-                Some(entry_res) => match entry_res {
-                    Ok(entry) => entry,
-                    Err(err) => {
-                        defx!("Err {:?}", err);
-                        return err_from_err_path_results3(
-                            &err,
-                            &self.path,
-                            Some(format!("(entry_iter.nth({}) failed)", index).as_str()),
-                        );
-                    }
-                },
-                None => {
-                    defx!("None");
-                    return ResultFindReadBlock::Err(Error::new(
-                        ErrorKind::UnexpectedEof,
-                        format!(
-                            "tar.handle.entries_with_seek().entry_iter.nth({}) returned None for file {:?}",
-                            index, self.path
-                        ),
-                    ));
-                }
+            if self.blocks_read.contains(&blockoffset) {
+                return ResultFindReadBlock::Err(Error::new(
+                    ErrorKind::InvalidInput,
+                    format!("tar block {blockoffset} was previously dropped for file {:?}", self.path),
+                ));
             }
-        };
-
-        // handle special case immediately
-        // also file size zero cause `entry.read_exact` to return an error
+            defx!("tar producer finished; return Done");
+            return ResultFindReadBlock::Done;
+        }
         if self.filesz_actual == 0 {
             defx!("({}): filesz_actual 0; return Done", blockoffset);
             return ResultFindReadBlock::Done;
         }
-
-        // read all blocks from file `entry`
-        let mut bo_at: BlockOffset = 0;
-        let blockoffset_last: BlockOffset = self.blockoffset_last();
-        while bo_at <= blockoffset_last {
-            defo!("loop bo_at={}", bo_at);
-            let cap: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
-            defo!("cap={}", cap);
-            let mut block: Block = vec![0; cap];
-            defo!("read_exact(&block (capacity {})); bo_at {}", cap, bo_at);
-            match entry.read_exact(block.as_mut_slice()) {
-                Ok(_) => {}
-                Err(err) => {
-                    defx!("read_block_FileTar: read_exact(&block (capacity {})) error, return {:?}", cap, err);
-                    e_err!("entry.read_exact(&block (capacity {})) file {:?} {}", cap, path_std, err);
-                    return err_from_err_path_results3(&err, &self.path, Some("(entry.read_exact(…) failed)"));
-                }
-            }
-            self.count_bytes_read += block.len() as Count;
-            defo!("count_bytes_read={}", self.count_bytes_read);
-
-            // check returned Block is expected number of bytes
-            if block.is_empty() {
-                defo!("block.is_empty()");
-                let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at);
-                return ResultFindReadBlock::Err(
-                    Error::new(
-                        ErrorKind::UnexpectedEof,
-                        format!(
-                            "read_exact read zero bytes from block {} (at byte {}), requested {} bytes. filesz {}, last block {}; file {:?}",
-                            bo_at, byte_at, self.blocksz, self.filesz(), blockoffset_last, self.path,
-                        )
-                    )
-                );
-            } else if cap != block.len() {
-                defo!("cap {} != {} block.len()", cap, block.len());
-                let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at);
-                return ResultFindReadBlock::Err(
-                    Error::new(
-                        ErrorKind::UnexpectedEof,
-                        format!(
-                            "read_exact read {} bytes from block {} (at byte {}), requested {} bytes. filesz {}, last block {}; file {:?}",
-                            block.len(), bo_at, byte_at, self.blocksz, self.filesz(), blockoffset_last, self.path,
-                        )
-                    )
-                );
-            }
-
-            let blockp: BlockP = BlockP::new(block);
-            self.store_block_in_storage(bo_at, &blockp);
-            bo_at += 1;
+        if let Err(error) = self.tar.as_mut().unwrap().start(self.blocksz, &self.path) {
+            defx!("tar producer start failed; return Err({error})");
+            return ResultFindReadBlock::Err(error);
         }
-        // all blocks have been read...
 
-        // return only the block requested
-        let blockp: BlockP = match self.blocks.get(&blockoffset) {
-            Some(blockp_) => BlockP::clone(blockp_),
-            None => {
-                defx!("self.blocks.get({}), returned None, return Err(UnexpectedEof)", blockoffset);
+        let blockoffset_last: BlockOffset = self.blockoffset_last();
+        let mut bo_at: BlockOffset = match self.blocks_read.iter().max() {
+            Some(bo_) => *bo_,
+            None => 0,
+        };
+        let mut bo_at_old: BlockOffset = bo_at;
+
+        while bo_at <= blockoffset {
+            if self.blocks_read.contains(&bo_at) {
+                summary_stat!(self.read_blocks_hit += 1);
+                if bo_at == blockoffset {
+                    let blockp = match self.blocks.get(&bo_at) {
+                        Some(blockp) => BlockP::clone(blockp),
+                        None => {
+                            return ResultFindReadBlock::Err(Error::new(
+                                ErrorKind::InvalidInput,
+                                format!("tar block {bo_at} was previously dropped for file {:?}", self.path),
+                            ));
+                        }
+                    };
+                    self.store_block_in_LRU_cache(bo_at, &blockp);
+                    defx!("({}): return Found", blockoffset);
+                    return ResultFindReadBlock::Found(blockp);
+                }
+                bo_at += 1;
+                continue;
+            }
+
+            summary_stat!(self.read_blocks_miss += 1);
+            let block = match self.tar.as_ref().unwrap().recv() {
+                Ok(TarMessage::Block(block)) => block,
+                Ok(TarMessage::Done) => {
+                    _ = self.tar.as_mut().unwrap().finish_producer();
+                    defx!("({}): tar.recv() Done, return Err", blockoffset);
+                    return ResultFindReadBlock::Err(Error::new(
+                        ErrorKind::UnexpectedEof,
+                        format!("tar entry ended before block {bo_at} for file {:?}", self.path),
+                    ));
+                }
+                Ok(TarMessage::Error(error)) => {
+                    _ = self.tar.as_mut().unwrap().finish_producer();
+                    defx!("({}): tar.recv() returned TarMessage::Error, return Err({error})", blockoffset);
+                    return ResultFindReadBlock::Err(error);
+                }
+                Err(error) => {
+                    _ = self.tar.as_mut().unwrap().finish_producer();
+                    defx!("({}): tar.recv() returned Err, return Err({error})", blockoffset);
+                    return ResultFindReadBlock::Err(error);
+                }
+            };
+
+            let blocksz_expect = self.blocksz_at_blockoffset(&bo_at) as usize;
+            if block.len() != blocksz_expect {
+                _ = self.tar.as_mut().unwrap().finish_producer();
+                defx!("({}): tar.recv() returned block of unexpected size {}, expected {blocksz_expect}, return Err",
+                      blockoffset, block.len());
                 return ResultFindReadBlock::Err(Error::new(
-                    ErrorKind::UnexpectedEof,
+                    ErrorKind::InvalidData,
                     format!(
-                        "read_block_FileTar: self.blocks.get({}) returned None for file {:?}",
-                        blockoffset, self.path
+                        "tar entry read {} bytes for block {}, expected {}; file {:?}",
+                        block.len(), bo_at, blocksz_expect, self.path,
                     ),
                 ));
             }
-        };
+            self.count_bytes_read += block.len() as Count;
+            let blockp = BlockP::new(block);
 
-        defx!("({}): return Found", blockoffset);
+            if bo_at == blockoffset_last {
+                match self.tar.as_ref().unwrap().recv() {
+                    Ok(TarMessage::Done) => {
+                        if let Err(error) = self.tar.as_mut().unwrap().finish_producer() {
+                            defx!("({}): return Err({error})", blockoffset);
+                            return ResultFindReadBlock::Err(error);
+                        }
+                    }
+                    Ok(TarMessage::Error(error)) => {
+                        _ = self.tar.as_mut().unwrap().finish_producer();
+                        defx!("({}): return Err({error})", blockoffset);
+                        return ResultFindReadBlock::Err(error);
+                    }
+                    Ok(TarMessage::Block(block)) => {
+                        _ = self.tar.as_mut().unwrap().finish_producer();
+                        defx!("({}): return Err(InvalidData), unexpected bytes found after blockoffset_last {}",
+                              blockoffset, blockoffset_last);
+                        return ResultFindReadBlock::Err(Error::new(
+                            ErrorKind::InvalidData,
+                            format!("tar entry produced {} bytes after the final block for file {:?}", block.len(), self.path),
+                        ));
+                    }
+                    Err(error) => {
+                        _ = self.tar.as_mut().unwrap().finish_producer();
+                        defx!("({}): return Err({error})", blockoffset);
+                        return ResultFindReadBlock::Err(error);
+                    }
+                }
+            }
 
-        ResultFindReadBlock::Found(blockp)
+            self.store_block_in_storage(bo_at, &blockp);
+            self.store_block_in_LRU_cache(bo_at, &blockp);
+            if BlockReader::READ_BLOCK_LOOKBACK_DROP && bo_at_old < bo_at {
+                self.drop_block(bo_at_old);
+            }
+            if bo_at == blockoffset {
+                defx!("({}): return Found Block of len {}", blockoffset, blockp.len());
+                return ResultFindReadBlock::Found(blockp);
+            }
+            bo_at_old = bo_at;
+            bo_at += 1;
+        }
+
+        defx!("({}): return Done", blockoffset);
+        ResultFindReadBlock::Done
     }
 
     /// Read a `Block` of data of max size `self.blocksz` from the file.

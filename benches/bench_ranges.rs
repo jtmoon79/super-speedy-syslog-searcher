@@ -1,9 +1,9 @@
 // benches/bench_ranges.rs
 
-// using `RangeMap` is surprisingly expensive, according to script
-// `tools/flamegraph.sh`
-// <https://docs.rs/rangemap/latest/rangemap/map/struct.RangeMap.html>
-// <https://docs.rs/range-set-blaze/latest/range_set_blaze/struct.RangeMapBlaze.html>
+//! Using `RangeMap` is surprisingly expensive, according to script
+//! `tools/flamegraph.sh`.
+//! - <https://docs.rs/rangemap/latest/rangemap/map/struct.RangeMap.html>
+//! - <https://docs.rs/range-set-blaze/latest/range_set_blaze/struct.RangeMapBlaze.html>
 
 use std::hint::black_box;
 use std::ops::Range;
