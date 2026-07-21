@@ -46,7 +46,7 @@ env:
   S4R: ./s4_release
   S4D: ./s4_debug
   # run files
-  S4_TEST_FILES: \
+  S4_TEST_FILES:
     ./logs/CentOS9/x86_64/wtmp
     ./logs/other/tests/dtf2-2.log
     ./logs/other/tests/dtf3-2a.log
