@@ -745,7 +745,17 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          ${S4D} -cn -u -p -w ${S4_TEST_FILES} | grep -qFe '6b-abcd'
+          ${S4D} -cn -u -p -w ${S4_TEST_FILES} 2>/dev/null | grep -qFe '6b-abcd'
+      - name: s4_debug | head
+        shell: bash
+        run: |
+          set -euxo pipefail
+          ${S4D} -cn -u -p -w ${S4_TEST_FILES} 2>/dev/null | head -n 10
+      - name: s4_debug | tail
+        shell: bash
+        run: |
+          set -euxo pipefail
+          ${S4D} -cn -u -p -w ${S4_TEST_FILES} 2>/dev/null | tail -n 10
       - name: S4_FILE_HANDLE_OPEN_MAX=12 s4_debug -s S4_ARGSD S4_TEST_FILES
         shell: bash
         run: |
@@ -819,6 +829,16 @@ jobs:
         run: |
           set -euxo pipefail
           ${S4R} -cn -u -p -w ${S4_TEST_FILES} | grep -qFe '6b-abcd'
+      - name: s4_release | head
+        shell: bash
+        run: |
+          set -euxo pipefail
+          ${S4R} -cn -u -p -w ${S4_TEST_FILES} | head -n 10
+      - name: s4_release | tail
+        shell: bash
+        run: |
+          set -euxo pipefail
+          ${S4R} -cn -u -p -w ${S4_TEST_FILES} | tail -n 10
       - name: S4_FILE_HANDLE_OPEN_MAX=12 s4_release -s S4_TEST_FILES
         shell: bash
         run: |
