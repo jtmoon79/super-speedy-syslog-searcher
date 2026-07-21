@@ -97,13 +97,14 @@ function stderr_clean () {
         -e '/^[ ]+[Bb]locks high[ ]+: .*$/d' \
         -e '/^[ ]+[Ll]ines high[ ]+: .*$/d' \
         -e '/^Managed evict succeed[ ]*:.*$/d' \
-        -e '/^Managed files high[ ]*:.*$/d' \
+        -e '/^Managed [Ff]iles high[ ]*:.*$/d' \
+        -e '/^Managed [Hh]andles high[ ]*:.*$/d' \
         -e '/^Managed\+unmanaged high[ ]*:.*$/d' \
         -e '/^Managed physical opens[ ]*:.*$/d' \
         -e '/^Managed physical reopen[ ]*:.*$/d' \
         -e '/^Managed read calls[ ]*:.*$/d' \
-        -e '/^Unmanaged files high[ ]*:.*$/d' \
-        -e '/^Unmanaged handles high[ ]*:.*$/d' \
+        -e '/^Unmanaged [Ff]iles high[ ]*:.*$/d' \
+        -e '/^Unmanaged [Hh]andles high[ ]*:.*$/d' \
         -e '/^Unmanaged request open[ ]*:.*$/d' \
         -e '/^Datetime Now[ ]*:.*$/d' \
         -e '/^Python Interpreter[ ]*:.*$/d' \

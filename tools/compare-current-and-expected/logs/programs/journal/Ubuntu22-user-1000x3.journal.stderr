@@ -48,7 +48,6 @@ Journal event largest processed: 932
 Journal event largest accepted : 932
 Managed files max deflt: 980
 Managed files max adjus: 200
-Managed handles high   : 1
 Managed request open   : 1
 Managed request read   : 0
 Managed write calls    : 0
