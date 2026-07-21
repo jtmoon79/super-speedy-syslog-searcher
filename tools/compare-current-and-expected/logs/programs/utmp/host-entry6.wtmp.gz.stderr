@@ -6,8 +6,9 @@ File: ./logs/programs/utmp/host-entry6.wtmp.gz
       FileType      : UTMP/WTMP (GZIP) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 179200 (bytes)
-      Processing Err : no valid fixed-structure records found in file
+      Thread stack  : 181248 (bytes)
+      Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.gz"
+  Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.gz"
 
 Program summary:
 

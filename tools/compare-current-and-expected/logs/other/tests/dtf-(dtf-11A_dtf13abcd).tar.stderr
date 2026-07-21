@@ -6,7 +6,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       Archive subpath: ./logs/other/tests/dtf11-A.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 158720 (bytes)
+      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1884
       flushes       : 13
@@ -51,7 +51,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       Archive subpath: ./logs/other/tests/dtf13a.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 158720 (bytes)
+      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 555
       flushes       : 3
@@ -96,7 +96,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       Archive subpath: ./logs/other/tests/dtf13b.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 158720 (bytes)
+      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 552
       flushes       : 3
@@ -141,7 +141,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       Archive subpath: ./logs/other/tests/dtf13c.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 158720 (bytes)
+      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 555
       flushes       : 3
@@ -186,7 +186,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       Archive subpath: ./logs/other/tests/dtf13d.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 158720 (bytes)
+      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 546
       flushes       : 3

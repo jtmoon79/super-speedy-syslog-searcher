@@ -5,7 +5,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3422
       flushes       : 17

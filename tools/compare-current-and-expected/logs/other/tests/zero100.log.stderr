@@ -5,7 +5,7 @@ File: ./logs/other/tests/zero100.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 100352 (bytes)
       Processing Err : file contains null bytes
   Printed:
       bytes         : 0

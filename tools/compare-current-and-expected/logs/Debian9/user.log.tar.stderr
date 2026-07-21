@@ -6,7 +6,7 @@ File: ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1
       Archive subpath: ./logs/Debian9/user.log.1
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 158720 (bytes)
+      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 616
       flushes       : 3

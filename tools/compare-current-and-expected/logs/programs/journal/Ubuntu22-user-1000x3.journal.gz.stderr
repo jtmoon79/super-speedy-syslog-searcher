@@ -5,7 +5,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
   About:
       FileType      : JOURNAL (GZIP) (systemd Journal)
       LogMessageType: systemd journal entries
-      Thread stack  : 189440 (bytes)
+      Thread stack  : 207872 (bytes)
   Printed:
       bytes         : 12856
       flushes       : 8

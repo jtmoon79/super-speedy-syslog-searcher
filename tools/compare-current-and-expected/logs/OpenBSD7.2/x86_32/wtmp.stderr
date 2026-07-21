@@ -7,7 +7,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2342
       flushes       : 19

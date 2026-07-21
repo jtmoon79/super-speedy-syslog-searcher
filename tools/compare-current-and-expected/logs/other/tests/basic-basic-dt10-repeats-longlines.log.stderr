@@ -5,7 +5,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6379
       flushes       : 55

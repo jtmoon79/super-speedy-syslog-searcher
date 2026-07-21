@@ -5,7 +5,7 @@ File: ./logs/MacOS11/powermanagement/2023.10.26.asl
   About:
       FileType      : ASL (Apple System Log)
       LogMessageType: Python parsed events (ASL/ETL/ODL)
-      Thread stack  : 138240 (bytes)
+      Thread stack  : 137216 (bytes)
   Printed:
       bytes         : 4699
       flushes       : 10

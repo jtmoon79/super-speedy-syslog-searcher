@@ -6,7 +6,7 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       Archive subpath: dtf9c-12x2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 158720 (bytes)
+      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2506
       flushes       : 23

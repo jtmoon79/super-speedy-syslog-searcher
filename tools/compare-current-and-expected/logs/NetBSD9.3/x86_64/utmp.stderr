@@ -7,7 +7,7 @@ File: ./logs/NetBSD9.3/x86_64/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmp
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 136
       flushes       : 1

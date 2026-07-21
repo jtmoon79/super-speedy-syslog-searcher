@@ -6,7 +6,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVEL
       Archive subpath: ./logs/other/tests/dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 158720 (bytes)
+      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 3460
       flushes       : 20

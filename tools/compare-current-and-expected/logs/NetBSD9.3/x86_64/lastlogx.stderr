@@ -6,7 +6,7 @@ File: ./logs/NetBSD9.3/x86_64/lastlogx
       FileType      : LASTLOGX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlogx
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 104448 (bytes)
       Processing Err : no valid fixed-structure records found in file
 
 Program summary:

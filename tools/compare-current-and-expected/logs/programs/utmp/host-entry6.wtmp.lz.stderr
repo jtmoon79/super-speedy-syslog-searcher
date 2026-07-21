@@ -6,7 +6,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.lz
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 104448 (bytes)
       Processing Err : no valid fixed-structure records found in file
 
 Program summary:

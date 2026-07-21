@@ -5,7 +5,7 @@ File: ./logs/RockyLinux9/dnf.rpm.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4779
       flushes       : 36

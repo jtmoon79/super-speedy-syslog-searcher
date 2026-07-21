@@ -5,7 +5,7 @@ File: ./logs/other/tests/simple-1.log.lz4
   About:
       FileType      : TEXT UTF8/ASCII (LZMA4) (text log)
       LogMessageType: text log lines
-      Thread stack  : 179200 (bytes)
+      Thread stack  : 177152 (bytes)
       Processing Err : file too small
   Printed:
       bytes         : 0

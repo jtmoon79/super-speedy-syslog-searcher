@@ -5,7 +5,7 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1091
       flushes       : 5
