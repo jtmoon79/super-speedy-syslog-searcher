@@ -5,7 +5,7 @@ File: ./logs/Ubuntu18/cups/error_log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 183
       flushes       : 1

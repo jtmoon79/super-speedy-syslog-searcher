@@ -5,7 +5,7 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 179200 (bytes)
+      Thread stack  : 177152 (bytes)
   Printed:
       bytes         : 1173
       flushes       : 6

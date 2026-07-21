@@ -5,7 +5,7 @@ File: ./logs/Debian9/user.log.1.bz2
   About:
       FileType      : TEXT UTF8/ASCII (BZIP2) (text log)
       LogMessageType: text log lines
-      Thread stack  : 179200 (bytes)
+      Thread stack  : 177152 (bytes)
   Printed:
       bytes         : 544
       flushes       : 3

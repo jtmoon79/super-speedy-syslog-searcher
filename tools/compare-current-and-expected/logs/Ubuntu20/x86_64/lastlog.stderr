@@ -7,7 +7,7 @@ File: ./logs/Ubuntu20/x86_64/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 240
       flushes       : 2

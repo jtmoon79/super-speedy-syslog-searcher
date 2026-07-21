@@ -5,7 +5,7 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4980
       flushes       : 27

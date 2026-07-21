@@ -5,7 +5,7 @@ File: ./logs/other/tests/invalid.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 179200 (bytes)
+      Thread stack  : 177152 (bytes)
       Processing Err : unexpected end of file (GzDecoder.read(…) failed) file "./logs/other/tests/invalid.gz"
   Printed:
       bytes         : 0

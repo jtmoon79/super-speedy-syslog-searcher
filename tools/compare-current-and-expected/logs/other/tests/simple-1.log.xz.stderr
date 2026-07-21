@@ -5,7 +5,7 @@ File: ./logs/other/tests/simple-1.log.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 179200 (bytes)
+      Thread stack  : 177152 (bytes)
       Processing Err : file too small
   Printed:
       bytes         : 0

@@ -5,7 +5,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3826
       flushes       : 6

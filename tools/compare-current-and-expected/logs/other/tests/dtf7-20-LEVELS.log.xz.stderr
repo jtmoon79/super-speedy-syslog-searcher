@@ -5,7 +5,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 179200 (bytes)
+      Thread stack  : 177152 (bytes)
   Printed:
       bytes         : 2680
       flushes       : 20

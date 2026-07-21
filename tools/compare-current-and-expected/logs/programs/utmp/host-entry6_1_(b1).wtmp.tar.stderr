@@ -7,8 +7,9 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 158720 (bytes)
-      Processing Err : no valid fixed-structure records found in file
+      Thread stack  : 160768 (bytes)
+      Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
+  Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
 
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
   About:
@@ -16,8 +17,9 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 158720 (bytes)
-      Processing Err : no valid fixed-structure records found in file
+      Thread stack  : 160768 (bytes)
+      Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
+  Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
 
 Program summary:
 

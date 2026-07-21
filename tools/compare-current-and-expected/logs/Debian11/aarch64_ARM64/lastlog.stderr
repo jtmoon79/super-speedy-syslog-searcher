@@ -7,7 +7,7 @@ File: ./logs/Debian11/aarch64_ARM64/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_Arm64Aarch64_Lastlog
-      Thread stack  : 102400 (bytes)
+      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 127
       flushes       : 1

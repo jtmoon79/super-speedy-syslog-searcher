@@ -6,7 +6,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Micro
       Archive subpath: Microsoft-Windows-Kernel-PnP__Configuration.evtx
       FileType      : EVTX (TAR) (Windows XML EventLog)
       LogMessageType: EVTX entries (Windows XML EventLog)
-      Thread stack  : 168960 (bytes)
+      Thread stack  : 187392 (bytes)
   Printed:
       bytes         : 1561282
       flushes       : 905
