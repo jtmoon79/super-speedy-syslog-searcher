@@ -1109,6 +1109,7 @@
 ./logs/other/tests/gen-99999-1-Motley_Crue.log.gz|2000-01-02 03:46:40
 ./logs/other/tests/gen-99999-1-Motley_Crue.log.lz4|2000-01-02 03:46:40
 ./logs/other/tests/gen-99999-1-Motley_Crue.log.xz|2000-01-02 03:46:40
+./logs/other/tests/gen-99999-1-Motley_Crue.tar|2000-01-02 03:46:40
 ./logs/other/tests/invalid.gz|2023-11-01 00:00:00
 ./logs/other/tests/invalid.journal|2023-11-01 00:00:00
 ./logs/other/tests/invalid.tar|2023-11-01 00:00:00
