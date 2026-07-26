@@ -9,20 +9,20 @@ macro_rules! key_to_engine {
     ($re:literal, flat_lockstep_nfa) => {
         (
             "flat_lockstep_nfa",
-            ::ere::compile_regex_flat_lockstep_nfa!($re),
+            ::super_speedy_syslog_searcher_ere::compile_regex_flat_lockstep_nfa!($re),
         )
     };
     ($re:literal, flat_lockstep_nfa_u8) => {
         (
             "flat_lockstep_nfa_u8",
-            ::ere::compile_regex_flat_lockstep_nfa_u8!($re),
+            ::super_speedy_syslog_searcher_ere::compile_regex_flat_lockstep_nfa_u8!($re),
         )
     };
     ($re:literal, one_pass_u8) => {
-        ("one_pass_u8", ::ere::compile_regex_u8onepass!($re))
+        ("one_pass_u8", ::super_speedy_syslog_searcher_ere::compile_regex_u8onepass!($re))
     };
     ($re:literal, fixed_offset) => {
-        ("fixed_offset", ::ere::compile_regex_fixed_offset!($re))
+        ("fixed_offset", ::super_speedy_syslog_searcher_ere::compile_regex_fixed_offset!($re))
     };
 }
 
