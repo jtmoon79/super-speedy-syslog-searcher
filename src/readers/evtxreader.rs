@@ -44,6 +44,7 @@ use ::si_trace_print::{
     def1o,
     def1x,
     def1ñ,
+    def2ñ,
     defn,
     defo,
     defx,
@@ -657,6 +658,6 @@ impl EvtxReader {
 
 impl Drop for EvtxReader {
     fn drop(&mut self) {
-        def1ñ!("PathID {} Path {:?}", self.path_id(), self.path());
+        def2ñ!("EvtxReader: PathID {} Path {:?}", self.path_id(), self.path());
     }
 }

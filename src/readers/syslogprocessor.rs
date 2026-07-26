@@ -39,6 +39,7 @@ use ::si_trace_print::{
     def1n,
     def1x,
     def1ñ,
+    def2ñ,
     defn,
     defo,
     defx,
@@ -1537,6 +1538,6 @@ impl SyslogProcessor {
 
 impl Drop for SyslogProcessor {
     fn drop(&mut self) {
-        def1ñ!("PathID {} Path {:?}", self.path_id(), self.path());
+        def2ñ!("SyslogProcessor PathID {} Path {:?}", self.path_id(), self.path());
     }
 }

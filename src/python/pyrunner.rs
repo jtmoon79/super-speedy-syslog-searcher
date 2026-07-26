@@ -625,7 +625,7 @@ impl PipeStreamReader {
 
 impl Drop for PipeStreamReader {
     fn drop(&mut self) {
-        def1ñ!("PipeStreamReader name {} PID {}", self.name, self.pid);
+        def2ñ!("PipeStreamReader: {} PID {}", self.name, self.pid);
     }
 }
 
@@ -1658,7 +1658,7 @@ impl PyRunner {
 
 impl Drop for PyRunner {
     fn drop(&mut self) {
-        def1ñ!("PathID {} PID {} TID {}", self.path_id(), self.pid(), self.tid());
+        def2ñ!("PyRunner: PathID {} PID {} TID {}", self.path_id(), self.pid(), self.tid());
         if !self.exited() && let Err(_err) = self.terminate() {
             de_err!("Failed to terminate Python process {} during drop: {}", self.pid_, _err);
         }
