@@ -273,7 +273,7 @@ lazy_static! {
     static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
 }
 
-pub const REGEX_ID_NTF5: RegexId = 141;
+pub const REGEX_ID_NTF5: RegexId = 142;
 
 /// basic test of `SyslineReader.find_sysline`
 fn impl_find_sysline(
@@ -420,7 +420,7 @@ fn helper_extract_dtpi_info(
 }
 
 /// test `SyslineReader::find_datetime_in_line`
-#[test_matrix(0..187)] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
+#[test_matrix(0..191)] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
 fn test_find_datetime_in_line(regex_id: RegexId) {
     let mut transcode_buffer: Bytes = Bytes::with_capacity(0);
     let mut regex_captures_attempted: Count = 0;
@@ -529,7 +529,7 @@ fn test_find_datetime_in_line(regex_id: RegexId) {
     }
 }
 
-#[test_matrix(0..189, (true, false))] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
+#[test_matrix(0..191, (true, false))] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
 /// test `SyslineReader.parse_datetime_in_line_cached`
 fn test_parse_datetime_in_line_cached(regex_id: RegexId, cache: bool) {
     let mut slr = new_SyslineReader(&*NTF_LOG_EMPTY_FPATH, 0x100, *FO_L);
@@ -749,7 +749,7 @@ const NTF26_DATA: &str = "\
 2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz
 ";
 
-const REGEX_ID_NTF26: RegexId = 79;
+const REGEX_ID_NTF26: RegexId = 80;
 
 const NTF26_DATA_DT0: &str = "2020-01-01 00:00:00";
 const NTF26_DATA_LINE0n: &str = "2020-01-01 00:00:00\n";
@@ -3689,7 +3689,7 @@ const test_data_file_A1_dt6: &str = "\
 2000-01-01 00:00:04 abcd
 2000-01-01 00:00:05 abcde";
 
-pub const REGEX_ID_A1_dt6: RegexId = 79;
+pub const REGEX_ID_A1_dt6: RegexId = 46;
 
 const test_data_file_A1_dt6_checks: [TestSyslineReaderCheck; 6] = [
     ("2000-01-01 00:00:00\n", 20),
@@ -3852,6 +3852,14 @@ fn impl_test_findsysline(
     let mut check_i: usize = 0;
     let mut done_analysis = false;
     for (input_fo, expect_result, expect_fo, expect_val) in input_checks.iter() {
+        eprintln!(
+            "\
+impl_test_findsysline: check {check_i}
+impl_test_findsysline: find_sysline({input_fo})
+impl_test_findsysline: expect result:      {expect_result:?}
+impl_test_findsysline: expect fileoffset: @{expect_fo}
+impl_test_findsysline: expect value:       {expect_val}\n",
+        );
         let result = slr.find_sysline(*input_fo);
         assert_results4(input_fo, expect_result, &result);
         match result {
@@ -3920,7 +3928,7 @@ const test_data_A2_dt6_sysline3: &str = "2000-01-01 00:00:03abc\n";
 const test_data_A2_dt6_sysline4: &str = "2000-01-01 00:00:04abcd\n";
 const test_data_A2_dt6_sysline5: &str = "2000-01-01 00:00:05abcde";
 
-pub const REGEX_ID_A2_dt6: RegexId = 79;
+pub const REGEX_ID_A2_dt6: RegexId = 46;
 
 const test_data_A2_dt6: &str = concatcp!(
     test_data_A2_dt6_sysline0,
@@ -4234,7 +4242,7 @@ const test_data_file_C_dt6: &str = "\
 [DEBUG] 2000-01-01 00:00:04|abcd
 [DEBUG] 2000-01-01 00:00:05|abcde";
 
-pub const REGEX_ID_C_dt6: RegexId = 138;
+pub const REGEX_ID_C_dt6: RegexId = 139;
 
 const test_data_file_C_dt6_checks: [TestSyslineReaderCheck; 6] = [
     ("[DEBUG] 2000-01-01 00:00:00|\n", 29),
@@ -4319,7 +4327,7 @@ const test_data_file_E_dt6_sysline0: &str = "2001-01-01 00:00:00 _\n2001-02-31 0
 const test_data_file_E_dt6_sysline1: &str = "2001-03-01 00:00:02 😀😁\n";
 const test_data_file_E_dt6_sysline2: &str = "2001-04-01 00:00:03 😀😁😂\n";
 
-pub const REGEX_ID_E_dt6: RegexId = 79;
+pub const REGEX_ID_E_dt6: RegexId = 46;
 
 // notice the second line, first sysline, is an invalid date that will pass regex match
 const test_data_file_E_dt6: &str = concatcp!(
@@ -4478,7 +4486,7 @@ const test_data_file_F_dt6_sysline1: &str = "2001-02-01 00:00:01 😀\n";
 const test_data_file_F_dt6_sysline2: &str = "2001-03-01 00:00:02 😀😁\n2001-04-31 00:00:03 😫😫😫\n";
 const test_data_file_F_dt6_sysline3: &str = "2001-05-01 00:00:04 😀😁😂😃\n";
 
-pub const REGEX_ID_F_dt6: RegexId = 79;
+pub const REGEX_ID_F_dt6: RegexId = 46;
 
 // notice the fourth line, third sysline, is an invalid date that will pass regex match
 const test_data_file_F_dt6: &str = concatcp!(
@@ -4633,7 +4641,7 @@ const test_data_file_G_dt4: &str = concatcp!(
     test_data_file_G_dt4_sysline3,
 );
 
-pub const REGEX_ID_G_dt4: RegexId = 79;
+pub const REGEX_ID_G_dt4: RegexId = 46;
 
 // remember that `.len()` starts at one, and `FileOffset` starts at zero
 
@@ -4799,7 +4807,7 @@ const test_data_file_H_dt4_sysline1_end: FileOffset = test_data_file_H_dt4_sysli
 const test_data_file_H_dt4_sysline2_end: FileOffset = test_data_file_H_dt4_sysline1_end + test_data_file_H_dt4_sysline2.len() as FileOffset;
 const test_data_file_H_dt4_sysline3_end: FileOffset = test_data_file_H_dt4_sysline2_end + test_data_file_H_dt4_sysline3.len() as FileOffset;
 
-pub const REGEX_ID_H_dt4: RegexId = 79;
+pub const REGEX_ID_H_dt4: RegexId = 46;
 
 lazy_static! {
     static ref test_SyslineReader_H_ntf: NamedTempFile = create_temp_file(test_data_file_H_dt4);
@@ -5148,7 +5156,7 @@ const NTF_A3_DATA_LINE1: &str = "2000-01-01 00:00:00\n";
 const NTF_A3_DATA_LINE2: &str = "2000-01-02 00:00:00\n";
 const NTF_A3_DATA_LINE12: &str = concatcp!(NTF_A3_DATA_LINE1, NTF_A3_DATA_LINE2);
 
-pub const REGEX_ID_A3: RegexId = 79;
+pub const REGEX_ID_A3: RegexId = 46;
 
 lazy_static! {
     static ref NTF_A3_DATA_LINE1_STRING: String = String::from(NTF_A3_DATA_LINE1);
@@ -6317,10 +6325,10 @@ lazy_static! {
     0,
     0,
     0,
-    40,
+    42,
     0,
     7,
-    330,
+    336,
     0,
     7;
     "NTF_GZ_8BYTE_FPATH"
@@ -6358,10 +6366,10 @@ lazy_static! {
     0,
     0,
     0,
-    40,
+    42,
     0,
     7,
-    330,
+    336,
     0,
     7;
     "NTF_LZ4_8BYTE_FPATH"
@@ -6399,10 +6407,10 @@ lazy_static! {
     0,
     0,
     0,
-    40,
+    42,
     0,
     7,
-    330,
+    336,
     0,
     7;
     "NTF_XZ_8BYTE_FPATH"
@@ -6433,18 +6441,18 @@ lazy_static! {
     0,
     1,
     0,
-    77,
-    4,
-    72,
+    46,
+    3,
+    43,
     0,
     0,
     0,
     0,
     0,
-    4,
+    5,
     0,
     0,
-    72,
+    41,
     0;
     "NTF_SYSLINE_1_PATH (cache)"
 )]
@@ -6474,18 +6482,18 @@ lazy_static! {
     0,
     0,
     0,
-    77,
-    4,
-    72,
+    46,
+    3,
+    43,
     0,
     0,
     0,
     0,
     0,
-    4,
+    5,
     0,
     0,
-    72,
+    41,
     0;
     "NTF_SYSLINE_1_PATH (no cache)"
 )]
@@ -6515,18 +6523,18 @@ lazy_static! {
     1,
     2,
     0,
-    77,
+    47,
     0,
     0,
-    77,
+    47,
     0,
     0,
     0,
     0,
-    4,
+    5,
     0,
     0,
-    73,
+    42,
     0;
     "NTF_SYSLINE_2_PATH"
 )]
@@ -6556,18 +6564,18 @@ lazy_static! {
     19,
     20,
     0,
-    98,
+    99,
     0,
     0,
-    98,
+    65,
     0,
     0,
     0,
     0,
-    4,
+    5,
     0,
     0,
-    94,
+    60,
     0;
     "DTF_2_20_FPATH"
 )]
