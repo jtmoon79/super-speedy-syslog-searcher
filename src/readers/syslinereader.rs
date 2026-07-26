@@ -617,7 +617,9 @@ pub struct SyslineReader {
     syslines_by_range: SyslinesRangeMap,
     /// Disable the use of `self.syslines_by_range`.
     /// Intended to be set to false (disabled) when entering linear file processing
-    /// e.g. [`ProcessingStage::Stage3StreamSyslines`].
+    /// e.g. [`ProcessingStage::Stage3StreamSyslines`], by the owning `SyslogProcessor`.
+    /// Default `true` implies random-access file processing,
+    /// e.g. [`ProcessingStage::Stage2FindDt`].
     range_lookups: bool,
     /// Summary statistic.
     /// `Count` of `self.syslines_by_range` lookup hit.

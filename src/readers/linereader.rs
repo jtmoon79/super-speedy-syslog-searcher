@@ -1202,10 +1202,6 @@ impl LineReader {
         let bi_stop: BlockIndex = bptr_middle.len() as BlockIndex;
         debug_assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
 
-        // DO NOT COMMIT THIS LINE
-        defo!("({}) bytes: {}", fileoffset, buffer_to_string_noraw(bptr_middle.as_slice()));
-
-        // XXX: only handle UTF-8/ASCII encoding
         defo!(
             "({}) B1: scan middle block {} forwards, starting from blockindex {} (fileoffset {}) searching for newline B up to byte offset {}",
             fileoffset,
@@ -1229,13 +1225,11 @@ impl LineReader {
                 bi_middle_end = bi_at + charsz_bi - 1;
                 fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_middle_end);
                 defo!("B1: bi_middle_end {:?} fo_nl_b {:?}", bi_middle_end, fo_nl_b);
-                // XXX: only handle UTF-8/ASCII encoding
                 defo!(
-                    "B1: found newline B in middle block during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
+                    "B1: found newline B in middle block during byte search, blockoffset {} blockindex {} (fileoffset {})",
                     bo_middle,
                     bi_at,
                     fo_nl_b,
-                    byte_to_char_noraw((*bptr_middle)[bi_middle_end]),
                 );
                 break;
             } else {
