@@ -25,6 +25,7 @@ use ::si_trace_print::{
     def1o,
     def1x,
     def1ñ,
+    def2ñ,
     defn,
     defo,
     defx,
@@ -2676,6 +2677,6 @@ impl LineReader {
 
 impl Drop for LineReader {
     fn drop(&mut self) {
-        def1ñ!("PathID {} Path {:?}", self.path_id(), self.path());
+        def2ñ!("LineReader PathID {} Path {:?}", self.path_id(), self.path());
     }
 }

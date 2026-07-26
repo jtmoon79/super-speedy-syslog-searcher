@@ -62,6 +62,7 @@ use ::si_trace_print::{
     def1o,
     def1x,
     def1ñ,
+    def2ñ,
     def2n,
     def2o,
     def2x,
@@ -719,7 +720,7 @@ impl XzData {
 
 impl Drop for XzData {
     fn drop(&mut self) {
-        def1ñ!();
+        def2ñ!("XzData");
         self.receiver = None;
         if let Some(producer) = self.producer.take() {
             // wait for the thread to finish
@@ -903,7 +904,7 @@ impl TarData {
 
 impl Drop for TarData {
     fn drop(&mut self) {
-        def1ñ!();
+        def2ñ!("TarData");
         self.receiver = None;
         if let Some(producer) = self.producer.take() {
             // wait for the thread to finish
@@ -5127,6 +5128,6 @@ impl BlockReader {
 
 impl Drop for BlockReader {
     fn drop(&mut self) {
-        def1ñ!("PathID {} Path {:?}", self.path_id(), self.path());
+        def2ñ!("BlockReader: PathID {} Path {:?}", self.path_id(), self.path());
     }
 }

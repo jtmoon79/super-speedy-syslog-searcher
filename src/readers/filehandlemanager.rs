@@ -73,6 +73,9 @@ use ::si_trace_print::{
     def1o,
     def1x,
     def1ñ,
+    def2n,
+    def2o,
+    def2x,
 };
 
 use crate::de_wrn;
@@ -1169,16 +1172,16 @@ pub struct FileHandleUnmanaged {
 
 impl Drop for FileHandleUnmanaged {
     fn drop(&mut self) {
-        def1n!("({:?}) count={}", self.key, self.count);
+        def2n!("FileHandleUnmanaged: ({:?}) count={}", self.key, self.count);
         if let Some(state) = self.state.upgrade() {
             match state.lock() {
                 Ok(mut state) => state.release_handle_unmanaged(self.key, self.count),
                 Err(_err) => {
-                    def1o!("file handle manager lock poisoned during unmanaged drop(): {_err:?}");
+                    def2o!("FileHandleUnmanaged: file handle manager lock poisoned during unmanaged drop(): {_err:?}");
                 }
             }
         }
-        def1x!();
+        def2x!("FileHandleUnmanaged");
     }
 }
 
@@ -1245,16 +1248,16 @@ impl Clone for FileHandleManaged {
 
 impl Drop for FileHandleManaged {
     fn drop(&mut self) {
-        def1n!("({:?})", self.key);
+        def2n!("FileHandleManaged ({:?})", self.key);
         if let Some(state) = self.state.upgrade() {
             match state.lock() {
                 Ok(mut state) => state.release_handle_managed(self.key),
                 Err(_err) => {
-                    def1o!("file handle manager lock poisoned during drop(): {_err:?}");
+                    def2o!("FileHandleManaged: file handle manager lock poisoned during drop(): {_err:?}");
                 }
             }
         }
-        def1x!();
+        def2x!("FileHandleManaged");
     }
 }
 

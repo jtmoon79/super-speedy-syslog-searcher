@@ -189,6 +189,9 @@ use ::si_trace_print::{
     def1o,
     def1x,
     def1ñ,
+    def2n,
+    def2o,
+    def2x,
     defn,
     defo,
     defx,
@@ -992,15 +995,15 @@ impl fmt::Debug for JournalReader {
 
 impl Drop for JournalReader {
     fn drop(&mut self) {
-        def1n!("PathID {} Path {:?}", self.path_id(), self.path());
+        def2n!("JournalReader PathID {} Path {:?}", self.path_id(), self.path());
         if ! self.journal_handle_ptr.is_null() {
+            def2o!("JournalReader sd_journal_close(@{:?})", self.journal_handle_ptr);
             unsafe {
-                def1o!("sd_journal_close(@{:?})", self.journal_handle_ptr);
                 (*self.journal_api_ptr).sd_journal_close(self.journal_handle_ptr);
             }
             self.journal_handle_ptr = ::std::ptr::null_mut();
         }
-        def1x!();
+        def2x!("JournalReader");
     }
 }
 

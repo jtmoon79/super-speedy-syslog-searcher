@@ -29,6 +29,7 @@ use ::si_trace_print::{
     def1o,
     def1x,
     def1ñ,
+    def2ñ,
     defn,
     defo,
     defx,
@@ -1006,6 +1007,6 @@ impl PyEventReader {
 
 impl Drop for PyEventReader {
     fn drop(&mut self) {
-        def1ñ!("PathID {} path {:?}", self.path_id(), self.path());
+        def2ñ!("PyEventReader PathID {} path {:?}", self.path_id(), self.path());
     }
 }
