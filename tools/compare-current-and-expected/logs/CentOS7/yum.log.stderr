@@ -5,7 +5,7 @@ File: ./logs/CentOS7/yum.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 16271
       flushes       : 142
@@ -77,7 +77,7 @@ Managed seek calls     : 34
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-10-06 01:14:54 +08:00 (2019-10-05 17:14:54.000000 +00:00)

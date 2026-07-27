@@ -6,7 +6,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       Archive subpath: simple-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 2204672 (bytes)
       Processing Err : file too small
   Printed:
       bytes         : 0
@@ -47,7 +47,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       Archive subpath: simple-3.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 2204672 (bytes)
       Processing Err : file too small
   Printed:
       bytes         : 0
@@ -115,7 +115,7 @@ Managed seek calls     : 8
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :

@@ -42,6 +42,7 @@ use ::more_asserts::{
 use ::rangemap::RangeMap;
 #[allow(unused_imports)]
 use ::si_trace_print::{
+    de,
     def1n,
     def1o,
     def1x,
@@ -920,7 +921,7 @@ pub struct SummarySyslineReader {
 impl SyslineReader {
     /// Maximum number of datetime patterns for matching the remainder of a
     /// syslog file.
-    pub(crate) const DT_PATTERN_MAX: usize = 1;
+    pub(crate) const DT_PATTERN_MAX: usize = 2;
 
     /// Capacity of internal LRU cache `find_sysline_lru_cache`.
     const FIND_SYSLINE_LRU_CACHE_SZ: usize = 4;
@@ -2083,90 +2084,71 @@ impl SyslineReader {
         }
     }
 
+    /// debug print the current pattern counts
+    fn dt_patterns_counts_debug_print(&self) {
+        defo!();
+        #[cfg(any(debug_assertions, test))]
+        {
+            for (k, v) in self.dt_patterns_counts.iter() {
+                let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
+                deo!("self.dt_patterns_counts[{:?}]={:?} is Regex #{:?}", k, v, data_.regex_id);
+            }
+        }
+        deo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
+        de!();
+    }
+
     /// Analyze `Sysline`s gathered.
     ///
     /// When a threshold of `Sysline`s or bytes has been processed, then
     /// this function narrows down datetime formats to try for future
     /// datetime-parsing attempts.
     /// Further calls to function `SyslineReader::find_datetime_in_line`
-    /// use far less resources.
+    /// will only use the most-used datetime formats, decreasing match attempts
+    /// per line and improving performance and predictability.
     pub(crate) fn dt_patterns_analysis(&mut self) -> bool {
         defn!();
         debug_assert!(!self.analyzed, "already called dt_patterns_analysis()");
-        assert_eq!(SyslineReader::DT_PATTERN_MAX, 1, "DT_PATTERN_MAX > 1 is unimplemented");
-        // XXX: `assertcp_eq!` causes failure in rust-analyzer
-        // assertcp_eq!(SyslineReader::DT_PATTERN_MAX, 1);
 
-        #[cfg(any(debug_assertions, test))]
-        {
-            for (k, v) in self.dt_patterns_counts.iter() {
-                let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
-                defo!("self.dt_patterns_counts[{:?}]={:?} is Regex #{:?}", k, v, data_.regex_id);
-            }
-        }
-        defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
+        self.dt_patterns_counts_debug_print();
 
         // remove all items <= 0 in `dt_patterns_counts`
         // to speed up next statement that searches for maximum value
         defo!("dt_patterns_counts.retain(v > 0)");
         self.dt_patterns_counts
             .retain(|_, v| *v > 0);
-        defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
+        self.dt_patterns_counts_debug_print();
+
         if self.dt_patterns_counts.is_empty() {
             // no datetime patterns were found
             defx!("no datetime patterns were found; return false");
             return false;
         }
-        // now get maximum value in `dt_patterns_counts`
-        // ripped from https://stackoverflow.com/a/60134450/471376
-        // test https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=b8eb53f40fd89461c9dad9c976746cc3
-        let max_ = self
-            .dt_patterns_counts
-            .iter()
-            .fold(u64::MIN, |a, b| a.max(*(b.1)));
-        if max_ == 0 {
-            // no datetime patterns were found
-            defx!("no maximum value found; return false");
-            return false;
-        }
-        // remove all items < maximum value in `dt_patterns_counts`
-        defo!("dt_patterns_counts.retain(v >= {:?})", max_);
-        self.dt_patterns_counts
-            .retain(|_, v| *v >= max_);
-        defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
-        // if there is a tie for the most-used pattern, then `pop_last` until
-        // only `DT_PATTERN_MAX` remains.
-        // XXX: Note that this removal chooses by list ordering preferring to
-        //      keep `DTPD` near the front of `DATETIME_PARSE_DATAS`. It might
-        //      choose the wrong pattern. This should only be a problem for
-        //      very short files that happen to have some equal part of
-        //      datetime patterns that alternate on lines.
+
+        // re-sort based on value (count) and then key (index)
+        defo!("dt_patterns_counts.sort_unstable_by(|a, b| …)");
+        self.dt_patterns_counts = DateTimePatternCounts::from_iter(
+            self.dt_patterns_counts
+                .iter()
+                .sorted_by(|a, b| {
+                    Ord::cmp(&b.1, &a.1) // sort by value (count) descending
+                        .then_with(|| a.0.cmp(b.0)) // tie-breaker by key (index) ascending
+                })
+                .map(|(k, v)| (*k, *v)),
+        );
+        self.dt_patterns_counts_debug_print();
+
+        // `pop_last` until only `DT_PATTERN_MAX` remains.
+        defo!("dt_patterns_counts.truncate({})", SyslineReader::DT_PATTERN_MAX);
         while self.dt_patterns_counts.len() > SyslineReader::DT_PATTERN_MAX {
             let rm_key: DateTimeParseInstrsIndex = self.dt_patterns_counts.pop_last().unwrap().0;
             self.dt_patterns_counts.remove(&rm_key);
         }
-        defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
-
-        #[cfg(any(debug_assertions, test))]
-        {
-            if self.dt_patterns_counts.len() != SyslineReader::DT_PATTERN_MAX {
-                e_wrn!(
-                    "dt_patterns_analysis: self.dt_patterns_counts.len() {}, expected {}",
-                    self.dt_patterns_counts.len(),
-                    SyslineReader::DT_PATTERN_MAX,
-                );
-            }
-        }
+        self.dt_patterns_counts_debug_print();
 
         self.dt_patterns_indexes_refresh();
 
-        #[cfg(any(debug_assertions, test))]
-        {
-            for (k, v) in self.dt_patterns_counts.iter() {
-                let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
-                defo!("self.dt_patterns_counts[index {:?}]={:?} is regex #{:?}", k, v, data_.regex_id);
-            }
-        }
+        self.dt_patterns_counts_debug_print();
 
         self.analyzed = true;
         defx!("return true");
@@ -2206,9 +2188,7 @@ impl SyslineReader {
             // after analysis, only one `DateTimeParseInstr` is used
             // and it is presumed that element is the first in
             // `dt_patterns_indexes`
-            // XXX: does not support matching multiple patterns after
-            //      "block zero" analysis stages
-            debug_assert_eq!(
+            debug_assert_le!(
                 self.dt_patterns_indexes.len(),
                 SyslineReader::DT_PATTERN_MAX,
                 "self.dt_patterns_indexes length {}, expected {}",

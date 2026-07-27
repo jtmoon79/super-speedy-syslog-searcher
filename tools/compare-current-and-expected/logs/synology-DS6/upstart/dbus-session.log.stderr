@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 19023
       flushes       : 11
@@ -39,8 +39,8 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss 180,  1.6%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  40, miss   4, 90.9%, largest skipped 90
-      optimize:SyslineReader::ezcheck12d2                          : hit 282, miss 300, 48.5%, largest skipped 64
+      optimize:SyslineReader::ezcheckd2                            : hit  42, miss   5, 89.4%, largest skipped 90
+      optimize:SyslineReader::ezcheck12d2                          : hit 280, miss 299, 48.4%, largest skipped 64
       process: regex captures                                      : hit   3, miss 301
   Processing Drops:
 
@@ -76,7 +76,7 @@ Managed seek calls     : 23
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-06 20:18:20 -08:00 (2020-03-07 04:18:20.000000 +00:00)

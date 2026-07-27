@@ -5,7 +5,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 2446
       flushes       : 10
@@ -39,8 +39,8 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  20, miss   0, 100.0%, largest skipped 38
-      optimize:SyslineReader::ezcheck12d2                          : hit 174, miss  16, 91.6%, largest skipped 39
+      optimize:SyslineReader::ezcheckd2                            : hit  21, miss   0, 100.0%, largest skipped 38
+      optimize:SyslineReader::ezcheck12d2                          : hit 173, miss  16, 91.5%, largest skipped 39
       process: regex captures                                      : hit  10, miss   6
   Processing Drops:
 
@@ -76,7 +76,7 @@ Managed seek calls     : 5
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-08 06:23:48 +08:00 (2020-03-07 22:23:48.100000 +00:00)

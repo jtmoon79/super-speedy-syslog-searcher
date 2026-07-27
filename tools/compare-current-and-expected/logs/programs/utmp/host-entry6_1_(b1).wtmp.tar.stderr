@@ -7,7 +7,7 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 160768 (bytes)
+      Thread stack  : 2208768 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
 
@@ -17,7 +17,7 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 160768 (bytes)
+      Thread stack  : 2208768 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
 
@@ -53,7 +53,7 @@ Managed seek calls     : 8
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :

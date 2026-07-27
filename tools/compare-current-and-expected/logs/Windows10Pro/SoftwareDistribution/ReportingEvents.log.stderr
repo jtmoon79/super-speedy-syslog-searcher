@@ -5,7 +5,7 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 61384
       flushes       : 163
@@ -76,7 +76,7 @@ Managed seek calls     : 356
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-08-05 22:17:58 -07:00 (2022-08-06 05:17:58.914000 +00:00)

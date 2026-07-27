@@ -5,13 +5,13 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 847
-      flushes       : 4
+      flushes       : 8
       Lines         : 8
-      Syslines      : 4
-      Datetime first: 2022-01-31 00:00:01 +00:30 (2022-01-30 23:30:01.000000 +00:00)
+      Syslines      : 8
+      Datetime first: 2022-01-31 00:00:02 +08:00 (2022-01-30 16:00:02.000000 +00:00)
       Datetime last : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
   Processed:
       file size     : 295 (0x127) (bytes)
@@ -23,25 +23,25 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       Lines         : 8
       Line longest  : 44 (bytes)
       Line parts    : 9
-      Syslines      : 5
-      Sysline longest: 75 (bytes)
-      Syslines high : 4
-      Datetime first: 2022-01-31 00:00:01 +00:30 (2022-01-30 23:30:01.000000 +00:00)
+      Syslines      : 9
+      Sysline longest: 44 (bytes)
+      Syslines high : 8
+      Datetime first: 2022-01-31 00:00:02 +08:00 (2022-01-30 16:00:02.000000 +00:00)
       Datetime last : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
-      out of order  : 0
+      out of order  : 4
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   6, miss   8, 42.9%, put   8
-      copying: SyslineReader::get_boxptrs()                        : sgl 120, dbl    1, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  10, miss   8, 55.6%, put   8
+      copying: SyslineReader::get_boxptrs()                        : sgl 124, dbl    1, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   9,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  10, 23.1%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   9, 10.0%, put   9
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   7, miss  10, 41.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   8,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 113,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   6, miss 115
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   9,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 116,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  10, miss 115
   Processing Drops:
 
 Program summary:
@@ -50,10 +50,10 @@ Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
-Printed bytes          : 864
-Printed flushes        : 9
+Printed bytes          : 880
+Printed flushes        : 17
 Printed Lines          : 8
-Printed Syslines       : 4
+Printed Syslines       : 8
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
@@ -62,7 +62,7 @@ Printed Journal events : 0
 Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 44
-Sysline longest                : 75
+Sysline longest                : 44
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0
@@ -76,13 +76,13 @@ Managed seek calls     : 2
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first : 2022-01-31 00:00:01 +00:30 (2022-01-30 23:30:01.000000 +00:00)
+Datetime printed first : 2022-01-31 00:00:02 +08:00 (2022-01-30 16:00:02.000000 +00:00)
 Datetime printed last  : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel receive ok     : 6
+Channel receive ok     : 10
 Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0

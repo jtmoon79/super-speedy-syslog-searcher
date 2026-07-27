@@ -5,7 +5,7 @@ File: ./logs/Debian9/user.log.1.bz2
   About:
       FileType      : TEXT UTF8/ASCII (BZIP2) (text log)
       LogMessageType: text log lines
-      Thread stack  : 177152 (bytes)
+      Thread stack  : 2225152 (bytes)
   Printed:
       bytes         : 544
       flushes       : 3
@@ -78,7 +78,7 @@ Managed seek calls     : 0
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)

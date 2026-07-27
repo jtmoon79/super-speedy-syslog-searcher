@@ -7,7 +7,7 @@ File: ./logs/Debian11/armv6l_ARMv6/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
+      Thread stack  : 2152448 (bytes)
   Printed:
       bytes         : 1222
       flushes       : 5
@@ -64,7 +64,7 @@ Managed seek calls     : 8
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2024-02-18 12:25:58 +08:00 (2024-02-18 04:25:58.820047 +00:00)
