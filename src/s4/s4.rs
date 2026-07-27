@@ -6727,8 +6727,10 @@ fn processing_loop(
         {
             alloc_tracker::print_tracking_map();
         }
-        defx!("cancelled; return false");
-        return false;
+        // return `true` because cancellation is not necessarily an error
+        // i.e. may be piping to `head`
+        defx!("cancelled; return true");
+        return true;
     }
 
     // Getting here means main program processing has completed.
