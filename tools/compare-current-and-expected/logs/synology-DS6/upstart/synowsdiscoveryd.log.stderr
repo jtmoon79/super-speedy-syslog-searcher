@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 2449
       flushes       : 2
@@ -39,9 +39,9 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   3,  0.0%, put   2
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss  22,  8.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  51, miss  13, 79.7%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit 347, miss 245, 58.6%, largest skipped 49
-      process: regex captures                                      : hit   2, miss 256
+      optimize:SyslineReader::ezcheckd2                            : hit  54, miss  14, 79.4%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 345, miss 243, 58.7%, largest skipped 49
+      process: regex captures                                      : hit   2, miss 255
   Processing Drops:
 
 Program summary:
@@ -76,7 +76,7 @@ Managed seek calls     : 4
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-06-28 21:14:49 -07:00 (2019-06-29 04:14:49.000000 +00:00)

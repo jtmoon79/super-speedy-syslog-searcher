@@ -5,7 +5,7 @@ File: ./logs/Windows11Pro/setupact.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
       Processing Err : no syslog lines found in file
   Printed:
       bytes         : 0
@@ -37,8 +37,8 @@ File: ./logs/Windows11Pro/setupact.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  54, miss   6, 90.0%, largest skipped 86
-      optimize:SyslineReader::ezcheck12d2                          : hit 417, miss  87, 82.7%, largest skipped 86
+      optimize:SyslineReader::ezcheckd2                            : hit  57, miss   6, 90.5%, largest skipped 86
+      optimize:SyslineReader::ezcheck12d2                          : hit 414, miss  87, 82.6%, largest skipped 86
       process: regex captures                                      : hit   0, miss  93
   Processing Drops:
 
@@ -74,7 +74,7 @@ Managed seek calls     : 1
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :

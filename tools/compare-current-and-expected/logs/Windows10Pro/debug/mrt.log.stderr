@@ -5,7 +5,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 4269
       flushes       : 5
@@ -39,8 +39,8 @@ File: ./logs/Windows10Pro/debug/mrt.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  55,  8.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  31, miss  51, 37.8%, largest skipped 87
-      optimize:SyslineReader::ezcheck12d2                          : hit 260, miss 472, 35.5%, largest skipped 87
+      optimize:SyslineReader::ezcheckd2                            : hit  33, miss  53, 38.4%, largest skipped 87
+      optimize:SyslineReader::ezcheck12d2                          : hit 258, miss 470, 35.4%, largest skipped 87
       process: regex captures                                      : hit   5, miss 518
   Processing Drops:
 
@@ -76,7 +76,7 @@ Managed seek calls     : 6
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)

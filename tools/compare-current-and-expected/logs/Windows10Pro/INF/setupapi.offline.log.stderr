@@ -5,7 +5,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 3826
       flushes       : 6
@@ -39,8 +39,8 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  30, 16.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  24, miss  28, 46.2%, largest skipped 42
-      optimize:SyslineReader::ezcheck12d2                          : hit 176, miss 308, 36.4%, largest skipped 44
+      optimize:SyslineReader::ezcheckd2                            : hit  25, miss  30, 45.5%, largest skipped 42
+      optimize:SyslineReader::ezcheck12d2                          : hit 175, miss 306, 36.4%, largest skipped 44
       process: regex captures                                      : hit   6, miss 330
   Processing Drops:
 
@@ -76,7 +76,7 @@ Managed seek calls     : 8
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-05-27 11:29:27 +08:00 (2020-05-27 03:29:27.787000 +00:00)

@@ -5,7 +5,7 @@ File: ./logs/programs/claude/history.jsonl
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -40,8 +40,8 @@ File: ./logs/programs/claude/history.jsonl
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   5,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss   5, 28.6%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   8, miss   6, 57.1%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit  69, miss  45, 60.5%, largest skipped 49
+      optimize:SyslineReader::ezcheckd2                            : hit   9, miss   6, 60.0%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit  68, miss  45, 60.2%, largest skipped 49
       process: regex captures                                      : hit   5, miss  46
   Processing Drops:
 
@@ -77,7 +77,7 @@ Managed seek calls     : 1
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :

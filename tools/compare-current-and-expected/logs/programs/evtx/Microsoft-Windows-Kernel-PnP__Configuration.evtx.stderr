@@ -5,7 +5,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
       FileType      : EVTX (Windows XML EventLog)
       LogMessageType: EVTX entries (Windows XML EventLog)
-      Thread stack  : 131072 (bytes)
+      Thread stack  : 2179072 (bytes)
   Printed:
       bytes         : 1159282
       flushes       : 678
@@ -54,7 +54,7 @@ Managed seek calls     : 20
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)

@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/router.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 3463
       flushes       : 19
@@ -39,8 +39,8 @@ File: ./logs/synology-DS6/router.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  19,  5.0%, put  19
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  18, miss  19, 48.6%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 147,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
       process: regex captures                                      : hit  19, miss 140
   Processing Drops:
 
@@ -76,7 +76,7 @@ Managed seek calls     : 9
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2016-12-05 21:12:04 +08:00 (2016-12-05 13:12:04.000000 +00:00)

@@ -34,6 +34,7 @@ use std::time::Duration as StdDuration;
 
 use ::chrono::Datelike;
 use ::lazy_static::lazy_static;
+use ::more_asserts::debug_assert_le;
 use ::rangemap::RangeMap;
 use ::si_trace_print::{
     def1n,
@@ -1361,7 +1362,7 @@ impl SyslogProcessor {
         }
 
         let _patt_count_b = self.syslinereader.dt_patterns_counts_in_use();
-        debug_assert_eq!(
+        debug_assert_le!(
             _patt_count_b,
             SyslogProcessor::DT_PATTERN_MAX,
             "expected patterns to be reduced to {}, found {:?}",

@@ -5,7 +5,7 @@ File: ./logs/Ubuntu22/dmesg.0.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 177152 (bytes)
+      Thread stack  : 2225152 (bytes)
       Processing Err : failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -41,8 +41,8 @@ File: ./logs/Ubuntu22/dmesg.0.gz
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  15,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  16,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 145,  0.0%, largest skipped 0
       process: regex captures                                      : hit   2, miss 159
   Processing Drops:
 
@@ -78,7 +78,7 @@ Managed seek calls     : 2
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :

@@ -5,7 +5,7 @@ File: ./logs/cygwin/setup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 10282
       flushes       : 76
@@ -39,8 +39,8 @@ File: ./logs/cygwin/setup.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  76,  1.3%, put  76
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  75, miss  77, 49.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 150,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 149,  0.0%, largest skipped 0
       process: regex captures                                      : hit  76, miss  78
   Processing Drops:
 
@@ -76,7 +76,7 @@ Managed seek calls     : 24
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)

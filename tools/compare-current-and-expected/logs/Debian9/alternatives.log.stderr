@@ -5,7 +5,7 @@ File: ./logs/Debian9/alternatives.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 3941
       flushes       : 14
@@ -39,8 +39,8 @@ File: ./logs/Debian9/alternatives.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  14,  6.7%, put  14
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  13, miss  19, 40.6%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   1, miss  11,  8.3%, largest skipped 18
-      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 141,  1.4%, largest skipped 32
+      optimize:SyslineReader::ezcheckd2                            : hit   1, miss  12,  7.7%, largest skipped 18
+      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 140,  1.4%, largest skipped 32
       process: regex captures                                      : hit  14, miss 138
   Processing Drops:
 
@@ -76,7 +76,7 @@ Managed seek calls     : 11
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)

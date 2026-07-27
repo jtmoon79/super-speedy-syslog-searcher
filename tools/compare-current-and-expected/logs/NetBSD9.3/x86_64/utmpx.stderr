@@ -7,7 +7,7 @@ File: ./logs/NetBSD9.3/x86_64/utmpx
       FixedStructTyp: Utmpx
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmpx
-      Thread stack  : 104448 (bytes)
+      Thread stack  : 2152448 (bytes)
   Printed:
       bytes         : 1970
       flushes       : 9
@@ -64,7 +64,7 @@ Managed seek calls     : 21
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2024-02-25 16:35:33 +08:00 (2024-02-25 08:35:33.024702 +00:00)

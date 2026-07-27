@@ -5,7 +5,7 @@ File: ./logs/Ubuntu22/apt/history.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 2202
       flushes       : 5
@@ -33,15 +33,15 @@ File: ./logs/Ubuntu22/apt/history.log
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   3, miss  26, 10.3%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  15, 37.5%, put  14
-      copying: SyslineReader::get_boxptrs()                        : sgl 242, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 243, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  17, 22.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  20, miss   4, 83.3%, largest skipped 40
-      optimize:SyslineReader::ezcheck12d2                          : hit 171, miss  47, 78.4%, largest skipped 40
-      process: regex captures                                      : hit   5, miss  46
+      optimize:SyslineReader::ezcheckd2                            : hit  21, miss   5, 80.8%, largest skipped 40
+      optimize:SyslineReader::ezcheck12d2                          : hit 170, miss  47, 78.3%, largest skipped 40
+      process: regex captures                                      : hit   5, miss  47
   Processing Drops:
 
 Program summary:
@@ -76,7 +76,7 @@ Managed seek calls     : 6
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)

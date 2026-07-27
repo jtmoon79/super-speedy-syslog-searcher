@@ -5,7 +5,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
       Processing Err : no syslog lines found in file
   Printed:
       bytes         : 0
@@ -37,8 +37,8 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  16, miss   4, 80.0%, largest skipped 99
-      optimize:SyslineReader::ezcheck12d2                          : hit  83, miss  85, 49.4%, largest skipped 99
+      optimize:SyslineReader::ezcheckd2                            : hit  17, miss   4, 81.0%, largest skipped 99
+      optimize:SyslineReader::ezcheck12d2                          : hit  82, miss  85, 49.1%, largest skipped 99
       process: regex captures                                      : hit   0, miss  89
   Processing Drops:
 
@@ -74,7 +74,7 @@ Managed seek calls     : 1
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :

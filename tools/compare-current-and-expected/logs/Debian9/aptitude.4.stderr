@@ -5,7 +5,7 @@ File: ./logs/Debian9/aptitude.4
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 1815
       flushes       : 1
@@ -39,8 +39,8 @@ File: ./logs/Debian9/aptitude.4
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  26,  3.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  60, miss  24, 71.4%, largest skipped 69
-      optimize:SyslineReader::ezcheck12d2                          : hit 512, miss 207, 71.2%, largest skipped 69
+      optimize:SyslineReader::ezcheckd2                            : hit  63, miss  25, 71.6%, largest skipped 69
+      optimize:SyslineReader::ezcheck12d2                          : hit 509, miss 206, 71.2%, largest skipped 69
       process: regex captures                                      : hit   1, miss 230
   Processing Drops:
 
@@ -76,7 +76,7 @@ Managed seek calls     : 4
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-09-12 22:23:40 -07:00 (2019-09-13 05:23:40.000000 +00:00)

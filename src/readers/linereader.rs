@@ -59,7 +59,6 @@ use crate::data::line::{
 use crate::debug_panic;
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{
-    buffer_to_string_noraw,
     byte_to_char_noraw,
 };
 use crate::readers::blockreader::{

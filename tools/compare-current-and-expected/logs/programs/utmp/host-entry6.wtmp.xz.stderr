@@ -6,7 +6,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
       FileType      : UTMP/WTMP (XZ) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 181248 (bytes)
+      Thread stack  : 2229248 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.xz"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.xz"
 
@@ -42,7 +42,7 @@ Managed seek calls     : 6
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :

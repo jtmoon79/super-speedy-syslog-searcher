@@ -5,7 +5,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
+      Thread stack  : 2148352 (bytes)
   Printed:
       bytes         : 2205
       flushes       : 2
@@ -39,8 +39,8 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  16,  5.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  24,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   4, miss 248,  1.6%, largest skipped 49
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  26,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   4, miss 246,  1.6%, largest skipped 49
       process: regex captures                                      : hit   1, miss 271
   Processing Drops:
 
@@ -76,7 +76,7 @@ Managed seek calls     : 6
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 188
+Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.084000 +00:00)

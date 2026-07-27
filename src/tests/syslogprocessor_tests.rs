@@ -1214,10 +1214,10 @@ fn test_SyslogProcessor_summary_empty(
         syslinereader_ezcheck12_miss: 0,
         syslinereader_ezcheck12_hit_max: 0,
         syslinereader_ezcheckd2_hit: 0,
-        syslinereader_ezcheckd2_miss: 9,
+        syslinereader_ezcheckd2_miss: 10,
         syslinereader_ezcheckd2_hit_max: 0,
         syslinereader_ezcheck12d2_hit: 0,
-        syslinereader_ezcheck12d2_miss: 107,
+        syslinereader_ezcheck12d2_miss: 106,
         syslinereader_ezcheck12d2_hit_max: 0,
     },
     SummarySyslogProcessor {

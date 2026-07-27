@@ -3407,9 +3407,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Install: apt-transport-https:amd64 (2.4.6)
     //     Upgrade: apt:amd64 (2.4.5, 2.4.6), libapt-pkg6.0:amd64 (2.4.5, 2.4.6), apt-utils:amd64 (2.4.5, 2.4.6)
     //
-    #[cfg(any(regex = "45", regex = "ALL"))]
+    #[cfg(any(regex = "46", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        45,
+        46,
         counter!(DP_KEY),
         concat!("^(start|Start|START|end|End|END)[- ]?(date|Date|DATE)", D_T, RP_BLANKSq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
         DfaU8,
@@ -3442,54 +3442,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     [6aa0:0001][2026-06-17T09:34:22] UserActivityMonitor started.
 
     */
-    // ---------------------------------------------------------------------------------------------
-    // from file `./logs/debian9/alternatives.log`
-    // example with offset:
-    //
-    //               1         2         3         4
-    //     01234567890123456789012345678901234567890123456789
-    //     update-alternatives 2020-02-03 13:56:07: run with --install /usr/bin/jjs jjs /usr/lib/jvm/java-11-openjdk-amd64/bin/jjs 1111
-    //
-    // ---------------------------------------------------------------------------------------------
-    // from file `./logs/Ubuntu18/cups/error_log`
-    // example with offset:
-    //
-    //               1         2         3
-    //     0123456789012345678901234567890
-    //     E [09/Aug/2019:00:09:01 -0700] Unable to open listen socket for address [v1.::1]:631 - Cannot assign requested address.
-    //
-    // ---------------------------------------------------------------------------------------------
-    // from file `./logs/OpenSUSE15/zypper.log`
-    // example with offset:
-    //
-    //               1         2
-    //     012345678901234567890
-    //     2019-05-23 16:53:43 <1> trenker(24689) [zypper] main.cc(main):74 ===== Hi, me zypper 1.14.27
-    //
-    // ---------------------------------------------------------------------------------------------
-    // from file `./logs/synology-DS6/synoreport.log`
-    // example with offset:
-    //
-    //               1         2
-    //     012345678901234567890
-    //     2017-05-14 04-00-07: -------------------- report start
-    //
-    #[cfg(any(regex = "46", regex = "ALL"))]
-    ERE_REGEX_DATETIME!(
-        46,
-        counter!(DP_KEY),
-        concat!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_NOALNUM),
-        FlatLockstepNfaU8,
-        DTFSS_YmdHMS,
-        0, 30,
-        CGN_YEAR, CGN_SECOND,
-        &[
-            (0, 19, (O_L, 2017, 5, 14, 4, 0, 7, 0), b"2017-05-14 04-00-07:"),
-            (0, 19, (O_L, 2017, 5, 14, 4, 0, 8, 0), b"2017-05-14T04-00-08: "),
-            (0, 19, (O_L, 2017, 5, 14, 4, 0, 9, 0), b"2017/05/14 04-00-09: -------------------- report start"),
-        ],
-        line!(),
-    ),
     // ---------------------------------------------------------------------------------------------
     //
     // matches of datetimes within a "guard" symbols.
@@ -4254,7 +4206,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         80,
         counter!(DP_KEY),
-        concat!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
+        concat!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_NODIGIT),
         DfaU8,
         DTFSS_YmdHMS,
         0, 50,
@@ -4263,6 +4215,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 19, (O_L, 2020, 1, 11, 0, 0, 26, 0), b"2020-01-11 00:00:26 abcdefghijkl"),
             (0, 19, (O_L, 2020, 1, 11, 0, 0, 26, 0), b"2020-01-11 00:00:26 pstxxxxxxxxx"),
             (0, 19, (O_L, 2020, 1, 11, 0, 0, 26, 0), b"2020-01-11 00:00:26 \xe2\x88\x92pstxxxxxxxxx"), // U+2212
+            (0, 19, (O_L, 2017, 5, 14, 4, 0, 7, 0), b"2017-05-14 04-00-07:"),
+            (0, 19, (O_L, 2017, 5, 14, 4, 0, 8, 0), b"2017-05-14T04-00-08: "),
+            (0, 19, (O_L, 2017, 5, 14, 4, 0, 9, 0), b"2017/05/14 04-00-09: -------------------- report start"),
         ],
         line!(),
     ),
@@ -5399,6 +5354,54 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // ---------------------------------------------------------------------------------------------
+    // from file `./logs/debian9/alternatives.log`
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890123456789
+    //     update-alternatives 2020-02-03 13:56:07: run with --install /usr/bin/jjs jjs /usr/lib/jvm/java-11-openjdk-amd64/bin/jjs 1111
+    //
+    // ---------------------------------------------------------------------------------------------
+    // from file `./logs/Ubuntu18/cups/error_log`
+    // example with offset:
+    //
+    //               1         2         3
+    //     0123456789012345678901234567890
+    //     E [09/Aug/2019:00:09:01 -0700] Unable to open listen socket for address [v1.::1]:631 - Cannot assign requested address.
+    //
+    // ---------------------------------------------------------------------------------------------
+    // from file `./logs/OpenSUSE15/zypper.log`
+    // example with offset:
+    //
+    //               1         2
+    //     012345678901234567890
+    //     2019-05-23 16:53:43 <1> trenker(24689) [zypper] main.cc(main):74 ===== Hi, me zypper 1.14.27
+    //
+    // ---------------------------------------------------------------------------------------------
+    // from file `./logs/synology-DS6/synoreport.log`
+    // example with offset:
+    //
+    //               1         2
+    //     012345678901234567890
+    //     2017-05-14 04-00-07: -------------------- report start
+    //
+    // #[cfg(any(regex = "138", regex = "ALL"))]
+    // ERE_REGEX_DATETIME!(
+    //     138,
+    //     counter!(DP_KEY),
+    //     concat!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_NOALNUM),
+    //     FlatLockstepNfaU8,
+    //     DTFSS_YmdHMS,
+    //     0, 30,
+    //     CGN_YEAR, CGN_SECOND,
+    //     &[
+    //         (0, 19, (O_L, 2017, 5, 14, 4, 0, 7, 0), b"2017-05-14 04-00-07:"),
+    //         (0, 19, (O_L, 2017, 5, 14, 4, 0, 8, 0), b"2017-05-14T04-00-08: "),
+    //         (0, 19, (O_L, 2017, 5, 14, 4, 0, 9, 0), b"2017/05/14 04-00-09: -------------------- report start"),
+    //     ],
+    //     line!(),
+    // ),
     //
     // Synology OS `fsck/root.log`
     //
@@ -6480,7 +6483,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
 /// This value depends upon build cfg of env var `S4_BUILD_REGEX`.
 pub const DATETIME_PARSE_DATAS_LEN: usize = counter_last!(DP_KEY);
 
-/// the maximum possible length of `DATETIME_PARSE_DATAS`, i.e. last `regex_id` + 1.
+/// the maximum possible length of `DATETIME_PARSE_DATAS`, i.e. last regex_id + 1.
 pub const DATETIME_PARSE_DATAS_LEN_MAX: usize = 190;
 
 /// Check if the `regex_id` is in the compiled `DATETIME_PARSE_DATAS`.
