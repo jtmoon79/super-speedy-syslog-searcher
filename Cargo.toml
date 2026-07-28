@@ -14,17 +14,17 @@ resolver = "3"
 
 [workspace.dependencies]
 build-print = "1.0.1"
-bitvec = "=1.1.1"
-const-str = "=1.1.0"
-dotenvy = "=0.15.7"
-lazy_static = "=1.5.0"
-more-asserts = "=0.3.1"
-proc-macro2 = "=1.0.106"
-quote = "=1.0.46"
-si_trace_print = "=0.3.12"
-syn = "=2.0.118"
-thiserror = "=2.0.18"
-utf8-ranges = "=1.0.5"  # TODO: utf8-ranges is deprecated
+bitvec = "1.1.1"
+const-str = "1.1.0"
+dotenvy = "0.15.7"
+lazy_static = "1.5.0"
+more-asserts = "0.3.1"
+proc-macro2 = "1.0.106"
+quote = "1.0.46"
+si_trace_print = "0.3.12"
+syn = "2.0.118"
+thiserror = "2.0.18"
+utf8-ranges = "1.0.5"  # TODO: utf8-ranges is deprecated
 
 [workspace.package]
 license = "MIT"
@@ -87,81 +87,81 @@ exclude = [
 ]
 
 [dependencies]
-anyhow = "=1.0.103"
+anyhow = "1.0.103"
 bitvec.workspace = true
-bstr = { version = "=1.12.3", features = ["alloc", "std"] }
-bzip2-rs = "=0.1.2"
-cfg-if = "=1.0.4"
-chardet = "=0.2.4"
-chrono = "=0.4.45"
-clap = { version = "=4.6.1", features = ["derive", "env"] }
-const_env = "=0.1.5"
-const_format = { version = "=0.2.36", features = ["assertcp", "rust_1_83"] }
+bstr = { version = "1.12.3", features = ["alloc", "std"] }
+bzip2-rs = "0.1.2"
+cfg-if = "1.0.4"
+chardet = "0.2.4"
+chrono = "0.4.45"
+clap = { version = "4.6.1", features = ["derive", "env"] }
+const_env = "0.1.5"
+const_format = { version = "0.2.36", features = ["assertcp", "rust_1_83"] }
 const-str.workspace = true
-crossbeam-channel = "=0.5.16"
-ctrlc = "=3.5.2"
-current_platform = "=0.2.0"
-dlopen2 = "=0.8"
-encoding_rs = "=0.8.35"
+crossbeam-channel = "0.5.16"
+ctrlc = "3.5.2"
+current_platform = "0.2.0"
+dlopen2 = "0.8"
+encoding_rs = "0.8.35"
 ere = { version = "=0.10.3", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
 ere_automator_procmacro = { version = "=0.10.3", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
 ere_datetimes_impl = { version = "=0.10.3", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
-evtx = { version = "=0.12.2", features = ["multithreading"] }
-flate2 = "=1.1.9"
-include_dir = "=0.7.4"
-itertools = "=0.15.0"
-jwalk = "=0.8.1"
-kinded = "=0.5.0"
+evtx = { version = "0.12.2", features = ["multithreading"] }
+flate2 = "1.1.9"
+include_dir = "0.7.4"
+itertools = "0.15.0"
+jwalk = "0.8.1"
+kinded = "0.5.0"
 lazy_static.workspace = true
-lru = "=0.18.0"
-lz4_flex = "=0.13.1"
-memchr = "=2.8.3"
-memoffset = "=0.9.1"
-min-max = "=0.1.8"
+lru = "0.18.0"
+lz4_flex = "0.13.1"
+memchr = "2.8.3"
+memoffset = "0.9.1"
+min-max = "0.1.8"
 more-asserts.workspace = true
-mut_static = "=5.0.0"
-nix = { version = "=0.31.3", features = ["resource"] }
-num-traits = "=0.2.19"
-numtoa = "=1.0.0"
+mut_static = "5.0.0"
+nix = { version = "0.31.3", features = ["resource"] }
+num-traits = "0.2.19"
+numtoa = "1.0.0"
 # TODO: instead of `once_cell` crate, use `std::sync::OnceLock` and `get_or_try_init`
 #       TRACKING: https://github.com/rust-lang/rust/issues/109737
-once_cell = "=1.21.4"
-pathsearch = "=0.2.0"
-phf = { version = "=0.14.0", features = ["macros"] }
-rand = { version = "=0.10.2", features = ["thread_rng"] }
-rangemap = "=1.7.1"
-regex = { version = "=1.13.0", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
-shell-escape = "=0.1.5"
+once_cell = "1.21.4"
+pathsearch = "0.2.0"
+phf = { version = "0.14.0", features = ["macros"] }
+rand = { version = "0.10.2", features = ["thread_rng"] }
+rangemap = "1.7.1"
+regex = { version = "1.13.0", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
+shell-escape = "0.1.5"
 si_trace_print.workspace = true
-static_assertions = "=1.1.0"
-tar = "=0.4.46"
-tempfile = "=3.27.0"
-termcolor = "=1.4.1"
-unicode-width = "=0.2.2"
-unroll = "=0.1.5"
-utf8_iter = "=1.0.4"
-version-compare = "=0.2.1"
-walkdir = "=2.5.0"
+static_assertions = "1.1.0"
+tar = "0.4.46"
+tempfile = "3.27.0"
+termcolor = "1.4.1"
+unicode-width = "0.2.2"
+unroll = "0.1.5"
+utf8_iter = "1.0.4"
+version-compare = "0.2.1"
+walkdir = "2.5.0"
 # allocators
-mimalloc = { version = "=0.1.52", optional = true }
-rpmalloc = { version = "=0.2.2", optional = true }
-tcmalloc = { version = "=0.3.0", optional = true }
-tikv-jemallocator = { version = "=0.7.0", optional = true }
+mimalloc = { version = "0.1.52", optional = true }
+rpmalloc = { version = "0.2.2", optional = true }
+tcmalloc = { version = "0.3.0", optional = true }
+tikv-jemallocator = { version = "0.7.0", optional = true }
 # custom allocator `alloc_tracker`
-backtrace = { version = "=0.3.76", optional = true }
-project-root = { version = "=0.2.2", optional = true }
-rustc-demangle = { version = "=0.1.27", optional = true }
-thousands = { version = "=0.2.0", optional = true }
-unit-prefix = { version = "=0.5.2", optional = true }
+backtrace = { version = "0.3.76", optional = true }
+project-root = { version = "0.2.2", optional = true }
+rustc-demangle = { version = "0.1.28", optional = true }
+thousands = { version = "0.2.0", optional = true }
+unit-prefix = { version = "0.5.2", optional = true }
 # src/subprojects/lzma_rs/
 byteorder = "1.5.0"
 crc = "3.4.0"
 log = { version = "0.4.33", optional = true }
 env_logger = { version = "0.11.11", optional = true }
 # benches
-jetscii = { version = "=0.5.3", optional = true }
-regex-automata = { version = "=0.4.14", optional = true }
-stringzilla = { version = "=3.12.6", optional = true }
+jetscii = { version = "0.5.3", optional = true }
+regex-automata = { version = "0.4.14", optional = true }
+stringzilla = { version = "3.12.6", optional = true }
 
 [build-dependencies]
 build-print.workspace = true
@@ -203,13 +203,13 @@ criterion = "0.8.2"
 cross = "0.2.5"
 filepath = "0.2.0"
 filetime = "0.2.27"
-flamegraph = "=0.6.13"  # XXX: flamegraph version must match `.github/workflows/rust.yml:FLAMEGRAPH_VERSION`
+flamegraph = "0.6.13"  # XXX: flamegraph version must match `.github/workflows/rust.yml:FLAMEGRAPH_VERSION`
 test-case = "=3.2.1"  # XXX: cannot upgrade `test-case` beyond `3.2.1` until fix of https://github.com/frondeus/test-case/issues/153
 # benches
-jetscii = "=0.5.3"
-regex-automata = "=0.4.14"
+jetscii = "0.5.3"
+regex-automata = "0.4.14"
 range-set-blaze = "0.6.1"
-stringzilla = "=3.12.6"
+stringzilla = "3.12.6"
 # src/subprojects/lzma_rs/
 seq-macro = "0.3"
 
