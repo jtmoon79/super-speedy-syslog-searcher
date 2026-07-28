@@ -3215,9 +3215,9 @@ dependencies = [
 
 [[package]]
 name = "lzxd"
-version = "0.2.6"
+version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b29dffab797218e12e4df08ef5d15ab9efca2504038b1b32b9b32fc844b39c9"
+checksum = "c17f346186eccb574ba5581acefc514f0c70a642db4f96e245034a0a158a7168"
 
 [[package]]
 name = "macro-string"
