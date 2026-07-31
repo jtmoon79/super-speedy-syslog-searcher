@@ -355,10 +355,6 @@ Get-ChildItem -Filter '*.log' -File -Path "C:\Windows" -Recurse -ErrorAction Sil
   | s4.exe -
 ```
 
-<sup style="font-size: xx-small">• note that opening too many files causes error _too many files open_, see [Issue #270], so `Get-ChildItem -Filter` lessens the number of files opened by `s4.exe`</sup>
-
-[Issue #270]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/270
-
 <br/>
 
 On Windows, print the [Windows Event logs]
@@ -421,7 +417,7 @@ s4 /var/log -a 12:05 -b=@+10m
 Print the log messages on the day of January 1 this year
 
 ```sh
-s4 /var/log -a 01-01 -b=@+1d
+s4 /var/log -a 01/01 -b=@+1d
 ```
 
 <br/>
@@ -455,10 +451,10 @@ find / -xdev -name '*.journal' -type f 2>/dev/null \
 
 <br/>
 
-Print the log messages from 10:00 today until 11:05.
+Print the log messages from 10:00 today until 11:05 prepended with UTC datetime
 
 ```sh
-s4 /var/log -a 10:00 -b @+1h5m
+s4 /var/log -u -a 10:00 -b @+1h5m
 ```
 
 <br/>
@@ -966,11 +962,9 @@ See the latest [release] for pre-compiled binaries.
 - Ad-hoc text log files without a year in the date are read once before
   processing.
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
-- Entire files within a `.tar` file are read into memory before printing ([Issue #13])
 - Entire [user accounting record files are read into memory] before printing
 
 [user accounting record files are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
-[Issue #13]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13
 [Issue #293]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/293
 [Issue #300]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/300
 
