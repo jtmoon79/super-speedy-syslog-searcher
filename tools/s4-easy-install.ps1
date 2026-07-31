@@ -35,7 +35,7 @@
 [CmdletBinding()]
 param(
     [Parameter()]
-    [string] $Version = '0.9.82',
+    [string] $Version = '0.10.83',  # PROJECT VERSION LAST PUBLISHED
     [Parameter()]
     [string] $Triple,
     [Parameter()]
@@ -122,7 +122,7 @@ if ([string]::IsNullOrWhiteSpace($Version)) {
         $Version = $env:VER
     }
     else {
-        $Version = '0.9.82' # PROJECT VERSION LAST PUBLISHED
+        $Version = '0.10.83' # PROJECT VERSION LAST PUBLISHED
     }
 }
 

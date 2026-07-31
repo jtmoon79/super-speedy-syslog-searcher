@@ -13,23 +13,23 @@ TODO: per release
 <!--
   # PROJECT VERSION LAST PUBLISHED
 -->
-[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.9.82?logo=rust&logoColor=800000&cacheSeconds=6000&style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/Cargo.toml#L53)
+[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.10.83?logo=rust&logoColor=800000&cacheSeconds=6000&style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.10.83/Cargo.toml#L53)
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
-[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.9.82&version=0.9.82)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.82)
-[![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.9.82?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.9.82/)
+[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.10.83&version=0.10.83)](https://crates.io/crates/super-speedy-syslog-searcher/0.10.83)
+[![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.10.83?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.10.83/)
 [![lib.rs](https://img.shields.io/badge/lib.rs-white?style=flat-square&logoColor=202020&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAMFBMVEWJiYkCAgJDQ0MnJyf4+PhYWFjn5+c6OjqYmJisrKz29vb6+vrt7e1xcXELDAzExMRum/TtAAAAD3RSTlMD+v36+fntefk0VLCK5q5zTFsnAAABZklEQVQoz2NgYJiTyQACXFvaIXRafmsBkJ7j8kkdLMDy2dA0AMRvFDIHC3A3VqZqMqx2axQKMgQLcDZN2GG+LD9QON7VuIABAqYZ7Rc0anNJUjaACnA3VzUGf3EzUhKHCnB9tkoWNXIxVLKDCjDkqp8QUvzyP8hwAlTgvN16IeUvLoGyMAG2oNkXTd0uWmzZCRXg+fzqY6jhmy0Z4VABzlTNXEEg3xBu6g5x9tspfwVFFWEC61XnuLUK9n9ShrmVu/HLZSF5t49wt3J9jvmopOLRYSQOd5pkhqi9i0ujHkzgvN4xUaWrXxoD4R4OXhIY/M0tSBBuavObj0HfmuVgfAbOJCtnUUG5OTkMcKeZ7xcyX+PWCleyXnTV89X+l42gApyruJsKVvsHqlZC5Zfkx3y85q+oCtPA6S93uTVCMRZuAJdjwXoJ5dgJDAiBCUt0ryP4QFdU5oszIIMV8p8eoAhwFsrBmAC0enH/iMEF5wAAAABJRU5ErkJggg==)](https://lib.rs/crates/super_speedy_syslog_searcher/) <!--
   the embedded PNG data embedded within that URL is from https://lib.rs/favicon.png
 -->
 
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher#:~:text=Downloads%20all%20time)
-[![crates.io downloads (version)](https://img.shields.io/crates/dv/super_speedy_syslog_searcher/0.9.82?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.82)
+[![crates.io downloads (version)](https://img.shields.io/crates/dv/super_speedy_syslog_searcher/0.10.83?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher/0.10.83)
 [![github downloads](https://img.shields.io/github/downloads/jtmoon79/super-speedy-syslog-searcher/total?style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/releases)
-[![github downloads (version)](https://img.shields.io/github/downloads/jtmoon79/super-speedy-syslog-searcher/0.9.82/total?style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/releases/tag/0.9.82)
+[![github downloads (version)](https://img.shields.io/github/downloads/jtmoon79/super-speedy-syslog-searcher/0.10.83/total?style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/releases/tag/0.10.83)
 
-<!-- [![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.9.82&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust) -->
-[![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.9.82&version=0.9.82)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.9.82)
-[![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.9.82.svg?logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
-[![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#0982)
+<!-- [![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.10.83&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust) -->
+[![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.10.83&version=0.10.83)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.10.83)
+[![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.10.83.svg?logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
+[![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#01083)
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
 and merge varying log messages from varying log files, sorted by datetime.
@@ -502,7 +502,7 @@ Get-ChildItem -File -Recurse -ErrorAction SilentlyContinue `
 
 After installing `s4`, you can copy the [Claude skill `s4-log-search`] into your project's Claude skills directory `.claude/skills`.
 
-[Claude skill `s4-log-search`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/.claude/skills/s4-log-search/SKILL.md
+[Claude skill `s4-log-search`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.10.83/.claude/skills/s4-log-search/SKILL.md
 
 ---
 
@@ -1106,7 +1106,7 @@ Text encodings:
 
 ### Performance Comparison
 
-A comparison of merging [ten large contrived log files](https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.9.82/tools/compare-log-mergers).
+A comparison of merging [ten large contrived log files](https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.10.83/tools/compare-log-mergers).
 The ten log files have 5000 single-line log messages, 2158138 bytes (≈2.1 MB) each,
 with high-plane unicode.
 There is filtering on a a range of datetime values that prints 1800 single-line
