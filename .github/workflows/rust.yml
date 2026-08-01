@@ -67,7 +67,7 @@ env:
     ./logs/other/tests/dtf5-6b.UTF-16LE.log.gz
     ./logs/other/tests/dtf5-6b.UTF-16LE.log.lz4
     ./logs/other/tests/dtf5-6b.UTF-16LE.log.xz
-    ./logs/other/tests/dtf5-6b.UTF-16LE.bar
+    ./logs/other/tests/dtf5-6b.UTF-16LE.tar
     ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log
     ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log.bz2
     ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log.gz
@@ -762,11 +762,11 @@ jobs:
           set -eux
           export S4_FILE_HANDLE_OPEN_MAX=12
           ${S4D} -s ${S4_TEST_FILES} &>/dev/null
-      - name: ulimit=20 s4_debug -s S4_TEST_FILES
+      - name: ulimit=40 s4_debug -s S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          ulimit -n 20
+          ulimit -n 40
           ${S4D} -s ./logs/other/tests/dtf5-6b* ${S4_TEST_FILES} &>/dev/null
       #
       # run release
@@ -845,11 +845,11 @@ jobs:
           set -eux
           export S4_FILE_HANDLE_OPEN_MAX=12
           ${S4R} -s ${S4_TEST_FILES} &>/dev/null
-      - name: ulimit=20 s4_release -s S4_TEST_FILES
+      - name: ulimit=40 s4_release -s S4_TEST_FILES
         shell: bash
         run: |
           set -eux
-          ulimit -n 20
+          ulimit -n 40
           ${S4R} -s ./logs/other/tests/dtf5-6b* ${S4_TEST_FILES} &>/dev/null
       #
       # compare debug release
