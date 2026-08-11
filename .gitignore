@@ -11,3 +11,4 @@ perf.data.old
 /subprojects/ere/ere/target/
 /subprojects/ere/ere_automator_procmacro/target/
 /subprojects/ere/ere_datetimes_impl/target/
+/vendor/
