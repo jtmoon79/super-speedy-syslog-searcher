@@ -160,7 +160,7 @@ log = { version = "0.4.33", optional = true }
 env_logger = { version = "0.11.11", optional = true }
 # benches
 jetscii = { version = "0.5.3", optional = true }
-regex-automata = { version = "0.4.14", optional = true }
+regex-automata = { version = "0.4.16", optional = true }
 stringzilla = { version = "3.12.6", optional = true }
 
 [build-dependencies]
@@ -207,7 +207,7 @@ flamegraph = "0.6.13"  # XXX: flamegraph version must match `.github/workflows/r
 test-case = "=3.2.1"  # XXX: cannot upgrade `test-case` beyond `3.2.1` until fix of https://github.com/frondeus/test-case/issues/153
 # benches
 jetscii = "0.5.3"
-regex-automata = "0.4.14"
+regex-automata = "0.4.16"
 range-set-blaze = "0.6.1"
 stringzilla = "3.12.6"
 # src/subprojects/lzma_rs/
