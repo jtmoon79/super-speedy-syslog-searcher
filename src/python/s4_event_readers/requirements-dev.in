@@ -3,7 +3,7 @@
 # Development requirements for s4_event_readers.
 # These versions are known to work with Python 3.9+.
 #
-black>=24
+black>=26.3.1
 flake8>=7.3
 Flake8-pyproject>=1.2
 isort>=6.0,<7.1
