@@ -121,6 +121,9 @@ function write_rows_markdown () {
             -R "${COLUMNS_RA}" > "${OUT_MD}"
     echo
     echo "Markdown table written to ${OUT_MD}"
+
+    ./tools/mdtohtml.sh "${OUT_MD}"
+
     if which glow &> /dev/null; then
         glow "${OUT_MD}"
     else
