@@ -101,7 +101,7 @@ const-str.workspace = true
 crossbeam-channel = "0.5.16"
 ctrlc = "3.5.2"
 current_platform = "0.2.0"
-dlopen2 = "0.8"
+dlopen2 = "0.9.0"
 encoding_rs = "0.8.35"
 ere = { version = "=0.10.4", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
 ere_automator_procmacro = { version = "=0.10.4", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
