@@ -496,6 +496,20 @@ Get-ChildItem -File -Recurse -ErrorAction SilentlyContinue `
 
 <br/>
 
+Count the number of log messages in a log file.
+Using ASCII **Record Separator** `0x1E` as the separator between log messages.
+
+```sh
+s4 --separator '\x1E' /var/log/some.log | grep -oFe "$(echo -e '\x1E')"  | wc -l
+```
+
+```powershell
+((s4.exe C:\Windows\Logs\some.log --separator '\x1E').ToCharArray() `
+  | Where-Object { $_ -eq [byte](0x1E) }).Count
+```
+
+<br/>
+
 ---
 
 ### Claude SKILL.md
