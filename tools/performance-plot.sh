@@ -1,51 +1,81 @@
 #!/usr/bin/env bash
 #
 # gnuplot `s4` performance when processing increasing number of log files,
-# specifically Max RSS and mean time.
+# specifically Max RSS, mean time, and disk I/O (syscr/rchar).
 #
+
+set -euo pipefail
+
+readonly FILE_DEFAULT='./tools/compare-log-mergers/gen-5000-1-facesA.log'
+declare -irg FILE_NUM_DEFAULT=100
+readonly S4_PROGRAM_DEFAULT='./target/release/s4'
+readonly PYTHON_DEFAULT='python3'
+
+declare -irg FILE_RUNS_BLOCKSZ_DEFAULT=10
+declare -irg BLOCKSZ_MIN_DEFAULT=4096
+declare -irg BLOCKSZ_MAX_DEFAULT=131072
+declare -irg BLOCKSZ_ALIGN_DEFAULT=4096
 
 if [[ "${1-}" = "-h" || "${1-}" = "--help" || "${1-}" = "-?" ]]; then
     echo "\
-Usage: ${0} [s4-args-for-all-runs]
-
-user must set environment variables:
-  FILE         - path to a log file to be used for testing (default: ./tools/compare-log-mergers/gen-5000-1-facesA.log)
-  FILE_NUM     - maximum number of files to test (default: 100)
+Usage: ${0} [s4 args]
 
 user may set environment variables:
-  S4_PROGRAM   - path to the \`s4\` binary to test (default: ./target/release/s4)
-  DIROUT       - output directory for markdown and SVG files (default: current directory)
-  PYTHON       - python3 interpreter (default: python3)
 
-requires:
-  hyperfine    - measures runtime and memory usage
-  jq           - parses hyperfine JSON output
-  gnuplot      - creates ASCII and SVG graphs
-  python3      - used for some math and string formatting
-  xmllint      - prettify the SVG files
+  # RSS, time, and disk I/O testing
+
+  FILE         - path to a log file to be used for testing
+                 default: ${FILE_DEFAULT}
+  FILE_NUM     - maximum number of files to test
+                 default: ${FILE_NUM_DEFAULT}
+  S4_PROGRAM   - path to the \`s4\` binary to test
+                 default: ${S4_PROGRAM_DEFAULT}
+  DIROUT       - output directory for markdown and SVG files
+                 default: current directory
+  PYTHON       - python3 interpreter
+                 default: ${PYTHON_DEFAULT}
+
+  Disk I/O is measured once per file-count via /proc/<pid>/io
+  (syscr, rchar, syscw, write_bytes) before hyperfine runs.
+  rchar counts bytes requested via read syscalls (includes page cache).
+  Page cache is dropped when permitted (drop_caches); otherwise a
+  warning is printed and measurement continues.
+  Outputs include __diskio.md/csv and __diskio.svg (syscr + rchar).
+
+  # Block Size testing
+
+  FILE_RUNS_BLOCKSZ - number of files passed per s4 run
+                      default: ${FILE_RUNS_BLOCKSZ_DEFAULT}
+  BLOCKSZ_MIN   -     starting block size in bytes
+                      default: ${BLOCKSZ_MIN_DEFAULT}
+  BLOCKSZ_MAX   -     ending block size in bytes
+                      default: ${BLOCKSZ_MAX_DEFAULT}
+  BLOCKSZ_ALIGN -     step blocksz in bytes
+                      default: ${BLOCKSZ_ALIGN_DEFAULT}
 
 usage:
-  FILE=path/to/some.log FILE_NUM=N ./tools/performance-plot.sh [<s4-args>]
+  FILE=path/to/some.log FILE_NUM=N ./tools/performance-plot.sh [s4 args]
 
 example:
-  FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FILE_NUM=200 ./tools/performance-plot.sh --color=never
+  DIROUT=/tmp/perf FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FILE_NUM=200 BLOCKSZ_ALIGN=128 S4_PROGRAM=./target/mimalloc/s4 ./tools/performance-plot.sh -cn
 
-outputs:
-  performance-plot-data__<log-file-name>__<FILE_NUM>.csv
-  performance-plot-data__<log-file-name>__<FILE_NUM>.md
-  performance-plot-rss__<log-file-name>__<FILE_NUM>.svg
-  performance-plot-time__<log-file-name>__<FILE_NUM>.svg
+requires programs:
+  hyperfine - measures runtime and memory usage
+  jq        - parses hyperfine JSON output
+  gnuplot   - creates ASCII and SVG graphs
+  python3   - used for some math and string formatting
+  xmllint   - prettify the SVG files
 " >&2
     exit 0
 fi
-
-set -euo pipefail
 
 SCRIPTD=$(realpath "$(dirname -- "${0}")")
 
 cd "$(dirname "${0}")/.."
 
-declare -r DIROUT=${DIROUT-"."}
+readonly DIROUT=${DIROUT-"."}
+
+declare -ir TIME_START=${SECONDS}
 
 # check for hyperfine
 HYPERFINE=$(which hyperfine) || {
@@ -68,9 +98,9 @@ readonly JQ
 (set -x; "${JQ}" --version)
 
 # check for python
-PYTHON=${PYTHON-"python3"}
+PYTHON=${PYTHON-"${PYTHON_DEFAULT}"}
 if ! which "${PYTHON}" &>/dev/null; then
-    echo "ERROR: python3 not found in PATH" >&2
+    echo "ERROR: ${PYTHON} not found in PATH" >&2
     exit 1
 fi
 readonly PYTHON
@@ -86,17 +116,32 @@ GNUPLOT=$(which gnuplot) || {
 readonly GNUPLOT
 (set -x; "$GNUPLOT" --version)
 
-declare -r FILE=${FILE-'./tools/compare-log-mergers/gen-5000-1-facesA.log'}
-declare -r FILE_NAME=$(basename -- "${FILE}")
+readonly FILE=${FILE-"${FILE_DEFAULT}"}
+readonly FILE_NAME=$(basename -- "${FILE}")
 # no comma
-declare -r FILE_NAME_NOC=$(echo -n "${FILE_NAME}" | tr -s ',' '_')
+readonly FILE_NAME_NOC=$(echo -n "${FILE_NAME}" | tr -s ',' '_')
 
-# hyperfine runs
+# check if FILE exists
+if [[ ! -f "${FILE}" ]]; then
+    echo "FILE not found or not a file '${FILE}'" >&2
+    exit 1
+fi
+
+# check if file name has spaces
+if [[ "${FILE}" =~ [[:space:]] ]]; then
+    echo "FILE name has spaces which is not supported: '${FILE}'" >&2
+    exit 1
+fi
+
+# number of hyperfine runs
 declare -ir HYPERFINE_RUNS=${HYPERFINE_RUNS-5}
 
 # echo color escapes
-declare -r CLR_INFO="\033[1;32m"  # green
-declare -r CLR_RESET="\033[0m"
+readonly CLR_INFO="\033[1;32m"  # green
+readonly CLR_RESET="\033[0m"
+
+# pre-cache sudo password
+sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
 # the upcoming `git checkout` may remove some of the above log files
 # so copy them to the temporary directory
@@ -105,7 +150,7 @@ mkdir -vp "${TDIR_LOGS}"
 
 # print a line as wide as the terminal
 function echo_line() {
-    python -Bc "import sys; print('─' * ${COLUMNS:-100}, file=sys.stderr)"
+    "${PYTHON}" -Bc "import sys; print('─' * ${COLUMNS:-100}, file=sys.stderr)"
     echo >&2
 }
 
@@ -213,17 +258,132 @@ function regex_escape() {
     echo -n "${@}" | "$PYTHON" -c 'import re, sys; print(re.escape(sys.stdin.read().rstrip()))'
 }
 
-# check if FILE exists
-if [[ ! -f "${FILE}" ]]; then
-    echo "FILE not found or not a file '${FILE}'" >&2
-    exit 1
-fi
+# print $1 seconds as HH:MM:SS
+function seconds_to_hms() {
+    declare -ir seconds=${1}
+    declare -ir h=$((seconds / 3600))
+    declare -ir m=$(((seconds % 3600) / 60))
+    declare -ir s=$((seconds % 60))
+    printf "%02d:%02d:%02d" "${h}" "${m}" "${s}"
+}
 
-# check if file name has spaces
-if [[ "${FILE}" =~ [[:space:]] ]]; then
-    echo "FILE name has spaces which is not supported: '${FILE}'" >&2
-    exit 1
-fi
+function gnuplot_svg_title_replace() {
+    local file="${1}"
+    shift
+    # replace the non-descriptive '<title>Gnuplot</title>' with something interesting
+    sed -i -e "s|$(regex_escape "<title>Gnuplot</title>")|$(regex_escape "<title>$(xml_escape "${@}")</title>")|" -- "${file}"
+}
+
+function xml_format() {
+    "${SCRIPTD}/xmllint.sh" "${@}"
+}
+
+# read one key from a /proc/<pid>/io style file: "key: value"
+#
+# example:
+#
+#     $ cat /proc/self/io
+#     rchar: 4092
+#     wchar: 0
+#     syscr: 9
+#     syscw: 0
+#     read_bytes: 0
+#     write_bytes: 0
+#     cancelled_write_bytes: 0
+#
+# usage: io_field <io_file> <key>
+function io_field() {
+    declare -r iofile=${1}
+    declare -r key=${2}
+    local val
+    val=$(set -euo pipefail; grep -m1 -Ee "^${key}:" "${iofile}" | cut -f2 -d':' | tr -d '[:space:]')
+    if [[ -z "${val}" || ! "${val}" =~ ^[0-9]+$ ]]; then
+        echo "ERROR: missing or non-integer '${key}' in '${iofile}'" >&2
+        if [[ -f "${iofile}" ]]; then
+            cat "${iofile}" >&2 || true
+        fi
+        return 1
+    fi
+    echo -n "${val}"
+}
+
+# Attempt to drop page cache before the I/O measurement run.
+# Sets global CACHES_DROPPED to true or false (shell builtins).
+# Note: plotted read bytes use rchar (syscall bytes, includes cache).
+function drop_caches_try() {
+    declare -r drop_path=/proc/sys/vm/drop_caches
+    if [[ -w "${drop_path}" ]]; then
+        echo "${PS4}sync" >&2
+        sync
+        echo "${PS4}echo 3 > ${drop_path}" >&2
+        echo 3 > "${drop_path}"
+        CACHES_DROPPED=true
+        return 0
+    fi
+    if sudo -n true 2>/dev/null; then
+        sudo -n sh -c 'set -x; sync; echo 3 > /proc/sys/vm/drop_caches'
+        CACHES_DROPPED=true
+        return 0
+    fi
+    if ! ${CACHES_DROP_WARNED}; then
+        echo "WARNING: cannot write ${drop_path}; disk I/O may be dominated by page cache hits" >&2
+        CACHES_DROP_WARNED=true
+    fi
+    CACHES_DROPPED=false
+    return 0
+}
+
+# Atomically copy /proc/<pid>/io into $2 if readable.
+# Important: never `cat ... > iofile` on failure — the shell truncates the
+# destination before cat runs, which would wipe a good earlier snapshot.
+# usage: copy_proc_io <pid> <io_file>
+function copy_proc_io() {
+    declare -ir pid=${1}
+    declare -r iofile=${2}
+    declare -r tmp="${iofile}.tmp.$$"
+    declare -r src="/proc/${pid}/io"
+    if [[ ! -r "${src}" ]]; then
+        return 1
+    fi
+    if cat "${src}" > "${tmp}" 2>/dev/null; then
+        mv -f "${tmp}" "${iofile}"
+        return 0
+    fi
+    rm -f "${tmp}"
+    return 1
+}
+
+# Run a shell-escaped command in the background and copy /proc/<pid>/io into
+# $1 until exit.
+# Copies cumulative kernel counters (not rate estimates).
+# Last successful copy is the lifetime total.
+# usage: cmd_io <io_file> <command_string>
+function cmd_io() {
+    declare -r iofile=${1}
+    declare -r cmd=${2}
+    declare -i pid
+    declare -i status=0
+    : > "${iofile}"
+    echo "${PS4-}${cmd}" >&2
+    # `exec` so pid is s4, not a wrapper shell
+    # shellcheck disable=SC2086
+    eval "exec ${cmd}" 1>/dev/null &
+    pid=$!
+    # poll until the process exits
+    while kill -0 "${pid}" 2>/dev/null; do
+        copy_proc_io "${pid}" "${iofile}" || true
+        sleep 0.010
+    done
+    # /proc may remain until wait reaps; try one last copy
+    copy_proc_io "${pid}" "${iofile}" || true
+    status=0
+    wait "${pid}" || status=$?
+    if [[ ! -s "${iofile}" ]]; then
+        echo "ERROR: empty I/O snapshot '${iofile}' for command: ${cmd}" >&2
+        return 1
+    fi
+    return ${status}
+}
 
 declare -ir FILE_SZ=$(file_size "${FILE}")
 declare -ir FILE_SZ_KB=$((FILE_SZ / 1024 + 1))
@@ -248,7 +408,7 @@ if [[ ${FILE_SZ_UNCOMPRESSED} -ne 0 ]]; then
     FILE_SZ_UNCOMPRESSED_BLOCKS=$((FILE_SZ_UNCOMPRESSED / 65536 + 1))
 fi
 
-declare -r S4_PROGRAM=${S4_PROGRAM-"./target/release/s4"}
+readonly S4_PROGRAM=${S4_PROGRAM-"${S4_PROGRAM_DEFAULT}"}
 # very presumptive that the profile name will be the 3rd path component
 # e.g. ./target/release/s4 -> release
 #      ./target/debug/s4   -> debug
@@ -256,6 +416,7 @@ BUILD_PROFILE=$(echo "${S4_PROGRAM}" | cut -f3 -d'/')
 if [[ -z "${BUILD_PROFILE}" ]]; then
     BUILD_PROFILE="unknown"
 fi
+readonly BUILD_PROFILE
 
 # example --version output
 #
@@ -288,15 +449,21 @@ RamTotalMB=$(print_ram_total_mb)
 source /etc/os-release
 OsName="${NAME} ${VERSION_ID}"
 GitTagLast=$(git describe --tags --abbrev=0 || echo "unknown")
-# XXX: must match `BLOCKSZ_DEF` defined in `blockreader.rs`
+# XXX: `S4_BLOCKSZ` must match `BLOCKSZ_DEF` defined in `blockreader.rs`
 declare -i S4_BLOCKSZ=${S4_BLOCKSZ-65535}
 declare -ir S4_BLOCKSZ_KB=$((S4_BLOCKSZ / 1024))
 declare -ir FILE_SZ_BLOCKS=$((FILE_SZ / 65536 + 1))
 
-declare -ir FILE_NUM=${FILE_NUM-100}
+declare -ir FILE_NUM=${FILE_NUM-"${FILE_NUM_DEFAULT}"}
+if [[ ${FILE_NUM} -lt 1 ]]; then
+    echo "FILE_NUM must be greater than 0, got ${FILE_NUM}" >&2
+    exit 1
+fi
 
-declare -r MD_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__data.md"
-declare -r CSV_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__data.csv"
+readonly MD_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss_time_data.md"
+readonly CSV_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss_time_data.csv"
+readonly MD_FINAL_DISKIO="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__diskio.md"
+readonly CSV_FINAL_DISKIO="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__diskio.csv"
 
 if [[ -f "${MD_FINAL}" ]]; then
     echo "Final output already exists, skipping. '${MD_FINAL}'" >&2
@@ -307,7 +474,8 @@ if [[ -f "${CSV_FINAL}" ]]; then
     exit 0
 fi
 
-tmpD=$(mktemp -d -t "tmp-s4-performance-plot_XXXXX")
+readonly tmpD=$(mktemp -d -t "tmp-s4-performance-plot_XXXXX")
+readonly IO_TXT="${tmpD}/io.txt"
 
 function exit_() {
     rm -rf "${tmpD}"
@@ -317,12 +485,22 @@ trap exit_ EXIT
 
 mkdir -p "${DIROUT}"
 
+# whether page cache was dropped on the most recent drop_caches_try call
+CACHES_DROPPED=false
+CACHES_DROP_WARNED=false
+# sticky flag if any fnum measurement dropped caches successfully
+CACHES_DROPPED_ANY=false
+
+# -----------------------------------------------------------------------------
+
 #
 # start the markdown draft file
 #
 
-declare -r MD_DRAFT="${tmpD}/performance-plot-draft.md"
-declare -r CSV_DRAFT="${tmpD}/performance-plot_${FILE_NAME}_${FILE_NUM}.csv"
+readonly MD_DRAFT="${tmpD}/performance-plot-draft-time-rss.md"
+readonly CSV_DRAFT="${tmpD}/performance-plot_${FILE_NAME}_${FILE_NUM}.csv"
+readonly MD_DRAFT_DISKIO="${tmpD}/performance-plot-draft-diskio.md"
+readonly CSV_DRAFT_DISKIO="${tmpD}/performance-plot-draft-diskio.csv"
 
 # markdown table header
 echo "\
@@ -330,6 +508,12 @@ echo "\
 |:---        |:---   |---:     |---:    |---:    |---:     |---:        |---:             |---: |" > "${MD_DRAFT}"
 # CSV header
 echo "#File,Files,Profile,Mean (ms),Min (ms),Max (ms),Diff (ms),Max RSS (KB),Max RSS (KB) diff,CPU %" > "${CSV_DRAFT}"
+
+# disk I/O markdown table header (kernel /proc/<pid>/io counters)
+echo "\
+|Files       |Profile|syscr (read calls)|rchar (read bytes)|syscw (write calls)|write_bytes|
+|:---        |:---   |---:              |---:              |---:               |---:       |" > "${MD_DRAFT_DISKIO}"
+echo "#File,Files,Profile,syscr,rchar,syscw,write_bytes" > "${CSV_DRAFT_DISKIO}"
 
 #
 # run the tests for each file count
@@ -341,8 +525,11 @@ declare -a time_diff_values=()
 declare -a mss_values=()
 declare -a fnum_values=()
 declare -a mss_diff_values=()
-declare s4_command=$(printf "%q" "${S4_PROGRAM}")
+declare -a diskio_syscr_values=()
+declare -a diskio_rchar_values=()
+
 # must pass command as a single shell-escaped string to `hyperfine`
+declare s4_command=$(printf "%q" "${S4_PROGRAM}")
 for arg in "${@}"; do
     arg_escaped=$(printf "%q" "$arg")
     s4_command+=" ${arg_escaped}"
@@ -364,6 +551,34 @@ for fnum in $(seq 1 ${FILE_NUM}); do
         # XXX: presuming there are no spaces in the file name
         current_files+=("${FILE}")
     done
+
+    #
+    # run s4 to capture disk I/O from /proc/<pid>/io
+    #
+    echo -e "${CLR_INFO}Measuring disk I/O for ${fnum} files via /proc/<pid>/io${CLR_RESET}" >&2
+    drop_caches_try
+    if ${CACHES_DROPPED}; then
+        CACHES_DROPPED_ANY=true
+    fi
+    cmd_io "${IO_TXT}" "${s4_command} ${current_files[*]}"
+    declare -i diskio_syscr
+    declare -i diskio_rchar
+    declare -i diskio_syscw
+    declare -i diskio_write_bytes
+    diskio_syscr=$(io_field "${IO_TXT}" syscr)
+    diskio_rchar=$(io_field "${IO_TXT}" rchar)
+    diskio_syscw=$(io_field "${IO_TXT}" syscw)
+    diskio_write_bytes=$(io_field "${IO_TXT}" write_bytes)
+    echo -e "${CLR_INFO}disk I/O: syscr=${diskio_syscr} rchar=${diskio_rchar} syscw=${diskio_syscw} write_bytes=${diskio_write_bytes} (caches_dropped=${CACHES_DROPPED})${CLR_RESET}" >&2
+    echo >&2
+
+    # disk I/O markdown / CSV rows
+    echo "|${fnum}|${BUILD_PROFILE}|${diskio_syscr}|${diskio_rchar}|${diskio_syscw}|${diskio_write_bytes}|" >> "${MD_DRAFT_DISKIO}"
+    echo "${FILE_NAME_NOC},${fnum},${BUILD_PROFILE},${diskio_syscr},${diskio_rchar},${diskio_syscw},${diskio_write_bytes}" >> "${CSV_DRAFT_DISKIO}"
+
+    diskio_syscr_values+=("${diskio_syscr}")
+    diskio_rchar_values+=("${diskio_rchar}")
+
     # here is the hyperfine run
     declare -i proc_time_beg=$(print_time_now_ms)
     (
@@ -453,8 +668,10 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     mss_values+=("${mss_KB}")
     time_values+=("${mean}")
 
+    declare -i time_since_start=$((${SECONDS} - TIME_START))
+    time_since_start_hms=$(seconds_to_hms "${time_since_start}")
     echo >&2
-    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB (current datetime $(date))${CLR_RESET}" >&2
+    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB, syscr ${diskio_syscr}, rchar ${diskio_rchar}, syscw ${diskio_syscw}, write_bytes ${diskio_write_bytes} (script running for ${time_since_start_hms})${CLR_RESET}" >&2
 
     first=false
 done
@@ -470,20 +687,28 @@ cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
 # save the CSV data
 cp -av "${CSV_DRAFT}" "${CSV_FINAL}"
 
+# disk I/O finals
+cat "${MD_DRAFT_DISKIO}" | column -t -s '|' -o '|' > "${MD_FINAL_DISKIO}"
+cp -av "${CSV_DRAFT_DISKIO}" "${CSV_FINAL_DISKIO}"
+
 export PATH="${PATH}:${HOME}/go/bin"  # for glow
 if which glow &>/dev/null; then
     glow --width=${COLUMNS} --preserve-new-lines "${MD_FINAL}"
+    echo >&2
+    glow --width=${COLUMNS} --preserve-new-lines "${MD_FINAL_DISKIO}"
 else
     cat "${MD_FINAL}"
+    echo >&2
+    cat "${MD_FINAL_DISKIO}"
 fi
 
 echo >&2
 
 #
-# gnuplot an ASCII graph for file count vs max RSS
+# gnuplot an ASCII graph for file count (Y) vs max RSS (X)
 #
 
-declare -r gnuplot_vertical_line_x0='set arrow from 0, graph 0 to 0, graph 1 nohead'
+readonly gnuplot_vertical_line_x0='set arrow from 0, graph 0 to 0, graph 1 nohead'
 
 mss_max=$(max "${mss_values[@]}")
 mss_min=$(min "${mss_values[@]}")
@@ -562,22 +787,11 @@ else
     ytics_step=10
 fi
 
-function gnuplot_svg_title_replace() {
-    local file="${1}"
-    shift
-    # replace the non-descriptive '<title>Gnuplot</title>' with something interesting
-    sed -i -e "s|$(regex_escape "<title>Gnuplot</title>")|$(regex_escape "<title>$(xml_escape "${@}")</title>")|" -- "${file}"
-}
-
-function xml_format() {
-    "${SCRIPTD}/xmllint.sh" "${@}"
-}
-
 #
-# gnuplot create SVG for file count vs max RSS
+# gnuplot create SVG for file count (Y) vs max RSS (X)
 #
 
-declare -r OUT_SVG_RSS="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss.svg"
+readonly OUT_SVG_RSS="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss.svg"
 
 echo >&2
 
@@ -669,7 +883,7 @@ plot \$DataRss with lines linecolor rgbcolor "${COLOR_1}" title "Max RSS (KB)", 
 EOF
 )
 # TODO: add labels to each point see https://stackoverflow.com/a/63194918/471376 ?
-#       cannot get this to work after many varied attempts
+#       cannot get this to work after many attempts
 
 (
     set -x
@@ -682,10 +896,10 @@ xml_format "${OUT_SVG_RSS}"
 echo >&2
 
 #
-# gnuplot create SVG for file count vs time
+# gnuplot create SVG for file count (X) vs process time (Y)
 #
 
-declare -r OUT_SVG_TIME="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__time.svg"
+readonly OUT_SVG_TIME="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__time.svg"
 
 DataTime=$(for i in "${!time_values[@]}"; do echo "${time_values[$i]} ${fnum_values[$i]}"; done)
 DataTimeDiffs=$(for i in "${!time_diff_values[@]}"; do echo "${time_diff_values[$i]} ${fnum_values[$i+1]}"; done)
@@ -759,19 +973,190 @@ EOF
 gnuplot_svg_title_replace "${OUT_SVG_TIME}" "Time (ms) mean per N file for '${FILE_NAME}'"
 xml_format "${OUT_SVG_TIME}"
 
+# -----------------------------------------------------------------------------
+
+#
+# gnuplot create SVG for file count (Y) vs disk read count / read bytes (X)
+# two stacked panels in one multiplot SVG
+#
+
+readonly OUT_SVG_DISKIO_READ="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__diskio.svg"
+
+# sanity check disk I/O series length matches file counts
+if [[ ${#diskio_syscr_values[@]} -ne ${#fnum_values[@]} ]]; then
+    echo "Mismatched diskio_syscr_values fnum_values; ${#diskio_syscr_values[@]} ${#fnum_values[@]}" >&2
+    exit 1
+fi
+if [[ ${#diskio_rchar_values[@]} -ne ${#fnum_values[@]} ]]; then
+    echo "Mismatched diskio_rchar_values fnum_values; ${#diskio_rchar_values[@]} ${#fnum_values[@]}" >&2
+    exit 1
+fi
+
+DataDiskReadCount=$(for i in "${!diskio_syscr_values[@]}"; do echo "${diskio_syscr_values[$i]} ${fnum_values[$i]}"; done)
+DataDiskReadBytes=$(for i in "${!diskio_rchar_values[@]}"; do echo "${diskio_rchar_values[$i]} ${fnum_values[$i]}"; done)
+
+# per-file rates for each run: total / file count (integer division)
+declare -a diskio_syscr_per_file_values=()
+declare -a diskio_rchar_per_file_values=()
+for i in "${!diskio_syscr_values[@]}"; do
+    declare -i fnum_i=${fnum_values[$i]}
+    if [[ ${fnum_i} -lt 1 ]]; then
+        echo "ERROR: invalid file count '${fnum_i}' at index ${i}" >&2
+        exit 1
+    fi
+    diskio_syscr_per_file_values+=("$((${diskio_syscr_values[$i]} / fnum_i))")
+    diskio_rchar_per_file_values+=("$((${diskio_rchar_values[$i]} / fnum_i))")
+done
+
+diskio_syscr_per_file_max=$(max "${diskio_syscr_per_file_values[@]}")
+diskio_syscr_per_file_min=$(min "${diskio_syscr_per_file_values[@]}")
+diskio_syscr_per_file_avg=$(avg "${diskio_syscr_per_file_values[@]}")
+diskio_rchar_per_file_max=$(max "${diskio_rchar_per_file_values[@]}")
+diskio_rchar_per_file_min=$(min "${diskio_rchar_per_file_values[@]}")
+diskio_rchar_per_file_avg=$(avg "${diskio_rchar_per_file_values[@]}")
+
+# ratios vs file size and S4 block size — same style as RSS SVG
+# for compressed inputs, prefer uncompressed size as the logical file size
+declare -i DISKIO_FILE_SZ_BYTES=${FILE_SZ}
+declare -i DISKIO_FILE_SZ_BLOCKS=${FILE_SZ_BLOCKS}
+if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
+    DISKIO_FILE_SZ_BYTES=${FILE_SZ_UNCOMPRESSED}
+    DISKIO_FILE_SZ_BLOCKS=${FILE_SZ_UNCOMPRESSED_BLOCKS}
+fi
+
+# rchar is bytes: × file size, × Blocks (bytes / BLOCKSZ) — mirrors RSS KB ratios
+diskio_rchar_per_file_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_max} / max(${DISKIO_FILE_SZ_BYTES}, 1)))")
+diskio_rchar_per_file_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_min} / max(${DISKIO_FILE_SZ_BYTES}, 1)))")
+diskio_rchar_per_file_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_avg} / max(${DISKIO_FILE_SZ_BYTES}, 1)))")
+diskio_rchar_per_file_blocksz_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_max} / max(${S4_BLOCKSZ}, 1)))")
+diskio_rchar_per_file_blocksz_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_min} / max(${S4_BLOCKSZ}, 1)))")
+diskio_rchar_per_file_blocksz_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_avg} / max(${S4_BLOCKSZ}, 1)))")
+
+# syscr is a call count: × file-size-in-blocks (calls per logical file block)
+diskio_syscr_per_file_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_max} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
+diskio_syscr_per_file_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_min} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
+diskio_syscr_per_file_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_avg} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
+
+declare -i diskio_syscr_max
+diskio_syscr_max=$(max "${diskio_syscr_values[@]}")
+declare -i diskio_rchar_max
+diskio_rchar_max=$(max "${diskio_rchar_values[@]}")
+
+declare -i x_range_max_syscr=$((diskio_syscr_max + (diskio_syscr_max / 10) + 1))
+declare -i x_range_max_rchar=$((diskio_rchar_max + (diskio_rchar_max / 10) + 1))
+
+declare -i xtics_step_syscr=0
+if [[ ${x_range_max_syscr} -lt 100 ]]; then
+    xtics_step_syscr=1
+elif [[ ${x_range_max_syscr} -lt 1000 ]]; then
+    xtics_step_syscr=10
+elif [[ ${x_range_max_syscr} -lt 10000 ]]; then
+    xtics_step_syscr=100
+elif [[ ${x_range_max_syscr} -lt 100000 ]]; then
+    xtics_step_syscr=1000
+else
+    xtics_step_syscr=10000
+fi
+
+declare -i xtics_step_rchar=0
+if [[ ${x_range_max_rchar} -lt 1000 ]]; then
+    xtics_step_rchar=100
+elif [[ ${x_range_max_rchar} -lt 100000 ]]; then
+    xtics_step_rchar=10000
+elif [[ ${x_range_max_rchar} -lt 1000000 ]]; then
+    xtics_step_rchar=100000
+elif [[ ${x_range_max_rchar} -lt 10000000 ]]; then
+    xtics_step_rchar=1000000
+else
+    xtics_step_rchar=10000000
+fi
+
+declare -i ytics_step_diskio=0
+if [[ $FILE_NUM -le 50 ]]; then
+    ytics_step_diskio=1
+elif [[ $FILE_NUM -le 100 ]]; then
+    ytics_step_diskio=2
+elif [[ $FILE_NUM -le 200 ]]; then
+    ytics_step_diskio=4
+else
+    ytics_step_diskio=10
+fi
+
+declare -i SVG_HEIGHT_DISKIO=$((SVG_HEIGHT + SVG_HEIGHT / 2))
+declare -i SVG_WIDTH_DISKIO=${SVG_WIDTH}
+
+if ${CACHES_DROPPED_ANY}; then
+    CACHES_DROP_MESG="Page cache: dropped when permitted (at least one fnum)"
+else
+    CACHES_DROP_MESG="Page cache: not dropped (I/O may include cache hits)"
+fi
+
+GNUPLOT_SVG=$(cat <<EOF
+set terminal svg size ${SVG_WIDTH_DISKIO}, ${SVG_HEIGHT_DISKIO} fname "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}"
+set encoding utf8
+set color
+set key off
+set output "${OUT_SVG_DISKIO_READ}"
+set multiplot layout 2,1 title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nDisk I/O from /proc/<pid>/io (one run per file count)\n${CACHES_DROP_MESG}\n\nFile: ${FILE}\nBlock Size: ${S4_BLOCKSZ_KB} KB (${S4_BLOCKSZ} Bytes)\n${FILE_SZ_MESG}\n\nMax Read Count (syscr) per 1 File: ${diskio_syscr_per_file_max} (×${diskio_syscr_per_file_multiple_max} file blocks)\nAvg Read Count (syscr) per 1 File: ${diskio_syscr_per_file_avg} (×${diskio_syscr_per_file_multiple_avg} file blocks)\nMin Read Count (syscr) per 1 File: ${diskio_syscr_per_file_min} (×${diskio_syscr_per_file_multiple_min} file blocks)\nMax Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_max} (×${diskio_rchar_per_file_multiple_max} file size) (×${diskio_rchar_per_file_blocksz_multiple_max} Blocks)\nAvg Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_avg} (×${diskio_rchar_per_file_multiple_avg} file size) (×${diskio_rchar_per_file_blocksz_multiple_avg} Blocks)\nMin Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_min} (×${diskio_rchar_per_file_multiple_min} file size) (×${diskio_rchar_per_file_blocksz_multiple_min} Blocks)\n" \
+    font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
+    noenhanced
+
+set format "%.0f"
+set ylabel "File count ${FILE_NUM}\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
+set ytics ${ytics_step_diskio} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
+set grid xtics
+set grid ytics
+set yrange [0:$((${FILE_NUM} + 1))]
+
+# panel 1: syscr (read syscall count)
+set xlabel "Disk Read Count (syscr)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
+set xtics ${xtics_step_syscr} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
+set xrange [0:${x_range_max_syscr}]
+\$DataDiskReadCount << EOD
+$DataDiskReadCount
+EOD
+plot \$DataDiskReadCount with lines linecolor rgbcolor "${COLOR_1}" title "syscr", \
+     \$DataDiskReadCount every 1 using 1:2:(sprintf("%d", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 5,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_LABELS}" title "syscr"
+
+# panel 2: rchar (bytes requested via read syscalls, includes page cache)
+set xlabel "Disk Read Bytes (rchar)" textcolor rgbcolor "${COLOR_2}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
+set xtics ${xtics_step_rchar} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
+set xrange [0:${x_range_max_rchar}]
+\$DataDiskReadBytes << EOD
+$DataDiskReadBytes
+EOD
+plot \$DataDiskReadBytes with lines linecolor rgbcolor "${COLOR_2}" title "rchar", \
+     \$DataDiskReadBytes every 1 using 1:2:(sprintf("%d", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 5,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_LABELS}" title "rchar"
+
+unset multiplot
+EOF
+)
+
+(
+    set -x
+    echo "$GNUPLOT_SVG" | "$GNUPLOT"
+)
+
+gnuplot_svg_title_replace "${OUT_SVG_DISKIO_READ}" "Disk reads (syscr, rchar) per N file for '${FILE_NAME}'"
+xml_format "${OUT_SVG_DISKIO_READ}"
+
+echo >&2
+
+# -----------------------------------------------------------------------------
+
 #
 # run the tests for each Block Size
+#
+# Process wall clock run time on X
+# Block Size on Y
 #
 
 echo_line
 
-declare -ir FILE_RUNS_BLOCKSZ=${FILE_RUNS_BLOCKSZ-40}
-declare -ir BLOCKSZ_ALIGN=${BLOCKSZ_ALIGN-4096}
-declare -ir BLOCKSZ_MIN=$(((${BLOCKSZ_MIN-4096} / ${BLOCKSZ_ALIGN} + 1) * ${BLOCKSZ_ALIGN}))
-declare -ir BLOCKSZ_MAX=$(((${BLOCKSZ_MAX-131072} / ${BLOCKSZ_ALIGN}) * ${BLOCKSZ_ALIGN}))
-
-echo -e "${CLR_INFO}Block sizes from ${BLOCKSZ_MIN} to ${BLOCKSZ_MAX} in increments of ${BLOCKSZ_ALIGN}${CLR_RESET}" >&2
-echo >&2
+declare -ir FILE_RUNS_BLOCKSZ=${FILE_RUNS_BLOCKSZ-${FILE_RUNS_BLOCKSZ_DEFAULT}}
+declare -ir BLOCKSZ_ALIGN=${BLOCKSZ_ALIGN-${BLOCKSZ_ALIGN_DEFAULT}}
+declare -ir BLOCKSZ_MIN=$(((${BLOCKSZ_MIN-${BLOCKSZ_MIN_DEFAULT}} / ${BLOCKSZ_ALIGN} + 1) * ${BLOCKSZ_ALIGN}))
+declare -ir BLOCKSZ_MAX=$(((${BLOCKSZ_MAX-${BLOCKSZ_MAX_DEFAULT}} / ${BLOCKSZ_ALIGN}) * ${BLOCKSZ_ALIGN}))
 
 declare -a current_files=()
 for ((i=0; i < ${FILE_RUNS_BLOCKSZ}; i++)); do
@@ -779,11 +1164,11 @@ for ((i=0; i < ${FILE_RUNS_BLOCKSZ}; i++)); do
     current_files+=("${FILE}")
 done
 
-declare -r MD_DRAFT_BSZ="${tmpD}/performance-plot-draft-blocksz.md"
-declare -r CSV_DRAFT_BSZ="${tmpD}/performance-plot-draft-blocksz.csv"
+readonly MD_DRAFT_BSZ="${tmpD}/performance-plot-draft-blocksz.md"
+readonly CSV_DRAFT_BSZ="${tmpD}/performance-plot-draft-blocksz.csv"
 
-declare -r MD_FINAL_BSZ="${DIROUT}/performance-plot__${FILE_NAME}__blocksz_${BLOCKSZ_ALIGN}.md"
-declare -r CSV_FINAL_BSZ="${DIROUT}/performance-plot__${FILE_NAME}__blocksz_${BLOCKSZ_ALIGN}.csv"
+readonly MD_FINAL_BSZ="${DIROUT}/performance-plot__${FILE_NAME}__blocksz_${BLOCKSZ_ALIGN}.md"
+readonly CSV_FINAL_BSZ="${DIROUT}/performance-plot__${FILE_NAME}__blocksz_${BLOCKSZ_ALIGN}.csv"
 
 # markdown table header
 echo "\
@@ -801,6 +1186,14 @@ declare -a mss_diff_values=()
 
 declare -i count=0
 declare -ir COUNT_RUNS_BSZ=$(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX} | wc -l)
+
+# this can take a long time: let the user know what block sizes will be tested
+echo -e "${CLR_INFO}Testing block sizes from ${BLOCKSZ_MIN} to ${BLOCKSZ_MAX} in increments of ${BLOCKSZ_ALIGN}; pass ${FILE_RUNS_BLOCKSZ} files per run${CLR_RESET}" >&2
+for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
+    echo -e "${CLR_INFO}${blocksz}${CLR_RESET}" >&2
+done
+echo >&2
+
 for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
     count+=1
     echo -e "${CLR_INFO}Testing '${S4_PROGRAM}' with block size ${blocksz}; run ${count} of ${COUNT_RUNS_BSZ}. Step ${BLOCKSZ_ALIGN} up to ${BLOCKSZ_MAX}${CLR_RESET}" >&2
@@ -868,8 +1261,11 @@ for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
     mss_values+=("${mss_KB}")
     time_values+=("${mean}")
 
+    declare -i time_since_start=$((${SECONDS} - TIME_START))
+    time_since_start_hms=$(seconds_to_hms "${time_since_start}")
+
     echo >&2
-    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs with block size ${blocksz}: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB (current datetime $(date))${CLR_RESET}" >&2
+    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs with block size ${blocksz}: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB (script running for ${time_since_start_hms})${CLR_RESET}" >&2
 
     first=false
 
@@ -895,7 +1291,7 @@ echo_line
 # gnuplot create SVG for block size vs time
 #
 
-declare -r OUT_SVG_BLOCKSZ="${DIROUT}/performance-plot__${FILE_NAME}__blocksz_${BLOCKSZ_ALIGN}.svg"
+readonly OUT_SVG_BLOCKSZ="${DIROUT}/performance-plot__${FILE_NAME}__blocksz_${BLOCKSZ_ALIGN}.svg"
 
 DataTime=$(for i in "${!time_values[@]}"; do echo "${time_values[$i]} ${blocksz_values[$i]}"; done)
 DataTimeDiffs=$(for i in "${!time_diff_values[@]}"; do echo "${time_diff_values[$i]} ${blocksz_values[$i+1]}"; done)
@@ -990,11 +1386,17 @@ echo_line
 
 echo >&2
 
-echo -e "SVG RSS output written to: ${CLR_INFO}${OUT_SVG_RSS}${CLR_RESET}" >&2
-echo -e "SVG TIME output written to: ${CLR_INFO}${OUT_SVG_TIME}${CLR_RESET}" >&2
-echo -e "Markdown written to: ${CLR_INFO}${MD_FINAL}${CLR_RESET}" >&2
-echo -e "CSV written to: ${CLR_INFO}${CSV_FINAL}${CLR_RESET}" >&2
-echo >&2
-echo -e "SVG BLOCKSZ output written to: ${CLR_INFO}${OUT_SVG_BLOCKSZ}${CLR_RESET}" >&2
-echo -e "Markdown written to: ${CLR_INFO}${MD_FINAL_BSZ}${CLR_RESET}" >&2
-echo -e "CSV written to: ${CLR_INFO}${CSV_FINAL_BSZ}${CLR_RESET}" >&2
+echo -e "
+SVG RSS output written to: ${CLR_INFO}${OUT_SVG_RSS}${CLR_RESET}
+SVG TIME output written to: ${CLR_INFO}${OUT_SVG_TIME}${CLR_RESET}
+SVG DISK READS output written to: ${CLR_INFO}${OUT_SVG_DISKIO_READ}${CLR_RESET}
+Markdown written to: ${CLR_INFO}${MD_FINAL}${CLR_RESET}
+CSV written to: ${CLR_INFO}${CSV_FINAL}${CLR_RESET}
+
+Disk I/O markdown written to: ${CLR_INFO}${MD_FINAL_DISKIO}${CLR_RESET}
+Disk I/O CSV written to: ${CLR_INFO}${CSV_FINAL_DISKIO}${CLR_RESET}
+
+SVG BLOCKSZ output written to: ${CLR_INFO}${OUT_SVG_BLOCKSZ}${CLR_RESET}
+Markdown written to: ${CLR_INFO}${MD_FINAL_BSZ}${CLR_RESET}
+CSV written to: ${CLR_INFO}${CSV_FINAL_BSZ}${CLR_RESET}
+" >&2
