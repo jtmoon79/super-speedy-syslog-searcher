@@ -13,7 +13,7 @@ if ! XMLLINT=$(which xmllint); then
 fi
 
 readonly XMLLINT
-(set -ueo pipefail; (set -x; "$XMLLINT" --version 2>&1) | head -n1)
+((set -x; "$XMLLINT" --version) 2>&1 | head -n1) || true
 
 if [[ $# -lt 1 ]]; then
     echo "Usage: $(basename -- "${0}") <file.xml>" >&2
