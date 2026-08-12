@@ -14,9 +14,9 @@ PYTHON=${PYTHON-python3}
     set -x
     "${PYTHON}" -m venv .venv --prompt "s4/.venv" --copies --upgrade-deps
     source .venv/bin/activate
-    "${PYTHON}" -m pip install -r ./tools/requirements.txt
-    "${PYTHON}" -m pip install -r ./tools/compare-log-mergers/requirements.txt
-    "${PYTHON}" -m pip install -r ./src/python/s4_event_readers/requirements-dev.txt
+    python3 -m pip install -r ./tools/requirements.txt
+    python3 -m pip install -r ./tools/compare-log-mergers/requirements.txt
+    python3 -m pip install -r ./src/python/s4_event_readers/requirements-dev.txt
 )
 
 echo "
