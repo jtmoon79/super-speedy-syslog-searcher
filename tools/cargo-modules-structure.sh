@@ -11,4 +11,6 @@ cd "$(dirname -- "${0}")/.."
 
 set -x
 
+cargo modules --version
+
 exec cargo modules structure "${@}"
