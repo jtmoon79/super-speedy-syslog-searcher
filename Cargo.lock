@@ -901,7 +901,7 @@ dependencies = [
  "storyteller",
  "tabled",
  "terminal_size",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "toml_edit",
  "tracing",
  "tracing-appender",
@@ -966,7 +966,7 @@ dependencies = [
  "semver",
  "serde",
  "serde_json",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
 ]
 
 [[package]]
@@ -980,7 +980,7 @@ dependencies = [
  "semver",
  "serde",
  "serde_json",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
 ]
 
 [[package]]
@@ -2031,7 +2031,7 @@ dependencies = [
  "skeptic",
  "sonic-rs",
  "tempfile",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "utf16-simd",
  "winstructs",
  "zmij",
@@ -3658,7 +3658,7 @@ dependencies = [
  "maybe-owned",
  "pdb2",
  "range-collections",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
 ]
 
 [[package]]
@@ -3843,7 +3843,7 @@ dependencies = [
  "spin",
  "symbolic-demangle",
  "tempfile",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
 ]
 
 [[package]]
@@ -3966,7 +3966,7 @@ dependencies = [
  "rustc-hash",
  "rustls 0.23.42",
  "socket2 0.6.5",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "tokio",
  "tracing",
  "web-time",
@@ -3988,7 +3988,7 @@ dependencies = [
  "rustls 0.23.42",
  "rustls-pki-types",
  "slab",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "tinyvec",
  "tracing",
  "web-time",
@@ -4186,7 +4186,7 @@ checksum = "a4e608c6638b9c18977b00b475ac1f28d14e84b27d8d42f70e0bf1e3dec127ac"
 dependencies = [
  "getrandom 0.2.17",
  "libredox",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
 ]
 
 [[package]]
@@ -4392,7 +4392,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b56fa61e77ce44cfe27fce734f45e173e91ccd82d37b3833647c2489fcd1049a"
 dependencies = [
  "semver",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
 ]
 
 [[package]]
@@ -4402,7 +4402,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dec0aef511e0bbc43b3284618e1b7a761507d784cc50b7d4817c86a652028290"
 dependencies = [
  "directories-next",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "ureq",
 ]
 
@@ -4414,7 +4414,7 @@ checksum = "0b0e1ec5e6558557994417adfbe979e0aad10545a507e63b734bc7ffd41bf43b"
 dependencies = [
  "rust-releases-core",
  "rust-releases-io",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "time",
 ]
 
@@ -4430,7 +4430,7 @@ dependencies = [
  "regex",
  "rust-releases-core",
  "rust-releases-io",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "tokio",
 ]
 
@@ -4441,7 +4441,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0d6eabe35a52d519553f1c990b6c4370c1584d07775b4170885483ca541d856a"
 dependencies = [
  "target-lexicon",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "version-number",
 ]
 
@@ -4976,7 +4976,7 @@ dependencies = [
  "simdutf8",
  "sonic-number",
  "sonic-simd",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "zmij",
 ]
 
@@ -5081,7 +5081,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.119",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "utf8-ranges",
 ]
 
@@ -5267,7 +5267,7 @@ dependencies = [
  "http 1.4.2",
  "reqwest",
  "scopeguard",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "tokio",
 ]
 
@@ -5468,11 +5468,11 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "2.0.19"
+version = "2.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "09a43598840e33d5b0331f38c5e30d13bb11c11210a4b58f0d9b18a5a5eefcd9"
+checksum = "ec86235f5fcc2a73650310756d2ac5b138a5780bbbdfae3eeccec992c435ba4f"
 dependencies = [
- "thiserror-impl 2.0.19",
+ "thiserror-impl 2.0.20",
 ]
 
 [[package]]
@@ -5488,9 +5488,9 @@ dependencies = [
 
 [[package]]
 name = "thiserror-impl"
-version = "2.0.19"
+version = "2.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "43cbfe0cf76104d42a574802844187e84a305e531ed54455f11fbde0f10541cd"
+checksum = "bc04cd3e1236dd4a98afca4569f2deb3f120e5422a4023be2cb683f8486292af"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5796,7 +5796,7 @@ checksum = "050686193eb999b4bb3bc2acfa891a13da00f79734704c4b8b4ef1a10b368a3c"
 dependencies = [
  "crossbeam-channel",
  "symlink",
- "thiserror 2.0.19",
+ "thiserror 2.0.20",
  "time",
  "tracing-subscriber",
 ]
