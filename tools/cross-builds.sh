@@ -351,6 +351,12 @@ if [[ ! "${MSRV-}" ]]; then
     MSRV=$(print_msrv)
 fi
 
+function print_hl() {
+    echo -e "\e[92m"
+    printf '%0.s─' $(seq 1 ${COLUMNS-$(tput cols)})
+    echo -e "\e[39m"
+}
+
 # print the $results array in a almost-ready markdown table
 # (requires small tweaks to display properly)
 function print_results() {
@@ -478,15 +484,31 @@ RUST_VER_PRIOR=$(set -euo pipefail; rustup toolchain list | grep -m1 'active' | 
 
 set +e
 
+# preprint table of targets to build
+print_hl
+declare -a targets_to_build=()
 for TIER_TARGET in "${TIER_TARGETS[@]}"; do
     TIER=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 1)
     TARGET=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 2-)
-    if [[ "${FILTER-}" ]]; then
-        if ! [[ "${TARGET}" =~ ${FILTER} ]]; then
-            echo -e "\e[93mSkipping tier ${TIER} target ${TARGET} due to filter '${FILTER}'...\e[39m" >&2
-            targets_skipped+=("$TARGET")
-            continue
-        fi
+    if [[ "${FILTER-}" ]] && [[ "${TARGET}" =~ ${FILTER-} ]]; then
+        targets_to_build+=("$TARGET")
+        continue
+    fi
+    targets_to_build+=("$TARGET")
+done
+echo "${targets_to_build[@]}" | tr ' ' '\n' | sort
+echo
+echo -e "\e[92mBuilding for ${#targets_to_build[@]} targets\e[39m"
+
+# foreach target; build and copy the binary to $DIROUT with meaningful names
+for TIER_TARGET in "${TIER_TARGETS[@]}"; do
+    print_hl
+    TIER=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 1)
+    TARGET=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 2-)
+    if [[ "${FILTER-}" ]] && ! [[ "${TARGET}" =~ ${FILTER-} ]]; then
+        echo -e "\e[93mSkipping tier ${TIER} target ${TARGET} due to filter '${FILTER-}'...\e[39m" >&2
+        targets_skipped+=("$TARGET")
+        continue
     fi
     echo >&2
     echo -e "\e[93mTry ${i} of ${#TIER_TARGETS[@]} tier ${TIER} target ${TARGET}...\e[39m" >&2
