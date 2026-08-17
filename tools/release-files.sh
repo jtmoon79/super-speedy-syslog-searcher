@@ -42,6 +42,35 @@ mkdir -vp "${DIROUT}"
     ./target/release/s4 --venv
 )
 
+# run first so interactive tools can be manually bypassed
+(
+    export PROGRAMS_S4_LISTING=${TMPD-/tmp}/programs-s4-listing.tsv
+    echo '
+./target/release/s4
+./target/release_O0_cgu1/s4
+./target/release_O0_cgu512_pa/s4
+./target/release_O1_cgu1/s4
+./target/release_O1_cgu256_pa/s4
+./target/release_O1_cgu512_pa/s4
+./target/release_O2_cgu1/s4
+./target/release_O2_cgu256_pa/s4
+./target/release_O2_cgu512_pa/s4
+./target/release_O3_cgu1_pa/s4
+./target/release_O3_cgu256_pa/s4
+./target/release_O3_cgu512_pa/s4
+./target/release_Opt0/s4
+./target/jemalloc/s4
+./target/mimalloc/s4
+./target/rpmalloc/s4
+./target/tcmalloc/s4
+./target/x86_64-unknown-linux-gnu/release/s4
+./target/x86_64-unknown-linux-musl/release/s4
+./target/x86_64-unknown-linux-ohos/release/s4
+' > "${PROGRAMS_S4_LISTING}"
+    set -x
+    ./tools/compare-log-mergers/compare-log-mergers.sh
+)
+
 (
     set -x
     ./tools/stack-sizes.sh
@@ -102,38 +131,9 @@ rm -v "${DIROUT}/massif.out" || true
 
 (
     set -x
-    # use allocator mimalloc for fastest results
-    cargo build --profile mimalloc --features mimalloc
-    export PROGRAM=./target/mimalloc/s4
     ./tools/compare-grep-sort.sh &> "${DIROUT}/compare-grep-sort.txt"
 )
 ./tools/clean-file.sh "${DIROUT}/compare-grep-sort.txt"
-
-(
-    export PROGRAMS_S4_LISTING=${TMPD-/tmp}/programs-s4-listing.tsv
-    echo '
-./target/release/s4
-./target/release_O0_cgu1/s4
-./target/release_O0_cgu512_pa/s4
-./target/release_O1_cgu1/s4
-./target/release_O1_cgu256_pa/s4
-./target/release_O1_cgu512_pa/s4
-./target/release_O2_cgu1/s4
-./target/release_O2_cgu256_pa/s4
-./target/release_O2_cgu512_pa/s4
-./target/release_O3_cgu1_pa/s4
-./target/release_O3_cgu256_pa/s4
-./target/release_O3_cgu512_pa/s4
-./target/release_Opt0/s4
-./target/jemalloc/s4
-./target/mimalloc/s4
-./target/rpmalloc/s4
-./target/tcmalloc/s4
-' > "${PROGRAMS_S4_LISTING}"
-    set -x
-    ./tools/compare-log-mergers/compare-log-mergers.sh --skip-tl &> "${DIROUT}/compare-log-mergers.txt"
-)
-./tools/clean-file.sh "${DIROUT}/compare-log-mergers.txt"
 
 (
     set -x

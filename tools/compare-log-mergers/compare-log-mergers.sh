@@ -59,10 +59,10 @@ readonly TIME
 
 # do a little work to find Python interpreter in the PATH
 PYTHON=${PYTHON-$(
-    if which -a python &>/dev/null; then
-        echo -n 'python'
+    if which python3 &>/dev/null; then
+        which python3
     else
-        echo -n 'python3'
+        which python
     fi
 )}
 readonly PYTHON
@@ -101,21 +101,13 @@ readonly PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
 
 declare -ir HRUNS=30
 
-if [[ ! "${PROGRAMS_S4_LISTING-}" ]]; then
-    echo "ERROR: Environment variable PROGRAMS_S4_LISTING must be set to a TSV file" >&2
-    exit 1
-fi
-if [[ ! -f "${PROGRAMS_S4_LISTING}" ]]; then
-    echo "ERROR: PROGRAMS_S4_LISTING must point to a TSV file: ${PROGRAMS_S4_LISTING}" >&2
-    exit 1
-fi
-
 # make sure Python packages are installed to expected versions
 (
     set -x
     "${PYTHON}" -m pip install \
         --upgrade \
-        --no-python-version-warning --disable-pip-version-check \
+        --no-python-version-warning \
+        --disable-pip-version-check \
         --quiet \
         -r "${REQUIREMENTS_FILE}"
 )
@@ -168,6 +160,43 @@ function exit_() {
     rm -rf -- "${TEMPD}"
 }
 trap exit_ EXIT
+
+
+if [[ ! "${PROGRAMS_S4_LISTING-}" ]]; then
+    echo "Environment variable PROGRAMS_S4_LISTING not set to a TSV file" >&2
+    echo "Use default values:" >&2
+    readonly PROGRAMS_S4_LISTING=${TEMPD}/programs-s4-listing.tsv
+    echo '
+./target/release/s4
+./target/release_O0_cgu1/s4
+./target/release_O0_cgu512_pa/s4
+./target/release_O1_cgu1/s4
+./target/release_O1_cgu256_pa/s4
+./target/release_O1_cgu512_pa/s4
+./target/release_O2_cgu1/s4
+./target/release_O2_cgu256_pa/s4
+./target/release_O2_cgu512_pa/s4
+./target/release_O3_cgu1_pa/s4
+./target/release_O3_cgu256_pa/s4
+./target/release_O3_cgu512_pa/s4
+./target/release_Opt0/s4
+./target/jemalloc/s4
+./target/mimalloc/s4
+./target/rpmalloc/s4
+./target/tcmalloc/s4
+./target/x86_64-unknown-linux-gnu/release/s4
+./target/x86_64-unknown-linux-musl/release/s4
+./target/x86_64-unknown-linux-ohos/release/s4
+' > "${PROGRAMS_S4_LISTING}"
+    cat "${PROGRAMS_S4_LISTING}" >&2
+    echo >&2
+    sleep 1
+fi
+
+if [[ ! -f "${PROGRAMS_S4_LISTING}" ]]; then
+    echo "ERROR: PROGRAMS_S4_LISTING must point to a TSV file: ${PROGRAMS_S4_LISTING}" >&2
+    exit 1
+fi
 
 # datetime range for s4, lnav
 readonly after_dt="2000-01-01T00:20:00"
