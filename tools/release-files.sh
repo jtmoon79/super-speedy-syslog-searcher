@@ -89,6 +89,11 @@ mkdir -vp "${DIROUT}"
 
 (
     set -x
+    ./tools/cargo-modules-structure.sh > "${DIROUT}/cargo-modules-structure.txt"
+)
+
+(
+    set -x
     ./tools/osv-scanner.sh --format=markdown --output-file="${DIROUT}/osv-scanner.md"
     ./tools/mdtohtml.sh "${DIROUT}/osv-scanner.md"
 ) || true
@@ -96,21 +101,21 @@ mkdir -vp "${DIROUT}"
 (
     set -x
     ./tools/valgrind-callgrind.sh > "${DIROUT}/callgrind.txt"
-)
+    ./tools/clean-file.sh "${DIROUT}/callgrind.txt"
+) || true
 rm -v "${DIROUT}/callgrind.out" "${DIROUT}/callgrind.dot" || true
-./tools/clean-file.sh "${DIROUT}/callgrind.txt"
 
 (
     set -x
     ./tools/valgrind-massif.sh > "${DIROUT}/massif.txt"
-)
+    ./tools/clean-file.sh "${DIROUT}/massif.txt"
+) || true
 rm -v "${DIROUT}/massif.out" || true
-./tools/clean-file.sh "${DIROUT}/massif.txt"
 
 (
     set -x
     ./tools/heaptrack.sh ./tools/compare-log-mergers/*.log
-)
+) || true
 
 (
     # XXX: cargo does not respect color settings
