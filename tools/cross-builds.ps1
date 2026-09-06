@@ -150,6 +150,7 @@ try {
 
     $builtTargets = New-Object System.Collections.Generic.List[string]
     $failedTargets = New-Object System.Collections.Generic.List[string]
+    $skippedTargets = New-Object System.Collections.Generic.List[string]
 
     $s4_version = Get-ProgramVersion
     if (-not ($s4_version)) {
@@ -163,6 +164,13 @@ try {
     foreach ($target in $WindowsTargets) {
         Write-Host ''
         Write-Line
+
+        $destPath = Join-Path -Path $outputDir -ChildPath "${BIN}_${target}_v${s4_version}.exe"
+        if (Test-Path -LiteralPath $destPath) {
+            Write-Host "Target path already exists '$destPath'; continue" -ForegroundColor Yellow
+            $skippedTargets.Add($target)
+            continue
+        }
 
         Write-Host "PS> rustup toolchain install --profile minimal --target $target $MSRV" -ForegroundColor Green
         & rustup toolchain install --profile minimal --target "$target" "$MSRV"
@@ -185,8 +193,6 @@ try {
             & rustup component add rust-src --toolchain "nightly-${target}"
             if ($LASTEXITCODE -ne 0) {
                 Write-Warning "rustup component add rust-src failed for $target"
-                $failedTargets.Add($target)
-                continue
             }
             Write-Host "PS> cargo +nightly build -Zbuild-std --target $target" @CrossArgs -ForegroundColor Green
             & cargo +nightly build -Zbuild-std --target "$target" @CrossArgs
@@ -209,7 +215,6 @@ try {
             continue
         }
 
-        $destPath = Join-Path -Path $outputDir -ChildPath "${BIN}_${target}_v${s4_version}.exe"
         Remove-Item -Path $destPath -ErrorAction Ignore -Force
         Copy-Item -Verbose -LiteralPath $exePath -Destination $destPath -Force
         Set-FileNoWrite -Path $destPath
@@ -241,12 +246,20 @@ try {
     Write-Host ''
     Write-Host "Built:  $($builtTargets.Count)"
     Write-Host "Failed: $($failedTargets.Count)"
+    Write-Host "Skipped: $($skippedTargets.Count)"
     Write-Host ''
 
     if ($builtTargets.Count -gt 0) {
         Write-Host 'Built targets:'
         foreach ($built in $builtTargets) {
             Write-Host "  $built" -ForegroundColor Green
+        }
+    }
+
+    if ($skippedTargets.Count -gt 0) {
+        Write-Host 'Skipped targets:'
+        foreach ($skipped in $skippedTargets) {
+            Write-Host "  $skipped" -ForegroundColor Yellow
         }
     }
 
