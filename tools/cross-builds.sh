@@ -486,32 +486,31 @@ set +e
 
 # preprint table of targets to build
 print_hl
-declare -a targets_to_build=()
+declare -a tiertargets_to_build=()
 for TIER_TARGET in "${TIER_TARGETS[@]}"; do
     TIER=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 1)
     TARGET=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 2-)
     if [[ "${FILTER-}" ]] && [[ "${TARGET}" =~ ${FILTER-} ]]; then
-        targets_to_build+=("$TARGET")
+        tiertargets_to_build+=("$TIER_TARGET")
         continue
     fi
-    targets_to_build+=("$TARGET")
-done
-echo "${targets_to_build[@]}" | tr ' ' '\n' | sort
-echo
-echo -e "\e[92mBuilding for ${#targets_to_build[@]} targets\e[39m"
-
-# foreach target; build and copy the binary to $DIROUT with meaningful names
-for TIER_TARGET in "${TIER_TARGETS[@]}"; do
-    print_hl
-    TIER=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 1)
-    TARGET=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 2-)
-    if [[ "${FILTER-}" ]] && ! [[ "${TARGET}" =~ ${FILTER-} ]]; then
-        echo -e "\e[93mSkipping tier ${TIER} target ${TARGET} due to filter '${FILTER-}'...\e[39m" >&2
+    if [[ "${FILTER-}" ]]; then
         targets_skipped+=("$TARGET")
         continue
     fi
+    tiertargets_to_build+=("$TIER_TARGET")
+done
+echo "${tiertargets_to_build[@]}" | tr ' ' '\n' | sort
+echo
+echo -e "\e[92mBuilding for ${#tiertargets_to_build[@]} targets\e[39m"
+
+# foreach target; build and copy the binary to $DIROUT with meaningful names
+for TIER_TARGET in "${tiertargets_to_build[@]}"; do
+    print_hl
+    TIER=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 1)
+    TARGET=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 2-)
     echo >&2
-    echo -e "\e[93mTry ${i} of ${#TIER_TARGETS[@]} tier ${TIER} target ${TARGET}...\e[39m" >&2
+    echo -e "\e[93mTry ${i} of ${#tiertargets_to_build[@]} tier ${TIER} target ${TARGET}...\e[39m" >&2
     echo >&2
     i+=1
     declare -i start_time=${SECONDS}
