@@ -156,7 +156,7 @@ unit-prefix = { version = "0.5.2", optional = true }
 # src/subprojects/lzma_rs/
 byteorder = "1.5.0"
 crc = "3.4.0"
-log = { version = "0.4.33", optional = true }
+log = { version = "0.4.34", optional = true }
 env_logger = { version = "0.11.11", optional = true }
 # benches
 jetscii = { version = "0.5.3", optional = true }
