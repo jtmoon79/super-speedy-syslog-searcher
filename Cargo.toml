@@ -22,7 +22,7 @@ more-asserts = "0.3.1"
 proc-macro2 = "1.0.107"
 quote = "1.0.46"
 si_trace_print = "0.3.12"
-syn = "3.0.3"
+syn = "3.0.5"
 thiserror = "2.0.20"
 utf8-ranges = "1.0.5"  # TODO: utf8-ranges is deprecated
 
