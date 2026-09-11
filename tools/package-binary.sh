@@ -81,8 +81,17 @@ function create_sha256sum() {
     fi
     declare -r file_name=$(basename "$file_path")
     pushd "$(dirname "$file_path")"
-    (set -x; sha256sum "$file_name") > "${file_name}.sha256"
-    chmod -v -w "${file_name}.sha256"
+    if which sha256sum &>/dev/null; then
+        (set -x; sha256sum "$file_name") > "${file_name}.sha256"
+    elif which shasum &>/dev/null; then
+        (set -x; shasum -a 256 "$file_name") > "${file_name}.sha256"
+    elif which cksum &>/dev/null; then
+        (set -x; cksum -a sha256 "$file_name") > "${file_name}.sha256"
+    else
+        echo "ERROR: no checksum program found" >&2
+        return 1
+    fi
+    chmod -w "${file_name}.sha256"
     popd
 }
 
@@ -96,7 +105,7 @@ trap cleanup EXIT
 
 # The zip file layout must match section `package.metadata.binstall` from `Cargo.toml`.
 cp -av "${s4_file}" "${dest_path}"
-chmod -v -w "${dest_path}"
+chmod -w "${dest_path}" || true
 (
     cd "${DIROUT}"
     rm -f "${bin}" "${bin}.sha256"
@@ -104,7 +113,7 @@ chmod -v -w "${dest_path}"
     cp -av "${dest_name}" "${bin}"
     create_sha256sum "${bin}"
     zip -v9 "${zip_path}" "${bin}" "${bin}.sha256"
-    chmod -v -w "${zip_path}"
+    chmod -w "${zip_path}"
     create_sha256sum "${zip_path}"
     rm -vf "${bin}" "${bin}.sha256"
 )
