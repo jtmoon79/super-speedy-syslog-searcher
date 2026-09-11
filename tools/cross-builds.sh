@@ -454,19 +454,6 @@ function print_version() {
     grep -o -m1 -Ee '^version[[:space:]]*=[[:space:]]*".*"' "${PROJECT_ROOT}/Cargo.toml" | sed -Ee 's/^version[[:blank:]]*=[[:blank:]]*"([[:digit:]\.]+)"/\1/'
 }
 
-function create_sha256sum() {
-    declare -r file_path="$1"
-    if [[ ! -f "$file_path" ]]; then
-        echo "ERROR: file not found '$file_path'" >&2
-        return 1
-    fi
-    declare -r file_name=$(basename "$file_path")
-    pushd "$(dirname "$file_path")"
-    (set -x; sha256sum "$file_name") > "${file_name}.sha256"
-    chmod -v -w "${file_name}.sha256"
-    popd
-}
-
 if ! command -v cross &>/dev/null; then
     echo "ERROR: cargo cross not found, please install it with 'cargo install --locked cross cargo-cross'" >&2
     exit 1
@@ -529,7 +516,7 @@ for TIER_TARGET in "${tiertargets_to_build[@]}"; do
     fi
     # install toolchain for the target; if it's already installed then this will be a no-op
     if ! (
-        set -x
+        set -eux
         rustup toolchain install --profile minimal --target "$TARGET" "$MSRV"
     ); then
         declare -i total_time=$((SECONDS - start_time))
@@ -560,40 +547,33 @@ for TIER_TARGET in "${tiertargets_to_build[@]}"; do
         )
     ); then
         # build passed
-        declare -i total_time=$((SECONDS - start_time))
-        time_hms=$(seconds_to_hms "$total_time")
         declare mesg=$(cat "$BUILT_COMMAND")
-        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}✅ pass${SEP}${mesg}"
-        targets_built+=("$TARGET")
-        for s4_file in $(find "target/${TARGET}" -type f \( -name "${BIN}" -o -name "${BIN}.exe" \)); do
-            EXT=''
-            if [[ "${s4_file}" =~ .*\.exe ]]; then
-                EXT='.exe'
+        declare -a s4_files=()
+        while IFS= read -r s4_file; do
+            s4_files+=("${s4_file}")
+        done < <(find "target/${TARGET}" -type f \( -name "${BIN}" -o -name "${BIN}.exe" \))
+        if [[ "${#s4_files[@]}" -ne 1 ]]; then
+            declare -i total_time=$((SECONDS - start_time))
+            time_hms=$(seconds_to_hms "$total_time")
+            results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}❌ package${SEP}found ${#s4_files[@]} binaries, expected 1"
+            targets_failed+=("$TARGET")
+        else
+            s4_file="${s4_files[0]}"
+            DIROUT="${DIROUT}" "${PROJECT_ROOT}/tools/package-binary.sh" "${s4_file}" "${TARGET}" "${VERSION}"
+            package_status=$?
+            declare -i total_time=$((SECONDS - start_time))
+            time_hms=$(seconds_to_hms "$total_time")
+            if [[ "${package_status}" -eq 0 ]]; then
+                results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}✅ pass${SEP}${mesg}"
+                targets_built+=("$TARGET")
+            elif [[ "${package_status}" -eq 2 ]]; then
+                results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}⚠️ exists${SEP}_"
+                targets_skipped+=("$TARGET")
+            else
+                results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}❌ package${SEP}${mesg}"
+                targets_failed+=("$TARGET")
             fi
-            # s4_file will look like
-            #     target/s390x-unknown-linux-gnu/debug/s4
-            # if --release passed then
-            #     target/x86_64-pc-windows-gnu/release/s4.exe
-            dest_name="${BIN}_${TARGET}_v${VERSION}${EXT}"
-            dest_path="${DIROUT}/${dest_name}"
-            # the zip file layout must match section `package.metadata.binstall` from `Cargo.toml`
-            cp -av "$s4_file" "$dest_path"
-            chmod -v -w "$dest_path"
-            (
-                cd "$DIROUT"
-                bin="${BIN}${EXT}"
-                rm -f "${bin}" "${bin}.sha256"
-                create_sha256sum "$dest_name"
-                chmod -v -w "${dest_name}.sha256"
-                cp -av "$dest_name" "${bin}"
-                create_sha256sum "${bin}"
-                chmod -v -w "${bin}.sha256"
-                zip -v9 "${zip_path}" "${bin}" "${bin}.sha256"
-                chmod -v -w "${zip_path}"
-                create_sha256sum "${zip_path}"
-                rm -vf "${bin}" "${bin}.sha256"
-            )
-        done
+        fi
     else
         declare -i total_time=$((SECONDS - start_time))
         time_hms=$(seconds_to_hms "$total_time")
