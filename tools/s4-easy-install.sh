@@ -113,9 +113,9 @@ choose_install_dir() {
     fi
     # search these common user bin directories first
     for dir in \
-        "${HOME}/.cargo/bin" \
-        "${HOME}/.local/bin" \
-        "${HOME}/bin" \
+        "${HOME-}/.cargo/bin" \
+        "${HOME-}/.local/bin" \
+        "${HOME-}/bin" \
         "/usr/local/bin"
     do
         [ -d "${dir}" ] || continue
