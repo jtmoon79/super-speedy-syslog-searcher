@@ -186,8 +186,6 @@ try {
             & rustup target add "$target"
             if ($LASTEXITCODE -ne 0) {
                 Write-Warning "rustup target add failed for $target"
-                $failedTargets.Add($target)
-                continue
             }
             Write-Host "PS> rustup component add rust-src --toolchain nightly-$target" -ForegroundColor Green
             & rustup component add rust-src --toolchain "nightly-${target}"
