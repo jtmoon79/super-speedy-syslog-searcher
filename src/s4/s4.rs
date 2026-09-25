@@ -256,6 +256,7 @@ use ::s4lib::python::venv::{
 use ::s4lib::readers::blockreader::{
     BlockSz,
     blocksz_def,
+    ENV_BLOCKSZ,
 };
 use ::s4lib::readers::pyeventreader::{
     PyEventReader,
@@ -268,8 +269,10 @@ use ::s4lib::readers::filedecompressor::{
     remove_temporary_files,
 };
 use ::s4lib::readers::filehandlemanager::{
+    ENV_FILE_HANDLE_OPEN_MAX,
     filetype_handle_counts,
     FILE_HANDLE_MANAGER,
+    FILE_HANDLE_OPEN_MAX_DEFAULT_S,
 };
 use ::s4lib::readers::filepreprocessor::{
     process_path,
@@ -2883,6 +2886,15 @@ The user may specify the path to the systemd shared library by setting
 environment variable "#, ENV_LIBSYSTEMD, r#". This library is used to read
 .journal files. Otherwise, s4 will attempt to locate and load
 the systemd shared library automatically.
+
+
+Environment variable "#, ENV_BLOCKSZ, r#" can be used to set the block size
+though it is not recommended.
+
+
+Environment variable "#, ENV_FILE_HANDLE_OPEN_MAX, r#" can be used to set the
+maximum number of simultaneously open file handles. Defaults to "#,
+FILE_HANDLE_OPEN_MAX_DEFAULT_S, r#".
 
 
 Is s4 failing to parse a log file? Report an Issue at

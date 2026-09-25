@@ -93,6 +93,7 @@ use crate::common::{
 use crate::debug::printers::e_wrn;
 
 /// Environment variable used to override [`FILE_HANDLE_OPEN_MAX_DEFAULT`].
+/// On Linux, can also adjust process-wide soft limit using `ulimit -n`.
 pub const ENV_FILE_HANDLE_OPEN_MAX: &str = "S4_FILE_HANDLE_OPEN_MAX";
 
 /// Number of file descriptors reserved for file handles used before
@@ -115,6 +116,19 @@ pub const FILE_HANDLE_OPEN_MAX_DEFAULT: OpenMaxCountType = {
     #[cfg(not(windows))]
     {
         unsafe { OpenMaxCountType::new_unchecked(980) }
+    }
+};
+
+/// Value of `FILE_HANDLE_OPEN_MAX_DEFAULT` as a string.
+pub const FILE_HANDLE_OPEN_MAX_DEFAULT_S: &str = {
+    // TODO: how to get `FILE_HANDLE_OPEN_MAX_DEFAULT.as_str()`?
+    #[cfg(windows)]
+    {
+        "480"
+    }
+    #[cfg(not(windows))]
+    {
+        "980"
     }
 };
 
