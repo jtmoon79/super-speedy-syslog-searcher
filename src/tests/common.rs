@@ -4792,7 +4792,7 @@ pub const OPENBSD_X86_UTMP_BUFFER1: [u8; openbsd_x86::UTMP_SZ] = [
 
 // -------------------------------------------------------------------------------------------------
 
-// Python event data; .asl .etl .odl
+// Python event data; (.asl .odl files)
 
 // .asl data
 

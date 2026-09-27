@@ -12,7 +12,7 @@
 //! For each parseable file found, a file processing thread is created.
 //! Each file processing thread advances through the stages of processing
 //! using a [`SyslogProcessor`] instance, a [`FixedStructReader`] instance,
-//! a [`EvtxReader`] instance, or a [`JournalReader`] instance.
+//! a [`EvtxReader`] instance, a [`EtlReader`] instance, or a [`JournalReader`] instance.
 //!
 //! For a `SyslogProcessor`, during the main processing stage,
 //! [`Stage3StreamSyslines`], each thread
@@ -31,6 +31,9 @@
 //! A `EvtxReader` follows the same threaded message-passing pattern but
 //! uses underlying [`EvtxParser`].
 //!
+//! A `EtlReader` follows the same threaded message-passing pattern but
+//! uses underlying [`EtlParser`].
+//!
 //! A `JournalReader` follows the same threaded message-passing pattern but
 //! uses underlying [`JournalApiPtr`].
 //!
@@ -48,6 +51,8 @@
 //! [`SyslogProcessor`]: s4lib::readers::syslogprocessor::SyslogProcessor
 //! [`FixedStructReader`]: s4lib::readers::fixedstructreader::FixedStructReader
 //! [`EvtxReader`]: s4lib::readers::evtxreader::EvtxReader
+//! [`EtlReader`]: s4lib::readers::etlreader::EtlReader
+//! [`EtlParser`]: s4lib::readers::etlparser::EtlParser
 //! [`JournalReader`]: s4lib::readers::journalreader::JournalReader
 //! [`Summary`]: s4lib::readers::summary::Summary
 //! [`SummaryPrinted`]: self::SummaryPrinted
@@ -195,7 +200,6 @@ use ::s4lib::data::datetime::{
     MAP_TZZ_TO_TZz,
     Utc,
 };
-use ::s4lib::data::pydataevent::EtlParserUsed;
 use ::s4lib::data::fixedstruct::ENTRY_SZ_MAX;
 use ::s4lib::data::journal::datetimelopt_to_realtime_timestamp_opt;
 use ::s4lib::data::sysline::SyslineP;
@@ -263,6 +267,7 @@ use ::s4lib::readers::pyeventreader::{
     PyEventType,
     ResultNextPyDataEvent,
 };
+use ::s4lib::readers::etlreader::EtlReader;
 use ::s4lib::readers::evtxreader::EvtxReader;
 use ::s4lib::readers::filedecompressor::{
     count_temporary_files,
@@ -3142,21 +3147,6 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     )]
     journal_output: JournalOutput,
 
-    /// For parsing Windows Event Tracing Log (.etl) files, use Python library
-    /// etl-parser. By default, Python library dissect.etl is used.
-    /// The etl-parser library may have more complete information but is slower
-    /// than dissect.etl.
-    /// Requires prior creation of a Python virtual environment with
-    /// the --venv option. Or use environment variable S4_PYTHON set to
-    /// a Python interpreter path with necessary packages installed.
-    #[clap(
-        long = "etl-parser",
-        verbatim_doc_comment,
-        default_value_t = false,
-        env = "S4_ETL_PARSER",
-    )]
-    etl_parser: bool,
-
     /// Choose to print using colors.
     #[clap(
         required = false,
@@ -3183,9 +3173,8 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
 
     /// Create a Python virtual environment exclusively for s4.
     /// This is only necessary for parsing
-    /// Apple System Log (.asl) files,
-    /// OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files, and
-    /// Windows Event Tracing Log (.etl) files.
+    /// Apple System Log (.asl) files and
+    /// OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files.
     /// This only needs to be created once.
     /// When this option is used, no other options may be passed.
     /// The Python interpreter used may be set by environment variable
@@ -3905,7 +3894,6 @@ fn cli_process_args() -> (
     bool,
     String,
     String,
-    EtlParserUsed,
     bool,
     JournalOutput,
     bool,
@@ -4053,12 +4041,6 @@ fn cli_process_args() -> (
         }
     };
 
-    let etl_parser_used: EtlParserUsed = if args.etl_parser {
-        EtlParserUsed::EtlParser
-    } else {
-        EtlParserUsed::DissectEtl
-    };
-
     let prepend_separator: String = match unescape::unescape_str(
         args.prepend_separator
             .as_str(),
@@ -4122,7 +4104,6 @@ fn cli_process_args() -> (
     defo!("prepend_file_align {:?}", args.prepend_file_align);
     defo!("prepend_separator {:?}", prepend_separator);
     defo!("log_message_separator {:?}", log_message_separator);
-    defo!("etl_parser_used {:?}", etl_parser_used);
     defo!("python_venv {:?}", args.python_venv);
     defo!("journal_output {:?}", args.journal_output);
     defo!("summary {:?}", args.summary);
@@ -4141,7 +4122,6 @@ fn cli_process_args() -> (
         args.prepend_file_align,
         prepend_separator,
         log_message_separator,
-        etl_parser_used,
         args.python_venv,
         args.journal_output,
         args.summary,
@@ -4180,7 +4160,6 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_file_align,
         cli_prepend_separator,
         log_message_separator,
-        etl_parser_used,
         python_venv,
         journal_output,
         cli_opt_summary,
@@ -4203,8 +4182,6 @@ pub fn main() -> ExitCode {
 
         return exitcode;
     }
-
-    // TODO: 2025/11/27 given .etl files but bad Python venv then need to print single error for user
 
     let mut processed_paths: ProcessPathResults = ProcessPathResults::with_capacity(paths.len() * 4);
     for path in paths.iter() {
@@ -4229,7 +4206,6 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_file_align,
         cli_prepend_separator,
         log_message_separator,
-        etl_parser_used,
         journal_output,
         cli_opt_summary,
         start_time,
@@ -4283,9 +4259,6 @@ pub enum FileTypeExecData {
     None,
     /// Journal processing thread needs to know the journal output format
     Journal(JournalOutput),
-    /// Windows Event Trace Log processing thread needs to know the
-    /// python library to use
-    Etl(EtlParserUsed),
 }
 
 /// Data to initialize a file processing thread.
@@ -5046,6 +5019,111 @@ fn exec_evtxprocessor(
     defx!("({:?})", path);
 }
 
+/// This function drives a [`EtlReader`] instance through it's processing.
+/// Similar to [`exec_evtxprocessor`].
+fn exec_etlprocessor(
+    chan_send_dt: ChanSendDatum,
+    thread_init_data: ThreadInitData,
+    _tname: &str,
+    _tid: thread::ThreadId,
+) {
+    let (
+        path,
+        pathid,
+        filetype,
+        _filetypeexecdata,
+        _blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+        tz_offset,
+    ) = thread_init_data;
+    defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
+    debug_assert!(filetype.is_etl());
+    debug_assert!(matches!(_filetypeexecdata, FileTypeExecData::None));
+    exit_early_return!();
+
+    let mut etlreader: EtlReader = match EtlReader::new(
+        pathid,
+        path.clone(),
+        filetype,
+        tz_offset,
+    ) {
+        Ok(val) => val,
+        Err(err) => {
+            let err_string = err.to_string();
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(
+                    DateTimeLOpt::None,
+                    FileProcessingResultBlockZero::FileErrIo(err)
+                ),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
+            let summary = Summary::new_failed(
+                path.clone(),
+                filetype,
+                LogMessageType::Etl,
+                0,
+                Some(err_string)
+            );
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
+                &path
+            );
+            defx!("({:?}) thread will return early due to error", path);
+            return;
+        }
+    };
+    defo!("{:?}({}): etlreader {:?}", _tid, _tname, etlreader);
+
+    // send `ChanDatum::FileInfo`
+    let mtime = etlreader.mtime();
+    let dt = systemtime_to_datetime(&tz_offset, &mtime);
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileInfo(DateTimeLOpt::Some(dt), FILEOK),
+        &path
+    );
+
+    etlreader.analyze(
+        &filter_dt_after_opt,
+        &filter_dt_before_opt,
+    );
+
+    while !exit_early() && let Some(etl) = etlreader.next()
+    {
+        let is_last = false;
+        if !chan_send(
+            &chan_send_dt,
+            ChanDatum::NewMessage(
+                LogMessage::Etl(etl),
+                is_last,
+            ),
+            &path
+        ) {
+            defx!("({:?}) return early during etlreader.next() loop, chan_send_dt.send failed", path);
+            return;
+        }
+    }
+
+    exit_early_return!();
+
+    let summary = etlreader.summary_complete();
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileSummary(
+            Some(summary),
+            FILEOK,
+        ),
+        &path
+    );
+
+    defx!("({:?})", path);
+}
+
 /// This function drives a [`PyEventReader`] instance through it's processing.
 /// Similar to [`exec_syslogprocessor`].
 fn exec_pyeventprocessor(
@@ -5065,35 +5143,21 @@ fn exec_pyeventprocessor(
         tz_offset,
     ) = thread_init_data;
     defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
-    debug_assert!(filetype.is_etl() || filetype.is_odl() || filetype.is_asl());
+    debug_assert!(filetype.is_odl() || filetype.is_asl());
+    debug_assert!(matches!(filetypeexecdata, FileTypeExecData::None));
 
     exit_early_return!();
 
-    let etl_parser_used: Option<EtlParserUsed> = match filetypeexecdata {
-        FileTypeExecData::Etl(etl_parser_used) => Some(etl_parser_used),
-        FileTypeExecData::None => None,
-        FileTypeExecData::Journal { .. } => {
-            debug_panic!(
-                "exec_pyeventprocessor called with filetypeexecdata {:?} for path {:?}",
-                filetypeexecdata, path
-            );
-            e_err!("filetypeexecdata is {:?} not Etl which is unexpected", filetypeexecdata);
-            defx!("({:?}) return early due filetypeexecdata is not Etl, is {:?}", path, filetypeexecdata);
-            return;
-        }
-    };
-
     let pyevent_type: PyEventType = match filetype {
         FileType::Asl { .. } => PyEventType::Asl,
-        FileType::Etl { .. } => PyEventType::Etl,
         FileType::Odl { .. } => PyEventType::Odl,
         _ => {
             debug_panic!(
                 "exec_pyeventprocessor called with wrong filetype {:?} for path {:?}",
                 filetype, path
             );
-            e_err!("filetype is {:?} not Etl/Odl which is unexpected", filetype);
-            defx!("({:?}) return early due filetype is not Etl/Odl", path);
+            e_err!("filetype is {:?} not Asl/Odl which is unexpected", filetype);
+            defx!("({:?}) return early due filetype is not Asl/Odl", path);
             return;
         }
     };
@@ -5101,7 +5165,6 @@ fn exec_pyeventprocessor(
     let mut py_event_reader: PyEventReader = match PyEventReader::new(
         pathid,
         path.clone(),
-        etl_parser_used,
         filetype,
         tz_offset,
         blocksz as PipeSz,
@@ -5383,7 +5446,7 @@ fn exec_fileprocessor_thread(
     match thread_init_data.2 {
         FileType::Asl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::FixedStruct { .. } => exec_fixedstructprocessor(chan_send_dt, thread_init_data, tname, tid),
-        FileType::Etl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Etl { .. } => exec_etlprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Evtx { .. } => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Journal { .. } => exec_journalprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Odl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
@@ -5433,7 +5496,6 @@ fn processing_loop(
     cli_opt_prepend_file_align: bool,
     cli_prepend_separator: String,
     log_message_separator: String,
-    etl_parser_used: EtlParserUsed,
     journal_output: JournalOutput,
     cli_opt_summary: bool,
     start_time: Instant,
@@ -5725,7 +5787,6 @@ fn processing_loop(
             }
         };
         let filetypeexecdata = match filetype {
-            FileType::Etl { .. } => FileTypeExecData::Etl(etl_parser_used),
             FileType::Journal { .. } => FileTypeExecData::Journal(journal_output),
             _ => FileTypeExecData::None,
         };
@@ -6478,6 +6539,49 @@ fn processing_loop(
                         summaryprinted.summaryprint_update_pyevent(
                             pyevent, *pyevent_type, printed, flushed
                         );
+                    }
+                }
+                LogMessage::Etl(etl) => {
+                    defo!("A3 Etl printing PathId: {:?}", pathid);
+                    let mut printed: Count = 0;
+                    let mut flushed: Count = 0;
+                    match printer.print_etl(etl) {
+                        Ok((printed_, flushed_)) => {
+                            printed = printed_ as Count;
+                            flushed = flushed_ as Count;
+                        }
+                        Err(_err) => {
+                            // Only print a printing error once and only for debug builds.
+                            if !has_print_err {
+                                has_print_err = true;
+                                // BUG: Issue #3 colorization settings in the context of a pipe
+                                de_err!("failed to print {}", _err);
+                            }
+                            defo!("print error, cancel processing at channel {:?}", pathid);
+                            EXIT_EARLY.store(true, Ordering::Relaxed);
+                            disconnect.push(*pathid);
+                        }
+                    }
+                    if sepb_print {
+                        write_stdout(sepb);
+                        if cli_opt_summary {
+                            summaryprinted.bytes += sepb.len() as Count;
+                            summaryprinted.flushed += 1;
+                        }
+                    }
+                    _messages_printed += 1;
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        // update the per processing file `SummaryPrinted`
+                        SummaryPrinted::summaryprint_map_update_etl(
+                            etl,
+                            pathid,
+                            &mut map_pathid_sumpr,
+                            printed,
+                            flushed,
+                        );
+                        // update the single total program `SummaryPrinted`
+                        summaryprinted.summaryprint_update_etl(etl, printed, flushed);
                     }
                 }
                 LogMessage::Evtx(evtx) => {

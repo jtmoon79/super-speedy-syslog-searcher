@@ -8,111 +8,56 @@
 #![allow(non_camel_case_types)]
 
 #[allow(unused_imports)]
-use ::si_trace_print::printers::{
-    defn,
-    defo,
-    defx,
-};
+use ::si_trace_print::printers::{defn, defo, defx};
 use ::test_case::test_case;
 
-use crate::common::{
-    Count,
-    FPath,
-    FileSz,
-    FileType,
-    FileTypeArchive,
-    OdlSubType,
-};
-use crate::data::datetime::{
-    DateTimeLOpt,
-    ymdhmsl,
-};
-use crate::data::pydataevent::EtlParserUsed;
+use crate::common::{Count, FPath, FileSz, FileType, FileTypeArchive, OdlSubType};
+use crate::data::datetime::{ymdhmsl, DateTimeLOpt};
 use crate::python::pyrunner::PipeSz;
-use crate::readers::pyeventreader::{
-    PyEventReader,
-    ResultNextPyDataEvent,
-};
+use crate::readers::pyeventreader::{PyEventReader, ResultNextPyDataEvent};
 use crate::tests::common::{
-    path_id_generator,
-    ASL_1_FPATH,
-    ASL_1_FILESZ,
-    FO_0,
-    ETL_1_FPATH,
-    ETL_1_EVENT_COUNT,
-    ETL_1_FILESZ,
-    ODL_1_FPATH,
-    ODL_1_FILESZ,
+    path_id_generator, ASL_1_EVENT_COUNT, ASL_1_FILESZ, ASL_1_FPATH, FO_0, ODL_1_EVENT_COUNT, ODL_1_FILESZ, ODL_1_FPATH,
 };
 use crate::tests::venv_tests::venv_setup;
 
-#[test_case(ETL_1_FPATH.clone(), 1024; "etl1")]
-fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
-    defn!("path={:?}, pipe_sz={:?}", path, pipe_sz);
-
-    venv_setup();
-
-    let path_id = path_id_generator();
-    let per = PyEventReader::new(
-        path_id,
-        path,
-        Some(EtlParserUsed::DissectEtl),
-        FileType::Etl { archival_type: FileTypeArchive::Normal },
-        FO_0,
-        pipe_sz,
-    ).unwrap();
-    defo!("per: {:?}", per);
-    assert_eq!(per.path_id(), path_id);
-    assert_eq!(per.filesz(), ETL_1_FILESZ);
-    defo!("per.mtime(): {:?}", per.mtime());
-    defo!("per.path(): {:?}", per.path());
-    defo!("per.pipe_sz_stdout(): {:?}", per.pipe_sz_stdout());
-    defo!("per.pipe_sz_stderr(): {:?}", per.pipe_sz_stderr());
-    assert_eq!(per.pipe_sz_stdout(), pipe_sz);
-    assert_eq!(per.pipe_sz_stderr(), pipe_sz);
-
-    defx!();
-}
+const FILETYPE_ASL: FileType = FileType::Asl {
+    archival_type: FileTypeArchive::Normal,
+};
+const FILETYPE_ODL: FileType = FileType::Odl {
+    archival_type: FileTypeArchive::Normal,
+    odl_sub_type: OdlSubType::Odl,
+};
 
 const PIPE_SZ_ASL_ODL: PipeSz = 1024;
 
 #[test_case(
     ASL_1_FPATH.clone(),
-    None,
     ASL_1_FILESZ,
     PIPE_SZ_ASL_ODL,
-    FileType::Asl { archival_type: FileTypeArchive::Normal };
+    FILETYPE_ASL;
     "asl"
 )]
 #[test_case(
     ODL_1_FPATH.clone(),
-    None,
     ODL_1_FILESZ,
     PIPE_SZ_ASL_ODL,
-    FileType::Odl { archival_type: FileTypeArchive::Normal, odl_sub_type: OdlSubType::Odl };
+    FILETYPE_ODL;
     "odl"
 )]
 fn test_PyEventReader_new_asl_odl(
     path: FPath,
-    etl_parser_used: Option<EtlParserUsed>,
     size_expected: FileSz,
     pipe_sz: PipeSz,
-    filetype: FileType)
-{
+    filetype: FileType,
+) {
     venv_setup();
 
     let path_id = path_id_generator();
-    let per = PyEventReader::new(
-        path_id,
-        path.clone(),
-        etl_parser_used,
-        filetype,
-        FO_0,
-        pipe_sz,
-    ).unwrap();
+    let per = PyEventReader::new(path_id, path.clone(), filetype, FO_0, pipe_sz).unwrap();
     defo!("per: {:?}", per);
     assert_eq!(per.path_id(), path_id);
     assert_eq!(per.filesz(), size_expected, "expected filesz {} for path {:?}", size_expected, &path);
+    assert_eq!(per.filetype(), filetype);
     defo!("per.mtime(): {:?}", per.mtime());
     defo!("per.path(): {:?}", per.path());
     defo!("per.pipe_sz_stdout(): {:?}", per.pipe_sz_stdout());
@@ -126,19 +71,14 @@ fn test_PyEventReader_ts_data_to_datetime_ok() {
     defn!();
     venv_setup();
 
-    let per = PyEventReader::new(
-        path_id_generator(),
-        ETL_1_FPATH.clone(),
-        Some(EtlParserUsed::DissectEtl),
-        FileType::Etl { archival_type: FileTypeArchive::Normal },
-        FO_0,
-        1,
-    ).unwrap();
+    let per = PyEventReader::new(path_id_generator(), ODL_1_FPATH.clone(), FILETYPE_ODL, FO_0, 1).unwrap();
 
     let ts_data = b"1590429555554"; // 2020-05-25T17:59:15.554+00:00
-    let dt_ts = per.ts_data_to_datetime(ts_data).unwrap();
+    let dt_ts = per
+        .ts_data_to_datetime(ts_data)
+        .unwrap();
     defo!("dt_ts: {:?}", dt_ts);
-    let dt_utc = ymdhmsl(&FO_0,2020, 5, 25, 17, 59, 15, 554);
+    let dt_utc = ymdhmsl(&FO_0, 2020, 5, 25, 17, 59, 15, 554);
     defo!("dt_utc: {:?}", dt_utc);
     assert_eq!(dt_utc, dt_ts);
 
@@ -150,16 +90,9 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
     defn!();
     venv_setup();
 
-    let per = PyEventReader::new(
-        path_id_generator(),
-        ETL_1_FPATH.clone(),
-        Some(EtlParserUsed::DissectEtl),
-        FileType::Etl { archival_type: FileTypeArchive::Normal },
-        FO_0,
-        1,
-    ).unwrap();
+    let per = PyEventReader::new(path_id_generator(), ODL_1_FPATH.clone(), FILETYPE_ODL, FO_0, 1).unwrap();
 
-    let ts_data = b"-"; // May 25, 2020 16:19:15.554 UTC
+    let ts_data = b"-";
     let dt_ts = per.ts_data_to_datetime(ts_data);
     assert!(dt_ts.is_none());
 
@@ -167,92 +100,86 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
 }
 
 #[test_case(
-    ETL_1_FPATH.clone(),
+    ASL_1_FPATH.clone(),
     8,
-    Some(EtlParserUsed::DissectEtl),
-    FileType::Etl { archival_type: FileTypeArchive::Normal },
+    FILETYPE_ASL,
     &DateTimeLOpt::None,
     &DateTimeLOpt::None,
-    ETL_1_EVENT_COUNT;
-    "etl1 pipesz 8 events all"
+    ASL_1_EVENT_COUNT;
+    "asl1 pipesz 8 events all"
 )]
 #[test_case(
-    ETL_1_FPATH.clone(),
+    ASL_1_FPATH.clone(),
     2056,
-    Some(EtlParserUsed::DissectEtl),
-    FileType::Etl { archival_type: FileTypeArchive::Normal },
+    FILETYPE_ASL,
     &DateTimeLOpt::None,
     &DateTimeLOpt::None,
-    ETL_1_EVENT_COUNT;
-    "etl1 pipesz 2056 events all"
+    ASL_1_EVENT_COUNT;
+    "asl1 pipesz 2056 events all"
 )]
 #[test_case(
-    ETL_1_FPATH.clone(),
+    ASL_1_FPATH.clone(),
     64,
-    Some(EtlParserUsed::DissectEtl),
-    FileType::Etl { archival_type: FileTypeArchive::Normal },
-    // 2025-10-05 11:30:19.300+00:00
-    &DateTimeLOpt::Some(ymdhmsl(&FO_0, 2025, 10, 5, 11, 30, 19, 300)),
-    &DateTimeLOpt::None,
-    13;
-    "etl1 pipesz 64 events 13, after 2025-10-05T11:30:19.300"
-)]
-#[test_case(
-    ETL_1_FPATH.clone(),
-    64,
-    Some(EtlParserUsed::DissectEtl),
-    FileType::Etl { archival_type: FileTypeArchive::Normal },
-    &DateTimeLOpt::None,
-    // 2025-10-05 11:30:19.300+00:00
-    &DateTimeLOpt::Some(ymdhmsl(&FO_0, 2025, 10, 5, 11, 30, 19, 300)),
-    8;
-    "etl1 pipesz 64 events 8, before 2025-10-05T11:30:19.300"
-)]
-#[test_case(
-    ETL_1_FPATH.clone(),
-    64,
-    Some(EtlParserUsed::DissectEtl),
-    FileType::Etl { archival_type: FileTypeArchive::Normal },
+    FILETYPE_ASL,
     // 2030-01-01 12:00:00.000+00:00
     &DateTimeLOpt::Some(ymdhmsl(&FO_0, 2030, 1, 1, 12, 0, 0, 0)),
     &DateTimeLOpt::None,
     0;
-    "etl1 pipesz 64 events 0 after 2030-01-01T12:00:00.000"
+    "asl1 pipesz 64 events 0 after 2030-01-01T12:00:00.000"
 )]
 #[test_case(
-    ETL_1_FPATH.clone(),
+    ODL_1_FPATH.clone(),
+    8,
+    FILETYPE_ODL,
+    &DateTimeLOpt::None,
+    &DateTimeLOpt::None,
+    *ODL_1_EVENT_COUNT;
+    "odl1 pipesz 8 events all"
+)]
+#[test_case(
+    ODL_1_FPATH.clone(),
+    2056,
+    FILETYPE_ODL,
+    &DateTimeLOpt::None,
+    &DateTimeLOpt::None,
+    *ODL_1_EVENT_COUNT;
+    "odl1 pipesz 2056 events all"
+)]
+#[test_case(
+    ODL_1_FPATH.clone(),
     64,
-    Some(EtlParserUsed::DissectEtl),
-    FileType::Etl { archival_type: FileTypeArchive::Normal },
+    FILETYPE_ODL,
+    // 2030-01-01 12:00:00.000+00:00
+    &DateTimeLOpt::Some(ymdhmsl(&FO_0, 2030, 1, 1, 12, 0, 0, 0)),
+    &DateTimeLOpt::None,
+    0;
+    "odl1 pipesz 64 events 0 after 2030-01-01T12:00:00.000"
+)]
+#[test_case(
+    ODL_1_FPATH.clone(),
+    64,
+    FILETYPE_ODL,
     &DateTimeLOpt::None,
     // 2030-01-01 12:00:00.000+00:00
     &DateTimeLOpt::Some(ymdhmsl(&FO_0, 2030, 1, 1, 12, 0, 0, 0)),
-    21;
-    "etl1 pipesz 64 events 21 before 2030-01-01T12:00:00.000"
+    *ODL_1_EVENT_COUNT;
+    "odl1 pipesz 64 events all before 2030-01-01T12:00:00.000"
 )]
 fn test_PyEventReader_next(
     path: FPath,
     pipe_sz: PipeSz,
-    etl_parser_used: Option<EtlParserUsed>,
     file_type: FileType,
     dt_filter_after: &DateTimeLOpt,
     dt_filter_before: &DateTimeLOpt,
     events_expected: Count,
 ) {
     defn!(
-        "test_PyEventReader_next: path={:?}, pipe_sz={:?}, etl_parser_used={:?}, file_type={:?}, dt_filter_after={:?}, dt_filter_before={:?}, events_expected={}",
-        path, pipe_sz, etl_parser_used, file_type, dt_filter_after,  dt_filter_before, events_expected);
+        "test_PyEventReader_next: path={:?}, pipe_sz={:?}, file_type={:?}, dt_filter_after={:?}, dt_filter_before={:?}, events_expected={}",
+        path, pipe_sz, file_type, dt_filter_after,  dt_filter_before, events_expected);
 
     venv_setup();
 
-    let mut per = PyEventReader::new(
-        path_id_generator(),
-        path,
-        etl_parser_used,
-        file_type,
-        FO_0,
-        pipe_sz,
-    ).unwrap();
+    let mut per = PyEventReader::new(path_id_generator(), path, file_type, FO_0, pipe_sz).unwrap();
 
     let mut count: Count = 0;
     loop {

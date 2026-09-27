@@ -1202,7 +1202,7 @@ impl FileType {
     pub const fn to_logmessagetype(&self) -> LogMessageType {
         match self {
             FileType::Asl { .. } => LogMessageType::PyEvent,
-            FileType::Etl { .. } => LogMessageType::PyEvent,
+            FileType::Etl { .. } => LogMessageType::Etl,
             FileType::Evtx { .. } => LogMessageType::Evtx,
             FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
             FileType::Journal { .. } => LogMessageType::Journal,
@@ -1321,6 +1321,13 @@ pub enum LogMessageType {
     // / [lastlog/lastlogx/utmp/utmpx format]: https://web.archive.org/web/20231216015325/https://man.freebsd.org/cgi/man.cgi?query=lastlog&sektion=5&manpath=NetBSD+9.3
     // / [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
     FixedStruct,
+    /// A Windows [Event Trace Log] file.
+    ///
+    /// Relates to a [`Etl`].
+    ///
+    /// [Event Trace Log]: https://learn.microsoft.com/en-us/windows/win32/etw/about-event-tracing
+    /// [`Etl`]: crate::data::etl::Etl
+    Etl,
     /// A [Windows XML EventLog] file.
     ///
     /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
@@ -1332,9 +1339,7 @@ pub enum LogMessageType {
     /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
     /// [`JournalEntry`]: crate::data::journal::JournalEntry
     Journal,
-    /// a Windows [Event Trace Log] file, or Windows OneDrive Log (ODL) file.
-    ///
-    /// [Event Trace Log]: https://learn.microsoft.com/en-us/windows-hardware/test/wpt/opening-and-analyzing-etl-files-in-wpa
+    /// an Apple System Log (ASL) file, or Windows OneDrive Log (ODL) file.
     PyEvent,
     /// Special case, used to indicate "ALL" or "ANY" message type.
     /// Useful for code objects tracking multiple files.
@@ -1348,10 +1353,11 @@ impl std::fmt::Display for LogMessageType {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
+            LogMessageType::Etl => write!(f, "ETL events (Windows Event Trace Log)"),
             LogMessageType::Evtx => write!(f, "EVTX entries (Windows XML EventLog)"),
             LogMessageType::FixedStruct => write!(f, "fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)"),
             LogMessageType::Journal => write!(f, "systemd journal entries"),
-            LogMessageType::PyEvent => write!(f, "Python parsed events (ASL/ETL/ODL)"),
+            LogMessageType::PyEvent => write!(f, "Python parsed events (ASL/ODL)"),
             LogMessageType::Sysline => write!(f, "text log lines"),
             LogMessageType::All => write!(f, "ALL"),
         }
