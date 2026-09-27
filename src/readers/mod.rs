@@ -32,6 +32,12 @@
 //!
 //! <br/>
 //!
+//! ### Reading [etl files]; Windows Event Trace Log files
+//!
+//! * A [`EtlReader`] drives a [`EtlParser`] to derive [`Etl`s].
+//!
+//! <br/>
+//!
 //! ### Reading [`systemd` journal files]
 //!
 //! * A [`JournalReader`] drives a [`JournalApiPtr`] to derive
@@ -47,7 +53,7 @@
 //! ---
 //!
 //! The _s4_ binary program uses a [`SyslogProcessor`], a [`FixedStructReader`],
-//! a [`EvtxReader`], or a [`JournalReader`], instance,
+//! a [`EvtxReader`], a [`EtlReader`], or a [`JournalReader`], instance,
 //! one per file, to drive processing of the file.
 //!
 //! <br/>
@@ -66,6 +72,10 @@
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 //! [`FixedStructReader`]: crate::readers::fixedstructreader::FixedStructReader
 //! [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
+//! [`EtlReader`]: crate::readers::etlreader::EtlReader
+//! [`EtlParser`]: crate::readers::etlparser::EtlParser
+//! [`Etl`s]: crate::data::etl::Etl
+//! [etl files]: https://learn.microsoft.com/en-us/windows/win32/etw/about-event-tracing
 //! [`systemd` journal files]: https://systemd.io/JOURNAL_FILES/
 //! [`JournalReader`]: crate::readers::journalreader::JournalReader
 //! [`JournalApiPtr`]: crate::libload::systemd_dlopen2::JournalApiPtr
@@ -76,6 +86,8 @@
 //! [evtx files]: https://en.wikipedia.org/w/index.php?title=Event_Viewer&oldid=1130075772#Windows_Vista
 
 pub mod blockreader;
+pub mod etlparser;
+pub mod etlreader;
 pub mod evtxreader;
 pub mod filedecompressor;
 pub mod filehandlemanager;

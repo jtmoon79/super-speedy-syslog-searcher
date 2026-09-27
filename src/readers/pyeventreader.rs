@@ -1,6 +1,7 @@
-// src/readers/etlreader.rs
+// src/readers/pyeventreader.rs
 
-//! Create an ETL reader that uses a `PyRunner` with different Python scripts.
+//! Create an event reader that uses a `PyRunner` with different Python
+//! scripts to read `.asl` and `.odl` files.
 
 use std::collections::VecDeque;
 use std::fmt;
@@ -58,7 +59,6 @@ use crate::common::{
     FPath,
     FileSz,
     FileType,
-    FileTypeArchive,
     PathId,
     ResultFind4,
     summary_stat,
@@ -76,11 +76,9 @@ use crate::data::datetime::{
 use crate::data::pydataevent::{
     DtBegEndPairOpt,
     PyDataEvent,
-    EtlParserUsed,
     EventBytes,
 };
 use crate::{
-    debug_panic,
     de_err,
 };
 #[cfg(any(debug_assertions, test))]
@@ -107,10 +105,10 @@ use crate::readers::summary::Summary;
 pub type ResultNextPyDataEvent = ResultFind4<PyDataEvent, Error>;
 
 /// Delimiter between Events (Null character)
-/// Must match `DELIMITER_EVENTS` in `etl_reader.py`
+/// Must match `DELIMITER_EVENTS` in `s4_event_readers/__init__.py`
 const DELIMITER_EVENTS: ChunkDelimiter = b'\0';
 /// Delimiter between Timestamp and Event (Record Separator character)
-/// Must match `DELIMITER_TS_EVENT` in `etl_reader.py`
+/// Must match `DELIMITER_TS_EVENT` in `s4_event_readers/__init__.py`
 const DELIMITER_TS_EVENT: ChunkDelimiter = b'\x1E';
 /// Input script terminator character (newline)
 const SCRIPT_TERM: char = '\n';
@@ -128,17 +126,15 @@ type EntryBuffer = VecDeque<PyDataEvent>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum PyEventType {
     Asl,
-    Etl,
     Odl,
 }
 
 /// A wrapper for running a `PyRunner` instance that calls
-/// local Python scripts to read `.etl` files.
+/// local Python scripts to read `.asl` and `.odl` files.
 /// The Python scripts send bytes back via stdout that are parsed
 /// into `PyDataEvent`s.
 pub struct PyEventReader {
     /// The type of file being read.
-    #[allow(dead_code)]
     file_type: FileType,
     /// The specific type of PyEvent being read.
     #[allow(dead_code)]
@@ -146,11 +142,11 @@ pub struct PyEventReader {
     /// The buffer of `PyDataEvent`s that have been read but not yet sent
     /// to the main printing thread.
     fill_buffer: EntryBuffer,
-    /// The `FPath` of the .etl file being read.
+    /// The `FPath` of the file being read.
     path: FPath,
     /// Unique identifier for the file processing instance.
     path_id: PathId,
-    /// If necessary, the extracted ETL file as a temporary file.
+    /// If necessary, the extracted file as a temporary file.
     named_temp_file: Option<TempPath>,
     /// The `PyRunner` instance for running Python code.
     pyrunner: PyRunner,
@@ -269,13 +265,12 @@ impl PyEventReader {
     pub fn new(
         path_id: PathId,
         path: FPath,
-        etl_parser_used: Option<EtlParserUsed>,
         file_type: FileType,
         fixed_offset: FixedOffset,
         pipe_sz: PipeSz,
     ) -> Result<PyEventReader> {
-        def1n!("(path_id={}, path={:?}, etl_parser_used={:?}, {:?}, {:?}, pipe_sz={:?})",
-               path_id, path, etl_parser_used, file_type, fixed_offset, pipe_sz);
+        def1n!("(path_id={}, path={:?}, {:?}, {:?}, pipe_sz={:?})",
+               path_id, path, file_type, fixed_offset, pipe_sz);
 
         debug_assert_gt!(pipe_sz, 0,
             "pipe_sz must be greater than 0, got {:?}", pipe_sz);
@@ -367,9 +362,8 @@ impl PyEventReader {
         // TODO: how to make a wrong `FileType` a compile-time error? i.e. how to be more rustic?
         let event_type: PyEventType = match file_type {
             FileType::Asl { .. } => PyEventType::Asl,
-            FileType::Etl { .. } => PyEventType::Etl,
             FileType::Odl { .. } => PyEventType::Odl,
-            _ => panic!("PyEventReader only supports FileType::Asl, FileType::Etl, FileType::Odl"),
+            _ => panic!("PyEventReader only supports FileType::Asl, FileType::Odl"),
         };
 
         let s4_python_module: String;
@@ -380,26 +374,6 @@ impl PyEventReader {
                 extra_args.push("--quiet");
                 extra_args.push("-t");
                 extra_args.push("s4");
-            },
-            PyEventType::Etl => {
-                match etl_parser_used {
-                    Some(EtlParserUsed::DissectEtl) => {
-                        s4_python_module = String::from("s4_event_readers.etl_reader_dissect_etl");
-                    }
-                    Some(EtlParserUsed::EtlParser) => {
-                        s4_python_module = String::from("s4_event_readers.etl_reader_etl_parser");
-                    }
-                    None => {
-                        debug_panic!("etl_parser_used is None for ETL file");
-                        def1x!("etl_parser_used is None for ETL file, return Error");
-                        return Err(
-                            Error::new(
-                                ErrorKind::InvalidInput,
-                                "etl_parser_used must be Some(EtlParserUsed) for ETL files",
-                            )
-                        );
-                    }
-                }
             },
             PyEventType::Odl => {
                 s4_python_module = String::from("s4_event_readers.odl_reader");
@@ -490,8 +464,8 @@ impl PyEventReader {
         dt_filter_before: &DateTimeLOpt,
     ) -> Option<PyDataEvent> {
         def1n!("data is {} bytes\n{}", data.len(), buffer_to_string_noraw(data));
-        // the parsing that happens here must correspond the data sent in
-        // the script `etl_reader.py`
+        // the parsing that happens here must correspond the data sent by
+        // `s4_event_bytes()` in `s4_event_readers/__init__.py`
         if data.is_empty() {
             def1x!("empty data, return None");
             return None;
@@ -846,7 +820,7 @@ impl PyEventReader {
 
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
-        FileType::Etl { archival_type: FileTypeArchive::Normal }
+        self.file_type
     }
 
     /// File size in bytes
@@ -984,7 +958,7 @@ impl PyEventReader {
         };
         let filetype = self.filetype();
         let logmessagetype = filetype.to_logmessagetype();
-        let summaryetlreader: SummaryPyEventReader = self.summary();
+        let summarypyeventreader: SummaryPyEventReader = self.summary();
         let error: Option<String> = self.error.clone();
 
         Summary::new(
@@ -997,7 +971,8 @@ impl PyEventReader {
             None,
             None,
             None,
-            Some(summaryetlreader),
+            Some(summarypyeventreader),
+            None,
             None,
             None,
             error,

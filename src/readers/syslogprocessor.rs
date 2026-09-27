@@ -1532,6 +1532,7 @@ impl SyslogProcessor {
             None,
             None,
             None,
+            None,
             error,
         )
     }

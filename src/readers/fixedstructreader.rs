@@ -1559,6 +1559,7 @@ impl FixedStructReader {
             None,
             None,
             None,
+            None,
             error,
         )
     }

@@ -110,6 +110,7 @@
 
 pub mod common;
 pub mod datetime;
+pub mod etl;
 pub mod evtx;
 pub mod fixedstruct;
 pub mod journal;

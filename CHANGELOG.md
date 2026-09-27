@@ -261,6 +261,13 @@ Helpful `git log` command for generating changelog entries:
 
 [unreleased diff]
 
+- Windows Event Trace Log (`.etl`) files are now parsed natively in Rust by
+  `EtlReader`; the Python `dissect.etl` and `etl-parser` based readers are removed
+- CLI option `--etl-parser` and environment variable `S4_ETL_PARSER` removed
+- `--venv` is no longer needed for `.etl` files
+- new subproject `src/subprojects/rust_lzxpress` (MS-XCA plain LZ77 decompression)
+  for compressed ETL buffers
+
 [unreleased diff]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/latest...main
 
 <!-- TODO per release: Add Section(s) -->
