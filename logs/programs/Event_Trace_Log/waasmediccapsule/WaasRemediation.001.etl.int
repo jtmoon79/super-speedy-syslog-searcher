@@ -1,0 +1,11 @@
+EventTrace
+   RDComplete(Type:8 Level:0 Version:2)
+   ProviderBinaryPath(Type:67 Level:0 Version:2)
+   Header(Type:0 Level:0 Version:2)
+   PartitionInfoExtension(Type:80 Level:0 Version:2)
+   LastDroppedTimes(Type:82 Level:0 Version:2)
+   EndExtension(Type:32 Level:0 Version:2)
+   Extension(Type:5 Level:0 Version:2)
+   PartitionInfoExtensionV2(Type:80 Level:0 Version:2)
+   DbgIdRSDS(Type:64 Level:0 Version:2)
+   BuildInfo(Type:66 Level:0 Version:2)
