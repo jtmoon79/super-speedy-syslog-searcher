@@ -1,0 +1,76 @@
+
+Files:
+
+File: ./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl
+  About:
+      FileType      : ETL (Windows Event Trace Log)
+      LogMessageType: ETL events (Windows Event Trace Log)
+      Thread stack  : 137216 (bytes)
+  Printed:
+      bytes         : 0
+      flushes       : 0
+      Events        : 0
+      Event largest processed: 715 (bytes)
+      Event largest accepted : 0 (bytes)
+  Processed:
+      file size          : 65536 (0x10000) (bytes)
+      Session name       : "Microsoft.Windows.Remediation"
+      Buffers read       : 1
+      Buffers compressed : 0
+      Events processed   : 2
+      Events accepted    : 0
+      Events TraceLogging: 0
+      Events kernel      : 1
+      Events undecoded   : 1
+      Records skipped    : 0
+      Datetime first     : 2026-09-24 10:24:51 +08:00 (2026-09-24 02:24:51.739180 +00:00)
+      Datetime last      : 2026-09-24 10:24:51 +08:00 (2026-09-24 02:24:51.739180 +00:00)
+      out of order       : 0
+
+Program summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 0
+Printed bytes          : 0
+Printed flushes        : 0
+Printed Lines          : 0
+Printed Syslines       : 0
+Printed ASL events     : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
+Printed ODL events     : 0
+Line Maximum                   : 393209
+Line longest                   : 0
+Sysline longest                : 0
+ETL event largest processed    : 715
+ETL event largest accepted     : 0
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
+Managed files max deflt: 980
+Managed files max adjus: 200
+Managed request open   : 1
+Managed request read   : 0
+Managed write calls    : 0
+Managed seek calls     : 0
+Managed metadata calls : 1
+Managed open errors    : 0
+Managed evict fails    : 0
+Regex patterns known   : 190
+Regex patterns compiled: 188
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first :
+Datetime printed last  :
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel receive ok     : 2
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
+Temporary files created: 0
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system

@@ -294,11 +294,14 @@
 ./logs/programs/claude/history.jsonl
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log
+./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
+./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl
+./logs/programs/Event_Trace_Log/WindowsUpdate.20260923.202143.590.3.etl
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar
