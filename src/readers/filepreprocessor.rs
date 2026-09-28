@@ -561,7 +561,7 @@ fn pathbuf_to_filetype_impl(
         PathToFiletypeResult::Filetype(FileType::Unparsable);
 
     defo!("pathbuf       {:?}", pathbuf);
-    // trim trailing junk characters from suffix
+    // trim common trailing junk characters from suffix
     const JUNK_CHARS: &[char] = &['~', '-', ',', '?', ';'];
     let mut pathbuf_clean: &PathBuf = pathbuf;
     let mut file_name: &OsStr = pathbuf_clean
@@ -807,9 +807,14 @@ fn pathbuf_to_filetype_impl(
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
         }
-        "log"
-        | "txt"
+        "jsonl"
+        | "log"
         | "text"
+        | "txt"
+        // these may have broken parsing as text (i.e. datetime string may be N lines into the larger XML element)
+        // but definitely not other formats
+        | "json"
+        | "xml"
         => {
             // This `FileTypeTextEncoding` value may be updated later during
             // function `blockzero_analysis`.
