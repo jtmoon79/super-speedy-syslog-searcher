@@ -13,12 +13,27 @@ use std::hash::Hash;
 use std::ops::Deref;
 use std::sync::Arc;
 
-use ::chrono::{Datelike, Timelike};
+use ::chrono::{
+    Datelike,
+    Timelike,
+};
 use ::numtoa::NumToA;
 
-use crate::common::{Bytes, NLc};
-use crate::data::common::{DtBegEndPair, DtBegEndPairOpt};
-use crate::data::datetime::{DateTime, DateTimeL, DateTimeLOpt, FixedOffset, Utc};
+use crate::common::{
+    Bytes,
+    NLc,
+};
+use crate::data::common::{
+    DtBegEndPair,
+    DtBegEndPairOpt,
+};
+use crate::data::datetime::{
+    DateTime,
+    DateTimeL,
+    DateTimeLOpt,
+    FixedOffset,
+    Utc,
+};
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::buffer_to_string_noraw;
 

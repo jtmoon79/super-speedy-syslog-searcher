@@ -20,18 +20,54 @@ use std::io::Result;
 use std::path::Path;
 
 #[allow(unused_imports)]
-use ::si_trace_print::{def1n, def1o, def1x, def1ñ, def2ñ, defn, defo, defx, defñ};
+use ::si_trace_print::{
+    def1n,
+    def1o,
+    def1x,
+    def1ñ,
+    def2ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
+};
 use ::tempfile::TempPath;
 
-use crate::common::{debug_panic, summary_stat, Count, FPath, FileMetadata, FileSz, FileType, PathId};
-use crate::data::datetime::{
-    dt_pass_filters, DateTimeL, DateTimeLOpt, FixedOffset, Result_Filter_DateTime2, SystemTime,
+use crate::common::{
+    debug_panic,
+    summary_stat,
+    Count,
+    FPath,
+    FileMetadata,
+    FileSz,
+    FileType,
+    PathId,
 };
-use crate::data::etl::{Etl, EtlDecoder, EtlEvent};
+use crate::data::datetime::{
+    dt_pass_filters,
+    DateTimeL,
+    DateTimeLOpt,
+    FixedOffset,
+    Result_Filter_DateTime2,
+    SystemTime,
+};
+use crate::data::etl::{
+    Etl,
+    EtlDecoder,
+    EtlEvent,
+};
 use crate::de_err;
-use crate::readers::etlparser::{EtlParser, EtlRecordError};
+use crate::readers::etlparser::{
+    EtlParser,
+    EtlRecordError,
+};
 use crate::readers::filedecompressor::decompress_to_ntf;
-use crate::readers::filehandlemanager::{FileHandleManaged, FileHandleRole, OpenOptionsManaged, FILE_HANDLE_MANAGER};
+use crate::readers::filehandlemanager::{
+    FileHandleManaged,
+    FileHandleRole,
+    OpenOptionsManaged,
+    FILE_HANDLE_MANAGER,
+};
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::Summary;
 
