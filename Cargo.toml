@@ -100,7 +100,7 @@ clap = { version = "4.6.7", features = ["derive", "env"] }
 const_env = "0.1.5"
 const_format = { version = "0.2.36", features = ["assertcp", "rust_1_83"] }
 const-str.workspace = true
-crossbeam-channel = "0.5.16"
+crossbeam-channel = "0.5.17"
 ctrlc = "3.5.2"
 current_platform = "0.2.0"
 dlopen2 = "0.8.2"
