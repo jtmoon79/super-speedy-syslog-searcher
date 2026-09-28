@@ -23,7 +23,7 @@ proc-macro2 = "1.0.107"
 quote = "1.0.47"
 si_trace_print = "0.3.12"
 syn = "3.0.6"
-thiserror = "2.0.20"
+thiserror = "2.0.21"
 utf8-ranges = "1.0.5"  # TODO: utf8-ranges is deprecated
 
 [workspace.package]
