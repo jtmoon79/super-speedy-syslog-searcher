@@ -92,6 +92,7 @@ anyhow = "1.0.104"
 bitvec.workspace = true
 bstr = { version = "1.13.1", features = ["alloc", "std"] }
 bzip2-rs = "0.1.2"
+# TODO: use `std::cfg_select!` at Rust 1.96
 cfg-if = "1.0.4"
 chardet = "0.2.4"
 chrono = "0.4.45"
