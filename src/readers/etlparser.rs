@@ -1181,10 +1181,17 @@ impl<R: Read> EtlParser<R> {
         let compressed: bool = flags & BUFFER_FLAG_COMPRESSED != 0;
         // for compressed buffers `BufferSize` is the on-disk compressed size while
         // `FilledBytes` is the uncompressed extent, so it bounds the decompressed data
-        let records_end: usize = filled.saturating_sub(BUFFER_HEADER_SZ);
+        if !(BUFFER_HEADER_SZ..=BUFFER_SZ_MAX).contains(&filled) {
+            def2x!("bad filled bytes");
+            return Err(Error::new(
+                ErrorKind::InvalidData,
+                format!("ETL buffer {} has invalid FilledBytes {}", index, filled),
+            ));
+        }
+        let records_end: usize = filled - BUFFER_HEADER_SZ;
         if compressed {
             let _compressed_len: usize = data.len();
-            data = match rust_lzxpress::decompress(&data) {
+            data = match rust_lzxpress::decompress(&data, records_end) {
                 Ok(d) => d,
                 Err(err) => {
                     def2x!("decompress failed {:?}", err);

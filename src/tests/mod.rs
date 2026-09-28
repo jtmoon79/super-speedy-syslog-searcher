@@ -29,6 +29,7 @@ pub mod printers_tests;
 pub mod pydataevent_tests;
 pub mod pyeventreader_tests;
 pub mod pyrunner_tests;
+pub mod rust_lzxpress_tests;
 pub mod sysline_tests;
 pub mod syslinereader_tests;
 pub mod syslogprocessor_tests;
