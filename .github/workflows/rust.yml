@@ -269,6 +269,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - run: rustup default ${{ env.MSRV_UPLOAD }}
       - name: Build Debug using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         timeout-minutes: 35
         shell: bash
