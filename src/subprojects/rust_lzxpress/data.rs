@@ -22,7 +22,7 @@ macro_rules! load32le {
     }};
 }
 
-pub fn decompress(in_buf: &[u8]) -> Result<Vec<u8>, Error> {
+pub fn decompress(in_buf: &[u8], max_output_len: usize) -> Result<Vec<u8>, Error> {
     let mut out_idx: usize = 0;
     let mut in_idx: usize = 0;
     let mut nibble_idx: usize = 0;
@@ -55,10 +55,13 @@ pub fn decompress(in_buf: &[u8]) -> Result<Vec<u8>, Error> {
             if in_idx >= in_buf.len() {
                 return Err(Error::MemLimit);
             }
+            out_idx = out_idx.checked_add(mem::size_of::<u8>()).ok_or(Error::MemLimit)?;
+            if out_idx > max_output_len {
+                return Err(Error::MemLimit);
+            }
             out_buf.push(in_buf[in_idx]);
 
             in_idx += mem::size_of::<u8>();
-            out_idx += mem::size_of::<u8>();
         } else {
             // [MS-XCA] 2.4.4: "If InputPosition == InputLength, decompression is complete"
             if in_idx >= in_buf.len() {
@@ -109,6 +112,9 @@ pub fn decompress(in_buf: &[u8]) -> Result<Vec<u8>, Error> {
                         in_idx += mem::size_of::<u16>();
 
                         if length == 0 {
+                            if (in_idx + 3) >= in_buf.len() {
+                                return Err(Error::MemLimit);
+                            }
                             load32le!(length, in_buf, in_idx);
                             in_idx += mem::size_of::<u32>();
                         }
@@ -118,11 +124,16 @@ pub fn decompress(in_buf: &[u8]) -> Result<Vec<u8>, Error> {
                         }
                         length -= 15 + 7;
                     }
-                    length += 15;
+                    length = length.checked_add(15).ok_or(Error::MemLimit)?;
                 }
-                length += 7;
+                length = length.checked_add(7).ok_or(Error::MemLimit)?;
             }
-            length += 3;
+            length = length.checked_add(3).ok_or(Error::MemLimit)?;
+
+            let out_end: usize = out_idx.checked_add(length).ok_or(Error::MemLimit)?;
+            if out_end > max_output_len {
+                return Err(Error::MemLimit);
+            }
 
             for _i in 0..length {
                 if offset > out_idx {
