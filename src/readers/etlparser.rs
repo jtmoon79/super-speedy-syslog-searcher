@@ -32,12 +32,36 @@ use std::io::{Error, ErrorKind, Read, Result};
 use std::sync::Arc;
 
 #[allow(unused_imports)]
-use ::si_trace_print::{def1n, def1o, def1x, def1ñ, def2n, def2o, def2x, def2ñ, defn, defo, defx, defñ};
+use ::si_trace_print::{
+    def1n,
+    def1o,
+    def1x,
+    def1ñ,
+    def2n,
+    def2o,
+    def2x,
+    def2ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
+};
 
 use crate::common::Count;
 use crate::data::etl::{
-    EtlDecoder, EtlEnvelope, EtlEvent, EtlFields, EtlHeaderKind, EtlName, EtlPayload, EtlValue, FileTime, Guid,
-    SID_SUB_AUTHORITIES_MAX, SYSTEMTIME_SZ, Sid,
+    EtlDecoder,
+    EtlEnvelope,
+    EtlEvent,
+    EtlFields,
+    EtlHeaderKind,
+    EtlName,
+    EtlPayload,
+    EtlValue,
+    FileTime,
+    Guid,
+    SID_SUB_AUTHORITIES_MAX,
+    SYSTEMTIME_SZ,
+    Sid,
 };
 use crate::subprojects::rust_lzxpress;
 
