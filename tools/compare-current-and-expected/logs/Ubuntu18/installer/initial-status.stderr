@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/installer/initial-status
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 860 (0x35C) (bytes)
+      File size     : 860 (0x35C) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 860 (0x35C)
       Block size    : 256 (0x100)

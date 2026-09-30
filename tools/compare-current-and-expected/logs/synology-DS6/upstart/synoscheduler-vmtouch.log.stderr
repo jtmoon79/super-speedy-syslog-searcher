@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
       Datetime first: 2018-08-01 14:16:24 -07:00 (2018-08-01 21:16:24.000000 +00:00)
       Datetime last : 2018-10-25 12:23:47 -07:00 (2018-10-25 19:23:47.000000 +00:00)
   Processed:
-      file size     : 893 (0x37D) (bytes)
+      File size     : 893 (0x37D) (bytes)
       bytes         : 893 (0x37D)
       bytes total   : 893 (0x37D)
       Block size    : 256 (0x100)

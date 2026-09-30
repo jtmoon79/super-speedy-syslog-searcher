@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/dmesg
       Datetime first: 2019-02-11 19:22:56 +08:00 (2019-02-11 11:22:56.000000 +00:00)
       Datetime last : 2019-02-11 19:22:56 +08:00 (2019-02-11 11:22:56.000000 +00:00)
   Processed:
-      file size     : 1708 (0x6AC) (bytes)
+      File size     : 1708 (0x6AC) (bytes)
       bytes         : 1708 (0x6AC)
       bytes total   : 1708 (0x6AC)
       Block size    : 256 (0x100)

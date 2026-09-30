@@ -14,7 +14,7 @@ File: ./logs/Debian11/user.log
       Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
       Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
   Processed:
-      file size     : 3138 (0xC42) (bytes)
+      File size     : 3138 (0xC42) (bytes)
       bytes         : 3138 (0xC42)
       bytes total   : 3138 (0xC42)
       Block size    : 256 (0x100)

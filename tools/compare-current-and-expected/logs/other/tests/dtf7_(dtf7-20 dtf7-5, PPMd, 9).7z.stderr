@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 448 (0x1C0) (bytes)
+      File size     : 448 (0x1C0) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 448 (0x1C0)
       Block size    : 256 (0x100)

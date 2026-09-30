@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/gpu-manager.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 672 (0x2A0) (bytes)
+      File size     : 672 (0x2A0) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 672 (0x2A0)
       Block size    : 256 (0x100)

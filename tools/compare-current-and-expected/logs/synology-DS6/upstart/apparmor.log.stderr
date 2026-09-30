@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/apparmor.log
       Datetime first: 2016-12-05 21:00:59 -08:00 (2016-12-06 05:00:59.000000 +00:00)
       Datetime last : 2018-10-15 14:06:08 -07:00 (2018-10-15 21:06:08.000000 +00:00)
   Processed:
-      file size     : 1064 (0x428) (bytes)
+      File size     : 1064 (0x428) (bytes)
       bytes         : 1064 (0x428)
       bytes total   : 1064 (0x428)
       Block size    : 256 (0x100)

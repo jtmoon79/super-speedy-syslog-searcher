@@ -15,7 +15,7 @@ File: ./logs/Debian9/user.log.1.zst
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 252 (0xFC) (bytes)
+      File size     : 252 (0xFC) (bytes)
       bytes         : 252 (0xFC)
       bytes total   : 252 (0xFC)
       Block size    : 256 (0x100)

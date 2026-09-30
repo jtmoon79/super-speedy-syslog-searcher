@@ -14,7 +14,7 @@ File: ./logs/Debian9/syslog
       Datetime first: 2022-03-06 06:25:04 +08:00 (2022-03-05 22:25:04.000000 +00:00)
       Datetime last : 2022-03-06 06:37:37 +08:00 (2022-03-05 22:37:37.000000 +00:00)
   Processed:
-      file size     : 1849 (0x739) (bytes)
+      File size     : 1849 (0x739) (bytes)
       bytes         : 1849 (0x739)
       bytes total   : 1849 (0x739)
       Block size    : 256 (0x100)

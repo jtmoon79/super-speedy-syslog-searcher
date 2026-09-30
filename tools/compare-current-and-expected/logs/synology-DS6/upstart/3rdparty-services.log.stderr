@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/3rdparty-services.log
       Datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
       Datetime last : 2017-01-08 13:36:05 -08:00 (2017-01-08 21:36:05.000000 +00:00)
   Processed:
-      file size     : 1487 (0x5CF) (bytes)
+      File size     : 1487 (0x5CF) (bytes)
       bytes         : 1487 (0x5CF)
       bytes total   : 1487 (0x5CF)
       Block size    : 256 (0x100)

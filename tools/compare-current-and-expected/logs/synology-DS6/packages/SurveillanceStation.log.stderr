@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
       Datetime first: 2019-06-23 21:13:20 +08:00 (2019-06-23 13:13:20.000000 +00:00)
       Datetime last : 2019-08-18 21:24:50 +08:00 (2019-08-18 13:24:50.000000 +00:00)
   Processed:
-      file size     : 1342 (0x53E) (bytes)
+      File size     : 1342 (0x53E) (bytes)
       bytes         : 1342 (0x53E)
       bytes total   : 1342 (0x53E)
       Block size    : 256 (0x100)

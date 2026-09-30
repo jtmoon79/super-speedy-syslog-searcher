@@ -15,7 +15,7 @@ File: ./logs/Debian9/boot.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 1106 (0x452) (bytes)
+      File size     : 1106 (0x452) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 1106 (0x452)
       Block size    : 256 (0x100)

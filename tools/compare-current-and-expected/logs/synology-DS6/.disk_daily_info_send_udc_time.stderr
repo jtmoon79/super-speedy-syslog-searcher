@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       Datetime first: 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
       Datetime last : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
   Processed:
-      file size     : 25 (0x19) (bytes)
+      File size     : 25 (0x19) (bytes)
       bytes         : 25 (0x19)
       bytes total   : 25 (0x19)
       Block size    : 256 (0x100)

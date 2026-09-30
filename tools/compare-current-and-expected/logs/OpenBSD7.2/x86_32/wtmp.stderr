@@ -13,7 +13,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       flushes       : 19
       Entries       : 19
   Processed:
-      file size     : 5776 (0x1690) (bytes)
+      File size     : 5776 (0x1690) (bytes)
       bytes         : 5776 (0x1690)
       bytes total   : 5776 (0x1690)
       Block size    : 256 (0x100)

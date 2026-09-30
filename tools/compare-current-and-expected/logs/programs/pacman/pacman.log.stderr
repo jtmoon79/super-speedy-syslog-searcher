@@ -14,7 +14,7 @@ File: ./logs/programs/pacman/pacman.log
       Datetime first: 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
       Datetime last : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)
   Processed:
-      file size     : 12083 (0x2F33) (bytes)
+      File size     : 12083 (0x2F33) (bytes)
       bytes         : 12083 (0x2F33)
       bytes total   : 12083 (0x2F33)
       Block size    : 256 (0x100)

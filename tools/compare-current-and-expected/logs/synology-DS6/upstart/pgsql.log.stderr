@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pgsql.log
       Datetime first: 2016-12-05 20:32:59 -08:00 (2016-12-06 04:32:59.000000 +00:00)
       Datetime last : 2017-01-03 01:40:59 -08:00 (2017-01-03 09:40:59.000000 +00:00)
   Processed:
-      file size     : 1402 (0x57A) (bytes)
+      File size     : 1402 (0x57A) (bytes)
       bytes         : 1402 (0x57A)
       bytes total   : 1402 (0x57A)
       Block size    : 256 (0x100)

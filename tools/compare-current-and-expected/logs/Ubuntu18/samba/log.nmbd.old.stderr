@@ -14,7 +14,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
       Datetime first: 2020-03-15 22:06:49 +08:00 (2020-03-15 14:06:49.174910 +00:00)
       Datetime last : 2020-03-15 22:06:51 +08:00 (2020-03-15 14:06:51.174910 +00:00)
   Processed:
-      file size     : 1756 (0x6DC) (bytes)
+      File size     : 1756 (0x6DC) (bytes)
       bytes         : 1756 (0x6DC)
       bytes total   : 1756 (0x6DC)
       Block size    : 256 (0x100)

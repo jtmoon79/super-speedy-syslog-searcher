@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/esynoscheduler.log
       Datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
       Datetime last : 2016-12-05 21:39:53 -08:00 (2016-12-06 05:39:53.000000 +00:00)
   Processed:
-      file size     : 1627 (0x65B) (bytes)
+      File size     : 1627 (0x65B) (bytes)
       bytes         : 1627 (0x65B)
       bytes total   : 1627 (0x65B)
       Block size    : 256 (0x100)

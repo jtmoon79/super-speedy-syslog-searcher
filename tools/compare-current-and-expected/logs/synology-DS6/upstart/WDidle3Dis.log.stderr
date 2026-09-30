@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
       Datetime first: 2016-12-05 21:00:55 -08:00 (2016-12-06 05:00:55.000000 +00:00)
       Datetime last : 2017-02-23 14:49:29 -08:00 (2017-02-23 22:49:29.000000 +00:00)
   Processed:
-      file size     : 1189 (0x4A5) (bytes)
+      File size     : 1189 (0x4A5) (bytes)
       bytes         : 1189 (0x4A5)
       bytes total   : 1189 (0x4A5)
       Block size    : 256 (0x100)

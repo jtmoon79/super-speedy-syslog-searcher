@@ -13,7 +13,7 @@ File: ./logs/NetBSD9.3/x86_64/lastlog
       flushes       : 1
       Entries       : 1
   Processed:
-      file size     : 32 (0x20) (bytes)
+      File size     : 32 (0x20) (bytes)
       bytes         : 32 (0x20)
       bytes total   : 32 (0x20)
       Block size    : 256 (0x100)

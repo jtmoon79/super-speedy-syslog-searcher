@@ -14,7 +14,7 @@ File: ./logs/programs/proftpd/controls.log
       Datetime first: 2020-10-03 11:24:11 +08:00 (2020-10-03 03:24:11.475000 +00:00)
       Datetime last : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.137000 +00:00)
   Processed:
-      file size     : 670 (0x29E) (bytes)
+      File size     : 670 (0x29E) (bytes)
       bytes         : 670 (0x29E)
       bytes total   : 670 (0x29E)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       Datetime first: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
       Datetime last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
   Processed:
-      file size     : 1709 (0x6AD) (bytes)
+      File size     : 1709 (0x6AD) (bytes)
       bytes         : 1709 (0x6AD)
       bytes total   : 1709 (0x6AD)
       Block size    : 256 (0x100)

@@ -13,7 +13,7 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
       flushes       : 6
       Entries       : 6
   Processed:
-      file size     : 2400 (0x960) (bytes)
+      File size     : 2400 (0x960) (bytes)
       bytes         : 2400 (0x960)
       bytes total   : 2400 (0x960)
       Block size    : 256 (0x100)

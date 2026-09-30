@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synopoweroff.log
       Datetime first: 2016-12-05 21:00:54 -08:00 (2016-12-06 05:00:54.000000 +00:00)
       Datetime last : 2017-03-09 12:55:01 -08:00 (2017-03-09 20:55:01.000000 +00:00)
   Processed:
-      file size     : 2802 (0xAF2) (bytes)
+      File size     : 2802 (0xAF2) (bytes)
       bytes         : 2802 (0xAF2)
       bytes total   : 2802 (0xAF2)
       Block size    : 256 (0x100)

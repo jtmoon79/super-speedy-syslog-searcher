@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
       Datetime first: 2019-06-23 21:14:11 +08:00 (2019-06-23 13:14:11.000000 +00:00)
       Datetime last : 2019-08-31 14:25:58 +08:00 (2019-08-31 06:25:58.000000 +00:00)
   Processed:
-      file size     : 1575 (0x627) (bytes)
+      File size     : 1575 (0x627) (bytes)
       bytes         : 1575 (0x627)
       bytes total   : 1575 (0x627)
       Block size    : 256 (0x100)

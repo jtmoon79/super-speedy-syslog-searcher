@@ -14,7 +14,7 @@ File: ./logs/FreeBSD13.1/devd.log
       Datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
       Datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
   Processed:
-      file size     : 612 (0x264) (bytes)
+      File size     : 612 (0x264) (bytes)
       bytes         : 612 (0x264)
       bytes total   : 612 (0x264)
       Block size    : 256 (0x100)

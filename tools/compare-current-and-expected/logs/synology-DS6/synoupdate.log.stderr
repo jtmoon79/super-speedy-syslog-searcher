@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synoupdate.log
       Datetime first: 2016-12-05 21:34:42 +08:00 (2016-12-05 13:34:42.000000 +00:00)
       Datetime last : 2017-02-23 14:45:26 +08:00 (2017-02-23 06:45:26.000000 +00:00)
   Processed:
-      file size     : 1231 (0x4CF) (bytes)
+      File size     : 1231 (0x4CF) (bytes)
       bytes         : 1231 (0x4CF)
       bytes total   : 1231 (0x4CF)
       Block size    : 256 (0x100)

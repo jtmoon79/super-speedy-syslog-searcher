@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
       Datetime first: 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
       Datetime last : 2017-09-17 10:11:43 -07:00 (2017-09-17 17:11:43.000000 +00:00)
   Processed:
-      file size     : 1583 (0x62F) (bytes)
+      File size     : 1583 (0x62F) (bytes)
       bytes         : 1583 (0x62F)
       bytes total   : 1583 (0x62F)
       Block size    : 256 (0x100)

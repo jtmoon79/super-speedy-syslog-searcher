@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
       Datetime first: 2016-12-08 18:56:16 -08:00 (2016-12-09 02:56:16.000000 +00:00)
       Datetime last : 2017-01-17 21:57:12 -08:00 (2017-01-18 05:57:12.000000 +00:00)
   Processed:
-      file size     : 952 (0x3B8) (bytes)
+      File size     : 952 (0x3B8) (bytes)
       bytes         : 952 (0x3B8)
       bytes total   : 952 (0x3B8)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/Debian9/nginx/error.log
       Datetime first: 2020-03-06 06:30:43 +08:00 (2020-03-05 22:30:43.000000 +00:00)
       Datetime last : 2020-03-06 11:00:42 +08:00 (2020-03-06 03:00:42.000000 +00:00)
   Processed:
-      file size     : 3990 (0xF96) (bytes)
+      File size     : 3990 (0xF96) (bytes)
       bytes         : 3990 (0xF96)
       bytes total   : 3990 (0xF96)
       Block size    : 256 (0x100)

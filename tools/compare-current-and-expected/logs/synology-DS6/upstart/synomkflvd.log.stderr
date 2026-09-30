@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       Datetime first: 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
       Datetime last : 2020-03-07 12:23:02 -08:00 (2020-03-07 20:23:02.000000 +00:00)
   Processed:
-      file size     : 945 (0x3B1) (bytes)
+      File size     : 945 (0x3B1) (bytes)
       bytes         : 945 (0x3B1)
       bytes total   : 945 (0x3B1)
       Block size    : 256 (0x100)

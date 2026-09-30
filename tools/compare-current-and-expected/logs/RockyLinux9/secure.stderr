@@ -14,7 +14,7 @@ File: ./logs/RockyLinux9/secure
       Datetime first: 2022-10-08 06:18:38 +08:00 (2022-10-07 22:18:38.000000 +00:00)
       Datetime last : 2022-10-08 22:31:17 +08:00 (2022-10-08 14:31:17.000000 +00:00)
   Processed:
-      file size     : 73458 (0x11EF2) (bytes)
+      File size     : 73458 (0x11EF2) (bytes)
       bytes         : 73458 (0x11EF2)
       bytes total   : 73458 (0x11EF2)
       Block size    : 256 (0x100)

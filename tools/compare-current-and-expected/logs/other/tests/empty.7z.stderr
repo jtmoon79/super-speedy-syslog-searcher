@@ -15,7 +15,7 @@ File: ./logs/other/tests/empty.7z
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 122 (0x7A) (bytes)
+      File size     : 122 (0x7A) (bytes)
       bytes         : 122 (0x7A)
       bytes total   : 122 (0x7A)
       Block size    : 256 (0x100)

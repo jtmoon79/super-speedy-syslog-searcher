@@ -14,7 +14,7 @@ File: ./logs/other/tests/unknown
       Datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626000 +00:00)
       Datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.648000 +00:00)
   Processed:
-      file size     : 192 (0xC0) (bytes)
+      File size     : 192 (0xC0) (bytes)
       bytes         : 192 (0xC0)
       bytes total   : 192 (0xC0)
       Block size    : 256 (0x100)

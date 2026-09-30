@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zi
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 600 (0x258) (bytes)
+      File size     : 600 (0x258) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 600 (0x258)
       Block size    : 256 (0x100)

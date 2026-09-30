@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
       Datetime first: 2018-12-06 02:26:02 -08:00 (2018-12-06 10:26:02.000000 +00:00)
       Datetime last : 2019-10-19 19:04:09 -07:00 (2019-10-20 02:04:09.000000 +00:00)
   Processed:
-      file size     : 1076 (0x434) (bytes)
+      File size     : 1076 (0x434) (bytes)
       bytes         : 1076 (0x434)
       bytes total   : 1076 (0x434)
       Block size    : 256 (0x100)

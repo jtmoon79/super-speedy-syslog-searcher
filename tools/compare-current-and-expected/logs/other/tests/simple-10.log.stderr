@@ -15,7 +15,7 @@ File: ./logs/other/tests/simple-10.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 10 (0xA) (bytes)
+      File size     : 10 (0xA) (bytes)
       bytes         : 10 (0xA)
       bytes total   : 10 (0xA)
       Block size    : 256 (0x100)

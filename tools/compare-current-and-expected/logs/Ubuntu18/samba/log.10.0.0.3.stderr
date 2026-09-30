@@ -14,7 +14,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
       Datetime first: 2020-03-14 15:47:41 +08:00 (2020-03-14 07:47:41.875900 +00:00)
       Datetime last : 2020-03-14 15:47:41 +08:00 (2020-03-14 07:47:41.875900 +00:00)
   Processed:
-      file size     : 1211 (0x4BB) (bytes)
+      File size     : 1211 (0x4BB) (bytes)
       bytes         : 1211 (0x4BB)
       bytes total   : 1211 (0x4BB)
       Block size    : 256 (0x100)

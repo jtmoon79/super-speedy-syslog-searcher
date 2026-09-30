@@ -14,7 +14,7 @@ File: ./logs/Debian11/apache2/access.log
       Datetime first: 2022-10-11 00:10:26 +00:00 (2022-10-11 00:10:26.000000 +00:00)
       Datetime last : 2022-10-11 00:10:56 +00:00 (2022-10-11 00:10:56.000000 +00:00)
   Processed:
-      file size     : 734 (0x2DE) (bytes)
+      File size     : 734 (0x2DE) (bytes)
       bytes         : 734 (0x2DE)
       bytes total   : 734 (0x2DE)
       Block size    : 256 (0x100)

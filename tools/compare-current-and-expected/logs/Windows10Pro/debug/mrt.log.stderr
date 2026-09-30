@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
       Datetime first: 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
       Datetime last : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
   Processed:
-      file size     : 1427 (0x593) (bytes)
+      File size     : 1427 (0x593) (bytes)
       bytes         : 1427 (0x593)
       bytes total   : 1427 (0x593)
       Block size    : 256 (0x100)

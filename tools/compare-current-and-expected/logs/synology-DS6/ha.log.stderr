@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/ha.log
       Datetime first: 2017-05-08 08:35:45 -07:00 (2017-05-08 15:35:45.000000 +00:00)
       Datetime last : 2017-06-19 01:22:07 -07:00 (2017-06-19 08:22:07.000000 +00:00)
   Processed:
-      file size     : 2557 (0x9FD) (bytes)
+      File size     : 2557 (0x9FD) (bytes)
       bytes         : 2557 (0x9FD)
       bytes total   : 2557 (0x9FD)
       Block size    : 256 (0x100)

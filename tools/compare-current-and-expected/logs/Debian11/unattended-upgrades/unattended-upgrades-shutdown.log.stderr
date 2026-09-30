@@ -14,7 +14,7 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
       Datetime last : 2022-10-11 00:02:37 +08:00 (2022-10-10 16:02:37.174000 +00:00)
   Processed:
-      file size     : 596 (0x254) (bytes)
+      File size     : 596 (0x254) (bytes)
       bytes         : 596 (0x254)
       bytes total   : 596 (0x254)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
       Datetime first: 2017-02-23 14:52:49 -08:00 (2017-02-23 22:52:49.000000 +00:00)
       Datetime last : 2017-09-17 10:05:04 -07:00 (2017-09-17 17:05:04.000000 +00:00)
   Processed:
-      file size     : 1232 (0x4D0) (bytes)
+      File size     : 1232 (0x4D0) (bytes)
       bytes         : 1232 (0x4D0)
       bytes total   : 1232 (0x4D0)
       Block size    : 256 (0x100)

@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/DtcInstall.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 770 (0x302) (bytes)
+      File size     : 770 (0x302) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 770 (0x302)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
       Datetime first: 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
       Datetime last : 2017-01-03 01:35:42 -08:00 (2017-01-03 09:35:42.000000 +00:00)
   Processed:
-      file size     : 873 (0x369) (bytes)
+      File size     : 873 (0x369) (bytes)
       bytes         : 873 (0x369)
       bytes total   : 873 (0x369)
       Block size    : 256 (0x100)

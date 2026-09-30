@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/dpkg.log
       Datetime first: 2016-12-05 21:38:43 +08:00 (2016-12-05 13:38:43.000000 +00:00)
       Datetime last : 2016-12-05 21:38:48 +08:00 (2016-12-05 13:38:48.000000 +00:00)
   Processed:
-      file size     : 1456 (0x5B0) (bytes)
+      File size     : 1456 (0x5B0) (bytes)
       bytes         : 1456 (0x5B0)
       bytes total   : 1456 (0x5B0)
       Block size    : 256 (0x100)

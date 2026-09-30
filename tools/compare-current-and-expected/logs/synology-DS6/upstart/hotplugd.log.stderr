@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/hotplugd.log
       Datetime first: 2017-09-17 10:12:07 -07:00 (2017-09-17 17:12:07.000000 +00:00)
       Datetime last : 2017-10-19 10:21:22 -07:00 (2017-10-19 17:21:22.000000 +00:00)
   Processed:
-      file size     : 560 (0x230) (bytes)
+      File size     : 560 (0x230) (bytes)
       bytes         : 560 (0x230)
       bytes total   : 560 (0x230)
       Block size    : 256 (0x100)

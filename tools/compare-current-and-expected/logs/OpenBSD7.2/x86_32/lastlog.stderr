@@ -13,7 +13,7 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog
       flushes       : 1
       Entries       : 1
   Processed:
-      file size     : 272 (0x110) (bytes)
+      File size     : 272 (0x110) (bytes)
       bytes         : 272 (0x110)
       bytes total   : 272 (0x110)
       Block size    : 256 (0x100)

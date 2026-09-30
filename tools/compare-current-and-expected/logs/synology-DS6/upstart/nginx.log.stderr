@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/nginx.log
       Datetime first: 2016-12-05 20:31:46 -08:00 (2016-12-06 04:31:46.000000 +00:00)
       Datetime last : 2017-03-09 20:15:37 -08:00 (2017-03-10 04:15:37.000000 +00:00)
   Processed:
-      file size     : 1161 (0x489) (bytes)
+      File size     : 1161 (0x489) (bytes)
       bytes         : 1161 (0x489)
       bytes total   : 1161 (0x489)
       Block size    : 256 (0x100)

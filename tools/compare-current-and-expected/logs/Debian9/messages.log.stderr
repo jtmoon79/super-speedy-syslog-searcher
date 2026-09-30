@@ -14,7 +14,7 @@ File: ./logs/Debian9/messages.log
       Datetime first: 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
       Datetime last : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
   Processed:
-      file size     : 153 (0x99) (bytes)
+      File size     : 153 (0x99) (bytes)
       bytes         : 153 (0x99)
       bytes total   : 153 (0x99)
       Block size    : 256 (0x100)

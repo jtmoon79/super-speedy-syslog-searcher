@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/prime-offload.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 55 (0x37) (bytes)
+      File size     : 55 (0x37) (bytes)
       bytes         : 55 (0x37)
       bytes total   : 55 (0x37)
       Block size    : 256 (0x100)

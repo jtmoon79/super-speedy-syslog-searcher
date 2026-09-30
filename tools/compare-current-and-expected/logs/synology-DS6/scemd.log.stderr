@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/scemd.log
       Datetime first: 2016-12-05 20:31:29 -08:00 (2016-12-06 04:31:29.000000 +00:00)
       Datetime last : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
   Processed:
-      file size     : 2349 (0x92D) (bytes)
+      File size     : 2349 (0x92D) (bytes)
       bytes         : 2349 (0x92D)
       bytes total   : 2349 (0x92D)
       Block size    : 256 (0x100)

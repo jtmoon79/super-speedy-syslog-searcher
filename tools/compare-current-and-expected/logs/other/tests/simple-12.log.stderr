@@ -14,7 +14,7 @@ File: ./logs/other/tests/simple-12.log
       Datetime first: 2001-01-03 01:09:24 +08:00 (2001-01-02 17:09:24.000000 +00:00)
       Datetime last : 2001-01-03 01:09:24 +08:00 (2001-01-02 17:09:24.000000 +00:00)
   Processed:
-      file size     : 12 (0xC) (bytes)
+      File size     : 12 (0xC) (bytes)
       bytes         : 12 (0xC)
       bytes total   : 12 (0xC)
       Block size    : 256 (0x100)

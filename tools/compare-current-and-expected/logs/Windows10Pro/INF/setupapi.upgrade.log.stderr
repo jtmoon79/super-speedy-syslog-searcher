@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       Datetime first: 2020-05-21 11:03:50 +08:00 (2020-05-21 03:03:50.069000 +00:00)
       Datetime last : 2020-05-27 11:27:05 +08:00 (2020-05-27 03:27:05.575000 +00:00)
   Processed:
-      file size     : 7330 (0x1CA2) (bytes)
+      File size     : 7330 (0x1CA2) (bytes)
       bytes         : 7330 (0x1CA2)
       bytes total   : 7330 (0x1CA2)
       Block size    : 256 (0x100)

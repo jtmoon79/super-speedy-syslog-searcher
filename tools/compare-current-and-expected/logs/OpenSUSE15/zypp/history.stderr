@@ -14,7 +14,7 @@ File: ./logs/OpenSUSE15/zypp/history
       Datetime first: 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
       Datetime last : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
   Processed:
-      file size     : 4765 (0x129D) (bytes)
+      File size     : 4765 (0x129D) (bytes)
       bytes         : 4765 (0x129D)
       bytes total   : 4765 (0x129D)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf13c.log
       Datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
       Datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
   Processed:
-      file size     : 231 (0xE7) (bytes)
+      File size     : 231 (0xE7) (bytes)
       bytes         : 231 (0xE7)
       bytes total   : 231 (0xE7)
       Block size    : 256 (0x100)

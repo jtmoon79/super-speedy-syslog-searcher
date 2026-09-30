@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf2-2.log
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
   Processed:
-      file size     : 60 (0x3C) (bytes)
+      File size     : 60 (0x3C) (bytes)
       bytes         : 60 (0x3C)
       bytes total   : 60 (0x3C)
       Block size    : 256 (0x100)

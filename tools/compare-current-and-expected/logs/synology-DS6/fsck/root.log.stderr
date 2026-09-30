@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/fsck/root.log
       Datetime first: 2020-03-07 03:19:50 +08:00 (2020-03-06 19:19:50.000000 +00:00)
       Datetime last : 2020-03-07 20:25:30 +08:00 (2020-03-07 12:25:30.000000 +00:00)
   Processed:
-      file size     : 1967 (0x7AF) (bytes)
+      File size     : 1967 (0x7AF) (bytes)
       bytes         : 1967 (0x7AF)
       bytes total   : 1967 (0x7AF)
       Block size    : 256 (0x100)

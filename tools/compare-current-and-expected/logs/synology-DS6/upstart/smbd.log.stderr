@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/smbd.log
       Datetime first: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
       Datetime last : 2016-12-05 21:11:47 -08:00 (2016-12-06 05:11:47.000000 +00:00)
   Processed:
-      file size     : 1385 (0x569) (bytes)
+      File size     : 1385 (0x569) (bytes)
       bytes         : 1385 (0x569)
       bytes total   : 1385 (0x569)
       Block size    : 256 (0x100)

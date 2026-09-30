@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf5-6a.log.old
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
-      file size     : 194 (0xC2) (bytes)
+      File size     : 194 (0xC2) (bytes)
       bytes         : 194 (0xC2)
       bytes total   : 194 (0xC2)
       Block size    : 256 (0x100)

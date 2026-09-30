@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/dpkg_upgrade.log
       Datetime first: 2016-12-05 21:34:43 +08:00 (2016-12-05 13:34:43.000000 +00:00)
       Datetime last : 2016-12-05 21:38:47 +08:00 (2016-12-05 13:38:47.000000 +00:00)
   Processed:
-      file size     : 1411 (0x583) (bytes)
+      File size     : 1411 (0x583) (bytes)
       bytes         : 1411 (0x583)
       bytes total   : 1411 (0x583)
       Block size    : 256 (0x100)

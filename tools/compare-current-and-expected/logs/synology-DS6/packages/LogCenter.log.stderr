@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/packages/LogCenter.log
       Datetime first: 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
       Datetime last : 2019-08-18 21:28:26 +08:00 (2019-08-18 13:28:26.000000 +00:00)
   Processed:
-      file size     : 923 (0x39B) (bytes)
+      File size     : 923 (0x39B) (bytes)
       bytes         : 923 (0x39B)
       bytes total   : 923 (0x39B)
       Block size    : 256 (0x100)

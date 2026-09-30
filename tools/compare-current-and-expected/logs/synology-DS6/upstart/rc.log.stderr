@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/rc.log
       Datetime first: 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
       Datetime last : 2016-12-05 20:31:06 -08:00 (2016-12-06 04:31:06.000000 +00:00)
   Processed:
-      file size     : 1178 (0x49A) (bytes)
+      File size     : 1178 (0x49A) (bytes)
       bytes         : 1178 (0x49A)
       bytes total   : 1178 (0x49A)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
       Datetime first: 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
       Datetime last : 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
   Processed:
-      file size     : 97 (0x61) (bytes)
+      File size     : 97 (0x61) (bytes)
       bytes         : 97 (0x61)
       bytes total   : 97 (0x61)
       Block size    : 256 (0x100)

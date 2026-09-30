@@ -14,7 +14,7 @@ File: ./logs/other/tests/simple-15.log
       Datetime first: 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
       Datetime last : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
   Processed:
-      file size     : 15 (0xF) (bytes)
+      File size     : 15 (0xF) (bytes)
       bytes         : 15 (0xF)
       bytes total   : 15 (0xF)
       Block size    : 256 (0x100)

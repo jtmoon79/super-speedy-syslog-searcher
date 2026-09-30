@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf4-2a.log
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
   Processed:
-      file size     : 82 (0x52) (bytes)
+      File size     : 82 (0x52) (bytes)
       bytes         : 82 (0x52)
       bytes total   : 82 (0x52)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/apparmor.log
       Datetime first: 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
       Datetime last : 2016-12-05 22:01:43 -08:00 (2016-12-06 06:01:43.000000 +00:00)
   Processed:
-      file size     : 1742 (0x6CE) (bytes)
+      File size     : 1742 (0x6CE) (bytes)
       bytes         : 1742 (0x6CE)
       bytes total   : 1742 (0x6CE)
       Block size    : 256 (0x100)

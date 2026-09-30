@@ -13,7 +13,7 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       flushes       : 93
       Entries       : 93
   Processed:
-      file size     : 35712 (0x8B80) (bytes)
+      File size     : 35712 (0x8B80) (bytes)
       bytes         : 35712 (0x8B80)
       bytes total   : 35712 (0x8B80)
       Block size    : 256 (0x100)

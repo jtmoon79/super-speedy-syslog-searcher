@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synologydrive.log
       Datetime first: 2018-12-06 02:27:57 -08:00 (2018-12-06 10:27:57.000000 +00:00)
       Datetime last : 2018-12-17 15:09:11 -08:00 (2018-12-17 23:09:11.000000 +00:00)
   Processed:
-      file size     : 2361 (0x939) (bytes)
+      File size     : 2361 (0x939) (bytes)
       bytes         : 2361 (0x939)
       bytes total   : 2361 (0x939)
       Block size    : 256 (0x100)

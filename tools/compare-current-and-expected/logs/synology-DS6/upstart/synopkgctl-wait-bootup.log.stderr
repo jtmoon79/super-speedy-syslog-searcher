@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
       Datetime first: 2017-02-23 14:53:02 -08:00 (2017-02-23 22:53:02.000000 +00:00)
       Datetime last : 2017-03-09 20:15:58 -08:00 (2017-03-10 04:15:58.000000 +00:00)
   Processed:
-      file size     : 1828 (0x724) (bytes)
+      File size     : 1828 (0x724) (bytes)
       bytes         : 1828 (0x724)
       bytes total   : 1828 (0x724)
       Block size    : 256 (0x100)

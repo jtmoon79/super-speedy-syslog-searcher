@@ -14,7 +14,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       Datetime first: 2022-10-08 06:18:58 +08:00 (2022-10-07 22:18:58.000000 +00:00)
       Datetime last : 2022-10-08 06:22:55 +08:00 (2022-10-07 22:22:55.000000 +00:00)
   Processed:
-      file size     : 5229 (0x146D) (bytes)
+      File size     : 5229 (0x146D) (bytes)
       bytes         : 5229 (0x146D)
       bytes total   : 5229 (0x146D)
       Block size    : 256 (0x100)

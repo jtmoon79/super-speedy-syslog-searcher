@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old
       Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
   Processed:
-      file size     : 1260 (0x4EC) (bytes)
+      File size     : 1260 (0x4EC) (bytes)
       bytes         : 1260 (0x4EC)
       bytes total   : 1260 (0x4EC)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synoconfd.log
       Datetime first: 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
       Datetime last : 2017-03-09 20:15:16 -08:00 (2017-03-10 04:15:16.000000 +00:00)
   Processed:
-      file size     : 1361 (0x551) (bytes)
+      File size     : 1361 (0x551) (bytes)
       bytes         : 1361 (0x551)
       bytes total   : 1361 (0x551)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
       Datetime first: 2019-01-30 13:11:39 -08:00 (2019-01-30 21:11:39.000000 +00:00)
       Datetime last : 2019-02-08 01:43:49 -08:00 (2019-02-08 09:43:49.000000 +00:00)
   Processed:
-      file size     : 1625 (0x659) (bytes)
+      File size     : 1625 (0x659) (bytes)
       bytes         : 1625 (0x659)
       bytes total   : 1625 (0x659)
       Block size    : 256 (0x100)

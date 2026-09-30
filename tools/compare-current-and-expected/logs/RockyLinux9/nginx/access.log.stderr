@@ -14,7 +14,7 @@ File: ./logs/RockyLinux9/nginx/access.log
       Datetime first: 2022-10-08 22:26:35 +00:00 (2022-10-08 22:26:35.000000 +00:00)
       Datetime last : 2022-10-08 22:27:55 +00:00 (2022-10-08 22:27:55.000000 +00:00)
   Processed:
-      file size     : 552 (0x228) (bytes)
+      File size     : 552 (0x228) (bytes)
       bytes         : 552 (0x228)
       bytes total   : 552 (0x228)
       Block size    : 256 (0x100)

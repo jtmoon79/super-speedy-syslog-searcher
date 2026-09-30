@@ -14,7 +14,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       Datetime first: 2022-10-09 21:31:41 +00:00 (2022-10-09 21:31:41.000000 +00:00)
       Datetime last : 2022-10-10 20:23:34 +00:00 (2022-10-10 20:23:34.000000 +00:00)
   Processed:
-      file size     : 510 (0x1FE) (bytes)
+      File size     : 510 (0x1FE) (bytes)
       bytes         : 510 (0x1FE)
       bytes total   : 510 (0x1FE)
       Block size    : 256 (0x100)

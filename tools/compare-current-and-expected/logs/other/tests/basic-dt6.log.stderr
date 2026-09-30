@@ -14,7 +14,7 @@ File: ./logs/other/tests/basic-dt6.log
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
-      file size     : 134 (0x86) (bytes)
+      File size     : 134 (0x86) (bytes)
       bytes         : 134 (0x86)
       bytes total   : 134 (0x86)
       Block size    : 256 (0x100)

@@ -13,7 +13,7 @@ File: ./logs/CentOS9/x86_64/btmp
       flushes       : 1
       Entries       : 1
   Processed:
-      file size     : 384 (0x180) (bytes)
+      File size     : 384 (0x180) (bytes)
       bytes         : 384 (0x180)
       bytes total   : 384 (0x180)
       Block size    : 256 (0x100)

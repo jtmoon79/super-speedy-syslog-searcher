@@ -14,7 +14,7 @@ File: ./logs/Debian9/samba/log.host1
       Datetime first: 2019-04-21 20:41:09 +08:00 (2019-04-21 12:41:09.173000 +00:00)
       Datetime last : 2019-04-21 20:41:09 +08:00 (2019-04-21 12:41:09.173000 +00:00)
   Processed:
-      file size     : 159 (0x9F) (bytes)
+      File size     : 159 (0x9F) (bytes)
       bytes         : 159 (0x9F)
       bytes total   : 159 (0x9F)
       Block size    : 256 (0x100)

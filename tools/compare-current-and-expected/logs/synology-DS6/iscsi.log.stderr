@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/iscsi.log
       Datetime first: 2016-12-05 20:31:40 -08:00 (2016-12-06 04:31:40.000000 +00:00)
       Datetime last : 2017-01-24 23:26:17 -08:00 (2017-01-25 07:26:17.000000 +00:00)
   Processed:
-      file size     : 2308 (0x904) (bytes)
+      File size     : 2308 (0x904) (bytes)
       bytes         : 2308 (0x904)
       bytes total   : 2308 (0x904)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/disk.log
       Datetime first: 2017-05-08 08:35:08 -07:00 (2017-05-08 15:35:08.000000 +00:00)
       Datetime last : 2017-05-08 08:35:08 -07:00 (2017-05-08 15:35:08.000000 +00:00)
   Processed:
-      file size     : 2185 (0x889) (bytes)
+      File size     : 2185 (0x889) (bytes)
       bytes         : 2185 (0x889)
       bytes total   : 2185 (0x889)
       Block size    : 256 (0x100)

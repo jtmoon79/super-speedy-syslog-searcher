@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
       Datetime first: 2017-02-23 14:52:36 -08:00 (2017-02-23 22:52:36.000000 +00:00)
       Datetime last : 2017-09-17 09:57:03 -07:00 (2017-09-17 16:57:03.000000 +00:00)
   Processed:
-      file size     : 1491 (0x5D3) (bytes)
+      File size     : 1491 (0x5D3) (bytes)
       bytes         : 1491 (0x5D3)
       bytes total   : 1491 (0x5D3)
       Block size    : 256 (0x100)

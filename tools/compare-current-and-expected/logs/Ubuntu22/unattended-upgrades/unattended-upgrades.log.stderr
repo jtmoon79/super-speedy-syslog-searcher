@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
       Datetime first: 2022-10-03 22:47:12 +08:00 (2022-10-03 14:47:12.455000 +00:00)
       Datetime last : 2022-10-04 06:22:28 +08:00 (2022-10-03 22:22:28.605000 +00:00)
   Processed:
-      file size     : 1258 (0x4EA) (bytes)
+      File size     : 1258 (0x4EA) (bytes)
       bytes         : 1258 (0x4EA)
       bytes total   : 1258 (0x4EA)
       Block size    : 256 (0x100)

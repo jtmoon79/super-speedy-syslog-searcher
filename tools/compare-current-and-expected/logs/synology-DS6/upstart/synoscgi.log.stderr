@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synoscgi.log
       Datetime first: 2016-12-05 20:31:55 -08:00 (2016-12-06 04:31:55.000000 +00:00)
       Datetime last : 2016-12-05 20:47:10 -08:00 (2016-12-06 04:47:10.000000 +00:00)
   Processed:
-      file size     : 2244 (0x8C4) (bytes)
+      File size     : 2244 (0x8C4) (bytes)
       bytes         : 2244 (0x8C4)
       bytes total   : 2244 (0x8C4)
       Block size    : 256 (0x100)

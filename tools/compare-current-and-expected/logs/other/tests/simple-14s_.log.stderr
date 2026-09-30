@@ -15,7 +15,7 @@ File: ./logs/other/tests/simple-14s_.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 15 (0xF) (bytes)
+      File size     : 15 (0xF) (bytes)
       bytes         : 15 (0xF)
       bytes total   : 15 (0xF)
       Block size    : 256 (0x100)

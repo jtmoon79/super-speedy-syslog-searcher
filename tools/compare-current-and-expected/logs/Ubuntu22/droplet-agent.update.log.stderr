@@ -15,7 +15,7 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 932 (0x3A4) (bytes)
+      File size     : 932 (0x3A4) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 932 (0x3A4)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
       Datetime first: 2020-05-27 12:25:40 +08:00 (2020-05-27 04:25:40.000000 +00:00)
       Datetime last : 2020-05-27 12:25:41 +08:00 (2020-05-27 04:25:41.000000 +00:00)
   Processed:
-      file size     : 674 (0x2A2) (bytes)
+      File size     : 674 (0x2A2) (bytes)
       bytes         : 674 (0x2A2)
       bytes total   : 674 (0x2A2)
       Block size    : 256 (0x100)

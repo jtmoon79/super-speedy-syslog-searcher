@@ -13,7 +13,7 @@ File: ./logs/CentOS7/x86_64/lastlog
       flushes       : 2
       Entries       : 2
   Processed:
-      file size     : 292584 (0x476E8) (bytes)
+      File size     : 292584 (0x476E8) (bytes)
       bytes         : 292584 (0x476E8)
       bytes total   : 292584 (0x476E8)
       Block size    : 256 (0x100)

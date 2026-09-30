@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synovpnclient.log
       Datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
       Datetime last : 2017-03-09 20:15:44 -08:00 (2017-03-10 04:15:44.000000 +00:00)
   Processed:
-      file size     : 874 (0x36A) (bytes)
+      File size     : 874 (0x36A) (bytes)
       bytes         : 874 (0x36A)
       bytes total   : 874 (0x36A)
       Block size    : 256 (0x100)

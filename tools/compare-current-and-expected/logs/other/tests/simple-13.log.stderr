@@ -15,7 +15,7 @@ File: ./logs/other/tests/simple-13.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 13 (0xD) (bytes)
+      File size     : 13 (0xD) (bytes)
       bytes         : 13 (0xD)
       bytes total   : 13 (0xD)
       Block size    : 256 (0x100)

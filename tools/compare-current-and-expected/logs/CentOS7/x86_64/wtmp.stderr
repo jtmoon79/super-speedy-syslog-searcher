@@ -13,7 +13,7 @@ File: ./logs/CentOS7/x86_64/wtmp
       flushes       : 54
       Entries       : 54
   Processed:
-      file size     : 25728 (0x6480) (bytes)
+      File size     : 25728 (0x6480) (bytes)
       bytes         : 24704 (0x6080)
       bytes total   : 25728 (0x6480)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       Datetime first: 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
       Datetime last : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
   Processed:
-      file size     : 12586 (0x312A) (bytes)
+      File size     : 12586 (0x312A) (bytes)
       bytes         : 12586 (0x312A)
       bytes total   : 12586 (0x312A)
       Block size    : 256 (0x100)

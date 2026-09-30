@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/apt/history.log
       Datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       Datetime last : 2022-10-04 06:22:44 +08:00 (2022-10-03 22:22:44.000000 +00:00)
   Processed:
-      file size     : 1397 (0x575) (bytes)
+      File size     : 1397 (0x575) (bytes)
       bytes         : 1397 (0x575)
       bytes total   : 1397 (0x575)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/job-monitor-handler.log
       Datetime first: 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
       Datetime last : 2017-03-09 20:15:11 -08:00 (2017-03-10 04:15:11.000000 +00:00)
   Processed:
-      file size     : 950 (0x3B6) (bytes)
+      File size     : 950 (0x3B6) (bytes)
       bytes         : 950 (0x3B6)
       bytes total   : 950 (0x3B6)
       Block size    : 256 (0x100)

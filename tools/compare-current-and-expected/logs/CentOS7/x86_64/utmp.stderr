@@ -13,7 +13,7 @@ File: ./logs/CentOS7/x86_64/utmp
       flushes       : 4
       Entries       : 4
   Processed:
-      file size     : 1536 (0x600) (bytes)
+      File size     : 1536 (0x600) (bytes)
       bytes         : 1536 (0x600)
       bytes total   : 1536 (0x600)
       Block size    : 256 (0x100)

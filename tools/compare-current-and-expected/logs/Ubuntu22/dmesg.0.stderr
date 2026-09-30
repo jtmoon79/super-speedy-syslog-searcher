@@ -15,7 +15,7 @@ File: ./logs/Ubuntu22/dmesg.0
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 1161 (0x489) (bytes)
+      File size     : 1161 (0x489) (bytes)
       bytes         : 393 (0x189)
       bytes total   : 1161 (0x489)
       Block size    : 256 (0x100)

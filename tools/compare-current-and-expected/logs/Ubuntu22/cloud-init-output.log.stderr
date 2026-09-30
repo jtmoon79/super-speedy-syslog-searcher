@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       Datetime first: 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.084000 +00:00)
       Datetime last : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.084000 +00:00)
   Processed:
-      file size     : 1431 (0x597) (bytes)
+      File size     : 1431 (0x597) (bytes)
       bytes         : 1431 (0x597)
       bytes total   : 1431 (0x597)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf5-6b.UTF-16LE.log
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
-      file size     : 498 (0x1F2) (bytes)
+      File size     : 498 (0x1F2) (bytes)
       bytes         : 498 (0x1F2)
       bytes total   : 498 (0x1F2)
       Block size    : 256 (0x100)

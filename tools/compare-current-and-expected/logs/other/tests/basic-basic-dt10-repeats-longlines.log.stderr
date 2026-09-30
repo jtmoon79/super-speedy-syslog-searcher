@@ -14,7 +14,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
       Datetime first: 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
   Processed:
-      file size     : 1539 (0x603) (bytes)
+      File size     : 1539 (0x603) (bytes)
       bytes         : 1539 (0x603)
       bytes total   : 1539 (0x603)
       Block size    : 256 (0x100)

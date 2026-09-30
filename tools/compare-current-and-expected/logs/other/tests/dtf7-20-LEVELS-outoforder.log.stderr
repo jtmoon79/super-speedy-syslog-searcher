@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS-outoforder.log
       Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
   Processed:
-      file size     : 1289 (0x509) (bytes)
+      File size     : 1289 (0x509) (bytes)
       bytes         : 1289 (0x509)
       bytes total   : 1289 (0x509)
       Block size    : 256 (0x100)

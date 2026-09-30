@@ -13,7 +13,7 @@ File: ./logs/NetBSD9.3/x86_32/utmpx
       flushes       : 9
       Entries       : 9
   Processed:
-      file size     : 5160 (0x1428) (bytes)
+      File size     : 5160 (0x1428) (bytes)
       bytes         : 5160 (0x1428)
       bytes total   : 5160 (0x1428)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf3-3a-invalid-UTF8.log
       Datetime first: 2000-01-01 00:00:03 +08:00 (1999-12-31 16:00:03.003000 +00:00)
       Datetime last : 2000-01-01 00:00:07 +08:00 (1999-12-31 16:00:07.007000 +00:00)
   Processed:
-      file size     : 348 (0x15C) (bytes)
+      File size     : 348 (0x15C) (bytes)
       bytes         : 348 (0x15C)
       bytes total   : 348 (0x15C)
       Block size    : 256 (0x100)

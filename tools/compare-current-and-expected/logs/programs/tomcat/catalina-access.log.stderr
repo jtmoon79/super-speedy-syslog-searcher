@@ -14,7 +14,7 @@ File: ./logs/programs/tomcat/catalina-access.log
       Datetime first: 2023-02-14 14:30:20 +00:00 (2023-02-14 14:30:20.483000 +00:00)
       Datetime last : 2023-02-14 14:30:21 +00:00 (2023-02-14 14:30:21.440000 +00:00)
   Processed:
-      file size     : 432 (0x1B0) (bytes)
+      File size     : 432 (0x1B0) (bytes)
       bytes         : 432 (0x1B0)
       bytes total   : 432 (0x1B0)
       Block size    : 256 (0x100)

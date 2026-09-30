@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf5-6b.UTF-8_BOM.log
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
-      file size     : 252 (0xFC) (bytes)
+      File size     : 252 (0xFC) (bytes)
       bytes         : 252 (0xFC)
       bytes total   : 252 (0xFC)
       Block size    : 256 (0x100)

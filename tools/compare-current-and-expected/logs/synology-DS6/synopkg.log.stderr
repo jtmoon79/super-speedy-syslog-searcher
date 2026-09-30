@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synopkg.log
       Datetime first: 2016-12-05 20:47:00 +08:00 (2016-12-05 12:47:00.000000 +00:00)
       Datetime last : 2016-12-05 20:47:00 +08:00 (2016-12-05 12:47:00.000000 +00:00)
   Processed:
-      file size     : 2107 (0x83B) (bytes)
+      File size     : 2107 (0x83B) (bytes)
       bytes         : 2107 (0x83B)
       bytes total   : 2107 (0x83B)
       Block size    : 256 (0x100)

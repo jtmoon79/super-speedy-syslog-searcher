@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf3-2b.log
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.002000 +00:00)
       Datetime last : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.003000 +00:00)
   Processed:
-      file size     : 71 (0x47) (bytes)
+      File size     : 71 (0x47) (bytes)
       bytes         : 71 (0x47)
       bytes total   : 71 (0x47)
       Block size    : 256 (0x100)

@@ -15,7 +15,7 @@ File: ./logs/other/tests/simple-7.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 7 (0x7) (bytes)
+      File size     : 7 (0x7) (bytes)
       bytes         : 7 (0x7)
       bytes total   : 7 (0x7)
       Block size    : 256 (0x100)

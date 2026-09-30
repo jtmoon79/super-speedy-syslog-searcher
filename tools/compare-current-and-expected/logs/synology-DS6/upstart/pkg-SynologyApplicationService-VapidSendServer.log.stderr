@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer
       Datetime first: 2018-12-06 02:26:06 -08:00 (2018-12-06 10:26:06.000000 +00:00)
       Datetime last : 2019-09-08 19:26:07 -07:00 (2019-09-09 02:26:07.000000 +00:00)
   Processed:
-      file size     : 1064 (0x428) (bytes)
+      File size     : 1064 (0x428) (bytes)
       bytes         : 1064 (0x428)
       bytes total   : 1064 (0x428)
       Block size    : 256 (0x100)
