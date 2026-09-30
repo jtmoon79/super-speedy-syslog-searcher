@@ -14,6 +14,7 @@ pub mod blockreader_tests;
 pub mod common;
 pub mod datetime_tests;
 pub mod etlreader_tests;
+pub mod etlparser_tests;
 pub mod evtx_tests;
 pub mod evtxreader_tests;
 pub mod filedecompressor_tests;
