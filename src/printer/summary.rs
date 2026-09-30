@@ -1466,7 +1466,7 @@ fn print_summary_opt_processed(
         }
         SummaryReaderData::PyEvent(summarypyeventreader) => {
             eprintln!(
-                "{}file size          : {1} (0x{1:X}) (bytes)",
+                "{}File size          : {1} (0x{1:X}) (bytes)",
                 indent2, summarypyeventreader.pyeventreader_filesz,
             );
             eprintln!("{}Events processed   : {}", indent2, summarypyeventreader.pyeventreader_events_processed);
@@ -1502,7 +1502,7 @@ fn print_summary_opt_processed(
         }
         SummaryReaderData::Etl(summaryetlreader) => {
             eprintln!(
-                "{}file size          : {1} (0x{1:X}) (bytes)",
+                "{}File size          : {1} (0x{1:X}) (bytes)",
                 indent2, summaryetlreader.etlreader_filesz,
             );
             eprintln!("{}Session name       : {:?}", indent2, summaryetlreader.etlreader_session_name);
@@ -1529,7 +1529,7 @@ fn print_summary_opt_processed(
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                 eprintln!();
             }
-            eprint!("{}out of order       : ", indent2);
+            eprint!("{}Out of order       : ", indent2);
             eprintln_display_color_error(
                 &summaryetlreader.etlreader_out_of_order,
                 |n| *n != 0,
@@ -1539,7 +1539,7 @@ fn print_summary_opt_processed(
         }
         SummaryReaderData::Etvx(summaryevtxreader) => {
             eprintln!(
-                "{}file size          : {1} (0x{1:X}) (bytes)",
+                "{}File size          : {1} (0x{1:X}) (bytes)",
                 indent2, summaryevtxreader.evtxreader_filesz,
             );
             // TODO: [2023/04/05] add `sourced` size. Requires additional
@@ -1557,7 +1557,7 @@ fn print_summary_opt_processed(
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                 eprintln!();
             }
-            eprint!("{}out of order       : ", indent2);
+            eprint!("{}Out of order       : ", indent2);
             eprintln_display_color_error(
                 &summaryevtxreader.evtxreader_out_of_order,
                 |n| *n != 0,
@@ -1597,7 +1597,7 @@ fn print_summary_opt_processed(
                 eprintln!();
             }
             // print journal events out of chronological order
-            eprint!("{}out of order  : ", indent2);
+            eprint!("{}Out of order  : ", indent2);
             eprintln_display_color_error(
                 &summaryjournalreader.journalreader_out_of_order,
                 |n| *n != 0,
@@ -1692,7 +1692,7 @@ fn print_summary_opt_processed_summaryblockreader(
         | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
         => {
             eprintln!(
-                "{}file size     : {1} (0x{1:X}) (bytes)",
+                "{}File size     : {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
             );
         }
