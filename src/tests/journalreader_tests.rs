@@ -38,6 +38,7 @@ use crate::data::journal::{
     EpochMicroseconds,
     EpochMicrosecondsOpt,
 };
+#[cfg(target_family = "unix")]
 use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::libload::systemd_dlopen2::{
     load_library_systemd,

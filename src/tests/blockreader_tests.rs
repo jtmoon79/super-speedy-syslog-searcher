@@ -36,10 +36,11 @@ use crate::data::datetime::systemtime_year;
 use crate::debug::helpers::{
     create_temp_file,
     create_temp_file_bytes_with_suffix,
-    create_temp_file_no_permissions,
     ntf_fpath,
     NamedTempFile,
 };
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::printers::byte_to_char_noraw;
 use crate::readers::blockreader::{
     blocksz_def,
@@ -55,6 +56,7 @@ use crate::readers::blockreader::{
     BLOCKSZ_DEF,
     BLOCKSZ_MIN,
 };
+#[cfg(target_family = "unix")]
 use crate::readers::helpers::path_to_fpath;
 #[allow(unused_imports)]
 use crate::tests::common::{

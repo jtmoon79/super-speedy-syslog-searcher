@@ -37,8 +37,10 @@ use crate::data::evtx::{
     RecordId,
     Timestamp,
 };
+#[cfg(target_family = "unix")]
 use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::readers::evtxreader::EvtxReader;
+#[cfg(target_family = "unix")]
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{
