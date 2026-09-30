@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/smallupdate.log
       Datetime first: 2016-12-05 21:38:43 -08:00 (2016-12-06 05:38:43.000000 +00:00)
       Datetime last : 2017-01-24 23:25:55 -08:00 (2017-01-25 07:25:55.000000 +00:00)
   Processed:
-      file size     : 471 (0x1D7) (bytes)
+      File size     : 471 (0x1D7) (bytes)
       bytes         : 471 (0x1D7)
       bytes total   : 471 (0x1D7)
       Block size    : 256 (0x100)

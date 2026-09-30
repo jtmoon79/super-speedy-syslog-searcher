@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/sysnotify.log
       Datetime first: 2018-08-03 04:02:47 -07:00 (2018-08-03 11:02:47.000000 +00:00)
       Datetime last : 2018-12-14 04:03:05 -08:00 (2018-12-14 12:03:05.000000 +00:00)
   Processed:
-      file size     : 2995 (0xBB3) (bytes)
+      File size     : 2995 (0xBB3) (bytes)
       bytes         : 2995 (0xBB3)
       bytes total   : 2995 (0xBB3)
       Block size    : 256 (0x100)

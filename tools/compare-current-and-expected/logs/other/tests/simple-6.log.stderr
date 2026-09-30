@@ -15,7 +15,7 @@ File: ./logs/other/tests/simple-6.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 6 (0x6) (bytes)
+      File size     : 6 (0x6) (bytes)
       bytes         : 6 (0x6)
       bytes total   : 6 (0x6)
       Block size    : 256 (0x100)

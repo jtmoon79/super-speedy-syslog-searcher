@@ -14,7 +14,7 @@ File: ./logs/programs/proftpd/xferlog
       Datetime first: 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.000000 +00:00)
       Datetime last : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.000000 +00:00)
   Processed:
-      file size     : 279 (0x117) (bytes)
+      File size     : 279 (0x117) (bytes)
       bytes         : 279 (0x117)
       bytes total   : 279 (0x117)
       Block size    : 256 (0x100)

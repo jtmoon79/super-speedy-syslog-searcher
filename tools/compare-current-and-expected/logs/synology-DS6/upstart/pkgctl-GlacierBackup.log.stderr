@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
       Datetime first: 2018-11-29 23:49:44 -08:00 (2018-11-30 07:49:44.000000 +00:00)
       Datetime last : 2019-10-19 18:59:23 -07:00 (2019-10-20 01:59:23.000000 +00:00)
   Processed:
-      file size     : 1259 (0x4EB) (bytes)
+      File size     : 1259 (0x4EB) (bytes)
       bytes         : 1259 (0x4EB)
       bytes total   : 1259 (0x4EB)
       Block size    : 256 (0x100)

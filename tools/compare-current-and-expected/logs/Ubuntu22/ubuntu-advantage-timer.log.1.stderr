@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       Datetime first: 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)
       Datetime last : 2022-09-02 23:13:55 +08:00 (2022-09-02 15:13:55.641000 +00:00)
   Processed:
-      file size     : 1105 (0x451) (bytes)
+      File size     : 1105 (0x451) (bytes)
       bytes         : 1105 (0x451)
       bytes total   : 1105 (0x451)
       Block size    : 256 (0x100)

@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 1373 (0x55D) (bytes)
+      File size     : 1373 (0x55D) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 1373 (0x55D)
       Block size    : 256 (0x100)

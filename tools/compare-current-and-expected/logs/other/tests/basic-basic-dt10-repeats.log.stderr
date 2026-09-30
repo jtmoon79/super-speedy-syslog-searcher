@@ -14,7 +14,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
       Datetime first: 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
   Processed:
-      file size     : 1210 (0x4BA) (bytes)
+      File size     : 1210 (0x4BA) (bytes)
       bytes         : 1210 (0x4BA)
       bytes total   : 1210 (0x4BA)
       Block size    : 256 (0x100)

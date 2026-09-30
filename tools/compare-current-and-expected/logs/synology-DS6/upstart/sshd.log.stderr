@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/sshd.log
       Datetime first: 2016-12-08 18:54:05 -08:00 (2016-12-09 02:54:05.000000 +00:00)
       Datetime last : 2016-12-08 18:54:10 -08:00 (2016-12-09 02:54:10.000000 +00:00)
   Processed:
-      file size     : 760 (0x2F8) (bytes)
+      File size     : 760 (0x2F8) (bytes)
       bytes         : 760 (0x2F8)
       bytes total   : 760 (0x2F8)
       Block size    : 256 (0x100)

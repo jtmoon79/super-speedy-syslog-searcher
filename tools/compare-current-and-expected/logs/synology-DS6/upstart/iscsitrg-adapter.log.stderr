@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
       Datetime first: 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)
       Datetime last : 2017-01-03 23:56:43 -08:00 (2017-01-04 07:56:43.000000 +00:00)
   Processed:
-      file size     : 1093 (0x445) (bytes)
+      File size     : 1093 (0x445) (bytes)
       bytes         : 1093 (0x445)
       bytes total   : 1093 (0x445)
       Block size    : 256 (0x100)

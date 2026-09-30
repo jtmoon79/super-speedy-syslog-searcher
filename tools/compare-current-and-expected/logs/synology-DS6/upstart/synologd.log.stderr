@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synologd.log
       Datetime first: 2016-12-08 18:56:17 -08:00 (2016-12-09 02:56:17.000000 +00:00)
       Datetime last : 2016-12-08 18:56:18 -08:00 (2016-12-09 02:56:18.000000 +00:00)
   Processed:
-      file size     : 929 (0x3A1) (bytes)
+      File size     : 929 (0x3A1) (bytes)
       bytes         : 929 (0x3A1)
       bytes total   : 929 (0x3A1)
       Block size    : 256 (0x100)

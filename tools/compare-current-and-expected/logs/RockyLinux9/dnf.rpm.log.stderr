@@ -14,7 +14,7 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       Datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
       Datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
   Processed:
-      file size     : 2400 (0x960) (bytes)
+      File size     : 2400 (0x960) (bytes)
       bytes         : 2400 (0x960)
       bytes total   : 2400 (0x960)
       Block size    : 256 (0x100)

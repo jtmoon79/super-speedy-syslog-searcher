@@ -14,7 +14,7 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       Datetime first: 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)
       Datetime last : 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.682000 +00:00)
   Processed:
-      file size     : 2681 (0xA79) (bytes)
+      File size     : 2681 (0xA79) (bytes)
       bytes         : 2681 (0xA79)
       bytes total   : 2681 (0xA79)
       Block size    : 256 (0x100)

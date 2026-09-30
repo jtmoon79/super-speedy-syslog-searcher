@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf7-5-LEVELS.log
       Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 -04:00 (2000-01-01 04:00:05.000000 +00:00)
   Processed:
-      file size     : 272 (0x110) (bytes)
+      File size     : 272 (0x110) (bytes)
       bytes         : 272 (0x110)
       bytes total   : 272 (0x110)
       Block size    : 256 (0x100)

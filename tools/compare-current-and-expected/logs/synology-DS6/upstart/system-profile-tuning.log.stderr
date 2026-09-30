@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/system-profile-tuning.log
       Datetime first: 2018-08-01 14:16:55 -07:00 (2018-08-01 21:16:55.000000 +00:00)
       Datetime last : 2019-02-11 16:44:40 -08:00 (2019-02-12 00:44:40.000000 +00:00)
   Processed:
-      file size     : 1099 (0x44B) (bytes)
+      File size     : 1099 (0x44B) (bytes)
       bytes         : 1099 (0x44B)
       bytes total   : 1099 (0x44B)
       Block size    : 256 (0x100)

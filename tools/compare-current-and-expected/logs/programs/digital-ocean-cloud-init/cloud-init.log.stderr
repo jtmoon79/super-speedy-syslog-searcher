@@ -14,7 +14,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       Datetime first: 2022-10-08 06:18:26 +08:00 (2022-10-07 22:18:26.935000 +00:00)
       Datetime last : 2022-10-08 06:22:57 +08:00 (2022-10-07 22:22:57.587000 +00:00)
   Processed:
-      file size     : 3856 (0xF10) (bytes)
+      File size     : 3856 (0xF10) (bytes)
       bytes         : 3856 (0xF10)
       bytes total   : 3856 (0xF10)
       Block size    : 256 (0x100)

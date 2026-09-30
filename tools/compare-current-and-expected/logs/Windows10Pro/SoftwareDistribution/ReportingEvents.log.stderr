@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
       Datetime first: 2022-08-05 22:17:58 -07:00 (2022-08-06 05:17:58.914000 +00:00)
       Datetime last : 2022-10-12 09:26:48 -07:00 (2022-10-12 16:26:48.872000 +00:00)
   Processed:
-      file size     : 90920 (0x16328) (bytes)
+      File size     : 90920 (0x16328) (bytes)
       bytes         : 90920 (0x16328)
       bytes total   : 90920 (0x16328)
       Block size    : 256 (0x100)

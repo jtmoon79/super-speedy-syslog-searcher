@@ -15,7 +15,7 @@ File: ./logs/other/tests/simple-9.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 9 (0x9) (bytes)
+      File size     : 9 (0x9) (bytes)
       bytes         : 9 (0x9)
       bytes total   : 9 (0x9)
       Block size    : 256 (0x100)

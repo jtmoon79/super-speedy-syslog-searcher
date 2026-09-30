@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synotifyd.log
       Datetime first: 2016-12-05 21:00:54 -08:00 (2016-12-06 05:00:54.000000 +00:00)
       Datetime last : 2019-01-03 00:05:36 -08:00 (2019-01-03 08:05:36.000000 +00:00)
   Processed:
-      file size     : 1534 (0x5FE) (bytes)
+      File size     : 1534 (0x5FE) (bytes)
       bytes         : 1534 (0x5FE)
       bytes total   : 1534 (0x5FE)
       Block size    : 256 (0x100)

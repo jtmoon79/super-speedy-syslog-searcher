@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/kern.log
       Datetime first: 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
       Datetime last : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
   Processed:
-      file size     : 2264 (0x8D8) (bytes)
+      File size     : 2264 (0x8D8) (bytes)
       bytes         : 2264 (0x8D8)
       bytes total   : 2264 (0x8D8)
       Block size    : 256 (0x100)

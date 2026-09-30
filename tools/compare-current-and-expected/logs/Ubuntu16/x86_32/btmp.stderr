@@ -13,7 +13,7 @@ File: ./logs/Ubuntu16/x86_32/btmp
       flushes       : 3
       Entries       : 3
   Processed:
-      file size     : 1152 (0x480) (bytes)
+      File size     : 1152 (0x480) (bytes)
       bytes         : 1152 (0x480)
       bytes total   : 1152 (0x480)
       Block size    : 256 (0x100)

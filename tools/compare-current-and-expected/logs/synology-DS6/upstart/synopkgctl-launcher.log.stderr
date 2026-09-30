@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
       Datetime first: 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)
       Datetime last : 2017-09-17 10:12:00 -07:00 (2017-09-17 17:12:00.000000 +00:00)
   Processed:
-      file size     : 1045 (0x415) (bytes)
+      File size     : 1045 (0x415) (bytes)
       bytes         : 1045 (0x415)
       bytes total   : 1045 (0x415)
       Block size    : 256 (0x100)

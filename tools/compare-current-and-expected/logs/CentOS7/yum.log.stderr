@@ -14,7 +14,7 @@ File: ./logs/CentOS7/yum.log
       Datetime first: 2019-10-06 01:14:54 +08:00 (2019-10-05 17:14:54.000000 +00:00)
       Datetime last : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
   Processed:
-      file size     : 8586 (0x218A) (bytes)
+      File size     : 8586 (0x218A) (bytes)
       bytes         : 8586 (0x218A)
       bytes total   : 8586 (0x218A)
       Block size    : 256 (0x100)

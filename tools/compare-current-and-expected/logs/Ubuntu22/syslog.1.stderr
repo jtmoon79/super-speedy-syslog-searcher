@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/syslog.1
       Datetime first: 2022-09-18 07:00:10 +08:00 (2022-09-17 23:00:10.000000 +00:00)
       Datetime last : 2022-09-18 10:11:55 +08:00 (2022-09-18 02:11:55.000000 +00:00)
   Processed:
-      file size     : 1258 (0x4EA) (bytes)
+      File size     : 1258 (0x4EA) (bytes)
       bytes         : 1258 (0x4EA)
       bytes total   : 1258 (0x4EA)
       Block size    : 256 (0x100)

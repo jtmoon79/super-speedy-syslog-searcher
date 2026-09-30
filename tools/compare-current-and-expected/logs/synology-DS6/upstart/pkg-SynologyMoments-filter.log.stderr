@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log
       Datetime first: 2019-01-30 13:11:28 -08:00 (2019-01-30 21:11:28.000000 +00:00)
       Datetime last : 2019-02-08 01:43:39 -08:00 (2019-02-08 09:43:39.000000 +00:00)
   Processed:
-      file size     : 1522 (0x5F2) (bytes)
+      File size     : 1522 (0x5F2) (bytes)
       bytes         : 1522 (0x5F2)
       bytes total   : 1522 (0x5F2)
       Block size    : 256 (0x100)

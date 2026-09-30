@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       Datetime first: 2022-09-14 22:18:06 +08:00 (2022-09-14 14:18:06.000000 +00:00)
       Datetime last : 2022-10-12 13:28:23 +08:00 (2022-10-12 05:28:23.000000 +00:00)
   Processed:
-      file size     : 19561 (0x4C69) (bytes)
+      File size     : 19561 (0x4C69) (bytes)
       bytes         : 19561 (0x4C69)
       bytes total   : 19561 (0x4C69)
       Block size    : 256 (0x100)

@@ -15,7 +15,7 @@ File: ./logs/other/tests/simple-11.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 11 (0xB) (bytes)
+      File size     : 11 (0xB) (bytes)
       bytes         : 11 (0xB)
       bytes total   : 11 (0xB)
       Block size    : 256 (0x100)

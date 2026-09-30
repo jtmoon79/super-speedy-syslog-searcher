@@ -13,7 +13,7 @@ File: ./logs/Debian11/aarch64_ARM64/wtmp
       flushes       : 5
       Entries       : 5
   Processed:
-      file size     : 2000 (0x7D0) (bytes)
+      File size     : 2000 (0x7D0) (bytes)
       bytes         : 2000 (0x7D0)
       bytes total   : 2000 (0x7D0)
       Block size    : 256 (0x100)

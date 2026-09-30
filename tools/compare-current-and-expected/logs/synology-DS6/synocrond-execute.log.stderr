@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synocrond-execute.log
       Datetime first: 2020-12-06 00:59:44 +08:00 (2020-12-05 16:59:44.000000 +00:00)
       Datetime last : 2020-12-11 04:56:46 +08:00 (2020-12-10 20:56:46.000000 +00:00)
   Processed:
-      file size     : 2453 (0x995) (bytes)
+      File size     : 2453 (0x995) (bytes)
       bytes         : 2453 (0x995)
       bytes total   : 2453 (0x995)
       Block size    : 256 (0x100)

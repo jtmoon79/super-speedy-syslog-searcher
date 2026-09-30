@@ -14,7 +14,7 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       Datetime first: 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
       Datetime last : 2022-10-10 20:23:36 +00:00 (2022-10-10 20:23:36.000000 +00:00)
   Processed:
-      file size     : 183 (0xB7) (bytes)
+      File size     : 183 (0xB7) (bytes)
       bytes         : 183 (0xB7)
       bytes total   : 183 (0xB7)
       Block size    : 256 (0x100)

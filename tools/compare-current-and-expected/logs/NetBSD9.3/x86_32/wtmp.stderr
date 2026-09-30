@@ -13,7 +13,7 @@ File: ./logs/NetBSD9.3/x86_32/wtmp
       flushes       : 8
       Entries       : 8
   Processed:
-      file size     : 320 (0x140) (bytes)
+      File size     : 320 (0x140) (bytes)
       bytes         : 320 (0x140)
       bytes total   : 320 (0x140)
       Block size    : 256 (0x100)

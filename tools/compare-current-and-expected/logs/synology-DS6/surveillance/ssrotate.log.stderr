@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
       Datetime first: 2022-09-18 14:18:39 +08:00 (2022-09-18 06:18:39.000000 +00:00)
       Datetime last : 2022-09-18 16:29:41 +08:00 (2022-09-18 08:29:41.000000 +00:00)
   Processed:
-      file size     : 2133 (0x855) (bytes)
+      File size     : 2133 (0x855) (bytes)
       bytes         : 2133 (0x855)
       bytes total   : 2133 (0x855)
       Block size    : 256 (0x100)

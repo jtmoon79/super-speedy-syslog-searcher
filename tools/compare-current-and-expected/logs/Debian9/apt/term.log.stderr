@@ -14,7 +14,7 @@ File: ./logs/Debian9/apt/term.log
       Datetime first: 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)
       Datetime last : 2019-10-26 16:20:13 +08:00 (2019-10-26 08:20:13.000000 +00:00)
   Processed:
-      file size     : 17422 (0x440E) (bytes)
+      File size     : 17422 (0x440E) (bytes)
       bytes         : 17422 (0x440E)
       bytes total   : 17422 (0x440E)
       Block size    : 256 (0x100)

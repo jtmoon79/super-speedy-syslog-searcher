@@ -14,7 +14,7 @@ File: ./logs/Debian9/samba/log.nmbd.1
       Datetime first: 2020-03-02 04:48:05 +08:00 (2020-03-01 20:48:05.426000 +00:00)
       Datetime last : 2020-03-02 05:13:26 +08:00 (2020-03-01 21:13:26.426000 +00:00)
   Processed:
-      file size     : 1783 (0x6F7) (bytes)
+      File size     : 1783 (0x6F7) (bytes)
       bytes         : 1783 (0x6F7)
       bytes total   : 1783 (0x6F7)
       Block size    : 256 (0x100)

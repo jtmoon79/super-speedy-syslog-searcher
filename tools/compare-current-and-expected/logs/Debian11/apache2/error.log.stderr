@@ -14,7 +14,7 @@ File: ./logs/Debian11/apache2/error.log
       Datetime first: 2022-10-10 23:56:29 +08:00 (2022-10-10 15:56:29.204202 +00:00)
       Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.467654 +00:00)
   Processed:
-      file size     : 693 (0x2B5) (bytes)
+      File size     : 693 (0x2B5) (bytes)
       bytes         : 693 (0x2B5)
       bytes total   : 693 (0x2B5)
       Block size    : 256 (0x100)

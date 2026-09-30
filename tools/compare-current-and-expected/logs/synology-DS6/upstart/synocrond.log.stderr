@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synocrond.log
       Datetime first: 2018-08-01 14:16:54 -07:00 (2018-08-01 21:16:54.000000 +00:00)
       Datetime last : 2019-08-18 21:24:43 -07:00 (2019-08-19 04:24:43.000000 +00:00)
   Processed:
-      file size     : 847 (0x34F) (bytes)
+      File size     : 847 (0x34F) (bytes)
       bytes         : 847 (0x34F)
       bytes total   : 847 (0x34F)
       Block size    : 256 (0x100)

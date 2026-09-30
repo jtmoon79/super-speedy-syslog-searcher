@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
       Datetime first: 2019-06-23 21:13:34 +08:00 (2019-06-23 13:13:34.000000 +00:00)
       Datetime last : 2019-06-23 21:13:34 +08:00 (2019-06-23 13:13:34.000000 +00:00)
   Processed:
-      file size     : 956 (0x3BC) (bytes)
+      File size     : 956 (0x3BC) (bytes)
       bytes         : 956 (0x3BC)
       bytes total   : 956 (0x3BC)
       Block size    : 256 (0x100)

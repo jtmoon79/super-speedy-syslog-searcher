@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/PFRO.log
       Datetime first: 2018-11-28 19:17:56 +08:00 (2018-11-28 11:17:56.000000 +00:00)
       Datetime last : 2022-09-14 22:00:28 +08:00 (2022-09-14 14:00:28.000000 +00:00)
   Processed:
-      file size     : 22346 (0x574A) (bytes)
+      File size     : 22346 (0x574A) (bytes)
       bytes         : 22346 (0x574A)
       bytes total   : 22346 (0x574A)
       Block size    : 256 (0x100)

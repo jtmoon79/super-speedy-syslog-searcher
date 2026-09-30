@@ -13,7 +13,7 @@ File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
       Event largest processed: 709 (bytes)
       Event largest accepted : 0 (bytes)
   Processed:
-      file size          : 8650752 (0x840000) (bytes)
+      File size          : 8650752 (0x840000) (bytes)
       Session name       : "PointInTimeRestore"
       Buffers read       : 132
       Buffers compressed : 0
@@ -25,7 +25,7 @@ File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
       Records skipped    : 0
       Datetime first     : 2026-07-15 09:44:35 +08:00 (2026-07-15 01:44:35.869889 +00:00)
       Datetime last      : 2026-09-25 02:36:59 +08:00 (2026-09-24 18:36:59.288322 +00:00)
-      out of order       : 21
+      Out of order       : 21
 
 Program summary:
 

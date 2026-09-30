@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/nfsd-adapter.log
       Datetime first: 2019-02-25 19:29:31 -08:00 (2019-02-26 03:29:31.000000 +00:00)
       Datetime last : 2019-06-23 21:06:28 -07:00 (2019-06-24 04:06:28.000000 +00:00)
   Processed:
-      file size     : 1193 (0x4A9) (bytes)
+      File size     : 1193 (0x4A9) (bytes)
       bytes         : 1193 (0x4A9)
       bytes total   : 1193 (0x4A9)
       Block size    : 256 (0x100)

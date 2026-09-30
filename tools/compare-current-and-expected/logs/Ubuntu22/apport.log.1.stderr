@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/apport.log.1
       Datetime first: 2022-09-20 23:15:39 +08:00 (2022-09-20 15:15:39.000000 +00:00)
       Datetime last : 2022-09-20 23:24:43 +08:00 (2022-09-20 15:24:43.000000 +00:00)
   Processed:
-      file size     : 524 (0x20C) (bytes)
+      File size     : 524 (0x20C) (bytes)
       bytes         : 524 (0x20C)
       bytes total   : 524 (0x20C)
       Block size    : 256 (0x100)

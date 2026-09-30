@@ -14,7 +14,7 @@ File: ./logs/RancherOS-1.5.8/syslog
       Datetime first: 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
       Datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
   Processed:
-      file size     : 1267 (0x4F3) (bytes)
+      File size     : 1267 (0x4F3) (bytes)
       bytes         : 1267 (0x4F3)
       bytes total   : 1267 (0x4F3)
       Block size    : 256 (0x100)

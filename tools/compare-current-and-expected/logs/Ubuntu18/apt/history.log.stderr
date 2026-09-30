@@ -14,7 +14,7 @@ File: ./logs/Ubuntu18/apt/history.log
       Datetime first: 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)
       Datetime last : 2020-03-05 11:57:11 +08:00 (2020-03-05 03:57:11.000000 +00:00)
   Processed:
-      file size     : 660 (0x294) (bytes)
+      File size     : 660 (0x294) (bytes)
       bytes         : 660 (0x294)
       bytes total   : 660 (0x294)
       Block size    : 256 (0x100)

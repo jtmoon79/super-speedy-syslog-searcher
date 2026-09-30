@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf9a-2.log
       Datetime first: 2022-07-17 00:00:11 +08:00 (2022-07-16 16:00:11.000000 +00:00)
       Datetime last : 2022-07-17 00:00:12 +08:00 (2022-07-16 16:00:12.000000 +00:00)
   Processed:
-      file size     : 478 (0x1DE) (bytes)
+      File size     : 478 (0x1DE) (bytes)
       bytes         : 478 (0x1DE)
       bytes total   : 478 (0x1DE)
       Block size    : 256 (0x100)

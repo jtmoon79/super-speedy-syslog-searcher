@@ -15,7 +15,7 @@ File: ./logs/other/tests/simple-8.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 8 (0x8) (bytes)
+      File size     : 8 (0x8) (bytes)
       bytes         : 8 (0x8)
       bytes total   : 8 (0x8)
       Block size    : 256 (0x100)

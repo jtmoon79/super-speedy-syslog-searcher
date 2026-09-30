@@ -14,7 +14,7 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       Datetime first: 2022-10-10 20:23:14 +00:00 (2022-10-10 20:23:14.000000 +00:00)
       Datetime last : 2022-10-10 20:23:15 +00:00 (2022-10-10 20:23:15.000000 +00:00)
   Processed:
-      file size     : 826 (0x33A) (bytes)
+      File size     : 826 (0x33A) (bytes)
       bytes         : 826 (0x33A)
       bytes total   : 826 (0x33A)
       Block size    : 256 (0x100)

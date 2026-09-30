@@ -13,7 +13,7 @@ File: ./logs/NetBSD9.3/x86_64/utmp
       flushes       : 1
       Entries       : 1
   Processed:
-      file size     : 760 (0x2F8) (bytes)
+      File size     : 760 (0x2F8) (bytes)
       bytes         : 760 (0x2F8)
       bytes total   : 760 (0x2F8)
       Block size    : 256 (0x100)

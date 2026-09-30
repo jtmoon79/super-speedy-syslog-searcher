@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
       Datetime first: 2018-11-29 23:50:14 -08:00 (2018-11-30 07:50:14.000000 +00:00)
       Datetime last : 2019-09-08 19:25:25 -07:00 (2019-09-09 02:25:25.000000 +00:00)
   Processed:
-      file size     : 1266 (0x4F2) (bytes)
+      File size     : 1266 (0x4F2) (bytes)
       bytes         : 1266 (0x4F2)
       bytes total   : 1266 (0x4F2)
       Block size    : 256 (0x100)

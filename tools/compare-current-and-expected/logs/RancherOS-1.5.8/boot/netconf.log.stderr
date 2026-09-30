@@ -14,7 +14,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       Datetime first: 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
       Datetime last : 2022-10-10 20:23:33 +00:00 (2022-10-10 20:23:33.000000 +00:00)
   Processed:
-      file size     : 3010 (0xBC2) (bytes)
+      File size     : 3010 (0xBC2) (bytes)
       bytes         : 3010 (0xBC2)
       bytes total   : 3010 (0xBC2)
       Block size    : 256 (0x100)

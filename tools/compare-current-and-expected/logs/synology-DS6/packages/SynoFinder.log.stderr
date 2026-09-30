@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/packages/SynoFinder.log
       Datetime first: 2019-06-23 21:12:28 +08:00 (2019-06-23 13:12:28.000000 +00:00)
       Datetime last : 2019-06-23 21:12:29 +08:00 (2019-06-23 13:12:29.000000 +00:00)
   Processed:
-      file size     : 1836 (0x72C) (bytes)
+      File size     : 1836 (0x72C) (bytes)
       bytes         : 1836 (0x72C)
       bytes total   : 1836 (0x72C)
       Block size    : 256 (0x100)

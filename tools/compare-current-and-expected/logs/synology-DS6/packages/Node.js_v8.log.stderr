@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
       Datetime first: 2019-08-31 23:51:57 +08:00 (2019-08-31 15:51:57.000000 +00:00)
       Datetime last : 2019-08-31 23:51:59 +08:00 (2019-08-31 15:51:59.000000 +00:00)
   Processed:
-      file size     : 2035 (0x7F3) (bytes)
+      File size     : 2035 (0x7F3) (bytes)
       bytes         : 2035 (0x7F3)
       bytes total   : 2035 (0x7F3)
       Block size    : 256 (0x100)

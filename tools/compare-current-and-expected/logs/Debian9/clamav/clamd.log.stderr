@@ -14,7 +14,7 @@ File: ./logs/Debian9/clamav/clamd.log
       Datetime first: 2019-10-04 13:21:36 +08:00 (2019-10-04 05:21:36.000000 +00:00)
       Datetime last : 2019-10-04 13:21:37 +08:00 (2019-10-04 05:21:37.000000 +00:00)
   Processed:
-      file size     : 570 (0x23A) (bytes)
+      File size     : 570 (0x23A) (bytes)
       bytes         : 570 (0x23A)
       bytes total   : 570 (0x23A)
       Block size    : 256 (0x100)

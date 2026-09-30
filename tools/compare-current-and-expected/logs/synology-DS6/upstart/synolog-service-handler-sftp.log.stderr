@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       Datetime first: 2016-12-08 18:56:19 -08:00 (2016-12-09 02:56:19.000000 +00:00)
       Datetime last : 2016-12-08 18:56:19 -08:00 (2016-12-09 02:56:19.000000 +00:00)
   Processed:
-      file size     : 328 (0x148) (bytes)
+      File size     : 328 (0x148) (bytes)
       bytes         : 328 (0x148)
       bytes total   : 328 (0x148)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/Ubuntu18/nvidia-installer.log
       Datetime first: 2019-05-31 13:49:08 +08:00 (2019-05-31 05:49:08.000000 +00:00)
       Datetime last : 2019-05-31 13:49:08 +08:00 (2019-05-31 05:49:08.000000 +00:00)
   Processed:
-      file size     : 874 (0x36A) (bytes)
+      File size     : 874 (0x36A) (bytes)
       bytes         : 874 (0x36A)
       bytes total   : 874 (0x36A)
       Block size    : 256 (0x100)

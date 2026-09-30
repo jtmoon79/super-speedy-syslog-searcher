@@ -14,7 +14,7 @@ File: ./logs/Debian9/auth.log
       Datetime first: 2020-02-23 06:37:40 +08:00 (2020-02-22 22:37:40.000000 +00:00)
       Datetime last : 2020-02-23 13:17:11 +08:00 (2020-02-23 05:17:11.000000 +00:00)
   Processed:
-      file size     : 1752 (0x6D8) (bytes)
+      File size     : 1752 (0x6D8) (bytes)
       bytes         : 1752 (0x6D8)
       bytes total   : 1752 (0x6D8)
       Block size    : 256 (0x100)

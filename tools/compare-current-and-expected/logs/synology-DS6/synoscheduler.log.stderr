@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synoscheduler.log
       Datetime first: 2016-12-05 20:37:01 -08:00 (2016-12-06 04:37:01.000000 +00:00)
       Datetime last : 2017-05-15 04:00:05 -07:00 (2017-05-15 11:00:05.000000 +00:00)
   Processed:
-      file size     : 1938 (0x792) (bytes)
+      File size     : 1938 (0x792) (bytes)
       bytes         : 1938 (0x792)
       bytes total   : 1938 (0x792)
       Block size    : 256 (0x100)

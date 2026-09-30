@@ -15,7 +15,7 @@ File: ./logs/Debian9/apt/eipp.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 374 (0x176) (bytes)
+      File size     : 374 (0x176) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 374 (0x176)
       Block size    : 256 (0x100)

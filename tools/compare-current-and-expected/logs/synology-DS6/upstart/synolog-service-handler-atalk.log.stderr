@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       Datetime first: 2016-12-05 21:16:11 -08:00 (2016-12-06 05:16:11.000000 +00:00)
       Datetime last : 2016-12-30 00:36:57 -08:00 (2016-12-30 08:36:57.000000 +00:00)
   Processed:
-      file size     : 799 (0x31F) (bytes)
+      File size     : 799 (0x31F) (bytes)
       bytes         : 799 (0x31F)
       bytes total   : 799 (0x31F)
       Block size    : 256 (0x100)

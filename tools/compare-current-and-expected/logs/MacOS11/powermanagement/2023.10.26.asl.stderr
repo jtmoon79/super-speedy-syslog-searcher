@@ -13,7 +13,7 @@ File: ./logs/MacOS11/powermanagement/2023.10.26.asl
       Datetime first: 2023-10-26 16:27:25 +08:00 (2023-10-26 08:27:25.731000 +00:00)
       Datetime last : 2023-10-26 16:31:31 +08:00 (2023-10-26 08:31:31.898000 +00:00)
   Processed:
-      file size          : 3366 (0xD26) (bytes)
+      File size          : 3366 (0xD26) (bytes)
       Events processed   : 10
       Events accepted    : 10
       Events read max    : 1

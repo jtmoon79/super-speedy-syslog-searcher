@@ -13,7 +13,7 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup
       flushes       : 5
       Entries       : 5
   Processed:
-      file size     : 1920 (0x780) (bytes)
+      File size     : 1920 (0x780) (bytes)
       bytes         : 1920 (0x780)
       bytes total   : 1920 (0x780)
       Block size    : 256 (0x100)

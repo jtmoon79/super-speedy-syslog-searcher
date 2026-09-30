@@ -13,7 +13,7 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
       flushes       : 5
       Entries       : 5
   Processed:
-      file size     : 2304 (0x900) (bytes)
+      File size     : 2304 (0x900) (bytes)
       bytes         : 2304 (0x900)
       bytes total   : 2304 (0x900)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf10-10a.log
       Datetime first: 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
       Datetime last : 2022-06-28 01:51:11 +00:30 (2022-06-28 01:21:11.000000 +00:00)
   Processed:
-      file size     : 298 (0x12A) (bytes)
+      File size     : 298 (0x12A) (bytes)
       bytes         : 298 (0x12A)
       bytes total   : 298 (0x12A)
       Block size    : 256 (0x100)

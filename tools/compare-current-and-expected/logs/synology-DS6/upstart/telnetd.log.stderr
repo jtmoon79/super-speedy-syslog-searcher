@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/telnetd.log
       Datetime first: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
       Datetime last : 2019-09-08 19:24:51 -07:00 (2019-09-09 02:24:51.000000 +00:00)
   Processed:
-      file size     : 883 (0x373) (bytes)
+      File size     : 883 (0x373) (bytes)
       bytes         : 883 (0x373)
       bytes total   : 883 (0x373)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       Datetime first: 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
       Datetime last : 2019-08-18 21:24:50 +08:00 (2019-08-18 13:24:50.000000 +00:00)
   Processed:
-      file size     : 1652 (0x674) (bytes)
+      File size     : 1652 (0x674) (bytes)
       bytes         : 1652 (0x674)
       bytes total   : 1652 (0x674)
       Block size    : 256 (0x100)

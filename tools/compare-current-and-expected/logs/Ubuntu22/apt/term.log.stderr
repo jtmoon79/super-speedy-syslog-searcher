@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/apt/term.log
       Datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       Datetime last : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
   Processed:
-      file size     : 1381 (0x565) (bytes)
+      File size     : 1381 (0x565) (bytes)
       bytes         : 1381 (0x565)
       bytes total   : 1381 (0x565)
       Block size    : 256 (0x100)

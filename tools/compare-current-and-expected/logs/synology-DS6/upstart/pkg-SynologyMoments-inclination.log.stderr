@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
       Datetime first: 2019-01-30 13:11:28 -08:00 (2019-01-30 21:11:28.000000 +00:00)
       Datetime last : 2019-02-08 01:43:39 -08:00 (2019-02-08 09:43:39.000000 +00:00)
   Processed:
-      file size     : 1617 (0x651) (bytes)
+      File size     : 1617 (0x651) (bytes)
       bytes         : 1617 (0x651)
       bytes total   : 1617 (0x651)
       Block size    : 256 (0x100)

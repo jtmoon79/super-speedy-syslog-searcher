@@ -14,7 +14,7 @@ File: ./logs/Debian9/aptitude.4
       Datetime first: 2019-09-12 22:23:40 -07:00 (2019-09-13 05:23:40.000000 +00:00)
       Datetime last : 2019-09-12 22:23:40 -07:00 (2019-09-13 05:23:40.000000 +00:00)
   Processed:
-      file size     : 834 (0x342) (bytes)
+      File size     : 834 (0x342) (bytes)
       bytes         : 834 (0x342)
       bytes total   : 834 (0x342)
       Block size    : 256 (0x100)

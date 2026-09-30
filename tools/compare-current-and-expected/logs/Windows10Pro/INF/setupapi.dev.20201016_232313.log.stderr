@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
       Datetime first: 2020-05-27 12:23:20 +08:00 (2020-05-27 04:23:20.500000 +00:00)
       Datetime last : 2020-05-27 12:30:05 +08:00 (2020-05-27 04:30:05.362000 +00:00)
   Processed:
-      file size     : 2335 (0x91F) (bytes)
+      File size     : 2335 (0x91F) (bytes)
       bytes         : 2335 (0x91F)
       bytes total   : 2335 (0x91F)
       Block size    : 256 (0x100)

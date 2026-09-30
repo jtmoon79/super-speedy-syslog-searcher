@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       Datetime first: 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
       Datetime last : 2017-02-18 14:59:18 -08:00 (2017-02-18 22:59:18.000000 +00:00)
   Processed:
-      file size     : 688 (0x2B0) (bytes)
+      File size     : 688 (0x2B0) (bytes)
       bytes         : 688 (0x2B0)
       bytes total   : 688 (0x2B0)
       Block size    : 256 (0x100)

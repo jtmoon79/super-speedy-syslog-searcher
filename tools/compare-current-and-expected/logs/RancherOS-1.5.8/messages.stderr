@@ -14,7 +14,7 @@ File: ./logs/RancherOS-1.5.8/messages
       Datetime first: 2022-10-09 21:31:38 +08:00 (2022-10-09 13:31:38.000000 +00:00)
       Datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
   Processed:
-      file size     : 27246 (0x6A6E) (bytes)
+      File size     : 27246 (0x6A6E) (bytes)
       bytes         : 27246 (0x6A6E)
       bytes total   : 27246 (0x6A6E)
       Block size    : 256 (0x100)

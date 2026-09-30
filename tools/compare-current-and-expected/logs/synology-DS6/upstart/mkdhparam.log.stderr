@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
       Datetime first: 2016-12-05 20:32:06 -08:00 (2016-12-06 04:32:06.000000 +00:00)
       Datetime last : 2016-12-05 22:19:48 -08:00 (2016-12-06 06:19:48.000000 +00:00)
   Processed:
-      file size     : 724 (0x2D4) (bytes)
+      File size     : 724 (0x2D4) (bytes)
       bytes         : 724 (0x2D4)
       bytes total   : 724 (0x2D4)
       Block size    : 256 (0x100)

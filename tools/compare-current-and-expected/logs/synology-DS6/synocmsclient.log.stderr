@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synocmsclient.log
       Datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
       Datetime last : 2016-12-05 21:34:33 -08:00 (2016-12-06 05:34:33.000000 +00:00)
   Processed:
-      file size     : 608 (0x260) (bytes)
+      File size     : 608 (0x260) (bytes)
       bytes         : 608 (0x260)
       bytes total   : 608 (0x260)
       Block size    : 256 (0x100)

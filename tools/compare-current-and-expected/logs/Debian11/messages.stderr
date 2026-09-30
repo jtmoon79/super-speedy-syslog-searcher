@@ -14,7 +14,7 @@ File: ./logs/Debian11/messages
       Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
       Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
   Processed:
-      file size     : 3258 (0xCBA) (bytes)
+      File size     : 3258 (0xCBA) (bytes)
       bytes         : 3258 (0xCBA)
       bytes total   : 3258 (0xCBA)
       Block size    : 256 (0x100)

@@ -13,7 +13,7 @@ File: ./logs/other/tests/zero100.log
       Lines         : 0
       Syslines      : 0
   Processed:
-      file size     : 100 (0x64) (bytes)
+      File size     : 100 (0x64) (bytes)
       bytes         : 100 (0x64)
       bytes total   : 100 (0x64)
       Block size    : 256 (0x100)

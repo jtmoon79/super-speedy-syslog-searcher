@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/eaupgrade.log
       Datetime first: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
       Datetime last : 2017-09-17 10:12:07 -07:00 (2017-09-17 17:12:07.000000 +00:00)
   Processed:
-      file size     : 1710 (0x6AE) (bytes)
+      File size     : 1710 (0x6AE) (bytes)
       bytes         : 1710 (0x6AE)
       bytes total   : 1710 (0x6AE)
       Block size    : 256 (0x100)

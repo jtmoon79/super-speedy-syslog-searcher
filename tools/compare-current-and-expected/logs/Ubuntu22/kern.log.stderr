@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/kern.log
       Datetime first: 2022-10-03 21:48:26 +08:00 (2022-10-03 13:48:26.000000 +00:00)
       Datetime last : 2022-10-03 21:48:37 +08:00 (2022-10-03 13:48:37.000000 +00:00)
   Processed:
-      file size     : 2883 (0xB43) (bytes)
+      File size     : 2883 (0xB43) (bytes)
       bytes         : 2883 (0xB43)
       bytes total   : 2883 (0xB43)
       Block size    : 256 (0x100)

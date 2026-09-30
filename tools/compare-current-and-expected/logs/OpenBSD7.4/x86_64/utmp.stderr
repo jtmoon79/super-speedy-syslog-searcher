@@ -13,7 +13,7 @@ File: ./logs/OpenBSD7.4/x86_64/utmp
       flushes       : 2
       Entries       : 2
   Processed:
-      file size     : 6992 (0x1B50) (bytes)
+      File size     : 6992 (0x1B50) (bytes)
       bytes         : 6992 (0x1B50)
       bytes total   : 6992 (0x1B50)
       Block size    : 256 (0x100)

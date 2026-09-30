@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/syno-move-coredump.log
       Datetime first: 2018-10-15 14:09:07 -07:00 (2018-10-15 21:09:07.000000 +00:00)
       Datetime last : 2019-03-11 18:02:40 -07:00 (2019-03-12 01:02:40.000000 +00:00)
   Processed:
-      file size     : 1292 (0x50C) (bytes)
+      File size     : 1292 (0x50C) (bytes)
       bytes         : 1292 (0x50C)
       bytes total   : 1292 (0x50C)
       Block size    : 256 (0x100)

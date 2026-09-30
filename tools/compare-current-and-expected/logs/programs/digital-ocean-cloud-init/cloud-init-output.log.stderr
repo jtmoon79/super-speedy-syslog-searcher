@@ -15,7 +15,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 6502 (0x1966) (bytes)
+      File size     : 6502 (0x1966) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 6502 (0x1966)
       Block size    : 256 (0x100)

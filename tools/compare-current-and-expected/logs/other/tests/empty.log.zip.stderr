@@ -15,7 +15,7 @@ File: ./logs/other/tests/empty.log.zip
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 152 (0x98) (bytes)
+      File size     : 152 (0x98) (bytes)
       bytes         : 152 (0x98)
       bytes total   : 152 (0x98)
       Block size    : 256 (0x100)

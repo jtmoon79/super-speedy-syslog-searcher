@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
       Datetime first: 2018-10-15 14:09:31 -07:00 (2018-10-15 21:09:31.000000 +00:00)
       Datetime last : 2019-06-23 21:11:15 -07:00 (2019-06-24 04:11:15.000000 +00:00)
   Processed:
-      file size     : 408 (0x198) (bytes)
+      File size     : 408 (0x198) (bytes)
       bytes         : 408 (0x198)
       bytes total   : 408 (0x198)
       Block size    : 256 (0x100)

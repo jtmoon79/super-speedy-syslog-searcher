@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/messages
       Datetime first: 2020-03-08 14:25:30 -07:00 (2020-03-08 21:25:30.000000 +00:00)
       Datetime last : 2020-03-08 14:25:59 -07:00 (2020-03-08 21:25:59.000000 +00:00)
   Processed:
-      file size     : 3591 (0xE07) (bytes)
+      File size     : 3591 (0xE07) (bytes)
       bytes         : 3591 (0xE07)
       bytes total   : 3591 (0xE07)
       Block size    : 256 (0x100)

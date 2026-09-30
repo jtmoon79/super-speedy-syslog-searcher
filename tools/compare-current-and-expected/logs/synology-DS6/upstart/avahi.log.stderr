@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/avahi.log
       Datetime first: 2016-12-05 20:31:30 -08:00 (2016-12-06 04:31:30.000000 +00:00)
       Datetime last : 2016-12-05 21:39:57 -08:00 (2016-12-06 05:39:57.000000 +00:00)
   Processed:
-      file size     : 1577 (0x629) (bytes)
+      File size     : 1577 (0x629) (bytes)
       bytes         : 1577 (0x629)
       bytes total   : 1577 (0x629)
       Block size    : 256 (0x100)

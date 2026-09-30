@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/prime-supported.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 30 (0x1E) (bytes)
+      File size     : 30 (0x1E) (bytes)
       bytes         : 30 (0x1E)
       bytes total   : 30 (0x1E)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synocrond.log
       Datetime first: 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)
       Datetime last : 2019-09-04 02:42:28 -07:00 (2019-09-04 09:42:28.000000 +00:00)
   Processed:
-      file size     : 1639 (0x667) (bytes)
+      File size     : 1639 (0x667) (bytes)
       bytes         : 1639 (0x667)
       bytes total   : 1639 (0x667)
       Block size    : 256 (0x100)

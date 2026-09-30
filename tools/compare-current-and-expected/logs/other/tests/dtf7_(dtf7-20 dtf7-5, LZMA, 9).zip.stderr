@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 670 (0x29E) (bytes)
+      File size     : 670 (0x29E) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 670 (0x29E)
       Block size    : 256 (0x100)

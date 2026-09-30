@@ -13,7 +13,7 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx.0
       flushes       : 7
       Entries       : 7
   Processed:
-      file size     : 3612 (0xE1C) (bytes)
+      File size     : 3612 (0xE1C) (bytes)
       bytes         : 3612 (0xE1C)
       bytes total   : 3612 (0xE1C)
       Block size    : 256 (0x100)

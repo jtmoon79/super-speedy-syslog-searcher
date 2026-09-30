@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
       Datetime first: 2016-12-05 21:01:12 -08:00 (2016-12-06 05:01:12.000000 +00:00)
       Datetime last : 2018-08-01 14:14:13 -07:00 (2018-08-01 21:14:13.000000 +00:00)
   Processed:
-      file size     : 1036 (0x40C) (bytes)
+      File size     : 1036 (0x40C) (bytes)
       bytes         : 1036 (0x40C)
       bytes total   : 1036 (0x40C)
       Block size    : 256 (0x100)

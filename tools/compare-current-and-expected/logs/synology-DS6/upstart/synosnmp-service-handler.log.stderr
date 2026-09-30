@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
       Datetime first: 2016-12-05 21:00:59 -08:00 (2016-12-06 05:00:59.000000 +00:00)
       Datetime last : 2018-08-01 14:14:03 -07:00 (2018-08-01 21:14:03.000000 +00:00)
   Processed:
-      file size     : 970 (0x3CA) (bytes)
+      File size     : 970 (0x3CA) (bytes)
       bytes         : 970 (0x3CA)
       bytes total   : 970 (0x3CA)
       Block size    : 256 (0x100)

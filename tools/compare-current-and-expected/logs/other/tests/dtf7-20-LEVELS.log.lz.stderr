@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 249 (0xF9) (bytes)
+      File size     : 249 (0xF9) (bytes)
       bytes         : 249 (0xF9)
       bytes total   : 249 (0xF9)
       Block size    : 256 (0x100)

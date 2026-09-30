@@ -13,7 +13,7 @@ File: ./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl
       Event largest processed: 715 (bytes)
       Event largest accepted : 0 (bytes)
   Processed:
-      file size          : 65536 (0x10000) (bytes)
+      File size          : 65536 (0x10000) (bytes)
       Session name       : "Microsoft.Windows.Remediation"
       Buffers read       : 1
       Buffers compressed : 0
@@ -25,7 +25,7 @@ File: ./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl
       Records skipped    : 0
       Datetime first     : 2026-09-24 10:24:51 +08:00 (2026-09-24 02:24:51.739180 +00:00)
       Datetime last      : 2026-09-24 10:24:51 +08:00 (2026-09-24 02:24:51.739180 +00:00)
-      out of order       : 0
+      Out of order       : 0
 
 Program summary:
 

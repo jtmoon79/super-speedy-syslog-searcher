@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log
       Datetime first: 2018-12-06 02:27:37 -08:00 (2018-12-06 10:27:37.000000 +00:00)
       Datetime last : 2019-08-31 14:22:03 -07:00 (2019-08-31 21:22:03.000000 +00:00)
   Processed:
-      file size     : 1264 (0x4F0) (bytes)
+      File size     : 1264 (0x4F0) (bytes)
       bytes         : 1264 (0x4F0)
       bytes total   : 1264 (0x4F0)
       Block size    : 256 (0x100)

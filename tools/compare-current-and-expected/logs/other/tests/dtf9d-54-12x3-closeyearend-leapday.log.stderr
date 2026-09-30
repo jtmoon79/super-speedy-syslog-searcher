@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       Datetime first: 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
       Datetime last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
   Processed:
-      file size     : 1197 (0x4AD) (bytes)
+      File size     : 1197 (0x4AD) (bytes)
       bytes         : 941 (0x3AD)
       bytes total   : 1197 (0x4AD)
       Block size    : 256 (0x100)

@@ -13,7 +13,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
       Datetime first: 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
       Datetime last : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
   Processed:
-      file size          : 20499 (0x5013) (bytes)
+      File size          : 20499 (0x5013) (bytes)
       Events processed   : 615
       Events accepted    : 615
       Events read max    : 1

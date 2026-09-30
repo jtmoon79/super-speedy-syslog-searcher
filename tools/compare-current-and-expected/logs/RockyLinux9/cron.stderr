@@ -14,7 +14,7 @@ File: ./logs/RockyLinux9/cron
       Datetime first: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
       Datetime last : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
   Processed:
-      file size     : 12532 (0x30F4) (bytes)
+      File size     : 12532 (0x30F4) (bytes)
       bytes         : 12532 (0x30F4)
       bytes total   : 12532 (0x30F4)
       Block size    : 256 (0x100)

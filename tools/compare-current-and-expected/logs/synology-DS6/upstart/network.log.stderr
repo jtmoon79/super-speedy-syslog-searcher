@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/network.log
       Datetime first: 2016-12-05 20:31:23 -08:00 (2016-12-06 04:31:23.000000 +00:00)
       Datetime last : 2016-12-05 20:31:28 -08:00 (2016-12-06 04:31:28.000000 +00:00)
   Processed:
-      file size     : 1083 (0x43B) (bytes)
+      File size     : 1083 (0x43B) (bytes)
       bytes         : 1083 (0x43B)
       bytes total   : 1083 (0x43B)
       Block size    : 256 (0x100)

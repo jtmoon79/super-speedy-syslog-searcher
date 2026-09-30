@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
       Datetime first: 2020-05-27 12:21:10 +08:00 (2020-05-27 04:21:10.000000 +00:00)
       Datetime last : 2020-05-27 12:21:11 +08:00 (2020-05-27 04:21:11.000000 +00:00)
   Processed:
-      file size     : 12932 (0x3284) (bytes)
+      File size     : 12932 (0x3284) (bytes)
       bytes         : 12932 (0x3284)
       bytes total   : 12932 (0x3284)
       Block size    : 256 (0x100)

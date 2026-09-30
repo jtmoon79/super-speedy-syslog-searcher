@@ -14,7 +14,7 @@ File: ./logs/MinGW64/pacman.log
       Datetime first: 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
       Datetime last : 2018-05-31 12:21:00 +08:00 (2018-05-31 04:21:00.000000 +00:00)
   Processed:
-      file size     : 5699 (0x1643) (bytes)
+      File size     : 5699 (0x1643) (bytes)
       bytes         : 5699 (0x1643)
       bytes total   : 5699 (0x1643)
       Block size    : 256 (0x100)

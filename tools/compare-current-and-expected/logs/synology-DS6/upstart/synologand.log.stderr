@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synologand.log
       Datetime first: 2018-08-01 14:16:55 -07:00 (2018-08-01 21:16:55.000000 +00:00)
       Datetime last : 2018-10-15 14:09:07 -07:00 (2018-10-15 21:09:07.000000 +00:00)
   Processed:
-      file size     : 961 (0x3C1) (bytes)
+      File size     : 961 (0x3C1) (bytes)
       bytes         : 961 (0x3C1)
       bytes total   : 961 (0x3C1)
       Block size    : 256 (0x100)

@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/dpkg.log.1
       Datetime first: 2022-09-01 06:21:01 +08:00 (2022-08-31 22:21:01.000000 +00:00)
       Datetime last : 2022-09-01 06:21:07 +08:00 (2022-08-31 22:21:07.000000 +00:00)
   Processed:
-      file size     : 951 (0x3B7) (bytes)
+      File size     : 951 (0x3B7) (bytes)
       bytes         : 951 (0x3B7)
       bytes total   : 951 (0x3B7)
       Block size    : 256 (0x100)

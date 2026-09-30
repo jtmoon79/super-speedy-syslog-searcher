@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 730 (0x2DA) (bytes)
+      File size     : 730 (0x2DA) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 730 (0x2DA)
       Block size    : 256 (0x100)
