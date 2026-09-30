@@ -5,7 +5,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
       Processing Err : no syslog lines found in file
   Printed:
       bytes         : 0
@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 431 (0x1AF) (bytes)
+      File size     : 431 (0x1AF) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 431 (0x1AF)
       Block size    : 256 (0x100)
@@ -61,6 +61,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 62
 Sysline longest                : 0
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

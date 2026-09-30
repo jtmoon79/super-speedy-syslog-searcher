@@ -5,7 +5,7 @@ File: ./logs/FreeBSD13.1/devd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1714
       flushes       : 9
@@ -14,7 +14,7 @@ File: ./logs/FreeBSD13.1/devd.log
       Datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
       Datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
   Processed:
-      file size     : 612 (0x264) (bytes)
+      File size     : 612 (0x264) (bytes)
       bytes         : 612 (0x264)
       bytes total   : 612 (0x264)
       Block size    : 256 (0x100)
@@ -64,6 +64,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 59
 Sysline longest                : 69
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

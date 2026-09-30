@@ -5,7 +5,7 @@ File: ./logs/MinGW64/pacman.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 11411
       flushes       : 102
@@ -14,7 +14,7 @@ File: ./logs/MinGW64/pacman.log
       Datetime first: 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
       Datetime last : 2018-05-31 12:21:00 +08:00 (2018-05-31 04:21:00.000000 +00:00)
   Processed:
-      file size     : 5699 (0x1643) (bytes)
+      File size     : 5699 (0x1643) (bytes)
       bytes         : 5699 (0x1643)
       bytes total   : 5699 (0x1643)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 92
 Sysline longest                : 92
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

@@ -5,7 +5,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3826
       flushes       : 6
@@ -14,7 +14,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
       Datetime first: 2020-05-27 11:29:27 +08:00 (2020-05-27 03:29:27.787000 +00:00)
       Datetime last : 2020-05-27 12:07:06 +08:00 (2020-05-27 04:07:06.604000 +00:00)
   Processed:
-      file size     : 1919 (0x77F) (bytes)
+      File size     : 1919 (0x77F) (bytes)
       bytes         : 1919 (0x77F)
       bytes total   : 1919 (0x77F)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 188
 Sysline longest                : 609
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

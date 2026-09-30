@@ -5,7 +5,7 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
       Processing Err : no syslog lines found in file
   Printed:
       bytes         : 0
@@ -13,7 +13,7 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
       Lines         : 0
       Syslines      : 0
   Processed:
-      file size     : 3486 (0xD9E) (bytes)
+      File size     : 3486 (0xD9E) (bytes)
       bytes         : 256 (0x100)
       bytes total   : 3486 (0xD9E)
       Block size    : 256 (0x100)
@@ -59,6 +59,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 0
 Sysline longest                : 0
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

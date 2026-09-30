@@ -7,13 +7,13 @@ File: ./logs/OpenBSD7.2/x86_32/utmp.1
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
-      Thread stack  : 2152448 (bytes)
+      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 265
       flushes       : 2
       Entries       : 2
   Processed:
-      file size     : 7600 (0x1DB0) (bytes)
+      File size     : 7600 (0x1DB0) (bytes)
       bytes         : 7600 (0x1DB0)
       bytes total   : 7600 (0x1DB0)
       Block size    : 256 (0x100)
@@ -51,6 +51,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 0
 Sysline longest                : 0
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

@@ -1,0 +1,1777 @@
+<Events>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Guid="{9e814aad-3204-11d2-9a82-006008a86939}" />
+		<EventID>0</EventID>
+		<Version>2</Version>
+		<Level>0</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x0</Keywords>
+		<TimeCreated RawTime="17586092178" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="4" ThreadID="25276" ProcessorID="0" KernelTime="45" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="BufferSize">    4096</Data>
+		<Data Name="Version">83951626</Data>
+		<Data Name="ProviderVersion">   26200</Data>
+		<Data Name="NumberOfProcessors">       1</Data>
+		<Data Name="EndTime">134346951402627030</Data>
+		<Data Name="TimerResolution">  156250</Data>
+		<Data Name="MaxFileSize">     512</Data>
+		<Data Name="LogFileMode">0x11002009</Data>
+		<Data Name="BuffersWritten">       7</Data>
+		<Data Name="StartBuffers">       1</Data>
+		<Data Name="PointerSize">       8</Data>
+		<Data Name="EventsLost">       0</Data>
+		<Data Name="CPUSpeed">    4491</Data>
+		<Data Name="LoggerName">0xA</Data>
+		<Data Name="LogFileName">0x7</Data>
+		<Data Name="BootTime">134346919425000000</Data>
+		<Data Name="PerfFreq">10000000</Data>
+		<Data Name="StartTime">134346937035914631</Data>
+		<Data Name="ReservedFlags">0x1</Data>
+		<Data Name="BuffersLost">       0</Data>
+		<Data Name="SessionNameString">WindowsUpdate_trace_log</Data>
+		<Data Name="LogFileNameString">C:\WINDOWS\Logs\WindowsUpdate\WindowsUpdate.20260923.202143.590.3.etl</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Opcode>Header</Opcode>
+		<Provider>MSNT_SystemTrace</Provider>
+		<EventName xmlns="http://schemas.microsoft.com/win/2004/08/events/trace">EventTrace</EventName>
+	</RenderingInfo>
+	<ExtendedTracingInfo xmlns="http://schemas.microsoft.com/win/2004/08/events/trace">
+		<EventGuid>{68fdd900-4a3e-11d1-84f4-0000f80464e3}</EventGuid>
+	</ExtendedTracingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Guid="{9e814aad-3204-11d2-9a82-006008a86939}" />
+		<EventID>0</EventID>
+		<Version>2</Version>
+		<Level>0</Level>
+		<Task>0</Task>
+		<Opcode>80</Opcode>
+		<Keywords>0x0</Keywords>
+		<TimeCreated RawTime="17586092178" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="4" ThreadID="25276" ProcessorID="0" KernelTime="45" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="EventVersion">0</Data>
+		<Data Name="Reserved">0</Data>
+		<Data Name="PartitionType">       0</Data>
+		<Data Name="QpcOffsetFromRoot">0</Data>
+		<Data Name="PartitionId"></Data>
+		<Data Name="ParentId"></Data>
+		<Data Name="win:ExtraPayload" Type="win:ErrorMoreData">0x00000000000000000000000000000000000000000000000000000000</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Opcode>PartitionInfoExtensionV2</Opcode>
+		<Provider>MSNT_SystemTrace</Provider>
+		<EventName xmlns="http://schemas.microsoft.com/win/2004/08/events/trace">EventTrace</EventName>
+	</RenderingInfo>
+	<ExtendedTracingInfo xmlns="http://schemas.microsoft.com/win/2004/08/events/trace">
+		<EventGuid>{68fdd900-4a3e-11d1-84f4-0000f80464e3}</EventGuid>
+	</ExtendedTracingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="25924111105" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27572" ProcessorID="0" KernelTime="465" UserTime="1065" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : Job complete delegate invoked.</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="25924111162" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27572" ProcessorID="0" KernelTime="465" UserTime="1065" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : Ending deployment for updates, CallerId = MoUpdateOrchestrator, Exit code = 0x00000000</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="25924112593" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27376" ProcessorID="0" KernelTime="15" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : WaitForEnd invoked for deployment job. Beginning the wait now!</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="25924113283" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="32020" ProcessorID="0" KernelTime="30" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deploy call E601D41B-34E4-4DCE-85FD-F1A999D17E9F : NotifyClient (32020)(0) called with Deployment callback code = Update success, reboot status = unspecified</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="25924113922" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="32020" ProcessorID="0" KernelTime="30" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deploy call E601D41B-34E4-4DCE-85FD-F1A999D17E9F : Callback to client with code Update success and error 0 </Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="25924123415" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="13588" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">WU client logged Install deloyment history, caller = MoUpdateOrchestrator, update 624F8F61-FD5B-4DF9-B992-122BE8FAB976.1, classification CD5FFD1E-E932-4E3A-BF74-18BF0B1BBD83</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="25924125164" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="13588" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : NotifyClient (13588)(0) called with Deployment callback code = Job complete, reboot status = non mandatory reboot</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="25924125380" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="22808" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : NotifyClient - m_fNoMoreCallbackNeeded = Yes, m_fCallbackNeededForJob = No, fNoMorePerUpdateCallbackNeeded = Yes, JobCallbackComplete = Yes</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="25924126592" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27376" ProcessorID="0" KernelTime="15" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : WaitForEnd for deployment job completed. Job state = Complete</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="25924126637" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27376" ProcessorID="0" KernelTime="15" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : CallbackWorker returning successfully.</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="25924127551" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27864" ProcessorID="0" KernelTime="15" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : WaitForEnd invoked for deployment job. Beginning the wait now!</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="25924128111" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27864" ProcessorID="0" KernelTime="15" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : WaitForEnd for deployment job completed. Job state = Complete</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="25924128151" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27864" ProcessorID="0" KernelTime="15" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">WU client deploy call id E601D41B-34E4-4DCE-85FD-F1A999D17E9F final update deployment job E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 result = 0x00000000.</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="25924137710" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27864" ProcessorID="0" KernelTime="15" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deploy call E601D41B-34E4-4DCE-85FD-F1A999D17E9F : Call complete delegate invoked.</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="25924138912" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27864" ProcessorID="0" KernelTime="15" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">* END * execution of Deploy call id = E601D41B-34E4-4DCE-85FD-F1A999D17E9F, CallerId = MoUpdateOrchestrator</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="25924139380" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="32020" ProcessorID="0" KernelTime="30" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deploy call E601D41B-34E4-4DCE-85FD-F1A999D17E9F : NotifyClient (32020)(0) called with Deployment callback code = Call complete, reboot status = non mandatory reboot</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25924139816" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="10676" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info"> Install ClientId = MoUpdateOrchestrator</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25924139838" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="10676" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Install call complete (succeeded = 1, succeeded with errors = 0, failed = 0, cancelled = 0, unaccounted = 0</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25924140316" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="10676" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Reboot required = True</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25924140324" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="10676" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">* END *   Install ClientId = MoUpdateOrchestrator</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="25924140584" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="32020" ProcessorID="0" KernelTime="30" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deploy call E601D41B-34E4-4DCE-85FD-F1A999D17E9F : Callback to client with code Call complete and error 0 </Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25924141416" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="51192" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">XxxJobImpl: _EndXxx invoked (cV = xcoo/IWOPU+R1TmW.2.0.0)</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25924141689" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="31900" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Install call complete (succeeded = 1, succeeded with errors = 0, failed = 0, cancelled = 0, unaccounted = 0</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25924142220" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="31900" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">* END *   All federated installs have completed. ClientId = MoUpdateOrchestrator (cV = xcoo/IWOPU+R1TmW.2.1), hr = 0x00000000</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25924145806" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="18508" ProcessorID="0" KernelTime="645" UserTime="660" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">XxxJobImpl: _EndXxx invoked (cV = xcoo/IWOPU+R1TmW.2.1)</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25924145853" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="18508" ProcessorID="0" KernelTime="645" UserTime="660" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">* START *   SupportsExtendedAttributes2   called</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x100</Keywords>
+		<TimeCreated RawTime="25924159911" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="27864" ProcessorID="0" KernelTime="15" UserTime="105" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">WU operation (CDeployCall::Init.MoUpdateOrchestrator ID 5, operation # 109) stopped; does not use network; is not at background priority (cV = (null))</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>IdleTimer</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x2</Keywords>
+		<TimeCreated RawTime="25925207513" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="30608" ProcessorID="0" KernelTime="60" UserTime="45" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Handler with ID [0xC] supports extended attributes</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>DownloadManager</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25925275702" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="18508" ProcessorID="0" KernelTime="645" UserTime="660" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">* END *   SupportsExtendedAttributes2   </Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25925275733" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="18508" ProcessorID="0" KernelTime="645" UserTime="660" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">* START *   GetAttributeInt   Attribute name = UpdateDowntimeLevel</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000</Keywords>
+		<TimeCreated RawTime="25927235342" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="30608" ProcessorID="0" KernelTime="90" UserTime="210" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Using the update&apos;s service stack dll file &apos;C:\WINDOWS\SoftwareDistribution\Download\e21b16c7ec9fa459\Metadata\UpdateAgent.dll&apos; </Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Handler</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000</Keywords>
+		<TimeCreated RawTime="25927267402" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="30608" ProcessorID="0" KernelTime="90" UserTime="210" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">CreateDeploymentSessionEx: Fallbacking with OptionalSessionInfo version 5.</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Handler</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25932308731" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="18508" ProcessorID="0" KernelTime="645" UserTime="660" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">* END *   GetAttributeInt   Attribute value = [1010]</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="25932313915" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="30608" ProcessorID="0" KernelTime="90" UserTime="240" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">CSusAsyncCall: Async call with id 5, external id {E601D41B-34E4-4DCE-85FD-F1A999D17E9F}, was already finished</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25933334013" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="18508" ProcessorID="0" KernelTime="645" UserTime="660" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Serializing CUpdate 624F8F61-FD5B-4DF9-B992-122BE8FAB976.1, Last modified time 2026-09-24T03:21:49Z</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25934270867" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="18508" ProcessorID="0" KernelTime="675" UserTime="720" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Update serialization complete. BSTR byte length = 10729045</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25934620829" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="18508" ProcessorID="0" KernelTime="675" UserTime="735" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">IUpdate::get_RebootRequired called for update 624F8F61-FD5B-4DF9-B992-122BE8FAB976.1</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x10000</Keywords>
+		<TimeCreated RawTime="25934620961" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="19680" ThreadID="18508" ProcessorID="0" KernelTime="675" UserTime="735" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">IUpdate::get_RebootRequired exited for update 624F8F61-FD5B-4DF9-B992-122BE8FAB976.1, reboot required = Yes</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>ComApi</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31932394701" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="48040" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Earliest future timer found: </Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31932394798" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="48040" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">    Timer: 29A863E7-8609-4D1E-B7CD-5668F857F1DB, Expires 2026-09-25 02:24:37, not idle-only, not network-only</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x800</Keywords>
+		<TimeCreated RawTime="31942451253" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">UninitializeSUS</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Shared</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31942451264" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">CSusClientGlobal::DoServicePreShutdown</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x100</Keywords>
+		<TimeCreated RawTime="31942452228" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Idle timer disabled in preparation for service shutdown</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>IdleTimer</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31942452263" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Agent uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942452698" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">CSusAsyncCall: Async call with id 5, external id {E601D41B-34E4-4DCE-85FD-F1A999D17E9F}, was already finished</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x2</Keywords>
+		<TimeCreated RawTime="31942453070" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Exiting CDownloadHandlerCallbackHandler::Uninit within timeout bounds</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>DownloadManager</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942453080" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">CWorkItemManager::Uninit Start</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942453146" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Waiting for 7 WU client worker threads to go away</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942456267" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">CWorkItemManager::Uninit End</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942457126" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Revoked Class Objects for CClientCallRecorder.</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942458006" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">WaitForActiveCallersToLeave call completed!</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942458589" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Sending shutdown notification to client</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942461728" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Sending shutdown notification to client</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942463253" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Sending shutdown notification to client</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942464327" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Sending shutdown notification to client</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942465243" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Sending shutdown notification to client</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942466122" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Sending shutdown notification to client</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942466953" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Sending shutdown notification to client</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942467769" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">ReleaseClientReferences call completed!</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942467884" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="18380" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment session (host process 10016) signalled to exit...</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="31942468311" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="18380" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : Destructor invoked for deployment job.</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="31942468346" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="18380" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : WaitForEnd invoked for deployment job. Beginning the wait now!</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1000000</Keywords>
+		<TimeCreated RawTime="31942468952" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="18380" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Deployment job Id E3CAD9A3-1285-46FF-A3AE-49723F42B9C1 : WaitForEnd for deployment job completed. Job state = Complete</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Deployment</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942481151" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">ReleaseAllUpdateDeploymentSessionCF call completed!</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942481158" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="41880" ProcessorID="0" KernelTime="0" UserTime="0" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">WaitForRefCountReset call completed!</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x1</Keywords>
+		<TimeCreated RawTime="31942485135" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Completing ClientCallRecorder::Uninit function!</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Agent</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31942499934" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Reporter uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31942501091" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">network cost manager uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31942501418" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="390" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Eventer uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31952610469" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="405" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">ServiceManager uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31952611130" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="405" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">PersistentTimeoutScheduler uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31952611144" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="405" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">datastore uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31952790596" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="405" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">setting cache uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31952790607" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="405" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">security checker uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31952790638" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="405" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">Test Hook uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x20</Keywords>
+		<TimeCreated RawTime="31952790644" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="405" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">IdleTimer uninit</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Misc</Task>
+	</RenderingInfo>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+	<System>
+		<Provider Name="WUTraceLogging" Guid="{0b7a6f19-47c4-454e-8c5c-e868d637e4d8}" />
+		<EventID>0</EventID>
+		<Version>0</Version>
+		<Level>4</Level>
+		<Task>0</Task>
+		<Opcode>0</Opcode>
+		<Keywords>0x800</Keywords>
+		<TimeCreated RawTime="31952796080" />
+		<Correlation ActivityID="{00000000-0000-0000-0000-000000000000}" />
+		<Execution ProcessID="10016" ThreadID="9536" ProcessorID="0" KernelTime="405" UserTime="150" />
+		<Channel />
+		<Computer />
+	</System>
+	<EventData>
+		<Data Name="Info">* END * Service exit Exit code = 0x240001</Data>
+	</EventData>
+	<RenderingInfo Culture="en-US">
+		<Task>Shared</Task>
+	</RenderingInfo>
+</Event>
+</Events>

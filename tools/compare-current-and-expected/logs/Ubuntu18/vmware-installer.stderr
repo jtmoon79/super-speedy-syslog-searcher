@@ -5,7 +5,7 @@ File: ./logs/Ubuntu18/vmware-installer
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2678
       flushes       : 18
@@ -14,7 +14,7 @@ File: ./logs/Ubuntu18/vmware-installer
       Datetime first: 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.032000 +00:00)
       Datetime last : 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.712000 +00:00)
   Processed:
-      file size     : 1544 (0x608) (bytes)
+      File size     : 1544 (0x608) (bytes)
       bytes         : 1544 (0x608)
       bytes total   : 1544 (0x608)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 122
 Sysline longest                : 122
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

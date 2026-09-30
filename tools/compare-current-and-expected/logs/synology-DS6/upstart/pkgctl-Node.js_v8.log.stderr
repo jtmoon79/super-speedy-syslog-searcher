@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3343
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
       Datetime first: 2019-08-31 23:52:25 -07:00 (2019-09-01 06:52:25.000000 +00:00)
       Datetime last : 2019-11-16 14:56:41 -08:00 (2019-11-16 22:56:41.000000 +00:00)
   Processed:
-      file size     : 1823 (0x71F) (bytes)
+      File size     : 1823 (0x71F) (bytes)
       bytes         : 1823 (0x71F)
       bytes total   : 1823 (0x71F)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 155
 Sysline longest                : 155
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

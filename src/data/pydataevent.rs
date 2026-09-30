@@ -1,6 +1,6 @@
-// src/data/etl.rs
+// src/data/pydataevent.rs
 
-//! Data representation of `.etl` events.
+//! Data representation of `.asl` and `.odl` events parsed by Python scripts.
 
 use std::fmt;
 
@@ -31,15 +31,7 @@ use crate::data::datetime::DateTimeL;
 
 pub type EventBytes = Bytes;
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum EtlParserUsed {
-    /// Use the Python project `dissect.etl` to parse the ETL file
-    DissectEtl,
-    /// Use the Python project `etl-parser` to parse the ETL file
-    EtlParser,
-}
-
-/// Data representing a single `.etl` or `.odl` file log message.
+/// Data representing a single `.asl` or `.odl` file log message.
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct PyDataEvent {
     /// Data extracted from the event.
@@ -99,7 +91,7 @@ impl PyDataEvent {
         &self.dt
     }
 
-    /// The ETL event as a `&[u8]`.
+    /// The event as a `&[u8]`.
     // TODO: 2025/11 *almost* stable as const
     //       `Vec::<T, A>::as_slice` is not yet stable as a const fn
     pub fn as_bytes(&self) -> &[u8] {

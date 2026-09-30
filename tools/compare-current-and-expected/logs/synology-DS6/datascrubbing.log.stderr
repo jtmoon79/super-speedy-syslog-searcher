@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/datascrubbing.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3698
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/datascrubbing.log
       Datetime first: 2018-08-01 14:16:54 -07:00 (2018-08-01 21:16:54.000000 +00:00)
       Datetime last : 2018-10-25 12:26:10 -07:00 (2018-10-25 19:26:10.000000 +00:00)
   Processed:
-      file size     : 2406 (0x966) (bytes)
+      File size     : 2406 (0x966) (bytes)
       bytes         : 2406 (0x966)
       bytes total   : 2406 (0x966)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 186
 Sysline longest                : 186
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

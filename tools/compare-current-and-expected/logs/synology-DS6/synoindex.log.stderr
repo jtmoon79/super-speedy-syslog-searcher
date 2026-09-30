@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/synoindex.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1947
       flushes       : 8
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synoindex.log
       Datetime first: 2018-12-06 02:30:31 -08:00 (2018-12-06 10:30:31.000000 +00:00)
       Datetime last : 2018-12-06 04:15:48 -08:00 (2018-12-06 12:15:48.000000 +00:00)
   Processed:
-      file size     : 1435 (0x59B) (bytes)
+      File size     : 1435 (0x59B) (bytes)
       bytes         : 1435 (0x59B)
       bytes total   : 1435 (0x59B)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 191
 Sysline longest                : 191
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

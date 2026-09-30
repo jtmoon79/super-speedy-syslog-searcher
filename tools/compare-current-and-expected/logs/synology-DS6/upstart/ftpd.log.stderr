@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/upstart/ftpd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2173
       flushes       : 18
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/ftpd.log
       Datetime first: 2016-12-08 18:56:16 -08:00 (2016-12-09 02:56:16.000000 +00:00)
       Datetime last : 2017-10-19 10:18:47 -07:00 (2017-10-19 17:18:47.000000 +00:00)
   Processed:
-      file size     : 900 (0x384) (bytes)
+      File size     : 900 (0x384) (bytes)
       bytes         : 900 (0x384)
       bytes total   : 900 (0x384)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 59
 Sysline longest                : 59
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

@@ -5,7 +5,7 @@ File: ./logs/Debian9/Xorg.0.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
       Processing Err : failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -15,7 +15,7 @@ File: ./logs/Debian9/Xorg.0.log
       Datetime first: None Found
       Datetime last : None Found
   Processed:
-      file size     : 1249 (0x4E1) (bytes)
+      File size     : 1249 (0x4E1) (bytes)
       bytes         : 481 (0x1E1)
       bytes total   : 1249 (0x4E1)
       Block size    : 256 (0x100)
@@ -64,6 +64,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 75
 Sysline longest                : 70
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

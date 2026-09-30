@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/packages/LogCenter.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2310
       flushes       : 5
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/packages/LogCenter.log
       Datetime first: 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
       Datetime last : 2019-08-18 21:28:26 +08:00 (2019-08-18 13:28:26.000000 +00:00)
   Processed:
-      file size     : 923 (0x39B) (bytes)
+      File size     : 923 (0x39B) (bytes)
       bytes         : 923 (0x39B)
       bytes total   : 923 (0x39B)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 94
 Sysline longest                : 322
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

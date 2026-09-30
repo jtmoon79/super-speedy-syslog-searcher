@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2862
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
       Datetime first: 2016-12-05 20:47:06 -08:00 (2016-12-06 04:47:06.000000 +00:00)
       Datetime last : 2017-02-24 02:30:14 -08:00 (2017-02-24 10:30:14.000000 +00:00)
   Processed:
-      file size     : 1247 (0x4DF) (bytes)
+      File size     : 1247 (0x4DF) (bytes)
       bytes         : 1247 (0x4DF)
       bytes total   : 1247 (0x4DF)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 66
 Sysline longest                : 66
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

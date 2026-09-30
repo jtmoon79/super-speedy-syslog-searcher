@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/sfdisk.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3000
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/sfdisk.log
       Datetime first: 2017-04-06 01:07:40 -07:00 (2017-04-06 08:07:40.000000 +00:00)
       Datetime last : 2020-02-24 16:36:10 -08:00 (2020-02-25 00:36:10.000000 +00:00)
   Processed:
-      file size     : 1841 (0x731) (bytes)
+      File size     : 1841 (0x731) (bytes)
       bytes         : 1841 (0x731)
       bytes total   : 1841 (0x731)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 135
 Sysline longest                : 135
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

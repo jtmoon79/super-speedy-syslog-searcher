@@ -5,7 +5,7 @@ File: ./logs/other/tests/dtf9a-2.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 600
       flushes       : 2
@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf9a-2.log
       Datetime first: 2022-07-17 00:00:11 +08:00 (2022-07-16 16:00:11.000000 +00:00)
       Datetime last : 2022-07-17 00:00:12 +08:00 (2022-07-16 16:00:12.000000 +00:00)
   Processed:
-      file size     : 478 (0x1DE) (bytes)
+      File size     : 478 (0x1DE) (bytes)
       bytes         : 478 (0x1DE)
       bytes total   : 478 (0x1DE)
       Block size    : 256 (0x100)
@@ -64,6 +64,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 239
 Sysline longest                : 239
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

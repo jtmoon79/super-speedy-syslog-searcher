@@ -5,7 +5,7 @@ File: ./logs/Ubuntu22/auth.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2253
       flushes       : 14
@@ -14,7 +14,7 @@ File: ./logs/Ubuntu22/auth.log
       Datetime first: 2022-10-03 21:52:12 +08:00 (2022-10-03 13:52:12.000000 +00:00)
       Datetime last : 2022-10-03 22:15:45 +08:00 (2022-10-03 14:15:45.000000 +00:00)
   Processed:
-      file size     : 1483 (0x5CB) (bytes)
+      File size     : 1483 (0x5CB) (bytes)
       bytes         : 1483 (0x5CB)
       bytes total   : 1483 (0x5CB)
       Block size    : 256 (0x100)
@@ -64,6 +64,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 155
 Sysline longest                : 155
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

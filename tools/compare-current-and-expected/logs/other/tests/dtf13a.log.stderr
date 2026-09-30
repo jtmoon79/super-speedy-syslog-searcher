@@ -5,7 +5,7 @@ File: ./logs/other/tests/dtf13a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 411
       flushes       : 3
@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf13a.log
       Datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
       Datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.628322 +00:00)
   Processed:
-      file size     : 231 (0xE7) (bytes)
+      File size     : 231 (0xE7) (bytes)
       bytes         : 231 (0xE7)
       bytes total   : 231 (0xE7)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 78
 Sysline longest                : 78
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

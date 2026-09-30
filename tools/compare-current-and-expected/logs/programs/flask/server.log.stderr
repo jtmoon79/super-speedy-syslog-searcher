@@ -5,7 +5,7 @@ File: ./logs/programs/flask/server.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 492
       flushes       : 4
@@ -14,7 +14,7 @@ File: ./logs/programs/flask/server.log
       Datetime first: 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)
       Datetime last : 2024-03-22 15:11:55 +08:00 (2024-03-22 07:11:55.000000 +00:00)
   Processed:
-      file size     : 240 (0xF0) (bytes)
+      File size     : 240 (0xF0) (bytes)
       bytes         : 240 (0xF0)
       bytes total   : 240 (0xF0)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 60
 Sysline longest                : 60
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

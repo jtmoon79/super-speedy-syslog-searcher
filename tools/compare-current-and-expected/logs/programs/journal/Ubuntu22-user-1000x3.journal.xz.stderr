@@ -5,7 +5,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
   About:
       FileType      : JOURNAL (XZ) (systemd Journal)
       LogMessageType: systemd journal entries
-      Thread stack  : 2255872 (bytes)
+      Thread stack  : 207872 (bytes)
   Printed:
       bytes         : 12856
       flushes       : 8
@@ -21,7 +21,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
       API errors    : 0
       Datetime first: 2023-04-02 15:06:40 +08:00 (2023-04-02 07:06:40.060134 +00:00)
       Datetime last : 2023-04-02 15:07:00 +08:00 (2023-04-02 07:07:00.789680 +00:00)
-      out of order  : 0
+      Out of order  : 0
 
 Program summary:
 
@@ -42,6 +42,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 0
 Sysline longest                : 0
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 932

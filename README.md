@@ -195,7 +195,7 @@ See further options in section [_Building locally_](#building-locally).
 
 #### Create the Python Virtual Environment
 
-If there are `.asl`, `.etl`, or `.odl` log files that may be processed then
+If there are `.asl` or `.odl` log files that may be processed then
 create a Python virtual environment:
 
 ```sh
@@ -622,16 +622,6 @@ Options:
             short-monotonic, short-unix, verbose, export, cat]
           [env: S4_JOURNAL_OUTPUT=]
 
-      --etl-parser
-          For parsing Windows Event Tracing Log (.etl) files, use Python library
-          etl-parser. By default, Python library dissect.etl is used.
-          The etl-parser library may have more complete information but is slower
-          than dissect.etl.
-          Requires prior creation of a Python virtual environment with
-          the --venv option. Or use environment variable S4_PYTHON set to
-          a Python interpreter path with necessary packages installed.
-          [env: S4_ETL_PARSER=]
-
   -c, --color <COLOR_CHOICE>
           Choose to print using colors.
           Possible values:
@@ -666,9 +656,8 @@ Python Virtual Environment Mode:
 
       --venv  Create a Python virtual environment exclusively for s4.
               This is only necessary for parsing
-              Apple System Log (.asl) files,
-              OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files, and
-              Windows Event Tracing Log (.etl) files.
+              Apple System Log (.asl) files and
+              OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files.
               This only needs to be created once.
               When this option is used, no other options may be passed.
               The Python interpreter used may be set by environment variable
@@ -950,13 +939,17 @@ See the latest [release] for pre-compiled binaries.
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within
   other archive files or compressed files ([Issue #14])<br/>
   e.g. cannot process `logs.tar.xz`, nor file `log.gz` within `logs.tar`
-- `.asl`, `.etl`, and `.odl` files are processed by a Python script
+- `.asl` and `.odl` files are processed by a Python script
   run by a child process Python interpreter. _This is not super or speedy_.
   It does implement support for these file types which are common on Windows
   and Mac.
   Someday it would be great to have a Rust implementation of those python-based
   parsers ([Issue #443]).
   See [`src/python/s4_event_readers/s4_event_readers`](src/python/s4_event_readers/s4_event_readers).
+- `.etl` files are parsed natively. Events with self-describing TraceLogging
+  metadata and kernel `EventTrace` header events are fully decoded. Events that
+  require an external manifest or WPP `.tmf`/`.pdb` files are printed with their
+  header fields and a hexadecimal payload.
 
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
 [Issue #11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11
@@ -1483,12 +1476,11 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
 - Code in this repository is licensed under [the MIT License](./LICENSE.txt).
 - Code in `src/python/s4_event_readers/s4_event_readers/ccl_asldb.py`
   is [licensed under a shareable copyright](src/python/s4_event_readers/s4_event_readers/LICENSE-ccl_asldb.txt).
-- Code in `src/python/s4_event_readers/s4_event_readers/etl_reader_etl_parser.py`
-  is [licensed under the Apache License, Version 2.0](src/python/s4_event_readers/s4_event_readers/LICENSE-etl_reader_etl_parser.txt).
 - Code in `src/python/s4_event_readers/s4_event_readers/odl_reader.py`
   is [licensed under the MIT License](src/python/s4_event_readers/s4_event_readers/LICENSE-odl_reader.txt).
 - Some code under `subprojects/ere` is [licensed under the MIT License](https://github.com/2kai2kai2/ere/blob/9ae714909f24e025612e385419af17aaed843a60/LICENSE).
 - Code under `src/subprojects/lzma_rs` is [licensed under the MIT License](https://github.com/gendx/lzma-rs/blob/1f14478def43b8ea0d27a6b3db88bb307aafd18a/LICENSE).
+- Code under `src/subprojects/rust_lzxpress` is [licensed under the MIT License](src/subprojects/rust_lzxpress/LICENSE).
 
 ## Stargazers<!-- omit in toc -->
 

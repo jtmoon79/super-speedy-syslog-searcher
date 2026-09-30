@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/samba/log.smbd
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2326
       flushes       : 8
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/samba/log.smbd
       Datetime first: 2016-12-05 20:31:45 +08:00 (2016-12-05 12:31:45.000000 +00:00)
       Datetime last : 2016-12-05 21:16:10 +08:00 (2016-12-05 13:16:10.000000 +00:00)
   Processed:
-      file size     : 1091 (0x443) (bytes)
+      File size     : 1091 (0x443) (bytes)
       bytes         : 1091 (0x443)
       bytes total   : 1091 (0x443)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 80
 Sysline longest                : 153
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

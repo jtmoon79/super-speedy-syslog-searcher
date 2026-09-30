@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3648
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
       Datetime first: 2016-12-05 20:31:49 -08:00 (2016-12-06 04:31:49.000000 +00:00)
       Datetime last : 2017-02-23 14:52:26 -08:00 (2017-02-23 22:52:26.000000 +00:00)
   Processed:
-      file size     : 2033 (0x7F1) (bytes)
+      File size     : 2033 (0x7F1) (bytes)
       bytes         : 2033 (0x7F1)
       bytes total   : 2033 (0x7F1)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 107
 Sysline longest                : 107
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

@@ -5,7 +5,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2446
       flushes       : 10
@@ -14,7 +14,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
       Datetime first: 2020-03-08 06:23:48 +08:00 (2020-03-07 22:23:48.100000 +00:00)
       Datetime last : 2020-03-08 06:23:48 +08:00 (2020-03-07 22:23:48.100000 +00:00)
   Processed:
-      file size     : 1211 (0x4BB) (bytes)
+      File size     : 1211 (0x4BB) (bytes)
       bytes         : 1211 (0x4BB)
       bytes total   : 1211 (0x4BB)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 85
 Sysline longest                : 132
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

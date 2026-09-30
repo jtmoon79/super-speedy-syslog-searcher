@@ -46,9 +46,10 @@ use crate::data::line::{
 };
 use crate::debug::helpers::{
     create_temp_file,
-    create_temp_file_no_permissions,
     ntf_fpath,
 };
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::printers::{
     buffer_to_string_noraw,
     byte_to_char_noraw,

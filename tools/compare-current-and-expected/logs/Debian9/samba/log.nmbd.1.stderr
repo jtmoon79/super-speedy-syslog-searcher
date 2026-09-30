@@ -5,7 +5,7 @@ File: ./logs/Debian9/samba/log.nmbd.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2814
       flushes       : 6
@@ -14,7 +14,7 @@ File: ./logs/Debian9/samba/log.nmbd.1
       Datetime first: 2020-03-02 04:48:05 +08:00 (2020-03-01 20:48:05.426000 +00:00)
       Datetime last : 2020-03-02 05:13:26 +08:00 (2020-03-01 21:13:26.426000 +00:00)
   Processed:
-      file size     : 1783 (0x6F7) (bytes)
+      File size     : 1783 (0x6F7) (bytes)
       bytes         : 1783 (0x6F7)
       bytes total   : 1783 (0x6F7)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 109
 Sysline longest                : 283
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

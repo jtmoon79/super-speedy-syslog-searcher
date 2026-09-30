@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/synophoto.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3998
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synophoto.log
       Datetime first: 2018-12-06 14:36:24 -08:00 (2018-12-06 22:36:24.000000 +00:00)
       Datetime last : 2019-01-03 00:11:43 -08:00 (2019-01-03 08:11:43.000000 +00:00)
   Processed:
-      file size     : 2782 (0xADE) (bytes)
+      File size     : 2782 (0xADE) (bytes)
       bytes         : 2782 (0xADE)
       bytes total   : 2782 (0xADE)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 188
 Sysline longest                : 188
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

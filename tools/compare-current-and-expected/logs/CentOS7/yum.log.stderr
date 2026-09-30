@@ -5,7 +5,7 @@ File: ./logs/CentOS7/yum.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 16271
       flushes       : 142
@@ -14,7 +14,7 @@ File: ./logs/CentOS7/yum.log
       Datetime first: 2019-10-06 01:14:54 +08:00 (2019-10-05 17:14:54.000000 +00:00)
       Datetime last : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
   Processed:
-      file size     : 8586 (0x218A) (bytes)
+      File size     : 8586 (0x218A) (bytes)
       bytes         : 8586 (0x218A)
       bytes total   : 8586 (0x218A)
       Block size    : 256 (0x100)
@@ -64,6 +64,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 75
 Sysline longest                : 75
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

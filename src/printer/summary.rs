@@ -51,6 +51,7 @@ use crate::data::datetime::{
     DATETIME_PARSE_DATAS_LEN,
     DATETIME_PARSE_DATAS_LEN_MAX,
 };
+use crate::data::etl::Etl;
 use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
@@ -175,7 +176,7 @@ pub struct SummaryPrinted {
     pub fixedstructentries: Count,
     /// count of `PyDataEvent` printed for .asl files
     pub aslentries: Count,
-    /// count of `PyDataEvent` printed for .etl files
+    /// count of `Etl` printed
     pub etlentries: Count,
     /// count of `Evtx` printed
     pub evtxentries: Count,
@@ -274,6 +275,7 @@ impl SummaryPrinted {
             _summarysyslogprocessor_opt,
             summaryfixedstructreader_opt,
             summarypyeventreader_opt,
+            summaryetlreader_opt,
             summaryevtxreader_opt,
             summaryjournalreader_opt,
         ) = match &summary.readerdata {
@@ -296,6 +298,7 @@ impl SummaryPrinted {
                     None,
                     None,
                     None,
+                    None,
                 )
             }
             SummaryReaderData::FixedStruct(
@@ -313,6 +316,7 @@ impl SummaryPrinted {
                     None,
                     None,
                     None,
+                    None,
                 )
             }
             SummaryReaderData::PyEvent(summarypyeventreader) => {
@@ -325,10 +329,25 @@ impl SummaryPrinted {
                     Some(summarypyeventreader),
                     None,
                     None,
+                    None,
+                )
+            }
+            SummaryReaderData::Etl(summaryetlreader) => {
+                (
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    Some(summaryetlreader),
+                    None,
+                    None,
                 )
             }
             SummaryReaderData::Etvx(summaryevtxreader) => {
                 (
+                    None,
                     None,
                     None,
                     None,
@@ -341,6 +360,7 @@ impl SummaryPrinted {
             }
             SummaryReaderData::Journal(summaryjournalreader) => {
                 (
+                    None,
                     None,
                     None,
                     None,
@@ -446,6 +466,30 @@ impl SummaryPrinted {
                 None => {
                     debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_none());
                 }
+            }
+        }
+
+        if let Some(summaryetlreader) = summaryetlreader_opt {
+            eprintln!("{}bytes         : {}", indent2, self.bytes);
+            eprintln!("{}flushes       : {}", indent2, self.flushed);
+            eprintln!("{}Events        : {}", indent2, self.etlentries);
+            eprintln!(
+                "{}Event largest processed: {} (bytes)",
+                indent2, summaryetlreader.etlreader_event_largest_processed
+            );
+            eprintln!(
+                "{}Event largest accepted : {} (bytes)",
+                indent2, summaryetlreader.etlreader_event_largest_accepted
+            );
+            if let Some(dt) = summaryetlreader.etlreader_datetime_first_accepted {
+                eprint!("{}Datetime first: ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                eprintln!();
+            }
+            if let Some(dt) = summaryetlreader.etlreader_datetime_last_accepted {
+                eprint!("{}Datetime last : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                eprintln!();
             }
         }
 
@@ -581,9 +625,6 @@ impl SummaryPrinted {
             PyEventType::Asl { .. } => {
                 self.aslentries += 1;
             }
-            PyEventType::Etl { .. } => {
-                self.etlentries += 1;
-            }
             PyEventType::Odl { .. } => {
                 self.odlentries += 1;
             }
@@ -591,6 +632,24 @@ impl SummaryPrinted {
         self.bytes += printed;
         self.flushed += flushed;
         self.summaryprint_update_dt(pyevent.dt());
+    }
+
+    /// Update a `SummaryPrinted` with information from a printed `Etl`.
+    pub fn summaryprint_update_etl(
+        &mut self,
+        etl: &Etl,
+        printed: Count,
+        flushed: Count,
+    ) {
+        defñ!();
+        debug_assert!(
+            matches!(self.logmessagetype, LogMessageType::Etl | LogMessageType::All),
+            "Unexpected LogMessageType {:?}", self.logmessagetype,
+        );
+        self.etlentries += 1;
+        self.bytes += printed;
+        self.flushed += flushed;
+        self.summaryprint_update_dt(etl.dt());
     }
 
     /// Update a `SummaryPrinted` with information from a printed `Evtx`.
@@ -700,6 +759,29 @@ impl SummaryPrinted {
         };
     }
 
+    /// Update a mapping of `PathId` to `SummaryPrinted` for a `Etl`.
+    ///
+    /// Helper function to function `processing_loop`.
+    pub fn summaryprint_map_update_etl(
+        etl: &Etl,
+        pathid: &PathId,
+        map_: &mut MapPathIdSummaryPrint,
+        printed: Count,
+        flushed: Count,
+    ) {
+        defñ!();
+        match map_.get_mut(pathid) {
+            Some(sp) => {
+                sp.summaryprint_update_etl(etl, printed, flushed);
+            }
+            None => {
+                let mut sp = SummaryPrinted::new(LogMessageType::Etl);
+                sp.summaryprint_update_etl(etl, printed, flushed);
+                map_.insert(*pathid, sp);
+            }
+        };
+    }
+
     /// Update a mapping of `PathId` to `SummaryPrinted` for a `FixedStruct`.
     ///
     /// Helper function to function `processing_loop`.
@@ -758,6 +840,9 @@ impl SummaryPrinted {
     ) {
         defñ!();
         match logmessage {
+            LogMessage::Etl(etl) => {
+                Self::summaryprint_map_update_etl(etl, pathid, map_, printed, flushed)
+            }
             LogMessage::Evtx(evtx) => {
                 Self::summaryprint_map_update_evtx(evtx, pathid, map_, printed, flushed)
             }
@@ -816,6 +901,26 @@ pub(crate) fn summary_longest_line_sysline(map_pathid_summary: &MapPathIdSummary
     }
 
     (longest_line, longest_sysline)
+}
+
+/// Helper to function `print_summary`
+pub(crate) fn summary_largest_etl_event(map_pathid_summary: &MapPathIdSummary) -> (Count, Count) {
+    let mut largest_processed: Count = 0;
+    let mut largest_accepted: Count = 0;
+    for summary in map_pathid_summary.values() {
+        if let SummaryReaderData::Etl(summaryetlreader) = &summary.readerdata {
+            largest_processed = std::cmp::max(
+                largest_processed,
+                summaryetlreader.etlreader_event_largest_processed,
+            );
+            largest_accepted = std::cmp::max(
+                largest_accepted,
+                summaryetlreader.etlreader_event_largest_accepted,
+            );
+        }
+    }
+
+    (largest_processed, largest_accepted)
 }
 
 /// Helper to function `print_summary`
@@ -899,6 +1004,7 @@ pub fn print_summary(
         "".as_bytes()
     );
     let (longest_line, longest_sysline) = summary_longest_line_sysline(&map_pathid_summary);
+    let (etl_event_largest_processed, etl_event_largest_accepted) = summary_largest_etl_event(&map_pathid_summary);
     let (event_largest_processed, event_largest_accepted) = summary_largest_evtx_event(&map_pathid_summary);
     let (journal_event_largest_processed, journal_event_largest_accepted) = summary_largest_journal_event(&map_pathid_summary);
 
@@ -945,6 +1051,8 @@ pub fn print_summary(
     eprintln!("Line Maximum                   : {}", LINE_SEARCH_MAX);
     eprintln!("Line longest                   : {}", longest_line);
     eprintln!("Sysline longest                : {}", longest_sysline);
+    eprintln!("ETL event largest processed    : {}", etl_event_largest_processed);
+    eprintln!("ETL event largest accepted     : {}", etl_event_largest_accepted);
     eprintln!("EVTX event largest processed   : {}", event_largest_processed);
     eprintln!("EVTX event largest accepted    : {}", event_largest_accepted);
     eprintln!("Journal event largest processed: {}", journal_event_largest_processed);
@@ -1358,7 +1466,7 @@ fn print_summary_opt_processed(
         }
         SummaryReaderData::PyEvent(summarypyeventreader) => {
             eprintln!(
-                "{}file size          : {1} (0x{1:X}) (bytes)",
+                "{}File size          : {1} (0x{1:X}) (bytes)",
                 indent2, summarypyeventreader.pyeventreader_filesz,
             );
             eprintln!("{}Events processed   : {}", indent2, summarypyeventreader.pyeventreader_events_processed);
@@ -1392,9 +1500,46 @@ fn print_summary_opt_processed(
             let args: String = summarypyeventreader.pyeventreader_python_arguments.join(" ");
             eprintln!("{}Python script arguments    : {}", indent2, args);
         }
+        SummaryReaderData::Etl(summaryetlreader) => {
+            eprintln!(
+                "{}File size          : {1} (0x{1:X}) (bytes)",
+                indent2, summaryetlreader.etlreader_filesz,
+            );
+            eprintln!("{}Session name       : {:?}", indent2, summaryetlreader.etlreader_session_name);
+            eprintln!("{}Buffers read       : {}", indent2, summaryetlreader.etlreader_buffers_read);
+            eprintln!("{}Buffers compressed : {}", indent2, summaryetlreader.etlreader_buffers_compressed);
+            eprintln!("{}Events processed   : {}", indent2, summaryetlreader.etlreader_events_processed);
+            eprintln!("{}Events accepted    : {}", indent2, summaryetlreader.etlreader_events_accepted);
+            eprintln!("{}Events TraceLogging: {}", indent2, summaryetlreader.etlreader_events_tracelogging);
+            eprintln!("{}Events kernel      : {}", indent2, summaryetlreader.etlreader_events_kernel);
+            eprintln!("{}Events undecoded   : {}", indent2, summaryetlreader.etlreader_events_undecoded);
+            eprint!("{}Records skipped    : ", indent2);
+            eprintln_display_color_error(
+                &summaryetlreader.etlreader_records_skipped,
+                |n| *n != 0,
+                color_choice,
+            );
+            if let Some(dt) = summaryetlreader.etlreader_datetime_first_processed {
+                eprint!("{}Datetime first     : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
+            }
+            if let Some(dt) = summaryetlreader.etlreader_datetime_last_processed {
+                eprint!("{}Datetime last      : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
+            }
+            eprint!("{}Out of order       : ", indent2);
+            eprintln_display_color_error(
+                &summaryetlreader.etlreader_out_of_order,
+                |n| *n != 0,
+                color_choice,
+            );
+            return;
+        }
         SummaryReaderData::Etvx(summaryevtxreader) => {
             eprintln!(
-                "{}file size          : {1} (0x{1:X}) (bytes)",
+                "{}File size          : {1} (0x{1:X}) (bytes)",
                 indent2, summaryevtxreader.evtxreader_filesz,
             );
             // TODO: [2023/04/05] add `sourced` size. Requires additional
@@ -1412,7 +1557,7 @@ fn print_summary_opt_processed(
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                 eprintln!();
             }
-            eprint!("{}out of order       : ", indent2);
+            eprint!("{}Out of order       : ", indent2);
             eprintln_display_color_error(
                 &summaryevtxreader.evtxreader_out_of_order,
                 |n| *n != 0,
@@ -1452,7 +1597,7 @@ fn print_summary_opt_processed(
                 eprintln!();
             }
             // print journal events out of chronological order
-            eprint!("{}out of order  : ", indent2);
+            eprint!("{}Out of order  : ", indent2);
             eprintln_display_color_error(
                 &summaryjournalreader.journalreader_out_of_order,
                 |n| *n != 0,
@@ -1547,7 +1692,7 @@ fn print_summary_opt_processed_summaryblockreader(
         | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
         => {
             eprintln!(
-                "{}file size     : {1} (0x{1:X}) (bytes)",
+                "{}File size     : {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
             );
         }
@@ -1949,6 +2094,7 @@ fn print_cache_stats(
                 wide,
             );
         }
+        SummaryReaderData::Etl(_summaryetlreader) => {}
         SummaryReaderData::Etvx(_summaryevtxreader) => {}
         SummaryReaderData::Journal(_summaryjournalreader) => {}
         SummaryReaderData::PyEvent(_summarypyeventreader) => {}
@@ -2041,6 +2187,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
                 wide = wide,
             );
         }
+        SummaryReaderData::Etl(..) => debug_panic!("Unexpected SummaryReaderData::Etl"),
         SummaryReaderData::Etvx(..) => debug_panic!("Unexpected SummaryReaderData::Etvx"),
         SummaryReaderData::Journal(..) => debug_panic!("Unexpected SummaryReaderData::Journal"),
         SummaryReaderData::PyEvent(..) => debug_panic!("Unexpected SummaryReaderData::PyEvent"),

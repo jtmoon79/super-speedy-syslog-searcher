@@ -7,13 +7,13 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_Arm64Aarch64_Utmpx
-      Thread stack  : 2152448 (bytes)
+      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 1370
       flushes       : 6
       Entries       : 6
   Processed:
-      file size     : 2400 (0x960) (bytes)
+      File size     : 2400 (0x960) (bytes)
       bytes         : 2400 (0x960)
       bytes total   : 2400 (0x960)
       Block size    : 256 (0x100)
@@ -51,6 +51,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 0
 Sysline longest                : 0
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

@@ -5,7 +5,7 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1278
       flushes       : 8
@@ -14,7 +14,7 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
       Datetime first: 2022-01-01 00:00:01 +08:00 (2021-12-31 16:00:01.000000 +00:00)
       Datetime last : 2022-01-11 00:00:11 +08:00 (2022-01-10 16:00:11.000000 +00:00)
   Processed:
-      file size     : 450 (0x1C2) (bytes)
+      File size     : 450 (0x1C2) (bytes)
       bytes         : 450 (0x1C2)
       bytes total   : 450 (0x1C2)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 44
 Sysline longest                : 84
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

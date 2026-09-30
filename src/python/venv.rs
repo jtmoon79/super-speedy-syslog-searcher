@@ -436,32 +436,6 @@ pub fn create() -> Result3E<()> {
         "inflated project {} to temporary path {:?}\n", PROJECT_NAME, project_tmp_path.path()
     );
 
-    // install wheel
-    // this is purely to workaround using an older etl-parser package
-    // that uses legacy setup.py installation. without wheel
-    // the later project installation warns of a deprecated install method.
-    match PyRunner::run_once(
-        PythonToUse::Venv,
-        PIPE_SZ,
-        RECV_TIMEOUT,
-        CHUNK_DELIMITER,
-        None,
-        vec![
-            "-m",
-            "pip",
-            "install",
-            "wheel",
-        ],
-        true,
-    ) {
-        Ok(_) => {},
-        Err(err) => {
-            e_err!("Failed to ensurepip: {}", err);
-            def1x!("PyRunner::new failed {:?}", err);
-            return Result3E::ErrNoReprint(err);
-        }
-    };
-
     // install required python packages
     match PyRunner::run_once(
         PythonToUse::Venv,

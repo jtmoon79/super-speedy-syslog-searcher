@@ -1214,6 +1214,17 @@
 ./logs/programs/Crowdstrike/CrowdStrike Windows Sensor_20240321000238.log|2024-03-20 17:02:50 -0700
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
+./logs/programs/Event_Trace_Log/PITR/PITR.log|2026-09-24T11:37:00 -07:00
+./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl|2026-09-24T11:37:00 -07:00
+./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl.int|2026-09-24T11:37:00 -07:00
+./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl.xml|2026-09-24T11:37:00 -07:00
+./logs/programs/Event_Trace_Log/ReFSLog.etl|2026-09-24T10:52:00 -07:00
+./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl|2026-09-23 19:24:51.738446000 -0700
+./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl.int|2026-09-23 19:24:51.738446000 -0700
+./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl.xml|2026-09-23 19:24:51.738446000 -0700
+./logs/programs/Event_Trace_Log/WindowsUpdate.20260923.202143.590.3.etl|2026-09-23 20:45:40.260245200 -0700
+./logs/programs/Event_Trace_Log/WindowsUpdate.20260923.202143.590.3.etl.int|2026-09-23 20:45:40.260245200 -0700
+./logs/programs/Event_Trace_Log/WindowsUpdate.20260923.202143.590.3.etl.xml|2026-09-23 20:45:40.260245200 -0700
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2|2025-10-05 03:31:20.000000000 -0700
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz|2025-10-05 03:31:20.000000000 -0700
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz|2025-10-05 03:31:20.000000000 -0700

@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/upstart/inetd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2007
       flushes       : 11
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/inetd.log
       Datetime first: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
       Datetime last : 2019-11-14 21:05:42 -08:00 (2019-11-15 05:05:42.000000 +00:00)
   Processed:
-      file size     : 715 (0x2CB) (bytes)
+      File size     : 715 (0x2CB) (bytes)
       bytes         : 715 (0x2CB)
       bytes total   : 715 (0x2CB)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 55
 Sysline longest                : 71
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2644
       flushes       : 3
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
       Datetime first: 2019-06-23 21:15:15 +08:00 (2019-06-23 13:15:15.000000 +00:00)
       Datetime last : 2019-06-24 01:53:25 +08:00 (2019-06-23 17:53:25.000000 +00:00)
   Processed:
-      file size     : 1143 (0x477) (bytes)
+      File size     : 1143 (0x477) (bytes)
       bytes         : 1143 (0x477)
       bytes total   : 1143 (0x477)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 100
 Sysline longest                : 700
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

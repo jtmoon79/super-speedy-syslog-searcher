@@ -5,7 +5,7 @@ File: ./logs/Debian9/samba/log.192.168.0.2
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 293
       flushes       : 1
@@ -14,7 +14,7 @@ File: ./logs/Debian9/samba/log.192.168.0.2
       Datetime first: 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.944900 +00:00)
       Datetime last : 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.944900 +00:00)
   Processed:
-      file size     : 159 (0x9F) (bytes)
+      File size     : 159 (0x9F) (bytes)
       bytes         : 159 (0x9F)
       bytes total   : 159 (0x9F)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 88
 Sysline longest                : 159
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

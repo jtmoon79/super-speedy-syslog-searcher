@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/kern.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3385
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/kern.log
       Datetime first: 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
       Datetime last : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
   Processed:
-      file size     : 2264 (0x8D8) (bytes)
+      File size     : 2264 (0x8D8) (bytes)
       bytes         : 2264 (0x8D8)
       bytes total   : 2264 (0x8D8)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 285
 Sysline longest                : 285
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

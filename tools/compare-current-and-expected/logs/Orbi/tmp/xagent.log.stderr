@@ -5,7 +5,7 @@ File: ./logs/Orbi/tmp/xagent.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2678
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/Orbi/tmp/xagent.log
       Datetime first: 2022-04-04 23:36:06 +08:00 (2022-04-04 15:36:06.000000 +00:00)
       Datetime last : 2022-04-04 23:36:08 +08:00 (2022-04-04 15:36:08.000000 +00:00)
   Processed:
-      file size     : 1595 (0x63B) (bytes)
+      File size     : 1595 (0x63B) (bytes)
       bytes         : 1595 (0x63B)
       bytes total   : 1595 (0x63B)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 115
 Sysline longest                : 115
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

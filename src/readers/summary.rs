@@ -55,6 +55,7 @@ use crate::readers::blockreader::{
     SummaryBlockReader,
     BLOCKSZ_MAX,
 };
+use crate::readers::etlreader::SummaryEtlReader;
 use crate::readers::evtxreader::SummaryEvtxReader;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::journalreader::SummaryJournalReader;
@@ -88,6 +89,10 @@ pub enum SummaryReaderData {
     ///
     /// [`PyEventReader`]: crate::readers::pyeventreader::PyEventReader
     PyEvent(SummaryPyEventReader),
+    /// For a [`EtlReader`].
+    ///
+    /// [`EtlReader`]: crate::readers::etlreader::EtlReader
+    Etl(SummaryEtlReader),
     /// For a [`EvtxReader`].
     ///
     /// [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
@@ -131,6 +136,9 @@ pub struct Summary {
     /// When `logmessagetype` is [`LogMessageType::PyEvent`] then this must be
     /// [`SummaryReaderData::PyEvent`].
     ///
+    /// When `logmessagetype` is [`LogMessageType::Etl`] then this must be
+    /// [`SummaryReaderData::Etl`].
+    ///
     /// When `logmessagetype` is [`LogMessageType::Evtx`] then this must be
     /// [`SummaryReaderData::Etvx`].
     ///
@@ -165,6 +173,7 @@ impl Summary {
         summarysyslogprocessor_opt: Option<SummarySyslogProcessor>,
         summaryfixedstructreader_opt: Option<SummaryFixedStructReader>,
         summarypyeventreader_opt: Option<SummaryPyEventReader>,
+        summaryetlreader_opt: Option<SummaryEtlReader>,
         summaryevtxreader_opt: Option<SummaryEvtxReader>,
         summaryjournalreader_opt: Option<SummaryJournalReader>,
         error: Option<String>,
@@ -195,6 +204,7 @@ impl Summary {
                 debug_assert_nones!(
                     summaryfixedstructreader_opt,
                     summarypyeventreader_opt,
+                    summaryetlreader_opt,
                     summaryevtxreader_opt,
                     summaryjournalreader_opt
                 );
@@ -234,6 +244,7 @@ impl Summary {
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
                     summarypyeventreader_opt,
+                    summaryetlreader_opt,
                     summaryevtxreader_opt
                 );
                 let summaryblockreader = summaryblockreader_opt.unwrap();
@@ -255,6 +266,29 @@ impl Summary {
                     error,
                 }
             }
+            LogMessageType::Etl => {
+                debug_assert_nones!(
+                    summaryblockreader_opt,
+                    summarylinereader_opt,
+                    summarysyslinereader_opt,
+                    summarysyslogprocessor_opt,
+                    summaryfixedstructreader_opt,
+                    summarypyeventreader_opt,
+                    summaryevtxreader_opt,
+                    summaryjournalreader_opt
+                );
+                let summaryetlreader = summaryetlreader_opt.unwrap();
+                let readerdata: SummaryReaderData = SummaryReaderData::Etl(summaryetlreader);
+                def1x!();
+                Summary {
+                    path,
+                    filetype: Some(filetype),
+                    logmessagetype,
+                    readerdata,
+                    path_ntf,
+                    error,
+                }
+            }
             LogMessageType::Evtx => {
                 debug_assert_nones!(
                     summaryblockreader_opt,
@@ -263,7 +297,7 @@ impl Summary {
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
                     summaryfixedstructreader_opt,
-                    summarypyeventreader_opt,
+                    summaryetlreader_opt,
                     summaryjournalreader_opt
                 );
                 let summaryevtxreader = summaryevtxreader_opt.unwrap();
@@ -286,6 +320,7 @@ impl Summary {
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
                     summaryfixedstructreader_opt,
+                    summaryetlreader_opt,
                     summaryevtxreader_opt
                 );
                 let summaryjournalreader = summaryjournalreader_opt.unwrap();
@@ -307,6 +342,7 @@ impl Summary {
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
                     summaryfixedstructreader_opt,
+                    summaryetlreader_opt,
                     summaryevtxreader_opt,
                     summaryjournalreader_opt
                 );
@@ -370,6 +406,7 @@ impl Summary {
                 _summarysyslogprocessor,
             )) => Some(summaryblockreader),
             SummaryReaderData::FixedStruct((summaryblockreader, _summaryfixedstructreader)) => Some(summaryblockreader),
+            SummaryReaderData::Etl(_) => None,
             SummaryReaderData::Etvx(_) => None,
             SummaryReaderData::Journal(_) => None,
             SummaryReaderData::PyEvent(_) => None,
@@ -395,6 +432,7 @@ impl Summary {
             )) => &summarysyslinereader.syslinereader_datetime_first,
             // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
             SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => &summaryfixedstructreader.fixedstructreader_datetime_first,
+            SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_first_accepted,
             SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_accepted,
             SummaryReaderData::Journal(summaryjournalreader) => &summaryjournalreader.journalreader_datetime_first_accepted,
             SummaryReaderData::PyEvent(summarypyeventreader) => &summarypyeventreader.pyeventreader_datetime_first_accepted,
@@ -416,6 +454,7 @@ impl Summary {
             )) => &summarysyslinereader.syslinereader_datetime_first,
             // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
             SummaryReaderData::FixedStruct((_summaryblockreader, summaryfixedstructreader)) => &summaryfixedstructreader.fixedstructreader_datetime_first,
+            SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_first_processed,
             SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_processed,
             SummaryReaderData::Journal(summaryjournalreader) => &summaryjournalreader.journalreader_datetime_first_processed,
             SummaryReaderData::PyEvent(summarypyeventreader) => &summarypyeventreader.pyeventreader_datetime_first_processed,
@@ -436,6 +475,7 @@ impl Summary {
             )) => &summarysyslinereader.syslinereader_datetime_last,
             // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
             SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => &summaryfixedstructreader.fixedstructreader_datetime_last,
+            SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_last_accepted,
             SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_accepted,
             SummaryReaderData::Journal(summaryjournalreader) => &summaryjournalreader.journalreader_datetime_last_accepted,
             SummaryReaderData::PyEvent(summarypyeventreader) => &summarypyeventreader.pyeventreader_datetime_last_accepted,
@@ -456,6 +496,7 @@ impl Summary {
             )) => &summarysyslinereader.syslinereader_datetime_last,
             // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
             SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => &summaryfixedstructreader.fixedstructreader_datetime_last,
+            SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_last_processed,
             SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_processed,
             SummaryReaderData::Journal(summaryjournalreader) => &summaryjournalreader.journalreader_datetime_last_processed,
             SummaryReaderData::PyEvent(summarypyeventreader) => &summarypyeventreader.pyeventreader_datetime_last_processed,
@@ -476,6 +517,7 @@ impl Summary {
             )) => summarysyslinereader.syslinereader_datetime_out_of_order,
             // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
             SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => summaryfixedstructreader.fixedstructreader_entries_out_of_order as Count,
+            SummaryReaderData::Etl(summaryetlreader) => summaryetlreader.etlreader_out_of_order,
             SummaryReaderData::Etvx(summaryevtxreader) => summaryevtxreader.evtxreader_out_of_order,
             SummaryReaderData::Journal(summaryjournalreader) => summaryjournalreader.journalreader_out_of_order,
             SummaryReaderData::PyEvent(summarypyeventreader) => summarypyeventreader.pyeventreader_out_of_order,
@@ -540,6 +582,12 @@ impl Summary {
                     summaryfixedstructreader.fixedstructreader_utmp_entries_miss
                 )
             }
+            SummaryReaderData::Etl(summaryetlreader) => {
+                max!(
+                    summaryetlreader.etlreader_events_accepted,
+                    summaryetlreader.etlreader_events_processed
+                )
+            }
             SummaryReaderData::Etvx(summaryevtxreader) => {
                 max!(
                     summaryevtxreader.evtxreader_events_accepted,
@@ -592,6 +640,7 @@ impl Summary {
                     summaryblockreader.blockreader_blocks_dropped_err
                 )
             }
+            SummaryReaderData::Etl(_summaryetlreader) => 0,
             SummaryReaderData::Etvx(_summaryevtxreader) => 0,
             SummaryReaderData::Journal(_summaryjournalreader) => 0,
             SummaryReaderData::PyEvent(_summarypyeventreader) => 0,
@@ -768,6 +817,27 @@ impl fmt::Debug for Summary {
                     }
                 }
             }
+            SummaryReaderData::Etl(summaryetlreader) => match self.filetype {
+                None => {
+                    debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+
+                    f.debug_struct("Unexpected self.filetype is None")
+                        .finish()
+                }
+                Some(filetype_) => match filetype_ {
+                    FileType::Etl { .. } => f
+                        .debug_struct("")
+                        .field("etl events processed", &summaryetlreader.etlreader_events_processed)
+                        .field("etl events accepted", &summaryetlreader.etlreader_events_accepted)
+                        .finish(),
+                    ft => {
+                        debug_panic!("Unpexected filetype {}; path {:?}", ft, self.path);
+
+                        f.debug_struct("Unexpected filetype")
+                            .finish()
+                    }
+                }
+            }
             SummaryReaderData::Etvx(summaryevtxreader) => match self.filetype {
                 None => {
                     debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
@@ -813,10 +883,10 @@ impl fmt::Debug for Summary {
                         .finish()
                 }
                 Some(filetype_) => match filetype_ {
-                    FileType::Etl { .. } => f
+                    FileType::Asl { .. } => f
                         .debug_struct("")
-                        .field("etl events processed", &summarypyeventreader.pyeventreader_events_processed)
-                        .field("etl events accepted", &summarypyeventreader.pyeventreader_events_accepted)
+                        .field("asl events processed", &summarypyeventreader.pyeventreader_events_processed)
+                        .field("asl events accepted", &summarypyeventreader.pyeventreader_events_accepted)
                         .finish(),
                     FileType::Odl { .. } => f
                         .debug_struct("")

@@ -3,6 +3,7 @@
 //! Common types and constants for `readers`.
 
 use crate::data::datetime::DateTimeL;
+use crate::data::etl::Etl;
 use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
@@ -17,6 +18,7 @@ pub enum LogMessage {
     // TODO: reorder in alphabetical order
     Sysline(SyslineP),
     FixedStruct(FixedStruct),
+    Etl(Etl),
     Evtx(Evtx),
     Journal(JournalEntry),
     PyEvent(PyDataEvent, PyEventType),
@@ -30,6 +32,7 @@ impl LogMessage {
             // TODO: reorder in alphabetical order
             LogMessage::Sysline(sysline) => sysline.dt(),
             LogMessage::FixedStruct(fixedstruct) => fixedstruct.dt(),
+            LogMessage::Etl(etl) => etl.dt(),
             LogMessage::Evtx(evtx) => evtx.dt(),
             LogMessage::Journal(journal) => journal.dt(),
             LogMessage::PyEvent(pyevent, ..) => pyevent.dt(),

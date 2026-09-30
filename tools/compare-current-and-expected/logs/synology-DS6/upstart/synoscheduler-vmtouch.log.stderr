@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2489
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
       Datetime first: 2018-08-01 14:16:24 -07:00 (2018-08-01 21:16:24.000000 +00:00)
       Datetime last : 2018-10-25 12:23:47 -07:00 (2018-10-25 19:23:47.000000 +00:00)
   Processed:
-      file size     : 893 (0x37D) (bytes)
+      File size     : 893 (0x37D) (bytes)
       bytes         : 893 (0x37D)
       bytes total   : 893 (0x37D)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 47
 Sysline longest                : 47
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0

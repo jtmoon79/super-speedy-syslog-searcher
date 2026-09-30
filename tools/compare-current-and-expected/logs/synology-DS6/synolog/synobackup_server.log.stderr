@@ -5,7 +5,7 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
+      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3656
       flushes       : 19
@@ -14,7 +14,7 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
       Datetime first: 2018-12-25 00:04:54 +08:00 (2018-12-24 16:04:54.000000 +00:00)
       Datetime last : 2018-12-29 03:02:49 +08:00 (2018-12-28 19:02:49.000000 +00:00)
   Processed:
-      file size     : 2136 (0x858) (bytes)
+      File size     : 2136 (0x858) (bytes)
       bytes         : 2136 (0x858)
       bytes total   : 2136 (0x858)
       Block size    : 256 (0x100)
@@ -63,6 +63,8 @@ Printed ODL events     : 0
 Line Maximum                   : 393209
 Line longest                   : 157
 Sysline longest                : 157
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
 EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0
