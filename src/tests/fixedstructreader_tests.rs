@@ -35,6 +35,7 @@ use crate::data::fixedstruct::{
     FixedStructType,
     ENTRY_SZ_MAX,
 };
+#[cfg(target_family = "unix")]
 use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::readers::blockreader::{
     BlockOffset,
@@ -48,6 +49,7 @@ use crate::readers::fixedstructreader::{
     ResultFixedStructReaderNewError,
     SummaryFixedStructReader,
 };
+#[cfg(target_family = "unix")]
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{

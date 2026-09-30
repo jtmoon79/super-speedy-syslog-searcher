@@ -8,10 +8,7 @@
 use ::const_format::concatcp;
 use ::filetime;
 use ::lazy_static::lazy_static;
-use ::more_asserts::{
-    //assert_ge,
-    assert_gt,
-};
+use ::more_asserts::assert_gt;
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
     defn,
@@ -34,7 +31,6 @@ use crate::data::datetime::{
     ymdhms0,
     DateTimeL,
     DateTimeLOpt,
-    //DateTimeParseDatasCompiledCount,
     DateTimePattern_str,
     FixedOffset,
     SystemTime,
@@ -45,10 +41,11 @@ use crate::data::sysline::SyslineP;
 use crate::debug::helpers::{
     create_temp_file,
     create_temp_file_data,
-    create_temp_file_no_permissions,
     ntf_fpath,
     NamedTempFile,
 };
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::readers::blockreader::{
     BlockSz,
     SummaryBlockReader,
@@ -57,6 +54,7 @@ use crate::readers::filepreprocessor::{
     fpath_to_filetype,
     PathToFiletypeResult,
 };
+#[cfg(target_family = "unix")]
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::linereader::SummaryLineReader;
 use crate::readers::summary::SummaryReaderData;
@@ -75,12 +73,13 @@ use crate::tests::common::{
     path_id_generator,
     eprint_file,
     eprint_file_blocks,
-    FILETYPE_UTF8,
     FO_0,
     NTF_GZ_8BYTE_FPATH,
     NTF_GZ_EMPTY_FPATH,
     NTF_LOG_EMPTY_FPATH,
 };
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::FILETYPE_UTF8;
 
 const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
 

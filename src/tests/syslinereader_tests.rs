@@ -72,10 +72,11 @@ use crate::data::line::{
 use crate::debug::helpers::{
     create_temp_file,
     create_temp_file_bytes,
-    create_temp_file_no_permissions,
     ntf_fpath,
     NamedTempFile,
 };
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::printers::str_to_string_noraw;
 use crate::readers::blockreader::{
     Block,
@@ -89,9 +90,10 @@ use crate::readers::filepreprocessor::{
 };
 use crate::readers::helpers::{
     fill,
-    path_to_fpath,
     randomize,
 };
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::path_to_fpath;
 use crate::readers::syslinereader::{
     DateTimeParseDatasIndexes,
     ResultFindDateTime,
