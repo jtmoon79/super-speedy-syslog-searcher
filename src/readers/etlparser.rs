@@ -376,7 +376,8 @@ impl<'a> Cur<'a> {
     }
 }
 
-fn utf16le_to_string(bytes: &[u8]) -> String {
+/// Convert UTF-16LE `bytes` to `String`, stopping at NUL.
+pub fn utf16le_to_string(bytes: &[u8]) -> String {
     let units: Vec<u16> = bytes
         .chunks_exact(2)
         .map(|c| u16::from_le_bytes([c[0], c[1]]))
@@ -386,7 +387,8 @@ fn utf16le_to_string(bytes: &[u8]) -> String {
     String::from_utf16_lossy(&units)
 }
 
-fn read_u16_at(
+/// Read u16 at offset `at` from `data`.
+pub fn read_u16_at(
     data: &[u8],
     at: usize,
 ) -> Option<u16> {
@@ -394,7 +396,8 @@ fn read_u16_at(
         .map(|s| u16::from_le_bytes([s[0], s[1]]))
 }
 
-fn read_u32_at(
+/// Read u32 at offset `at` from `data`.
+pub fn read_u32_at(
     data: &[u8],
     at: usize,
 ) -> Option<u32> {
@@ -405,7 +408,8 @@ fn read_u32_at(
     })
 }
 
-fn read_u64_at(
+/// Read u64 at offset `at` from `data`.
+pub fn read_u64_at(
     data: &[u8],
     at: usize,
 ) -> Option<u64> {
@@ -414,7 +418,7 @@ fn read_u64_at(
 }
 
 /// Read until `buf` is full or EOF; returns bytes read.
-fn read_full<R: Read>(
+pub fn read_full<R: Read>(
     reader: &mut R,
     buf: &mut [u8],
 ) -> Result<usize> {
@@ -436,7 +440,7 @@ fn read_full<R: Read>(
 
 /// Kernel `EVENT_TRACE_GROUP_*` to class GUID; index is `group`.
 /// From `sechost.dll` via Geoff Chappell and `dissect.etl`.
-const KERNEL_GROUP_GUIDS: [(u8, &str, [u8; 16]); 31] = [
+pub const KERNEL_GROUP_GUIDS: [(u8, &str, [u8; 16]); 31] = [
     (
         0x00,
         "EventTrace",
@@ -657,7 +661,7 @@ const KERNEL_GROUP_GUIDS: [(u8, &str, [u8; 16]); 31] = [
 ];
 
 /// Map a kernel `HookId` group/opcode to `(class GUID, task name)`.
-fn kernel_group_lookup(
+pub fn kernel_group_lookup(
     group: u8,
     opcode: u8,
 ) -> (Guid, Option<&'static str>) {
@@ -670,7 +674,7 @@ fn kernel_group_lookup(
 }
 
 /// Opcode names of kernel `EventTrace` (group 0) events.
-fn kernel_group0_opcode_name(opcode: u8) -> Option<&'static str> {
+pub fn kernel_group0_opcode_name(opcode: u8) -> Option<&'static str> {
     match opcode {
         0 => Some("Header"),
         5 => Some("Extension"),
@@ -688,41 +692,42 @@ fn kernel_group0_opcode_name(opcode: u8) -> Option<&'static str> {
 // -------------
 // TraceLogging
 
-const TLG_IN_NULL: u8 = 0;
-const TLG_IN_UNICODESTRING: u8 = 1;
-const TLG_IN_ANSISTRING: u8 = 2;
-const TLG_IN_INT8: u8 = 3;
-const TLG_IN_UINT8: u8 = 4;
-const TLG_IN_INT16: u8 = 5;
-const TLG_IN_UINT16: u8 = 6;
-const TLG_IN_INT32: u8 = 7;
-const TLG_IN_UINT32: u8 = 8;
-const TLG_IN_INT64: u8 = 9;
-const TLG_IN_UINT64: u8 = 10;
-const TLG_IN_FLOAT: u8 = 11;
-const TLG_IN_DOUBLE: u8 = 12;
-const TLG_IN_BOOL32: u8 = 13;
-const TLG_IN_BINARY: u8 = 14;
-const TLG_IN_GUID: u8 = 15;
-const TLG_IN_POINTER: u8 = 16;
-const TLG_IN_FILETIME: u8 = 17;
-const TLG_IN_SYSTEMTIME: u8 = 18;
-const TLG_IN_SID: u8 = 19;
-const TLG_IN_HEXINT32: u8 = 20;
-const TLG_IN_HEXINT64: u8 = 21;
-const TLG_IN_COUNTEDSTRING: u8 = 22;
-const TLG_IN_COUNTEDANSISTRING: u8 = 23;
-const TLG_IN_STRUCT: u8 = 24;
-const TLG_IN_COUNTEDBINARY: u8 = 25;
+pub const TLG_IN_NULL: u8 = 0;
+pub const TLG_IN_UNICODESTRING: u8 = 1;
+pub const TLG_IN_ANSISTRING: u8 = 2;
+pub const TLG_IN_INT8: u8 = 3;
+pub const TLG_IN_UINT8: u8 = 4;
+pub const TLG_IN_INT16: u8 = 5;
+pub const TLG_IN_UINT16: u8 = 6;
+pub const TLG_IN_INT32: u8 = 7;
+pub const TLG_IN_UINT32: u8 = 8;
+pub const TLG_IN_INT64: u8 = 9;
+pub const TLG_IN_UINT64: u8 = 10;
+pub const TLG_IN_FLOAT: u8 = 11;
+pub const TLG_IN_DOUBLE: u8 = 12;
+pub const TLG_IN_BOOL32: u8 = 13;
+pub const TLG_IN_BINARY: u8 = 14;
+pub const TLG_IN_GUID: u8 = 15;
+pub const TLG_IN_POINTER: u8 = 16;
+pub const TLG_IN_FILETIME: u8 = 17;
+pub const TLG_IN_SYSTEMTIME: u8 = 18;
+pub const TLG_IN_SID: u8 = 19;
+pub const TLG_IN_HEXINT32: u8 = 20;
+pub const TLG_IN_HEXINT64: u8 = 21;
+pub const TLG_IN_COUNTEDSTRING: u8 = 22;
+pub const TLG_IN_COUNTEDANSISTRING: u8 = 23;
+pub const TLG_IN_STRUCT: u8 = 24;
+pub const TLG_IN_COUNTEDBINARY: u8 = 25;
+// flags
+pub const TLG_IN_TYPE_MASK: u8 = 0x1F;
+pub const TLG_IN_FLAG_CCOUNT: u8 = 0x20;
+pub const TLG_IN_FLAG_VCOUNT: u8 = 0x40;
+pub const TLG_IN_FLAG_CHAIN: u8 = 0x80;
+pub const TLG_OUT_FLAG_CHAIN: u8 = 0x80;
 
-const TLG_IN_TYPE_MASK: u8 = 0x1F;
-const TLG_IN_FLAG_CCOUNT: u8 = 0x20;
-const TLG_IN_FLAG_VCOUNT: u8 = 0x40;
-const TLG_IN_FLAG_CHAIN: u8 = 0x80;
-const TLG_OUT_FLAG_CHAIN: u8 = 0x80;
-
+/// TraceLogging field count type.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-enum TlCount {
+pub enum TlCount {
     Scalar,
     Fixed(u16),
     Var,
@@ -730,12 +735,13 @@ enum TlCount {
     Custom,
 }
 
+/// A TraceLogging field.
 #[derive(Clone, Debug)]
-struct TlField {
-    name: EtlName,
-    in_type: u8,
-    out_type: u8,
-    count: TlCount,
+pub struct TlField {
+    pub name: EtlName,
+    pub in_type: u8,
+    pub out_type: u8,
+    pub count: TlCount,
 }
 
 impl TlField {
@@ -752,16 +758,16 @@ impl TlField {
 /// A parsed TraceLogging event schema; shared across all events carrying the
 /// same metadata blob.
 #[derive(Debug)]
-struct TlSchema {
-    event_name: EtlName,
-    fields: Vec<TlField>,
+pub struct TlSchema {
+    pub event_name: EtlName,
+    pub fields: Vec<TlField>,
 }
 
 /// Parsed schemas keyed by the raw metadata blob; `None` marks an unparsable blob.
-type TlSchemaCache = HashMap<Box<[u8]>, Option<Arc<TlSchema>>>;
+pub type TlSchemaCache = HashMap<Box<[u8]>, Option<Arc<TlSchema>>>;
 
 /// Parse the TraceLogging event metadata blob into an event name and fields.
-fn tl_parse_schema(schema: &[u8]) -> Option<TlSchema> {
+pub fn tl_parse_schema(schema: &[u8]) -> Option<TlSchema> {
     let mut cur = Cur::new(schema);
     let size: usize = cur.u16()? as usize;
     let schema: &[u8] = &schema[..size.min(schema.len())];
@@ -815,7 +821,7 @@ fn tl_parse_schema(schema: &[u8]) -> Option<TlSchema> {
 }
 
 /// Look up (or parse and insert) the schema for a metadata blob.
-fn tl_schema_cached<'c>(
+pub fn tl_schema_cached<'c>(
     cache: &'c mut TlSchemaCache,
     schema: &[u8],
 ) -> Option<&'c Arc<TlSchema>> {
@@ -847,7 +853,8 @@ fn tl_field_extent(
     n
 }
 
-fn tl_read_sid(cur: &mut Cur) -> Option<Sid> {
+/// Read a SID from the cursor.
+pub fn tl_read_sid(cur: &mut Cur) -> Option<Sid> {
     let start: usize = cur.pos;
     let revision: u8 = cur.u8()?;
     let count: u8 = cur.u8()?;
@@ -876,7 +883,7 @@ fn tl_read_sid(cur: &mut Cur) -> Option<Sid> {
 }
 
 /// Decode one scalar value of `in_type` from the payload.
-fn tl_read_scalar(
+pub fn tl_read_scalar(
     cur: &mut Cur,
     in_type: u8,
     out_type: u8,
@@ -1051,7 +1058,7 @@ pub fn tl_decode_fields(
 }
 
 /// Decode a TraceLogging event payload against its parsed schema.
-fn decode_tracelogging(
+pub fn decode_tracelogging(
     schema: &TlSchema,
     user_data: &[u8],
     pointer_size: usize,
@@ -1097,7 +1104,7 @@ fn decode_tracelogging(
 // kernel payloads
 
 /// Decode kernel `EventTrace` group `0` payloads for well-known opcodes.
-fn decode_kernel_group0(
+pub fn decode_kernel_group0(
     opcode: u8,
     user_data: &[u8],
     header: &LogfileHeader,
@@ -1136,7 +1143,7 @@ fn decode_kernel_group0(
 type BufferData = (Vec<u8>, usize, u64, bool);
 
 /// One record split from its buffer; header fields plus payload slices.
-struct RawRecord<'a> {
+pub struct RawRecord<'a> {
     envelope: EtlEnvelope,
     time_delta: Option<u64>,
     tl_schema: Option<&'a [u8]>,
