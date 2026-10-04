@@ -25,7 +25,9 @@ use crate::readers::etlparser::{
     EtlParser,
     LogfileHeader,
     TlCount,
+    TlField,
     TlSchema,
+    TlSchemaCache,
     decode_kernel_group0,
     decode_tracelogging,
     kernel_group_lookup,
@@ -44,6 +46,7 @@ use crate::readers::etlparser::{
     TLG_IN_UINT8,
     TL_ARRAY_LEN_MAX,
     TL_EVENT_VALUES_MAX,
+    TL_STRUCT_DEPTH_MAX,
 };
 use crate::tests::common::{
     NTF_LOG_EMPTY_FPATH,
@@ -220,6 +223,55 @@ fn push_struct_fixed(
     out.extend_from_slice(&count.to_le_bytes());
 }
 
+fn push_struct_scalar(
+    out: &mut Vec<u8>,
+    name: &str,
+    members: u8,
+) {
+    push_cstr(out, name);
+    out.push(TLG_IN_STRUCT | TLG_IN_FLAG_CHAIN);
+    out.push(members);
+}
+
+fn nested_struct_metadata(depth: usize) -> Vec<u8> {
+    let mut fields: Vec<u8> = Vec::new();
+    for _ in 0..depth {
+        push_struct_scalar(&mut fields, "S", 1);
+    }
+    push_cstr(&mut fields, "N");
+    fields.push(TLG_IN_NULL);
+    let mut schema: Vec<u8> = vec![0, 0, 0];
+    push_cstr(&mut schema, "Evt");
+    schema.extend_from_slice(&fields);
+    let size: u16 = schema.len() as u16;
+    schema[..2].copy_from_slice(&size.to_le_bytes());
+
+    schema
+}
+
+fn nested_struct_schema(depth: usize) -> TlSchema {
+    let mut fields: Vec<TlField> = Vec::with_capacity(depth + 1);
+    for _ in 0..depth {
+        fields.push(TlField {
+            name: EtlName::from("S"),
+            in_type: TLG_IN_STRUCT,
+            out_type: 1,
+            count: TlCount::Scalar,
+        });
+    }
+    fields.push(TlField {
+        name: EtlName::from("N"),
+        in_type: TLG_IN_NULL,
+        out_type: 0,
+        count: TlCount::Scalar,
+    });
+
+    TlSchema {
+        event_name: EtlName::from("Evt"),
+        fields,
+    }
+}
+
 fn schema_from_fields(field_bytes: &[u8]) -> TlSchema {
     let mut schema: Vec<u8> = vec![0, 0, 0];
     push_cstr(&mut schema, "Evt");
@@ -288,6 +340,34 @@ fn test_decode_tracelogging_array_budget() {
     push_struct_fixed(&mut fields, "S", 1, TL_ARRAY_LEN_MAX as u16);
     push_fixed(&mut fields, "N", TLG_IN_NULL, TL_ARRAY_LEN_MAX as u16);
     assert_decode_failed(&decode_tracelogging(&schema_from_fields(&fields), &[], 8));
+}
+
+/// A chain of `TL_STRUCT_DEPTH_MAX - 1` structs still decodes. One more struct
+/// is rejected by schema parsing and, if handed to the decoder directly, fails closed.
+#[test]
+fn test_decode_tracelogging_struct_depth() {
+    let mut fields: Vec<u8> = Vec::new();
+    for _ in 0..(TL_STRUCT_DEPTH_MAX - 1) {
+        push_struct_scalar(&mut fields, "S", 1);
+    }
+    push_cstr(&mut fields, "N");
+    fields.push(TLG_IN_NULL);
+    assert!(matches!(
+        decode_tracelogging(&schema_from_fields(&fields), &[], 8),
+        EtlPayload::Fields(_)
+    ));
+
+    let too_deep: Vec<u8> = nested_struct_metadata(TL_STRUCT_DEPTH_MAX);
+    assert!(tl_parse_schema(&too_deep).is_none());
+    let mut cache: TlSchemaCache = TlSchemaCache::new();
+    assert!(tl_schema_cached(&mut cache, &too_deep).is_none());
+    assert!(cache.contains_key(too_deep.as_slice()));
+
+    assert_decode_failed(&decode_tracelogging(
+        &nested_struct_schema(TL_STRUCT_DEPTH_MAX),
+        &[],
+        8,
+    ));
 }
 
 #[test]

@@ -5836,8 +5836,7 @@ fn processing_loop(
             stack_size += 12 * 1024 * 1024;
         } else if cfg!(debug_assertions) {
             stack_size += 1024 * 1000;
-        }
-        else if PROFILE_NAME != "release" {
+        } else if PROFILE_NAME != "release" {
             // non-debug non-optimized "release" builds
             stack_size += 1024 * 2000;
         }
@@ -5849,6 +5848,11 @@ fn processing_loop(
         // archive versions of files add ~50KB
         if filetype.is_archived () {
             stack_size += 1024 * 55;
+        }
+        // ETL files may need extra stack for excessive nested structures
+        // add 50 KB
+        if filetype.is_etl() {
+            stack_size += 1024 * 50;
         }
         // Allow the standard environment override.
         // Described at https://doc.rust-lang.org/1.88.0/std/thread/#stack-size
