@@ -7,11 +7,44 @@
 #![allow(clippy::too_many_arguments)]
 
 use std::fs::File;
-use std::io::{Cursor, ErrorKind};
+use std::io::{
+    Cursor,
+    ErrorKind,
+};
 
-use super::*;
 use crate::data::datetime::FixedOffset;
-use crate::data::etl::Etl;
+use crate::data::etl::{
+    Etl,
+    EtlName,
+    EtlPayload,
+    EtlValue,
+    Guid,
+};
+use crate::readers::etlparser::{
+    ClockType,
+    EtlParser,
+    LogfileHeader,
+    TlCount,
+    TlSchema,
+    decode_kernel_group0,
+    decode_tracelogging,
+    kernel_group_lookup,
+    read_u16_at,
+    read_u32_at,
+    read_u64_at,
+    read_full,
+    tl_parse_schema,
+    tl_schema_cached,
+    tl_read_sid,
+    utf16le_to_string,
+    TLG_IN_FLAG_CCOUNT,
+    TLG_IN_FLAG_CHAIN,
+    TLG_IN_NULL,
+    TLG_IN_STRUCT,
+    TLG_IN_UINT8,
+    TL_ARRAY_LEN_MAX,
+    TL_EVENT_VALUES_MAX,
+};
 use crate::tests::common::{
     NTF_LOG_EMPTY_FPATH,
     ETL_FILE1_PATH,
@@ -154,6 +187,107 @@ fn test_tl_parse_schema() {
     assert_eq!(parsed.fields[1].in_type, TLG_IN_UINT8);
     assert_eq!(parsed.fields[1].count, TlCount::Fixed(3));
     assert!(tl_parse_schema(&[0, 0]).is_none());
+}
+
+fn push_cstr(
+    out: &mut Vec<u8>,
+    s: &str,
+) {
+    out.extend_from_slice(s.as_bytes());
+    out.push(0);
+}
+
+fn push_fixed(
+    out: &mut Vec<u8>,
+    name: &str,
+    in_type: u8,
+    count: u16,
+) {
+    push_cstr(out, name);
+    out.push(in_type | TLG_IN_FLAG_CCOUNT);
+    out.extend_from_slice(&count.to_le_bytes());
+}
+
+fn push_struct_fixed(
+    out: &mut Vec<u8>,
+    name: &str,
+    members: u8,
+    count: u16,
+) {
+    push_cstr(out, name);
+    out.push(TLG_IN_STRUCT | TLG_IN_FLAG_CHAIN | TLG_IN_FLAG_CCOUNT);
+    out.push(members);
+    out.extend_from_slice(&count.to_le_bytes());
+}
+
+fn schema_from_fields(field_bytes: &[u8]) -> TlSchema {
+    let mut schema: Vec<u8> = vec![0, 0, 0];
+    push_cstr(&mut schema, "Evt");
+    schema.extend_from_slice(field_bytes);
+    let size: u16 = schema.len() as u16;
+    schema[..2].copy_from_slice(&size.to_le_bytes());
+
+    tl_parse_schema(&schema).expect("valid TraceLogging schema")
+}
+
+fn assert_decode_failed(payload: &EtlPayload) {
+    assert!(
+        matches!(payload, EtlPayload::Partial(_, _) | EtlPayload::Raw(_)),
+        "over-budget decode must fail closed, got {:?}",
+        payload,
+    );
+}
+
+/// In-budget arrays decode; over-limit and nested over-budget arrays fail closed.
+#[test]
+fn test_decode_tracelogging_array_budget() {
+    let mut fields: Vec<u8> = Vec::new();
+    push_fixed(&mut fields, "Tag", TLG_IN_UINT8, 3);
+    let schema: TlSchema = schema_from_fields(&fields);
+    assert_eq!(
+        decode_tracelogging(&schema, &[1, 2, 3], 8),
+        EtlPayload::Fields(vec![(
+            EtlName::from("Tag"),
+            EtlValue::Array(vec![
+                EtlValue::U64(1),
+                EtlValue::U64(2),
+                EtlValue::U64(3),
+            ]),
+        )])
+    );
+
+    let mut fields: Vec<u8> = Vec::new();
+    push_struct_fixed(&mut fields, "S", 1, 2);
+    push_fixed(&mut fields, "N", TLG_IN_NULL, 2);
+    let schema: TlSchema = schema_from_fields(&fields);
+    let nulls: EtlValue = EtlValue::Array(vec![EtlValue::Null, EtlValue::Null]);
+    assert_eq!(
+        decode_tracelogging(&schema, &[], 8),
+        EtlPayload::Fields(vec![(
+            EtlName::from("S"),
+            EtlValue::Array(vec![
+                EtlValue::Struct(vec![(EtlName::from("N"), nulls.clone())]),
+                EtlValue::Struct(vec![(EtlName::from("N"), nulls)]),
+            ]),
+        )])
+    );
+
+    // 4097 is within the event budget, so only the per-array cap rejects it.
+    let mut fields: Vec<u8> = Vec::new();
+    push_fixed(&mut fields, "N", TLG_IN_NULL, (TL_ARRAY_LEN_MAX as u16) + 1);
+    assert_decode_failed(&decode_tracelogging(&schema_from_fields(&fields), &[], 8));
+
+    let mut fields: Vec<u8> = Vec::new();
+    push_fixed(&mut fields, "N", TLG_IN_NULL, u16::MAX);
+    assert_decode_failed(&decode_tracelogging(&schema_from_fields(&fields), &[], 8));
+
+    // Each array is within the per-array cap; the product exceeds the event budget.
+    // Without the shared budget this allocates TL_ARRAY_LEN_MAX squared Nulls.
+    assert!(TL_ARRAY_LEN_MAX * TL_ARRAY_LEN_MAX > TL_EVENT_VALUES_MAX);
+    let mut fields: Vec<u8> = Vec::new();
+    push_struct_fixed(&mut fields, "S", 1, TL_ARRAY_LEN_MAX as u16);
+    push_fixed(&mut fields, "N", TLG_IN_NULL, TL_ARRAY_LEN_MAX as u16);
+    assert_decode_failed(&decode_tracelogging(&schema_from_fields(&fields), &[], 8));
 }
 
 #[test]
