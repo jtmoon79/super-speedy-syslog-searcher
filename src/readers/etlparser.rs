@@ -124,6 +124,8 @@ pub(crate) const TL_ARRAY_LEN_MAX: usize = 4096;
 /// sanity limit on materialized `EtlValue` nodes of one TraceLogging event.
 /// Nested struct arrays share this budget so their counts cannot multiply.
 pub(crate) const TL_EVENT_VALUES_MAX: usize = 8192;
+/// sanity limit on TraceLogging struct nesting; prevents stackoverflow.
+pub(crate) const TL_STRUCT_DEPTH_MAX: usize = 64;
 
 // `TRACE_MESSAGE_*` flags of a WPP message header
 const TRACE_MESSAGE_SEQUENCE: u16 = 0x0001;
@@ -817,6 +819,10 @@ pub fn tl_parse_schema(schema: &[u8]) -> Option<TlSchema> {
         });
     }
 
+    if !tl_schema_nesting_ok(&fields) {
+        return None;
+    }
+
     Some(TlSchema { event_name, fields })
 }
 
@@ -833,24 +839,46 @@ pub fn tl_schema_cached<'c>(
         .and_then(Option::as_ref)
 }
 
-/// number of metadata entries occupied by the field at `idx` (1 + nested struct members)
+/// number of metadata entries occupied by the field at `idx` (1 + nested struct members).
+/// `depth` 1 is a top-level field. A struct at `TL_STRUCT_DEPTH_MAX` that still has
+/// members is rejected so a crafted chain cannot overflow the ETL worker stack.
 fn tl_field_extent(
     fields: &[TlField],
     idx: usize,
-) -> usize {
+    depth: usize,
+) -> Option<usize> {
     let mut n: usize = 1;
     let mut remaining: usize = fields
         .get(idx)
         .map_or(0, |f| f.struct_len());
+    if remaining > 0 && depth >= TL_STRUCT_DEPTH_MAX {
+        return None;
+    }
     let mut i: usize = idx + 1;
     while remaining > 0 && i < fields.len() {
-        let ext = tl_field_extent(fields, i);
+        let ext: usize = tl_field_extent(fields, i, depth + 1)?;
         n += ext;
         i += ext;
         remaining -= 1;
     }
 
-    n
+    Some(n)
+}
+
+fn tl_schema_nesting_ok(fields: &[TlField]) -> bool {
+    let mut idx: usize = 0;
+    while idx < fields.len() {
+        let extent: usize = match tl_field_extent(fields, idx, 1) {
+            Some(extent) => extent,
+            None => return false,
+        };
+        if extent == 0 {
+            return false;
+        }
+        idx += extent;
+    }
+
+    true
 }
 
 /// Read a SID from the cursor.
@@ -967,6 +995,7 @@ fn tl_read_field_value(
     sub_count: usize,
     cur: &mut Cur,
     pointer_size: usize,
+    depth: usize,
     values_left: &mut usize,
 ) -> Option<EtlValue> {
     tl_charge(values_left)?;
@@ -980,6 +1009,7 @@ fn tl_read_field_value(
             cur,
             pointer_size,
             &mut sub,
+            depth + 1,
             values_left,
         )?;
 
@@ -1002,11 +1032,15 @@ pub fn tl_decode_fields(
     cur: &mut Cur,
     pointer_size: usize,
     out: &mut EtlFields,
+    depth: usize,
     values_left: &mut usize,
 ) -> Option<()> {
+    if depth > TL_STRUCT_DEPTH_MAX {
+        return None;
+    }
     for _ in 0..n {
         let field: &TlField = fields.get(*idx)?;
-        let extent: usize = tl_field_extent(fields, *idx);
+        let extent: usize = tl_field_extent(fields, *idx, depth)?;
         let sub_start: usize = *idx + 1;
         let sub_count: usize = field.struct_len();
         *idx += extent;
@@ -1034,6 +1068,7 @@ pub fn tl_decode_fields(
                     sub_count,
                     cur,
                     pointer_size,
+                    depth,
                     values_left,
                 )?);
             }
@@ -1048,6 +1083,7 @@ pub fn tl_decode_fields(
                 sub_count,
                 cur,
                 pointer_size,
+                depth,
                 values_left,
             )?
         };
@@ -1072,7 +1108,11 @@ pub fn decode_tracelogging(
     let mut top_level_idx: usize = 0;
     while top_level_idx < fields.len() {
         top_level_fields += 1;
-        top_level_idx += tl_field_extent(fields, top_level_idx);
+        let extent: usize = match tl_field_extent(fields, top_level_idx, 1) {
+            Some(extent) => extent,
+            None => return EtlPayload::Raw(user_data.to_vec()),
+        };
+        top_level_idx += extent;
     }
     let mut values_left: usize = TL_EVENT_VALUES_MAX;
     let complete: bool = tl_decode_fields(
@@ -1082,6 +1122,7 @@ pub fn decode_tracelogging(
         &mut cur,
         pointer_size,
         &mut out,
+        1,
         &mut values_left,
     )
     .is_some();
