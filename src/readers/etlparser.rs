@@ -118,6 +118,12 @@ const EXT_TYPE_EVENT_SCHEMA_TL: u16 = 0x000B;
 const EXT_TYPE_PROV_TRAITS: u16 = 0x000C;
 /// sanity limit on extended data items per record
 const EXT_ITEMS_MAX: usize = 16;
+/// sanity limit on elements of one decoded TraceLogging array.
+/// `Fixed` and `Var` counts are `u16`, so this must be below `u16::MAX` to reject a single array.
+pub(crate) const TL_ARRAY_LEN_MAX: usize = 4096;
+/// sanity limit on materialized `EtlValue` nodes of one TraceLogging event.
+/// Nested struct arrays share this budget so their counts cannot multiply.
+pub(crate) const TL_EVENT_VALUES_MAX: usize = 8192;
 
 // `TRACE_MESSAGE_*` flags of a WPP message header
 const TRACE_MESSAGE_SEQUENCE: u16 = 0x0001;
@@ -273,7 +279,7 @@ impl fmt::Display for EtlRecordError {
 // cursor
 
 /// Little-endian bounds-checked byte reader.
-struct Cur<'a> {
+pub struct Cur<'a> {
     data: &'a [u8],
     pos: usize,
 }
@@ -935,16 +941,61 @@ fn tl_read_scalar(
     Some(v)
 }
 
+/// Charge one materialized `EtlValue` against the per-event budget.
+fn tl_charge(values_left: &mut usize) -> Option<()> {
+    if *values_left == 0 {
+        return None;
+    }
+    *values_left -= 1;
+
+    Some(())
+}
+
+/// Decode one scalar or struct, charging its `EtlValue` before constructing it.
+/// Struct members share `values_left`.
+fn tl_read_field_value(
+    fields: &[TlField],
+    field: &TlField,
+    sub_start: usize,
+    sub_count: usize,
+    cur: &mut Cur,
+    pointer_size: usize,
+    values_left: &mut usize,
+) -> Option<EtlValue> {
+    tl_charge(values_left)?;
+    if field.in_type == TLG_IN_STRUCT {
+        let mut sub: Vec<(EtlName, EtlValue)> = Vec::with_capacity(sub_count);
+        let mut sub_idx: usize = sub_start;
+        tl_decode_fields(
+            fields,
+            &mut sub_idx,
+            sub_count,
+            cur,
+            pointer_size,
+            &mut sub,
+            values_left,
+        )?;
+
+        Some(EtlValue::Struct(sub))
+    } else {
+        tl_read_scalar(cur, field.in_type, field.out_type, pointer_size)
+    }
+}
+
 /// Decode `n` metadata fields starting at `idx` from the payload.
-/// Returns `None` on the first field that cannot be decoded; `out` holds
-/// what was decoded before the failure.
-fn tl_decode_fields(
+/// `values_left` is the remaining per-event `EtlValue` budget, shared with
+/// nested struct decoding. Returns `None` on the first field that cannot be
+/// decoded or that would exceed [`TL_ARRAY_LEN_MAX`] or the event budget;
+/// `out` holds what was decoded before the failure. An over-limit array is
+/// not truncated.
+pub fn tl_decode_fields(
     fields: &[TlField],
     idx: &mut usize,
     n: usize,
     cur: &mut Cur,
     pointer_size: usize,
     out: &mut EtlFields,
+    values_left: &mut usize,
 ) -> Option<()> {
     for _ in 0..n {
         let field: &TlField = fields.get(*idx)?;
@@ -961,25 +1012,37 @@ fn tl_decode_fields(
         };
         let is_array: bool = !matches!(field.count, TlCount::Scalar);
 
-        let read_one = |cur: &mut Cur| -> Option<EtlValue> {
-            if field.in_type == TLG_IN_STRUCT {
-                let mut sub: Vec<(EtlName, EtlValue)> = Vec::with_capacity(sub_count);
-                let mut sub_idx: usize = sub_start;
-                tl_decode_fields(fields, &mut sub_idx, sub_count, cur, pointer_size, &mut sub)?;
-                Some(EtlValue::Struct(sub))
-            } else {
-                tl_read_scalar(cur, field.in_type, field.out_type, pointer_size)
-            }
-        };
-
         let value: EtlValue = if is_array {
-            let mut items: Vec<EtlValue> = Vec::with_capacity(count.min(64));
-            for _ in 0..count {
-                items.push(read_one(cur)?);
+            // Reject before allocating or iterating. `count` is attacker-controlled
+            // and zero-width types (`Null`, empty strings at EOF) do not fail the read.
+            if count > TL_ARRAY_LEN_MAX || count > *values_left {
+                return None;
             }
+            let mut items: Vec<EtlValue> = Vec::with_capacity(count);
+            for _ in 0..count {
+                items.push(tl_read_field_value(
+                    fields,
+                    field,
+                    sub_start,
+                    sub_count,
+                    cur,
+                    pointer_size,
+                    values_left,
+                )?);
+            }
+            tl_charge(values_left)?;
+
             EtlValue::Array(items)
         } else {
-            read_one(cur)?
+            tl_read_field_value(
+                fields,
+                field,
+                sub_start,
+                sub_count,
+                cur,
+                pointer_size,
+                values_left,
+            )?
         };
         out.push((field.name.clone(), value));
     }
@@ -1004,8 +1067,17 @@ fn decode_tracelogging(
         top_level_fields += 1;
         top_level_idx += tl_field_extent(fields, top_level_idx);
     }
-    let complete: bool =
-        tl_decode_fields(fields, &mut idx, top_level_fields, &mut cur, pointer_size, &mut out).is_some();
+    let mut values_left: usize = TL_EVENT_VALUES_MAX;
+    let complete: bool = tl_decode_fields(
+        fields,
+        &mut idx,
+        top_level_fields,
+        &mut cur,
+        pointer_size,
+        &mut out,
+        &mut values_left,
+    )
+    .is_some();
 
     match (complete, cur.remaining()) {
         (true, _) if out.is_empty() && user_data.is_empty() => EtlPayload::Empty,
@@ -1177,7 +1249,10 @@ impl<R: Read> EtlParser<R> {
         }
         if n < BUFFER_HEADER_SZ {
             def2x!("short buffer header {} bytes", n);
-            return Ok(None);
+            return Err(Error::new(
+                ErrorKind::UnexpectedEof,
+                format!("ETL buffer {} has a truncated header: {} of {} bytes", index, n, BUFFER_HEADER_SZ),
+            ));
         }
         let buffer_size: usize = read_u32_at(&hdr, 0x00).unwrap() as usize;
         let timestamp: u64 = read_u64_at(&hdr, 0x10).unwrap();
@@ -1227,7 +1302,12 @@ impl<R: Read> EtlParser<R> {
             };
             def2o!("decompressed {} -> {} bytes", _compressed_len, data.len());
         }
-        let records_end: usize = records_end.min(data.len());
+        if data.len() < records_end {
+            return Err(Error::new(
+                ErrorKind::InvalidData,
+                format!("ETL buffer {} produced {} of {} declared record bytes", index, data.len(), records_end),
+            ));
+        }
         def2x!("records_end {}", records_end);
 
         Ok(Some((data, records_end, timestamp, compressed)))
