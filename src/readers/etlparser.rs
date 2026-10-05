@@ -118,6 +118,8 @@ const EXT_TYPE_EVENT_SCHEMA_TL: u16 = 0x000B;
 const EXT_TYPE_PROV_TRAITS: u16 = 0x000C;
 /// sanity limit on extended data items per record
 const EXT_ITEMS_MAX: usize = 16;
+/// sanity limit on GUID values of one kernel `EventTrace` event.
+pub(crate) const KERNEL_EVENT_GUIDS_MAX: usize = 4096;
 /// sanity limit on elements of one decoded TraceLogging array.
 /// `Fixed` and `Var` counts are `u16`, so this must be below `u16::MAX` to reject a single array.
 pub(crate) const TL_ARRAY_LEN_MAX: usize = 4096;
@@ -1145,6 +1147,8 @@ pub fn decode_tracelogging(
 // kernel payloads
 
 /// Decode kernel `EventTrace` group `0` payloads for well-known opcodes.
+/// GUID counts exceeding the payload or [`KERNEL_EVENT_GUIDS_MAX`] return
+/// `None`, allowing the parser to preserve the raw payload.
 pub fn decode_kernel_group0(
     opcode: u8,
     user_data: &[u8],
@@ -1160,8 +1164,11 @@ pub fn decode_kernel_group0(
         ],
         66 => vec![("BuildString".into(), EtlValue::Str(cur.cstr()?))],
         67 => {
-            let count: u32 = cur.u32()?;
-            let mut guids: Vec<EtlValue> = Vec::with_capacity(count.min(64) as usize);
+            let count: usize = usize::try_from(cur.u32()?).ok()?;
+            if count > cur.remaining() / 16 || count > KERNEL_EVENT_GUIDS_MAX {
+                return None;
+            }
+            let mut guids: Vec<EtlValue> = Vec::with_capacity(count);
             for _ in 0..count {
                 guids.push(EtlValue::Guid(cur.guid()?));
             }
