@@ -882,7 +882,7 @@ fn tl_schema_nesting_ok(fields: &[TlField]) -> bool {
 }
 
 /// Read a SID from the cursor.
-pub fn tl_read_sid(cur: &mut Cur) -> Option<Sid> {
+fn tl_read_sid(cur: &mut Cur) -> Option<Sid> {
     let start: usize = cur.pos;
     let revision: u8 = cur.u8()?;
     let count: u8 = cur.u8()?;
