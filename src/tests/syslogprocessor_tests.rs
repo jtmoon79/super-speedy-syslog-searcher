@@ -79,7 +79,7 @@ use crate::tests::common::{
     NTF_LOG_EMPTY_FPATH,
 };
 #[cfg(target_family = "unix")]
-use crate::debug::helpers::FILETYPE_UTF8;
+use crate::tests::common::FILETYPE_UTF8;
 
 const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
 

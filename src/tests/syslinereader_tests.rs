@@ -93,7 +93,7 @@ use crate::readers::helpers::{
     randomize,
 };
 #[cfg(target_family = "unix")]
-use crate::debug::helpers::path_to_fpath;
+use crate::readers::helpers::path_to_fpath;
 use crate::readers::syslinereader::{
     DateTimeParseDatasIndexes,
     ResultFindDateTime,
