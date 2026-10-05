@@ -38,6 +38,7 @@ use crate::readers::etlparser::{
     tl_parse_schema,
     tl_schema_cached,
     utf16le_to_string,
+    KERNEL_EVENT_GUIDS_MAX,
     TLG_IN_FLAG_CCOUNT,
     TLG_IN_FLAG_CHAIN,
     TLG_IN_NULL,
@@ -405,4 +406,40 @@ fn test_decode_kernel_group0() {
         Some(EtlPayload::Fields(_))
     ));
     assert_eq!(decode_kernel_group0(1, &[], &header), None);
+}
+
+#[test]
+fn test_decode_kernel_group0_guid_count() {
+    let header = logfileheader1();
+    for count in [0, 1, 64, KERNEL_EVENT_GUIDS_MAX] {
+        let mut data = (count as u32).to_le_bytes().to_vec();
+        data.resize(4 + count * 16, 0);
+        for code_unit in "binary.exe\0".encode_utf16() {
+            data.extend_from_slice(&code_unit.to_le_bytes());
+        }
+        assert_eq!(
+            decode_kernel_group0(67, &data, &header),
+            Some(EtlPayload::Fields(vec![
+                ("GuidCount".into(), EtlValue::U64(count as u64)),
+                ("Guid".into(), EtlValue::Array(vec![EtlValue::Guid(Guid::NIL); count])),
+                ("BinaryPath".into(), EtlValue::Str(String::from("binary.exe"))),
+            ]))
+        );
+    }
+}
+
+#[test]
+fn test_decode_kernel_group0_guid_count_invalid() {
+    let header = logfileheader1();
+    assert_eq!(decode_kernel_group0(67, &[0; 3], &header), None);
+    for (count, guid_bytes) in [
+        (1, 15),
+        (2, 16),
+        (u32::MAX, 0),
+        ((KERNEL_EVENT_GUIDS_MAX + 1) as u32, (KERNEL_EVENT_GUIDS_MAX + 1) * 16),
+    ] {
+        let mut data = count.to_le_bytes().to_vec();
+        data.resize(4 + guid_bytes, 0);
+        assert_eq!(decode_kernel_group0(67, &data, &header), None);
+    }
 }
