@@ -37,7 +37,6 @@ use crate::readers::etlparser::{
     read_full,
     tl_parse_schema,
     tl_schema_cached,
-    tl_read_sid,
     utf16le_to_string,
     TLG_IN_FLAG_CCOUNT,
     TLG_IN_FLAG_CHAIN,
