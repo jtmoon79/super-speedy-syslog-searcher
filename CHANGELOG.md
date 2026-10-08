@@ -264,7 +264,9 @@ Helpful `git log` command for generating changelog entries:
   stable chronological merging, native printing/summaries, and cancellation.
   ODL no longer requires a Python environment; ASL retains its Python reader.
   Remove the Python ODL module, entry point, license file, and exclusive
-  `construct`, `pycryptodome`, and `colorist` dependencies.
+  `construct`, `pycryptodome`, and `colorist` dependencies. A keystore `Key`
+  ending in two NUL characters keeps that UTF-32 marker; decrypted strings use
+  the key's UTF-16LE or UTF-32LE encoding instead of always UTF-16LE.
 
 [unreleased diff]
 
