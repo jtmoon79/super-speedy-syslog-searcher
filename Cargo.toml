@@ -17,7 +17,7 @@ build-print = "1.0.1"
 bitvec = "1.1.1"
 const-str = "1.1.0"
 dotenvy = "0.15.7"
-lazy_static = "1.5.0"
+lazy_static = "1.5.1" # TODO: replace with use of std::sync::LazyLock
 more-asserts = "0.3.1"
 proc-macro2 = "1.0.107"
 quote = "1.0.47"
@@ -95,8 +95,7 @@ bitvec.workspace = true
 bstr = { version = "1.13.1", features = ["alloc", "std"] }
 bzip2-rs = "0.1.2"
 cbc = "0.1.2"
-# TODO: use `std::cfg_select!` at Rust 1.96
-cfg-if = "1.0.4"
+cfg-if = "1.0.5"  # TODO: use `std::cfg_select!` at Rust 1.96
 chardet = "0.2.4"
 chrono = "0.4.45"
 clap = { version = "4.6.7", features = ["derive", "env"] }
@@ -215,7 +214,7 @@ test-case = "=3.2.1"  # XXX: cannot upgrade `test-case` beyond `3.2.1` until fix
 # benches
 jetscii = "0.5.3"
 regex-automata = "0.4.16"
-range-set-blaze = "0.6.1"
+range-set-blaze = "0.7.0"
 stringzilla = "3.12.6"
 # src/subprojects/lzma_rs/
 seq-macro = "0.3"
