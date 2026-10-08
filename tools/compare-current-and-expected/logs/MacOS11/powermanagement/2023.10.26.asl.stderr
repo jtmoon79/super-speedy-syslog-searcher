@@ -4,7 +4,7 @@ Files:
 File: ./logs/MacOS11/powermanagement/2023.10.26.asl
   About:
       FileType      : ASL (Apple System Log)
-      LogMessageType: Python parsed events (ASL/ODL)
+      LogMessageType: Python parsed events (ASL)
       Thread stack  : 137216 (bytes)
   Printed:
       bytes         : 4699
@@ -50,6 +50,8 @@ EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0
 Journal event largest accepted : 0
+ODL event largest processed    : 0
+ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
 Managed request open   : 1
