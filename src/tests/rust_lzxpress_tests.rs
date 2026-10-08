@@ -1,9 +1,18 @@
 // src/tests/rust_lzxpress_tests.rs
 
-use std::io::{Cursor, ErrorKind};
+use std::io::{
+    Cursor,
+    ErrorKind,
+};
 
-use crate::readers::etlparser::{BUFFER_HEADER_SZ, EtlParser};
-use crate::subprojects::rust_lzxpress::{self, Error};
+use crate::readers::etlparser::{
+    BUFFER_HEADER_SZ,
+    EtlParser,
+};
+use crate::subprojects::rust_lzxpress::{
+    self,
+    Error,
+};
 
 const BUFFER_FLAG_COMPRESSED: u16 = 0x0040;
 const BUFFER_SZ_MAX: usize = 64 * 1024 * 1024;
@@ -11,8 +20,7 @@ const BUFFER_SZ_MAX: usize = 64 * 1024 * 1024;
 fn extended_length_stream() -> Vec<u8> {
     vec![
         0x00, 0x00, 0x00, 0x40, // literal followed by a match
-        b'A',
-        0x07, 0x00, // offset 1, extended length
+        b'A', 0x07, 0x00, // offset 1, extended length
         0x0F, // extended-length nibble
         0xFF, // read the following u16
         0x00, 0x00, // read the following u32
@@ -20,7 +28,10 @@ fn extended_length_stream() -> Vec<u8> {
     ]
 }
 
-fn etl_buffer(data: &[u8], filled: usize) -> Vec<u8> {
+fn etl_buffer(
+    data: &[u8],
+    filled: usize,
+) -> Vec<u8> {
     let buffer_size: usize = BUFFER_HEADER_SZ + data.len();
     let mut buffer: Vec<u8> = vec![0; buffer_size];
     buffer[0x00..0x04].copy_from_slice(&(buffer_size as u32).to_le_bytes());
@@ -32,7 +43,9 @@ fn etl_buffer(data: &[u8], filled: usize) -> Vec<u8> {
 
 #[test]
 fn decompress_with_sufficient_limit() {
-    let compressed: [u8; 7] = [0x00, 0x00, 0x00, 0x40, b'A', 0x00, 0x00];
+    let compressed: [u8; 7] = [
+        0x00, 0x00, 0x00, 0x40, b'A', 0x00, 0x00,
+    ];
 
     let decompressed: Vec<u8> = rust_lzxpress::decompress(&compressed, 4).unwrap();
 
@@ -62,7 +75,11 @@ fn etl_parser_rejects_filled_bytes_above_buffer_limit() {
     let error = EtlParser::new(Cursor::new(buffer)).unwrap_err();
 
     assert_eq!(error.kind(), ErrorKind::InvalidData);
-    assert!(error.to_string().contains("invalid FilledBytes"));
+    assert!(
+        error
+            .to_string()
+            .contains("invalid FilledBytes")
+    );
 }
 
 #[test]
@@ -73,5 +90,9 @@ fn etl_parser_bounds_lzxpress_output_to_filled_bytes() {
     let error = EtlParser::new(Cursor::new(buffer)).unwrap_err();
 
     assert_eq!(error.kind(), ErrorKind::InvalidData);
-    assert!(error.to_string().contains("LZXPRESS decompression failed: MemLimit"));
+    assert!(
+        error
+            .to_string()
+            .contains("LZXPRESS decompression failed: MemLimit")
+    );
 }

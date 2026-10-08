@@ -624,7 +624,7 @@ macro_rules! setcolor_or_return {
 }
 
 // XXX: this was a `fn -> PrinterLogMessageResult` but due to mutable and immutable error, it would
-// not compile.      So a macro is a decent workaround.
+//      not compile. So a macro is a decent workaround.
 /// Macro helper to print a single line in color. Uses `PrinterLogMessage.buffer`.
 /// Flushes at end.
 macro_rules! print_color_line {
@@ -640,8 +640,8 @@ macro_rules! print_color_line {
     }};
 }
 
-// XXX: this macro was originally a `fn -> PrinterLogMessageResult` but due to mutable and immutable borrow
-//      error, it would not compile. So this macro is a decent workaround.
+// XXX: this macro was originally a `fn -> PrinterLogMessageResult` but due to mutable and immutable
+//      borrow error, it would not compile. So this macro is a decent workaround.
 //
 /// Macro helper to print a single line in color and highlight the datetime
 /// within the line. Uses `PrinterLogMessage.buffer`.

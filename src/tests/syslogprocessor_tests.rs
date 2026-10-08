@@ -26,33 +26,33 @@ use crate::common::{
     summary_stats_enable,
 };
 use crate::data::datetime::{
-    datetime_parse_from_str,
-    seconds_to_systemtime,
-    ymdhms0,
     DateTimeL,
     DateTimeLOpt,
     DateTimePattern_str,
     FixedOffset,
-    SystemTime,
     REGEX_ALL_COMPILED,
+    SystemTime,
+    datetime_parse_from_str,
     regex_id_compiled,
+    seconds_to_systemtime,
+    ymdhms0,
 };
 use crate::data::sysline::SyslineP;
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::helpers::{
+    NamedTempFile,
     create_temp_file,
     create_temp_file_data,
     ntf_fpath,
-    NamedTempFile,
 };
-#[cfg(target_family = "unix")]
-use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::readers::blockreader::{
     BlockSz,
     SummaryBlockReader,
 };
 use crate::readers::filepreprocessor::{
-    fpath_to_filetype,
     PathToFiletypeResult,
+    fpath_to_filetype,
 };
 #[cfg(target_family = "unix")]
 use crate::readers::helpers::path_to_fpath;
@@ -65,21 +65,21 @@ use crate::readers::syslinereader::{
 };
 use crate::readers::syslogprocessor::{
     FileProcessingResultBlockZero,
+    SYSLOG_SZ_MAX_BSZ,
     SummarySyslogProcessor,
     SyslogProcessor,
-    SYSLOG_SZ_MAX_BSZ,
 };
+#[cfg(target_family = "unix")]
+use crate::tests::common::FILETYPE_UTF8;
 use crate::tests::common::{
-    path_id_generator,
-    eprint_file,
-    eprint_file_blocks,
     FO_0,
     NTF_GZ_8BYTE_FPATH,
     NTF_GZ_EMPTY_FPATH,
     NTF_LOG_EMPTY_FPATH,
+    eprint_file,
+    eprint_file_blocks,
+    path_id_generator,
 };
-#[cfg(target_family = "unix")]
-use crate::tests::common::FILETYPE_UTF8;
 
 const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
 
@@ -159,13 +159,7 @@ const REGEX_ID_NTF5: RegexId = 33;
 /// Unix epoch time for time `NTF5_DATA_LINE4` at UTC
 const NTF5_MTIME_UNIXEPOCH: i64 = 957502855;
 
-const NTF5_DATA: &str = concatcp!(
-    NTF5_DATA_LINE0,
-    NTF5_DATA_LINE1,
-    NTF5_DATA_LINE2,
-    NTF5_DATA_LINE3,
-    NTF5_DATA_LINE4,
-);
+const NTF5_DATA: &str = concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
 const NTF5_LINE2_DATETIME_STR: &str = "Mar 3 03:00:00 +0000";
 const NTF5_LINE2_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %z";
@@ -187,13 +181,8 @@ const REGEX_ID_NTF5X4: RegexId = 33;
 /// Unix epoch time for time `NTF5X4_DATA_LINE4` at UTC
 const NTF5X4_MTIME_UNIXEPOCH: i64 = 958392055;
 
-const NTF5X4_DATA: &str = concatcp!(
-    NTF5X4_DATA_LINE0,
-    NTF5X4_DATA_LINE1,
-    NTF5X4_DATA_LINE2,
-    NTF5X4_DATA_LINE3,
-    NTF5X4_DATA_LINE4,
-);
+const NTF5X4_DATA: &str =
+    concatcp!(NTF5X4_DATA_LINE0, NTF5X4_DATA_LINE1, NTF5X4_DATA_LINE2, NTF5X4_DATA_LINE3, NTF5X4_DATA_LINE4,);
 
 //
 // NTF3
@@ -385,9 +374,7 @@ lazy_static! {
         ntf
     };
 
-    static ref NTF1S_A_PATH: FPath = {
-        ntf_fpath(&NTF1S_A)
-    };
+    static ref NTF1S_A_PATH: FPath = ntf_fpath(&NTF1S_A);
 
     // a `DateTimeL` instance three minutes after `NTF1S_A_DATA_LINE0`
     static ref NTF1S_A_DATA_LINE0_AFTER: DateTimeLOpt = {
@@ -413,9 +400,7 @@ lazy_static! {
         ntf
     };
 
-    static ref NTF1S_B_PATH: FPath = {
-        ntf_fpath(&NTF1S_B)
-    };
+    static ref NTF1S_B_PATH: FPath = ntf_fpath(&NTF1S_B);
 
     // a `DateTimeL` instance three minutes after `NTF1S_B_DATA_LINE0`
     static ref NTF1S_B_DATA_LINE0_AFTER: DateTimeLOpt = {
@@ -441,9 +426,7 @@ lazy_static! {
         ntf
     };
 
-    static ref NTF1S_C_PATH: FPath = {
-        ntf_fpath(&NTF1S_C)
-    };
+    static ref NTF1S_C_PATH: FPath = ntf_fpath(&NTF1S_C);
 
     //
     // NTF2S_A
@@ -461,9 +444,7 @@ lazy_static! {
         ntf
     };
 
-    static ref NTF2S_A_PATH: FPath = {
-        ntf_fpath(&NTF2S_A)
-    };
+    static ref NTF2S_A_PATH: FPath = ntf_fpath(&NTF2S_A);
 
     // a `DateTimeL` instance at `NTF2S_A_DATA_LINE1`
     static ref NTF2S_A_DATA_LINE1_AFTER: DateTimeLOpt = {
@@ -517,9 +498,7 @@ lazy_static! {
         ntf
     };
 
-    static ref NTF5_PATH: FPath = {
-        ntf_fpath(&NTF5)
-    };
+    static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
 
     //
     // NTF5X4
@@ -537,9 +516,7 @@ lazy_static! {
         ntf
     };
 
-    static ref NTF5X4_PATH: FPath = {
-        ntf_fpath(&NTF5X4)
-    };
+    static ref NTF5X4_PATH: FPath = ntf_fpath(&NTF5X4);
 
     //
     // NTF3
@@ -556,66 +533,46 @@ lazy_static! {
         }
     };
 
-    static ref NTF3: NamedTempFile = {
-        create_temp_file(NTF3_DATA)
-    };
+    static ref NTF3: NamedTempFile = create_temp_file(NTF3_DATA);
 
-    static ref NTF3_PATH: FPath = {
-        ntf_fpath(&NTF3)
-    };
+    static ref NTF3_PATH: FPath = ntf_fpath(&NTF3);
 
     //
     // NTF9
     //
 
-    static ref NTF9: NamedTempFile = {
-        create_temp_file(NTF9_DATA)
-    };
+    static ref NTF9: NamedTempFile = create_temp_file(NTF9_DATA);
 
-    static ref NTF9_PATH: FPath = {
-        ntf_fpath(&NTF9)
-    };
+    static ref NTF9_PATH: FPath = ntf_fpath(&NTF9);
 
     //
     // NTF7_2
     //
 
-    static ref NTF7_2: NamedTempFile = {
-        create_temp_file(NTF7_2_DATA)
-    };
+    static ref NTF7_2: NamedTempFile = create_temp_file(NTF7_2_DATA);
 
-    static ref NTF7_2_PATH: FPath = {
-        ntf_fpath(&NTF7_2)
-    };
+    static ref NTF7_2_PATH: FPath = ntf_fpath(&NTF7_2);
 
     //
     // NTF0X12000
     // zero-byte x12,000 times
     //
 
-    static ref NTF0X12000: NamedTempFile = {
-        create_temp_file_data(NTF0X12000_DATA)
-    };
+    static ref NTF0X12000: NamedTempFile = create_temp_file_data(NTF0X12000_DATA);
 
-    static ref NTF0X12000_PATH: FPath = {
-        ntf_fpath(&NTF0X12000)
-    };
+    static ref NTF0X12000_PATH: FPath = ntf_fpath(&NTF0X12000);
 
     //
 
     // 76208400
     // Thursday, June 1, 1972 1:00:00 AM GMT+00:00
     // Wednesday, May 31, 1972 6:00:00 PM GMT-07:00
-    static ref SYSTEMTIME_1972_06_01: SystemTime = {
-        seconds_to_systemtime(&76208400)
-    };
+    static ref SYSTEMTIME_1972_06_01: SystemTime = seconds_to_systemtime(&76208400);
 
     // 107744400
     // Friday, June 1, 1973 1:00:00 AM GMT+00:00
     // Thursday, May 31, 1973 6:00:00 PM GMT-07:00
-    static ref SYSTEMTIME_1973_06_01: SystemTime = {
-        seconds_to_systemtime(&107744400)
-    };
+    static ref SYSTEMTIME_1973_06_01: SystemTime = seconds_to_systemtime(&107744400);
 }
 
 /// Helper to wrap the match and panic checks
@@ -660,15 +617,7 @@ fn test_new_SyslogProcessor_no_file_permissions() {
     let ntf = create_temp_file_no_permissions(".log");
     let path = ntf.path();
     let fpath = path_to_fpath(path);
-    match SyslogProcessor::new(
-        path_id_generator(),
-        fpath.clone(),
-        FILETYPE_UTF8,
-        1024,
-        FO_0,
-        None,
-        None,
-    ) {
+    match SyslogProcessor::new(path_id_generator(), fpath.clone(), FILETYPE_UTF8, 1024, FO_0, None, None) {
         Ok(_) => {
             panic!("no permissions to read {:?}", path);
         }
@@ -971,12 +920,7 @@ fn test_process_stages_0to5(
         match result {
             ResultFindSysline::Found((fo_, syslinep)) => {
                 fo = fo_;
-                assert_eq!(
-                    checks[check_counter],
-                    syslinep.to_String().as_str(),
-                    "failed check {}",
-                    check_counter,
-                );
+                assert_eq!(checks[check_counter], syslinep.to_String().as_str(), "failed check {}", check_counter,);
             }
             ResultFindSysline::Done => {
                 break;
@@ -1116,20 +1060,35 @@ fn test_process_stage0to3_drop_data(
             }
             ResultFindSysline::Done => break,
             ResultFindSysline::Err(err) => {
-                panic!(
-                    "ERROR: SyslogProcessor.find_sysline({}) Path {:?} Error {}",
-                    fo, path, err
-                );
+                panic!("ERROR: SyslogProcessor.find_sysline({}) Path {:?} Error {}", fo, path, err);
             }
         }
     }
 
     let dropped_syslines = slp.dropped_syslines();
-    assert_gt!(dropped_syslines.len(), 0, "Expected *some* dropped Syslines but zero were dropped, blocksz {:?}, filesz {:?}", blocksz, slp.filesz());
+    assert_gt!(
+        dropped_syslines.len(),
+        0,
+        "Expected *some* dropped Syslines but zero were dropped, blocksz {:?}, filesz {:?}",
+        blocksz,
+        slp.filesz()
+    );
     let dropped_lines = slp.dropped_lines();
-    assert_gt!(dropped_lines.len(), 0, "Expected *some* dropped Lines but zero were dropped, blocksz {:?}, filesz {:?}", blocksz, slp.filesz());
+    assert_gt!(
+        dropped_lines.len(),
+        0,
+        "Expected *some* dropped Lines but zero were dropped, blocksz {:?}, filesz {:?}",
+        blocksz,
+        slp.filesz()
+    );
     let dropped_blocks = slp.dropped_blocks();
-    assert_gt!(dropped_blocks.len(), 0, "Expected *some* dropped Blocks but zero were dropped, blocksz {:?}, filesz {:?}", blocksz, slp.filesz());
+    assert_gt!(
+        dropped_blocks.len(),
+        0,
+        "Expected *some* dropped Blocks but zero were dropped, blocksz {:?}, filesz {:?}",
+        blocksz,
+        slp.filesz()
+    );
 }
 
 /// test `SyslogProcessor::summary` and `SyslogProcessor::summary_complete`
@@ -1140,10 +1099,7 @@ fn test_SyslogProcessor_summary_empty(
     path: &FPath,
     blocksz: BlockSz,
 ) {
-    let syslogprocessor = new_SyslogProcessor(
-        path,
-        blocksz,
-    );
+    let syslogprocessor = new_SyslogProcessor(path, blocksz);
     _ = syslogprocessor.summary();
     _ = syslogprocessor.summary_complete();
 }
@@ -1236,10 +1192,7 @@ fn test_Reader_summary(
         return;
     }
     summary_stats_enable();
-    let mut syslogprocessor = new_SyslogProcessor(
-        path,
-        blocksz,
-    );
+    let mut syslogprocessor = new_SyslogProcessor(path, blocksz);
 
     // find all the entries
     let mut fo: FileOffset = 0;
@@ -1260,25 +1213,13 @@ fn test_Reader_summary(
 
     // get the summaries
     let summary = syslogprocessor.summary_complete();
-    let (
-        summaryblockreader,
-        summarylinereader,
-        summarysyslinereader,
-        summarysyslogreader,
-    ) = match summary.readerdata {
+    let (summaryblockreader, summarylinereader, summarysyslinereader, summarysyslogreader) = match summary.readerdata {
         SummaryReaderData::Syslog((
             summaryblockreader,
             summarylinereader,
             summarysyslinereader,
             summarysyslogreader,
-        )) => {
-            (
-                summaryblockreader,
-                summarylinereader,
-                summarysyslinereader,
-                summarysyslogreader,
-            )
-        }
+        )) => (summaryblockreader, summarylinereader, summarysyslinereader, summarysyslogreader),
         _ => panic!(),
     };
     eprintln!("\nsummaryblockreader:\n{:?}\n", summaryblockreader);
@@ -1286,29 +1227,22 @@ fn test_Reader_summary(
     eprintln!("\nsummarysyslinereader:\n{:?}\n", summarysyslinereader);
     eprintln!("\nsummarysyslogreader:\n{:?}\n", summarysyslogreader);
     assert_eq!(
-        summaryblockreader,
-        expect_summaryblockreader,
+        summaryblockreader, expect_summaryblockreader,
         "summaryblockreader does not match expected summaryblockreader"
     );
     assert_eq!(
-        summarylinereader,
-        expect_summarylinereader,
+        summarylinereader, expect_summarylinereader,
         "summarylinereader does not match expected summarylinereader"
     );
     assert_eq!(
-        summarysyslinereader,
-        expect_summarysyslinereader,
+        summarysyslinereader, expect_summarysyslinereader,
         "summarysyslinereader does not match expected summarysyslinereader"
     );
     assert_eq!(
-        summarysyslogreader,
-        expect_summarysyslogprocessor,
+        summarysyslogreader, expect_summarysyslogprocessor,
         "summarysyslogreader does not match expected summarysyslogprocessor"
     );
 
     let summarysyslogreader2 = syslogprocessor.summary();
-    assert_eq!(
-        summarysyslogreader2,
-        expect_summarysyslogprocessor,
-    );
+    assert_eq!(summarysyslogreader2, expect_summarysyslogprocessor,);
 }

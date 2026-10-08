@@ -149,10 +149,9 @@ const FILE_HANDLE_UNMANAGED_JOURNAL_COUNT: u8 = 1;
 pub const fn filetype_handle_counts(filetype: FileType) -> (u8, u8) {
     match filetype {
         FileType::Asl { .. }
-        | FileType::Etl { .. }
-        | FileType::Odl { .. } => (1, FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT),
+        | FileType::Etl { .. } => (1, FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT),
         FileType::Journal { .. } => (1, FILE_HANDLE_UNMANAGED_JOURNAL_COUNT),
-        FileType::Evtx { .. }
+        FileType::Evtx { .. } | FileType::Odl { .. }
         | FileType::FixedStruct { .. }
         | FileType::Text { .. } => (1, 0),
         FileType::Unparsable => (0, 0),

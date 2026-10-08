@@ -12,14 +12,14 @@ use std::path::PathBuf;
 
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
+    def2n,
+    def2o,
+    def2x,
+    def2ñ,
     defn,
     defo,
     defx,
     defñ,
-    def2o,
-    def2n,
-    def2x,
-    def2ñ,
 };
 use ::tempfile::env::temp_dir;
 
@@ -36,7 +36,8 @@ use crate::python::venv::{
 };
 use crate::tests::common::touch;
 
-/// setup the Python virtual environment for tests, do this once per parent process (once per nextest run)
+/// setup the Python virtual environment for tests, do this once per parent process (once per
+/// nextest run)
 pub fn venv_setup() {
     let tid = threadid_to_u64(std::thread::current().id());
     let pid = std::process::id();
@@ -51,7 +52,7 @@ pub fn venv_setup() {
     let venv_pmutex: PathBuf = temp_dir().join("tmp-s4-test-python-venv-mutex");
 
     _ = std::fs::create_dir_all(&venv_pmutex);
-    if ! venv_pmutex.exists() {
+    if !venv_pmutex.exists() {
         panic!("path {:?} does not exist after create_dir_all()", venv_pmutex);
     }
 
@@ -121,15 +122,28 @@ fn test_extract_compare_version() {
     let version_opt = extract_compare_version(&data_v);
     defo!("version_opt: {:?}", version_opt);
     assert!(version_opt.is_err());
-    assert!(version_opt.err().unwrap().kind() == ErrorKind::Unsupported);
+    assert!(
+        version_opt
+            .err()
+            .unwrap()
+            .kind()
+            == ErrorKind::Unsupported
+    );
 
     let data_v = Bytes::from(b"");
     defo!("data_v: {:?}", buffer_to_string_noraw(&data_v));
     let version_opt = extract_compare_version(&data_v);
     defo!("version_opt: {:?}", version_opt);
     assert!(version_opt.is_err());
-    assert!(version_opt.err().unwrap().kind() == ErrorKind::Other);
+    assert!(
+        version_opt
+            .err()
+            .unwrap()
+            .kind()
+            == ErrorKind::Other
+    );
 }
 
-// XXX: no `test_create` to test `create()` because other tests already call `venv_setup()` which calls `create()`
-//      and it would be too complicated to reset the state for testing `create()` again
+// XXX: no `test_create` to test `create()` because other tests already call `venv_setup()` which
+// calls `create()`      and it would be too complicated to reset the state for testing `create()`
+// again

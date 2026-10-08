@@ -44,12 +44,12 @@ use crate::data::line::{
     LineP,
     LinePartPtrs,
 };
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::helpers::{
     create_temp_file,
     ntf_fpath,
 };
-#[cfg(target_family = "unix")]
-use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::printers::{
     buffer_to_string_noraw,
     byte_to_char_noraw,
@@ -57,63 +57,63 @@ use crate::debug::printers::{
 };
 use crate::readers::blockreader::BlockSz;
 use crate::readers::filepreprocessor::{
-    fpath_to_filetype,
     PathToFiletypeResult,
+    fpath_to_filetype,
 };
 use crate::readers::helpers::{
     path_to_fpath,
     randomize,
 };
 use crate::readers::linereader::{
-    LineReader,
     LINE_SEARCH_MAX,
+    LineReader,
     ResultFindLine,
     SummaryLineReader,
 };
 use crate::tests::common::{
-    path_id_generator,
-    eprint_file,
-    fill,
-    encode_utf16be,
-    encode_utf16le,
-    encode_utf32be,
-    encode_utf32le,
+    FILE_UTF8_ABC_FPATH,
+    FILE_UTF8_ABC_NL_DEF_FPATH,
+    FILE_UTF8_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF8_ABC_NL_FPATH,
+    FILE_UTF8_BOM_ABC_FPATH,
+    FILE_UTF16BE_ABC_FPATH,
+    FILE_UTF16BE_ABC_NL_DEF_FPATH,
+    FILE_UTF16BE_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF16BE_ABC_NL_FPATH,
+    FILE_UTF16BE_BOM_ABC_FPATH,
+    FILE_UTF16LE_ABC_FPATH,
+    FILE_UTF16LE_ABC_NL_DEF_FPATH,
+    FILE_UTF16LE_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF16LE_ABC_NL_FPATH,
+    FILE_UTF16LE_BOM_ABC_FPATH,
+    FILE_UTF16LE_SYSLINE_2,
+    FILE_UTF32BE_ABC_FPATH,
+    FILE_UTF32BE_ABC_NL_DEF_FPATH,
+    FILE_UTF32BE_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF32BE_ABC_NL_FPATH,
+    FILE_UTF32BE_BOM_ABC_FPATH,
+    FILE_UTF32LE_ABC_FPATH,
+    FILE_UTF32LE_ABC_NL_DEF_FPATH,
+    FILE_UTF32LE_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF32LE_ABC_NL_FPATH,
+    FILE_UTF32LE_BOM_ABC_FPATH,
     FILETYPE_UTF8,
+    NTF_LINE_TOO_LONG_UTF8_FPATH,
+    NTF_LINE_TOO_LONG_UTF8_LONG_LINE_OFFSET,
     NTF_LOG_EMPTY_FPATH,
     NTF_NL_1_PATH,
     NTF_NL_2_PATH,
     NTF_NL_3_PATH,
     NTF_NL_4_PATH,
     NTF_NL_5_PATH,
-    NTF_LINE_TOO_LONG_UTF8_FPATH,
-    NTF_LINE_TOO_LONG_UTF8_LONG_LINE_OFFSET,
     NTF_SYSLINE_2_PATH,
-    FILE_UTF16LE_ABC_FPATH,
-    FILE_UTF16LE_ABC_NL_FPATH,
-    FILE_UTF16LE_ABC_NL_DEF_FPATH,
-    FILE_UTF16LE_ABC_NL_DEF_NL_FPATH,
-    FILE_UTF16BE_ABC_FPATH,
-    FILE_UTF16BE_ABC_NL_FPATH,
-    FILE_UTF16BE_ABC_NL_DEF_FPATH,
-    FILE_UTF16BE_ABC_NL_DEF_NL_FPATH,
-    FILE_UTF32BE_ABC_FPATH,
-    FILE_UTF32BE_ABC_NL_FPATH,
-    FILE_UTF32BE_ABC_NL_DEF_FPATH,
-    FILE_UTF32BE_ABC_NL_DEF_NL_FPATH,
-    FILE_UTF32LE_ABC_FPATH,
-    FILE_UTF32LE_ABC_NL_FPATH,
-    FILE_UTF32LE_ABC_NL_DEF_FPATH,
-    FILE_UTF32LE_ABC_NL_DEF_NL_FPATH,
-    FILE_UTF32LE_BOM_ABC_FPATH,
-    FILE_UTF32BE_BOM_ABC_FPATH,
-    FILE_UTF16LE_BOM_ABC_FPATH,
-    FILE_UTF16BE_BOM_ABC_FPATH,
-    FILE_UTF8_ABC_FPATH,
-    FILE_UTF8_ABC_NL_FPATH,
-    FILE_UTF8_ABC_NL_DEF_FPATH,
-    FILE_UTF8_ABC_NL_DEF_NL_FPATH,
-    FILE_UTF8_BOM_ABC_FPATH,
-    FILE_UTF16LE_SYSLINE_2,
+    encode_utf16be,
+    encode_utf16le,
+    encode_utf32be,
+    encode_utf32le,
+    eprint_file,
+    fill,
+    path_id_generator,
 };
 
 /// dummy version of `ResultFindLine` for asserting return enum of
@@ -179,12 +179,7 @@ fn test_new_LineReader_no_file_permissions() {
     let ntf = create_temp_file_no_permissions(".log");
     let path = ntf.path();
     let fpath = path_to_fpath(path);
-    match LineReader::new(
-        path_id_generator(),
-        fpath.clone(),
-        FILETYPE_UTF8,
-        1024,
-    ) {
+    match LineReader::new(path_id_generator(), fpath.clone(), FILETYPE_UTF8, 1024) {
         Ok(_) => {
             panic!("no permissions to read {:?}", path);
         }
@@ -425,11 +420,7 @@ fn compare_file_linereader(
             i, lines_file_lr1.0, lines_file_lr1.1,
         );
     }
-    assert_eq!(
-        contents_file_count, i,
-        "Expected to compare {} lines, only compared {}",
-        contents_file_count, i
-    );
+    assert_eq!(contents_file_count, i, "Expected to compare {} lines, only compared {}", contents_file_count, i);
     eprintln!("{}compare_file_linereader({:?})", sx(), &path);
 }
 
@@ -1423,13 +1414,7 @@ fn test_find_line_in_block(
     in_out: &TestFindLineInBlockCheck,
 ) {
     stack_offset_set(Some(2));
-    eprintln!(
-        "test_find_line_in_block({:?}, {:?}, {:?}, {:?})",
-        &path,
-        cache_enabled,
-        blocksz,
-        in_out
-    );
+    eprintln!("test_find_line_in_block({:?}, {:?}, {:?}, {:?})", &path, cache_enabled, blocksz, in_out);
     eprint_file(path);
     let mut lr1: LineReader = new_LineReader(path, blocksz);
     if !cache_enabled {
@@ -1480,19 +1465,21 @@ fn test_find_line_in_block(
                 assert_eq!(rs4_expect, &RS3T_DONE, "Expected {:?}, got Done (check {i})", rs4_expect);
                 match partial_actual {
                     Some(line) => {
-                        assert!(partial_expect.is_some(),
+                        assert!(
+                            partial_expect.is_some(),
                             "expected partial None but actual partial is Some(line: {:?}) (check {i})",
                             line.to_string_noraw(),
                         );
                         let sa = line.to_String();
                         let se = partial_expect.unwrap();
-                        assert_eq!(sa.as_str(), se,
-                            "\n  expected partial {:?}\n  actual {:?} (check {i})\n",
-                            se, sa,
-                        );
+                        assert_eq!(sa.as_str(), se, "\n  expected partial {:?}\n  actual {:?} (check {i})\n", se, sa,);
                     }
                     None => {
-                        assert!(partial_expect.is_none(), "result partial is None but expected {:?} (check {i})", partial_expect);
+                        assert!(
+                            partial_expect.is_none(),
+                            "result partial is None but expected {:?} (check {i})",
+                            partial_expect
+                        );
                     }
                 }
             }
@@ -1686,11 +1673,7 @@ fn test_Line_get_boxptrs(
         eprintln!("{}{}: line.get_boxptrs({}, {})", so(), fn_, a, b);
         let boxptrs = match (*linep).get_boxptrs(*a, *b) {
             LinePartPtrs::NoPtr => {
-                assert!(
-                    bytes_check.is_empty(),
-                    "Expected bytes_check {:?}, received NoPtr (no bytes)",
-                    bytes_check
-                );
+                assert!(bytes_check.is_empty(), "Expected bytes_check {:?}, received NoPtr (no bytes)", bytes_check);
                 continue;
             }
             LinePartPtrs::SinglePtr(box_) => {
@@ -1715,7 +1698,18 @@ fn test_Line_get_boxptrs(
                     byte_to_char_noraw(*byte_),
                     byte_to_char_noraw(*byte_check)
                 );
-                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segment {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_string_noraw(boxptr), (*linep).to_string_noraw());
+                assert_eq!(
+                    byte_,
+                    byte_check,
+                    "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segment {:?} Line {:?}",
+                    at,
+                    byte_,
+                    byte_check,
+                    byte_to_char_noraw(*byte_),
+                    byte_to_char_noraw(*byte_check),
+                    buffer_to_string_noraw(boxptr),
+                    (*linep).to_string_noraw()
+                );
                 at += 1;
             }
         }
@@ -1745,7 +1739,6 @@ Two 2
     let fpath = ntf_fpath(&ntf);
     let checks: TestLineGetBoxPtrsCheck = vec![
         // fileoffset, (a, b), check
-        //
         (0, (0, 1), vec![b'O']),
         (0, (0, 2), vec![b'O', b'n']),
         (0, (0, 3), vec![b'O', b'n', b'e']),
@@ -2118,17 +2111,25 @@ fn test_find_line_in_block_utf(
     expect_partial: Option<&'static str>,
     expect_str: String,
 ) {
-    let in_out: TestFindLineInBlockCheck = vec![
-        (fileoffset, (expect_result, expect_partial), expect_str),
-    ];
+    let in_out: TestFindLineInBlockCheck = vec![(fileoffset, (expect_result, expect_partial), expect_str)];
     test_find_line_in_block(fpath, true, blocksz, encoding, &in_out);
 }
 
-const UTF8_BOM_ABC_BYTES: [u8; 6] = [0xEF, 0xBB, 0xBF, b'a', b'b', b'c'];
-const UTF16BE_BOM_ABC_BYTES: [u8; 8] = [0xFE, 0xFF, 0x00, b'a', 0x00, b'b', 0x00, b'c'];
-const UTF16LE_BOM_ABC_BYTES: [u8; 8] = [0xFF, 0xFE, b'a', 0x00, b'b', 0x00, b'c', 0x00];
-const UTF32BE_BOM_ABC_BYTES: [u8; 16] = [0x00, 0x00, 0xFE, 0xFF, 0x00, 0x00, 0x00, b'a', 0x00, 0x00, 0x00, b'b', 0x00, 0x00, 0x00, b'c'];
-const UTF32LE_BOM_ABC_BYTES: [u8; 16] = [0xFF, 0xFE, 0x00, 0x00, b'a', 0x00, 0x00, 0x00, b'b', 0x00, 0x00, 0x00, b'c', 0x00, 0x00, 0x00];
+const UTF8_BOM_ABC_BYTES: [u8; 6] = [
+    0xEF, 0xBB, 0xBF, b'a', b'b', b'c',
+];
+const UTF16BE_BOM_ABC_BYTES: [u8; 8] = [
+    0xFE, 0xFF, 0x00, b'a', 0x00, b'b', 0x00, b'c',
+];
+const UTF16LE_BOM_ABC_BYTES: [u8; 8] = [
+    0xFF, 0xFE, b'a', 0x00, b'b', 0x00, b'c', 0x00,
+];
+const UTF32BE_BOM_ABC_BYTES: [u8; 16] = [
+    0x00, 0x00, 0xFE, 0xFF, 0x00, 0x00, 0x00, b'a', 0x00, 0x00, 0x00, b'b', 0x00, 0x00, 0x00, b'c',
+];
+const UTF32LE_BOM_ABC_BYTES: [u8; 16] = [
+    0xFF, 0xFE, 0x00, 0x00, b'a', 0x00, 0x00, 0x00, b'b', 0x00, 0x00, 0x00, b'c', 0x00, 0x00, 0x00,
+];
 
 lazy_static! {
     // UTF-16BE
@@ -2213,13 +2214,14 @@ fn test_find_line(
             eprintln!("expect_str = {:?}", str_to_string_noraw(expect_str));
             eprintln!("actual_str = {:?}", linep.to_string_noraw());
             eprintln!("expect_bytes = {:?}", expect_bytes);
-            assert!(expect_str.is_empty() || expect_bytes.is_empty(), "must have either expect_str or expect_bytes, but not both; got expect_str {:?} and expect_bytes {:?}", expect_str, expect_bytes);
-            assert_eq!(expect_result, RS3T_FOUND, "actual FOUND, expected FOUND");
-            let expect_compare: &[u8] = if !expect_bytes.is_empty() {
+            assert!(
+                expect_str.is_empty() || expect_bytes.is_empty(),
+                "must have either expect_str or expect_bytes, but not both; got expect_str {:?} and expect_bytes {:?}",
+                expect_str,
                 expect_bytes
-            } else {
-                expect_str.as_bytes()
-            };
+            );
+            assert_eq!(expect_result, RS3T_FOUND, "actual FOUND, expected FOUND");
+            let expect_compare: &[u8] = if !expect_bytes.is_empty() { expect_bytes } else { expect_str.as_bytes() };
             let mut i = 0;
             for linepart in &linep.lineparts {
                 eprintln!("linepart = {:?}", linepart.as_slice());
@@ -2227,11 +2229,16 @@ fn test_find_line(
                     let c = match expect_compare.get(i) {
                         Some(c) => *c,
                         None => {
-                            panic!("expect_compare {expect_compare:?} should have more bytes to match linepart; failed at byte index {i}");
+                            panic!(
+                                "expect_compare {expect_compare:?} should have more bytes to match linepart; failed at byte index {i}"
+                            );
                         }
                     };
                     eprintln!("expect {:?} = {:?} actual", c as char, *b as char);
-                    assert_eq!(*b, c, "failed to match at byte index {i}; expected byte 0x{c:02X} ({c}) but got 0x{b:02X} ({b})");
+                    assert_eq!(
+                        *b, c,
+                        "failed to match at byte index {i}; expected byte 0x{c:02X} ({c}) but got 0x{b:02X} ({b})"
+                    );
                     i += 1;
                 }
             }
@@ -2295,9 +2302,7 @@ fn test_LineReader_find_line_line_too_long(
 
 #[test_case(&*NTF_LOG_EMPTY_FPATH)]
 #[test_case(&NTF_NL_1_PATH)]
-fn test_LineReader_summary_empty(
-    path: &FPath,
-) {
+fn test_LineReader_summary_empty(path: &FPath) {
     let linereader = new_LineReader(path, 4);
     _ = linereader.summary();
 }
@@ -2370,58 +2375,29 @@ fn test_SummaryLineReader(
 
     let summary: SummaryLineReader = lr.summary();
     assert_eq!(
-        summary.linereader_line_longest_processed,
-        linereader_line_longest_processed,
+        summary.linereader_line_longest_processed, linereader_line_longest_processed,
         "linereader_line_longest_processed 0"
     );
+    assert_eq!(summary.linereader_lines, linereader_lines, "linereader_lines 1");
     assert_eq!(
-        summary.linereader_lines,
-        linereader_lines,
-        "linereader_lines 1"
-    );
-    assert_eq!(
-        summary.linereader_lines_stored_highest,
-        linereader_lines_stored_highest,
+        summary.linereader_lines_stored_highest, linereader_lines_stored_highest,
         "linereader_lines_stored_highest 2"
     );
+    assert_eq!(summary.linereader_lines_hits, linereader_lines_hits, "linereader_lines_hits 3");
+    assert_eq!(summary.linereader_lines_miss, linereader_lines_miss, "linereader_lines_miss 4");
+    assert_eq!(summary.linereader_line_parts_created, linereader_line_parts_created, "linereader_line_parts_created 5");
     assert_eq!(
-        summary.linereader_lines_hits,
-        linereader_lines_hits,
-        "linereader_lines_hits 3"
-    );
-    assert_eq!(
-        summary.linereader_lines_miss,
-        linereader_lines_miss,
-        "linereader_lines_miss 4"
-    );
-    assert_eq!(
-        summary.linereader_line_parts_created,
-        linereader_line_parts_created,
-        "linereader_line_parts_created 5"
-    );
-    assert_eq!(
-        summary.linereader_find_line_lru_cache_hit,
-        linereader_find_line_lru_cache_hit,
+        summary.linereader_find_line_lru_cache_hit, linereader_find_line_lru_cache_hit,
         "linereader_find_line_lru_cache_hit 6"
     );
     assert_eq!(
-        summary.linereader_find_line_lru_cache_miss,
-        linereader_find_line_lru_cache_miss,
+        summary.linereader_find_line_lru_cache_miss, linereader_find_line_lru_cache_miss,
         "linereader_find_line_lru_cache_miss 7"
     );
     assert_eq!(
-        summary.linereader_find_line_lru_cache_put,
-        linereader_find_line_lru_cache_put,
+        summary.linereader_find_line_lru_cache_put, linereader_find_line_lru_cache_put,
         "linereader_find_line_lru_cache_put 8"
     );
-    assert_eq!(
-        summary.linereader_drop_line_ok,
-        linereader_drop_line_ok,
-        "linereader_drop_line_ok 9"
-    );
-    assert_eq!(
-        summary.linereader_drop_line_errors,
-        linereader_drop_line_errors,
-        "linereader_drop_line_errors 10"
-    );
+    assert_eq!(summary.linereader_drop_line_ok, linereader_drop_line_ok, "linereader_drop_line_ok 9");
+    assert_eq!(summary.linereader_drop_line_errors, linereader_drop_line_errors, "linereader_drop_line_errors 10");
 }

@@ -19,7 +19,6 @@ use crate::readers::blockreader::{
     BlockSz,
 };
 
-
 fn block_new(data: &[u8]) -> BlockP {
     let block: Block = Block::from(data);
 

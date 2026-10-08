@@ -38,9 +38,9 @@ use crate::data::datetime::{
 };
 use crate::data::fixedstruct::ENTRY_SZ_MAX;
 use crate::debug::helpers::{
+    NamedTempFile,
     create_temp_file,
     ntf_fpath,
-    NamedTempFile,
 };
 use crate::libload::systemd_dlopen2::load_library_systemd;
 use crate::printer::printers::{
@@ -52,10 +52,6 @@ use crate::printer::printers::{
     fpath_to_prependpath,
 };
 use crate::printer::summary::{
-    print_summary,
-    summary_largest_evtx_event,
-    summary_largest_journal_event,
-    summary_longest_line_sysline,
     MapPathIdSummary,
     MapPathIdSummaryPrint,
     MapPathIdToColor,
@@ -68,6 +64,10 @@ use crate::printer::summary::{
     MapPathIdToProcessPathResultOrdered,
     MapPathIdToStackSize,
     SummaryPrinted,
+    print_summary,
+    summary_largest_evtx_event,
+    summary_largest_journal_event,
+    summary_longest_line_sysline,
 };
 use crate::readers::blockreader::{
     BlockSz,
@@ -79,8 +79,8 @@ use crate::readers::evtxreader::{
 };
 use crate::readers::filehandlemanager::FILE_HANDLE_MANAGER;
 use crate::readers::filepreprocessor::{
-    fpath_to_filetype,
     PathToFiletypeResult,
+    fpath_to_filetype,
 };
 use crate::readers::fixedstructreader::{
     FixedStructReader,
@@ -105,9 +105,10 @@ use crate::readers::syslinereader::{
 };
 use crate::readers::syslogprocessor::SummarySyslogProcessor;
 use crate::tests::common::{
-    path_id_generator,
     EVTX_KPNP_EVENT_COUNT,
     EVTX_KPNP_FPATH,
+    FILE_UTF8_BOM_DTF56B_FPATH,
+    FILE_UTF8_DTF56B_FPATH,
     FILE_UTF16BE_BOM_DTF56B_FPATH,
     FILE_UTF16BE_DTF56B_FPATH,
     FILE_UTF16LE_BOM_DTF56B_FPATH,
@@ -116,8 +117,6 @@ use crate::tests::common::{
     FILE_UTF32BE_DTF56B_FPATH,
     FILE_UTF32LE_BOM_DTF56B_FPATH,
     FILE_UTF32LE_DTF56B_FPATH,
-    FILE_UTF8_BOM_DTF56B_FPATH,
-    FILE_UTF8_DTF56B_FPATH,
     FO_0,
     FO_P8,
     JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
@@ -125,6 +124,7 @@ use crate::tests::common::{
     NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH,
     NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
     REGEX_ID_DTF56B,
+    path_id_generator,
 };
 
 // XXX: copied from `syslinereader_tests.rs`
@@ -139,7 +139,9 @@ const NTF5_DATA: &str = concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LI
 
 const REGEX_ID_NTF5: RegexId = 142;
 
-const FT_EVTX_NORM: FileType = FileType::Evtx { archival_type: FileTypeArchive::Normal };
+const FT_EVTX_NORM: FileType = FileType::Evtx {
+    archival_type: FileTypeArchive::Normal,
+};
 
 lazy_static! {
     static ref NTF5: NamedTempFile = create_temp_file(NTF5_DATA);
@@ -174,13 +176,11 @@ fn summary_with_largest_evtx_values(
     event_largest_accepted: Count,
 ) -> Summary {
     Summary {
-        readerdata: SummaryReaderData::Etvx(
-            SummaryEvtxReader {
-                evtxreader_event_largest_processed: event_largest_processed,
-                evtxreader_event_largest_accepted: event_largest_accepted,
-                ..Default::default()
-            }
-        ),
+        readerdata: SummaryReaderData::Etvx(SummaryEvtxReader {
+            evtxreader_event_largest_processed: event_largest_processed,
+            evtxreader_event_largest_accepted: event_largest_accepted,
+            ..Default::default()
+        }),
         ..Default::default()
     }
 }
@@ -191,13 +191,11 @@ fn summary_with_largest_journal_event_values(
     journal_event_largest_accepted: Count,
 ) -> Summary {
     Summary {
-        readerdata: SummaryReaderData::Journal(
-            SummaryJournalReader {
-                journalreader_journal_event_largest_processed: journal_event_largest_processed,
-                journalreader_journal_event_largest_accepted: journal_event_largest_accepted,
-                ..Default::default()
-            }
-        ),
+        readerdata: SummaryReaderData::Journal(SummaryJournalReader {
+            journalreader_journal_event_largest_processed: journal_event_largest_processed,
+            journalreader_journal_event_largest_accepted: journal_event_largest_accepted,
+            ..Default::default()
+        }),
         ..Default::default()
     }
 }
@@ -237,14 +235,7 @@ fn test_summary_longest_line_sysline() {
 
 #[test]
 fn test_PrinterLogMessage_new() {
-    PrinterLogMessage::new(
-        ColorChoice::Never,
-        Color::Red,
-        FileTypeTextEncoding::Utf8Ascii,
-        None,
-        None,
-        FO_0,
-    );
+    PrinterLogMessage::new(ColorChoice::Never, Color::Red, FileTypeTextEncoding::Utf8Ascii, None, None, FO_0);
 }
 
 fn new_SyslineReader(
@@ -277,14 +268,7 @@ fn new_PrinterLogMessage(
     let pf = prepend_file.map(String::from);
     let pd = prepend_date.map(String::from);
 
-    PrinterLogMessage::new(
-        colorchoice,
-        color,
-        FileTypeTextEncoding::Utf8Ascii,
-        pf,
-        pd,
-        prepend_offset.unwrap_or(FO_0),
-    )
+    PrinterLogMessage::new(colorchoice, color, FileTypeTextEncoding::Utf8Ascii, pf, pd, prepend_offset.unwrap_or(FO_0))
 }
 
 const CCA: ColorChoice = ColorChoice::Always;
@@ -320,13 +304,7 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
         return;
     }
     summary_stats_enable();
-    let mut plm = new_PrinterLogMessage(
-        colorchoice,
-        color,
-        prepend_file,
-        prepend_date,
-        prepend_offset,
-    );
+    let mut plm = new_PrinterLogMessage(colorchoice, color, prepend_file, prepend_date, prepend_offset);
 
     let mut fo: FileOffset = 0;
     let mut slr = new_SyslineReader(&NTF5_PATH, 1024, FO_P8);
@@ -361,12 +339,10 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
     assert_eq!(prints, 5, "Expected 5 prints, got {}", prints);
     assert_eq!(
         printed_bytes, expected_printed_bytes,
-        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+        "Expected {} printed bytes, got {}",
+        expected_printed_bytes, printed_bytes,
     );
-    assert_eq!(
-        printed_flushed, expected_flushed,
-        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
-    );
+    assert_eq!(printed_flushed, expected_flushed, "Expected {} flushed, got {}", expected_flushed, printed_flushed,);
 }
 
 const ENC_UTF8: FileTypeTextEncoding = FileTypeTextEncoding::Utf8Ascii;
@@ -507,13 +483,7 @@ fn test_PrinterLogMessage_print_sysline_UTF(
         return;
     }
     summary_stats_enable();
-    let mut plm = new_PrinterLogMessage(
-        colorchoice,
-        color,
-        prepend_file,
-        prepend_date,
-        prepend_offset,
-    );
+    let mut plm = new_PrinterLogMessage(colorchoice, color, prepend_file, prepend_date, prepend_offset);
 
     let mut fo: FileOffset = 0;
     let mut slr = new_SyslineReader(fpath, 1024, FO_P8);
@@ -549,12 +519,10 @@ fn test_PrinterLogMessage_print_sysline_UTF(
     assert_eq!(prints, expected_prints, "Expected {} prints, got {}", expected_prints, prints);
     assert_eq!(
         printed_bytes, expected_printed_bytes,
-        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+        "Expected {} printed bytes, got {}",
+        expected_printed_bytes, printed_bytes,
     );
-    assert_eq!(
-        printed_flushed, expected_flushed,
-        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
-    );
+    assert_eq!(printed_flushed, expected_flushed, "Expected {} flushed, got {}", expected_flushed, printed_flushed,);
 }
 
 const FILEU: &str = "foo.utmp";
@@ -581,19 +549,17 @@ fn test_PrinterLogMessage_print_fixedstruct(
     expected_flushed: usize,
 ) {
     summary_stats_enable();
-    let mut plm: PrinterLogMessage = new_PrinterLogMessage(
-        colorchoice,
-        color,
-        prepend_file,
-        prepend_date,
-        prepend_offset,
-    );
+    let mut plm: PrinterLogMessage =
+        new_PrinterLogMessage(colorchoice, color, prepend_file, prepend_date, prepend_offset);
 
     let buffer: &mut [u8] = &mut [0; ENTRY_SZ_MAX];
     let mut fixedstructreader = match FixedStructReader::new(
         path_id_generator(),
         path.clone(),
-        FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: FileTypeFixedStruct::Utmpx },
+        FileType::FixedStruct {
+            archival_type: FileTypeArchive::Normal,
+            fixedstruct_type: FileTypeFixedStruct::Utmpx,
+        },
         ENTRY_SZ_MAX as BlockSz,
         FO_P8,
         None,
@@ -602,7 +568,9 @@ fn test_PrinterLogMessage_print_fixedstruct(
         ResultFixedStructReaderNew::FileOk(val) => val,
         _ => panic!("ERROR: FixedStructReader::new() failed"),
     };
-    let mut fo: FileOffset = fixedstructreader.fileoffset_first().unwrap();
+    let mut fo: FileOffset = fixedstructreader
+        .fileoffset_first()
+        .unwrap();
     let mut prints: usize = 0;
     let mut printed_bytes: usize = 0;
     let mut printed_flushed: usize = 0;
@@ -633,18 +601,13 @@ fn test_PrinterLogMessage_print_fixedstruct(
         }
     }
     eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
-    assert_eq!(
-        prints, print_count_expect, "Expected {} prints, got {}",
-        print_count_expect, prints,
-    );
+    assert_eq!(prints, print_count_expect, "Expected {} prints, got {}", print_count_expect, prints,);
     assert_eq!(
         printed_bytes, expected_printed_bytes,
-        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+        "Expected {} printed bytes, got {}",
+        expected_printed_bytes, printed_bytes,
     );
-    assert_eq!(
-        printed_flushed, expected_flushed,
-        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
-    );
+    assert_eq!(printed_flushed, expected_flushed, "Expected {} flushed, got {}", expected_flushed, printed_flushed,);
 }
 
 #[test_case(CCA, CLR, None, None, None, 321782, 1589; "a")]
@@ -666,20 +629,9 @@ fn test_PrinterLogMessage_print_evtx(
     expected_flushed: usize,
 ) {
     summary_stats_enable();
-    let mut plm = new_PrinterLogMessage(
-        colorchoice,
-        color,
-        prepend_file,
-        prepend_date,
-        prepend_offset,
-    );
+    let mut plm = new_PrinterLogMessage(colorchoice, color, prepend_file, prepend_date, prepend_offset);
 
-    let mut er = EvtxReader::new(
-        path_id_generator(),
-        EVTX_KPNP_FPATH.clone(),
-        FT_EVTX_NORM,
-        FO_P8,
-    ).unwrap();
+    let mut er = EvtxReader::new(path_id_generator(), EVTX_KPNP_FPATH.clone(), FT_EVTX_NORM, FO_P8).unwrap();
     let mut prints: usize = 0;
     let mut printed_bytes: usize = 0;
     let mut printed_flushed: usize = 0;
@@ -698,16 +650,13 @@ fn test_PrinterLogMessage_print_evtx(
     }
     eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
     let expect_prints: usize = *EVTX_KPNP_EVENT_COUNT as usize;
-    assert_eq!(prints, expect_prints,
-        "Expected {} prints, got {}", expect_prints, prints);
+    assert_eq!(prints, expect_prints, "Expected {} prints, got {}", expect_prints, prints);
     assert_eq!(
         printed_bytes, expected_printed_bytes,
-        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+        "Expected {} printed bytes, got {}",
+        expected_printed_bytes, printed_bytes,
     );
-    assert_eq!(
-        printed_flushed, expected_flushed,
-        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
-    );
+    assert_eq!(printed_flushed, expected_flushed, "Expected {} flushed, got {}", expected_flushed, printed_flushed,);
 }
 
 const FILEJ: &str = "foo.JOURNAL";
@@ -740,21 +689,18 @@ fn test_PrinterLogMessage_print_journal(
     }
     summary_stats_enable();
     load_library_systemd().is_ok();
-    let mut plm = new_PrinterLogMessage(
-        colorchoice,
-        color,
-        prepend_file,
-        prepend_date,
-        prepend_offset,
-    );
+    let mut plm = new_PrinterLogMessage(colorchoice, color, prepend_file, prepend_date, prepend_offset);
 
     let mut jr: JournalReader = JournalReader::new(
         path_id_generator(),
         (*JOURNAL_FILE_RHE_91_SYSTEM_FPATH).clone(),
         journal_output,
         FO_0,
-        FileType::Journal{ archival_type: FileTypeArchive::Normal },
-    ).unwrap();
+        FileType::Journal {
+            archival_type: FileTypeArchive::Normal,
+        },
+    )
+    .unwrap();
     let mut prints: usize = 0;
     let mut printed_bytes: usize = 0;
     let mut printed_flushed: usize = 0;
@@ -770,37 +716,27 @@ fn test_PrinterLogMessage_print_journal(
             ResultNext::ErrIgnore(err) => {
                 panic!("ERROR: jr.next() returned ErrIgnore({})", err);
             }
-            ResultNext::Found(journal_entry) => {
-                match plm.print_journalentry(&journal_entry) {
-                    PrinterLogMessageResult::Ok((printed, flushed)) => {
-                        prints += 1;
-                        printed_bytes += printed;
-                        printed_flushed += flushed;
-                    }
-                    _ => {
-                        panic!(
-                            "ERROR: plm.print_journalentry({:?}) returned ResultNext::Done",
-                            journal_entry,
-                        );
-                    }
+            ResultNext::Found(journal_entry) => match plm.print_journalentry(&journal_entry) {
+                PrinterLogMessageResult::Ok((printed, flushed)) => {
+                    prints += 1;
+                    printed_bytes += printed;
+                    printed_flushed += flushed;
                 }
-            }
+                _ => {
+                    panic!("ERROR: plm.print_journalentry({:?}) returned ResultNext::Done", journal_entry,);
+                }
+            },
         }
     }
     eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
     let expect_prints: usize = *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT as usize;
-    assert_eq!(
-        prints, expect_prints,
-        "Expected {} prints, got {}", expect_prints, prints,
-    );
+    assert_eq!(prints, expect_prints, "Expected {} prints, got {}", expect_prints, prints,);
     assert_eq!(
         printed_bytes, expected_printed_bytes,
-        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+        "Expected {} printed bytes, got {}",
+        expected_printed_bytes, printed_bytes,
     );
-    assert_eq!(
-        printed_flushed, expected_flushed,
-        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
-    );
+    assert_eq!(printed_flushed, expected_flushed, "Expected {} flushed, got {}", expected_flushed, printed_flushed,);
 }
 
 #[test]
@@ -852,33 +788,25 @@ fn test_fpath_to_prependname(
     const S: char = std::path::MAIN_SEPARATOR;
     let fpath: FPath = FPath::from(path_s).replace("/", &S.to_string());
     let result: FPath = fpath_to_prependname(&fpath);
-    assert_eq!(
-        result,
-        expect,
-        "\nGiven    {:?}\nExpected {:?}\nActual   {:?}\n",
-        path_s,
-        expect,
-        result
-    );
+    assert_eq!(result, expect, "\nGiven    {:?}\nExpected {:?}\nActual   {:?}\n", path_s, expect, result);
 }
 
 #[test_case("bar", "bar")]
 #[test_case("/foo/bar", "/foo/bar")]
 #[test_case("/foo/bar/baz", "/foo/bar/baz")]
-#[test_case("/foo/bar.tar\0baz", "/foo/bar.tar|baz")]
-#[test_case("/foo/bar.tar\0b\0az", "/foo/bar.tar|b\0az")]
+#[test_case(
+    "/foo/bar.tar\0baz",
+    "/foo/bar.tar|baz"
+)]
+#[test_case(
+    "/foo/bar.tar\0b\0az",
+    "/foo/bar.tar|b\0az"
+)]
 fn test_fpath_to_prependpath(
     path_s: &str,
     expect: &str,
 ) {
     let fpath: FPath = FPath::from(path_s);
     let result: FPath = fpath_to_prependpath(&fpath);
-    assert_eq!(
-        result,
-        expect,
-        "\nGiven    {:?}\nExpected {:?}\nActual   {:?}\n",
-        path_s,
-        expect,
-        result
-    );
+    assert_eq!(result, expect, "\nGiven    {:?}\nExpected {:?}\nActual   {:?}\n", path_s, expect, result);
 }

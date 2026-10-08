@@ -19,11 +19,11 @@ use ::si_trace_print::{
 use ::test_case::test_case;
 
 use crate::common::{
+    BOM_UTF8,
     BOM_UTF16BE,
     BOM_UTF16LE,
     BOM_UTF32BE,
     BOM_UTF32LE,
-    BOM_UTF8,
     FPath,
     FileType,
     FileTypeArchive,
@@ -32,30 +32,26 @@ use crate::common::{
     OdlSubType,
 };
 use crate::debug::helpers::{
+    NamedTempFile,
     create_files_and_tmpdir,
     create_temp_dir,
     ntf_fpath,
-    NamedTempFile,
 };
 use crate::readers::filepreprocessor::{
+    FileTypeArchiveMultiple,
+    PathToFiletypeResult,
+    ProcessPathResult,
     copy_process_path_result_canonicalize_path,
     detect_filetype_text_encoding,
     fpath_to_filetype,
     process_path,
     process_path_tar,
-    FileTypeArchiveMultiple,
-    PathToFiletypeResult,
-    ProcessPathResult,
 };
 use crate::readers::helpers::{
     fpath_to_path,
     path_to_fpath,
 };
 use crate::tests::common::{
-    encode_utf16be,
-    encode_utf16le,
-    encode_utf32be,
-    encode_utf32le,
     FILETYPE_EVTX,
     FILETYPE_EVTX_GZ,
     FILETYPE_EVTX_LZ4,
@@ -78,6 +74,11 @@ use crate::tests::common::{
     NTF_TAR_8BYTE_FILEA_FILETYPE,
     NTF_TAR_8BYTE_FILEA_FPATH,
     NTF_TAR_8BYTE_FPATH,
+    NTF_TAR_AB_FILEA_FILETYPE,
+    NTF_TAR_AB_FILEA_FPATH,
+    NTF_TAR_AB_FILEB_FILETYPE,
+    NTF_TAR_AB_FILEB_FPATH,
+    NTF_TAR_AB_FPATH,
     NTF_TAR_ABCDEFGHI,
     NTF_TAR_ABCDEFGHI_FILEA_FILETYPE,
     NTF_TAR_ABCDEFGHI_FILEA_FPATH,
@@ -94,36 +95,59 @@ use crate::tests::common::{
     NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
     NTF_TAR_ABCDEFGHI_FILEI_FPATH,
     NTF_TAR_ABCDEFGHI_FPATH,
-    NTF_TAR_AB_FILEA_FILETYPE,
-    NTF_TAR_AB_FILEA_FPATH,
-    NTF_TAR_AB_FILEB_FILETYPE,
-    NTF_TAR_AB_FILEB_FPATH,
-    NTF_TAR_AB_FPATH,
     NTF_TGZ_8BYTE,
     NTF_TGZ_8BYTE_FPATH,
+    encode_utf16be,
+    encode_utf16le,
+    encode_utf32be,
+    encode_utf32le,
 };
 
 const TEXT_ASCII: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ .,;:'\"!?@#$%^&*()_+-=~`<>\n";
 const TEXT_ASCII_BYTES: &[u8] = TEXT_ASCII.as_bytes();
 
 lazy_static! {
-    pub static ref TEXT_UTF8_BOM_BYTES: Vec<u8> = [BOM_UTF8.as_slice(), TEXT_ASCII_BYTES].concat();
-
+    pub static ref TEXT_UTF8_BOM_BYTES: Vec<u8> = [
+        BOM_UTF8.as_slice(),
+        TEXT_ASCII_BYTES
+    ]
+    .concat();
     pub static ref TEXT_UTF16BE_STRING: String = encode_utf16be(TEXT_ASCII);
-    pub static ref TEXT_UTF16BE_BYTES: Vec<u8> = TEXT_UTF16BE_STRING.as_bytes().to_vec();
-    pub static ref TEXT_UTF16BE_BOM_BYTES: Vec<u8> = [BOM_UTF16BE.as_slice(), TEXT_UTF16BE_BYTES.as_slice()].concat();
-
+    pub static ref TEXT_UTF16BE_BYTES: Vec<u8> = TEXT_UTF16BE_STRING
+        .as_bytes()
+        .to_vec();
+    pub static ref TEXT_UTF16BE_BOM_BYTES: Vec<u8> = [
+        BOM_UTF16BE.as_slice(),
+        TEXT_UTF16BE_BYTES.as_slice()
+    ]
+    .concat();
     pub static ref TEXT_UTF16LE_STRING: String = encode_utf16le(TEXT_ASCII);
-    pub static ref TEXT_UTF16LE_BYTES: Vec<u8> = TEXT_UTF16LE_STRING.as_bytes().to_vec();
-    pub static ref TEXT_UTF16LE_BOM_BYTES: Vec<u8> = [BOM_UTF16LE.as_slice(), TEXT_UTF16LE_BYTES.as_slice()].concat();
-
+    pub static ref TEXT_UTF16LE_BYTES: Vec<u8> = TEXT_UTF16LE_STRING
+        .as_bytes()
+        .to_vec();
+    pub static ref TEXT_UTF16LE_BOM_BYTES: Vec<u8> = [
+        BOM_UTF16LE.as_slice(),
+        TEXT_UTF16LE_BYTES.as_slice()
+    ]
+    .concat();
     pub static ref TEXT_UTF32BE_STRING: String = encode_utf32be(TEXT_ASCII);
-    pub static ref TEXT_UTF32BE_BYTES: Vec<u8> = TEXT_UTF32BE_STRING.as_bytes().to_vec();
-    pub static ref TEXT_UTF32BE_BOM_BYTES: Vec<u8> = [BOM_UTF32BE.as_slice(), TEXT_UTF32BE_BYTES.as_slice()].concat();
-
+    pub static ref TEXT_UTF32BE_BYTES: Vec<u8> = TEXT_UTF32BE_STRING
+        .as_bytes()
+        .to_vec();
+    pub static ref TEXT_UTF32BE_BOM_BYTES: Vec<u8> = [
+        BOM_UTF32BE.as_slice(),
+        TEXT_UTF32BE_BYTES.as_slice()
+    ]
+    .concat();
     pub static ref TEXT_UTF32LE_STRING: String = encode_utf32le(TEXT_ASCII);
-    pub static ref TEXT_UTF32LE_BYTES: Vec<u8> = TEXT_UTF32LE_STRING.as_bytes().to_vec();
-    pub static ref TEXT_UTF32LE_BOM_BYTES: Vec<u8> = [BOM_UTF32LE.as_slice(), TEXT_UTF32LE_BYTES.as_slice()].concat();
+    pub static ref TEXT_UTF32LE_BYTES: Vec<u8> = TEXT_UTF32LE_STRING
+        .as_bytes()
+        .to_vec();
+    pub static ref TEXT_UTF32LE_BOM_BYTES: Vec<u8> = [
+        BOM_UTF32LE.as_slice(),
+        TEXT_UTF32LE_BYTES.as_slice()
+    ]
+    .concat();
 }
 
 #[test_case(&TEXT_ASCII_BYTES, Some(FileTypeTextEncoding::Utf8Ascii))]
@@ -145,297 +169,244 @@ fn test_detect_filetype_text_encoding(
 }
 
 // FileType consts
-const FTTN8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Text {
-        archival_type: FileTypeArchive::Normal,
-        encoding_type: FileTypeTextEncoding::Utf8Ascii,
-    }
-);
-const FTTB8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Text {
-        archival_type: FileTypeArchive::Bz2,
-        encoding_type: FileTypeTextEncoding::Utf8Ascii,
-    }
-);
-const FTTGZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Text {
-        archival_type: FileTypeArchive::Gz,
-        encoding_type: FileTypeTextEncoding::Utf8Ascii,
-    }
-);
-const FTTXZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Text {
-        archival_type: FileTypeArchive::Xz,
-        encoding_type: FileTypeTextEncoding::Utf8Ascii,
-    }
-);
+const FTTN8: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Text {
+    archival_type: FileTypeArchive::Normal,
+    encoding_type: FileTypeTextEncoding::Utf8Ascii,
+});
+const FTTB8: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Text {
+    archival_type: FileTypeArchive::Bz2,
+    encoding_type: FileTypeTextEncoding::Utf8Ascii,
+});
+const FTTGZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Text {
+    archival_type: FileTypeArchive::Gz,
+    encoding_type: FileTypeTextEncoding::Utf8Ascii,
+});
+const FTTXZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Text {
+    archival_type: FileTypeArchive::Xz,
+    encoding_type: FileTypeTextEncoding::Utf8Ascii,
+});
 // Asl
-const FTASL: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Asl { archival_type: FileTypeArchive::Normal }
-);
-const FTASLBZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Asl { archival_type: FileTypeArchive::Bz2 }
-);
-const FTASLGZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Asl { archival_type: FileTypeArchive::Gz }
-);
-const FTASLLZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Asl { archival_type: FileTypeArchive::Lz4 }
-);
-const FTASLXZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Asl { archival_type: FileTypeArchive::Xz }
-);
+const FTASL: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Asl {
+    archival_type: FileTypeArchive::Normal,
+});
+const FTASLBZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Asl {
+    archival_type: FileTypeArchive::Bz2,
+});
+const FTASLGZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Asl {
+    archival_type: FileTypeArchive::Gz,
+});
+const FTASLLZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Asl {
+    archival_type: FileTypeArchive::Lz4,
+});
+const FTASLXZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Asl {
+    archival_type: FileTypeArchive::Xz,
+});
 // Etl
-const FTETL: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Etl { archival_type: FileTypeArchive::Normal }
-);
-const FTETLBZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Etl { archival_type: FileTypeArchive::Bz2 }
-);
-const FTETLGZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Etl { archival_type: FileTypeArchive::Gz }
-);
-const FTETLLZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Etl { archival_type: FileTypeArchive::Lz4 }
-);
-const FTETLXZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Etl { archival_type: FileTypeArchive::Xz }
-);
+const FTETL: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Etl {
+    archival_type: FileTypeArchive::Normal,
+});
+const FTETLBZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Etl {
+    archival_type: FileTypeArchive::Bz2,
+});
+const FTETLGZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Etl {
+    archival_type: FileTypeArchive::Gz,
+});
+const FTETLLZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Etl {
+    archival_type: FileTypeArchive::Lz4,
+});
+const FTETLXZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Etl {
+    archival_type: FileTypeArchive::Xz,
+});
 // Evtx
-const FTEVTXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Evtx {
-        archival_type: FileTypeArchive::Normal,
-    }
-);
-const FTEVTXB: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Evtx {
-        archival_type: FileTypeArchive::Bz2,
-    }
-);
-const FTEVTXG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Evtx {
-        archival_type: FileTypeArchive::Gz,
-    }
-);
-const FTEVTXL4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Evtx {
-        archival_type: FileTypeArchive::Lz4,
-    }
-);
-const FTEVTXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Evtx {
-        archival_type: FileTypeArchive::Xz,
-    }
-);
-const FTJOURNALN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Journal {
-        archival_type: FileTypeArchive::Normal,
-    }
-);
-const FTJOURNALB: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Journal {
-        archival_type: FileTypeArchive::Bz2,
-    }
-);
-const FTJOURNALG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Journal {
-        archival_type: FileTypeArchive::Gz,
-    }
-);
-const FTJOURNALL4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Journal {
-        archival_type: FileTypeArchive::Lz4,
-    }
-);
-const FTJOURNALX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Journal {
-        archival_type: FileTypeArchive::Xz,
-    }
-);
-const FTUNPARSABLE: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Unparsable,
-);
+const FTEVTXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Evtx {
+    archival_type: FileTypeArchive::Normal,
+});
+const FTEVTXB: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Evtx {
+    archival_type: FileTypeArchive::Bz2,
+});
+const FTEVTXG: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Evtx {
+    archival_type: FileTypeArchive::Gz,
+});
+const FTEVTXL4: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Evtx {
+    archival_type: FileTypeArchive::Lz4,
+});
+const FTEVTXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Evtx {
+    archival_type: FileTypeArchive::Xz,
+});
+const FTJOURNALN: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Journal {
+    archival_type: FileTypeArchive::Normal,
+});
+const FTJOURNALB: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Journal {
+    archival_type: FileTypeArchive::Bz2,
+});
+const FTJOURNALG: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Journal {
+    archival_type: FileTypeArchive::Gz,
+});
+const FTJOURNALL4: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Journal {
+    archival_type: FileTypeArchive::Lz4,
+});
+const FTJOURNALX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Journal {
+    archival_type: FileTypeArchive::Xz,
+});
+const FTUNPARSABLE: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Unparsable);
 //
 // ODL
 //
-const FTAODL: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Normal , odl_sub_type: OdlSubType::Aodl }
-);
-const FTODL: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Normal , odl_sub_type: OdlSubType::Odl }
-);
-const FTODLGZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Normal , odl_sub_type: OdlSubType::Odlgz }
-);
-const FTODLSENT: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Normal , odl_sub_type: OdlSubType::Odlsent }
-);
+const FTAODL: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Normal,
+    odl_sub_type: OdlSubType::Aodl,
+});
+const FTODL: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Normal,
+    odl_sub_type: OdlSubType::Odl,
+});
+const FTODLGZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Normal,
+    odl_sub_type: OdlSubType::Odlgz,
+});
+const FTODLSENT: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Normal,
+    odl_sub_type: OdlSubType::Odlsent,
+});
 // .odl.bz2
-const FTAODL_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Bz2 , odl_sub_type: OdlSubType::Aodl }
-);
-const FTODL_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Bz2 , odl_sub_type: OdlSubType::Odl }
-);
-const FTODLGZ_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Bz2 , odl_sub_type: OdlSubType::Odlgz }
-);
-const FTODLSENT_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Bz2 , odl_sub_type: OdlSubType::Odlsent }
-);
+const FTAODL_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Bz2,
+    odl_sub_type: OdlSubType::Aodl,
+});
+const FTODL_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Bz2,
+    odl_sub_type: OdlSubType::Odl,
+});
+const FTODLGZ_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Bz2,
+    odl_sub_type: OdlSubType::Odlgz,
+});
+const FTODLSENT_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Bz2,
+    odl_sub_type: OdlSubType::Odlsent,
+});
 // .odl.gz
-const FTAODL_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Gz , odl_sub_type: OdlSubType::Aodl }
-);
-const FTODL_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Gz , odl_sub_type: OdlSubType::Odl }
-);
-const FTODLGZ_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Gz , odl_sub_type: OdlSubType::Odlgz }
-);
-const FTODLSENT_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Gz , odl_sub_type: OdlSubType::Odlsent }
-);
+const FTAODL_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Gz,
+    odl_sub_type: OdlSubType::Aodl,
+});
+const FTODL_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Gz,
+    odl_sub_type: OdlSubType::Odl,
+});
+const FTODLGZ_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Gz,
+    odl_sub_type: OdlSubType::Odlgz,
+});
+const FTODLSENT_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Gz,
+    odl_sub_type: OdlSubType::Odlsent,
+});
 // .old.lz4
-const FTAODL_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Lz4 , odl_sub_type: OdlSubType::Aodl }
-);
-const FTODL_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Lz4 , odl_sub_type: OdlSubType::Odl }
-);
-const FTODLGZ_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Lz4 , odl_sub_type: OdlSubType::Odlgz }
-);
-const FTODLSENT_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Lz4 , odl_sub_type: OdlSubType::Odlsent }
-);
+const FTAODL_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Lz4,
+    odl_sub_type: OdlSubType::Aodl,
+});
+const FTODL_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Lz4,
+    odl_sub_type: OdlSubType::Odl,
+});
+const FTODLGZ_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Lz4,
+    odl_sub_type: OdlSubType::Odlgz,
+});
+const FTODLSENT_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Lz4,
+    odl_sub_type: OdlSubType::Odlsent,
+});
 // .old.xz
-const FTAODL_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Xz , odl_sub_type: OdlSubType::Aodl }
-);
-const FTODL_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Xz , odl_sub_type: OdlSubType::Odl }
-);
-const FTODLGZ_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Xz , odl_sub_type: OdlSubType::Odlgz }
-);
-const FTODLSENT_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::Odl { archival_type: FileTypeArchive::Xz , odl_sub_type: OdlSubType::Odlsent }
-);
+const FTAODL_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Xz,
+    odl_sub_type: OdlSubType::Aodl,
+});
+const FTODL_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Xz,
+    odl_sub_type: OdlSubType::Odl,
+});
+const FTODLGZ_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Xz,
+    odl_sub_type: OdlSubType::Odlgz,
+});
+const FTODLSENT_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Odl {
+    archival_type: FileTypeArchive::Xz,
+    odl_sub_type: OdlSubType::Odlsent,
+});
 // PathToFiletypeResult::Archive consts
-const AMTARN: PathToFiletypeResult = PathToFiletypeResult::Archive(
-    FileTypeArchiveMultiple::Tar,
-    FileTypeArchive::Normal,
-);
-const AMTARB: PathToFiletypeResult = PathToFiletypeResult::Archive(
-    FileTypeArchiveMultiple::Tar,
-    FileTypeArchive::Bz2,
-);
-const AMTARG: PathToFiletypeResult = PathToFiletypeResult::Archive(
-    FileTypeArchiveMultiple::Tar,
-    FileTypeArchive::Gz,
-);
-const AMTARX: PathToFiletypeResult = PathToFiletypeResult::Archive(
-    FileTypeArchiveMultiple::Tar,
-    FileTypeArchive::Xz,
-);
+const AMTARN: PathToFiletypeResult =
+    PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Tar, FileTypeArchive::Normal);
+const AMTARB: PathToFiletypeResult = PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Tar, FileTypeArchive::Bz2);
+const AMTARG: PathToFiletypeResult = PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Tar, FileTypeArchive::Gz);
+const AMTARX: PathToFiletypeResult = PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Tar, FileTypeArchive::Xz);
 // FileType::FixedStruct consts
-const FTACCTN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Normal,
-        fixedstruct_type: FileTypeFixedStruct::Acct,
-    }
-);
-const FTACCTV3N: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Normal,
-        fixedstruct_type: FileTypeFixedStruct::AcctV3,
-    }
-);
-const FTACCTV3B: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Bz2,
-        fixedstruct_type: FileTypeFixedStruct::AcctV3,
-    }
-);
-const FTACCTV3G: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Gz,
-        fixedstruct_type: FileTypeFixedStruct::AcctV3,
-    }
-);
-const FTACCTV3X: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Xz,
-        fixedstruct_type: FileTypeFixedStruct::AcctV3,
-    }
-);
-const FTLASTLOGN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Normal,
-        fixedstruct_type: FileTypeFixedStruct::Lastlog,
-    }
-);
-const FTLASTLOGG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Gz,
-        fixedstruct_type: FileTypeFixedStruct::Lastlog,
-    }
-);
-const FTLASTLOG_X: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Xz,
-        fixedstruct_type: FileTypeFixedStruct::Lastlog,
-    }
-);
-const FTLASTLOGXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Normal,
-        fixedstruct_type: FileTypeFixedStruct::Lastlogx,
-    }
-);
-const FTUTMPN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Normal,
-        fixedstruct_type: FileTypeFixedStruct::Utmp,
-    }
-);
-const FTUTMP_X: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Xz,
-        fixedstruct_type: FileTypeFixedStruct::Utmp,
-    }
-);
-const FTUTMPG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Gz,
-        fixedstruct_type: FileTypeFixedStruct::Utmp,
-    }
-);
-const FTUTMPL4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Lz4,
-        fixedstruct_type: FileTypeFixedStruct::Utmp,
-    }
-);
-const FTUTMPXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Normal,
-        fixedstruct_type: FileTypeFixedStruct::Utmpx,
-    }
-);
-const FTUTMPXG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Gz,
-        fixedstruct_type: FileTypeFixedStruct::Utmpx,
-    }
-);
-const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Xz,
-        fixedstruct_type: FileTypeFixedStruct::Utmpx,
-    }
-);
+const FTACCTN: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Normal,
+    fixedstruct_type: FileTypeFixedStruct::Acct,
+});
+const FTACCTV3N: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Normal,
+    fixedstruct_type: FileTypeFixedStruct::AcctV3,
+});
+const FTACCTV3B: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Bz2,
+    fixedstruct_type: FileTypeFixedStruct::AcctV3,
+});
+const FTACCTV3G: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Gz,
+    fixedstruct_type: FileTypeFixedStruct::AcctV3,
+});
+const FTACCTV3X: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Xz,
+    fixedstruct_type: FileTypeFixedStruct::AcctV3,
+});
+const FTLASTLOGN: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Normal,
+    fixedstruct_type: FileTypeFixedStruct::Lastlog,
+});
+const FTLASTLOGG: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Gz,
+    fixedstruct_type: FileTypeFixedStruct::Lastlog,
+});
+const FTLASTLOG_X: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Xz,
+    fixedstruct_type: FileTypeFixedStruct::Lastlog,
+});
+const FTLASTLOGXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Normal,
+    fixedstruct_type: FileTypeFixedStruct::Lastlogx,
+});
+const FTUTMPN: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Normal,
+    fixedstruct_type: FileTypeFixedStruct::Utmp,
+});
+const FTUTMP_X: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Xz,
+    fixedstruct_type: FileTypeFixedStruct::Utmp,
+});
+const FTUTMPG: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Gz,
+    fixedstruct_type: FileTypeFixedStruct::Utmp,
+});
+const FTUTMPL4: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Lz4,
+    fixedstruct_type: FileTypeFixedStruct::Utmp,
+});
+const FTUTMPXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Normal,
+    fixedstruct_type: FileTypeFixedStruct::Utmpx,
+});
+const FTUTMPXG: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Gz,
+    fixedstruct_type: FileTypeFixedStruct::Utmpx,
+});
+const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::FixedStruct {
+    archival_type: FileTypeArchive::Xz,
+    fixedstruct_type: FileTypeFixedStruct::Utmpx,
+});
 
 // TEXT
 #[test_case("log", FTTN8, true)]
@@ -456,23 +427,51 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("syslog~", FTTN8, true; "syslog_tilde")]
 #[test_case("syslog-", FTTN8, true; "syslog_dash")]
 #[test_case("syslog.3", FTTN8, true)]
-#[test_case("syslog.3.20240101", FTTN8, true)]
+#[test_case(
+    "syslog.3.20240101",
+    FTTN8,
+    true
+)]
 #[test_case("somefile", FTTN8, true)]
 #[test_case("SOMEFILE", FTTN8, true; "SOMEFILE ALLCAPS")]
 #[test_case("output.txt", FTTN8, true)]
-#[test_case("cloud-init.log.out", FTTN8, true)]
-#[test_case("cloud-init.out.log", FTTN8, true)]
-#[test_case("cloud-init-output.log", FTTN8, true)]
-#[test_case("droplet-agent.update.log", FTTN8, true)]
+#[test_case(
+    "cloud-init.log.out",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "cloud-init.out.log",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "cloud-init-output.log",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "droplet-agent.update.log",
+    FTTN8,
+    true
+)]
 #[test_case("kern.log", FTTN8, true)]
 #[test_case("KERN.LOG", FTTN8, true; "KERN.LOG ALLCAPS")]
 #[test_case("kern.log.1", FTTN8, true)]
 #[test_case("kern.log.2", FTTN8, true)]
 #[test_case("kern.log.2~", FTTN8, true; "kern.log.2_tilde")]
-#[test_case("rhsm.log-20230422", FTTN8, true)]
+#[test_case(
+    "rhsm.log-20230422",
+    FTTN8,
+    true
+)]
 #[test_case("aptitude.4", FTTN8, true)]
 #[test_case("aptitude.~", FTTN8, true; "aptitude_tilde")]
-#[test_case("systemsetup-server-info.log.208", FTTN8, true)]
+#[test_case(
+    "systemsetup-server-info.log.208",
+    FTTN8,
+    true
+)]
 #[test_case("a.log", FTTN8, true)]
 #[test_case("log.a", FTTN8, true)]
 #[test_case("LOG.B", FTTN8, true)]
@@ -490,7 +489,11 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("nul", FTTN8, true)]
 #[test_case("soap_agent", FTTN8, true)]
 #[test_case("soap_agent.old", FTTN8, true)]
-#[test_case("soap_agent.old.old", FTTN8, true)]
+#[test_case(
+    "soap_agent.old.old",
+    FTTN8,
+    true
+)]
 #[test_case("-", FTTN8, true; "dash")]
 #[test_case("-", FTUNPARSABLE, false; "dash false")]
 #[test_case("$", FTTN8, true; "dollar")]
@@ -502,15 +505,47 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("__", FTTN8, false; "underscore underscore false")]
 #[test_case("telemetry", FTTN8, true)]
 #[test_case("initial-status", FTTN8, true)]
-#[test_case("smart_extend_log", FTTN8, true)]
-#[test_case(".disk_daily_info_send_udc_time", FTTN8, true)]
-#[test_case("messages-DropletAgent", FTTN8, true)]
-#[test_case("CC_AA_DD_EE_FF_00-ns", FTTN8, true)]
-#[test_case("CC_AA_DD_EE_FF_00-ns.old", FTTN8, true)]
-#[test_case("CC_AA_DD_EE_FF_00-ns.old.1", FTTN8, true)]
+#[test_case(
+    "smart_extend_log",
+    FTTN8,
+    true
+)]
+#[test_case(
+    ".disk_daily_info_send_udc_time",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "messages-DropletAgent",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "CC_AA_DD_EE_FF_00-ns",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "CC_AA_DD_EE_FF_00-ns.old",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "CC_AA_DD_EE_FF_00-ns.old.1",
+    FTTN8,
+    true
+)]
 #[test_case("history", FTTN8, true)]
-#[test_case("fe80::984c:ffff:eeee:eeee.log", FTTN8, true)]
-#[test_case("[fe80::984c:ffff:eeee:eeef].log", FTTN8, true)]
+#[test_case(
+    "fe80::984c:ffff:eeee:eeee.log",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "[fe80::984c:ffff:eeee:eeef].log",
+    FTTN8,
+    true
+)]
 #[test_case("錄音.log", FTTN8, true)]
 #[test_case("opname.log", FTTN8, true)]
 #[test_case("บันทึก.log", FTTN8, true)]
@@ -528,17 +563,45 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("Запису", FTTN8, true)]
 #[test_case("تسجيل", FTTN8, true)]
 #[test_case("grabación", FTTN8, true)]
-#[test_case("192.168.1.100.log", FTTN8, true)]
-#[test_case("log.192.168.1.100", FTTN8, true)]
+#[test_case(
+    "192.168.1.100.log",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "log.192.168.1.100",
+    FTTN8,
+    true
+)]
 #[test_case("setup.log.full", FTTN8, true)]
-#[test_case("setup.log.full.1", FTTN8, true)]
-#[test_case("setup.log.full.old", FTTN8, true)]
-#[test_case("setup.log.full.old.1", FTTN8, true)]
-#[test_case("setup.log.full.old.2", FTTN8, true)]
+#[test_case(
+    "setup.log.full.1",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "setup.log.full.old",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "setup.log.full.old.1",
+    FTTN8,
+    true
+)]
+#[test_case(
+    "setup.log.full.old.2",
+    FTTN8,
+    true
+)]
 // TEXT bz2
 #[test_case("syslog.bz2", FTTB8, true)]
 #[test_case("syslog.1.bz2", FTTB8, true)]
-#[test_case("unattended-upgrades-dpkg.log.3.bz2", FTTB8, true)]
+#[test_case(
+    "unattended-upgrades-dpkg.log.3.bz2",
+    FTTB8,
+    true
+)]
 #[test_case("data.bz2", FTTB8, true)]
 #[test_case("data.log.bz2", FTTB8, true)]
 #[test_case("DATA.BZ2", FTTB8, true; "DATA.BZ2 ALLCAPS")]
@@ -546,15 +609,35 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("log.bz2.1", FTTB8, true)]
 #[test_case("log.bz2.2", FTTB8, true)]
 #[test_case("log.bz2.99", FTTB8, true)]
-#[test_case("log.nmbd.old.bz2", FTTB8, true)]
-#[test_case("192.168.1.100.log.bz2", FTTB8, true)]
-#[test_case("192.168.1.100.log.bz2.1", FTTB8, true)]
-#[test_case("192.168.1.100.log.bz2.old.1", FTTB8, true)]
+#[test_case(
+    "log.nmbd.old.bz2",
+    FTTB8,
+    true
+)]
+#[test_case(
+    "192.168.1.100.log.bz2",
+    FTTB8,
+    true
+)]
+#[test_case(
+    "192.168.1.100.log.bz2.1",
+    FTTB8,
+    true
+)]
+#[test_case(
+    "192.168.1.100.log.bz2.old.1",
+    FTTB8,
+    true
+)]
 // TEXT gz
 #[test_case("syslog.gz", FTTGZ8, true)]
 #[test_case("syslog.9.gz", FTTGZ8, true)]
 #[test_case("SYSLOG.9.GZ", FTTGZ8, true; "SYSLOG.9.GZ")]
-#[test_case("unattended-upgrades-dpkg.log.3.gz", FTTGZ8, true)]
+#[test_case(
+    "unattended-upgrades-dpkg.log.3.gz",
+    FTTGZ8,
+    true
+)]
 #[test_case("data.gz", FTTGZ8, true)]
 #[test_case("data.log.gz", FTTGZ8, true)]
 #[test_case("DATA.GZ", FTTGZ8, true; "DATA.GZ ALLCAPS")]
@@ -563,10 +646,26 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("log.gz.1", FTTGZ8, true)]
 #[test_case("log.gz.2", FTTGZ8, true)]
 #[test_case("log.gz.99", FTTGZ8, true)]
-#[test_case("log.nmbd.old.gz", FTTGZ8, true)]
-#[test_case("192.168.1.100.log.gz", FTTGZ8, true)]
-#[test_case("192.168.1.100.log.gz.1", FTTGZ8, true)]
-#[test_case("192.168.1.100.log.gz.old.1", FTTGZ8, true)]
+#[test_case(
+    "log.nmbd.old.gz",
+    FTTGZ8,
+    true
+)]
+#[test_case(
+    "192.168.1.100.log.gz",
+    FTTGZ8,
+    true
+)]
+#[test_case(
+    "192.168.1.100.log.gz.1",
+    FTTGZ8,
+    true
+)]
+#[test_case(
+    "192.168.1.100.log.gz.old.1",
+    FTTGZ8,
+    true
+)]
 // oddities
 #[test_case("_.gz", FTTGZ8, true)]
 // TEXT xz
@@ -585,7 +684,6 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("-.tar", AMTARN, true; "dash dot tar")]
 //
 // TAR
-//
 #[test_case("data.tar", AMTARN, true)]
 #[test_case("data.xz.tar", AMTARN, true)]
 #[test_case("DATA.TAR", AMTARN, true; "DATA.TAR ALLCAPS")]
@@ -606,7 +704,6 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("data.tar.xz", AMTARX, true)]
 //
 // ASL
-//
 #[test_case("2023.10.26.asl", FTASL, true; ".asl true")]
 #[test_case("2023.10.26.asl", FTASL, false; ".asl false")]
 #[test_case("2023.10.26.asl.bz2", FTASLBZ2, true; ".asl.bz2 true")]
@@ -619,7 +716,6 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("2023.10.26.asl.xz", FTASLXZ, false; "asl.xz false")]
 //
 // ETL
-//
 #[test_case("SIH.20230422.034724.362.1.etl", FTETL, true; ".etl true")]
 #[test_case("SIH.20230422.034724.362.1.etl", FTETL, false; ".etl false")]
 #[test_case("SIH.20230422.034724.362.1.etl.bz2", FTETLBZ2, true; ".etl.bz2 true")]
@@ -633,7 +729,6 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("SIH.20230422.034724.362.1.etl.xz", FTETLXZ, false; "etl.xz false")]
 //
 // ODL
-//
 #[test_case("Nucleus-2025-12-23.1618.7692.3.aodl", FTAODL, true; "aodl true")]
 #[test_case("Nucleus-2025-12-23.1618.7692.3.aodl", FTAODL, false; "aodl false")]
 #[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl", FTODL, true; "ODL true")]
@@ -690,7 +785,6 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("utmp", FTUTMPN, true; "utmp")]
 #[test_case("UTMP", FTUTMPN, true; "UTMP ALLCAPS")]
 #[test_case("UTMP.1", FTUTMPN, true; "UTMP.1 ALLCAPS")]
-
 #[test_case("UTMP.gz", FTUTMPG, true; "UTMP ALLCAPS GZ")]
 #[test_case("UTMP.tar", AMTARN, true; "UTMP ALLCAPS TAR")]
 #[test_case("UTMP.xz", FTUTMP_X, true; "UTMP ALLCAPS XZ")]
@@ -707,7 +801,11 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("wtmp.1", FTUTMPN, true)]
 #[test_case("WTMP.1", FTUTMPN, true; "WTMP.1 ALLCAPS")]
 #[test_case("host.wtmp", FTUTMPN, true)]
-#[test_case("192.168.1.1.btmp", FTUTMPN, true)]
+#[test_case(
+    "192.168.1.1.btmp",
+    FTUTMPN,
+    true
+)]
 #[test_case("file.utmp", FTUTMPN, true)]
 #[test_case("btmpx", FTUTMPXN, true; "btmpx")]
 #[test_case("utmpx", FTUTMPXN, true; "utmpx")]
@@ -721,35 +819,62 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("lastlog", FTLASTLOGN, true)]
 #[test_case("lastlogx", FTLASTLOGXN, true)]
 #[test_case("lastlog.1", FTLASTLOGN, true)]
-#[test_case("lastlog.bak", FTLASTLOGN, true)]
-#[test_case("lastlog.2.bak", FTLASTLOGN, true)]
+#[test_case(
+    "lastlog.bak",
+    FTLASTLOGN,
+    true
+)]
+#[test_case(
+    "lastlog.2.bak",
+    FTLASTLOGN,
+    true
+)]
 #[test_case("lastlog.gz", FTLASTLOGG, true)]
-#[test_case("lastlog.XZ", FTLASTLOG_X, true)]
-#[test_case("lastlog.1.XZ", FTLASTLOG_X, true)]
+#[test_case(
+    "lastlog.XZ",
+    FTLASTLOG_X,
+    true
+)]
+#[test_case(
+    "lastlog.1.XZ",
+    FTLASTLOG_X,
+    true
+)]
 // FixedStruct Acct
 #[test_case("acct", FTACCTN, true)]
 #[test_case("acct.2", FTACCTN, true)]
 #[test_case("acct-20220101", FTTN8, true)]
 #[test_case("pacct", FTACCTV3N, true)]
 #[test_case("pacct.1", FTACCTV3N, true)]
-#[test_case("pacct.20220101", FTACCTV3N, true)]
+#[test_case(
+    "pacct.20220101",
+    FTACCTV3N,
+    true
+)]
 #[test_case("pacct.bz2", FTACCTV3B, true)]
 #[test_case("pacct.gz", FTACCTV3G, true)]
-#[test_case("pacct.20220101.gz", FTACCTV3G, true)]
+#[test_case(
+    "pacct.20220101.gz",
+    FTACCTV3G,
+    true
+)]
 #[test_case("pacct.xz", FTACCTV3X, true)]
 // on FreeBSD 13, there is a log file `utx.log` that is a variable-length utmpx-ish format file
 #[test_case("utx.log", FTTN8, true)]
 #[test_case("utx.log-", FTTN8, true; "utx.log dash")]
 #[test_case("utx.active", FTTN8, true)]
-// File `utx.lastlogin` exists on FreeBSD 13.   
+// File `utx.lastlogin` exists on FreeBSD 13.
 #[test_case("utx.lastlogin", FTTN8, true)]
 //
 // EVTX
-//
 #[test_case("file.evtx", FTEVTXN, true)]
 #[test_case("FILE.EVTX", FTEVTXN, true; "FILE.EVTX ALLCAPS")]
 #[test_case("file.evtx.1", FTEVTXN, true)]
-#[test_case("file.xz.evtx.1", FTEVTXN, true)]
+#[test_case(
+    "file.xz.evtx.1",
+    FTEVTXN,
+    true
+)]
 #[test_case("xz.evtx", FTEVTXN, true)]
 #[test_case("tar.evtx", FTEVTXN, true)]
 #[test_case("mp3.evtx", FTEVTXN, true)]
@@ -765,76 +890,178 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("tar.evtx.xz", FTEVTXX, true)]
 //
 // JOURNAL
-//
 #[test_case("a.journal", FTJOURNALN, true)]
 #[test_case("A.JOURNAL", FTJOURNALN, true; "A.JOURNAL ALLCAPS")]
 #[test_case("a.journal~", FTJOURNALN, true; "a.journal tilde")]
 #[test_case("a.journal~.1", FTJOURNALN, true; "a.journal tilde 1")]
 #[test_case("a.journal~.old", FTJOURNALN, true; "a.journal tilde old")]
 #[test_case("A.JOURNAL~", FTJOURNALN, true; "A.JOURNAL ALLCAPS tilde")]
-#[test_case("user-1000.journal", FTJOURNALN, true)]
-#[test_case("user-1000@2feff012228b405bb557ccd80a0ba755-000000005100032b-0006129e5481135e.journal", FTJOURNALN, true)]
-#[test_case("system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal", FTJOURNALN, true)]
+#[test_case(
+    "user-1000.journal",
+    FTJOURNALN,
+    true
+)]
+#[test_case(
+    "user-1000@2feff012228b405bb557ccd80a0ba755-000000005100032b-0006129e5481135e.journal",
+    FTJOURNALN,
+    true
+)]
+#[test_case(
+    "system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal",
+    FTJOURNALN,
+    true
+)]
 // bz2
-#[test_case("user-1000.journal.BZ2", FTJOURNALB, true)]
+#[test_case(
+    "user-1000.journal.BZ2",
+    FTJOURNALB,
+    true
+)]
 // gz
-#[test_case("user-1000.journal.gz", FTJOURNALG, true)]
-#[test_case("journal.journal.gz", FTJOURNALG, true)]
+#[test_case(
+    "user-1000.journal.gz",
+    FTJOURNALG,
+    true
+)]
+#[test_case(
+    "journal.journal.gz",
+    FTJOURNALG,
+    true
+)]
 #[test_case("journal.gz", FTJOURNALG, true)]
-#[test_case("journal.gz.xz", FTJOURNALG, true)] // Issue #14
+#[test_case(
+    "journal.gz.xz",
+    FTJOURNALG,
+    true
+)] // Issue #14
 // lz4
-#[test_case("user-1000.journal.lz4", FTJOURNALL4, true)]
+#[test_case(
+    "user-1000.journal.lz4",
+    FTJOURNALL4,
+    true
+)]
 // xz
-#[test_case("user-1000.journal.xz", FTJOURNALX, true)]
-#[test_case("journal.journal.xz", FTJOURNALX, true)]
+#[test_case(
+    "user-1000.journal.xz",
+    FTJOURNALX,
+    true
+)]
+#[test_case(
+    "journal.journal.xz",
+    FTJOURNALX,
+    true
+)]
 #[test_case("journal.xz", FTJOURNALX, true)]
 #[test_case("-.journal.xz", FTJOURNALX, true; "dash dot journal dot xz")]
 #[test_case("--.journal.xz", FTJOURNALX, true; "dash dash dot journal dot xz")]
 #[test_case(".journal.xz", FTJOURNALX, true; "dot journal dot xz")]
-#[test_case("system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal.xz", FTJOURNALX, true)]
-#[test_case("journal.xz.gz", FTJOURNALX, true)] // Issue #14
+#[test_case(
+    "system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal.xz",
+    FTJOURNALX,
+    true
+)]
+#[test_case(
+    "journal.xz.gz",
+    FTJOURNALX,
+    true
+)] // Issue #14
 //
 // Unparseable
-//
 #[test_case("data.tgz", FTTN8, true)]
-#[test_case("data.tgz", FTUNPARSABLE, false)]
-#[test_case("data.tgz.old", FTUNPARSABLE, false)]
+#[test_case(
+    "data.tgz",
+    FTUNPARSABLE,
+    false
+)]
+#[test_case(
+    "data.tgz.old",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("data.tgz.old", FTTN8, true)]
-#[test_case("data.tgz.old.1", FTUNPARSABLE, false)]
+#[test_case(
+    "data.tgz.old.1",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("data.tgz.old.1", FTTN8, true)]
 #[test_case("lib.dll", FTUNPARSABLE, false)]
 #[test_case("lib.dll", FTTN8, true)]
 #[test_case("log.bz", FTUNPARSABLE, false)]
 #[test_case("log.bz", FTTN8, true)]
 #[test_case("logs.tgz", FTTN8, true)]
-#[test_case("logs.tgz", FTUNPARSABLE, false)]
-#[test_case("log.tgz.99", FTUNPARSABLE, false)]
+#[test_case(
+    "logs.tgz",
+    FTUNPARSABLE,
+    false
+)]
+#[test_case(
+    "log.tgz.99",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("log.tgz.99", FTTN8, true)]
-#[test_case("logs.2.zip", FTUNPARSABLE, false)]
+#[test_case(
+    "logs.2.zip",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("logs.2.zip", FTTN8, true)]
-#[test_case("logs.tgz.99", FTUNPARSABLE, false)]
+#[test_case(
+    "logs.tgz.99",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("logs.tgz.99", FTTN8, true)]
 #[test_case("LOGS.TGZ.99", FTUNPARSABLE, false; "LOGS.TGZ.99 ALLCAPS unparsable")]
 #[test_case("LOGS.TGZ.99", FTTN8, true; "LOGS.TGZ.99 ALLCAPS filetype_utf8")]
-#[test_case("logs.xz.zip", FTUNPARSABLE, false)]
+#[test_case(
+    "logs.xz.zip",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("logs.xz.zip", FTTN8, true)]
-#[test_case("logs.zip", FTUNPARSABLE, false)]
+#[test_case(
+    "logs.zip",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("logs.zip", FTTN8, true)]
-#[test_case("logs.zip.2", FTUNPARSABLE, false)]
+#[test_case(
+    "logs.zip.2",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("logs.zip.2", FTTN8, true)]
-#[test_case("media.avi", FTUNPARSABLE, false)]
+#[test_case(
+    "media.avi",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("media.avi", FTTN8, true)]
-#[test_case("media.mp3", FTUNPARSABLE, false)]
+#[test_case(
+    "media.mp3",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("media.mp3", FTTN8, true)]
 #[test_case("mp3", FTTN8, false)]
 #[test_case("mp3", FTTN8, true)]
-#[test_case("media.mp4", FTUNPARSABLE, false)]
+#[test_case(
+    "media.mp4",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("media.mp4", FTTN8, true)]
 #[test_case("pic.jpg", FTUNPARSABLE, false)]
 #[test_case("pic.jpg", FTTN8, true)]
 #[test_case("pic.png", FTUNPARSABLE, false)]
 #[test_case("pic.png", FTTN8, true)]
-#[test_case("prog.exe", FTUNPARSABLE, false)]
+#[test_case(
+    "prog.exe",
+    FTUNPARSABLE,
+    false
+)]
 #[test_case("prog.exe", FTTN8, true)]
 // oddities
 #[test_case("bz2", FTTN8, true)]
@@ -880,27 +1107,21 @@ fn test_fpath_to_filetype(
     let result: PathToFiletypeResult = fpath_to_filetype(&fpath, unparseable_are_text);
     defo!("fpath_to_filetype returned {:?}", result);
     let (filetype_expect, filetype_result) = match result {
-        PathToFiletypeResult::Filetype(ftr) => {
-            match expect_result {
-                PathToFiletypeResult::Filetype(fte) => {
-                    (fte, ftr)
-                },
-                PathToFiletypeResult::Archive(_ftam, _fta) => {
-                    panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
-                },
+        PathToFiletypeResult::Filetype(ftr) => match expect_result {
+            PathToFiletypeResult::Filetype(fte) => (fte, ftr),
+            PathToFiletypeResult::Archive(_ftam, _fta) => {
+                panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
             }
         },
-        PathToFiletypeResult::Archive(_ftam, _fta) => {
-            match expect_result {
-                PathToFiletypeResult::Filetype(ft) => {
-                    panic!("Expected FileType::{:?}, got PathToFiletypeResult::Archive", ft);
-                },
-                PathToFiletypeResult::Archive(_ftam, _fta) => {
-                    defx!();
-                    return;
-                },
+        PathToFiletypeResult::Archive(_ftam, _fta) => match expect_result {
+            PathToFiletypeResult::Filetype(ft) => {
+                panic!("Expected FileType::{:?}, got PathToFiletypeResult::Archive", ft);
             }
-        }
+            PathToFiletypeResult::Archive(_ftam, _fta) => {
+                defx!();
+                return;
+            }
+        },
     };
     defo!("filetype {:?}", filetype_result);
     assert_eq!(
@@ -920,27 +1141,21 @@ fn test_fpath_to_filetype(
     let result = fpath_to_filetype(&fpath_full, unparseable_are_text);
     defo!("fpath_to_filetype returned {:?}", result);
     let (filetype_expect, filetype_result) = match result {
-        PathToFiletypeResult::Filetype(ft) => {
-            match expect_result {
-                PathToFiletypeResult::Filetype(fte) => {
-                    (fte, ft)
-                },
-                PathToFiletypeResult::Archive(_ftam, _fta) => {
-                    panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
-                },
+        PathToFiletypeResult::Filetype(ft) => match expect_result {
+            PathToFiletypeResult::Filetype(fte) => (fte, ft),
+            PathToFiletypeResult::Archive(_ftam, _fta) => {
+                panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
             }
         },
-        PathToFiletypeResult::Archive(_ftam, _fta) => {
-            match expect_result {
-                PathToFiletypeResult::Filetype(ft) => {
-                    panic!("Expected FileType::{:?}, got PathToFiletypeResult::Archive", ft);
-                },
-                PathToFiletypeResult::Archive(_ftam, _fta) => {
-                    defx!();
-                    return;
-                },
+        PathToFiletypeResult::Archive(_ftam, _fta) => match expect_result {
+            PathToFiletypeResult::Filetype(ft) => {
+                panic!("Expected FileType::{:?}, got PathToFiletypeResult::Archive", ft);
             }
-        }
+            PathToFiletypeResult::Archive(_ftam, _fta) => {
+                defx!();
+                return;
+            }
+        },
     };
     defo!("filetype {:?}", filetype_result);
     assert_eq!(
@@ -989,7 +1204,7 @@ fn test_process_path_fpath(
         let mut results_can_s: String = String::from("[\n");
         for (i, result_can) in results_can.iter().enumerate() {
             results_can_s.push_str(&format!("    [{}] {:?}\n", i, result_can));
-        };
+        }
         results_can_s.push_str("  ]");
         assert!(
             results_can.contains(check),
@@ -1026,60 +1241,38 @@ fn test_process_path_ntf(
 
 #[test]
 fn test_process_path_files_log() {
-    let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            NTF_LOG_EMPTY_FPATH.clone(),
-            NTF_LOG_EMPTY_FILETYPE,
-        ),
-    ];
+    let checks: Vec<ProcessPathResult> =
+        vec![ProcessPathResult::FileValid(NTF_LOG_EMPTY_FPATH.clone(), NTF_LOG_EMPTY_FILETYPE)];
     test_process_path_ntf(&NTF_LOG_EMPTY, &checks, true);
     test_process_path_ntf(&NTF_LOG_EMPTY, &checks, false);
 }
 
 #[test]
 fn test_process_path_files_gz() {
-    let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            NTF_GZ_EMPTY_FPATH.clone(),
-            FILETYPE_UTF8_GZ,
-        ),
-    ];
+    let checks: Vec<ProcessPathResult> =
+        vec![ProcessPathResult::FileValid(NTF_GZ_EMPTY_FPATH.clone(), FILETYPE_UTF8_GZ)];
     test_process_path_ntf(&NTF_GZ_EMPTY, &checks, true);
     test_process_path_ntf(&NTF_GZ_EMPTY, &checks, false);
 }
 
 #[test]
 fn test_process_path_files_tar() {
-    let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            NTF_TAR_1BYTE_FILEA_FPATH.clone(),
-            NTF_TAR_1BYTE_FILEA_FILETYPE,
-        ),
-    ];
+    let checks: Vec<ProcessPathResult> =
+        vec![ProcessPathResult::FileValid(NTF_TAR_1BYTE_FILEA_FPATH.clone(), NTF_TAR_1BYTE_FILEA_FILETYPE)];
     test_process_path_ntf(&NTF_TAR_1BYTE, &checks, true);
     test_process_path_ntf(&NTF_TAR_1BYTE, &checks, false);
 }
 
 #[test]
 fn test_process_path_files_tgz_true() {
-    let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            NTF_TGZ_8BYTE_FPATH.clone(),
-            FILETYPE_UTF8,
-        ),
-    ];
+    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
     test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, true);
 }
 
 #[test]
 fn test_process_path_file_nonparseable() {
     // TODO: pass in `file.dll`
-    let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            NTF_TGZ_8BYTE_FPATH.clone(),
-            FILETYPE_UTF8,
-        ),
-    ];
+    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
     test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, true);
 }
 
@@ -1127,24 +1320,13 @@ fn test_process_path_files_devzero() {
 
 #[test]
 fn test_process_path_files_tgz_false() {
-    let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            NTF_TGZ_8BYTE_FPATH.clone(),
-            FILETYPE_UTF8,
-        ),
-    ];
+    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
     test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, false);
 }
 
 #[test]
 fn test_process_path_files_dll_false() {
-
-    let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            NTF_TGZ_8BYTE_FPATH.clone(),
-            FILETYPE_UTF8,
-        ),
-    ];
+    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
     test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, false);
 }
 
@@ -1280,23 +1462,11 @@ fn test_process_path_dirs_dirAB_files4() {
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL
-        ),
-        ProcessPathResult::FileErrNotSupported(
-            fpaths.get(1).unwrap().clone(),
-            None,
-        ),
-        ProcessPathResult::FileErrNotSupported(
-            fpaths.get(2).unwrap().clone(),
-            None,
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(3).unwrap().clone(), FILETYPE_UTF8
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(4).unwrap().clone(), FILETYPE_EVTX
-        ),
+        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL),
+        ProcessPathResult::FileErrNotSupported(fpaths.get(1).unwrap().clone(), None),
+        ProcessPathResult::FileErrNotSupported(fpaths.get(2).unwrap().clone(), None),
+        ProcessPathResult::FileValid(fpaths.get(3).unwrap().clone(), FILETYPE_UTF8),
+        ProcessPathResult::FileValid(fpaths.get(4).unwrap().clone(), FILETYPE_EVTX),
     ];
 
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
@@ -1313,20 +1483,10 @@ fn test_process_path_dirs_dirAB_files4_false() {
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL
-        ),
-        ProcessPathResult::FileErrNotSupported(
-            fpaths.get(1).unwrap().clone(),
-            None,
-        ),
-        ProcessPathResult::FileErrNotSupported(
-            fpaths.get(2).unwrap().clone(),
-            None,
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(3).unwrap().clone(), FILETYPE_UTF8
-        ),
+        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL),
+        ProcessPathResult::FileErrNotSupported(fpaths.get(1).unwrap().clone(), None),
+        ProcessPathResult::FileErrNotSupported(fpaths.get(2).unwrap().clone(), None),
+        ProcessPathResult::FileValid(fpaths.get(3).unwrap().clone(), FILETYPE_UTF8),
     ];
 
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
@@ -1343,18 +1503,10 @@ fn test_process_path_evtx_gz_lz4_xz() {
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            fpaths.get(0).unwrap().clone(), FILETYPE_EVTX,
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(1).unwrap().clone(), FILETYPE_EVTX_GZ,
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(2).unwrap().clone(), FILETYPE_EVTX_LZ4,
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(3).unwrap().clone(), FILETYPE_EVTX_XZ,
-        ),
+        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_EVTX),
+        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_EVTX_GZ),
+        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_EVTX_LZ4),
+        ProcessPathResult::FileValid(fpaths.get(3).unwrap().clone(), FILETYPE_EVTX_XZ),
     ];
 
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
@@ -1372,18 +1524,10 @@ fn test_process_path_journal_gz_lz4_xz() {
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL,
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(1).unwrap().clone(), FILETYPE_JOURNAL_GZ,
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(2).unwrap().clone(), FILETYPE_JOURNAL_LZ4,
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(3).unwrap().clone(), FILETYPE_JOURNAL_XZ,
-        ),
+        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL),
+        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_JOURNAL_GZ),
+        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_JOURNAL_LZ4),
+        ProcessPathResult::FileValid(fpaths.get(3).unwrap().clone(), FILETYPE_JOURNAL_XZ),
     ];
 
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
@@ -1398,11 +1542,7 @@ fn test_process_path_tar(
     for check in checks.iter() {
         defo!("check {:?}", check);
     }
-    let results = process_path_tar(
-        path,
-        unparseable_are_text,
-        FileTypeArchive::Normal,
-    );
+    let results = process_path_tar(path, unparseable_are_text, FileTypeArchive::Normal);
     for result in results.iter() {
         defo!("result {:?}", result);
     }
@@ -1414,7 +1554,9 @@ fn test_process_path_tar(
         assert!(
             results.contains(check),
             "\nprocess_path({:?})\n  the check {:?}\n  is not contained in the results:\n       {:?}\n",
-            path, check, results,
+            path,
+            check,
+            results,
         );
         defo!("found check {:?}", check);
     }
@@ -1423,7 +1565,9 @@ fn test_process_path_tar(
         assert!(
             checks.contains(result),
             "\nprocess_path({:?})\n  the result {:?}\n  is not contained in the checks:\n       {:?}\n",
-            path, result, &checks,
+            path,
+            result,
+            &checks,
         );
         defo!("found result {:?}", result);
     }
@@ -1432,12 +1576,8 @@ fn test_process_path_tar(
 
 #[test]
 fn test_process_path_tar_tar1_file_a() {
-    let check: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            NTF_TAR_8BYTE_FILEA_FPATH.clone(),
-            NTF_TAR_8BYTE_FILEA_FILETYPE,
-        ),
-    ];
+    let check: Vec<ProcessPathResult> =
+        vec![ProcessPathResult::FileValid(NTF_TAR_8BYTE_FILEA_FPATH.clone(), NTF_TAR_8BYTE_FILEA_FILETYPE)];
     defñ!();
     test_process_path_tar(&NTF_TAR_8BYTE_FPATH, &check, true);
     test_process_path_tar(&NTF_TAR_8BYTE_FPATH, &check, false);
@@ -1446,14 +1586,8 @@ fn test_process_path_tar_tar1_file_a() {
 #[test]
 fn test_process_path_tar_tar1_file_ab() {
     let check: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(
-            NTF_TAR_AB_FILEA_FPATH.clone(),
-            NTF_TAR_AB_FILEA_FILETYPE,
-        ),
-        ProcessPathResult::FileValid(
-            NTF_TAR_AB_FILEB_FPATH.clone(),
-            NTF_TAR_AB_FILEB_FILETYPE,
-        ),
+        ProcessPathResult::FileValid(NTF_TAR_AB_FILEA_FPATH.clone(), NTF_TAR_AB_FILEA_FILETYPE),
+        ProcessPathResult::FileValid(NTF_TAR_AB_FILEB_FPATH.clone(), NTF_TAR_AB_FILEB_FILETYPE),
     ];
     defñ!();
     test_process_path_tar(&NTF_TAR_AB_FPATH, &check, true);
@@ -1464,57 +1598,29 @@ fn test_process_path_tar_tar1_file_ab() {
 fn test_process_path_tar_tar1_file_abcdefghi() {
     let check: Vec<ProcessPathResult> = vec![
         // fileABCDEFGHI.tar|fileA.evtx
-        ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILEA_FPATH.clone(),
-            NTF_TAR_ABCDEFGHI_FILEA_FILETYPE,
-        ),
+        ProcessPathResult::FileValid(NTF_TAR_ABCDEFGHI_FILEA_FPATH.clone(), NTF_TAR_ABCDEFGHI_FILEA_FILETYPE),
         // fileABCDEFGHI.tar|fileB.journal
-        ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILEB_FPATH.clone(),
-            NTF_TAR_ABCDEFGHI_FILEB_FILETYPE,
-        ),
+        ProcessPathResult::FileValid(NTF_TAR_ABCDEFGHI_FILEB_FPATH.clone(), NTF_TAR_ABCDEFGHI_FILEB_FILETYPE),
         // fileABCDEFGHI.tar|fileC.utmp
-        ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILEC_FPATH.clone(),
-            NTF_TAR_ABCDEFGHI_FILEC_FILETYPE,
-        ),
+        ProcessPathResult::FileValid(NTF_TAR_ABCDEFGHI_FILEC_FPATH.clone(), NTF_TAR_ABCDEFGHI_FILEC_FILETYPE),
         // fileABCDEFGHI.tar|fileD.txt
-        ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILED_FPATH.clone(),
-            NTF_TAR_ABCDEFGHI_FILED_FILETYPE,
-        ),
+        ProcessPathResult::FileValid(NTF_TAR_ABCDEFGHI_FILED_FPATH.clone(), NTF_TAR_ABCDEFGHI_FILED_FILETYPE),
         // fileABCDEFGHI.tar|fileE.evtx.gz
-        ProcessPathResult::FileErrNotSupported(
-            NTF_TAR_ABCDEFGHI_FILEE_FPATH.clone(),
-            None,
-        ),
+        ProcessPathResult::FileErrNotSupported(NTF_TAR_ABCDEFGHI_FILEE_FPATH.clone(), None),
         // fileABCDEFGHI.tar|fileF.journal.xz
-        ProcessPathResult::FileErrNotSupported(
-            NTF_TAR_ABCDEFGHI_FILEF_FPATH.clone(),
-            None,
-        ),
+        ProcessPathResult::FileErrNotSupported(NTF_TAR_ABCDEFGHI_FILEF_FPATH.clone(), None),
         // fileABCDEFGHI.tar|fileG.txt.xz
-        ProcessPathResult::FileErrNotSupported(
-            NTF_TAR_ABCDEFGHI_FILEG_FPATH.clone(),
-            None,
-        ),
+        ProcessPathResult::FileErrNotSupported(NTF_TAR_ABCDEFGHI_FILEG_FPATH.clone(), None),
         // fileABCDEFGHI.tar|fileH.txt.tar
-        ProcessPathResult::FileErrNotSupported(
-            NTF_TAR_ABCDEFGHI_FILEH_FPATH.clone(),
-            None,
-        ),
+        ProcessPathResult::FileErrNotSupported(NTF_TAR_ABCDEFGHI_FILEH_FPATH.clone(), None),
         // fileABCDEFGHI.tar|fileI
-        ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILEI_FPATH.clone(),
-            NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
-        ),
+        ProcessPathResult::FileValid(NTF_TAR_ABCDEFGHI_FILEI_FPATH.clone(), NTF_TAR_ABCDEFGHI_FILEI_FILETYPE),
         // TODO: add known ignored file; `fileJ.dll`
     ];
     defñ!();
     test_process_path_tar(&NTF_TAR_ABCDEFGHI_FPATH, &check, true);
     test_process_path_tar(&NTF_TAR_ABCDEFGHI_FPATH, &check, false);
 }
-
 
 #[test]
 fn test_process_path_tar_dir_tar1_file_abcdefghi() {
@@ -1530,13 +1636,21 @@ fn test_process_path_tar_dir_tar1_file_abcdefghi() {
     // path `/tmp/tmp.dir.1Baer3/ntf-abcdefghi.tar|fileA`
 
     defo!("NTF_TAR_ABCDEFGHI {:?}", NTF_TAR_ABCDEFGHI.path());
-    let replace1 = NTF_TAR_ABCDEFGHI.path().parent().unwrap();
+    let replace1 = NTF_TAR_ABCDEFGHI
+        .path()
+        .parent()
+        .unwrap();
     let replace1_fpath = path_to_fpath(replace1);
     defo!("replace1          {:?}", replace1_fpath);
     let tmpdir = create_temp_dir();
     defo!("tmpdir            {:?}", tmpdir.path());
     let tmpdir_fpath = &path_to_fpath(tmpdir.path());
-    let dest = tmpdir.path().join(NTF_TAR_ABCDEFGHI.path().file_name().unwrap_or_default());
+    let dest = tmpdir.path().join(
+        NTF_TAR_ABCDEFGHI
+            .path()
+            .file_name()
+            .unwrap_or_default(),
+    );
     defo!("dest              {:?}", dest);
     if let Err(err) = copy(NTF_TAR_ABCDEFGHI.path(), dest) {
         panic!("Failed to copy {:?} to {:?}: {}", NTF_TAR_ABCDEFGHI.path(), tmpdir.path(), err);
@@ -1545,47 +1659,65 @@ fn test_process_path_tar_dir_tar1_file_abcdefghi() {
     let check: Vec<ProcessPathResult> = vec![
         // fileABCDEFGHI.tar|fileA.evtx
         ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILEA_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEA_FPATH
+                .clone()
+                .replacen(&replace1_fpath, tmpdir_fpath, 1),
             NTF_TAR_ABCDEFGHI_FILEA_FILETYPE,
         ),
         // fileABCDEFGHI.tar|fileB.journal
         ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILEB_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEB_FPATH
+                .clone()
+                .replacen(&replace1_fpath, tmpdir_fpath, 1),
             NTF_TAR_ABCDEFGHI_FILEB_FILETYPE,
         ),
         // fileABCDEFGHI.tar|fileC.utmp
         ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILEC_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEC_FPATH
+                .clone()
+                .replacen(&replace1_fpath, tmpdir_fpath, 1),
             NTF_TAR_ABCDEFGHI_FILEC_FILETYPE,
         ),
         // fileABCDEFGHI.tar|fileD.txt
         ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILED_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILED_FPATH
+                .clone()
+                .replacen(&replace1_fpath, tmpdir_fpath, 1),
             NTF_TAR_ABCDEFGHI_FILED_FILETYPE,
         ),
         // fileABCDEFGHI.tar|fileE.evtx.gz
         ProcessPathResult::FileErrNotSupported(
-            NTF_TAR_ABCDEFGHI_FILEE_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEE_FPATH
+                .clone()
+                .replacen(&replace1_fpath, tmpdir_fpath, 1),
             None,
         ),
         // fileABCDEFGHI.tar|fileF.journal.xz
         ProcessPathResult::FileErrNotSupported(
-            NTF_TAR_ABCDEFGHI_FILEF_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEF_FPATH
+                .clone()
+                .replacen(&replace1_fpath, tmpdir_fpath, 1),
             None,
         ),
         // fileABCDEFGHI.tar|fileG.txt.xz
         ProcessPathResult::FileErrNotSupported(
-            NTF_TAR_ABCDEFGHI_FILEG_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEG_FPATH
+                .clone()
+                .replacen(&replace1_fpath, tmpdir_fpath, 1),
             None,
         ),
         // fileABCDEFGHI.tar|fileH.txt.tar
         ProcessPathResult::FileErrNotSupported(
-            NTF_TAR_ABCDEFGHI_FILEH_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEH_FPATH
+                .clone()
+                .replacen(&replace1_fpath, tmpdir_fpath, 1),
             None,
         ),
         // fileABCDEFGHI.tar|fileI
         ProcessPathResult::FileValid(
-            NTF_TAR_ABCDEFGHI_FILEI_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEI_FPATH
+                .clone()
+                .replacen(&replace1_fpath, tmpdir_fpath, 1),
             NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
         ),
     ];

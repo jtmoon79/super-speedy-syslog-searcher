@@ -15,11 +15,15 @@ use crate::common::{
 use crate::readers::filedecompressor::decompress_to_ntf;
 use crate::readers::helpers::fpath_to_path;
 use crate::tests::common::{
-    path_id_generator,
     // asl
     ASL_1_FILESZ,
     ASL_1_GZ_FPATH,
     ASL_1_GZ_MTIME,
+    ETL_1_FILESZ,
+    // etl
+    ETL_1_FPATH,
+    ETL_1_GZ_FPATH,
+    ETL_1_GZ_MTIME,
     // evtx bz2, normal, gz, lz4, tar, xz
     EVTX_KPNP_BZ2_FPATH,
     EVTX_KPNP_BZ2_MTIME,
@@ -36,11 +40,6 @@ use crate::tests::common::{
     // journal bz2
     JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH,
     JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME,
-    // etl
-    ETL_1_FPATH,
-    ETL_1_GZ_FPATH,
-    ETL_1_FILESZ,
-    ETL_1_GZ_MTIME,
     // journal
     JOURNAL_FILE_RHE_91_SYSTEM_FILESZ,
     JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
@@ -57,17 +56,18 @@ use crate::tests::common::{
     NTF_BZ2_EMPTY_FPATH,
     NTF_GZ_EMPTY_FPATH,
     NTF_LINUX_X86_UTMPX_3ENTRY_FPATH,
-    // odl
-    ODL_1_FPATH,
-    ODL_1_FILESZ,
-    ODL_1_GZ_FPATH,
-    ODL_1_GZ_MTIME,
     // text
     NTF_LOG_EMPTY_FPATH,
     NTF_LZ4_8BYTE_FPATH,
     NTF_NL_1_PATH,
     NTF_TAR_1BYTE_FILEA_FPATH,
     NTF_XZ_EMPTY_FPATH,
+    ODL_1_FILESZ,
+    // odl
+    ODL_1_FPATH,
+    ODL_1_GZ_FPATH,
+    ODL_1_GZ_MTIME,
+    path_id_generator,
 };
 
 // evtx files
@@ -180,7 +180,8 @@ fn test_decompress_to_ntf_ok_some(
     systemtime: Option<SystemTime>,
     filesz: FileSz,
 ) {
-    // XXX: is it possible to catch error for newly added FileType or FileTypeArchive variants not yet handled?
+    // XXX: is it possible to catch error for newly added FileType or FileTypeArchive variants not yet
+    // handled?
     match filetype {
         FileType::Unparsable => {
             panic!();
@@ -191,25 +192,17 @@ fn test_decompress_to_ntf_ok_some(
         | FileType::FixedStruct { archival_type, .. }
         | FileType::Journal { archival_type }
         | FileType::Odl { archival_type, .. }
-        | FileType::Text { archival_type, .. }
-        => {
-            match archival_type {
-                FileTypeArchive::Normal
-                | FileTypeArchive::Bz2
-                | FileTypeArchive::Gz
-                | FileTypeArchive::Lz4
-                | FileTypeArchive::Tar
-                | FileTypeArchive::Xz
-                => {}
-            }
-        }
+        | FileType::Text { archival_type, .. } => match archival_type {
+            FileTypeArchive::Normal
+            | FileTypeArchive::Bz2
+            | FileTypeArchive::Gz
+            | FileTypeArchive::Lz4
+            | FileTypeArchive::Tar
+            | FileTypeArchive::Xz => {}
+        },
     }
     let path = fpath_to_path(fpath);
-    let result = decompress_to_ntf(
-        path_id_generator(),
-        path,
-        &filetype,
-    );
+    let result = decompress_to_ntf(path_id_generator(), path, &filetype);
     assert!(result.is_ok(), "result is not okay; {:?}", result);
     let value_opt = result.unwrap();
     assert!(value_opt.is_some(), "value_opt is None");
@@ -219,19 +212,11 @@ fn test_decompress_to_ntf_ok_some(
     //      Those timezone offsets cause an error for `touch` and `SetFile`.
     //      After consideration, this hack is the least worst workaround. The hack
     //      just skips the file modified time check when run on MacOS.
-    #[cfg(not(target_os="macos"))]
+    #[cfg(not(target_os = "macos"))]
     {
-        assert_eq!(
-            systemtime, value.1,
-            "systemtime differs;\nexpected: {:?}\ngot     : {:?}",
-            systemtime, value.1,
-        );
+        assert_eq!(systemtime, value.1, "systemtime differs;\nexpected: {:?}\ngot     : {:?}", systemtime, value.1,);
     }
-    assert_eq!(
-        filesz, value.2,
-        "filesz differs; expected: {}, got: {}",
-        filesz, value.2,
-    );
+    assert_eq!(filesz, value.2, "filesz differs; expected: {}, got: {}", filesz, value.2,);
 }
 
 // etl files
@@ -273,25 +258,17 @@ fn test_decompress_to_ntf_ok_none(
         | FileType::FixedStruct { archival_type, .. }
         | FileType::Journal { archival_type }
         | FileType::Odl { archival_type, .. }
-        | FileType::Text { archival_type, .. }
-        => {
-            match archival_type {
-                FileTypeArchive::Normal
-                | FileTypeArchive::Bz2
-                | FileTypeArchive::Gz
-                | FileTypeArchive::Lz4
-                | FileTypeArchive::Tar
-                | FileTypeArchive::Xz
-                => {}
-            }
-        }
+        | FileType::Text { archival_type, .. } => match archival_type {
+            FileTypeArchive::Normal
+            | FileTypeArchive::Bz2
+            | FileTypeArchive::Gz
+            | FileTypeArchive::Lz4
+            | FileTypeArchive::Tar
+            | FileTypeArchive::Xz => {}
+        },
     }
     let path = fpath_to_path(fpath);
-    let result = decompress_to_ntf(
-        path_id_generator(),
-        path,
-        &filetype,
-    );
+    let result = decompress_to_ntf(path_id_generator(), path, &filetype);
     assert!(result.is_ok());
     let value_opt = result.unwrap();
     assert!(value_opt.is_none());
@@ -333,7 +310,10 @@ const FT_TEXT_XZ: FileType = FileType::Text {
 #[test_case(&*NTF_LINUX_X86_UTMPX_3ENTRY_FPATH, LINUX_X86_UTMPX_3ENTRY_FILETYPE => panics)]
 // unparsable
 #[test_case(&*NTF_LOG_EMPTY_FPATH, FileType::Unparsable => panics)]
-fn test_decompress_to_ntf_panic(fpath: &FPath, filetype: FileType) {
+fn test_decompress_to_ntf_panic(
+    fpath: &FPath,
+    filetype: FileType,
+) {
     // XXX: catch error for newly added FileType or FileTypeArchive variants not yet handled
     match filetype {
         FileType::Unparsable => {}
@@ -343,23 +323,15 @@ fn test_decompress_to_ntf_panic(fpath: &FPath, filetype: FileType) {
         | FileType::FixedStruct { archival_type, .. }
         | FileType::Journal { archival_type }
         | FileType::Odl { archival_type, .. }
-        | FileType::Text { archival_type, .. }
-        => {
-            match archival_type {
-                FileTypeArchive::Normal
-                | FileTypeArchive::Bz2
-                | FileTypeArchive::Gz
-                | FileTypeArchive::Lz4
-                | FileTypeArchive::Tar
-                | FileTypeArchive::Xz
-                => {}
-            }
-        }
+        | FileType::Text { archival_type, .. } => match archival_type {
+            FileTypeArchive::Normal
+            | FileTypeArchive::Bz2
+            | FileTypeArchive::Gz
+            | FileTypeArchive::Lz4
+            | FileTypeArchive::Tar
+            | FileTypeArchive::Xz => {}
+        },
     }
     let path = fpath_to_path(fpath);
-    _ = decompress_to_ntf(
-        path_id_generator(),
-        path,
-        &filetype,
-    );
+    _ = decompress_to_ntf(path_id_generator(), path, &filetype);
 }
