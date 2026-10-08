@@ -47,6 +47,8 @@ EVTX event largest processed   : 1778
 EVTX event largest accepted    : 1778
 Journal event largest processed: 0
 Journal event largest accepted : 0
+ODL event largest processed    : 0
+ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
 Managed request open   : 3

@@ -5,7 +5,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
   About:
       FileType      : ETL (LZMA4) (Windows Event Trace Log)
       LogMessageType: ETL events (Windows Event Trace Log)
-      Thread stack  : 214016 (bytes)
+      Thread stack  : 265216 (bytes)
   Printed:
       bytes         : 8508
       flushes       : 21
@@ -54,6 +54,8 @@ EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0
 Journal event largest accepted : 0
+ODL event largest processed    : 0
+ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
 Managed request open   : 3

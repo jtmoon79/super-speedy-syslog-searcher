@@ -1,3 +1,4 @@
+WARNING: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz: 2 ODL protected tokens could not be decoded; original tokens retained
 
 Files:
 
@@ -2901,7 +2902,7 @@ File: ./logs/FreeBSD13.1/devd.log
 File: ./logs/MacOS11/powermanagement/2023.10.26.asl
   About:
       FileType      : ASL (Apple System Log)
-      LogMessageType: Python parsed events (ASL/ODL)
+      LogMessageType: Python parsed events (ASL)
       Thread stack  : 137216 (bytes)
   Printed:
       bytes         : 5419
@@ -11196,7 +11197,7 @@ File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL events (Windows Event Trace Log)
-      Thread stack  : 137216 (bytes)
+      Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -11222,7 +11223,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL events (Windows Event Trace Log)
-      Thread stack  : 137216 (bytes)
+      Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 9516
       flushes       : 21
@@ -11250,7 +11251,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
   About:
       FileType      : ETL (BZIP2) (Windows Event Trace Log)
       LogMessageType: ETL events (Windows Event Trace Log)
-      Thread stack  : 214016 (bytes)
+      Thread stack  : 265216 (bytes)
   Printed:
       bytes         : 9516
       flushes       : 21
@@ -11278,7 +11279,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
   About:
       FileType      : ETL (GZIP) (Windows Event Trace Log)
       LogMessageType: ETL events (Windows Event Trace Log)
-      Thread stack  : 214016 (bytes)
+      Thread stack  : 265216 (bytes)
   Printed:
       bytes         : 9516
       flushes       : 21
@@ -11306,7 +11307,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
   About:
       FileType      : ETL (LZMA4) (Windows Event Trace Log)
       LogMessageType: ETL events (Windows Event Trace Log)
-      Thread stack  : 214016 (bytes)
+      Thread stack  : 265216 (bytes)
   Printed:
       bytes         : 9516
       flushes       : 21
@@ -11334,7 +11335,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
   About:
       FileType      : ETL (XZ) (Windows Event Trace Log)
       LogMessageType: ETL events (Windows Event Trace Log)
-      Thread stack  : 214016 (bytes)
+      Thread stack  : 265216 (bytes)
   Printed:
       bytes         : 9516
       flushes       : 21
@@ -11362,7 +11363,7 @@ File: ./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL events (Windows Event Trace Log)
-      Thread stack  : 137216 (bytes)
+      Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -11388,7 +11389,7 @@ File: ./logs/programs/Event_Trace_Log/WindowsUpdate.20260923.202143.590.3.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL events (Windows Event Trace Log)
-      Thread stack  : 137216 (bytes)
+      Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -11653,170 +11654,226 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.jour
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
   About:
       FileType      : ODL (OneDrive Log)
-      LogMessageType: Python parsed events (ASL/ODL)
-      Thread stack  : 137216 (bytes)
+      LogMessageType: ODL events (OneDrive Log)
+      Thread stack  : 524288 (bytes)
   Printed:
-      bytes         : 2722
-      flushes       : 11
       Events        : 11
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+      Bytes         : 2898
+      Flushes       : 11
+      Event largest processed: 224
+      Event largest accepted : 224
+      Datetime First: 2025-12-21 20:14:05.875 +08:00
+      Datetime Last : 2025-12-21 20:14:05.897 +08:00
   Processed:
-      File size          : 1961 (0x7A9) (bytes)
+      File size          : 1961
+      ODL version        : 3
+      Internal gzip      : false
+      Companions present : true
+      Supplementary files used: 1
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
+      Supplementary files not found or inaccessible: 2
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
       Events processed   : 11
       Events accepted    : 11
-      Events read max    : 1
-      Events queue high  : 1
-      Python pipe size stdout    : 256
-      Python pipe size stderr    : 256
-      Python exit status         : 0
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
-      out of order  : 0
+      Events undecoded   : 10
+      Decoding failures  : 0
+      Records skipped    : 0
+      Out of order       : 0
+      Datetime first     : 2025-12-21 20:14:05.875 +08:00
+      Datetime last      : 2025-12-21 20:14:05.897 +08:00
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.bz2
   About:
       FileType      : ODL (BZIP2) (OneDrive Log)
-      LogMessageType: Python parsed events (ASL/ODL)
-      Thread stack  : 214016 (bytes)
+      LogMessageType: ODL events (OneDrive Log)
+      Thread stack  : 601088 (bytes)
   Printed:
-      bytes         : 2722
-      flushes       : 11
       Events        : 11
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+      Bytes         : 2898
+      Flushes       : 11
+      Event largest processed: 224
+      Event largest accepted : 224
+      Datetime First: 2025-12-21 20:14:05.875 +08:00
+      Datetime Last : 2025-12-21 20:14:05.897 +08:00
   Processed:
-      File size          : 1961 (0x7A9) (bytes)
+      File size          : 1961
+      ODL version        : 3
+      Internal gzip      : false
+      Companions present : true
+      Supplementary files used: 1
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
+      Supplementary files not found or inaccessible: 2
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
       Events processed   : 11
       Events accepted    : 11
-      Events read max    : 1
-      Events queue high  : 1
-      Python pipe size stdout    : 256
-      Python pipe size stderr    : 256
-      Python exit status         : 0
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
-      out of order  : 0
+      Events undecoded   : 10
+      Decoding failures  : 0
+      Records skipped    : 0
+      Out of order       : 0
+      Datetime first     : 2025-12-21 20:14:05.875 +08:00
+      Datetime last      : 2025-12-21 20:14:05.897 +08:00
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.gz
   About:
       FileType      : ODL (GZIP) (OneDrive Log)
-      LogMessageType: Python parsed events (ASL/ODL)
-      Thread stack  : 214016 (bytes)
+      LogMessageType: ODL events (OneDrive Log)
+      Thread stack  : 601088 (bytes)
   Printed:
-      bytes         : 2722
-      flushes       : 11
       Events        : 11
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+      Bytes         : 2898
+      Flushes       : 11
+      Event largest processed: 224
+      Event largest accepted : 224
+      Datetime First: 2025-12-21 20:14:05.875 +08:00
+      Datetime Last : 2025-12-21 20:14:05.897 +08:00
   Processed:
-      File size          : 1961 (0x7A9) (bytes)
+      File size          : 1961
+      ODL version        : 3
+      Internal gzip      : false
+      Companions present : true
+      Supplementary files used: 1
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
+      Supplementary files not found or inaccessible: 2
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
       Events processed   : 11
       Events accepted    : 11
-      Events read max    : 1
-      Events queue high  : 1
-      Python pipe size stdout    : 256
-      Python pipe size stderr    : 256
-      Python exit status         : 0
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
-      out of order  : 0
+      Events undecoded   : 10
+      Decoding failures  : 0
+      Records skipped    : 0
+      Out of order       : 0
+      Datetime first     : 2025-12-21 20:14:05.875 +08:00
+      Datetime last      : 2025-12-21 20:14:05.897 +08:00
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.lz4
   About:
       FileType      : ODL (LZMA4) (OneDrive Log)
-      LogMessageType: Python parsed events (ASL/ODL)
-      Thread stack  : 214016 (bytes)
+      LogMessageType: ODL events (OneDrive Log)
+      Thread stack  : 601088 (bytes)
   Printed:
-      bytes         : 2722
-      flushes       : 11
       Events        : 11
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+      Bytes         : 2898
+      Flushes       : 11
+      Event largest processed: 224
+      Event largest accepted : 224
+      Datetime First: 2025-12-21 20:14:05.875 +08:00
+      Datetime Last : 2025-12-21 20:14:05.897 +08:00
   Processed:
-      File size          : 1961 (0x7A9) (bytes)
+      File size          : 1961
+      ODL version        : 3
+      Internal gzip      : false
+      Companions present : true
+      Supplementary files used: 1
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
+      Supplementary files not found or inaccessible: 2
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
       Events processed   : 11
       Events accepted    : 11
-      Events read max    : 1
-      Events queue high  : 1
-      Python pipe size stdout    : 256
-      Python pipe size stderr    : 256
-      Python exit status         : 0
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
-      out of order  : 0
+      Events undecoded   : 10
+      Decoding failures  : 0
+      Records skipped    : 0
+      Out of order       : 0
+      Datetime first     : 2025-12-21 20:14:05.875 +08:00
+      Datetime last      : 2025-12-21 20:14:05.897 +08:00
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.xz
   About:
       FileType      : ODL (XZ) (OneDrive Log)
-      LogMessageType: Python parsed events (ASL/ODL)
-      Thread stack  : 214016 (bytes)
+      LogMessageType: ODL events (OneDrive Log)
+      Thread stack  : 601088 (bytes)
   Printed:
-      bytes         : 2722
-      flushes       : 11
       Events        : 11
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+      Bytes         : 2898
+      Flushes       : 11
+      Event largest processed: 224
+      Event largest accepted : 224
+      Datetime First: 2025-12-21 20:14:05.875 +08:00
+      Datetime Last : 2025-12-21 20:14:05.897 +08:00
   Processed:
-      File size          : 1961 (0x7A9) (bytes)
+      File size          : 1961
+      ODL version        : 3
+      Internal gzip      : false
+      Companions present : true
+      Supplementary files used: 1
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
+      Supplementary files not found or inaccessible: 2
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
       Events processed   : 11
       Events accepted    : 11
-      Events read max    : 1
-      Events queue high  : 1
-      Python pipe size stdout    : 256
-      Python pipe size stderr    : 256
-      Python exit status         : 0
-      Datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      Datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
-      out of order  : 0
+      Events undecoded   : 10
+      Decoding failures  : 0
+      Records skipped    : 0
+      Out of order       : 0
+      Datetime first     : 2025-12-21 20:14:05.875 +08:00
+      Datetime last      : 2025-12-21 20:14:05.897 +08:00
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz
   About:
       FileType      : ODLGZ (OneDrive Log)
-      LogMessageType: Python parsed events (ASL/ODL)
-      Thread stack  : 137216 (bytes)
+      LogMessageType: ODL events (OneDrive Log)
+      Thread stack  : 524288 (bytes)
   Printed:
-      bytes         : 192451
-      flushes       : 619
       Events        : 615
-      Datetime first: 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
-      Datetime last : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
+      Bytes         : 202271
+      Flushes       : 619
+      Event largest processed: 6406
+      Event largest accepted : 6406
+      Datetime First: 2025-12-21 20:14:08.011 +08:00
+      Datetime Last : 2025-12-21 20:14:13.367 +08:00
   Processed:
-      File size          : 20499 (0x5013) (bytes)
+      File size          : 20499
+      ODL version        : 3
+      Internal gzip      : true
+      Companions present : true
+      Supplementary files used: 1
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/general.keystore
+      Supplementary files not found or inaccessible: 2
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/ObfuscationStringMap.txt
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/EncryptionKeyStoreCopy/general.keystore
       Events processed   : 615
       Events accepted    : 615
-      Events read max    : 1
-      Events queue high  : 1
-      Python pipe size stdout    : 256
-      Python pipe size stderr    : 256
-      Python exit status         : 0
-      Datetime first: 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
-      Datetime last : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
-      out of order  : 0
+      Events undecoded   : 366
+      Decoding failures  : 2
+      Records skipped    : 0
+      Out of order       : 0
+      Datetime first     : 2025-12-21 20:14:08.011 +08:00
+      Datetime last      : 2025-12-21 20:14:13.367 +08:00
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
   About:
       FileType      : AODL (OneDrive Log)
-      LogMessageType: Python parsed events (ASL/ODL)
-      Thread stack  : 137216 (bytes)
+      LogMessageType: ODL events (OneDrive Log)
+      Thread stack  : 524288 (bytes)
   Printed:
-      bytes         : 202677
-      flushes       : 829
       Events        : 829
-      Datetime first: 2025-12-24 00:18:40 +08:00 (2025-12-23 16:18:40.364000 +00:00)
-      Datetime last : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
+      Bytes         : 214578
+      Flushes       : 829
+      Event largest processed: 255
+      Event largest accepted : 255
+      Datetime First: 2025-12-24 00:18:40.364 +08:00
+      Datetime Last : 2025-12-24 07:18:57.170 +08:00
   Processed:
-      File size          : 130902 (0x1FF56) (bytes)
+      File size          : 130902
+      ODL version        : 3
+      Internal gzip      : false
+      Companions present : true
+      Supplementary files used: 1
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/general.keystore
+      Supplementary files not found or inaccessible: 2
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/ObfuscationStringMap.txt
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/EncryptionKeyStoreCopy/general.keystore
       Events processed   : 829
       Events accepted    : 829
-      Events read max    : 1
-      Events queue high  : 1
-      Python pipe size stdout    : 256
-      Python pipe size stderr    : 256
-      Python exit status         : 0
-      Datetime first: 2025-12-24 00:18:40 +08:00 (2025-12-23 16:18:40.364000 +00:00)
-      Datetime last : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
-      out of order  : 0
+      Events undecoded   : 392
+      Decoding failures  : 0
+      Records skipped    : 0
+      Out of order       : 0
+      Datetime first     : 2025-12-24 00:18:40.364 +08:00
+      Datetime last      : 2025-12-24 07:18:57.170 +08:00
 
 File: ./logs/programs/pacman/pacman.log
   About:
@@ -25463,7 +25520,7 @@ Paths considered       : 660
 Paths not processed    : 35
 Files processed        : 625
 Files printed          : 540
-Printed bytes          : 9329130
+Printed bytes          : 9351731
 Printed flushes        : 33191
 Printed Lines          : 16617
 Printed Syslines       : 12619
@@ -25482,14 +25539,16 @@ EVTX event largest processed   : 1778
 EVTX event largest accepted    : 1778
 Journal event largest processed: 932
 Journal event largest accepted : 932
+ODL event largest processed    : 0
+ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
-Managed request open   : 733
+Managed request open   : 754
 Managed request read   : 0
 Managed write calls    : 555
 Managed seek calls     : 16605
 Managed metadata calls : 639
-Managed open errors    : 0
+Managed open errors    : 14
 Managed evict fails    : 0
 Regex patterns known   : 190
 Regex patterns compiled: 188
