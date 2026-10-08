@@ -10,6 +10,16 @@ use std::io::{
     Result,
 };
 
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    def2n,
+    def2o,
+    def2x,
+};
+
 use crate::common::Bytes;
 use crate::data::common::{
     DtBegEndPairOpt,
@@ -75,12 +85,16 @@ impl OdlEvent {
         &self,
         fixed_offset: &FixedOffset,
     ) -> Result<Odl> {
+        def2n!("fixed_offset {:?}", fixed_offset);
+
         let timestamp = i64::try_from(self.timestamp_ms)
             .map_err(|_| Error::new(ErrorKind::InvalidData, "ODL timestamp exceeds i64"))?;
         let dt = DateTime::<Utc>::from_timestamp_millis(timestamp)
             .ok_or_else(|| Error::new(ErrorKind::InvalidData, "unrepresentable ODL timestamp"))?
             .with_timezone(fixed_offset);
-        let mut text = String::with_capacity(self.render_capacity_estimate());
+        let rc: usize = self.render_capacity_estimate();
+        def2o!("render_capacity_estimate={}", rc);
+        let mut text = String::with_capacity(rc);
         dt.naive_local()
             .format("%Y-%m-%dT%H:%M:%S%.3f")
             .write_to(&mut text)
@@ -107,6 +121,7 @@ impl OdlEvent {
             text.push_str(parameter);
         }
         text.push('\n');
+        def2x!("dt={:?}", dt);
 
         Ok(Odl {
             dt,
