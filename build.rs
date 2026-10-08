@@ -17,9 +17,6 @@ use ::list_features;
 //      `cargo::rustc-cfg` expressions generated.
 // TODO: [2026/06/26] confirm this!
 
-// TODO: rebuild if `src/python/s4_event_readers/**` files change
-//       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
-
 /// env. var. set by docs.rs build environment; see https://docs.rs/about/builds
 const ENV_DOCS_RS: &str = "DOCS_RS";
 

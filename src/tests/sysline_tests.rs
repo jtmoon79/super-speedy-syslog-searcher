@@ -14,8 +14,10 @@ use ::si_trace_print::printers::{
     defx,
 };
 
-use crate::common::FileOffset;
-use crate::common::FileTypeTextEncoding;
+use crate::common::{
+    FileOffset,
+    FileTypeTextEncoding,
+};
 use crate::data::datetime::{
     DateTimeL,
     Duration,
@@ -99,14 +101,7 @@ fn new_sysline(
         defo!("block.resize({}, 0)", blocksz);
         block.resize(blocksz, 0);
         let blockp: BlockP = BlockP::new(block);
-        defo!(
-            "LinePart::(…, {}, {}, {}, {}, {})",
-            0,
-            blocksz - 1,
-            fo_byte,
-            bo_off,
-            blocksz
-        );
+        defo!("LinePart::(…, {}, {}, {}, {}, {})", 0, blocksz - 1, fo_byte, bo_off, blocksz);
         let linepart: LinePart =
             LinePart::new(blockp, 0 as BlockIndex, blocksz as BlockIndex, fo_byte, bo_off, BLOCKSZ);
         eprintln!();
@@ -184,26 +179,14 @@ fn test_sysline_occupies_one_block() {
 fn test_sysline_last_byte_sysline0() {
     let sysline: Sysline = new_sysline0();
     let last_byte: Option<u8> = sysline.last_byte();
-    assert_eq!(
-        Some(DATA_STR0_LAST_BYTE),
-        last_byte,
-        "expected {:?}, got {:?}",
-        DATA_STR0_LAST_BYTE,
-        last_byte
-    )
+    assert_eq!(Some(DATA_STR0_LAST_BYTE), last_byte, "expected {:?}, got {:?}", DATA_STR0_LAST_BYTE, last_byte)
 }
 
 #[test]
 fn test_sysline_last_byte_sysline2() {
     let sysline: Sysline = new_sysline2();
     let last_byte: Option<u8> = sysline.last_byte();
-    assert_eq!(
-        Some(DATA_STR2_LAST_BYTE),
-        last_byte,
-        "expected {:?}, got {:?}",
-        DATA_STR2_LAST_BYTE,
-        last_byte
-    )
+    assert_eq!(Some(DATA_STR2_LAST_BYTE), last_byte, "expected {:?}, got {:?}", DATA_STR2_LAST_BYTE, last_byte)
 }
 
 #[test]

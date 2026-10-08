@@ -23,7 +23,16 @@ use crate::data::etl::{
 use crate::readers::etlparser::{
     ClockType,
     EtlParser,
+    KERNEL_EVENT_GUIDS_MAX,
     LogfileHeader,
+    TL_ARRAY_LEN_MAX,
+    TL_EVENT_VALUES_MAX,
+    TL_STRUCT_DEPTH_MAX,
+    TLG_IN_FLAG_CCOUNT,
+    TLG_IN_FLAG_CHAIN,
+    TLG_IN_NULL,
+    TLG_IN_STRUCT,
+    TLG_IN_UINT8,
     TlCount,
     TlField,
     TlSchema,
@@ -31,27 +40,18 @@ use crate::readers::etlparser::{
     decode_kernel_group0,
     decode_tracelogging,
     kernel_group_lookup,
+    read_full,
     read_u16_at,
     read_u32_at,
     read_u64_at,
-    read_full,
     tl_parse_schema,
     tl_schema_cached,
     utf16le_to_string,
-    KERNEL_EVENT_GUIDS_MAX,
-    TLG_IN_FLAG_CCOUNT,
-    TLG_IN_FLAG_CHAIN,
-    TLG_IN_NULL,
-    TLG_IN_STRUCT,
-    TLG_IN_UINT8,
-    TL_ARRAY_LEN_MAX,
-    TL_EVENT_VALUES_MAX,
-    TL_STRUCT_DEPTH_MAX,
 };
 use crate::tests::common::{
-    NTF_LOG_EMPTY_FPATH,
-    ETL_FILE1_PATH,
     ETL_FILE1_DATA,
+    ETL_FILE1_PATH,
+    NTF_LOG_EMPTY_FPATH,
 };
 
 #[allow(non_upper_case_globals)]
@@ -78,7 +78,10 @@ fn test_etlparser_file1() {
     actual.sort_by(|a, b| a.partial_cmp(b).unwrap());
     expected.sort_by(|a, b| a.partial_cmp(b).unwrap());
     assert_eq!(actual.len(), expected.len(), "event count");
-    for (actual, expected) in actual.iter().zip(expected.iter()) {
+    for (actual, expected) in actual
+        .iter()
+        .zip(expected.iter())
+    {
         assert_eq!(actual.dt(), expected.dt());
         assert_eq!(actual.dt_beg_end(), expected.dt_beg_end());
         assert_eq!(actual.as_bytes(), expected.as_bytes());
@@ -126,13 +129,20 @@ fn logfileheader1() -> LogfileHeader {
 
 #[test]
 fn test_utf16le_to_string() {
-    assert_eq!(utf16le_to_string(&[b'H', 0, b'i', 0, 0, 0, b'!']), "Hi");
+    assert_eq!(
+        utf16le_to_string(&[
+            b'H', 0, b'i', 0, 0, 0, b'!'
+        ]),
+        "Hi"
+    );
     assert_eq!(utf16le_to_string(&[0x00, 0xD8, 0, 0]), "\u{FFFD}");
 }
 
 #[test]
 fn test_read_u16_at() {
-    let data = [0x34, 0x12, 0x78, 0x56];
+    let data = [
+        0x34, 0x12, 0x78, 0x56,
+    ];
 
     assert_eq!(read_u16_at(&data, 0), Some(0x1234));
     assert_eq!(read_u16_at(&data, 2), Some(0x5678));
@@ -141,7 +151,9 @@ fn test_read_u16_at() {
 
 #[test]
 fn test_read_u32_at() {
-    let data = [0x78, 0x56, 0x34, 0x12, 0xAA];
+    let data = [
+        0x78, 0x56, 0x34, 0x12, 0xAA,
+    ];
 
     assert_eq!(read_u32_at(&data, 0), Some(0x1234_5678));
     assert_eq!(read_u32_at(&data, 2), None);
@@ -149,7 +161,9 @@ fn test_read_u32_at() {
 
 #[test]
 fn test_read_u64_at() {
-    let data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let data = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9,
+    ];
 
     assert_eq!(read_u64_at(&data, 0), Some(0x0807_0605_0403_0201));
     assert_eq!(read_u64_at(&data, 2), None);
@@ -171,11 +185,27 @@ fn test_read_full() {
 #[test]
 fn test_tl_parse_schema() {
     let mut schema = vec![
-        0, 0, // schema size, filled below
+        0,
+        0, // schema size, filled below
         0, // extension chain terminator
-        b'E', b'v', b't', 0,
-        b'L', b'e', b'v', b'e', b'l', 0, TLG_IN_UINT8,
-        b'T', b'a', b'g', 0, TLG_IN_UINT8 | TLG_IN_FLAG_CCOUNT, 3, 0,
+        b'E',
+        b'v',
+        b't',
+        0,
+        b'L',
+        b'e',
+        b'v',
+        b'e',
+        b'l',
+        0,
+        TLG_IN_UINT8,
+        b'T',
+        b'a',
+        b'g',
+        0,
+        TLG_IN_UINT8 | TLG_IN_FLAG_CCOUNT,
+        3,
+        0,
     ];
     let size = schema.len() as u16;
     schema[..2].copy_from_slice(&size.to_le_bytes());
@@ -312,7 +342,10 @@ fn test_decode_tracelogging_array_budget() {
     push_struct_fixed(&mut fields, "S", 1, 2);
     push_fixed(&mut fields, "N", TLG_IN_NULL, 2);
     let schema: TlSchema = schema_from_fields(&fields);
-    let nulls: EtlValue = EtlValue::Array(vec![EtlValue::Null, EtlValue::Null]);
+    let nulls: EtlValue = EtlValue::Array(vec![
+        EtlValue::Null,
+        EtlValue::Null,
+    ]);
     assert_eq!(
         decode_tracelogging(&schema, &[], 8),
         EtlPayload::Fields(vec![(
@@ -352,10 +385,7 @@ fn test_decode_tracelogging_struct_depth() {
     }
     push_cstr(&mut fields, "N");
     fields.push(TLG_IN_NULL);
-    assert!(matches!(
-        decode_tracelogging(&schema_from_fields(&fields), &[], 8),
-        EtlPayload::Fields(_)
-    ));
+    assert!(matches!(decode_tracelogging(&schema_from_fields(&fields), &[], 8), EtlPayload::Fields(_)));
 
     let too_deep: Vec<u8> = nested_struct_metadata(TL_STRUCT_DEPTH_MAX);
     assert!(tl_parse_schema(&too_deep).is_none());
@@ -363,11 +393,7 @@ fn test_decode_tracelogging_struct_depth() {
     assert!(tl_schema_cached(&mut cache, &too_deep).is_none());
     assert!(cache.contains_key(too_deep.as_slice()));
 
-    assert_decode_failed(&decode_tracelogging(
-        &nested_struct_schema(TL_STRUCT_DEPTH_MAX),
-        &[],
-        8,
-    ));
+    assert_decode_failed(&decode_tracelogging(&nested_struct_schema(TL_STRUCT_DEPTH_MAX), &[], 8));
 }
 
 #[test]
@@ -396,23 +422,24 @@ fn test_decode_kernel_group0() {
     let decoded = decode_kernel_group0(66, b"build string\0", &header);
     assert_eq!(
         decoded,
-        Some(EtlPayload::Fields(vec![(
-            EtlName::from("BuildString"),
-            EtlValue::Str(String::from("build string")),
-        )]))
+        Some(EtlPayload::Fields(vec![(EtlName::from("BuildString"), EtlValue::Str(String::from("build string")),)]))
     );
-    assert!(matches!(
-        decode_kernel_group0(0, &[], &header),
-        Some(EtlPayload::Fields(_))
-    ));
+    assert!(matches!(decode_kernel_group0(0, &[], &header), Some(EtlPayload::Fields(_))));
     assert_eq!(decode_kernel_group0(1, &[], &header), None);
 }
 
 #[test]
 fn test_decode_kernel_group0_guid_count() {
     let header = logfileheader1();
-    for count in [0, 1, 64, KERNEL_EVENT_GUIDS_MAX] {
-        let mut data = (count as u32).to_le_bytes().to_vec();
+    for count in [
+        0,
+        1,
+        64,
+        KERNEL_EVENT_GUIDS_MAX,
+    ] {
+        let mut data = (count as u32)
+            .to_le_bytes()
+            .to_vec();
         data.resize(4 + count * 16, 0);
         for code_unit in "binary.exe\0".encode_utf16() {
             data.extend_from_slice(&code_unit.to_le_bytes());

@@ -30,10 +30,10 @@ use crate::common::{
 };
 use crate::data::datetime::FixedOffset;
 use crate::data::fixedstruct::{
-    linux_x86,
+    ENTRY_SZ_MAX,
     FixedStruct,
     FixedStructType,
-    ENTRY_SZ_MAX,
+    linux_x86,
 };
 #[cfg(target_family = "unix")]
 use crate::debug::helpers::create_temp_file_no_permissions;
@@ -53,7 +53,6 @@ use crate::readers::fixedstructreader::{
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{
-    path_id_generator,
     FO_0,
     FO_P8,
     LINUX_X86_LASTLOG_BUFFER1_DTO,
@@ -73,6 +72,7 @@ use crate::tests::common::{
     NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH,
     NTF_LOG_EMPTY_FPATH,
     NTF_NL_1_PATH,
+    path_id_generator,
 };
 
 // short alias
@@ -94,64 +94,31 @@ fn new_FixedStructReader(
     tzo: FixedOffset,
 ) -> FixedStructReader {
     stack_offset_set(Some(2));
-    match FixedStructReader::new(
-        path_id_generator(),
-        path.clone(),
-        FT_UTMPX,
-        blocksz,
-        tzo,
-        None,
-        None,
-    ) {
+    match FixedStructReader::new(path_id_generator(), path.clone(), FT_UTMPX, blocksz, tzo, None, None) {
         ResultFixedStructReaderNewError::FileOk(val) => val,
         result => {
-            panic!(
-                "ERROR: FixedStructReader::new({:?}, {:?}, {:?}) failed: {:?}",
-                path, blocksz, tzo, result,
-            );
+            panic!("ERROR: FixedStructReader::new({:?}, {:?}, {:?}) failed: {:?}", path, blocksz, tzo, result,);
         }
     }
 }
 
 #[test]
 fn test_new_FixedStructReader_1_empty() {
-    match FixedStructReader::new(
-        path_id_generator(),
-        NTF_LOG_EMPTY_FPATH.clone(),
-        FT_UTMPX,
-        1024,
-        FO_P8,
-        None,
-        None,
-    ) {
+    match FixedStructReader::new(path_id_generator(), NTF_LOG_EMPTY_FPATH.clone(), FT_UTMPX, 1024, FO_P8, None, None) {
         //ResultFixedStructReaderNew::FileOk(_) => {},
-        ResultFixedStructReaderNewError::FileErrEmpty => {},
+        ResultFixedStructReaderNewError::FileErrEmpty => {}
         result => {
-            panic!(
-                "expected FileOk for empty file NTF_LOG_EMPTY_FPATH, got {:?}",
-                result
-            );
+            panic!("expected FileOk for empty file NTF_LOG_EMPTY_FPATH, got {:?}", result);
         }
     }
 }
 
 #[test]
 fn test_new_FixedStructReader_2_bad_noerr() {
-    match FixedStructReader::new(
-        path_id_generator(),
-        NTF_NL_1_PATH.clone(),
-        FT_UTMPX,
-        1024,
-        FO_P8,
-        None,
-        None,
-    ) {
-        ResultFixedStructReaderNewError::FileErrTooSmall(_) => {},
+    match FixedStructReader::new(path_id_generator(), NTF_NL_1_PATH.clone(), FT_UTMPX, 1024, FO_P8, None, None) {
+        ResultFixedStructReaderNewError::FileErrTooSmall(_) => {}
         result => {
-            panic!(
-                "expected FileErrTooSmall for empty file NTF_NL_1_PATH, got {:?}",
-                result
-            );
+            panic!("expected FileErrTooSmall for empty file NTF_NL_1_PATH, got {:?}", result);
         }
     }
 }
@@ -162,24 +129,13 @@ fn test_new_FixedStructReader_no_file_permissions() {
     let ntf = create_temp_file_no_permissions(".utmp");
     let path = ntf.path();
     let fpath = path_to_fpath(path);
-    match FixedStructReader::new(
-        path_id_generator(),
-        fpath.clone(),
-        FT_UTMPX,
-        1024,
-        FO_P8,
-        None,
-        None,
-    ) {
+    match FixedStructReader::new(path_id_generator(), fpath.clone(), FT_UTMPX, 1024, FO_P8, None, None) {
         ResultFixedStructReaderNewError::FileErrIo(err) => {
             defo!("no permissions to read {:?}", path);
             defo!("error (expected): {}", err);
         }
         result => {
-            panic!(
-                "expected FileErrIo for no permissions to read {:?}, got {:?}",
-                path, result
-            );
+            panic!("expected FileErrIo for no permissions to read {:?}, got {:?}", path, result);
         }
     }
 }
@@ -188,11 +144,7 @@ fn test_new_FixedStructReader_no_file_permissions() {
 fn test_FixedStructReader_helpers() {
     const BSZ: BlockSz = 64;
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
-    let mut fsr = new_FixedStructReader(
-        &NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
-        BSZ,
-        FO_P8
-    );
+    let mut fsr = new_FixedStructReader(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, BSZ, FO_P8);
 
     assert_eq!(fsr.block_index_at_file_offset(0), 0);
     assert_eq!(fsr.block_offset_at_file_offset(0), 0);
@@ -231,7 +183,7 @@ fn test_FixedStructReader_helpers() {
     assert!(fsr.is_last(&fs));
     // entry 3
     match fsr.process_entry_at(fo_next, &mut buffer) {
-        ResultFindFixedStruct::Done => {},
+        ResultFindFixedStruct::Done => {}
         _ => panic!("process_entry_at({}) unexpected return", fo_next),
     };
 
@@ -310,7 +262,7 @@ fn test_FixedStructReader_process_entry_at(
     let mut fixedstructreader = match FixedStructReader::new(
         path_id_generator(),
         path.clone(),
-        FileType::FixedStruct{
+        FileType::FixedStruct {
             archival_type: FileTypeArchive::Normal,
             fixedstruct_type: filetypefixedstruct,
         },
@@ -325,31 +277,22 @@ fn test_FixedStructReader_process_entry_at(
             val
         }
         ResultFixedStructReaderNewError::FileErrEmpty => {
-            assert!(
-                matches!(
-                    expect_new.unwrap(),
-                    ResultFixedStructReaderNewError::FileErrEmpty,
-                ));
+            assert!(matches!(expect_new.unwrap(), ResultFixedStructReaderNewError::FileErrEmpty,));
             assert_eq!(expect_result, ResultFindFixedStruct_Test::Done);
             assert_eq!(expect_fo_index, 0);
             return;
         }
         ResultFixedStructReaderNew::FileErrNoValidFixedStruct => {
-            assert!(
-                matches!(
-                    expect_new.unwrap(),
-                    ResultFixedStructReaderNewError::FileErrNoValidFixedStruct,
-                ));
+            assert!(matches!(expect_new.unwrap(), ResultFixedStructReaderNewError::FileErrNoValidFixedStruct,));
             assert_eq!(expect_result, ResultFindFixedStruct_Test::Done);
             assert_eq!(expect_fo_index, 0);
             return;
         }
         ResultFixedStructReaderNew::FileErrNoFixedStructWithinDtFilters => {
-            assert!(
-                matches!(
-                    expect_new.unwrap(),
-                    ResultFixedStructReaderNewError::FileErrNoFixedStructWithinDtFilters,
-                ));
+            assert!(matches!(
+                expect_new.unwrap(),
+                ResultFixedStructReaderNewError::FileErrNoFixedStructWithinDtFilters,
+            ));
             assert_eq!(expect_result, ResultFindFixedStruct_Test::Done);
             assert_eq!(expect_fo_index, 0);
             return;
@@ -376,7 +319,6 @@ fn test_FixedStructReader_process_entry_at(
     };
 
     assert_eq!(fo_next, expect_fo_index, "expected fileoffset {}, got {}", expect_fo_index, fo_next);
-
 }
 
 /// test `FixedStructReader::process_entry_at` and `FixedStructReader::summary`
@@ -386,12 +328,10 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
     summary_stats_enable();
 
     defn!();
-    let mut fixedstructreader = new_FixedStructReader(
-        &NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
-        BSZ,
-        FO_P8
-    );
-    fixedstructreader.blockreader.disable_drop_data();
+    let mut fixedstructreader = new_FixedStructReader(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, BSZ, FO_P8);
+    fixedstructreader
+        .blockreader
+        .disable_drop_data();
 
     let mut fo: FileOffset = 0;
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
@@ -412,7 +352,7 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
     // do one extra redundant search to make it little more interesting
     defo!("redundant search");
     match fixedstructreader.process_entry_at(0, &mut buffer) {
-        ResultFindFixedStruct::Found(_) => {},
+        ResultFindFixedStruct::Found(_) => {}
         _ => panic!(),
     }
 
@@ -422,20 +362,21 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
     assert_eq!(summaryfixedstructreader.fixedstructreader_utmp_entries_hit, 2);
     assert_eq!(summaryfixedstructreader.fixedstructreader_utmp_entries_miss, 1);
     assert_eq!(
-        &summaryfixedstructreader.fixedstructreader_datetime_first.unwrap(),
+        &summaryfixedstructreader
+            .fixedstructreader_datetime_first
+            .unwrap(),
         &*LINUX_X86_UTMPX_BUFFER1_DT,
     );
     assert_eq!(
-        &summaryfixedstructreader.fixedstructreader_datetime_last.unwrap(),
+        &summaryfixedstructreader
+            .fixedstructreader_datetime_last
+            .unwrap(),
         &*LINUX_X86_UTMPX_BUFFER2_DTO,
     );
 
     let summary = fixedstructreader.summary_complete();
     match summary.readerdata {
-        SummaryReaderData::FixedStruct((
-            _summaryblockreader,
-            summaryfixedstructreader_,
-        )) => {
+        SummaryReaderData::FixedStruct((_summaryblockreader, summaryfixedstructreader_)) => {
             assert_eq!(summaryfixedstructreader_, summaryfixedstructreader)
         }
         _ => panic!(),
@@ -478,12 +419,13 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
 // UTMPX_FF
 #[test_case(&NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH, UFS, 0, 0, None, 0, NEWERRNOVALID; "a UTMPX_FF")]
 fn test_FixedStructReader_read_find_entry_at_datetime_filter(
-    path: &FPath, // pass to `FixedStructReader::new`
-    filetypefixedstruct: FileTypeFixedStruct, // pass to `FixedStructReader::new`
-    fo: FileOffset, // pass to `process_entry_at`
-    seconds: i64, // create this dt_filter with this adjustment from LINUX_X86_UTMPX_BUFFER1_DT
+    path: &FPath,                                            // pass to `FixedStructReader::new`
+    filetypefixedstruct: FileTypeFixedStruct,                // pass to `FixedStructReader::new`
+    fo: FileOffset,                                          // pass to `process_entry_at`
+    seconds: i64,                                            /* create this dt_filter with this adjustment from
+                                                              * LINUX_X86_UTMPX_BUFFER1_DT */
     expect_opt: Option<ResultFindFixedStruct_Test>, // expected result of `process_entry_at`
-    expect_fo: FileOffset, // expected result of `process_entry_at`
+    expect_fo: FileOffset,                          // expected result of `process_entry_at`
     new_result_opt: Option<ResultFixedStructReaderNewError>, // expected result of `FixedStructReader::new`
 ) {
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
@@ -497,16 +439,14 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
         }
     }
 
-    let dt_filter = Some(
-        *LINUX_X86_UTMPX_BUFFER1_DT + Duration::try_seconds(seconds).unwrap(),
-    );
+    let dt_filter = Some(*LINUX_X86_UTMPX_BUFFER1_DT + Duration::try_seconds(seconds).unwrap());
 
     let blocksz: BlockSz = 0x100;
     let tzo = FO_P8;
     let mut fixedstructreader = match FixedStructReader::new(
         path_id_generator(),
         path.clone(),
-        FileType::FixedStruct{
+        FileType::FixedStruct {
             archival_type: FileTypeArchive::Normal,
             fixedstruct_type: filetypefixedstruct,
         },
@@ -519,21 +459,19 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
             eprintln!("new_result_opt: {:?}", new_result_opt);
             assert!(matches!(new_result_opt, None));
             val
-        },
-        result => {
-            match new_result_opt {
-                Some(_expect_result) => {
-                    assert!(matches!(result, _expect_result));
-                    return;
-                }
-                None => {
-                    panic!(
-                        "ERROR: FixedStructReader::new({:?}, {:?}, {:?}, {:?}) failed: {:?}, expected FileOk",
-                        path, blocksz, tzo, dt_filter, result,
-                    );
-                }
-            }
         }
+        result => match new_result_opt {
+            Some(_expect_result) => {
+                assert!(matches!(result, _expect_result));
+                return;
+            }
+            None => {
+                panic!(
+                    "ERROR: FixedStructReader::new({:?}, {:?}, {:?}, {:?}) failed: {:?}, expected FileOk",
+                    path, blocksz, tzo, dt_filter, result,
+                );
+            }
+        },
     };
 
     let expect = match expect_opt {
@@ -542,34 +480,22 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
         None => return,
     };
 
-    let result: ResultFindFixedStruct =
-        fixedstructreader.process_entry_at(
-            fo,
-            &mut buffer,
-        );
+    let result: ResultFindFixedStruct = fixedstructreader.process_entry_at(fo, &mut buffer);
     match result {
-        ResultFindFixedStruct::Found((fo_, _utmpx)) => {
-            match expect {
-                FOUND => {
-                    assert_eq!(
-                        fo_ , expect_fo,
-                        "expected fileoffset {}, got {}",
-                        expect_fo, fo_,
-                    );
-                }
-                DONE => {
-                    panic!("expected DONE");
-                }
+        ResultFindFixedStruct::Found((fo_, _utmpx)) => match expect {
+            FOUND => {
+                assert_eq!(fo_, expect_fo, "expected fileoffset {}, got {}", expect_fo, fo_,);
             }
-        }
-        ResultFindFixedStruct::Done => {
-            match expect {
-                FOUND => {
-                    panic!("expected FOUND");
-                }
-                DONE => {}
+            DONE => {
+                panic!("expected DONE");
             }
-        }
+        },
+        ResultFindFixedStruct::Done => match expect {
+            FOUND => {
+                panic!("expected FOUND");
+            }
+            DONE => {}
+        },
         ResultFindFixedStruct::Err(err) => {
             panic!("Error {:?}", err);
         }
@@ -583,8 +509,10 @@ const TYU: FixedStructType = FixedStructType::Fs_Linux_x86_Utmpx;
 const FTU: FileTypeFixedStruct = FileTypeFixedStruct::Utmpx;
 
 /// helper to `test_FixedStructReader_summary`
-const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Count)
-    -> SummaryBlockReader {
+const fn SummaryBlockReader_new(
+    dropped_blocks_ok: Count,
+    dropped_blocks_err: Count,
+) -> SummaryBlockReader {
     SummaryBlockReader {
         blockreader_bytes: 0,
         blockreader_bytes_total: 0,
@@ -1115,9 +1043,7 @@ fn test_FixedStructReader_summary(
 
     // find all the entries
     loop {
-        let result: ResultFindFixedStruct = fixedstructreader.process_entry_at(
-            fo, &mut buffer,
-        );
+        let result: ResultFindFixedStruct = fixedstructreader.process_entry_at(fo, &mut buffer);
         match result {
             ResultFindFixedStruct::Found((fo_, _utmpx)) => {
                 _fo_last = fo;
@@ -1135,10 +1061,7 @@ fn test_FixedStructReader_summary(
     // get the summaries
     let summary = fixedstructreader.summary_complete();
     let (summaryfixedstructreader, summaryblockreader) = match summary.readerdata {
-        SummaryReaderData::FixedStruct((
-            summaryblockreader,
-            summaryfixedstructreader,
-        )) => {
+        SummaryReaderData::FixedStruct((summaryblockreader, summaryfixedstructreader)) => {
             (summaryfixedstructreader, summaryblockreader)
         }
         _ => panic!(),
@@ -1148,36 +1071,26 @@ fn test_FixedStructReader_summary(
 
     // compare summaryblockreader
     assert_eq!(
-        summaryblockreader.blockreader_blocks_dropped_ok,
-        expect_summaryblockreader.blockreader_blocks_dropped_ok,
+        summaryblockreader.blockreader_blocks_dropped_ok, expect_summaryblockreader.blockreader_blocks_dropped_ok,
         "blockreader_blocks_dropped_ok differs\nexpected {:?}\nactual   {:?}",
-        expect_summaryblockreader.blockreader_blocks_dropped_ok,
-        summaryblockreader.blockreader_blocks_dropped_ok,
+        expect_summaryblockreader.blockreader_blocks_dropped_ok, summaryblockreader.blockreader_blocks_dropped_ok,
     );
     assert_eq!(
-        summaryblockreader.blockreader_blocks_dropped_err,
-        expect_summaryblockreader.blockreader_blocks_dropped_err,
+        summaryblockreader.blockreader_blocks_dropped_err, expect_summaryblockreader.blockreader_blocks_dropped_err,
         "blockreader_blocks_dropped_err differs\nexpected {:?}\nactual   {:?}",
-        expect_summaryblockreader.blockreader_blocks_dropped_err,
-        summaryblockreader.blockreader_blocks_dropped_err,
+        expect_summaryblockreader.blockreader_blocks_dropped_err, summaryblockreader.blockreader_blocks_dropped_err,
     );
     // compare summaryfixedstructreader
     let _ft = summaryfixedstructreader.fixedstructreader_fixedstructtype_opt;
     assert!(
-        matches!(
-            expect_fixedstructreadersummary.fixedstructreader_fixedstructtype_opt,
-            _ft,
-        ),
+        matches!(expect_fixedstructreadersummary.fixedstructreader_fixedstructtype_opt, _ft,),
         "fixedstructreader_fixedstructtype_opt differs\nexpected {:?}\nactual   {:?}",
         expect_fixedstructreadersummary.fixedstructreader_fixedstructtype_opt,
         summaryfixedstructreader.fixedstructreader_fixedstructtype_opt,
     );
     let _ft = summaryfixedstructreader.fixedstructreader_filetypefixedstruct_opt;
     assert!(
-        matches!(
-            expect_fixedstructreadersummary.fixedstructreader_filetypefixedstruct_opt,
-            _ft,
-        ),
+        matches!(expect_fixedstructreadersummary.fixedstructreader_filetypefixedstruct_opt, _ft,),
         "fixedstructreader_filetypefixedstruct_opt differs\nexpected {:?}\nactual   {:?}",
         expect_fixedstructreadersummary.fixedstructreader_filetypefixedstruct_opt,
         summaryfixedstructreader.fixedstructreader_filetypefixedstruct_opt,
@@ -1252,12 +1165,18 @@ fn test_FixedStructReader_summary(
     // duplicated dropped blocks means the dropping algorithm is too aggressive
     // and causing blocks to be retrieved more than once
     let mut set: HashSet<BlockOffset> = HashSet::new();
-    for bo in fixedstructreader.dropped_blocks.iter() {
+    for bo in fixedstructreader
+        .dropped_blocks
+        .iter()
+    {
         defo!("dropped block at BlockOffset {:?}", bo);
         set.insert(*bo);
     }
     assert_eq!(
-        set.len(), fixedstructreader.dropped_blocks.len(),
+        set.len(),
+        fixedstructreader
+            .dropped_blocks
+            .len(),
         "duplicate entries in fixedstructreader.dropped_blocks; a block was dropped, then retrieved, then dropped again"
     );
 }
@@ -1303,10 +1222,11 @@ const FSF_U: FileTypeFixedStruct = FileTypeFixedStruct::Utmpx;
 // NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH
 #[test_case(&*NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH, FSF_U, U1SZ * 3, 4, 5, Some(DONE), 0, None; "a LINUX_X86_UTMPX_3ENTRY_OOO")]
 fn test_FixedStructReader_process_entry_at_between_datetime_filters(
-    path: &FPath, // pass to `FixedStructReader::new`
-    filetypefixedstruct: FileTypeFixedStruct, // pass to `FixedStructReader::new`
-    fo: FileOffset, // call `process_entry_at` with this file offset
-    diff_a: i64, // add this to `LINUX_X86_UTMPX_BUFFER1_DT` to get `dt_filter_a`
+    path: &FPath,                                            // pass to `FixedStructReader::new`
+    filetypefixedstruct: FileTypeFixedStruct,                // pass to `FixedStructReader::new`
+    fo: FileOffset,                                          // call `process_entry_at` with this file offset
+    diff_a: i64,                                             /* add this to `LINUX_X86_UTMPX_BUFFER1_DT` to get
+                                                              * `dt_filter_a` */
     diff_b: i64, // add this to `LINUX_X86_UTMPX_BUFFER1_DT` to get `dt_filter_b`
     expect_opt: Option<ResultFindFixedStruct_Test>, // expected result of `process_entry_at`
     expect_fo: FileOffset, // expected file offset of `process_entry_at`
@@ -1314,12 +1234,20 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
 ) {
     defn!(
         "fo {}, diff_a {}, diff_b {}, expect_opt {:?}, expect_fo {}, new_result_opt {:?}",
-        fo, diff_a, diff_b, expect_opt, expect_fo, new_result_opt,
+        fo,
+        diff_a,
+        diff_b,
+        expect_opt,
+        expect_fo,
+        new_result_opt,
     );
 
     match &expect_opt {
         Some(res) => {
-            assert!(new_result_opt.is_none(), "bad test inputs; given expected result for process_entry_at but also given new_result_opt != None");
+            assert!(
+                new_result_opt.is_none(),
+                "bad test inputs; given expected result for process_entry_at but also given new_result_opt != None"
+            );
             match *res {
                 FOUND => {}
                 DONE => {
@@ -1334,50 +1262,41 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
 
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
 
-    let dt_filter_a = Some(
-        *LINUX_X86_UTMPX_BUFFER1_DT + Duration::try_seconds(diff_a).unwrap()
-    );
-    let dt_filter_b = Some(
-        *LINUX_X86_UTMPX_BUFFER1_DT + Duration::try_seconds(diff_b).unwrap()
-    );
+    let dt_filter_a = Some(*LINUX_X86_UTMPX_BUFFER1_DT + Duration::try_seconds(diff_a).unwrap());
+    let dt_filter_b = Some(*LINUX_X86_UTMPX_BUFFER1_DT + Duration::try_seconds(diff_b).unwrap());
 
-    let mut fixedstructreader = 
-        match FixedStructReader::new(
-            path_id_generator(),
-            path.clone(),
-            FileType::FixedStruct{
-                archival_type: FileTypeArchive::Normal,
-                fixedstruct_type: filetypefixedstruct,
-            },
-            BSZ,
-            FO_0,
-            dt_filter_a,
-            dt_filter_b,
-        ) {
-            ResultFixedStructReaderNewError::FileOk(val) => val,
-            result => {
-                match new_result_opt {
-                    Some(_expect_result) => {
-                        defo!("FileStructReader::new() result was {:?}", result);
-                        assert!(matches!(result, _expect_result));
-                        defx!("FileStructReader::new() was expected value {:?}", _expect_result);
-                        return;
-                    }
-                    None => {
-                        panic!(
-                            "ERROR: FixedStructReader::new({:?}, {:?}, {:?}, {:?}, {:?}) failed: {:?}, expected FileOk",
-                            path, BSZ, FO_0, dt_filter_a, dt_filter_b, result,
-                        );
-                    }
-                };
-            }
+    let mut fixedstructreader = match FixedStructReader::new(
+        path_id_generator(),
+        path.clone(),
+        FileType::FixedStruct {
+            archival_type: FileTypeArchive::Normal,
+            fixedstruct_type: filetypefixedstruct,
+        },
+        BSZ,
+        FO_0,
+        dt_filter_a,
+        dt_filter_b,
+    ) {
+        ResultFixedStructReaderNewError::FileOk(val) => val,
+        result => {
+            match new_result_opt {
+                Some(_expect_result) => {
+                    defo!("FileStructReader::new() result was {:?}", result);
+                    assert!(matches!(result, _expect_result));
+                    defx!("FileStructReader::new() was expected value {:?}", _expect_result);
+                    return;
+                }
+                None => {
+                    panic!(
+                        "ERROR: FixedStructReader::new({:?}, {:?}, {:?}, {:?}, {:?}) failed: {:?}, expected FileOk",
+                        path, BSZ, FO_0, dt_filter_a, dt_filter_b, result,
+                    );
+                }
+            };
+        }
     };
 
-    let result: ResultFindFixedStruct =
-        fixedstructreader.process_entry_at(
-            fo,
-            &mut buffer,
-        );
+    let result: ResultFindFixedStruct = fixedstructreader.process_entry_at(fo, &mut buffer);
     let expect = expect_opt.unwrap();
 
     let fs_: &FixedStruct;
@@ -1397,23 +1316,25 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
             }
             fs_ = fixedstruct;
         }
-        ResultFindFixedStruct::Done => {
-            match expect {
-                FOUND => {
-                    panic!("expected FOUND, got ResultFindFixedStruct::Done");
-                }
-                DONE => {
-                    defx!("process_entry_at({}, ...) returned Done", fo);
-                    return;
-                }
+        ResultFindFixedStruct::Done => match expect {
+            FOUND => {
+                panic!("expected FOUND, got ResultFindFixedStruct::Done");
             }
-        }
+            DONE => {
+                defx!("process_entry_at({}, ...) returned Done", fo);
+                return;
+            }
+        },
         ResultFindFixedStruct::Err(err) => {
             panic!("Error {:?}", err);
         }
     }
     defx!(
         "process_entry_at({}, ...) returned {:?}\ndt_filter_a {:?}\nfixedstruct {:?}\ndt_filter_b {:?}",
-        fo, result, dt_filter_a, Some(fs_.dt()), dt_filter_b,
+        fo,
+        result,
+        dt_filter_a,
+        Some(fs_.dt()),
+        dt_filter_b,
     )
 }

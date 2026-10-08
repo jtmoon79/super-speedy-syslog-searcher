@@ -4,8 +4,5 @@ These Python scripts use log parsers implemented in Python and not available in 
 
 Script `ccl_asldb.py` reads Apple System Log (`.asl`) files.
 
-OneDrive Log (`.odl`, `.aodl`, `.odlgz`, `.odlsent`) and Windows Event Trace Log
-(`.etl`) files are parsed natively by Rust and do not require this environment.
-
 The build script stages only ASL package sources and dependency manifests before
 embedding them. Local `build`, `dist`, and bytecode caches are not embedded.

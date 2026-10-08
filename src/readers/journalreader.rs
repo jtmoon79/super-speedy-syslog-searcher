@@ -3081,6 +3081,7 @@ impl<'a> JournalReader {
             None,
             None,
             Some(summaryjournalreader),
+            None,
             error,
         )
     }

@@ -19,7 +19,6 @@ use ::si_trace_print::{
 };
 use ::test_case::test_case;
 
-use crate::subprojects::lzma_rs;
 use crate::common::{
     Bytes,
     Count,
@@ -28,22 +27,23 @@ use crate::common::{
     FileSz,
     FileType,
     ResultFind,
-    summary_stats_enable,
-    parse_string_to_number,
     SUBPATH_SEP,
+    parse_string_to_number,
+    summary_stats_enable,
 };
 use crate::data::datetime::systemtime_year;
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::helpers::{
+    NamedTempFile,
     create_temp_file,
     create_temp_file_bytes_with_suffix,
     ntf_fpath,
-    NamedTempFile,
 };
-#[cfg(target_family = "unix")]
-use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::printers::byte_to_char_noraw;
 use crate::readers::blockreader::{
-    blocksz_def,
+    BLOCKSZ_DEF,
+    BLOCKSZ_MIN,
     BlockOffset,
     BlockReader,
     BlockSz,
@@ -53,14 +53,13 @@ use crate::readers::blockreader::{
     ResultReadData,
     ResultReadDataToBuffer,
     SummaryBlockReader,
-    BLOCKSZ_DEF,
-    BLOCKSZ_MIN,
+    blocksz_def,
 };
 #[cfg(target_family = "unix")]
 use crate::readers::helpers::path_to_fpath;
+use crate::subprojects::lzma_rs;
 #[allow(unused_imports)]
 use crate::tests::common::{
-    path_id_generator,
     BYTES_A,
     BYTES_AB,
     BYTES_ABC,
@@ -113,6 +112,7 @@ use crate::tests::common::{
     NTF_XZ_EMPTY_FPATH,
     UTC_NOW,
     XZ_8BYTE_DATA,
+    path_id_generator,
 };
 
 #[test_case(
@@ -175,25 +175,34 @@ fn new_BlockReader(
 
 #[test]
 fn test_new_BlockReader_1() {
-    new_BlockReader(
-        &NTF_LOG_EMPTY_FPATH,
-        FILETYPE_UTF8,
-        1024
-    );
+    new_BlockReader(&NTF_LOG_EMPTY_FPATH, FILETYPE_UTF8, 1024);
 }
 
-#[test_case(FPath::from("THIS/PATH_DOES/NOT/EXIST!!!"), FILETYPE_UTF8)]
-#[test_case(FPath::from("THIS/PATH_DOES/NOT/EXIST!!!.lz4"), FILETYPE_UTF8_LZ4)]
-#[test_case(FPath::from("THIS/PATH_DOES/NOT/EXIST!!!.gz"), FILETYPE_UTF8_GZ)]
-#[test_case(FPath::from("THIS/PATH_DOES/NOT/EXIST!!!.tar"), FILETYPE_UTF8_TAR)]
-#[test_case(FPath::from("THIS/PATH_DOES/NOT/EXIST!!!.xz"), FILETYPE_UTF8_XZ)]
-fn test_new_BlockReader_2_bad_path(path: FPath, filetype: FileType) {
-    match BlockReader::new(
-        path_id_generator(),
-        path.clone(),
-        filetype,
-        1024
-    ) {
+#[test_case(
+    FPath::from("THIS/PATH_DOES/NOT/EXIST!!!"),
+    FILETYPE_UTF8
+)]
+#[test_case(
+    FPath::from("THIS/PATH_DOES/NOT/EXIST!!!.lz4"),
+    FILETYPE_UTF8_LZ4
+)]
+#[test_case(
+    FPath::from("THIS/PATH_DOES/NOT/EXIST!!!.gz"),
+    FILETYPE_UTF8_GZ
+)]
+#[test_case(
+    FPath::from("THIS/PATH_DOES/NOT/EXIST!!!.tar"),
+    FILETYPE_UTF8_TAR
+)]
+#[test_case(
+    FPath::from("THIS/PATH_DOES/NOT/EXIST!!!.xz"),
+    FILETYPE_UTF8_XZ
+)]
+fn test_new_BlockReader_2_bad_path(
+    path: FPath,
+    filetype: FileType,
+) {
+    match BlockReader::new(path_id_generator(), path.clone(), filetype, 1024) {
         Ok(_) => {
             panic!("expected Err for {:?}", path);
         }
@@ -242,11 +251,7 @@ fn test_BlockReader_helpers(
     last: BlockOffset,
     filesz: FileSz,
 ) {
-    let br = new_BlockReader(
-        path,
-        filetype,
-        BSZ,
-    );
+    let br = new_BlockReader(path, filetype, BSZ);
 
     assert_eq!(br.blocksz_at_blockoffset(&0), blocksz_0, "bad blocksz_0 {:?}", path);
     assert_eq!(br.file_offset_at_block_offset_self(0), 0, "bad file_offset_at_block_offset_self(0) {:?}", path);
@@ -371,7 +376,15 @@ lazy_static! {
 fn test_new_read_block_basic10_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.push((0, (vec![b'1', b'9', b'0', b'1'], FOUND)));
+    checks.push((
+        0,
+        (
+            vec![
+                b'1', b'9', b'0', b'1',
+            ],
+            FOUND,
+        ),
+    ));
     test_BlockReader(&NTF_BASIC_10_FPATH, FILETYPE_UTF8, BLOCKSZ_MIN, &offsets, &checks);
 }
 
@@ -379,10 +392,42 @@ fn test_new_read_block_basic10_0() {
 fn test_new_read_block_basic10_0_1_6_22() {
     let offsets: Vec<BlockOffset> = vec![0, 1, 6, 22];
     let mut checks = Checks::new();
-    checks.push((0, (vec![b'1', b'9', b'0', b'1'], FOUND)));
-    checks.push((1, (vec![b'-', b'0', b'1', b'-'], FOUND)));
-    checks.push((6, (vec![b'0', b'2', b'-', b'0'], FOUND)));
-    checks.push((22, (vec![b'1', b'9', b'0', b'5'], FOUND)));
+    checks.push((
+        0,
+        (
+            vec![
+                b'1', b'9', b'0', b'1',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        1,
+        (
+            vec![
+                b'-', b'0', b'1', b'-',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        6,
+        (
+            vec![
+                b'0', b'2', b'-', b'0',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        22,
+        (
+            vec![
+                b'1', b'9', b'0', b'5',
+            ],
+            FOUND,
+        ),
+    ));
     test_BlockReader(&NTF_BASIC_10_FPATH, FILETYPE_UTF8, BLOCKSZ_MIN, &offsets, &checks);
 }
 
@@ -390,10 +435,42 @@ fn test_new_read_block_basic10_0_1_6_22() {
 fn test_new_read_block_basic10_0_2_2_1() {
     let offsets: Vec<BlockOffset> = vec![0, 1, 2];
     let mut checks = Checks::new();
-    checks.push((0, (vec![b'1', b'9', b'0', b'1'], FOUND)));
-    checks.push((2, (vec![b'0', b'1', b' ', b'0'], FOUND)));
-    checks.push((2, (vec![b'0', b'1', b' ', b'0'], FOUND)));
-    checks.push((1, (vec![b'-', b'0', b'1', b'-'], FOUND)));
+    checks.push((
+        0,
+        (
+            vec![
+                b'1', b'9', b'0', b'1',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        2,
+        (
+            vec![
+                b'0', b'1', b' ', b'0',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        2,
+        (
+            vec![
+                b'0', b'1', b' ', b'0',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        1,
+        (
+            vec![
+                b'-', b'0', b'1', b'-',
+            ],
+            FOUND,
+        ),
+    ));
     test_BlockReader(&NTF_BASIC_10_FPATH, FILETYPE_UTF8, BLOCKSZ_MIN, &offsets, &checks);
 }
 
@@ -401,9 +478,33 @@ fn test_new_read_block_basic10_0_2_2_1() {
 fn test_new_read_block_basic10_2_1_0() {
     let offsets: Vec<BlockOffset> = vec![2, 1, 0];
     let mut checks = Checks::new();
-    checks.push((2, (vec![b'0', b'1', b' ', b'0'], FOUND)));
-    checks.push((1, (vec![b'-', b'0', b'1', b'-'], FOUND)));
-    checks.push((0, (vec![b'1', b'9', b'0', b'1'], FOUND)));
+    checks.push((
+        2,
+        (
+            vec![
+                b'0', b'1', b' ', b'0',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        1,
+        (
+            vec![
+                b'-', b'0', b'1', b'-',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        0,
+        (
+            vec![
+                b'1', b'9', b'0', b'1',
+            ],
+            FOUND,
+        ),
+    ));
     test_BlockReader(&NTF_BASIC_10_FPATH, FILETYPE_UTF8, BLOCKSZ_MIN, &offsets, &checks);
 }
 
@@ -411,12 +512,60 @@ fn test_new_read_block_basic10_2_1_0() {
 fn test_new_read_block_basic10_0_1_2_3_3_2() {
     let offsets: Vec<BlockOffset> = vec![0, 1, BLOCKSZ_MIN, 3];
     let mut checks = Checks::new();
-    checks.push((0, (vec![b'1', b'9', b'0', b'1'], FOUND)));
-    checks.push((1, (vec![b'-', b'0', b'1', b'-'], FOUND)));
-    checks.push((2, (vec![b'0', b'1', b' ', b'0'], FOUND)));
-    checks.push((3, (vec![b'0', b':', b'0', b'1'], FOUND)));
-    checks.push((3, (vec![b'0', b':', b'0', b'1'], FOUND)));
-    checks.push((2, (vec![b'0', b'1', b' ', b'0'], FOUND)));
+    checks.push((
+        0,
+        (
+            vec![
+                b'1', b'9', b'0', b'1',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        1,
+        (
+            vec![
+                b'-', b'0', b'1', b'-',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        2,
+        (
+            vec![
+                b'0', b'1', b' ', b'0',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        3,
+        (
+            vec![
+                b'0', b':', b'0', b'1',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        3,
+        (
+            vec![
+                b'0', b':', b'0', b'1',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        2,
+        (
+            vec![
+                b'0', b'1', b' ', b'0',
+            ],
+            FOUND,
+        ),
+    ));
     test_BlockReader(&NTF_BASIC_10_FPATH, FILETYPE_UTF8, BLOCKSZ_MIN, &offsets, &checks);
 }
 
@@ -424,9 +573,33 @@ fn test_new_read_block_basic10_0_1_2_3_3_2() {
 fn test_new_read_block_basic10_33_34_32() {
     let offsets: Vec<BlockOffset> = vec![33, 34, 32];
     let mut checks = Checks::new();
-    checks.push((33, (vec![b'1', b'9', b'0', b'7'], FOUND)));
-    checks.push((34, (vec![b'-', b'0', b'1', b'-'], FOUND)));
-    checks.push((32, (vec![b'6', b' ', b'6', b'\n'], FOUND)));
+    checks.push((
+        33,
+        (
+            vec![
+                b'1', b'9', b'0', b'7',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        34,
+        (
+            vec![
+                b'-', b'0', b'1', b'-',
+            ],
+            FOUND,
+        ),
+    ));
+    checks.push((
+        32,
+        (
+            vec![
+                b'6', b' ', b'6', b'\n',
+            ],
+            FOUND,
+        ),
+    ));
     test_BlockReader(&NTF_BASIC_10_FPATH, FILETYPE_UTF8, BLOCKSZ_MIN, &offsets, &checks);
 }
 
@@ -434,9 +607,25 @@ fn test_new_read_block_basic10_33_34_32() {
 fn test_new_read_block_basic10_34_Done_34() {
     let offsets: Vec<BlockOffset> = vec![34];
     let mut checks = Checks::new();
-    checks.push((34, (vec![b'-', b'0', b'1', b'-'], FOUND)));
+    checks.push((
+        34,
+        (
+            vec![
+                b'-', b'0', b'1', b'-',
+            ],
+            FOUND,
+        ),
+    ));
     checks.push((99999, (vec![], DONE)));
-    checks.push((34, (vec![b'-', b'0', b'1', b'-'], FOUND)));
+    checks.push((
+        34,
+        (
+            vec![
+                b'-', b'0', b'1', b'-',
+            ],
+            FOUND,
+        ),
+    ));
     test_BlockReader(&NTF_BASIC_10_FPATH, FILETYPE_UTF8, BLOCKSZ_MIN, &offsets, &checks);
 }
 
@@ -737,9 +926,18 @@ fn test_xz_read_block_xz_forward_request_streams_intermediate_blocks() {
     assert_eq!(br.count_bytes(), 24);
     assert_eq!(br.count_blocks_processed(), 6);
     for blockoffset in 0..5 {
-        assert!(br.get_block(&blockoffset).is_none(), "block {blockoffset} was not dropped");
+        assert!(
+            br.get_block(&blockoffset)
+                .is_none(),
+            "block {blockoffset} was not dropped"
+        );
     }
-    assert_eq!(br.get_block(&5).unwrap().as_slice(), &data[20..24]);
+    assert_eq!(
+        br.get_block(&5)
+            .unwrap()
+            .as_slice(),
+        &data[20..24]
+    );
 }
 
 #[test]
@@ -1172,8 +1370,7 @@ lazy_static! {
 
 const RD16_SZ: usize = 16;
 const RD16_BUFFER: [u8; RD16_SZ] = [
-    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
-    0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
+    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
 ];
 const RD16_FILENAME: &str = "rd16.data";
 const RD16_FT: FileType = FILETYPE_UTF8;
@@ -1437,28 +1634,32 @@ fn test_read_data(
         }
         ReadDataParts::Two(blockp1, blockp2) => {
             eprintln!("blockp1[{}‥]: (len {})", a, (*blockp1)[a..].len());
-            for (i, c) in (*blockp1)[a..].iter().enumerate() {
+            for (i, c) in (*blockp1)[a..]
+                .iter()
+                .enumerate()
+            {
                 assert_eq!(c, &expect_data[at], "failed to match byte at index {} in blockp1[{}]", at, i);
                 at += 1;
             }
             eprintln!("blockp2[‥{}]: (len {})", b, (*blockp2)[..b].len());
-            for (i, c) in (*blockp2)[..b].iter().enumerate() {
+            for (i, c) in (*blockp2)[..b]
+                .iter()
+                .enumerate()
+            {
                 assert_eq!(c, &expect_data[at], "failed to match byte at index {} in blockp2[{}]", at, i);
                 at += 1;
             }
         }
         ReadDataParts::Many(blockps) => {
             for (i, blockp) in blockps.iter().enumerate() {
-                for c in (*blockp).iter()
-                {
+                for c in (*blockp).iter() {
                     let c_ = byte_to_char_noraw(*c);
                     eprintln!("blockps[{}] {:2} 0x{:02X} {:?}", i, at, c, c_);
                     at += 1;
                 }
             }
 
-            for (i, c) in expect_data.iter().enumerate()
-            {
+            for (i, c) in expect_data.iter().enumerate() {
                 let c_ = byte_to_char_noraw(*c);
                 eprintln!("expect_data[{}] 0x{:02X} {:?}", i, c, c_);
             }
@@ -1468,8 +1669,7 @@ fn test_read_data(
                 let a_ = if i == 0 { a } else { 0 };
                 let b_ = if i == (*blockps).len() - 1 { b } else { (*blockp).len() };
                 eprintln!("blockp[{}][{}‥{}]", i, a_, b_);
-                for c in (*blockp)[a_..b_].iter()
-                {
+                for c in (*blockp)[a_..b_].iter() {
                     eprint!("  {:?} = expect_data[{}] ", c, at);
                     eprintln!("{:?}", c);
                     assert_eq!(c, &expect_data[at], "failed to match byte at index {} in blockp {}", at, i);
@@ -1588,7 +1788,7 @@ fn test_read_data_to_buffer(
     for _ in 0..capacity {
         buffer.push(0)
     }
-    let copyn = match br1.read_data_to_buffer(beg, end, oneblock, buffer.as_mut_slice()){
+    let copyn = match br1.read_data_to_buffer(beg, end, oneblock, buffer.as_mut_slice()) {
         ResultReadDataToBuffer::Found(copyn) => {
             assert_eq!(result, FOUND_, "expected result to be {:?}", result);
 
@@ -1661,8 +1861,7 @@ fn test_mtime(
     let br1 = new_BlockReader(path, filetype, 0x100);
     let mtime_ = br1.mtime();
     match mtime_expect {
-        Some(mt) =>
-            assert_eq!(mt, mtime_, "\nmtime expected != actual for path {:?}", path),
+        Some(mt) => assert_eq!(mt, mtime_, "\nmtime expected != actual for path {:?}", path),
         None => {
             let year_expect = (*UTC_NOW).year();
             let year_actual = systemtime_year(&mtime_);
@@ -2005,84 +2204,35 @@ fn test_SummaryBlockReader(
 
     let summary: SummaryBlockReader = blockreader.summary();
     eprintln!("summary: {:?}", summary);
+    assert_eq!(blockreader_bytes, summary.blockreader_bytes, "blockreader_bytes 1");
+    assert_eq!(blockreader_bytes_total, summary.blockreader_bytes_total, "blockreader_bytes_total 2");
+    assert_eq!(blockreader_blocks, summary.blockreader_blocks, "blockreader_blocks 3");
+    assert_eq!(blockreader_blocks_total, summary.blockreader_blocks_total, "blockreader_blocks_total 4");
+    assert_eq!(blockreader_blocksz, summary.blockreader_blocksz, "blockreader_blocksz 5");
+    assert_eq!(blockreader_filesz, summary.blockreader_filesz, "blockreader_filesz 6");
+    assert_eq!(blockreader_filesz_actual, summary.blockreader_filesz_actual, "blockreader_filesz_actual 7");
     assert_eq!(
-        blockreader_bytes,
-        summary.blockreader_bytes,
-        "blockreader_bytes 1"
-    );
-    assert_eq!(
-        blockreader_bytes_total,
-        summary.blockreader_bytes_total,
-        "blockreader_bytes_total 2"
-    );
-    assert_eq!(
-        blockreader_blocks,
-        summary.blockreader_blocks,
-        "blockreader_blocks 3"
-    );
-    assert_eq!(
-        blockreader_blocks_total,
-        summary.blockreader_blocks_total,
-        "blockreader_blocks_total 4"
-    );
-    assert_eq!(
-        blockreader_blocksz,
-        summary.blockreader_blocksz,
-        "blockreader_blocksz 5"
-    );
-    assert_eq!(
-        blockreader_filesz,
-        summary.blockreader_filesz,
-        "blockreader_filesz 6"
-    );
-    assert_eq!(
-        blockreader_filesz_actual,
-        summary.blockreader_filesz_actual,
-        "blockreader_filesz_actual 7"
-    );
-    assert_eq!(
-        blockreader_read_block_lru_cache_hit,
-        summary.blockreader_read_block_lru_cache_hit,
+        blockreader_read_block_lru_cache_hit, summary.blockreader_read_block_lru_cache_hit,
         "blockreader_read_block_lru_cache_hit 8"
     );
     assert_eq!(
-        blockreader_read_block_lru_cache_miss,
-        summary.blockreader_read_block_lru_cache_miss,
+        blockreader_read_block_lru_cache_miss, summary.blockreader_read_block_lru_cache_miss,
         "blockreader_read_block_lru_cache_miss 9"
     );
     assert_eq!(
-        blockreader_read_block_lru_cache_put,
-        summary.blockreader_read_block_lru_cache_put,
+        blockreader_read_block_lru_cache_put, summary.blockreader_read_block_lru_cache_put,
         "blockreader_read_block_lru_cache_put 10"
     );
+    assert_eq!(blockreader_read_blocks_hit, summary.blockreader_read_blocks_hit, "blockreader_read_blocks_hit 11");
+    assert_eq!(blockreader_read_blocks_miss, summary.blockreader_read_blocks_miss, "blockreader_read_blocks_miss 12");
+    assert_eq!(blockreader_read_blocks_put, summary.blockreader_read_blocks_put, "blockreader_read_blocks_put 13");
+    assert_eq!(blockreader_blocks_highest, summary.blockreader_blocks_highest, "blockreader_blocks_highest 14");
     assert_eq!(
-        blockreader_read_blocks_hit,
-        summary.blockreader_read_blocks_hit,
-        "blockreader_read_blocks_hit 11"
-    );
-    assert_eq!(
-        blockreader_read_blocks_miss,
-        summary.blockreader_read_blocks_miss,
-        "blockreader_read_blocks_miss 12"
-    );
-    assert_eq!(
-        blockreader_read_blocks_put,
-        summary.blockreader_read_blocks_put,
-        "blockreader_read_blocks_put 13"
-    );
-    assert_eq!(
-        blockreader_blocks_highest,
-        summary.blockreader_blocks_highest,
-        "blockreader_blocks_highest 14"
-    );
-    assert_eq!(
-        blockreader_blocks_dropped_ok,
-        summary.blockreader_blocks_dropped_ok,
+        blockreader_blocks_dropped_ok, summary.blockreader_blocks_dropped_ok,
         "blockreader_blocks_dropped_ok 15"
     );
     assert_eq!(
-        blockreader_blocks_dropped_err,
-        summary.blockreader_blocks_dropped_err,
+        blockreader_blocks_dropped_err, summary.blockreader_blocks_dropped_err,
         "blockreader_blocks_dropped_err 16"
     );
 }

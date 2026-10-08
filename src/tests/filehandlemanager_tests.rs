@@ -17,28 +17,28 @@ use std::io::{
 use ::more_asserts::assert_ge;
 
 use crate::common::{
+    FPath,
     FileMetadata,
     FileType,
     FileTypeArchive,
     FileTypeTextEncoding,
-    FPath,
     OdlSubType,
     PathId,
     summary_stat,
     summary_stats_enable,
 };
 use crate::debug::helpers::{
-    create_temp_file,
     NamedTempFile,
+    create_temp_file,
 };
 use crate::readers::filehandlemanager::{
-    filetype_handle_counts,
+    FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT,
+    FileHandleManaged,
     FileHandleManager,
     FileHandleRole,
-    FileHandleManaged,
-    FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT,
-    OpenOptionsManaged,
     OpenMaxCountType,
+    OpenOptionsManaged,
+    filetype_handle_counts,
 };
 use crate::readers::helpers::path_to_fpath;
 
@@ -84,11 +84,7 @@ fn read_helper(
     handle: &FileHandleManaged,
     buf: &mut [u8],
 ) -> Result<usize> {
-    manager.with_file_mut_helper(
-        handle,
-        |summary| summary_stat!(summary.read_calls += 1),
-        |file| file.read(buf),
-    )
+    manager.with_file_mut_helper(handle, |summary| summary_stat!(summary.read_calls += 1), |file| file.read(buf))
 }
 
 fn write_helper(
@@ -96,22 +92,14 @@ fn write_helper(
     handle: &FileHandleManaged,
     buf: &[u8],
 ) -> Result<usize> {
-    manager.with_file_mut_helper(
-        handle,
-        |summary| summary_stat!(summary.write_calls += 1),
-        |file| file.write(buf),
-    )
+    manager.with_file_mut_helper(handle, |summary| summary_stat!(summary.write_calls += 1), |file| file.write(buf))
 }
 
 fn flush_helper(
     manager: &FileHandleManager,
     handle: &FileHandleManaged,
 ) -> Result<()> {
-    manager.with_file_mut_helper(
-        handle,
-        |_| {},
-        |file| file.flush(),
-    )
+    manager.with_file_mut_helper(handle, |_| {}, |file| file.flush())
 }
 
 fn seek_helper(
@@ -119,22 +107,14 @@ fn seek_helper(
     handle: &FileHandleManaged,
     pos: SeekFrom,
 ) -> Result<u64> {
-    manager.with_file_mut_helper(
-        handle,
-        |summary| summary_stat!(summary.seek_calls += 1),
-        |file| file.seek(pos),
-    )
+    manager.with_file_mut_helper(handle, |summary| summary_stat!(summary.seek_calls += 1), |file| file.seek(pos))
 }
 
 fn metadata_helper(
     manager: &FileHandleManager,
     handle: &FileHandleManaged,
 ) -> Result<FileMetadata> {
-    manager.with_file_mut_helper(
-        handle,
-        |summary| summary_stat!(summary.metadata_calls += 1),
-        |file| file.metadata(),
-    )
+    manager.with_file_mut_helper(handle, |summary| summary_stat!(summary.metadata_calls += 1), |file| file.metadata())
 }
 
 #[test]
@@ -157,7 +137,7 @@ fn test_filetype_handle_counts() {
             archival_type: FileTypeArchive::Normal,
             odl_sub_type: OdlSubType::Odl,
         }),
-        (1, FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT),
+        (1, 0),
     );
     assert_eq!(
         filetype_handle_counts(FileType::Journal {
@@ -177,7 +157,13 @@ fn test_request_open_read_seek_and_metadata_update_summary() {
         .unwrap();
 
     assert_eq!(manager.open_max(), OpenMaxCountType::new(2).unwrap(), "open_max()");
-    assert_eq!(metadata_helper(&manager, &handle).unwrap().len(), 6, "metadata_helper() file length");
+    assert_eq!(
+        metadata_helper(&manager, &handle)
+            .unwrap()
+            .len(),
+        6,
+        "metadata_helper() file length"
+    );
     assert_eq!(seek_helper(&manager, &handle, SeekFrom::Start(1)).unwrap(), 1, "seek_helper() to position 1");
 
     let mut buf = [0_u8; 3];
@@ -390,7 +376,13 @@ fn test_drop_saves_seek_position_for_later_request_read() {
             .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
             .unwrap();
         let mut first = [0_u8; 2];
-        assert_eq!(handle.read(&mut first).unwrap(), 2, "read first 2 bytes");
+        assert_eq!(
+            handle
+                .read(&mut first)
+                .unwrap(),
+            2,
+            "read first 2 bytes"
+        );
         assert_eq!(&first, b"ab", "first 2 bytes content");
     }
 
@@ -401,7 +393,13 @@ fn test_drop_saves_seek_position_for_later_request_read() {
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)
         .unwrap();
     let mut second = [0_u8; 2];
-    assert_eq!(handle.read(&mut second).unwrap(), 2, "read second 2 bytes");
+    assert_eq!(
+        handle
+            .read(&mut second)
+            .unwrap(),
+        2,
+        "read second 2 bytes"
+    );
     assert_eq!(&second, b"cd", "second 2 bytes content");
 }
 
@@ -417,12 +415,20 @@ fn test_handle_unmanaged_reservation_releases_on_drop() {
             .unwrap();
         assert_eq!(manager.count_open(), 0, "count_open() inside scope");
         assert_eq!(manager.count_open_total(), 1, "count_open_total() inside scope");
-        assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 1, "handles_unmanaged_helper() inside scope");
+        assert_eq!(
+            manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged),
+            1,
+            "handles_unmanaged_helper() inside scope"
+        );
     }
 
     assert_eq!(manager.count_open(), 0, "count_open() after scope");
     assert_eq!(manager.count_open_total(), 0, "count_open_total() after scope");
-    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_helper() after scope");
+    assert_eq!(
+        manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged),
+        0,
+        "handles_unmanaged_helper() after scope"
+    );
 
     let summary = manager.summary();
     assert_eq!(summary.request_open_unmanaged_calls, 1, "request_open_unmanaged_calls");
@@ -540,13 +546,21 @@ fn test_planned_unmanaged_request_consumes_multi_slot_reservation() {
             .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
             .unwrap();
         assert_eq!(manager.count_open(), 0, "count_open() inside unmanaged handle scope");
-        assert_eq!(manager.count_open_total(), FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32, "count_open_total() inside unmanaged handle scope");
+        assert_eq!(
+            manager.count_open_total(),
+            FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32,
+            "count_open_total() inside unmanaged handle scope"
+        );
         assert_eq!(
             manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged),
             FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
             "handles_unmanaged_helper() inside unmanaged handle scope"
         );
-        assert_eq!(manager.handles_unmanaged_pending_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_pending_helper() inside unmanaged handle scope");
+        assert_eq!(
+            manager.handles_unmanaged_pending_helper(PATH_ID_A, FileHandleRole::Unmanaged),
+            0,
+            "handles_unmanaged_pending_helper() inside unmanaged handle scope"
+        );
         assert_eq!(
             manager.handles_unmanaged_pending_helper(PATH_ID_B, FileHandleRole::Unmanaged),
             FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
@@ -555,7 +569,11 @@ fn test_planned_unmanaged_request_consumes_multi_slot_reservation() {
     }
 
     assert_eq!(manager.count_open_total(), 0, "count_open_total() after unmanaged handle scope");
-    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_helper() after unmanaged handle scope");
+    assert_eq!(
+        manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged),
+        0,
+        "handles_unmanaged_helper() after unmanaged handle scope"
+    );
     drop(managed);
 
     let summary = manager.summary();
@@ -583,7 +601,11 @@ fn test_planned_unmanaged_request_failure_preserves_reservation() {
 
     assert_eq!(err.kind(), ErrorKind::WouldBlock, "ErrorKind after oversized unmanaged request");
     assert_eq!(manager.count_open_total(), 0, "count_open_total() after oversized unmanaged request");
-    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged), 0, "handles_unmanaged_helper() after oversized unmanaged request");
+    assert_eq!(
+        manager.handles_unmanaged_helper(PATH_ID_A, FileHandleRole::Unmanaged),
+        0,
+        "handles_unmanaged_helper() after oversized unmanaged request"
+    );
     assert_eq!(
         manager.handles_unmanaged_pending_helper(PATH_ID_A, FileHandleRole::Unmanaged),
         FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as usize,
@@ -627,7 +649,11 @@ fn test_too_many_open_files_retry_preserves_planned_managed_slot() {
         )
         .unwrap();
     assert_eq!(manager.count_open(), 1, "count_open() after opening managed handle");
-    assert_eq!(manager.count_open_total(), FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32 + 1, "count_open_total() after opening managed handle");
+    assert_eq!(
+        manager.count_open_total(),
+        FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT as u32 + 1,
+        "count_open_total() after opening managed handle"
+    );
 
     drop(managed);
     drop(unmanaged);
@@ -654,7 +680,11 @@ fn test_handle_unmanaged_reservation_forces_managed_eviction() {
         .unwrap();
     assert_eq!(manager.count_open(), 0, "count_open() after opening unmanaged handle");
     assert_eq!(manager.count_open_total(), 1, "count_open_total() after opening unmanaged handle");
-    assert_eq!(manager.handles_unmanaged_helper(PATH_ID_B, FileHandleRole::Unmanaged), 1, "handles_unmanaged_helper() after opening unmanaged handle");
+    assert_eq!(
+        manager.handles_unmanaged_helper(PATH_ID_B, FileHandleRole::Unmanaged),
+        1,
+        "handles_unmanaged_helper() after opening unmanaged handle"
+    );
 
     let err = manager
         .request_read(PATH_ID_A, FileHandleRole::PrimaryRead)

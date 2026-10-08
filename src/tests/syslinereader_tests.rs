@@ -1,4 +1,3 @@
-
 // src/tests/syslinereader_tests.rs
 //! tests for `syslinereader.rs`
 
@@ -29,6 +28,11 @@ use ::test_case::{
 };
 
 use crate::common::{
+    BOM_UTF8,
+    BOM_UTF16BE,
+    BOM_UTF16LE,
+    BOM_UTF32BE,
+    BOM_UTF32LE,
     Bytes,
     CharSz,
     Count,
@@ -38,30 +42,25 @@ use crate::common::{
     RegexId,
     ResultFind,
     summary_stats_enable,
-    BOM_UTF8,
-    BOM_UTF16BE,
-    BOM_UTF16LE,
-    BOM_UTF32BE,
-    BOM_UTF32LE,
 };
 use crate::data::datetime::{
-    datetime_parse_from_str,
-    ymdhms,
-    ymdhmsn,
+    DATETIME_PARSE_DATAS,
+    DATETIME_PARSE_DATAS_LEN,
     DateTimeL,
     DateTimeLOpt,
     DateTimeParseInstr,
     DateTimeParseInstrsIndex,
     DateTimePattern_str,
     FixedOffset,
+    O_L,
+    REGEX_ALL_COMPILED,
     SystemTime,
     TimeZone,
     Year,
-    DATETIME_PARSE_DATAS,
-    DATETIME_PARSE_DATAS_LEN,
-    O_L,
-    REGEX_ALL_COMPILED,
+    datetime_parse_from_str,
     regex_id_compiled,
+    ymdhms,
+    ymdhmsn,
 };
 use crate::data::line::{
     Line,
@@ -69,14 +68,14 @@ use crate::data::line::{
     LineP,
     LinePart,
 };
+#[cfg(target_family = "unix")]
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::helpers::{
+    NamedTempFile,
     create_temp_file,
     create_temp_file_bytes,
     ntf_fpath,
-    NamedTempFile,
 };
-#[cfg(target_family = "unix")]
-use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::debug::printers::str_to_string_noraw;
 use crate::readers::blockreader::{
     Block,
@@ -85,15 +84,15 @@ use crate::readers::blockreader::{
     BlockSz,
 };
 use crate::readers::filepreprocessor::{
-    fpath_to_filetype,
     PathToFiletypeResult,
+    fpath_to_filetype,
 };
+#[cfg(target_family = "unix")]
+use crate::readers::helpers::path_to_fpath;
 use crate::readers::helpers::{
     fill,
     randomize,
 };
-#[cfg(target_family = "unix")]
-use crate::readers::helpers::path_to_fpath;
 use crate::readers::syslinereader::{
     DateTimeParseDatasIndexes,
     ResultFindDateTime,
@@ -103,16 +102,8 @@ use crate::readers::syslinereader::{
 };
 #[allow(unused_imports)]
 use crate::tests::common::{
-    path_id_generator,
-    eprint_file,
-    encode_utf16be,
-    encode_utf16le,
-    encode_utf32be,
-    encode_utf32le,
-    encode_to_utf8,
-    utf_to_utf8,
-    bytes_to_utf8,
-    FILETYPE_UTF8,
+    FILE_UTF8_BOM_DTF56B_FPATH,
+    FILE_UTF8_DTF56B_FPATH,
     FILE_UTF16BE_BOM_DTF56B_FPATH,
     FILE_UTF16BE_DTF56B_FPATH,
     FILE_UTF16LE_BOM_DTF56B_FPATH,
@@ -121,8 +112,7 @@ use crate::tests::common::{
     FILE_UTF32BE_DTF56B_FPATH,
     FILE_UTF32LE_BOM_DTF56B_FPATH,
     FILE_UTF32LE_DTF56B_FPATH,
-    FILE_UTF8_BOM_DTF56B_FPATH,
-    FILE_UTF8_DTF56B_FPATH,
+    FILETYPE_UTF8,
     FO_0,
     FO_L,
     FO_M5,
@@ -152,6 +142,15 @@ use crate::tests::common::{
     NTF_XZ_1BYTE_FPATH,
     NTF_XZ_8BYTE_FPATH,
     REGEX_ID_DTF56B,
+    bytes_to_utf8,
+    encode_to_utf8,
+    encode_utf16be,
+    encode_utf16le,
+    encode_utf32be,
+    encode_utf32le,
+    eprint_file,
+    path_id_generator,
+    utf_to_utf8,
 };
 use crate::tests::datetime_tests::dt_pattern_has_tz;
 
@@ -217,13 +216,7 @@ fn test_new_SyslineReader_no_file_permissions() {
     let ntf = create_temp_file_no_permissions(".log");
     let path = ntf.path();
     let fpath = path_to_fpath(path);
-    match SyslineReader::new(
-        path_id_generator(),
-        fpath.clone(),
-        FILETYPE_UTF8,
-        1024,
-        FO_0,
-    ) {
+    match SyslineReader::new(path_id_generator(), fpath.clone(), FILETYPE_UTF8, 1024, FO_0) {
         Ok(_) => {
             panic!("no permissions to read {:?}", path);
         }
@@ -356,35 +349,14 @@ fn helper_extract_dtpi_info(
     dtpi: &DateTimeParseInstr,
     index: DateTimeParseInstrsIndex,
     test_case_index: usize,
-) -> (
-    LineIndex,
-    LineIndex,
-    BlockP,
-    Line,
-    DateTimeParseDatasIndexes,
-    Year,
-    FixedOffset,
-    String,
-    DateTimeL,
-    String,
-)
-{
-    let (
-        a_expect,
-        b_expect,
-        zymdhmsn,
-        data
-    ) = dtpi._test_cases.get(test_case_index).unwrap();
+) -> (LineIndex, LineIndex, BlockP, Line, DateTimeParseDatasIndexes, Year, FixedOffset, String, DateTimeL, String) {
+    let (a_expect, b_expect, zymdhmsn, data) = dtpi
+        ._test_cases
+        .get(test_case_index)
+        .unwrap();
     let block: Block = Block::from(data.as_bytes());
     let blockp: BlockP = BlockP::new(block);
-    let linepart = LinePart::new(
-        blockp.clone(),
-        0,
-        data.len() as BlockIndex,
-        0,
-        0,
-        data.len() as BlockSz,
-    );
+    let linepart = LinePart::new(blockp.clone(), 0, data.len() as BlockIndex, 0, 0, data.len() as BlockSz);
     let line = Line::new_from_linepart(linepart);
     let mut indexes: DateTimeParseDatasIndexes = DateTimeParseDatasIndexes::new();
     indexes.push(index);
@@ -396,29 +368,10 @@ fn helper_extract_dtpi_info(
         val => panic!("bad offset value {:?}", val),
     };
     let fo_string: String = fo.to_string();
-    let dt_expect: DateTimeL = ymdhmsn(
-        &fo,
-        year,
-        zymdhmsn.2,
-        zymdhmsn.3,
-        zymdhmsn.4,
-        zymdhmsn.5,
-        zymdhmsn.6,
-        zymdhmsn.7,
-    );
+    let dt_expect: DateTimeL =
+        ymdhmsn(&fo, year, zymdhmsn.2, zymdhmsn.3, zymdhmsn.4, zymdhmsn.5, zymdhmsn.6, zymdhmsn.7);
 
-    (
-        *a_expect,
-        *b_expect,
-        blockp,
-        line,
-        indexes,
-        year,
-        fo,
-        fo_string,
-        dt_expect,
-        dt_expect.to_string(),
-    )
+    (*a_expect, *b_expect, blockp, line, indexes, year, fo, fo_string, dt_expect, dt_expect.to_string())
 }
 
 /// test `SyslineReader::find_datetime_in_line`
@@ -455,20 +408,14 @@ fn test_find_datetime_in_line(regex_id: RegexId) {
         .enumerate()
         .find(|(_, dtpi)| dtpi.regex_id == regex_id)
         .unwrap();
-    for (test_case_index, _test_case_data) in dtpi._test_cases.iter().enumerate() {
+    for (test_case_index, _test_case_data) in dtpi
+        ._test_cases
+        .iter()
+        .enumerate()
+    {
         defo!("test case {:?} {:?} (line num {})", i, test_case_index, dtpi._line_num);
-        let (
-            a_expect,
-            b_expect,
-            _blockp,
-            line,
-            indexes,
-            year,
-            fo,
-            fo_string,
-            dt_expect,
-            dt_expect_string,
-        ) = helper_extract_dtpi_info(dtpi, i, test_case_index);
+        let (a_expect, b_expect, _blockp, line, indexes, year, fo, fo_string, dt_expect, dt_expect_string) =
+            helper_extract_dtpi_info(dtpi, i, test_case_index);
         // assert `SyslineReader::find_datetime_in_line`
         defo!("SyslineReader::find_datetime_in_line(...)");
         match SyslineReader::find_datetime_in_line(
@@ -499,26 +446,19 @@ fn test_find_datetime_in_line(regex_id: RegexId) {
         ) {
             ResultFindDateTime::Ok((a_actual, b_actual, _a_utf8, _b_utf8, dt_actual, index)) => {
                 assert_eq!(
-                    a_expect,
-                    a_actual,
+                    a_expect, a_actual,
                     "\nfind_datetime_in_line() a\nExpected {a_expect:?}\nActual   {a_actual:?}\n",
                 );
                 assert_eq!(
-                    b_expect,
-                    b_actual,
+                    b_expect, b_actual,
                     "\nfind_datetime_in_line() b\nExpected {b_expect:?}\nActual   {b_actual:?}\n",
                 );
                 let dt_actual_string = dt_actual.to_string();
                 assert_eq!(
-                    dt_expect,
-                    dt_actual,
+                    dt_expect, dt_actual,
                     "\nfind_datetime_in_line() dt\nExpected {dt_expect_string:?}\nActual   {dt_actual_string:?}\n",
                 );
-                assert_eq!(
-                    i,
-                    index,
-                    "\nfind_datetime_in_line() index\nExpected {i:?}\nActual   {index:?}\n",
-                );
+                assert_eq!(i, index, "\nfind_datetime_in_line() index\nExpected {i:?}\nActual   {index:?}\n",);
             }
             ResultFindDateTime::Err(err) => {
                 panic!(
@@ -533,7 +473,10 @@ fn test_find_datetime_in_line(regex_id: RegexId) {
 
 #[test_matrix(0..191, (true, false))] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
 /// test `SyslineReader.parse_datetime_in_line_cached`
-fn test_parse_datetime_in_line_cached(regex_id: RegexId, cache: bool) {
+fn test_parse_datetime_in_line_cached(
+    regex_id: RegexId,
+    cache: bool,
+) {
     let mut slr = new_SyslineReader(&*NTF_LOG_EMPTY_FPATH, 0x100, *FO_L);
     slr.set_mtime(UNIX_EPOCH);
     if !cache {
@@ -554,24 +497,18 @@ fn test_parse_datetime_in_line_cached(regex_id: RegexId, cache: bool) {
     };
     defo!("Regex #{regex_id} (line num {})", dtpi._line_num);
     // for each test_case in dtpi._test_cases run parse_datetime_in_line_cached
-    for (test_case_index, _test_case_data) in dtpi._test_cases.iter().enumerate() {
+    for (test_case_index, _test_case_data) in dtpi
+        ._test_cases
+        .iter()
+        .enumerate()
+    {
         eprintln!("\n\n---------------------------------\n");
         if cache {
             slr.LRU_cache_disable();
             slr.LRU_cache_enable();
         }
-        let (
-            a_expect,
-            b_expect,
-            blockp,
-            line,
-            _indexes,
-            year,
-            _fo,
-            _fo_string,
-            dt_expect,
-            dt_expect_string,
-        ) = helper_extract_dtpi_info(dtpi, index_expect, test_case_index);
+        let (a_expect, b_expect, blockp, line, _indexes, year, _fo, _fo_string, dt_expect, dt_expect_string) =
+            helper_extract_dtpi_info(dtpi, index_expect, test_case_index);
         defo!("test case[{test_case_index}] dt_expect {dt_expect_string} ({dt_expect:?})");
         defo!("test case[{test_case_index}] line {}", line.to_string_noraw());
         let linep = LineP::new(line);
@@ -580,45 +517,41 @@ fn test_parse_datetime_in_line_cached(regex_id: RegexId, cache: bool) {
         slr.dt_patterns_update(index_expect);
         // this assert repeats `test_dt_pattern_index_max_count` which is fine
         assert_eq!(
-            slr.dt_pattern_index_max_count(), index_expect,
-            "unexpected dt_pattern_index_max_count, expected {}", index_expect
+            slr.dt_pattern_index_max_count(),
+            index_expect,
+            "unexpected dt_pattern_index_max_count, expected {}",
+            index_expect
         );
         // assert `SyslineReader::parse_datetime_in_line_cached`
         defo!("slr.parse_datetime_in_line_cached(...)");
-        match slr.parse_datetime_in_line_cached(
-            &linep,
-            1 as CharSz,
-            &Some(year)
-        ) {
+        match slr.parse_datetime_in_line_cached(&linep, 1 as CharSz, &Some(year)) {
             ResultFindDateTime::Ok((a_actual, b_actual, _a_utf8, _b_utf8, dt_actual, index_actual)) => {
                 eprintln!("data {:?}", &(*blockp).as_bstr());
                 let slice_ = &(*blockp)[a_actual..b_actual];
                 eprintln!("parse_datetime_in_line_cached() returned [{a_actual}..{b_actual}] {:?}", slice_.as_bstr());
                 eprintln!("parse_datetime_in_line_cached() returned dt_actual {dt_actual}");
                 assert_eq!(
-                    a_expect,
-                    a_actual,
+                    a_expect, a_actual,
                     "\nparse_datetime_in_line_cached() dt beg Regex #{regex_id}\nExpected {a_expect}\nActual   {a_actual}\n",
                 );
                 assert_eq!(
-                    b_expect,
-                    b_actual,
+                    b_expect, b_actual,
                     "\nparse_datetime_in_line_cached() dt end Regex #{regex_id}\nExpected {b_expect}\nActual   {b_actual}\n",
                 );
                 let dt_actual_string = dt_actual.to_string();
                 assert_eq!(
-                    dt_expect,
-                    dt_actual,
+                    dt_expect, dt_actual,
                     "\nparse_datetime_in_line_cached() datetime Regex #{regex_id}\nTest case #{test_case_index}\nExpected {dt_expect_string}\nActual   {dt_actual_string}\n",
                 );
                 assert_eq!(
-                    index_actual,
-                    index_expect,
+                    index_actual, index_expect,
                     "\nfind_datetime_in_line() index Regex #{regex_id}\nTest case #{test_case_index}\nExpected {index_expect}\nActual   {index_actual}\n",
                 );
             }
             ResultFindDateTime::Err(err) => {
-                panic!("returned Error; failed to match test line for Regex #{regex_id} test case #{test_case_index}; Error {err:?}");
+                panic!(
+                    "returned Error; failed to match test line for Regex #{regex_id} test case #{test_case_index}; Error {err:?}"
+                );
             }
         }
     }
@@ -634,18 +567,15 @@ fn test_dt_pattern_index_max_count() {
         slr.dt_patterns_indexes_refresh();
         slr.dt_patterns_update(i);
         let c = slr.dt_pattern_index_max_count();
-        assert_eq!(
-            c, i,
-            "unexpected dt_pattern_index_max_count {}, expected {}", c, i
-        );
+        assert_eq!(c, i, "unexpected dt_pattern_index_max_count {}, expected {}", c, i);
         i += 1;
     }
 }
 
 /// - First `FileOffset` input to `find_sysline_at_datetime_filter`
-/// - Second `&str` input to `datetime_parse_from_str`
-///   The datetime `str` transformed to `DateTimeL` and then passed to
-///   `syslinereader.find_sysline_at_datetime_filter(FileOffset, Some(DateTimeL))`.
+/// - Second `&str` input to `datetime_parse_from_str` The datetime `str` transformed to `DateTimeL`
+///   and then passed to `syslinereader.find_sysline_at_datetime_filter(FileOffset,
+///   Some(DateTimeL))`.
 ///
 /// - Third `ResultFindSysline_Test` is the expected return.
 /// - Fourth (last) `str` is the expected sysline data, in `str` form, returned (this is the tested
@@ -673,13 +603,7 @@ fn impl_test_find_sysline_at_datetime_filter(
     for (fo1, dts, result_expect, sline_expect) in checks.iter() {
         // TODO: add `has_tz` to `checks`
         let has_tz = dt_pattern_has_tz(dt_pattern);
-        defo!(
-            "datetime_parse_from_str({:?}, {:?}, {:?}, {:?})",
-            str_to_string_noraw(dts),
-            dt_pattern,
-            has_tz,
-            &tzo
-        );
+        defo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", str_to_string_noraw(dts), dt_pattern, has_tz, &tzo);
         let dt = match datetime_parse_from_str(dts, dt_pattern, has_tz, &tzo) {
             Some(val) => val,
             None => {
@@ -704,7 +628,9 @@ fn impl_test_find_sysline_at_datetime_filter(
                 );
                 defo!(
                     "Check PASSED SyslineReader().find_sysline_at_datetime_filter({}, {:?}) == {:?}",
-                    fo1, dts, sline_noraw
+                    fo1,
+                    dts,
+                    sline_noraw
                 );
             }
             ResultFindSysline::Done => {}
@@ -848,8 +774,8 @@ lazy_static! {
     };
 }
 
-// TODO: [2022/03/16] create test cases with varying sets of Checks passed-in, current setup is always
-//       clean, sequential series of checks from file_offset 0.
+// TODO: [2022/03/16] create test cases with varying sets of Checks passed-in, current setup is
+// always       clean, sequential series of checks from file_offset 0.
 
 /// a `std::io::Error` does not implement `Copy` or `Clone` which means `std::io::Result`
 /// also does not.
@@ -980,7 +906,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_(
     cache: bool,
     blocksz: BlockSz,
 ) {
-
     impl_test_find_sysline_at_datetime_filter_NTF26(
         cache,
         blocksz,
@@ -2233,7 +2158,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_u(
     cache: bool,
     blocksz: BlockSz,
 ) {
-
     impl_test_find_sysline_at_datetime_filter_NTF26(
         cache,
         blocksz,
@@ -2262,7 +2186,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_v(
     cache: bool,
     blocksz: BlockSz,
 ) {
-
     impl_test_find_sysline_at_datetime_filter_NTF26(
         cache,
         blocksz,
@@ -2291,7 +2214,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_w(
     cache: bool,
     blocksz: BlockSz,
 ) {
-
     impl_test_find_sysline_at_datetime_filter_NTF26(
         cache,
         blocksz,
@@ -2320,16 +2242,10 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_x(
     cache: bool,
     blocksz: BlockSz,
 ) {
-
     impl_test_find_sysline_at_datetime_filter_NTF26(
         cache,
         blocksz,
-        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
-            755,
-            NTF26_DATA_DT24,
-            FOUND,
-            NTF26_DATA_LINE24n,
-        )])),
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(755, NTF26_DATA_DT24, FOUND, NTF26_DATA_LINE24n)])),
     );
 }
 
@@ -2349,16 +2265,10 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_y(
     cache: bool,
     blocksz: BlockSz,
 ) {
-
     impl_test_find_sysline_at_datetime_filter_NTF26(
         cache,
         blocksz,
-        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
-            799,
-            NTF26_DATA_DT25,
-            FOUND,
-            NTF26_DATA_LINE25n,
-        )])),
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(799, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE25n)])),
     );
 }
 
@@ -2378,16 +2288,10 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_z(
     cache: bool,
     blocksz: BlockSz,
 ) {
-
     impl_test_find_sysline_at_datetime_filter_NTF26(
         cache,
         blocksz,
-        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
-            844,
-            NTF26_DATA_DT26,
-            FOUND,
-            NTF26_DATA_LINE26n,
-        )])),
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(844, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE26n)])),
     );
 }
 
@@ -3413,14 +3317,14 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_yaz(
 
 /// - First `FileOffset` input to `find_sysline_between_datetime_filters`
 /// - Second `&str` input to `datetime_parse_from_str`
-/// - Third `&str` input to `datetime_parse_from_str`
-///   Those datetime `str` transformed to `DateTimeL` and then passed to
-///   `syslinereader.find_sysline_between_datetime_filters(FileOffset, Some(DateTimeL), Some(DateTimeL))`.
+/// - Third `&str` input to `datetime_parse_from_str` Those datetime `str` transformed to
+///   `DateTimeL` and then passed to
+///   `syslinereader.find_sysline_between_datetime_filters(FileOffset, Some(DateTimeL),
+///   Some(DateTimeL))`.
 /// - Fourth `ResultFindSysline_Test` is the expected return.
 /// - Fifth (last) `str` is the expected sysline data, in `str` form, returned (this is the tested
 ///   comparison).
-type TestFindSyslineBetweenDatetimeFilterCheck<'a> =
-    (FileOffset, &'a str, &'a str, ResultFindSysline_Test, &'a str);
+type TestFindSyslineBetweenDatetimeFilterCheck<'a> = (FileOffset, &'a str, &'a str, ResultFindSysline_Test, &'a str);
 type TestFindSyslineBetweenDatetimeFilterChecks<'a> = Vec<TestFindSyslineBetweenDatetimeFilterCheck<'a>>;
 
 pub const REGEX_ID_NTF26B: RegexId = 9;
@@ -3447,13 +3351,7 @@ fn impl_test_find_sysline_between_datetime_filter(
     for (fo1, dts_a, dts_b, result_expect, sline_expect) in checks.iter() {
         // TODO: add `has_tz` to `checks`
         let has_tz = dt_pattern_has_tz(dt_pattern);
-        defo!(
-            "datetime_parse_from_str({:?}, {:?}, {:?}, {:?})",
-            str_to_string_noraw(dts_a),
-            dt_pattern,
-            has_tz,
-            &tzo
-        );
+        defo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", str_to_string_noraw(dts_a), dt_pattern, has_tz, &tzo);
         let dt_a = match datetime_parse_from_str(dts_a, dt_pattern, has_tz, &tzo) {
             Some(val) => val,
             None => {
@@ -3462,13 +3360,7 @@ fn impl_test_find_sysline_between_datetime_filter(
         };
 
         let has_tz = dt_pattern_has_tz(dt_pattern);
-        defo!(
-            "datetime_parse_from_str({:?}, {:?}, {:?}, {:?})",
-            str_to_string_noraw(dts_b),
-            dt_pattern,
-            has_tz,
-            &tzo
-        );
+        defo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", str_to_string_noraw(dts_b), dt_pattern, has_tz, &tzo);
         let dt_b = match datetime_parse_from_str(dts_b, dt_pattern, has_tz, &tzo) {
             Some(val) => val,
             None => {
@@ -3494,7 +3386,10 @@ fn impl_test_find_sysline_between_datetime_filter(
                 );
                 defo!(
                     "Check PASSED SyslineReader().find_sysline_between_datetime_filters({}, {:?}, {:?}) == {:?}",
-                    fo1, dts_a, dts_b, sline_noraw
+                    fo1,
+                    dts_a,
+                    dts_b,
+                    sline_noraw
                 );
             }
             ResultFindSysline::Done => {}
@@ -3885,9 +3780,13 @@ impl_test_findsysline: expect value:       {expect_val}\n",
                     expect_String, input_fo, actual_String,
                 );
                 assert_eq!(
-                    &fo, expect_fo,
+                    &fo,
+                    expect_fo,
                     "mismatched fileoffsets returned by file_sysline({}); expected {}, actual {}, filesz {}",
-                    *input_fo, expect_fo, fo, slr.filesz(),
+                    *input_fo,
+                    expect_fo,
+                    fo,
+                    slr.filesz(),
                 );
 
                 if !done_analysis {
@@ -3944,11 +3843,16 @@ const test_data_A2_dt6: &str = concatcp!(
 // remember that `.len()` starts at one, and `FileOffset` starts at zero
 
 const test_data_A2_dt6_sysline0_end: FileOffset = test_data_A2_dt6_sysline0.len() as FileOffset;
-const test_data_A2_dt6_sysline1_end: FileOffset = test_data_A2_dt6_sysline1.len() as FileOffset + test_data_A2_dt6_sysline0_end;
-const test_data_A2_dt6_sysline2_end: FileOffset = test_data_A2_dt6_sysline2.len() as FileOffset + test_data_A2_dt6_sysline1_end;
-const test_data_A2_dt6_sysline3_end: FileOffset = test_data_A2_dt6_sysline3.len() as FileOffset + test_data_A2_dt6_sysline2_end;
-const test_data_A2_dt6_sysline4_end: FileOffset = test_data_A2_dt6_sysline4.len() as FileOffset + test_data_A2_dt6_sysline3_end;
-const test_data_A2_dt6_sysline5_end: FileOffset = test_data_A2_dt6_sysline5.len() as FileOffset + test_data_A2_dt6_sysline4_end;
+const test_data_A2_dt6_sysline1_end: FileOffset =
+    test_data_A2_dt6_sysline1.len() as FileOffset + test_data_A2_dt6_sysline0_end;
+const test_data_A2_dt6_sysline2_end: FileOffset =
+    test_data_A2_dt6_sysline2.len() as FileOffset + test_data_A2_dt6_sysline1_end;
+const test_data_A2_dt6_sysline3_end: FileOffset =
+    test_data_A2_dt6_sysline3.len() as FileOffset + test_data_A2_dt6_sysline2_end;
+const test_data_A2_dt6_sysline4_end: FileOffset =
+    test_data_A2_dt6_sysline4.len() as FileOffset + test_data_A2_dt6_sysline3_end;
+const test_data_A2_dt6_sysline5_end: FileOffset =
+    test_data_A2_dt6_sysline5.len() as FileOffset + test_data_A2_dt6_sysline4_end;
 
 type TestDataA2Dt6Checks = [TestSyslineReaderAnyInputCheck<'static>; 141];
 type TestDataA2Dt6ChecksVec = Vec<TestSyslineReaderAnyInputCheck<'static>>;
@@ -4110,12 +4014,9 @@ fn copy_TestDataA2Dt6Checks(checks: &TestDataA2Dt6Checks) -> TestDataA2Dt6Checks
         let result = match &check.1 {
             ResultFind::Found(_) => FOUND,
             ResultFind::Done => DONE,
-            ResultFind::Err(_) => ResultFindSysline_Test::Err(
-                std::io::Error::new(
-                    std::io::ErrorKind::Other,
-                    "dummy error",
-                )
-            ),
+            ResultFind::Err(_) => {
+                ResultFindSysline_Test::Err(std::io::Error::new(std::io::ErrorKind::Other, "dummy error"))
+            }
         };
         data.push((check.0, result, check.2, check.3));
     }
@@ -4166,8 +4067,7 @@ fn test_find_sysline_A2_dt6(
         Ok(_) => (),
         Err(err) => panic!("stderr flush failed: {}", err),
     };
-    defn!("cache {}, rev_checks {}, swap_ends {}, blocksz 0x{:02X}",
-        cache, rev_checks, swap_ends, blocksz);
+    defn!("cache {}, rev_checks {}, swap_ends {}, blocksz 0x{:02X}", cache, rev_checks, swap_ends, blocksz);
     let mut checks_: TestDataA2Dt6ChecksVec;
     match (rev_checks, swap_ends) {
         (true, true) => {
@@ -4341,8 +4241,10 @@ const test_data_file_E_dt6: &str = concatcp!(
 );
 
 const test_data_file_E_dt6_sysline0_end: FileOffset = test_data_file_E_dt6_sysline0.len() as FileOffset;
-const test_data_file_E_dt6_sysline1_end: FileOffset = test_data_file_E_dt6_sysline0_end + test_data_file_E_dt6_sysline1.len() as FileOffset;
-const test_data_file_E_dt6_sysline2_end: FileOffset = test_data_file_E_dt6_sysline1_end + test_data_file_E_dt6_sysline2.len() as FileOffset;
+const test_data_file_E_dt6_sysline1_end: FileOffset =
+    test_data_file_E_dt6_sysline0_end + test_data_file_E_dt6_sysline1.len() as FileOffset;
+const test_data_file_E_dt6_sysline2_end: FileOffset =
+    test_data_file_E_dt6_sysline1_end + test_data_file_E_dt6_sysline2.len() as FileOffset;
 
 lazy_static! {
     static ref test_SyslineReader_E_ntf: NamedTempFile = create_temp_file(test_data_file_E_dt6);
@@ -4355,9 +4257,12 @@ fn test_find_sysline_E_dt6_0() {
         eprintln!("Regex #{} not compiled", REGEX_ID_E_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(0, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        0,
+        FOUND,
+        test_data_file_E_dt6_sysline0_end,
+        test_data_file_E_dt6_sysline0,
+    )]);
     impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
@@ -4367,9 +4272,12 @@ fn test_find_sysline_E_dt6_1() {
         eprintln!("Regex #{} not compiled", REGEX_ID_E_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(1, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        1,
+        FOUND,
+        test_data_file_E_dt6_sysline0_end,
+        test_data_file_E_dt6_sysline0,
+    )]);
     impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
@@ -4379,9 +4287,12 @@ fn test_find_sysline_E_dt6_22() {
         eprintln!("Regex #{} not compiled", REGEX_ID_E_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(22, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        22,
+        FOUND,
+        test_data_file_E_dt6_sysline0_end,
+        test_data_file_E_dt6_sysline0,
+    )]);
     impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
@@ -4391,9 +4302,12 @@ fn test_find_sysline_E_dt6_42() {
         eprintln!("Regex #{} not compiled", REGEX_ID_E_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(42, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        42,
+        FOUND,
+        test_data_file_E_dt6_sysline0_end,
+        test_data_file_E_dt6_sysline0,
+    )]);
     impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
@@ -4403,11 +4317,12 @@ fn test_find_sysline_E_dt6_43() {
         eprintln!("Regex #{} not compiled", REGEX_ID_E_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [
-            (43, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)
-        ]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        43,
+        FOUND,
+        test_data_file_E_dt6_sysline0_end,
+        test_data_file_E_dt6_sysline0,
+    )]);
     impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
@@ -4417,9 +4332,12 @@ fn test_find_sysline_E_dt6_44() {
         eprintln!("Regex #{} not compiled", REGEX_ID_E_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(44, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        44,
+        FOUND,
+        test_data_file_E_dt6_sysline0_end,
+        test_data_file_E_dt6_sysline0,
+    )]);
     impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
@@ -4429,9 +4347,12 @@ fn test_find_sysline_E_dt6_75() {
         eprintln!("Regex #{} not compiled", REGEX_ID_E_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(75, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        75,
+        FOUND,
+        test_data_file_E_dt6_sysline1_end,
+        test_data_file_E_dt6_sysline1,
+    )]);
     impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
@@ -4441,9 +4362,12 @@ fn test_find_sysline_E_dt6_76() {
         eprintln!("Regex #{} not compiled", REGEX_ID_E_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(76, FOUND, test_data_file_E_dt6_sysline2_end, test_data_file_E_dt6_sysline2)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        76,
+        FOUND,
+        test_data_file_E_dt6_sysline2_end,
+        test_data_file_E_dt6_sysline2,
+    )]);
     impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
@@ -4503,9 +4427,12 @@ const test_data_file_F_dt6: &str = concatcp!(
 // remember that `.len()` starts at one, and `FileOffset` starts at zero
 
 const test_data_file_F_dt6_sysline0_end: FileOffset = test_data_file_F_dt6_sysline0.len() as FileOffset;
-const test_data_file_F_dt6_sysline1_end: FileOffset = test_data_file_F_dt6_sysline0_end + test_data_file_F_dt6_sysline1.len() as FileOffset;
-const test_data_file_F_dt6_sysline2_end: FileOffset = test_data_file_F_dt6_sysline1_end + test_data_file_F_dt6_sysline2.len() as FileOffset;
-const test_data_file_F_dt6_sysline3_end: FileOffset = test_data_file_F_dt6_sysline2_end + test_data_file_F_dt6_sysline3.len() as FileOffset;
+const test_data_file_F_dt6_sysline1_end: FileOffset =
+    test_data_file_F_dt6_sysline0_end + test_data_file_F_dt6_sysline1.len() as FileOffset;
+const test_data_file_F_dt6_sysline2_end: FileOffset =
+    test_data_file_F_dt6_sysline1_end + test_data_file_F_dt6_sysline2.len() as FileOffset;
+const test_data_file_F_dt6_sysline3_end: FileOffset =
+    test_data_file_F_dt6_sysline2_end + test_data_file_F_dt6_sysline3.len() as FileOffset;
 
 lazy_static! {
     static ref test_SyslineReader_F_ntf: NamedTempFile = create_temp_file(test_data_file_F_dt6);
@@ -4518,9 +4445,12 @@ fn test_find_sysline_F_dt6_45() {
         eprintln!("Regex #{} not compiled", REGEX_ID_F_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(45, FOUND, test_data_file_F_dt6_sysline1_end, test_data_file_F_dt6_sysline1)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        45,
+        FOUND,
+        test_data_file_F_dt6_sysline1_end,
+        test_data_file_F_dt6_sysline1,
+    )]);
     impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
@@ -4530,9 +4460,12 @@ fn test_find_sysline_F_dt6_46() {
         eprintln!("Regex #{} not compiled", REGEX_ID_F_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(46, FOUND, test_data_file_F_dt6_sysline1_end, test_data_file_F_dt6_sysline1)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        46,
+        FOUND,
+        test_data_file_F_dt6_sysline1_end,
+        test_data_file_F_dt6_sysline1,
+    )]);
     impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
@@ -4542,9 +4475,12 @@ fn test_find_sysline_F_dt6_47() {
         eprintln!("Regex #{} not compiled", REGEX_ID_F_dt6);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(47, FOUND, test_data_file_F_dt6_sysline2_end, test_data_file_F_dt6_sysline2)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        47,
+        FOUND,
+        test_data_file_F_dt6_sysline2_end,
+        test_data_file_F_dt6_sysline2,
+    )]);
     impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
@@ -4648,9 +4584,12 @@ pub const REGEX_ID_G_dt4: RegexId = 46;
 // remember that `.len()` starts at one, and `FileOffset` starts at zero
 
 const test_data_file_G_dt4_line0_end: FileOffset = test_data_file_G_dt4_line0.len() as FileOffset;
-const test_data_file_G_dt4_sysline1_end: FileOffset = test_data_file_G_dt4_line0_end + test_data_file_G_dt4_sysline1.len() as FileOffset;
-const test_data_file_G_dt4_sysline2_end: FileOffset = test_data_file_G_dt4_sysline1_end + test_data_file_G_dt4_sysline2.len() as FileOffset;
-const test_data_file_G_dt4_sysline3_end: FileOffset = test_data_file_G_dt4_sysline2_end + test_data_file_G_dt4_sysline3.len() as FileOffset;
+const test_data_file_G_dt4_sysline1_end: FileOffset =
+    test_data_file_G_dt4_line0_end + test_data_file_G_dt4_sysline1.len() as FileOffset;
+const test_data_file_G_dt4_sysline2_end: FileOffset =
+    test_data_file_G_dt4_sysline1_end + test_data_file_G_dt4_sysline2.len() as FileOffset;
+const test_data_file_G_dt4_sysline3_end: FileOffset =
+    test_data_file_G_dt4_sysline2_end + test_data_file_G_dt4_sysline3.len() as FileOffset;
 
 lazy_static! {
     static ref test_SyslineReader_G_ntf: NamedTempFile = create_temp_file(test_data_file_G_dt4);
@@ -4663,9 +4602,12 @@ fn test_find_sysline_G_dt4_0() {
         eprintln!("Regex #{} not compiled", REGEX_ID_G_dt4);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(0, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        0,
+        FOUND,
+        test_data_file_G_dt4_sysline1_end,
+        test_data_file_G_dt4_sysline1,
+    )]);
     impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
@@ -4675,12 +4617,10 @@ fn test_find_sysline_G_dt4_42_42() {
         eprintln!("Regex #{} not compiled", REGEX_ID_G_dt4);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [
-            (42, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
-            (42, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
-        ]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([
+        (42, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
+        (42, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
+    ]);
     impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
@@ -4690,9 +4630,12 @@ fn test_find_sysline_G_dt4_43() {
         eprintln!("Regex #{} not compiled", REGEX_ID_G_dt4);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(43, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        43,
+        FOUND,
+        test_data_file_G_dt4_sysline1_end,
+        test_data_file_G_dt4_sysline1,
+    )]);
     impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
@@ -4702,9 +4645,12 @@ fn test_find_sysline_G_dt4_44() {
         eprintln!("Regex #{} not compiled", REGEX_ID_G_dt4);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from(
-        [(44, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2)]
-    );
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        44,
+        FOUND,
+        test_data_file_G_dt4_sysline2_end,
+        test_data_file_G_dt4_sysline2,
+    )]);
     impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
@@ -4759,8 +4705,18 @@ fn test_find_sysline_G_dt4_43_e11_e12_e21() {
     let checks = TestSyslineReaderAnyInputChecks::from([
         (43, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
         (test_data_file_G_dt4_sysline1_end, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
-        (test_data_file_G_dt4_sysline1_end + 2, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
-        (test_data_file_G_dt4_sysline2_end - 1, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
+        (
+            test_data_file_G_dt4_sysline1_end + 2,
+            FOUND,
+            test_data_file_G_dt4_sysline2_end,
+            test_data_file_G_dt4_sysline2,
+        ),
+        (
+            test_data_file_G_dt4_sysline2_end - 1,
+            FOUND,
+            test_data_file_G_dt4_sysline2_end,
+            test_data_file_G_dt4_sysline2,
+        ),
     ]);
     impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
@@ -4771,9 +4727,12 @@ fn test_find_sysline_G_dt4_66() {
         eprintln!("Regex #{} not compiled", REGEX_ID_G_dt4);
         return;
     }
-    let checks = TestSyslineReaderAnyInputChecks::from([
-        (66, FOUND, test_data_file_G_dt4_sysline3_end, test_data_file_G_dt4_sysline3),
-    ]);
+    let checks = TestSyslineReaderAnyInputChecks::from([(
+        66,
+        FOUND,
+        test_data_file_G_dt4_sysline3_end,
+        test_data_file_G_dt4_sysline3,
+    )]);
     impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
@@ -4805,9 +4764,12 @@ const test_data_file_H_dt4: &str = concatcp!(
 );
 
 const test_data_file_H_dt4_sysline0_end: FileOffset = test_data_file_H_dt4_sysline0.len() as FileOffset;
-const test_data_file_H_dt4_sysline1_end: FileOffset = test_data_file_H_dt4_sysline0_end + test_data_file_H_dt4_sysline1.len() as FileOffset;
-const test_data_file_H_dt4_sysline2_end: FileOffset = test_data_file_H_dt4_sysline1_end + test_data_file_H_dt4_sysline2.len() as FileOffset;
-const test_data_file_H_dt4_sysline3_end: FileOffset = test_data_file_H_dt4_sysline2_end + test_data_file_H_dt4_sysline3.len() as FileOffset;
+const test_data_file_H_dt4_sysline1_end: FileOffset =
+    test_data_file_H_dt4_sysline0_end + test_data_file_H_dt4_sysline1.len() as FileOffset;
+const test_data_file_H_dt4_sysline2_end: FileOffset =
+    test_data_file_H_dt4_sysline1_end + test_data_file_H_dt4_sysline2.len() as FileOffset;
+const test_data_file_H_dt4_sysline3_end: FileOffset =
+    test_data_file_H_dt4_sysline2_end + test_data_file_H_dt4_sysline3.len() as FileOffset;
 
 pub const REGEX_ID_H_dt4: RegexId = 46;
 
@@ -4981,7 +4943,8 @@ fn test_datetime_parse_data() {
 /// basic test of `SyslineReader::find_sysline`
 /// read all file offsets but randomly
 ///
-/// TODO: [2021/09] this test was hastily designed for human review. Redesign it for automatic review.
+/// TODO: [2021/09] this test was hastily designed for human review. Redesign it for automatic
+/// review.
 #[allow(non_snake_case)]
 fn impl_test_find_sysline_rand(
     path: &FPath,
@@ -5365,7 +5328,6 @@ lazy_static! {
     pub static ref DTF56B_SYSLINE3_UTF8_STRING: String = String::from(DTF56B_SYSLINE3);
     pub static ref DTF56B_SYSLINE4_UTF8_STRING: String = String::from(DTF56B_SYSLINE4);
     pub static ref DTF56B_SYSLINE5_UTF8_STRING: String = String::from(DTF56B_SYSLINE5);
-
     pub static ref DTF56B_SYSLINE0_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE0);
     pub static ref DTF56B_SYSLINE0_UTF16BE: &'static str = DTF56B_SYSLINE0_UTF16BE_STRING.as_str();
     pub static ref DTF56B_SYSLINE1_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE1);
@@ -5378,7 +5340,6 @@ lazy_static! {
     pub static ref DTF56B_SYSLINE4_UTF16BE: &'static str = DTF56B_SYSLINE4_UTF16BE_STRING.as_str();
     pub static ref DTF56B_SYSLINE5_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE5);
     pub static ref DTF56B_SYSLINE5_UTF16BE: &'static str = DTF56B_SYSLINE5_UTF16BE_STRING.as_str();
-
     pub static ref DTF56B_SYSLINE0_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE0);
     pub static ref DTF56B_SYSLINE0_UTF16LE: &'static str = DTF56B_SYSLINE0_UTF16LE_STRING.as_str();
     pub static ref DTF56B_SYSLINE1_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE1);
@@ -5391,7 +5352,6 @@ lazy_static! {
     pub static ref DTF56B_SYSLINE4_UTF16LE: &'static str = DTF56B_SYSLINE4_UTF16LE_STRING.as_str();
     pub static ref DTF56B_SYSLINE5_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE5);
     pub static ref DTF56B_SYSLINE5_UTF16LE: &'static str = DTF56B_SYSLINE5_UTF16LE_STRING.as_str();
-
     pub static ref DTF56B_SYSLINE0_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE0);
     pub static ref DTF56B_SYSLINE0_UTF32BE: &'static str = DTF56B_SYSLINE0_UTF32BE_STRING.as_str();
     pub static ref DTF56B_SYSLINE1_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE1);
@@ -5404,7 +5364,6 @@ lazy_static! {
     pub static ref DTF56B_SYSLINE4_UTF32BE: &'static str = DTF56B_SYSLINE4_UTF32BE_STRING.as_str();
     pub static ref DTF56B_SYSLINE5_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE5);
     pub static ref DTF56B_SYSLINE5_UTF32BE: &'static str = DTF56B_SYSLINE5_UTF32BE_STRING.as_str();
-
     pub static ref DTF56B_SYSLINE0_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE0);
     pub static ref DTF56B_SYSLINE0_UTF32LE: &'static str = DTF56B_SYSLINE0_UTF32LE_STRING.as_str();
     pub static ref DTF56B_SYSLINE1_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE1);
@@ -5421,84 +5380,312 @@ lazy_static! {
 
 // UTF-8
 const DTF56B_SYSLINE0_OFFSET_UTF8: FileOffset = 0;
-const DTF56B_SYSLINE1_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF8 + DTF56B_SYSLINE0.as_bytes().len() as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF8 + DTF56B_SYSLINE1.as_bytes().len() as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF8 + DTF56B_SYSLINE2.as_bytes().len() as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF8 + DTF56B_SYSLINE3.as_bytes().len() as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF8 + DTF56B_SYSLINE4.as_bytes().len() as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF8 + DTF56B_SYSLINE5.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF8
+    + DTF56B_SYSLINE0
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF8
+    + DTF56B_SYSLINE1
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF8
+    + DTF56B_SYSLINE2
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF8
+    + DTF56B_SYSLINE3
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF8
+    + DTF56B_SYSLINE4
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF8
+    + DTF56B_SYSLINE5
+        .as_bytes()
+        .len() as FileOffset;
 // UTF-8 with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF8_BOM: FileOffset = FileTypeTextEncoding::Utf8BOM.bomsz();
-const DTF56B_SYSLINE1_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF8_BOM + DTF56B_SYSLINE0.as_bytes().len() as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF8_BOM + DTF56B_SYSLINE1.as_bytes().len() as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF8_BOM + DTF56B_SYSLINE2.as_bytes().len() as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF8_BOM + DTF56B_SYSLINE3.as_bytes().len() as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF8_BOM + DTF56B_SYSLINE4.as_bytes().len() as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF8_BOM + DTF56B_SYSLINE5.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF8_BOM
+    + DTF56B_SYSLINE0
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF8_BOM
+    + DTF56B_SYSLINE1
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF8_BOM
+    + DTF56B_SYSLINE2
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF8_BOM
+    + DTF56B_SYSLINE3
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF8_BOM
+    + DTF56B_SYSLINE4
+        .as_bytes()
+        .len() as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF8_BOM
+    + DTF56B_SYSLINE5
+        .as_bytes()
+        .len() as FileOffset;
 // UTF-16 BE
 const DTF56B_SYSLINE0_OFFSET_UTF16BE: FileOffset = 0;
-const DTF56B_SYSLINE1_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16BE + (DTF56B_SYSLINE0.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16BE + (DTF56B_SYSLINE1.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16BE + (DTF56B_SYSLINE2.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16BE + (DTF56B_SYSLINE3.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16BE + (DTF56B_SYSLINE4.as_bytes().len() * 2) as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16BE + (DTF56B_SYSLINE5.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16BE
+    + (DTF56B_SYSLINE0
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16BE
+    + (DTF56B_SYSLINE1
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16BE
+    + (DTF56B_SYSLINE2
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16BE
+    + (DTF56B_SYSLINE3
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16BE
+    + (DTF56B_SYSLINE4
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16BE
+    + (DTF56B_SYSLINE5
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
 // UTF-16 BE with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF16BE_BOM: FileOffset = FileTypeTextEncoding::Utf16beBOM.bomsz();
-const DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE0.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE1.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE2.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE3.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE4.as_bytes().len() * 2) as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE5.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16BE_BOM
+    + (DTF56B_SYSLINE0
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM
+    + (DTF56B_SYSLINE1
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM
+    + (DTF56B_SYSLINE2
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM
+    + (DTF56B_SYSLINE3
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM
+    + (DTF56B_SYSLINE4
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM
+    + (DTF56B_SYSLINE5
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
 // UTF-16 LE
 const DTF56B_SYSLINE0_OFFSET_UTF16LE: FileOffset = 0;
-const DTF56B_SYSLINE1_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16LE + (DTF56B_SYSLINE0.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16LE + (DTF56B_SYSLINE1.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16LE + (DTF56B_SYSLINE2.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16LE + (DTF56B_SYSLINE3.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16LE + (DTF56B_SYSLINE4.as_bytes().len() * 2) as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16LE + (DTF56B_SYSLINE5.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16LE
+    + (DTF56B_SYSLINE0
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16LE
+    + (DTF56B_SYSLINE1
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16LE
+    + (DTF56B_SYSLINE2
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16LE
+    + (DTF56B_SYSLINE3
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16LE
+    + (DTF56B_SYSLINE4
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16LE
+    + (DTF56B_SYSLINE5
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
 // UTF-16 LE with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF16LE_BOM: FileOffset = FileTypeTextEncoding::Utf16leBOM.bomsz();
-const DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE0.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE1.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE2.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE3.as_bytes().len() * 2) as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE4.as_bytes().len() * 2) as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE5.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16LE_BOM
+    + (DTF56B_SYSLINE0
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM
+    + (DTF56B_SYSLINE1
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM
+    + (DTF56B_SYSLINE2
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM
+    + (DTF56B_SYSLINE3
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM
+    + (DTF56B_SYSLINE4
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM
+    + (DTF56B_SYSLINE5
+        .as_bytes()
+        .len()
+        * 2) as FileOffset;
 // UTF-32 BE
 const DTF56B_SYSLINE0_OFFSET_UTF32BE: FileOffset = 0;
-const DTF56B_SYSLINE1_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32BE + (DTF56B_SYSLINE0.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32BE + (DTF56B_SYSLINE1.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32BE + (DTF56B_SYSLINE2.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32BE + (DTF56B_SYSLINE3.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32BE + (DTF56B_SYSLINE4.as_bytes().len() * 4) as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32BE + (DTF56B_SYSLINE5.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32BE
+    + (DTF56B_SYSLINE0
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32BE
+    + (DTF56B_SYSLINE1
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32BE
+    + (DTF56B_SYSLINE2
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32BE
+    + (DTF56B_SYSLINE3
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32BE
+    + (DTF56B_SYSLINE4
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32BE
+    + (DTF56B_SYSLINE5
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
 // UTF-32 BE with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF32BE_BOM: FileOffset = FileTypeTextEncoding::Utf32beBOM.bomsz();
-const DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE0.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE1.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE2.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE3.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE4.as_bytes().len() * 4) as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE5.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32BE_BOM
+    + (DTF56B_SYSLINE0
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM
+    + (DTF56B_SYSLINE1
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM
+    + (DTF56B_SYSLINE2
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM
+    + (DTF56B_SYSLINE3
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM
+    + (DTF56B_SYSLINE4
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM
+    + (DTF56B_SYSLINE5
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
 // UTF-32 LE
 const DTF56B_SYSLINE0_OFFSET_UTF32LE: FileOffset = 0;
-const DTF56B_SYSLINE1_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32LE + (DTF56B_SYSLINE0.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32LE + (DTF56B_SYSLINE1.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32LE + (DTF56B_SYSLINE2.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32LE + (DTF56B_SYSLINE3.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32LE + (DTF56B_SYSLINE4.as_bytes().len() * 4) as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32LE + (DTF56B_SYSLINE5.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32LE
+    + (DTF56B_SYSLINE0
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32LE
+    + (DTF56B_SYSLINE1
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32LE
+    + (DTF56B_SYSLINE2
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32LE
+    + (DTF56B_SYSLINE3
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32LE
+    + (DTF56B_SYSLINE4
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32LE
+    + (DTF56B_SYSLINE5
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
 // UTF-32 LE with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF32LE_BOM: FileOffset = FileTypeTextEncoding::Utf32leBOM.bomsz();
-const DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE0.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE1.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE2.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE3.as_bytes().len() * 4) as FileOffset;
-const DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE4.as_bytes().len() * 4) as FileOffset;
-const DTF56B_FILE_END_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE5.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32LE_BOM
+    + (DTF56B_SYSLINE0
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM
+    + (DTF56B_SYSLINE1
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM
+    + (DTF56B_SYSLINE2
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM
+    + (DTF56B_SYSLINE3
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM
+    + (DTF56B_SYSLINE4
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM
+    + (DTF56B_SYSLINE5
+        .as_bytes()
+        .len()
+        * 4) as FileOffset;
 
 // UTF-8 (no BOM)
 #[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 32, 0, DONE, ES, E; "UTF8 32 0")]
@@ -5795,67 +5982,155 @@ fn test_find_sysline_utf(
         (UTF_8_BOM, _) => (DONE, "", E),
         // UTF-16 BE
         (UTF_16BE, 0..DTF56B_SYSLINE1_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE0_UTF16BE, E),
-        (UTF_16BE, DTF56B_SYSLINE1_OFFSET_UTF16BE..DTF56B_SYSLINE2_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE1_UTF16BE, E),
-        (UTF_16BE, DTF56B_SYSLINE2_OFFSET_UTF16BE..DTF56B_SYSLINE3_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE2_UTF16BE, E),
-        (UTF_16BE, DTF56B_SYSLINE3_OFFSET_UTF16BE..DTF56B_SYSLINE4_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE3_UTF16BE, E),
-        (UTF_16BE, DTF56B_SYSLINE4_OFFSET_UTF16BE..DTF56B_SYSLINE5_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE4_UTF16BE, E),
-        (UTF_16BE, DTF56B_SYSLINE5_OFFSET_UTF16BE..DTF56B_FILE_END_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE5_UTF16BE, E),
+        (UTF_16BE, DTF56B_SYSLINE1_OFFSET_UTF16BE..DTF56B_SYSLINE2_OFFSET_UTF16BE) => {
+            (FOUND, *DTF56B_SYSLINE1_UTF16BE, E)
+        }
+        (UTF_16BE, DTF56B_SYSLINE2_OFFSET_UTF16BE..DTF56B_SYSLINE3_OFFSET_UTF16BE) => {
+            (FOUND, *DTF56B_SYSLINE2_UTF16BE, E)
+        }
+        (UTF_16BE, DTF56B_SYSLINE3_OFFSET_UTF16BE..DTF56B_SYSLINE4_OFFSET_UTF16BE) => {
+            (FOUND, *DTF56B_SYSLINE3_UTF16BE, E)
+        }
+        (UTF_16BE, DTF56B_SYSLINE4_OFFSET_UTF16BE..DTF56B_SYSLINE5_OFFSET_UTF16BE) => {
+            (FOUND, *DTF56B_SYSLINE4_UTF16BE, E)
+        }
+        (UTF_16BE, DTF56B_SYSLINE5_OFFSET_UTF16BE..DTF56B_FILE_END_OFFSET_UTF16BE) => {
+            (FOUND, *DTF56B_SYSLINE5_UTF16BE, E)
+        }
         (UTF_16BE, _) => (DONE, "", E),
         // UTF-16 BE BOM
-        (UTF_16BE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE0_UTF16BE, BOM_UTF16BE.as_slice()),
-        (UTF_16BE_BOM, DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE1_UTF16BE, E),
-        (UTF_16BE_BOM, DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE2_UTF16BE, E),
-        (UTF_16BE_BOM, DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE3_UTF16BE, E),
-        (UTF_16BE_BOM, DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE4_UTF16BE, E),
-        (UTF_16BE_BOM, DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM..DTF56B_FILE_END_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE5_UTF16BE, E),
+        (UTF_16BE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE0_UTF16BE, BOM_UTF16BE.as_slice())
+        }
+        (UTF_16BE_BOM, DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE1_UTF16BE, E)
+        }
+        (UTF_16BE_BOM, DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE2_UTF16BE, E)
+        }
+        (UTF_16BE_BOM, DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE3_UTF16BE, E)
+        }
+        (UTF_16BE_BOM, DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE4_UTF16BE, E)
+        }
+        (UTF_16BE_BOM, DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM..DTF56B_FILE_END_OFFSET_UTF16BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE5_UTF16BE, E)
+        }
         (UTF_16BE_BOM, _) => (DONE, "", E),
         // UTF-16 LE
         (UTF_16LE, 0..DTF56B_SYSLINE1_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE0_UTF16LE, E),
-        (UTF_16LE, DTF56B_SYSLINE1_OFFSET_UTF16LE..DTF56B_SYSLINE2_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE1_UTF16LE, E),
-        (UTF_16LE, DTF56B_SYSLINE2_OFFSET_UTF16LE..DTF56B_SYSLINE3_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE2_UTF16LE, E),
-        (UTF_16LE, DTF56B_SYSLINE3_OFFSET_UTF16LE..DTF56B_SYSLINE4_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE3_UTF16LE, E),
-        (UTF_16LE, DTF56B_SYSLINE4_OFFSET_UTF16LE..DTF56B_SYSLINE5_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE4_UTF16LE, E),
-        (UTF_16LE, DTF56B_SYSLINE5_OFFSET_UTF16LE..DTF56B_FILE_END_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE5_UTF16LE, E),
+        (UTF_16LE, DTF56B_SYSLINE1_OFFSET_UTF16LE..DTF56B_SYSLINE2_OFFSET_UTF16LE) => {
+            (FOUND, *DTF56B_SYSLINE1_UTF16LE, E)
+        }
+        (UTF_16LE, DTF56B_SYSLINE2_OFFSET_UTF16LE..DTF56B_SYSLINE3_OFFSET_UTF16LE) => {
+            (FOUND, *DTF56B_SYSLINE2_UTF16LE, E)
+        }
+        (UTF_16LE, DTF56B_SYSLINE3_OFFSET_UTF16LE..DTF56B_SYSLINE4_OFFSET_UTF16LE) => {
+            (FOUND, *DTF56B_SYSLINE3_UTF16LE, E)
+        }
+        (UTF_16LE, DTF56B_SYSLINE4_OFFSET_UTF16LE..DTF56B_SYSLINE5_OFFSET_UTF16LE) => {
+            (FOUND, *DTF56B_SYSLINE4_UTF16LE, E)
+        }
+        (UTF_16LE, DTF56B_SYSLINE5_OFFSET_UTF16LE..DTF56B_FILE_END_OFFSET_UTF16LE) => {
+            (FOUND, *DTF56B_SYSLINE5_UTF16LE, E)
+        }
         (UTF_16LE, _) => (DONE, "", E),
         // UTF-16 LE BOM
-        (UTF_16LE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE0_UTF16LE, BOM_UTF16LE.as_slice()),
-        (UTF_16LE_BOM, DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE1_UTF16LE, E),
-        (UTF_16LE_BOM, DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE2_UTF16LE, E),
-        (UTF_16LE_BOM, DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE3_UTF16LE, E),
-        (UTF_16LE_BOM, DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE4_UTF16LE, E),
-        (UTF_16LE_BOM, DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM..DTF56B_FILE_END_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE5_UTF16LE, E),
+        (UTF_16LE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE0_UTF16LE, BOM_UTF16LE.as_slice())
+        }
+        (UTF_16LE_BOM, DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE1_UTF16LE, E)
+        }
+        (UTF_16LE_BOM, DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE2_UTF16LE, E)
+        }
+        (UTF_16LE_BOM, DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE3_UTF16LE, E)
+        }
+        (UTF_16LE_BOM, DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE4_UTF16LE, E)
+        }
+        (UTF_16LE_BOM, DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM..DTF56B_FILE_END_OFFSET_UTF16LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE5_UTF16LE, E)
+        }
         (UTF_16LE_BOM, _) => (DONE, "", E),
         // UTF-32 BE
         (UTF_32BE, 0..DTF56B_SYSLINE1_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE0_UTF32BE, E),
-        (UTF_32BE, DTF56B_SYSLINE1_OFFSET_UTF32BE..DTF56B_SYSLINE2_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE1_UTF32BE, E),
-        (UTF_32BE, DTF56B_SYSLINE2_OFFSET_UTF32BE..DTF56B_SYSLINE3_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE2_UTF32BE, E),
-        (UTF_32BE, DTF56B_SYSLINE3_OFFSET_UTF32BE..DTF56B_SYSLINE4_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE3_UTF32BE, E),
-        (UTF_32BE, DTF56B_SYSLINE4_OFFSET_UTF32BE..DTF56B_SYSLINE5_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE4_UTF32BE, E),
-        (UTF_32BE, DTF56B_SYSLINE5_OFFSET_UTF32BE..DTF56B_FILE_END_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE5_UTF32BE, E),
+        (UTF_32BE, DTF56B_SYSLINE1_OFFSET_UTF32BE..DTF56B_SYSLINE2_OFFSET_UTF32BE) => {
+            (FOUND, *DTF56B_SYSLINE1_UTF32BE, E)
+        }
+        (UTF_32BE, DTF56B_SYSLINE2_OFFSET_UTF32BE..DTF56B_SYSLINE3_OFFSET_UTF32BE) => {
+            (FOUND, *DTF56B_SYSLINE2_UTF32BE, E)
+        }
+        (UTF_32BE, DTF56B_SYSLINE3_OFFSET_UTF32BE..DTF56B_SYSLINE4_OFFSET_UTF32BE) => {
+            (FOUND, *DTF56B_SYSLINE3_UTF32BE, E)
+        }
+        (UTF_32BE, DTF56B_SYSLINE4_OFFSET_UTF32BE..DTF56B_SYSLINE5_OFFSET_UTF32BE) => {
+            (FOUND, *DTF56B_SYSLINE4_UTF32BE, E)
+        }
+        (UTF_32BE, DTF56B_SYSLINE5_OFFSET_UTF32BE..DTF56B_FILE_END_OFFSET_UTF32BE) => {
+            (FOUND, *DTF56B_SYSLINE5_UTF32BE, E)
+        }
         (UTF_32BE, _) => (DONE, "", E),
         // UTF-32 BE BOM
-        (UTF_32BE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE0_UTF32BE, BOM_UTF32BE.as_slice()),
-        (UTF_32BE_BOM, DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE1_UTF32BE, E),
-        (UTF_32BE_BOM, DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE2_UTF32BE, E),
-        (UTF_32BE_BOM, DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE3_UTF32BE, E),
-        (UTF_32BE_BOM, DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE4_UTF32BE, E),
-        (UTF_32BE_BOM, DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM..DTF56B_FILE_END_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE5_UTF32BE, E),
+        (UTF_32BE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE0_UTF32BE, BOM_UTF32BE.as_slice())
+        }
+        (UTF_32BE_BOM, DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE1_UTF32BE, E)
+        }
+        (UTF_32BE_BOM, DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE2_UTF32BE, E)
+        }
+        (UTF_32BE_BOM, DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE3_UTF32BE, E)
+        }
+        (UTF_32BE_BOM, DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE4_UTF32BE, E)
+        }
+        (UTF_32BE_BOM, DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM..DTF56B_FILE_END_OFFSET_UTF32BE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE5_UTF32BE, E)
+        }
         (UTF_32BE_BOM, _) => (DONE, "", E),
         // UTF-32 LE
         (UTF_32LE, 0..DTF56B_SYSLINE1_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE0_UTF32LE, E),
-        (UTF_32LE, DTF56B_SYSLINE1_OFFSET_UTF32LE..DTF56B_SYSLINE2_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE1_UTF32LE, E),
-        (UTF_32LE, DTF56B_SYSLINE2_OFFSET_UTF32LE..DTF56B_SYSLINE3_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE2_UTF32LE, E),
-        (UTF_32LE, DTF56B_SYSLINE3_OFFSET_UTF32LE..DTF56B_SYSLINE4_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE3_UTF32LE, E),
-        (UTF_32LE, DTF56B_SYSLINE4_OFFSET_UTF32LE..DTF56B_SYSLINE5_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE4_UTF32LE, E),
-        (UTF_32LE, DTF56B_SYSLINE5_OFFSET_UTF32LE..DTF56B_FILE_END_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE5_UTF32LE, E),
+        (UTF_32LE, DTF56B_SYSLINE1_OFFSET_UTF32LE..DTF56B_SYSLINE2_OFFSET_UTF32LE) => {
+            (FOUND, *DTF56B_SYSLINE1_UTF32LE, E)
+        }
+        (UTF_32LE, DTF56B_SYSLINE2_OFFSET_UTF32LE..DTF56B_SYSLINE3_OFFSET_UTF32LE) => {
+            (FOUND, *DTF56B_SYSLINE2_UTF32LE, E)
+        }
+        (UTF_32LE, DTF56B_SYSLINE3_OFFSET_UTF32LE..DTF56B_SYSLINE4_OFFSET_UTF32LE) => {
+            (FOUND, *DTF56B_SYSLINE3_UTF32LE, E)
+        }
+        (UTF_32LE, DTF56B_SYSLINE4_OFFSET_UTF32LE..DTF56B_SYSLINE5_OFFSET_UTF32LE) => {
+            (FOUND, *DTF56B_SYSLINE4_UTF32LE, E)
+        }
+        (UTF_32LE, DTF56B_SYSLINE5_OFFSET_UTF32LE..DTF56B_FILE_END_OFFSET_UTF32LE) => {
+            (FOUND, *DTF56B_SYSLINE5_UTF32LE, E)
+        }
         (UTF_32LE, _) => (DONE, "", E),
         // UTF-32 LE BOM
-        (UTF_32LE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE0_UTF32LE, BOM_UTF32LE.as_slice()),
-        (UTF_32LE_BOM, DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE1_UTF32LE, E),
-        (UTF_32LE_BOM, DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE2_UTF32LE, E),
-        (UTF_32LE_BOM, DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE3_UTF32LE, E),
-        (UTF_32LE_BOM, DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE4_UTF32LE, E),
-        (UTF_32LE_BOM, DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM..DTF56B_FILE_END_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE5_UTF32LE, E),
+        (UTF_32LE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE0_UTF32LE, BOM_UTF32LE.as_slice())
+        }
+        (UTF_32LE_BOM, DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE1_UTF32LE, E)
+        }
+        (UTF_32LE_BOM, DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE2_UTF32LE, E)
+        }
+        (UTF_32LE_BOM, DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE3_UTF32LE, E)
+        }
+        (UTF_32LE_BOM, DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE4_UTF32LE, E)
+        }
+        (UTF_32LE_BOM, DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM..DTF56B_FILE_END_OFFSET_UTF32LE_BOM) => {
+            (FOUND, *DTF56B_SYSLINE5_UTF32LE, E)
+        }
         (UTF_32LE_BOM, _) => (DONE, "", E),
     };
     let mut expect_string = String::with_capacity(prepend_bom.len() + expect_str.len() + 1);
@@ -5878,7 +6153,8 @@ fn test_find_sysline_utf(
             eprintln!("value_expect_utf8 {:?}", value_expect_utf8);
             eprintln!("value_expect      {:?}", expect_str);
             assert_eq!(
-                &expect_string.as_bytes(), &value_actual.as_bytes(),
+                &expect_string.as_bytes(),
+                &value_actual.as_bytes(),
                 "
 find_sysline({fileoffset})
 
@@ -5891,7 +6167,8 @@ Actual (UTF-8)   {value_actual_utf8:?}
 Expected (bytes) {:?}
 Actual (bytes)   {:?}
 ",
-                &expect_str.as_bytes(), value_bytes,
+                &expect_str.as_bytes(),
+                value_bytes,
             );
             eprintln!("matched Found");
         }
@@ -5906,8 +6183,6 @@ Actual (bytes)   {:?}
 
     defx!();
 }
-
-
 
 // -----------------------------------------------------------------------------
 
@@ -6010,8 +6285,7 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 0);
     assert_eq!(dt_, dt1_a);
 
-    let dt1_b =
-        datetime_parse_from_str("2001-01-01T12:00:00-0100", "%Y-%m-%dT%H:%M:%S%z", true, &tzo).unwrap();
+    let dt1_b = datetime_parse_from_str("2001-01-01T12:00:00-0100", "%Y-%m-%dT%H:%M:%S%z", true, &tzo).unwrap();
     let vec1: Vec<DateTimeL> = vec![dt1_b];
     let (i_, dt_) = match datetime_soonest2(&vec1) {
         Some(val) => val,
@@ -6088,11 +6362,7 @@ fn test_SyslineReader_summary_empty(
     blocksz: BlockSz,
     fixedoffset: FixedOffset,
 ) {
-    let syslinereader = new_SyslineReader(
-        path,
-        blocksz,
-        fixedoffset,
-    );
+    let syslinereader = new_SyslineReader(path, blocksz, fixedoffset);
     _ = syslinereader.summary();
 }
 
@@ -6219,8 +6489,10 @@ fn test_ezcheck_slice(
 ) {
     summary_stats_enable();
     eprintln!("test_ezcheck_slice: regex #{:?}", regex_id);
-    let dtpd: &DateTimeParseInstr = match DATETIME_PARSE_DATAS.iter().find(
-        |d| d.regex_id == regex_id) {
+    let dtpd: &DateTimeParseInstr = match DATETIME_PARSE_DATAS
+        .iter()
+        .find(|d| d.regex_id == regex_id)
+    {
         Some(d) => d,
         None => {
             eprintln!("Regex #{} not compiled; skip test", regex_id);
@@ -6241,8 +6513,7 @@ fn test_ezcheck_slice(
     let mut ezcheck12d2_miss: Count = 0;
     let mut ezcheck12d2_hit_max: LineIndex = 0;
     eprintln!("test_ezcheck_slice: slice: {:?}", slice_.as_bstr());
-    eprintln!("test_ezcheck_slice: dtpd.has_year4: {:?}, dtpd.has_d2: {:?}",
-        dtpd.has_year4(), dtpd.has_d2());
+    eprintln!("test_ezcheck_slice: dtpd.has_year4: {:?}, dtpd.has_d2: {:?}", dtpd.has_year4(), dtpd.has_d2());
     let result = SyslineReader::ezcheck_slice(
         dtpd,
         slice_,
@@ -6285,13 +6556,8 @@ fn test_ezcheck_slice(
 
 lazy_static! {
     static ref DTF_2_20_FPATH: FPath = FPath::from("./logs/other/tests/dtf2-20-out-of-order.log");
-
-    pub static ref DTF_2_20_DT1: DateTimeL = {
-        ymdhms(&FO_0, 2000, 1, 1, 0, 0, 0)
-    };
-    pub static ref DTF_2_20_DT2: DateTimeL = {
-        ymdhms(&FO_0, 2000, 1, 1, 0, 0, 19)
-    };
+    pub static ref DTF_2_20_DT1: DateTimeL = ymdhms(&FO_0, 2000, 1, 1, 0, 0, 0);
+    pub static ref DTF_2_20_DT2: DateTimeL = ymdhms(&FO_0, 2000, 1, 1, 0, 0, 19);
 }
 
 #[test_case(
@@ -6653,7 +6919,8 @@ fn test_syslinereadersummary(
     }
     let summary: SummarySyslineReader = slr.summary();
     eprintln!("\nsummary: {:?}", summary);
-    eprintln!("
+    eprintln!(
+        "
     field: expect actual,
     syslinereader_drop_sysline_ok: {} {},
     syslinereader_drop_sysline_errors: {} {},
@@ -6688,122 +6955,119 @@ fn test_syslinereadersummary(
     syslinereader_ezcheck12d2_miss: {} {},
     syslinereader_ezcheck12d2_hit_max: {} {},
 ",
-        syslinereader_drop_sysline_ok, summary.syslinereader_drop_sysline_ok,
-        syslinereader_drop_sysline_errors, summary.syslinereader_drop_sysline_errors,
-        syslinereader_sysline_longest, summary.syslinereader_sysline_longest,
-        syslinereader_syslines, summary.syslinereader_syslines,
-        syslinereader_syslines_stored_highest, summary.syslinereader_syslines_stored_highest,
-        syslinereader_syslines_hit, summary.syslinereader_syslines_hit,
-        syslinereader_syslines_miss, summary.syslinereader_syslines_miss,
-        syslinereader_syslines_by_range_hit, summary.syslinereader_syslines_by_range_hit,
-        syslinereader_syslines_by_range_miss, summary.syslinereader_syslines_by_range_miss,
-        syslinereader_syslines_by_range_put, summary.syslinereader_syslines_by_range_put,
-        syslinereader_datetime_first, summary.syslinereader_datetime_first,
-        syslinereader_datetime_last, summary.syslinereader_datetime_last,
-        syslinereader_datetime_out_of_order, summary.syslinereader_datetime_out_of_order,
-        syslinereader_find_sysline_lru_cache_hit, summary.syslinereader_find_sysline_lru_cache_hit,
-        syslinereader_find_sysline_lru_cache_miss, summary.syslinereader_find_sysline_lru_cache_miss,
-        syslinereader_find_sysline_lru_cache_put, summary.syslinereader_find_sysline_lru_cache_put,
-        syslinereader_parse_datetime_in_line_lru_cache_hit, summary.syslinereader_parse_datetime_in_line_lru_cache_hit,
-        syslinereader_parse_datetime_in_line_lru_cache_miss, summary.syslinereader_parse_datetime_in_line_lru_cache_miss,
-        syslinereader_parse_datetime_in_line_lru_cache_put, summary.syslinereader_parse_datetime_in_line_lru_cache_put,
-        syslinereader_regex_captures_attempted, summary.syslinereader_regex_captures_attempted,
-        syslinereader_get_boxptrs_singleptr, summary.syslinereader_get_boxptrs_singleptr,
-        syslinereader_get_boxptrs_doubleptr, summary.syslinereader_get_boxptrs_doubleptr,
-        syslinereader_get_boxptrs_multiptr, summary.syslinereader_get_boxptrs_multiptr,
-        syslinereader_ezcheck12_hit, summary.syslinereader_ezcheck12_hit,
-        syslinereader_ezcheck12_miss, summary.syslinereader_ezcheck12_miss,
-        syslinereader_ezcheck12_hit_max, summary.syslinereader_ezcheck12_hit_max,
-        syslinereader_ezcheckd2_hit, summary.syslinereader_ezcheckd2_hit,
-        syslinereader_ezcheckd2_miss, summary.syslinereader_ezcheckd2_miss,
-        syslinereader_ezcheckd2_hit_max, summary.syslinereader_ezcheckd2_hit_max,
-        syslinereader_ezcheck12d2_hit, summary.syslinereader_ezcheck12d2_hit,
-        syslinereader_ezcheck12d2_miss, summary.syslinereader_ezcheck12d2_miss,
-        syslinereader_ezcheck12d2_hit_max, summary.syslinereader_ezcheck12d2_hit_max,
-    );
-    assert_eq!(
         syslinereader_drop_sysline_ok,
         summary.syslinereader_drop_sysline_ok,
-        "syslinereader_drop_sysline_ok 1"
-    );
-    assert_eq!(
         syslinereader_drop_sysline_errors,
         summary.syslinereader_drop_sysline_errors,
+        syslinereader_sysline_longest,
+        summary.syslinereader_sysline_longest,
+        syslinereader_syslines,
+        summary.syslinereader_syslines,
+        syslinereader_syslines_stored_highest,
+        summary.syslinereader_syslines_stored_highest,
+        syslinereader_syslines_hit,
+        summary.syslinereader_syslines_hit,
+        syslinereader_syslines_miss,
+        summary.syslinereader_syslines_miss,
+        syslinereader_syslines_by_range_hit,
+        summary.syslinereader_syslines_by_range_hit,
+        syslinereader_syslines_by_range_miss,
+        summary.syslinereader_syslines_by_range_miss,
+        syslinereader_syslines_by_range_put,
+        summary.syslinereader_syslines_by_range_put,
+        syslinereader_datetime_first,
+        summary.syslinereader_datetime_first,
+        syslinereader_datetime_last,
+        summary.syslinereader_datetime_last,
+        syslinereader_datetime_out_of_order,
+        summary.syslinereader_datetime_out_of_order,
+        syslinereader_find_sysline_lru_cache_hit,
+        summary.syslinereader_find_sysline_lru_cache_hit,
+        syslinereader_find_sysline_lru_cache_miss,
+        summary.syslinereader_find_sysline_lru_cache_miss,
+        syslinereader_find_sysline_lru_cache_put,
+        summary.syslinereader_find_sysline_lru_cache_put,
+        syslinereader_parse_datetime_in_line_lru_cache_hit,
+        summary.syslinereader_parse_datetime_in_line_lru_cache_hit,
+        syslinereader_parse_datetime_in_line_lru_cache_miss,
+        summary.syslinereader_parse_datetime_in_line_lru_cache_miss,
+        syslinereader_parse_datetime_in_line_lru_cache_put,
+        summary.syslinereader_parse_datetime_in_line_lru_cache_put,
+        syslinereader_regex_captures_attempted,
+        summary.syslinereader_regex_captures_attempted,
+        syslinereader_get_boxptrs_singleptr,
+        summary.syslinereader_get_boxptrs_singleptr,
+        syslinereader_get_boxptrs_doubleptr,
+        summary.syslinereader_get_boxptrs_doubleptr,
+        syslinereader_get_boxptrs_multiptr,
+        summary.syslinereader_get_boxptrs_multiptr,
+        syslinereader_ezcheck12_hit,
+        summary.syslinereader_ezcheck12_hit,
+        syslinereader_ezcheck12_miss,
+        summary.syslinereader_ezcheck12_miss,
+        syslinereader_ezcheck12_hit_max,
+        summary.syslinereader_ezcheck12_hit_max,
+        syslinereader_ezcheckd2_hit,
+        summary.syslinereader_ezcheckd2_hit,
+        syslinereader_ezcheckd2_miss,
+        summary.syslinereader_ezcheckd2_miss,
+        syslinereader_ezcheckd2_hit_max,
+        summary.syslinereader_ezcheckd2_hit_max,
+        syslinereader_ezcheck12d2_hit,
+        summary.syslinereader_ezcheck12d2_hit,
+        syslinereader_ezcheck12d2_miss,
+        summary.syslinereader_ezcheck12d2_miss,
+        syslinereader_ezcheck12d2_hit_max,
+        summary.syslinereader_ezcheck12d2_hit_max,
+    );
+    assert_eq!(syslinereader_drop_sysline_ok, summary.syslinereader_drop_sysline_ok, "syslinereader_drop_sysline_ok 1");
+    assert_eq!(
+        syslinereader_drop_sysline_errors, summary.syslinereader_drop_sysline_errors,
         "syslinereader_drop_sysline_errors 2"
     );
     assert_eq!(
-        syslinereader_sysline_longest,
-        summary.syslinereader_sysline_longest,
+        syslinereader_sysline_longest, summary.syslinereader_sysline_longest,
         "syslinereader_sysline_longest 2b"
     );
+    assert_eq!(syslinereader_syslines, summary.syslinereader_syslines, "syslinereader_syslines 3");
     assert_eq!(
-        syslinereader_syslines,
-        summary.syslinereader_syslines,
-        "syslinereader_syslines 3"
-    );
-    assert_eq!(
-        syslinereader_syslines_stored_highest,
-        summary.syslinereader_syslines_stored_highest,
+        syslinereader_syslines_stored_highest, summary.syslinereader_syslines_stored_highest,
         "syslinereader_syslines_stored_highest 4"
     );
+    assert_eq!(syslinereader_syslines_hit, summary.syslinereader_syslines_hit, "syslinereader_syslines_hit 5");
+    assert_eq!(syslinereader_syslines_miss, summary.syslinereader_syslines_miss, "syslinereader_syslines_miss 6");
     assert_eq!(
-        syslinereader_syslines_hit,
-        summary.syslinereader_syslines_hit,
-        "syslinereader_syslines_hit 5"
-    );
-    assert_eq!(
-        syslinereader_syslines_miss,
-        summary.syslinereader_syslines_miss,
-        "syslinereader_syslines_miss 6"
-    );
-    assert_eq!(
-        syslinereader_syslines_by_range_hit,
-        summary.syslinereader_syslines_by_range_hit,
+        syslinereader_syslines_by_range_hit, summary.syslinereader_syslines_by_range_hit,
         "syslinereader_syslines_by_range_hit 7"
     );
     assert_eq!(
-        syslinereader_syslines_by_range_miss,
-        summary.syslinereader_syslines_by_range_miss,
+        syslinereader_syslines_by_range_miss, summary.syslinereader_syslines_by_range_miss,
         "syslinereader_syslines_by_range_miss 8"
     );
     assert_eq!(
-        syslinereader_syslines_by_range_put,
-        summary.syslinereader_syslines_by_range_put,
+        syslinereader_syslines_by_range_put, summary.syslinereader_syslines_by_range_put,
         "syslinereader_syslines_by_range_put 9"
     );
+    assert_eq!(syslinereader_datetime_first, summary.syslinereader_datetime_first, "syslinereader_datetime_first 10");
+    assert_eq!(syslinereader_datetime_last, summary.syslinereader_datetime_last, "syslinereader_datetime_last 11");
     assert_eq!(
-        syslinereader_datetime_first,
-        summary.syslinereader_datetime_first,
-        "syslinereader_datetime_first 10"
-    );
-    assert_eq!(
-        syslinereader_datetime_last,
-        summary.syslinereader_datetime_last,
-        "syslinereader_datetime_last 11"
-    );
-    assert_eq!(
-        syslinereader_datetime_out_of_order,
-        summary.syslinereader_datetime_out_of_order,
+        syslinereader_datetime_out_of_order, summary.syslinereader_datetime_out_of_order,
         "syslinereader_datetime_out_of_order 11b"
     );
     assert_eq!(
-        syslinereader_find_sysline_lru_cache_hit,
-        summary.syslinereader_find_sysline_lru_cache_hit,
+        syslinereader_find_sysline_lru_cache_hit, summary.syslinereader_find_sysline_lru_cache_hit,
         "syslinereader_find_sysline_lru_cache_hit 12"
     );
     assert_eq!(
-        syslinereader_find_sysline_lru_cache_miss,
-        summary.syslinereader_find_sysline_lru_cache_miss,
+        syslinereader_find_sysline_lru_cache_miss, summary.syslinereader_find_sysline_lru_cache_miss,
         "syslinereader_find_sysline_lru_cache_miss 13"
     );
     assert_eq!(
-        syslinereader_find_sysline_lru_cache_put,
-        summary.syslinereader_find_sysline_lru_cache_put,
+        syslinereader_find_sysline_lru_cache_put, summary.syslinereader_find_sysline_lru_cache_put,
         "syslinereader_find_sysline_lru_cache_put 14"
     );
     assert_eq!(
-        syslinereader_parse_datetime_in_line_lru_cache_hit,
-        summary.syslinereader_parse_datetime_in_line_lru_cache_hit,
+        syslinereader_parse_datetime_in_line_lru_cache_hit, summary.syslinereader_parse_datetime_in_line_lru_cache_hit,
         "syslinereader_parse_datetime_in_line_lru_cache_hit 15"
     );
     assert_eq!(
@@ -6812,8 +7076,7 @@ fn test_syslinereadersummary(
         "syslinereader_parse_datetime_in_line_lru_cache_miss 16"
     );
     assert_eq!(
-        syslinereader_parse_datetime_in_line_lru_cache_put,
-        summary.syslinereader_parse_datetime_in_line_lru_cache_put,
+        syslinereader_parse_datetime_in_line_lru_cache_put, summary.syslinereader_parse_datetime_in_line_lru_cache_put,
         "syslinereader_parse_datetime_in_line_lru_cache_put 17"
     );
 
@@ -6845,43 +7108,23 @@ fn test_syslinereadersummary(
         "syslinereader_get_boxptrs_singleptr bad"
     );
     assert_eq!(
-        syslinereader_get_boxptrs_doubleptr,
-        summary.syslinereader_get_boxptrs_doubleptr,
+        syslinereader_get_boxptrs_doubleptr, summary.syslinereader_get_boxptrs_doubleptr,
         "syslinereader_get_boxptrs_doubleptr 20"
     );
     assert_eq!(
-        syslinereader_get_boxptrs_multiptr,
-        summary.syslinereader_get_boxptrs_multiptr,
+        syslinereader_get_boxptrs_multiptr, summary.syslinereader_get_boxptrs_multiptr,
         "syslinereader_get_boxptrs_multiptr 21"
     );
+    assert_eq!(syslinereader_ezcheck12_hit, summary.syslinereader_ezcheck12_hit, "syslinereader_ezcheck12_hit 22");
+    assert_eq!(syslinereader_ezcheck12_miss, summary.syslinereader_ezcheck12_miss, "syslinereader_ezcheck12_miss 23");
     assert_eq!(
-        syslinereader_ezcheck12_hit,
-        summary.syslinereader_ezcheck12_hit,
-        "syslinereader_ezcheck12_hit 22"
-    );
-    assert_eq!(
-        syslinereader_ezcheck12_miss,
-        summary.syslinereader_ezcheck12_miss,
-        "syslinereader_ezcheck12_miss 23"
-    );
-    assert_eq!(
-        syslinereader_ezcheck12_hit_max,
-        summary.syslinereader_ezcheck12_hit_max,
+        syslinereader_ezcheck12_hit_max, summary.syslinereader_ezcheck12_hit_max,
         "syslinereader_ezcheck12_hit_max 24"
     );
+    assert_eq!(syslinereader_ezcheckd2_hit, summary.syslinereader_ezcheckd2_hit, "syslinereader_ezcheckd2_hit 25");
+    assert_eq!(syslinereader_ezcheckd2_miss, summary.syslinereader_ezcheckd2_miss, "syslinereader_ezcheckd2_miss 26");
     assert_eq!(
-        syslinereader_ezcheckd2_hit,
-        summary.syslinereader_ezcheckd2_hit,
-        "syslinereader_ezcheckd2_hit 25"
-    );
-    assert_eq!(
-        syslinereader_ezcheckd2_miss,
-        summary.syslinereader_ezcheckd2_miss,
-        "syslinereader_ezcheckd2_miss 26"
-    );
-    assert_eq!(
-        syslinereader_ezcheckd2_hit_max,
-        summary.syslinereader_ezcheckd2_hit_max,
+        syslinereader_ezcheckd2_hit_max, summary.syslinereader_ezcheckd2_hit_max,
         "syslinereader_ezcheckd2_hit_max 27"
     );
 
@@ -6900,13 +7143,11 @@ fn test_syslinereadersummary(
     );
 
     assert_eq!(
-        syslinereader_ezcheck12d2_miss,
-        summary.syslinereader_ezcheck12d2_miss,
+        syslinereader_ezcheck12d2_miss, summary.syslinereader_ezcheck12d2_miss,
         "syslinereader_ezcheck12d2_miss 29"
     );
     assert_eq!(
-        syslinereader_ezcheck12d2_hit_max,
-        summary.syslinereader_ezcheck12d2_hit_max,
+        syslinereader_ezcheck12d2_hit_max, summary.syslinereader_ezcheck12d2_hit_max,
         "syslinereader_ezcheck12d2_hit_max 30"
     );
 }

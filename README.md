@@ -944,34 +944,15 @@ See the latest [release] for pre-compiled binaries.
   Someday it would be great to have a Rust implementation of that Python-based
   parser ([Issue #443]).
   See [`src/python/s4_event_readers/s4_event_readers`](src/python/s4_event_readers/s4_event_readers).
-- OneDrive Log files (`.odl`, `.odlgz`, `.aodl`, `.odlsent`) are parsed natively
-  without Python. ODL versions 2 and 3 are supported, including internal gzip
+- OneDrive Log files (`.odl`, `.odlgz`, `.aodl`, `.odlsent`) are parsed natively.
+  ODL versions 2 and 3 are supported, including internal gzip
   after the ODL header. Events are buffered and sorted by timestamp.
-  Printed ODL messages begin with the local ISO 8601 datetime, including
-  three-digit milliseconds and the UTC offset (for example,
-  `2026-10-06T13:53:45.676-07:00`).
   Unknown parameter layouts remain undecoded; recognized UTF-8 string parameters
   are extracted with their original bytes retained by the parser.
   Legacy `ObfuscationStringMap.txt` and version-1 JSON `general.keystore`
   companions are discovered beside the original log (also within tar archives),
   including `EncryptionKeyStoreCopy/general.keystore`. Protected strings require
-  the matching originating map/key. Each log's `--summary` lists the paths of
-  successfully loaded supplementary files, including member paths within tar
-  archives, and separately lists searched paths that were missing or inaccessible.
-  Permission errors are reported; malformed files are not classified as missing.
-  Without matching companions, original tokens are retained
-  and a decoding warning is reported. Keys are not required for structural
-  parsing. Unsupported file/keystore versions and damaged records are reported.
-  These companion files can contain secrets: keep collected keys and decoded
-  personal output private. Administrator access is not normally required for
-  readable files in your own profile.
-  Parser limits are 1 MiB per record payload, 64 KiB per source/function or
-  decoded parameter string, 4096 extracted parameters per record, 4 MiB of
-  decoded parameters per record (including separators), and 16 MiB per companion
-  file, 100,000 legacy-map entries, and 64 AES keys per source. Limits are checked
-  before unbounded allocation or decoding expansion.
-  Accepted rendered events remain buffered for chronological sorting, so total
-  memory grows with the accepted event count.
+  the matching originating map/key.
 - `.etl` files are parsed natively. Events with self-describing TraceLogging
   metadata and kernel `EventTrace` header events are fully decoded. Events that
   require an external manifest or WPP `.tmf`/`.pdb` files are printed with their

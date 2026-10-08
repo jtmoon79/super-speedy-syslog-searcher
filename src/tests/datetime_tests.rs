@@ -16,6 +16,39 @@ use ::chrono::{
     Datelike,
     Timelike,
 };
+use ::ere_datetimes_impl::{
+    CGN_ALL,
+    CGP_DAY_ALL,
+    CGP_EPOCH_ALL,
+    CGP_FRACTIONAL_ALL,
+    CGP_HOUR_ALL,
+    CGP_MINUTE_ALL,
+    CGP_MONTH_ALL,
+    CGP_SECOND_ALL,
+    CGP_TZ_ALL,
+    CGP_TZZ,
+    CGP_YEAR_ALL,
+    DATETIME_PARSE_DATAS,
+    DTFS_Epoch,
+    DTFS_Tz,
+    DTFS_Uptime,
+    DTFS_Year,
+    DTFSS_ALL,
+    DTFSSet,
+    DTP_ALL,
+    DTP_BdHMS,
+    DTP_mdHMYZc,
+    DTP_s,
+    DTP_s3fT,
+    DTP_sf,
+    DUMMY_ARGS,
+    DateTimePattern_str,
+    DateTimeRegex_str,
+    O_L,
+    RP_LB,
+    RP_RB,
+    ymdhmsn_args,
+};
 use ::more_asserts::{
     assert_gt,
     assert_le,
@@ -38,13 +71,8 @@ use crate::common::{
     RegexId,
 };
 use crate::data::datetime::{
-    bytes_to_regex_to_datetime,
-    datetime_from_str_workaround_Issue660,
-    datetime_parse_from_str,
     DateTimeL,
     DateTimeLOpt,
-    dt_after_or_before,
-    dt_pass_filters,
     FixedOffset,
     LineIndex,
     MAP_TZZ_TO_TZz,
@@ -53,17 +81,22 @@ use crate::data::datetime::{
     SystemTime,
     YEAR_FALLBACKDUMMY_VAL,
     Year,
+    bytes_to_regex_to_datetime,
+    datetime_from_str_workaround_Issue660,
+    datetime_parse_from_str,
+    dt_after_or_before,
+    dt_pass_filters,
     ymdhms,
     ymdhmsm,
     ymdhmsn,
 };
 use crate::data::slice_contains::{
     slice_contains_12_D2,
-    slice_contains_D2_custom,
     slice_contains_D2,
+    slice_contains_D2_custom,
+    slice_contains_X_2,
     slice_contains_X_2_memchr,
     slice_contains_X_2_unroll,
-    slice_contains_X_2,
 };
 #[cfg(feature = "bench_jetscii")]
 use crate::data::slice_contains::{
@@ -74,39 +107,6 @@ use crate::data::slice_contains::{
 use crate::data::slice_contains::{
     slice_contains_D2_stringzilla,
     slice_contains_X_2_stringzilla,
-};
-use ::ere_datetimes_impl::{
-    CGN_ALL,
-    CGP_DAY_ALL,
-    CGP_EPOCH_ALL,
-    CGP_FRACTIONAL_ALL,
-    CGP_HOUR_ALL,
-    CGP_MINUTE_ALL,
-    CGP_MONTH_ALL,
-    CGP_SECOND_ALL,
-    CGP_TZ_ALL,
-    CGP_TZZ,
-    CGP_YEAR_ALL,
-    DateTimePattern_str,
-    DateTimeRegex_str,
-    DTFS_Epoch,
-    DTFS_Tz,
-    DTFS_Uptime,
-    DTFS_Year,
-    DTFSSet,
-    DTP_BdHMS,
-    DTP_mdHMYZc,
-    DTP_s,
-    DTP_sf,
-    DTP_s3fT,
-    DTP_ALL,
-    DTFSS_ALL,
-    DUMMY_ARGS,
-    O_L,
-    DATETIME_PARSE_DATAS,
-    RP_LB,
-    RP_RB,
-    ymdhmsn_args,
 };
 use crate::debug::printers::buffer_to_string_noraw;
 use crate::tests::common::{
@@ -123,47 +123,65 @@ use crate::tests::common::{
 
 /// does regex pattern have a year?
 pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {
-    CGP_YEAR_ALL.iter().any(|pat| pattern.contains(pat))
+    CGP_YEAR_ALL
+        .iter()
+        .any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a month?
 pub fn regex_pattern_has_month(pattern: &DateTimeRegex_str) -> bool {
-    CGP_MONTH_ALL.iter().any(|pat| pattern.contains(pat))
+    CGP_MONTH_ALL
+        .iter()
+        .any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a day?
 pub fn regex_pattern_has_day(pattern: &DateTimeRegex_str) -> bool {
-    CGP_DAY_ALL.iter().any(|pat| pattern.contains(pat))
+    CGP_DAY_ALL
+        .iter()
+        .any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a hour?
 pub fn regex_pattern_has_hour(pattern: &DateTimeRegex_str) -> bool {
-    CGP_HOUR_ALL.iter().any(|pat| pattern.contains(pat))
+    CGP_HOUR_ALL
+        .iter()
+        .any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a minute?
 pub fn regex_pattern_has_minute(pattern: &DateTimeRegex_str) -> bool {
-    CGP_MINUTE_ALL.iter().any(|pat| pattern.contains(pat))
+    CGP_MINUTE_ALL
+        .iter()
+        .any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a second?
 pub fn regex_pattern_has_second(pattern: &DateTimeRegex_str) -> bool {
-    CGP_SECOND_ALL.iter().any(|pat| pattern.contains(pat))
+    CGP_SECOND_ALL
+        .iter()
+        .any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a fractional second?
 pub fn regex_pattern_has_fractional(pattern: &DateTimeRegex_str) -> bool {
-    CGP_FRACTIONAL_ALL.iter().any(|pat| pattern.contains(pat))
+    CGP_FRACTIONAL_ALL
+        .iter()
+        .any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a timezone?
 pub fn regex_pattern_has_tz(pattern: &DateTimeRegex_str) -> bool {
-    CGP_TZ_ALL.iter().any(|pat| pattern.contains(pat))
+    CGP_TZ_ALL
+        .iter()
+        .any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a epoch?
 pub fn regex_pattern_has_epoch(pattern: &DateTimeRegex_str) -> bool {
-    CGP_EPOCH_ALL.iter().any(|pat| pattern.contains(pat))
+    CGP_EPOCH_ALL
+        .iter()
+        .any(|pat| pattern.contains(pat))
 }
 
 // chrono strftime formats https://docs.rs/chrono/latest/chrono/format/strftime/
@@ -296,11 +314,7 @@ fn test_DATETIME_PARSE_DATAS_duplicates() {
             }
             let patt_i = DATETIME_PARSE_DATAS[i].regex_pattern;
             let patt_j = DATETIME_PARSE_DATAS[j].regex_pattern;
-            assert_ne!(
-                patt_i, patt_j,
-                "duplicate DTFSS_ALL[{}] == DTFSS_ALL[{}] ({:?} == {:?})",
-                i, j, patt_i, patt_j,
-            );
+            assert_ne!(patt_i, patt_j, "duplicate DTFSS_ALL[{}] == DTFSS_ALL[{}] ({:?} == {:?})", i, j, patt_i, patt_j,);
         }
     }
 }
@@ -331,9 +345,13 @@ fn test_DATETIME_PARSE_DATAS_regex_id_sequential() {
         let regex_id_i = DATETIME_PARSE_DATAS[i].regex_id;
         let regex_id_j = DATETIME_PARSE_DATAS[i + 1].regex_id;
         assert_lt!(
-            regex_id_i, regex_id_j,
+            regex_id_i,
+            regex_id_j,
             "regex_id at [{}] [{}] is not sequential ({} !< {})",
-            i, i + 1, regex_id_i, regex_id_j,
+            i,
+            i + 1,
+            regex_id_i,
+            regex_id_j,
         );
     }
 }
@@ -345,7 +363,11 @@ fn test_DATETIME_PARSE_DATAS_regex_id_sequential() {
 fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     stack_offset_set(Some(2));
 
-    let (index, dtpd) = match DATETIME_PARSE_DATAS.iter().enumerate().find(|(_, dtpd)| dtpd.regex_id == regex_id) {
+    let (index, dtpd) = match DATETIME_PARSE_DATAS
+        .iter()
+        .enumerate()
+        .find(|(_, dtpd)| dtpd.regex_id == regex_id)
+    {
         Some(dtpd) => dtpd,
         None => {
             eprintln!("No DateTimeParseInstr found for regex_id {}", regex_id);
@@ -401,9 +423,11 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     // while the pattern could intentionally start with "^" and start past 0,
     // it is most likely a user error
     if dtpat.starts_with('^') {
-        assert_eq!(dtpd.range_regex.start, 0,
+        assert_eq!(
+            dtpd.range_regex.start, 0,
             "Pattern user beginning of line yet range starts at {:?}, expected start at 0",
-            dtpd.range_regex.start);
+            dtpd.range_regex.start
+        );
     }
 
     // check year
@@ -570,11 +594,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     assert_eq!(
         rp_ss, dp_ss,
         "regex pattern has second {}, datetime pattern has second {}; they must agree; second {:?}, declared at line {}\n  regex pattern: {:?}\n  datetime pattern: {:?}\n",
-        rp_ss, dp_ss,
-        dtfs.second,
-        dtpd._line_num,
-        regpat,
-        dtpat,
+        rp_ss, dp_ss, dtfs.second, dtpd._line_num, regpat, dtpat,
     );
     // check fractional
     eprintln!("Check fractional {:?}…", dtfs.fractional);
@@ -583,11 +603,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     assert_eq!(
         rp_ss, dp_ss,
         "regex pattern has fractional {}, datetime pattern has fractional {}; they must agree; fractional {:?}, declared at line {}\n  regex pattern: {:?}\n  datetime pattern: {:?}\n",
-        rp_ss, dp_ss,
-        dtfs.fractional,
-        dtpd._line_num,
-        regpat,
-        dtpat,
+        rp_ss, dp_ss, dtfs.fractional, dtpd._line_num, regpat, dtpat,
     );
     // check timezone
     eprintln!("Check timezone {:?}…", dtfs.tz);
@@ -640,25 +656,18 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
         assert_eq!(
             rp_ss, dp_ss,
             "regex_pattern has epoch {}, datetime pattern has epoch {}; they must agree; declared at line {}\n  regex pattern: {:?}\n  dt_pattern {:?}\n",
-            rp_ss, dp_ss,
-            dtpd._line_num,
-            regpat,
-            dtpat,
+            rp_ss, dp_ss, dtpd._line_num, regpat, dtpat,
         );
     } else {
         assert!(
             !rp_ss,
             "regex_pattern has epoch {:?} but dtfs has uptime {:?}; declared at line {}",
-            regpat,
-            dtfs.uptime,
-            dtpd._line_num
+            regpat, dtfs.uptime, dtpd._line_num
         );
         assert!(
             dp_ss,
             "dt_pattern has epoch {:?} but dtfs has uptime {:?}; declared at line {}",
-            dtpat,
-            dtfs.uptime,
-            dtpd._line_num
+            dtpat, dtfs.uptime, dtpd._line_num
         );
     }
     // check test data
@@ -704,9 +713,11 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
             eprintln!();
         }
     }
-    assert_eq!(cgn_first_s, dtpd.cgn_first,
+    assert_eq!(
+        cgn_first_s, dtpd.cgn_first,
         "cgn_first is {:?}, but analysis of the regexp found the first capture named group {:?}; declared at line {}",
-        dtpd.cgn_first, cgn_first_s, dtpd._line_num);
+        dtpd.cgn_first, cgn_first_s, dtpd._line_num
+    );
     // check cgn_last
     assert!(
         regpat.contains(dtpd.cgn_last),
@@ -740,25 +751,31 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     assert_eq!(
         cgn_last_s, dtpd.cgn_last,
         "cgn_last is {:?}, but analysis of the regexp found the last capture named group {:?}; declared at line {}",
-        dtpd.cgn_last, cgn_last_s, dtpd._line_num);
+        dtpd.cgn_last, cgn_last_s, dtpd._line_num
+    );
 
     // check left-brackets and right-brackets are equally present and on correct sides
     if let Some(lb_i) = regpat.find(RP_LB) {
         let rb_i = match regpat.find(RP_RB) {
             Some(i) => i,
             None => {
-                panic!(
-                    "regex pattern has RP_LB at {} but no RP_RB found; declared at line {}",
-                    lb_i, dtpd._line_num
-                );
+                panic!("regex pattern has RP_LB at {} but no RP_RB found; declared at line {}", lb_i, dtpd._line_num);
             }
         };
-        assert_lt!(lb_i, rb_i,
+        assert_lt!(
+            lb_i,
+            rb_i,
             "regex pattern has RP_LB (left bracket) at {}, RP_RB (right bracket) at {}; declared at line {}",
-            lb_i, rb_i, dtpd._line_num);
+            lb_i,
+            rb_i,
+            dtpd._line_num
+        );
     }
     if regpat.find(RP_RB).is_some() && regpat.find(RP_LB).is_none() {
-        panic!("regex pattern has RP_RB (right bracket) no RP_LB (left bracket) found; declared at line {}", dtpd._line_num);
+        panic!(
+            "regex pattern has RP_RB (right bracket) no RP_LB (left bracket) found; declared at line {}",
+            dtpd._line_num
+        );
     }
 
     //
@@ -770,7 +787,11 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     eprintln!("  Regex Pattern (no raw): {}", r_noraw);
     eprintln!("  DateTime Pattern  : {:?}", dtpd.dtfs.pattern);
     let dummy_fpath: FPath = FPath::from("test_DATETIME_PARSE_DATAS_test_cases");
-    for (i, test_case_) in dtpd._test_cases.iter().enumerate() {
+    for (i, test_case_) in dtpd
+        ._test_cases
+        .iter()
+        .enumerate()
+    {
         eprintln!("  Test Data[{i:3}] all?      : {:?}", test_case_);
         let test_case_s: String = buffer_to_string_noraw(test_case_.3);
         eprintln!("  Test Data[{i:3}]           : ({})", test_case_s);
@@ -780,7 +801,12 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
         let slice_a: usize = std::cmp::min(dtpd.range_regex.start, data.len());
         let slice_b: usize = std::cmp::min(dtpd.range_regex.end, data.len());
         let slice_ = &data[slice_a..slice_b];
-        eprintln!("  Test Data slice [{:2},{:4}]: {:?}", dtpd.range_regex.start, dtpd.range_regex.end, slice_.as_bstr());
+        eprintln!(
+            "  Test Data slice [{:2},{:4}]: {:?}",
+            dtpd.range_regex.start,
+            dtpd.range_regex.end,
+            slice_.as_bstr()
+        );
         let dta: LineIndex = test_case_.0;
         let dtb: LineIndex = test_case_.1;
         assert_lt!(dta, dtb, "bad indexes");
@@ -789,11 +815,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
         if !dtpd.dtfs.has_year() {
             year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
         }
-        let uptime_zero_opt: Option<SystemTime> = if dtpd.dtfs.has_uptime() {
-            Some(UNIX_EPOCH)
-        } else {
-            None
-        };
+        let uptime_zero_opt: Option<SystemTime> = if dtpd.dtfs.has_uptime() { Some(UNIX_EPOCH) } else { None };
         let s = buffer_to_string_noraw(data);
         match bytes_to_regex_to_datetime(
             slice_,
@@ -817,9 +839,16 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
                 let s_a_b = buffer_to_string_noraw(data[a..b].as_bstr());
                 let s_dta_dtb = buffer_to_string_noraw(data[dta..dtb].as_bstr());
                 assert_eq!(
-                    (dta, dtb), (a, b),
+                    (dta, dtb),
+                    (a, b),
                     "For regex #{} dtpd at line {:?} unexpected index returned\n  test data \"{}\"\n  expect {:?} {:?}\n  actual {:?} {:?}\n",
-                    dtpd.regex_id, dtpd._line_num, s, (dta, dtb), &s_dta_dtb, (a, b), &s_a_b,
+                    dtpd.regex_id,
+                    dtpd._line_num,
+                    s,
+                    (dta, dtb),
+                    &s_dta_dtb,
+                    (a, b),
+                    &s_a_b,
                 );
                 let ymdhmsn_args_: ymdhmsn_args = test_case_.2;
                 if ymdhmsn_args_ != DUMMY_ARGS {
@@ -863,43 +892,103 @@ fn test_Map_TZ_names() {
     let regex = regex::Regex::new(CGP_TZZ).unwrap();
     // tz_name example "PST" or "pst"
     // tz_val example "-07:00"
-    for (tz_name, tz_val) in MAP_TZZ_TO_TZz.entries()  {
+    for (tz_name, tz_val) in MAP_TZZ_TO_TZz.entries() {
         let tz_name_u = tz_name.to_ascii_uppercase();
         let tz_name_l = tz_name.to_ascii_lowercase();
-        assert!(tz_name == &tz_name_u.as_str() || tz_name == &tz_name_l.as_str(),
-            "Bad timezone name {:?} not all uppercase or all lowercase", tz_name
+        assert!(
+            tz_name == &tz_name_u.as_str() || tz_name == &tz_name_l.as_str(),
+            "Bad timezone name {:?} not all uppercase or all lowercase",
+            tz_name
         );
-        assert!(MAP_TZZ_TO_TZz.contains_key(&tz_name_u),
-            "Key {:?} as uppercase {:?} not found in MAP_TZZ_TO_TZz", tz_name, tz_name_u
+        assert!(
+            MAP_TZZ_TO_TZz.contains_key(&tz_name_u),
+            "Key {:?} as uppercase {:?} not found in MAP_TZZ_TO_TZz",
+            tz_name,
+            tz_name_u
         );
-        assert!(MAP_TZZ_TO_TZz.contains_key(&tz_name_l),
-            "Key {:?} as lowercase {:?} not found in MAP_TZZ_TO_TZz", tz_name, tz_name_l
+        assert!(
+            MAP_TZZ_TO_TZz.contains_key(&tz_name_l),
+            "Key {:?} as lowercase {:?} not found in MAP_TZZ_TO_TZz",
+            tz_name,
+            tz_name_l
         );
         assert!(regex.is_match(tz_name), "Key {:?} from MAP_TZZ_TO_TZz not matched by CGP_TZZ Regex", tz_name);
-        let captures = regex.captures(tz_name).unwrap();
+        let captures = regex
+            .captures(tz_name)
+            .unwrap();
         assert_eq!(captures.len(), 2, "CGP_TZZ Regex captured {:?} != 2 expected", captures.len());
-        let tz_name_captured = captures.get(1).unwrap().as_str();
-        assert_eq!(&tz_name_captured, tz_name, "CGP_TZZ Regex captured {:?} != {:?} expected", tz_name_captured, tz_name);
+        let tz_name_captured = captures
+            .get(1)
+            .unwrap()
+            .as_str();
+        assert_eq!(
+            &tz_name_captured, tz_name,
+            "CGP_TZZ Regex captured {:?} != {:?} expected",
+            tz_name_captured, tz_name
+        );
         assert!(CGP_TZZ.contains(tz_name), "CGP_TZZ does not contain name {:?} from MAP_TZZ_TO_TZz", tz_name);
         if !tz_val.is_empty() {
-            assert_eq!(tz_val.len(), 6, "Bad timezone value {:?} length {:?} for entry {:?}", tz_val, tz_val.len(), tz_name);
-            assert!("+-".contains(tz_val.chars().nth(0).unwrap()), "Bad timezone value starts_with {:?} for entry {:?}", tz_val, tz_name);
-            assert!("01".contains(tz_val.chars().nth(1).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);
-            assert!("0123456789".contains(tz_val.chars().nth(2).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);
-            assert!(":".contains(tz_val.chars().nth(3).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);
-            assert!(tz_val.ends_with(":00") || tz_val.ends_with(":30") || tz_val.ends_with(":45"),
-                "Bad timezone value ends_with {:?} for entry {:?}", tz_val, tz_name);
+            assert_eq!(
+                tz_val.len(),
+                6,
+                "Bad timezone value {:?} length {:?} for entry {:?}",
+                tz_val,
+                tz_val.len(),
+                tz_name
+            );
+            assert!(
+                "+-".contains(tz_val.chars().nth(0).unwrap()),
+                "Bad timezone value starts_with {:?} for entry {:?}",
+                tz_val,
+                tz_name
+            );
+            assert!(
+                "01".contains(tz_val.chars().nth(1).unwrap()),
+                "Bad timezone value {:?} for entry {:?}",
+                tz_val,
+                tz_name
+            );
+            assert!(
+                "0123456789".contains(tz_val.chars().nth(2).unwrap()),
+                "Bad timezone value {:?} for entry {:?}",
+                tz_val,
+                tz_name
+            );
+            assert!(
+                ":".contains(tz_val.chars().nth(3).unwrap()),
+                "Bad timezone value {:?} for entry {:?}",
+                tz_val,
+                tz_name
+            );
+            assert!(
+                tz_val.ends_with(":00") || tz_val.ends_with(":30") || tz_val.ends_with(":45"),
+                "Bad timezone value ends_with {:?} for entry {:?}",
+                tz_val,
+                tz_name
+            );
             assert!(tz_val.contains(':'), "Bad timezone value {:?} not contains ':' for entry {:?}", tz_val, tz_name);
         } else {
             // empty value means the name is ambiguous
-            let tz_val_u = MAP_TZZ_TO_TZz.get(&tz_name_u.as_str()).unwrap();
-            let tz_val_l = MAP_TZZ_TO_TZz.get(&tz_name_l.as_str()).unwrap();
-            assert!(tz_val_u.is_empty(),
+            let tz_val_u = MAP_TZZ_TO_TZz
+                .get(&tz_name_u.as_str())
+                .unwrap();
+            let tz_val_l = MAP_TZZ_TO_TZz
+                .get(&tz_name_l.as_str())
+                .unwrap();
+            assert!(
+                tz_val_u.is_empty(),
                 "Ambiguous timezone name {:?} has uppercase version {:?} that is not empty {:?}",
-                tz_name, tz_name_u, tz_val_u);
-            assert!(tz_val_l.is_empty(),
+                tz_name,
+                tz_name_u,
+                tz_val_u
+            );
+            assert!(
+                tz_val_l.is_empty(),
                 "Ambiguous timezone name {:?} has lowercase version {:?} that is not empty {:?}",
-                tz_name, tz_name_l, tz_val_l);
+                tz_name,
+                tz_name_l,
+                tz_val_l
+            );
         }
     }
     let start = CGP_TZZ.find('>');
@@ -1228,7 +1317,10 @@ fn test_dt_after_or_before() {
         datetime_parse_from_str(s, "%Y%m%dT%H%M%S", false, &tz_offset).unwrap()
     }
 
-    fn DTLz(s: &str, tz_offset: &FixedOffset) -> DateTimeL {
+    fn DTLz(
+        s: &str,
+        tz_offset: &FixedOffset,
+    ) -> DateTimeL {
         datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, tz_offset).unwrap()
     }
 
@@ -1241,7 +1333,7 @@ fn test_dt_after_or_before() {
         (
             DTLz("20000101T010101+0100", &FO_P1),
             Some(DTLz("20000101T010103-0700", &FO_M7)),
-            Result_Filter_DateTime1::OccursBefore
+            Result_Filter_DateTime1::OccursBefore,
         ),
     ] {
         let result = dt_after_or_before(&dt, &da);
@@ -1330,7 +1422,11 @@ fn test_dt_after_or_before() {
     b"12",
     true
 )]
-fn test_slice_contains_X_2(data: &[u8], search: &[u8; 2], expect: bool) {
+fn test_slice_contains_X_2(
+    data: &[u8],
+    search: &[u8; 2],
+    expect: bool,
+) {
     eprintln!("test_slice_contains_X_2({:?}, {:?})", data.as_bstr(), search);
     let actual = slice_contains_X_2_unroll(data, search);
     assert_eq!(expect, actual, "slice_contains_X_2_unroll");
@@ -1377,7 +1473,10 @@ fn test_slice_contains_X_2(data: &[u8], search: &[u8; 2], expect: bool) {
 #[test_case(b"1b2d", false)]
 #[test_case(b"1bc2", false)]
 #[test_case(b"a1c2", false)]
-fn test_slice_contains_D2(data: &[u8], expect: bool) {
+fn test_slice_contains_D2(
+    data: &[u8],
+    expect: bool,
+) {
     eprintln!("test_slice_contains_D2(data={:?}, expect={:?})", data.as_bstr(), expect);
     let actual = slice_contains_D2_custom(data);
     assert_eq!(expect, actual, "slice_contains_D2_custom");
@@ -1437,7 +1536,10 @@ fn test_slice_contains_D2(data: &[u8], expect: bool) {
 #[test_case(b"3b4d", false)]
 #[test_case(b"3bc4", false)]
 #[test_case(b"a3c4", false)]
-fn test_slice_contains_12_D2(data: &[u8], expect: bool) {
+fn test_slice_contains_12_D2(
+    data: &[u8],
+    expect: bool,
+) {
     eprintln!("test_slice_contains_12_D2({:?}, {:?})", data.as_bstr(), expect);
     let actual = slice_contains_12_D2(data);
     assert_eq!(actual, expect);

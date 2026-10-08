@@ -304,44 +304,64 @@ fn test_EvtxReader_next_summary(
 
     // assert SummaryEvtxReader
     let summary = evtxreader.summary();
-    assert_eq!(summary.evtxreader_events_processed, events_processed,
-        "summary.count_events_processed");
-    assert_eq!(summary.evtxreader_events_accepted, events_accepted,
-        "summary.count_events_accepted");
-    assert_eq!(summary.evtxreader_event_largest_processed, event_largest_processed,
-        "summary.event_largest_processed");
-    assert_eq!(summary.evtxreader_event_largest_accepted, event_largest_accepted,
-        "summary.event_largest_accepted");
+    assert_eq!(summary.evtxreader_events_processed, events_processed, "summary.count_events_processed");
+    assert_eq!(summary.evtxreader_events_accepted, events_accepted, "summary.count_events_accepted");
+    assert_eq!(summary.evtxreader_event_largest_processed, event_largest_processed, "summary.event_largest_processed");
+    assert_eq!(summary.evtxreader_event_largest_accepted, event_largest_accepted, "summary.event_largest_accepted");
     assert_eq!(summary.evtxreader_filesz, filesz, "summary.filesz");
-    assert_eq!(summary.evtxreader_out_of_order, out_of_order,
-        "summary.out_of_order");
-    assert_eq!(summary.evtxreader_datetime_first_accepted, datetime_first_accepted,
+    assert_eq!(summary.evtxreader_out_of_order, out_of_order, "summary.out_of_order");
+    assert_eq!(
+        summary.evtxreader_datetime_first_accepted,
+        datetime_first_accepted,
         "summary.datetime_first_accepted\nexpect {}\nactual {}\n",
         datetime_first_accepted.unwrap_or_default(),
-        summary.evtxreader_datetime_first_accepted.unwrap_or_default(),
+        summary
+            .evtxreader_datetime_first_accepted
+            .unwrap_or_default(),
     );
-    assert_eq!(summary.evtxreader_datetime_last_accepted, datetime_last_accepted,
+    assert_eq!(
+        summary.evtxreader_datetime_last_accepted,
+        datetime_last_accepted,
         "summary.datetime_last_accepted\nexpect {}\nactual {}\n",
         datetime_last_accepted.unwrap_or_default(),
-        summary.evtxreader_datetime_last_accepted.unwrap_or_default(),
+        summary
+            .evtxreader_datetime_last_accepted
+            .unwrap_or_default(),
     );
-    assert_eq!(summary.evtxreader_datetime_first_processed, datetime_first_processed,
+    assert_eq!(
+        summary.evtxreader_datetime_first_processed,
+        datetime_first_processed,
         "summary.datetime_first_processed\nexpect {}\nactual {}\n",
         datetime_first_processed.unwrap_or_default(),
-        summary.evtxreader_datetime_first_processed.unwrap_or_default(),
+        summary
+            .evtxreader_datetime_first_processed
+            .unwrap_or_default(),
     );
-    assert_eq!(summary.evtxreader_datetime_last_processed, datetime_last_processed,
+    assert_eq!(
+        summary.evtxreader_datetime_last_processed,
+        datetime_last_processed,
         "summary.datetime_last_processed\nexpect {}\nactual {}\n",
         datetime_last_processed.unwrap_or_default(),
-        summary.evtxreader_datetime_last_processed.unwrap_or_default(),
+        summary
+            .evtxreader_datetime_last_processed
+            .unwrap_or_default(),
     );
 
     // assert Summary
     let summary_c = evtxreader.summary_complete();
-    assert!(summary_c.filetype.unwrap().is_evtx(), "summary_c.filetype");
-    assert_eq!(summary_c.logmessagetype, LogMessageType::Evtx,
-        "summary_c.logmessagetype");
-    assert!(summary_c.blockreader().is_none());
+    assert!(
+        summary_c
+            .filetype
+            .unwrap()
+            .is_evtx(),
+        "summary_c.filetype"
+    );
+    assert_eq!(summary_c.logmessagetype, LogMessageType::Evtx, "summary_c.logmessagetype");
+    assert!(
+        summary_c
+            .blockreader()
+            .is_none()
+    );
     assert_eq!(summary_c.datetime_first_printed(), &datetime_first_accepted);
     assert_eq!(summary_c.datetime_last_printed(), &datetime_last_accepted);
     assert_eq!(summary_c.max_drop(), 0);

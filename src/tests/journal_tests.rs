@@ -11,15 +11,15 @@ use crate::data::datetime::{
     FixedOffset,
 };
 use crate::data::journal::{
-    datetimel_to_realtime_timestamp,
-    datetimelopt_to_realtime_timestamp_opt,
-    realtime_or_source_realtime_timestamp_to_datetimel,
-    realtime_timestamp_to_datetimel,
+    DT_USES_SOURCE_OVERRIDE,
     DtUsesSource,
     EpochMicroseconds,
     EpochMicrosecondsOpt,
     JournalEntry,
-    DT_USES_SOURCE_OVERRIDE,
+    datetimel_to_realtime_timestamp,
+    datetimelopt_to_realtime_timestamp_opt,
+    realtime_or_source_realtime_timestamp_to_datetimel,
+    realtime_timestamp_to_datetimel,
 };
 use crate::tests::common::{
     DT_1,
@@ -74,21 +74,14 @@ _SOURCE_REALTIME_TIMESTAMP=1680331472788150\
 
 #[test]
 fn test_journalentry_export_realtime_timestamp() {
-    let data = JOURNAL_ENTRY_EXPORT.as_bytes().to_vec();
+    let data = JOURNAL_ENTRY_EXPORT
+        .as_bytes()
+        .to_vec();
     let dtus: DtUsesSource = DtUsesSource::RealtimeTimestamp;
-    let je = JournalEntry::new(
-        data.clone(),
-        TS_1,
-        None,
-        dtus,
-        &FO_0,
-    );
+    let je = JournalEntry::new(data.clone(), TS_1, None, dtus, &FO_0);
     assert_eq!(je.dt(), &*DT_1, "dt()");
     assert_eq!(je.as_bytes(), &data, "data");
-    let (a, b) = JournalEntry::find_timestamp_in_buffer(
-        &data,
-        dtus,
-    );
+    let (a, b) = JournalEntry::find_timestamp_in_buffer(&data, dtus);
     assert_eq!(a, 151, "dt_a");
     assert_eq!(b, 167, "dt_b");
     assert_le!(a, b);
@@ -96,7 +89,9 @@ fn test_journalentry_export_realtime_timestamp() {
 
 #[test]
 fn test_journalentry_export_source_realtime_timestamp() {
-    let data = JOURNAL_ENTRY_EXPORT.as_bytes().to_vec();
+    let data = JOURNAL_ENTRY_EXPORT
+        .as_bytes()
+        .to_vec();
     let dtus: DtUsesSource = DtUsesSource::SourceRealtimeTimestamp;
     let je = JournalEntry::new(
         data.clone(),
@@ -111,21 +106,19 @@ fn test_journalentry_export_source_realtime_timestamp() {
     );
     assert_eq!(je.dt(), &*DT_1, "dt()");
     assert_eq!(je.as_bytes(), &data, "data");
-    let (a, b) = JournalEntry::find_timestamp_in_buffer(
-        &data,
-        dtus,
-    );
+    let (a, b) = JournalEntry::find_timestamp_in_buffer(&data, dtus);
     assert_eq!(a, 1145, "dt_a");
     assert_eq!(b, 1161, "dt_b");
     assert_le!(a, b);
 }
 
-const JOURNAL_ENTRY_SHORTFULL: &str =
-    "1970-01-12T13:46:40 UTC ubuntu22Acorn ubuntu-appindicators@ubuntu.com[1306]: unable to update icon for livepatch\n";
+const JOURNAL_ENTRY_SHORTFULL: &str = "1970-01-12T13:46:40 UTC ubuntu22Acorn ubuntu-appindicators@ubuntu.com[1306]: unable to update icon for livepatch\n";
 
 #[test]
 fn test_journalentry_shortfull() {
-    let data = JOURNAL_ENTRY_SHORTFULL.as_bytes().to_vec();
+    let data = JOURNAL_ENTRY_SHORTFULL
+        .as_bytes()
+        .to_vec();
     let dtus: DtUsesSource = DtUsesSource::SourceRealtimeTimestamp;
     let je = JournalEntry::new(
         data.clone(),
@@ -140,10 +133,7 @@ fn test_journalentry_shortfull() {
     );
     assert_eq!(je.dt(), &*DT_1, "dt()");
     assert_eq!(je.as_bytes(), &data, "data");
-    let (a, b) = JournalEntry::find_timestamp_in_buffer(
-        &data,
-        dtus,
-    );
+    let (a, b) = JournalEntry::find_timestamp_in_buffer(&data, dtus);
     assert_eq!(a, 0, "dt_a");
     assert_eq!(b, 0, "dt_b");
     assert_le!(a, b);
@@ -160,11 +150,7 @@ fn test_realtime_timestamp_to_datetimel(
     em: EpochMicroseconds,
     expect_dt: DateTimeL,
 ) {
-    let dt =
-        realtime_timestamp_to_datetimel(
-            fixed_offset,
-            &em,
-        );
+    let dt = realtime_timestamp_to_datetimel(fixed_offset, &em);
     assert_eq!(dt, expect_dt, "\ngot      {:?}\nexpected {:?}\n", dt, expect_dt);
 }
 
@@ -188,12 +174,7 @@ fn test_realtime_or_source_realtime_timestamp_to_datetimel(
     em2: EpochMicrosecondsOpt,
     expect_dt: DateTimeL,
 ) {
-    let dt =
-        realtime_or_source_realtime_timestamp_to_datetimel(
-            fixed_offset,
-            &em,
-            &em2,
-        );
+    let dt = realtime_or_source_realtime_timestamp_to_datetimel(fixed_offset, &em, &em2);
     assert_eq!(dt, expect_dt, "\ngot      {:?}\nexpected {:?}\n", dt, expect_dt);
 }
 
@@ -202,10 +183,7 @@ fn test_datetimel_to_realtime_timestamp(
     dt: DateTimeL,
     expect_rt: EpochMicroseconds,
 ) {
-    let rt =
-        datetimel_to_realtime_timestamp(
-            &dt
-        );
+    let rt = datetimel_to_realtime_timestamp(&dt);
     assert_eq!(rt, expect_rt, "\ngot      {:?}\nexpected {:?}\n", rt, expect_rt);
 }
 
@@ -215,10 +193,7 @@ fn test_datetimelopt_to_realtime_timestamp(
     dt: DateTimeLOpt,
     expect_rt: EpochMicroseconds,
 ) {
-    let rt =
-        datetimelopt_to_realtime_timestamp_opt(
-            &dt
-        );
+    let rt = datetimelopt_to_realtime_timestamp_opt(&dt);
     if expect_rt == 0 {
         assert!(rt.is_none());
     } else {
