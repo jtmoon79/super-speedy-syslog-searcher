@@ -120,7 +120,7 @@ pub(crate) fn single_line(text: &str) -> String {
     single_line_chars(text).collect()
 }
 
-fn single_line_chars(text: &str) -> impl Iterator<Item = char> + '_ {
+pub(crate) fn single_line_chars(text: &str) -> impl Iterator<Item = char> + '_ {
     text.chars()
         .map(|c| if c.is_control() { ' ' } else { c })
 }

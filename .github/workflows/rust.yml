@@ -423,7 +423,7 @@ jobs:
   job_test_linux:
     # this job downloads and builds dependency crates
     name: test Linux
-    needs: [job_rust_msrv_os, job_build_debug_release]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -454,19 +454,6 @@ jobs:
           set -eux
           cd ./subprojects/ere/ere-core
           cargo test --locked
-      # download release for --venv
-      - name: Download release binary
-        uses: actions/download-artifact@v8
-        with:
-          name: s4_release
-      - name: create venv
-        shell: bash
-        run: |
-          set -eux
-          which python
-          python --version
-          chmod +x ${S4R}
-          ${S4R} --venv
       - name: nextest (all)
         shell: bash
         run: |
@@ -487,15 +474,6 @@ jobs:
       # XXX: MacOS tools do not support `touch` arguments run in
       #      `./tools/log-files-time-update.sh`. So skip running `log-files-time-update.sh`
       #      See https://stackoverflow.com/q/78540977/471376
-      - name: create venv
-        shell: bash
-        run: |
-          set -eux
-          export S4_BUILD_REGEX=1
-          cargo build --locked --profile release_Opt0
-          which python
-          python --version
-          ./target/release_Opt0/s4 --venv
       - name: nextest (all)
         shell: bash
         run: |
@@ -524,15 +502,6 @@ jobs:
         shell: powershell
         run: |
           .\tools\log-files-time-update.ps1
-      - name: create venv
-        shell: powershell
-        run: |
-          Set-PSDebug -Trace 1
-          ${env:S4_BUILD_REGEX}="1"
-          cargo.exe build --locked --profile release_Opt0
-          Get-Command -All python.exe
-          python.exe --version
-          ./target/release_Opt0/s4 --venv
       - name: test (all)
         shell: powershell
         run: |
@@ -696,14 +665,6 @@ jobs:
           set -eux
           ${S4D} --version
           ${S4D} --help
-      - name: s4_debug --venv
-        shell: bash
-        run: |
-          set -eux
-          sudo apt install python3
-          which python3
-          python3 --version
-          ${S4D} --venv
       - shell: bash
         run: ${S4D} -cn ${S4_TEST_FILES} 2>/dev/null
       - shell: bash
@@ -778,13 +739,6 @@ jobs:
           set -eux
           ${S4R} --version
           ${S4R} --help
-      - name: s4_release --venv
-        shell: bash
-        run: |
-          set -eux
-          which python3
-          python3 --version
-          ${S4R} --venv
       - shell: bash
         run: ${S4R} -cn ${S4_TEST_FILES} 1>/dev/null
       - shell: bash

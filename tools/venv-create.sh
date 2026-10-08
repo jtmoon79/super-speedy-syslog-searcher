@@ -17,7 +17,6 @@ PYTHON=${PYTHON-python3}
     python3 -m pip install --upgrade pip
     python3 -m pip install -r ./tools/requirements.txt
     python3 -m pip install -r ./tools/compare-log-mergers/requirements.txt
-    python3 -m pip install -r ./src/python/s4_event_readers/requirements-dev.txt
 )
 
 echo "

@@ -64,7 +64,6 @@ and Apple System Logs (`.asl`).
     - [`binstall`](#binstall)
     - [`quickinstall`](#quickinstall)
     - [Manual Build](#manual-build)
-    - [Create the Python Virtual Environment](#create-the-python-virtual-environment)
   - [Optional Allocators](#optional-allocators)
 - [Use](#use)
   - [`s4` example uses](#s4-example-uses)
@@ -192,19 +191,6 @@ A C compiler is required. [_Rust_ must be installed].
 See further options in section [_Building locally_](#building-locally).
 
 [_Rust_ must be installed]: https://www.rust-lang.org/tools/install
-
-#### Create the Python Virtual Environment
-
-If there are `.asl` log files that may be processed then
-create a Python virtual environment:
-
-```sh
-s4 --venv
-```
-
-Python 3.9 or higher is required.
-
----
 
 ### Optional Allocators
 
@@ -530,8 +516,6 @@ s4 aims to be very fast.
 Usage:
   s4 [OPTIONS] <PATHS>...
 
-  s4 --venv
-
 Arguments:
   <PATHS>...  Path(s) of log files or directories.
               Directories will be recursed. Symlinks will be followed.
@@ -652,16 +636,6 @@ Options:
   -V, --version
           Print version
 
-Python Virtual Environment Mode:
-
-      --venv  Create a Python virtual environment exclusively for s4.
-              This is only necessary for parsing
-              Apple System Log (.asl) files.
-              This only needs to be created once.
-              When this option is used, no other options may be passed.
-              The Python interpreter used may be set by environment variable
-              S4_PYTHON.
-
 Given a file path, the file format will be processed based on a best guess of
 the file name.
 If the file format is not guessed then it will be treated as a text file.
@@ -766,11 +740,6 @@ https://docs.rs/chrono/latest/chrono/format/strftime/
 DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English.
-
-The Python interpreter used during `--venv` requires Python 3.9 or higher.
-This installs to ~/.config/s4/venv
-The Python interpreter used may be overridden by setting environment variable
-S4_PYTHON to the path of the Python interpreter.
 
 The user may specify the path to the systemd shared library by setting
 environment variable S4_LIBSYSTEMD. This library is used to read
@@ -938,12 +907,6 @@ See the latest [release] for pre-compiled binaries.
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within
   other archive files or compressed files ([Issue #14])<br/>
   e.g. cannot process `logs.tar.xz`, nor file `log.gz` within `logs.tar`
-- `.asl` files are processed by a Python script
-  run by a child process Python interpreter. _This is not super or speedy_.
-  It does implement support for this file type which is common on Mac.
-  Someday it would be great to have a Rust implementation of that Python-based
-  parser ([Issue #443]).
-  See [`src/python/s4_event_readers/s4_event_readers`](src/python/s4_event_readers/s4_event_readers).
 - OneDrive Log files (`.odl`, `.odlgz`, `.aodl`, `.odlsent`) are parsed natively.
   ODL versions 2 and 3 are supported, including internal gzip
   after the ODL header. Events are buffered and sorted by timestamp.
@@ -963,7 +926,6 @@ See the latest [release] for pre-compiled binaries.
 [Issue #14]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14
 [Issue #39]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39
 [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
-[Issue #443]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/443
 [ISO descriptive format]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates
 [_Ordinal dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates
 [_Week dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates
@@ -1481,8 +1443,6 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
 ## Licenses
 
 - Code in this repository is licensed under [the MIT License](./LICENSE.txt).
-- Code in `src/python/s4_event_readers/s4_event_readers/ccl_asldb.py`
-  is [licensed under a shareable copyright](src/python/s4_event_readers/s4_event_readers/LICENSE-ccl_asldb.txt).
 - Some code under `subprojects/ere` is [licensed under the MIT License](https://github.com/2kai2kai2/ere/blob/9ae714909f24e025612e385419af17aaed843a60/LICENSE).
 - Code under `src/subprojects/lzma_rs` is [licensed under the MIT License](https://github.com/gendx/lzma-rs/blob/1f14478def43b8ea0d27a6b3db88bb307aafd18a/LICENSE).
 - Code under `src/subprojects/rust_lzxpress` is [licensed under the MIT License](src/subprojects/rust_lzxpress/LICENSE).
