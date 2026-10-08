@@ -9,13 +9,12 @@
 //!
 //! [`unroll_for_loops`]: https://docs.rs/unroll/0.1.5/unroll/
 
-use ::memchr;
 #[cfg(feature = "bench_jetscii")]
 use ::jetscii;
+use ::memchr;
 #[cfg(feature = "bench_stringzilla")]
 use ::stringzilla;
 use ::unroll::unroll_for_loops;
-
 
 #[inline(always)]
 #[unroll_for_loops]
@@ -1513,7 +1512,7 @@ pub fn slice_contains_X_2_unroll(
             // surprisingly good performance according to benches in `bench_slice_contains`
             slice_.contains(&search[0]) || slice_.contains(&search[1])
         }
-   }
+    }
 }
 
 /// `jetscii` implementation of `slice.contains` for a byte slice and a

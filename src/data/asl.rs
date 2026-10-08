@@ -1,13 +1,28 @@
 //! Parsed and printable Apple System Log events.
 
-use std::fmt::{self, Write};
-use std::io::{Error, ErrorKind, Result};
+use std::fmt::{
+    self,
+    Write,
+};
+use std::io::{
+    Error,
+    ErrorKind,
+    Result,
+};
 
 use compact_str::CompactString;
 
 use crate::common::Bytes;
-use crate::data::common::{DtBegEndPairOpt, PrintableEvent};
-use crate::data::datetime::{DateTime, DateTimeL, FixedOffset, Utc};
+use crate::data::common::{
+    DtBegEndPairOpt,
+    PrintableEvent,
+};
+use crate::data::datetime::{
+    DateTime,
+    DateTimeL,
+    FixedOffset,
+    Utc,
+};
 use crate::data::odl::single_line_chars;
 
 const RENDER_STACK_BYTES: usize = 1024;

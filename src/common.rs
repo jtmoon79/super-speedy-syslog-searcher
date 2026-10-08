@@ -1464,7 +1464,7 @@ pub fn threadid_to_u64(tid: thread::ThreadId) -> u64 {
 
 /// Parse string to number type `T`.
 /// Supports binary, octal, decimal, and hexadecimal.
-pub (crate) fn parse_string_to_number<T>(val_s: &String) -> std::result::Result<T, String>
+pub(crate) fn parse_string_to_number<T>(val_s: &String) -> std::result::Result<T, String>
 where
     T: Num + std::str::FromStr + std::fmt::Debug,
     <T as Num>::FromStrRadixErr: std::fmt::Display,

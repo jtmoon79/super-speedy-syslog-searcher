@@ -93,9 +93,9 @@
 //! [`Evtx`s]: crate::data::evtx::Evtx
 //! [evtx files]: https://en.wikipedia.org/w/index.php?title=Event_Viewer&oldid=1130075772#Windows_Vista
 
-pub mod blockreader;
 pub mod aslparser;
 pub mod aslreader;
+pub mod blockreader;
 pub mod etlparser;
 pub mod etlreader;
 pub mod evtxreader;
