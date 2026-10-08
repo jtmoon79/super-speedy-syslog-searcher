@@ -16,6 +16,17 @@ use std::io::{
     Read,
 };
 
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    def2n,
+    def2o,
+    def2x,
+    def2ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
+};
 use aes::{
     Aes128,
     Aes192,
@@ -31,18 +42,8 @@ use cbc::cipher::{
     BlockDecryptMut,
     KeyIvInit,
 };
+use compact_str::CompactString;
 use flate2::bufread::MultiGzDecoder;
-#[allow(unused_imports)]
-use ::si_trace_print::{
-    defn,
-    defñ,
-    defo,
-    defx,
-    def2n,
-    def2ñ,
-    def2o,
-    def2x,
-};
 use zeroize::{
     Zeroize,
     Zeroizing,
@@ -51,7 +52,7 @@ use zeroize::{
 use crate::common::Bytes;
 use crate::data::odl::{
     OdlEvent,
-    single_line,
+    single_line_chars,
 };
 
 /// Corpus maximum payload is 6412 bytes
@@ -79,15 +80,17 @@ fn read_bounded(reader: impl Read) -> io::Result<Vec<u8>> {
         .take((ODL_COMPANION_BYTES_MAX + 1) as u64)
         .read_to_end(&mut data)?;
     if data.len() > ODL_COMPANION_BYTES_MAX {
-        return Err(invalid(
-            format!("ODL companion size {} exceeds size limit {}", data.len(), ODL_COMPANION_BYTES_MAX)
-        ));
+        return Err(invalid(format!(
+            "ODL companion size {} exceeds size limit {}",
+            data.len(),
+            ODL_COMPANION_BYTES_MAX
+        )));
     }
 
     Ok(data)
 }
 
-fn decode_text(data: &[u8]) -> io::Result<String> {
+fn decode_text(data: &[u8]) -> io::Result<CompactString> {
     defñ!("data.len={:?}", data.len());
 
     if data.starts_with(&[0xff, 0xfe]) || (data.len() >= 4 && data[1] == 0 && data[3] == 0) {
@@ -97,7 +100,7 @@ fn decode_text(data: &[u8]) -> io::Result<String> {
         if data.len() % 2 != 0 {
             return Err(invalid(format!("odd-length UTF-16LE companion, length {}", data.len())));
         }
-        let mut text = String::with_capacity(data.len() / 2);
+        let mut text = CompactString::with_capacity(data.len() / 2);
         let units = data
             .chunks_exact(2)
             .map(|unit| u16::from_le_bytes([unit[0], unit[1]]));
@@ -110,7 +113,7 @@ fn decode_text(data: &[u8]) -> io::Result<String> {
             .strip_prefix(&[0xef, 0xbb, 0xbf])
             .unwrap_or(data);
         std::str::from_utf8(data)
-            .map(str::to_owned)
+            .map(CompactString::new)
             .map_err(|_| invalid("invalid UTF-8 companion data"))
     }
 }
@@ -132,7 +135,7 @@ struct OdlKey {
 /// Optional per-source deobfuscation. Debug output never contains keys or maps.
 #[derive(Default)]
 pub struct OdlDecodingContext {
-    map: HashMap<String, String>,
+    map: HashMap<CompactString, CompactString>,
     keys: Vec<OdlKey>,
 }
 
@@ -164,7 +167,7 @@ impl Drop for OdlDecodingContext {
 fn decode_keystore_plaintext(
     data: &[u8],
     encoding: OdlKeyEncoding,
-) -> Option<String> {
+) -> Option<CompactString> {
     defñ!("data.len={:?}, encoding={:?}", data.len(), encoding);
 
     let text = match encoding {
@@ -172,22 +175,22 @@ fn decode_keystore_plaintext(
             if data.len() % 2 != 0 {
                 return None;
             }
-            let units: Vec<u16> = data
-                .chunks_exact(2)
-                .map(|unit| u16::from_le_bytes([unit[0], unit[1]]))
-                .collect();
-            String::from_utf16(&units).ok()?
+            CompactString::from_utf16le(data).ok()?
         }
         OdlKeyEncoding::Utf32Le => {
             let data = data
-                .strip_prefix(&[0xff, 0xfe, 0x00, 0x00])
+                .strip_prefix(&[
+                    0xff, 0xfe, 0x00, 0x00,
+                ])
                 .unwrap_or(data);
             if data.len() % 4 != 0 {
                 return None;
             }
-            let mut text = String::with_capacity(data.len() / 4);
+            let mut text = CompactString::with_capacity(data.len() / 4);
             for unit in data.chunks_exact(4) {
-                let scalar = u32::from_le_bytes([unit[0], unit[1], unit[2], unit[3]]);
+                let scalar = u32::from_le_bytes([
+                    unit[0], unit[1], unit[2], unit[3],
+                ]);
                 text.push(char::from_u32(scalar)?);
             }
             text
@@ -217,7 +220,7 @@ impl OdlDecodingContext {
         let data = Zeroizing::new(read_bounded(reader)?);
         let text = Zeroizing::new(decode_text(&data)?);
         let line_count = text.lines().count();
-        let mut map: HashMap<String, String> = HashMap::with_capacity(line_count.min(ODL_MAP_VALUES_MAX));
+        let mut map: HashMap<CompactString, CompactString> = HashMap::with_capacity(line_count.min(ODL_MAP_VALUES_MAX));
         let mut last_key = None;
         let mut entries = 0;
         for line in text.lines() {
@@ -227,21 +230,23 @@ impl OdlDecodingContext {
                 }
                 entries += 1;
                 if entries > ODL_MAP_VALUES_MAX {
-                    return Err(invalid(
-                        format!("ODL obfuscation-map entry limit exceeded: {}", entries)));
+                    return Err(invalid(format!("ODL obfuscation-map entry limit exceeded: {}", entries)));
                 }
                 let entry = map
-                    .entry(key.to_owned())
+                    .entry(CompactString::new(key))
                     .or_default();
                 if !entry.is_empty() {
                     entry.push('|');
                 }
                 entry.push_str(value);
                 if entry.len() > ODL_STRING_BYTES_MAX || key.len() > ODL_STRING_BYTES_MAX {
-                    return Err(invalid(
-                        format!("ODL obfuscation-map string length {} exceeds limit {}", entry.len(), ODL_STRING_BYTES_MAX)));
+                    return Err(invalid(format!(
+                        "ODL obfuscation-map string length {} exceeds limit {}",
+                        entry.len(),
+                        ODL_STRING_BYTES_MAX
+                    )));
                 }
-                last_key = Some(key.to_owned());
+                last_key = Some(CompactString::new(key));
             } else if !line.is_empty() {
                 let key = last_key
                     .as_ref()
@@ -252,8 +257,11 @@ impl OdlDecodingContext {
                 value.push('\n');
                 value.push_str(line);
                 if value.len() > ODL_STRING_BYTES_MAX {
-                    return Err(invalid(
-                        format!("ODL obfuscation-map string length {} exceeds limit {}", value.len(), ODL_STRING_BYTES_MAX)));
+                    return Err(invalid(format!(
+                        "ODL obfuscation-map string length {} exceeds limit {}",
+                        value.len(),
+                        ODL_STRING_BYTES_MAX
+                    )));
                 }
             }
         }
@@ -284,22 +292,19 @@ impl OdlDecodingContext {
             }
             let mut keys = Vec::new();
             for entry in entries {
-                match entry.get("Version").and_then(serde_json::Value::as_u64) {
+                match entry
+                    .get("Version")
+                    .and_then(serde_json::Value::as_u64)
+                {
                     Some(1) => 1,
-                    other => return Err(
-                        invalid(format!("unsupported ODL keystore version {:?}", other))
-                    ),
+                    other => return Err(invalid(format!("unsupported ODL keystore version {:?}", other))),
                 };
                 let text = entry
                     .get("Key")
                     .and_then(serde_json::Value::as_str)
                     .ok_or_else(|| invalid("ODL keystore missing 'Key' field"))?;
                 // The replaced Python reader selected UTF-32 when the key text ended in two NULs.
-                let encoding = if text.ends_with("\0\0") {
-                    OdlKeyEncoding::Utf32Le
-                } else {
-                    OdlKeyEncoding::Utf16Le
-                };
+                let encoding = if text.ends_with("\0\0") { OdlKeyEncoding::Utf32Le } else { OdlKeyEncoding::Utf16Le };
                 let key = Zeroizing::new(
                     STANDARD
                         .decode(text.trim_end_matches('\0'))
@@ -308,10 +313,7 @@ impl OdlDecodingContext {
                 if !matches!(key.len(), 16 | 24 | 32) {
                     return Err(invalid(format!("unsupported ODL AES key length {}", key.len())));
                 }
-                keys.push(OdlKey {
-                    bytes: key,
-                    encoding,
-                });
+                keys.push(OdlKey { bytes: key, encoding });
             }
             self.keys.extend(keys);
             Ok(())
@@ -330,20 +332,20 @@ impl OdlDecodingContext {
     fn decode_token(
         &self,
         token: &str,
-    ) -> (String, bool) {
+    ) -> (CompactString, bool) {
         def2ñ!("token={:?}", token);
         if let Some(value) = self.map.get(token) {
             return (value.clone(), false);
         }
         if token.len() < 22 {
-            return (token.to_owned(), false);
+            return (CompactString::new(token), false);
         }
         let mut bytes = match URL_SAFE_NO_PAD
             .decode(token.trim_end_matches('='))
             .or_else(|_| STANDARD.decode(token))
         {
             Ok(bytes) if !bytes.is_empty() && bytes.len() % 16 == 0 => Zeroizing::new(bytes),
-            _ => return (token.to_owned(), false),
+            _ => return (CompactString::new(token), false),
         };
         let iv = [0u8; 16];
         let mut plain = Zeroizing::new(vec![0u8; bytes.len()]);
@@ -378,61 +380,68 @@ impl OdlDecodingContext {
         }
         bytes.zeroize();
 
-        (token.to_owned(), true)
+        (CompactString::new(token), true)
     }
 
     fn decode_parameter(
         &self,
         text: &str,
-    ) -> io::Result<(String, usize)> {
+    ) -> io::Result<(CompactString, usize)> {
         def2ñ!("text={:?}", text);
 
-        let mut result = String::new();
+        let mut result = CompactString::default();
+        // Preserve the decoded-byte limit when Unicode controls shrink to spaces.
+        let mut decoded_len = 0;
         let mut failures = 0;
         let mut start = 0;
         for (offset, character) in text.char_indices() {
             if PARAMETER_SEPARATORS.contains(character) {
                 if start < offset {
                     let (value, failed) = self.decode_token(&text[start..offset]);
-                    if result.len() + value.len() > ODL_STRING_BYTES_MAX {
-                        return Err(invalid(
-                            format!("decoded ODL parameter length {} exceeds string limit {}",
-                            result.len() + value.len(), ODL_STRING_BYTES_MAX)
-                        ));
+                    decoded_len += value.len();
+                    if decoded_len > ODL_STRING_BYTES_MAX {
+                        return Err(invalid(format!(
+                            "decoded ODL parameter length {} exceeds string limit {}",
+                            decoded_len, ODL_STRING_BYTES_MAX
+                        )));
                     }
-                    result.push_str(&value);
+                    result.extend(single_line_chars(&value));
                     failures += usize::from(failed);
                 }
                 result.push(character);
+                decoded_len += character.len_utf8();
                 start = offset + character.len_utf8();
             }
         }
         if start < text.len() {
             let (value, failed) = self.decode_token(&text[start..]);
-            if result.len() + value.len() > ODL_STRING_BYTES_MAX {
-                return Err(invalid(
-                    format!("decoded ODL parameter length {} exceeds string limit {}",
-                    result.len() + value.len(), ODL_STRING_BYTES_MAX)
-                ));
+            decoded_len += value.len();
+            if decoded_len > ODL_STRING_BYTES_MAX {
+                return Err(invalid(format!(
+                    "decoded ODL parameter length {} exceeds string limit {}",
+                    decoded_len, ODL_STRING_BYTES_MAX
+                )));
             }
-            result.push_str(&value);
+            result.extend(single_line_chars(&value));
             failures += usize::from(failed);
         }
-        if result.len() > ODL_STRING_BYTES_MAX {
-            return Err(invalid(
-                format!("decoded ODL parameter length {} exceeds string limit {}", result.len(), ODL_STRING_BYTES_MAX)
-            ));
+        if decoded_len > ODL_STRING_BYTES_MAX {
+            return Err(invalid(format!(
+                "decoded ODL parameter length {} exceeds string limit {}",
+                decoded_len, ODL_STRING_BYTES_MAX
+            )));
         }
 
-        Ok((single_line(&result), failures))
+        Ok((result, failures))
     }
 }
 
+/// File metadata with short version strings stored inline.
 #[derive(Clone, Debug)]
 pub struct OdlHeader {
     pub version: u32,
-    pub one_drive_version: String,
-    pub platform_version: String,
+    pub one_drive_version: CompactString,
+    pub platform_version: CompactString,
     pub compressed: bool,
 }
 
@@ -513,7 +522,7 @@ impl<R: Read> OdlParser<R> {
                 .position(|b| *b == 0)
                 .unwrap_or(data.len());
             std::str::from_utf8(&data[..end])
-                .map(str::to_owned)
+                .map(CompactString::new)
                 .map_err(|_| invalid("invalid ODL header version-string encoding"))
         };
         let mut reader = BufReader::new(reader);
@@ -521,7 +530,10 @@ impl<R: Read> OdlParser<R> {
             match reader.fill_buf() {
                 Ok(prefix) => break prefix.first() == Some(&0x1f),
                 Err(error) if error.kind() == ErrorKind::Interrupted => continue,
-                Err(error) => { def2x!(); return Err(error) }
+                Err(error) => {
+                    def2x!();
+                    return Err(error);
+                }
             }
         };
         let header = OdlHeader {
@@ -566,7 +578,11 @@ impl<R: Read> OdlParser<R> {
         self.body
             .read_exact(&mut header[1..size])?;
         if &header[..4] != ODL_RECORD_SIGNATURE {
-            return Err(invalid(format!("invalid ODL record signature: expected {:?}, found {:?}", ODL_RECORD_SIGNATURE, &header[..4])));
+            return Err(invalid(format!(
+                "invalid ODL record signature: expected {:?}, found {:?}",
+                ODL_RECORD_SIGNATURE,
+                &header[..4]
+            )));
         }
         let length_offset = size - 8;
         let length = u32::from_le_bytes([
@@ -597,10 +613,14 @@ impl<R: Read> OdlParser<R> {
         };
         let result = (|| {
             if context_length > ODL_CONTEXT_BYTES_MAX || context_length > payload.len() {
-                return Err(invalid(format!("ODL context length {} exceeds record payload length {}", context_length, payload.len())));
+                return Err(invalid(format!(
+                    "ODL context length {} exceeds record payload length {}",
+                    context_length,
+                    payload.len()
+                )));
             }
             let mut position: usize = context_length;
-            let source_file: String = read_string(&payload, &mut position)?;
+            let source_file: CompactString = read_string(&payload, &mut position)?;
             let flag_bytes: &[u8] = payload
                 .get(position..position + 4)
                 .ok_or_else(|| invalid("missing ODL flags"))?;
@@ -611,7 +631,7 @@ impl<R: Read> OdlParser<R> {
                 flag_bytes[3],
             ]);
             position += 4;
-            let function: String = read_string(&payload, &mut position)?;
+            let function: CompactString = read_string(&payload, &mut position)?;
             let parameter_bytes: Bytes = payload[position..].to_vec();
             let (parameters, undecoded_bytes, decoding_failures) =
                 extract_parameters(&parameter_bytes, &self.decoding)?;
@@ -653,24 +673,35 @@ impl<R: Read> OdlParser<R> {
     }
 
     pub fn next_event(&mut self) -> Option<Result<OdlEvent, OdlRecordError>> {
-        def2ñ!();
+        def2n!();
         if self.done {
+            def2x!("done; return None");
             return None;
         }
         let ordinal: u64 = self.ordinal;
         let offset: u64 = self.offset;
-        match self.read_record() {
-            Ok(Some(event)) => Some(Ok(event)),
+        let record: io::Result<Option<OdlEvent>> = self.read_record();
+
+        match record {
+            Ok(Some(event)) => {
+                def2x!("return Some(Ok(event))");
+                Some(Ok(event))
+            }
             Ok(None) => {
+                def2x!("return None");
                 self.done = true;
                 None
             }
-            Err(error) if self.ordinal > ordinal => Some(Err(OdlRecordError::Skipped {
-                ordinal: self.ordinal,
-                offset,
-                error,
-            })),
+            Err(error) if self.ordinal > ordinal => {
+                def2x!("return OdlRecordError::Skipped({:?})", error);
+                Some(Err(OdlRecordError::Skipped {
+                    ordinal: self.ordinal,
+                    offset,
+                    error,
+                }))
+            }
             Err(error) => {
+                def2x!("return OdlRecordError::Fatal({:?})", error);
                 self.done = true;
                 Some(Err(OdlRecordError::Fatal {
                     ordinal: ordinal + 1,
@@ -685,7 +716,7 @@ impl<R: Read> OdlParser<R> {
 fn read_string(
     payload: &[u8],
     position: &mut usize,
-) -> io::Result<String> {
+) -> io::Result<CompactString> {
     let bytes = payload
         .get(*position..*position + 4)
         .ok_or_else(|| invalid("missing ODL string length"))?;
@@ -706,16 +737,16 @@ fn read_string(
     defñ!("text length {} (position {} end {})", text.len(), position, end);
 
     std::str::from_utf8(text)
-        .map(str::to_owned)
+        .map(CompactString::new)
         .map_err(|_| invalid("invalid ODL string UTF-8"))
 }
 
 fn extract_parameters(
     bytes: &[u8],
     decoding: &OdlDecodingContext,
-) -> io::Result<(Vec<String>, usize, usize)> {
+) -> io::Result<(Vec<CompactString>, usize, usize)> {
     defn!("bytes {}", bytes.len());
-    let mut parameters: Vec<String> = Vec::new();
+    let mut parameters: Vec<CompactString> = Vec::new();
     let mut offset = 0;
     let mut unknown = 0;
     let mut failures = 0;
@@ -738,12 +769,19 @@ fn extract_parameters(
             });
         if let Some(text) = text {
             if parameters.len() == ODL_PARAMETERS_MAX {
-                return Err(invalid(format!("ODL parameter count {} exceeds {}", parameters.len(), ODL_PARAMETERS_MAX)));
+                return Err(invalid(format!(
+                    "ODL parameter count {} exceeds {}",
+                    parameters.len(),
+                    ODL_PARAMETERS_MAX
+                )));
             }
             let (parameter, failed) = decoding.decode_parameter(text)?;
             decoded_bytes += parameter.len() + 1;
             if decoded_bytes > ODL_DECODED_BYTES_MAX {
-                return Err(invalid(format!("ODL parameters decoded bytes {} exceeds limit {}", decoded_bytes, ODL_DECODED_BYTES_MAX)));
+                return Err(invalid(format!(
+                    "ODL parameters decoded bytes {} exceeds limit {}",
+                    decoded_bytes, ODL_DECODED_BYTES_MAX
+                )));
             }
             defo!("parameter: {parameter:?} (len {})", parameter.len());
             parameters.push(parameter);

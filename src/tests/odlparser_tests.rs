@@ -152,14 +152,14 @@ fn sample_event(
         timestamp_ms,
         ordinal: 1,
         offset: 0,
-        source_file: source_file.to_owned(),
-        function: function.to_owned(),
+        source_file: source_file.into(),
+        function: function.into(),
         flags: 0,
         context: Vec::new(),
         parameter_bytes: Vec::new(),
         parameters: parameters
             .iter()
-            .map(|parameter| (*parameter).to_owned())
+            .map(|parameter| (*parameter).into())
             .collect(),
         undecoded_bytes: 0,
         decoding_failures: 0,
@@ -167,9 +167,10 @@ fn sample_event(
 }
 
 #[test]
-fn test_single_line_replaces_controls() {
-    assert_eq!(single_line("a\nb\tc"), "a b c");
-    assert_eq!(single_line("plain"), "plain");
+fn test_single_line_chars_replaces_controls_without_collecting() {
+    assert!(single_line_chars("a\nb\tc").eq("a b c".chars()));
+    assert!(single_line_chars("plain").eq("plain".chars()));
+    assert!(single_line_chars("a\u{0085}é\t☃").eq("a é ☃".chars()));
 }
 
 #[test]
@@ -311,6 +312,80 @@ fn parser_of(data: Vec<u8>) -> OdlParser<Cursor<Vec<u8>>> {
 }
 
 #[test]
+fn test_odlparser_compact_event_strings_and_rendering() {
+    let inline_capacity = std::mem::size_of::<String>();
+    for text in [
+        String::new(),
+        "short".into(),
+        "x".repeat(inline_capacity),
+        "x".repeat(inline_capacity + 1),
+        "é☃\n".repeat(500),
+    ] {
+        let record = v3_record(0, text.as_bytes(), text.as_bytes(), &[text.as_bytes()]);
+        let event = parser_of(odl_file(3, &[record.as_slice()]))
+            .next_event()
+            .unwrap()
+            .unwrap();
+        assert_eq!(event.source_file.as_str(), text);
+        assert_eq!(event.function.as_str(), text);
+        assert_eq!(
+            event
+                .source_file
+                .is_heap_allocated(),
+            text.len() > inline_capacity
+        );
+        assert_eq!(
+            event
+                .function
+                .is_heap_allocated(),
+            text.len() > inline_capacity
+        );
+        assert_eq!(event.decoding_failures, 0);
+        let normalized = text.replace('\n', " ");
+        let parameter_suffix = if text.is_empty() {
+            assert!(event.parameters.is_empty());
+            String::new()
+        } else {
+            assert_eq!(event.parameters, [normalized.as_str()]);
+            assert_eq!(event.parameters[0].is_heap_allocated(), normalized.len() > inline_capacity);
+            format!(" {normalized}")
+        };
+        let expected = format!("1969-12-31T17:00:00.000-07:00 {normalized}:{normalized};{parameter_suffix}\n");
+        let rendered = event.render(&FO_M7).unwrap();
+        assert_eq!(rendered.as_bytes(), expected.as_bytes());
+        assert_eq!(rendered.dt_beg_end(), &Some((0, 29)));
+    }
+}
+
+#[test]
+fn test_odlparser_compact_header_versions() {
+    let inline_capacity = std::mem::size_of::<String>();
+    for version in [
+        String::new(),
+        "1.0".into(),
+        "v".repeat(inline_capacity),
+        "v".repeat(inline_capacity + 1),
+    ] {
+        let mut data = odl_file(3, &[]);
+        data[28..156].fill(0);
+        data[28..28 + version.len()].copy_from_slice(version.as_bytes());
+        data[92..92 + version.len()].copy_from_slice(version.as_bytes());
+        let parser = parser_of(data);
+        for actual in [
+            &parser
+                .header()
+                .one_drive_version,
+            &parser
+                .header()
+                .platform_version,
+        ] {
+            assert_eq!(actual.as_str(), version);
+            assert_eq!(actual.is_heap_allocated(), version.len() > inline_capacity);
+        }
+    }
+}
+
+#[test]
 fn test_odlparser_rejects_bad_signature_and_version() {
     let mut bad_magic = odl_file(3, &[]);
     bad_magic[..4].copy_from_slice(b"XXXX");
@@ -333,7 +408,10 @@ fn test_odlparser_fatal_record_stops_stream() {
             assert_eq!(ordinal, 1);
             assert_eq!(offset, 0);
             assert_eq!(error.kind(), ErrorKind::InvalidData);
-            assert_eq!(error.to_string(), "invalid ODL record signature: expected [204, 221, 238, 255], found [78, 79, 80, 69]");
+            assert_eq!(
+                error.to_string(),
+                "invalid ODL record signature: expected [204, 221, 238, 255], found [78, 79, 80, 69]"
+            );
         }
         other => panic!("expected fatal record error, got {other:?}"),
     }
@@ -458,6 +536,148 @@ fn keystore_with_marker(
 ) -> String {
     let marker = if utf32 { r"\u0000\u0000" } else { "" };
     format!(r#"[{{"Version":1,"Key":"{key_b64}{marker}"}}]"#)
+}
+
+#[test]
+fn test_odl_decoded_parameters_compact_storage() {
+    let inline_capacity = std::mem::size_of::<String>();
+    let key = b"KEYMATERIAL12345";
+    let key_b64 = STANDARD.encode(key);
+    for text in [
+        String::new(),
+        "é☃😀".to_owned(),
+        "é\u{0085}\t☃".to_owned(),
+        "x".repeat(inline_capacity),
+        "x".repeat(inline_capacity + 1),
+        "\u{0085}".repeat(inline_capacity),
+        "é☃".repeat(100),
+    ] {
+        let expected = text
+            .replace('\u{0085}', " ")
+            .replace('\t', " ");
+        for utf16_map in [false, true] {
+            let map = format!("mapped\t{text}\n");
+            let map_bytes = if utf16_map {
+                let mut bytes = vec![0xff, 0xfe];
+                bytes.extend(
+                    map.encode_utf16()
+                        .flat_map(u16::to_le_bytes),
+                );
+                bytes
+            } else {
+                map.into_bytes()
+            };
+            let mut decoding = OdlDecodingContext::default();
+            decoding
+                .load_map(Cursor::new(map_bytes))
+                .unwrap();
+            let record = v3_record(0, b"s", b"f", &[b"mapped"]);
+            let event = OdlParser::new(Cursor::new(odl_file(3, &[record.as_slice()])), decoding)
+                .unwrap()
+                .next_event()
+                .unwrap()
+                .unwrap();
+            assert_eq!(event.parameters, [expected.as_str()]);
+            assert_eq!(event.parameters[0].is_heap_allocated(), expected.len() > inline_capacity);
+            assert_eq!(event.decoding_failures, 0);
+        }
+        for utf32 in [false, true] {
+            let mut decoding = OdlDecodingContext::default();
+            decoding
+                .load_keystore(Cursor::new(keystore_with_marker(&key_b64, utf32)))
+                .unwrap();
+            let token = if utf32 { utf32_token(key, &text) } else { utf16_token(key, &text) };
+            let record = v3_record(0, b"s", b"f", &[token.as_bytes()]);
+            let event = OdlParser::new(Cursor::new(odl_file(3, &[record.as_slice()])), decoding)
+                .unwrap()
+                .next_event()
+                .unwrap()
+                .unwrap();
+            assert_eq!(event.parameters, [expected.as_str()]);
+            assert_eq!(event.parameters[0].is_heap_allocated(), expected.len() > inline_capacity);
+            assert_eq!(event.decoding_failures, 0);
+        }
+    }
+}
+
+#[test]
+fn test_odl_parameter_normalization_preserves_decoded_byte_limit() {
+    let value = "\u{0085}".repeat(ODL_STRING_BYTES_MAX / 2);
+    let map = format!("k\t{value}\n");
+    let mut decoding = OdlDecodingContext::default();
+    decoding
+        .load_map(Cursor::new(map.as_bytes()))
+        .unwrap();
+    let record = v3_record(0, b"s", b"f", &[b"k"]);
+    let event = OdlParser::new(Cursor::new(odl_file(3, &[record.as_slice()])), decoding)
+        .unwrap()
+        .next_event()
+        .unwrap()
+        .unwrap();
+    assert_eq!(event.parameters, [" ".repeat(ODL_STRING_BYTES_MAX / 2)]);
+    assert_eq!(event.decoding_failures, 0);
+
+    for (parameter, decoded_len) in [
+        ("k;", ODL_STRING_BYTES_MAX + 1),
+        ("k;x", ODL_STRING_BYTES_MAX + 2),
+        ("k;x;", ODL_STRING_BYTES_MAX + 2),
+    ] {
+        let mut decoding = OdlDecodingContext::default();
+        decoding
+            .load_map(Cursor::new(map.as_bytes()))
+            .unwrap();
+        let record = v3_record(0, b"s", b"f", &[parameter.as_bytes()]);
+        let mut parser = OdlParser::new(Cursor::new(odl_file(3, &[record.as_slice()])), decoding).unwrap();
+        match parser.next_event() {
+            Some(Err(OdlRecordError::Skipped { error, .. })) => {
+                assert_eq!(error.kind(), ErrorKind::InvalidData);
+                assert_eq!(
+                    error.to_string(),
+                    format!("decoded ODL parameter length {decoded_len} exceeds string limit {ODL_STRING_BYTES_MAX}")
+                );
+            }
+            other => panic!("expected decoded-byte limit error, got {other:?}"),
+        }
+    }
+}
+
+#[test]
+fn test_odl_keystore_invalid_plaintext_preserves_token() {
+    let key = b"KEYMATERIAL12345";
+    let key_b64 = STANDARD.encode(key);
+    let cases: &[(bool, &[u8])] = &[
+        (false, &[0x41]),
+        (false, &[0x00, 0xd8]),
+        (false, &[0x00, 0x00]),
+        (true, &[0x41]),
+        (
+            true,
+            &[
+                0x00, 0xd8, 0x00, 0x00,
+            ],
+        ),
+        (
+            true,
+            &[
+                0x00, 0x00, 0x00, 0x00,
+            ],
+        ),
+    ];
+    for &(utf32, plaintext) in cases {
+        let mut decoding = OdlDecodingContext::default();
+        decoding
+            .load_keystore(Cursor::new(keystore_with_marker(&key_b64, utf32)))
+            .unwrap();
+        let token = encrypted_token(key, plaintext);
+        let record = v3_record(0, b"s", b"f", &[token.as_bytes()]);
+        let event = OdlParser::new(Cursor::new(odl_file(3, &[record.as_slice()])), decoding)
+            .unwrap()
+            .next_event()
+            .unwrap()
+            .unwrap();
+        assert_eq!(event.parameters, [token.as_str()]);
+        assert_eq!(event.decoding_failures, 1);
+    }
 }
 
 #[test]
@@ -636,9 +856,7 @@ fn test_odl_keystore_preserves_utf32_encoding_marker() {
     // Each key keeps its own marker. A shared encoding would fail one of these tokens.
     let other = b"OTHERKEYMATERIAL";
     let other_b64 = STANDARD.encode(other);
-    let keystore = format!(
-        r#"[{{"Version":1,"Key":"{key_b64}\u0000\u0000"}},{{"Version":1,"Key":"{other_b64}"}}]"#
-    );
+    let keystore = format!(r#"[{{"Version":1,"Key":"{key_b64}\u0000\u0000"}},{{"Version":1,"Key":"{other_b64}"}}]"#);
     let mut decoding = OdlDecodingContext::default();
     decoding
         .load_keystore(Cursor::new(keystore))
@@ -649,7 +867,10 @@ fn test_odl_keystore_preserves_utf32_encoding_marker() {
         v3_record(0, b"s", b"f", &[utf32.as_bytes()]),
         v3_record(1, b"s", b"f", &[utf16.as_bytes()]),
     ];
-    let record_refs = [records[0].as_slice(), records[1].as_slice()];
+    let record_refs = [
+        records[0].as_slice(),
+        records[1].as_slice(),
+    ];
     let mut parser = OdlParser::new(Cursor::new(odl_file(3, &record_refs)), decoding).unwrap();
     let first = parser
         .next_event()

@@ -108,8 +108,8 @@
 //! [systemd journal entry]: https://systemd.io/JOURNAL_FILE_FORMAT/
 //! [`Read`]: std::io::Read
 
-pub mod common;
 pub mod asl;
+pub mod common;
 pub mod datetime;
 pub mod etl;
 pub mod evtx;

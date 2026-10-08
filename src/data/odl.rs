@@ -10,14 +10,16 @@ use std::io::{
     Result,
 };
 
+use compact_str::CompactString;
+
 #[allow(unused_imports)]
 use ::si_trace_print::{
-    defn,
-    defo,
-    defx,
     def2n,
     def2o,
     def2x,
+    defn,
+    defo,
+    defx,
 };
 
 use crate::common::Bytes;
@@ -36,16 +38,17 @@ use crate::data::datetime::{
 pub type TimestampType = u64;
 
 /// A decoded record. Unknown context and parameter bytes remain available.
+/// Short text fields and parameters are stored inline; longer text remains heap-backed.
 pub struct OdlEvent {
     pub timestamp_ms: TimestampType,
     pub ordinal: u64,
     pub offset: u64,
-    pub source_file: String,
-    pub function: String,
+    pub source_file: CompactString,
+    pub function: CompactString,
     pub flags: u32,
     pub context: Bytes,
     pub parameter_bytes: Bytes,
-    pub parameters: Vec<String>,
+    pub parameters: Vec<CompactString>,
     /// summary statistic
     pub undecoded_bytes: usize,
     /// summary statistic
@@ -76,7 +79,7 @@ impl OdlEvent {
             + self
                 .parameters
                 .iter()
-                .map(String::len)
+                .map(CompactString::len)
                 .sum::<usize>()
             + self.parameters.len()
     }
@@ -92,9 +95,9 @@ impl OdlEvent {
         let dt = DateTime::<Utc>::from_timestamp_millis(timestamp)
             .ok_or_else(|| Error::new(ErrorKind::InvalidData, "unrepresentable ODL timestamp"))?
             .with_timezone(fixed_offset);
-        let rc: usize = self.render_capacity_estimate();
-        def2o!("render_capacity_estimate={}", rc);
-        let mut text = String::with_capacity(rc);
+        let rce: usize = self.render_capacity_estimate();
+        def2o!("render_capacity_estimate={}", rce);
+        let mut text = String::with_capacity(rce);
         dt.naive_local()
             .format("%Y-%m-%dT%H:%M:%S%.3f")
             .write_to(&mut text)
@@ -121,7 +124,7 @@ impl OdlEvent {
             text.push_str(parameter);
         }
         text.push('\n');
-        def2x!("dt={:?}", dt);
+        def2x!("dt={:?}, rendered text length={}", dt, text.len());
 
         Ok(Odl {
             dt,
@@ -131,10 +134,7 @@ impl OdlEvent {
     }
 }
 
-pub(crate) fn single_line(text: &str) -> String {
-    single_line_chars(text).collect()
-}
-
+/// Replace control characters with spaces without allocating.
 pub(crate) fn single_line_chars(text: &str) -> impl Iterator<Item = char> + '_ {
     text.chars()
         .map(|c| if c.is_control() { ' ' } else { c })
