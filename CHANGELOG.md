@@ -259,6 +259,13 @@ Helpful `git log` command for generating changelog entries:
 
 ## Unreleased
 
+- Replace Python OneDrive Log parsing with a native Rust `Read`-based ODL v2/v3
+  parser and reader. Support internal gzip, original-location map/key discovery,
+  stable chronological merging, native printing/summaries, and cancellation.
+  ODL no longer requires a Python environment; ASL retains its Python reader.
+  Remove the Python ODL module, entry point, license file, and exclusive
+  `construct`, `pycryptodome`, and `colorist` dependencies.
+
 [unreleased diff]
 
 - Windows Event Trace Log (`.etl`) files are now parsed natively in Rust by

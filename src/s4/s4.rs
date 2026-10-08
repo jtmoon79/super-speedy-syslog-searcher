@@ -268,6 +268,7 @@ use ::s4lib::readers::pyeventreader::{
     ResultNextPyDataEvent,
 };
 use ::s4lib::readers::etlreader::EtlReader;
+use ::s4lib::readers::odlreader::OdlReader;
 use ::s4lib::readers::evtxreader::EvtxReader;
 use ::s4lib::readers::filedecompressor::{
     count_temporary_files,
@@ -3173,8 +3174,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
 
     /// Create a Python virtual environment exclusively for s4.
     /// This is only necessary for parsing
-    /// Apple System Log (.asl) files and
-    /// OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files.
+    /// Apple System Log (.asl) files.
     /// This only needs to be created once.
     /// When this option is used, no other options may be passed.
     /// The Python interpreter used may be set by environment variable
@@ -3289,7 +3289,7 @@ pub(crate) fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::resu
             return Err(format!(
                 "Unable to parse a datetime format for --prepend-dt-format {:?} (this datetime is invalid)",
                 prepend_dt_format
-            ))
+            ));
         }
     };
     // try to format the datetime with the given format string in case something
@@ -3584,7 +3584,9 @@ fn string_to_rel_offset_datetime(
     }
     defo!("ret_dt {ret_dt:?} after duration_offset_type");
     if let EXACT_HMS::HMS(h, m, s) = exact_hms {
-        ret_dt = ret_dt.map(|dt| dt.with_hour(h).unwrap().with_minute(m).unwrap().with_second(s).unwrap());
+        ret_dt = ret_dt.map(|dt| {
+            dt.with_hour(h).unwrap().with_minute(m).unwrap().with_second(s).unwrap()
+        });
         defo!("exact_hms {exact_hms:?}; ret_dt {ret_dt:?}");
     }
     // If user-supplied an offset in the `-a` or `-b` argument then
@@ -4270,7 +4272,6 @@ pub enum FileTypeExecData {
 /// * optional `DateTimeL` as the _after_ datetime filter
 /// * optional `DateTimeL` as the _before_ datetime filter
 /// * fallback timezone `FixedOffset` for datetime formats without a timezone
-///
 // TODO: change to a typed `struct ThreadInitData(...)`
 type ThreadInitData = (
     FPath,
@@ -4315,7 +4316,6 @@ enum ChanDatum {
     NewMessage(LogMessage, IsLastLogMessage),
     /// last data sent from file processing thread to main printing thread.
     /// zero or one should be sent during the entire thread
-    ///
     // XXX: Would be ideal to store `FileProcessingResultBlockZero` in the
     //      `Summary`. But the `FileProcessingResultBlockZero` has an
     //      explicit lifetime because it can carry a `Error`.
@@ -5124,8 +5124,45 @@ fn exec_etlprocessor(
     defx!("({:?})", path);
 }
 
-/// This function drives a [`PyEventReader`] instance through it's processing.
-/// Similar to [`exec_syslogprocessor`].
+/// Drive native ODL parsing, delivering ordered events and explicit error status.
+fn exec_odlparser(
+    chan_send_dt: ChanSendDatum,
+    thread_init_data: ThreadInitData,
+    _tname: &str,
+    _tid: thread::ThreadId,
+) {
+    let (path, pathid, filetype, _, _, after, before, tz_offset) = thread_init_data;
+    debug_assert!(filetype.is_odl());
+    exit_early_return!();
+    let mut reader = match OdlReader::new(pathid, path.clone(), filetype, tz_offset) {
+        Ok(reader) => reader,
+        Err(error) => {
+            let summary = Summary::new_failed(path.clone(), filetype, LogMessageType::Odl, 0, Some(error.to_string()));
+            chan_send(&chan_send_dt, ChanDatum::FileInfo(None, FileProcessingResultBlockZero::FileErrIo(error)), &path);
+            chan_send(&chan_send_dt, ChanDatum::FileSummary(Some(summary), FILEERRSTUB), &path);
+            return;
+        }
+    };
+    let mtime = systemtime_to_datetime(&tz_offset, &reader.mtime());
+    if !chan_send(&chan_send_dt, ChanDatum::FileInfo(Some(mtime), FILEOK), &path) {
+        return;
+    }
+    let result = reader.analyze(&after, &before, &EXIT_EARLY);
+    exit_early_return!();
+    while let Some(event) = reader.next() {
+        exit_early_return!();
+        if !chan_send(&chan_send_dt, ChanDatum::NewMessage(LogMessage::Odl(event), false), &path) {
+            return;
+        }
+    }
+    let status = match result {
+        Ok(()) => FILEOK,
+        Err(error) => FileProcessingResultBlockZero::FileErrIo(error),
+    };
+    chan_send(&chan_send_dt, ChanDatum::FileSummary(Some(reader.summary_complete()), status), &path);
+}
+
+/// Drive the Python-backed ASL reader.
 fn exec_pyeventprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
@@ -5143,21 +5180,20 @@ fn exec_pyeventprocessor(
         tz_offset,
     ) = thread_init_data;
     defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
-    debug_assert!(filetype.is_odl() || filetype.is_asl());
+    debug_assert!(filetype.is_asl());
     debug_assert!(matches!(filetypeexecdata, FileTypeExecData::None));
 
     exit_early_return!();
 
     let pyevent_type: PyEventType = match filetype {
         FileType::Asl { .. } => PyEventType::Asl,
-        FileType::Odl { .. } => PyEventType::Odl,
         _ => {
             debug_panic!(
                 "exec_pyeventprocessor called with wrong filetype {:?} for path {:?}",
                 filetype, path
             );
-            e_err!("filetype is {:?} not Asl/Odl which is unexpected", filetype);
-            defx!("({:?}) return early due filetype is not Asl/Odl", path);
+            e_err!("filetype is {:?} not Asl which is unexpected", filetype);
+            defx!("({:?}) return early due filetype is not Asl", path);
             return;
         }
     };
@@ -5250,7 +5286,7 @@ fn exec_pyeventprocessor(
                 de_err!("etl_reader.next(…) returned {} (Ignored)", _err);
             }
         }
-    };
+    }
 
     exit_early_return!();
 
@@ -5449,7 +5485,7 @@ fn exec_fileprocessor_thread(
         FileType::Etl { .. } => exec_etlprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Evtx { .. } => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Journal { .. } => exec_journalprocessor(chan_send_dt, thread_init_data, tname, tid),
-        FileType::Odl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Odl { .. } => exec_odlparser(chan_send_dt, thread_init_data, tname, tid),
         FileType::Text { .. } => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Unparsable
         => {
@@ -5466,10 +5502,9 @@ const CHANNEL_CAPACITY: usize = 5;
 ///
 /// 1. creates threads to process each file
 ///
-/// 2. waits on each thread to receive a processed `LogMessage`
-///    _or_ a closed [channel]
-///    a. prints received `LogMessage` in datetime order
-///    b. repeat 2. until each thread sends a `IsLastLogMessage` value `true`
+/// 2. waits on each thread to receive a processed `LogMessage` _or_ a closed [channel] a. prints
+///    received `LogMessage` in datetime order b. repeat 2. until each thread sends a
+///    `IsLastLogMessage` value `true`
 ///
 /// 3. print each [`Summary`] (if CLI option `--summary`)
 ///
@@ -5692,8 +5727,9 @@ fn processing_loop(
                 e_err!("not a file {:?}", path),
             ProcessPathResult::FileErrNotExist(path) =>
                 e_err!("path does not exist {:?}", path),
-            ProcessPathResult::FileErrLoadingLibrary(path, libname, ft) =>
-                e_err!("failed to load library {:?} for {:?} {:?}", libname, ft, path),
+            ProcessPathResult::FileErrLoadingLibrary(path, libname, ft) => {
+                e_err!("failed to load library {:?} for {:?} {:?}", libname, ft, path)
+            }
             ProcessPathResult::FileErr(path, message) =>
                 e_err!("{} for {:?}", message, path),
             ProcessPathResult::FileValid(..) => {}
@@ -5808,24 +5844,36 @@ fn processing_loop(
         let mut stack_size = match (cfg!(debug_assertions), filetype) {
             (true, _) =>
                 // ere regex + debug requires a very large stack size
-                12 * 1024 * 1024, // 12 MB
+            {
+                12 * 1024 * 1024
+            } // 12 MB
             (false, FileType::Asl {..})
-            | (false, FileType::Etl {..})
-            | (false, FileType::Odl {..}) =>
+            | (false, FileType::Etl {..}) =>
                 // experiments showed 114Ki, not compressed
-                1024 * 134,
+            {
+                1024 * 134
+            }
             (false, FileType::Evtx {..}) =>
                 // experiments showed 108 KiB, not compressed
-                1024 * 128,
+            {
+                1024 * 128
+            }
+            (false, FileType::Odl { .. }) => 1024 * 512,
             (false, FileType::FixedStruct {..}) =>
                 // experiments showed 82Ki, not compressed
-                1024 * 102,
+            {
+                1024 * 102
+            }
             (false, FileType::Journal {..}) =>
                 // experiments showed 108 KiB, not compressed
-                1024 * 128,
+            {
+                1024 * 128
+            }
             (false, FileType::Text {..}) =>
                 // experiments showed 78 KiB, not compressed
-                1024 * 98,
+            {
+                1024 * 98
+            }
             (_, FileType::Unparsable) => {
                 debug_panic!("Unhandled file_type {filetype} for stack_size setting");
                 1024 * 512
@@ -6123,10 +6171,8 @@ fn processing_loop(
                 &map_pathid_chanrecvdatum,
                 &index_select,
             ) {
-                Some(RecvManyResult::Channel(pathid, select_index, result)) => {
-                    (pathid, select_index, result)
-                }
-                Some(RecvManyResult::Signal) => break,
+                Some(RecvManyResult::Channel(pathid, select_index, result)) => (pathid, select_index, result),
+                    Some(RecvManyResult::Signal) => break,
                 None => {
                     de_wrn!("recv_many_chan returned None which is unexpected");
                     break;
@@ -6278,26 +6324,33 @@ fn processing_loop(
                                     e_err!("file too small {:?}", path),
                                 FileProcessingResultBlockZero::FileErrTooSmallS(s) =>
                                     e_err!("file too small {}", s),
-                                FileProcessingResultBlockZero::FileErrNullBytes =>
-                                    e_err!("file contains too many null bytes {:?}", path),
-                                FileProcessingResultBlockZero::FileErrFFBytes =>
-                                    e_err!("file contains too many 0xFF bytes {:?}", path),
-                                FileProcessingResultBlockZero::FileErrNoLinesFound =>
-                                    e_err!("no lines found {:?}", path),
-                                FileProcessingResultBlockZero::FileErrNoSyslinesFound =>
-                                    e_err!("no syslines found {:?}", path),
-                                FileProcessingResultBlockZero::FileErrNoValidFixedStruct =>
-                                    e_err!("no valid fixed struct {:?}", path),
-                                FileProcessingResultBlockZero::FileErrDecompress =>
-                                    e_err!("could not decompress {:?}", path),
+                                FileProcessingResultBlockZero::FileErrNullBytes => {
+                                    e_err!("file contains too many null bytes {:?}", path)
+                                }
+                                FileProcessingResultBlockZero::FileErrFFBytes => {
+                                    e_err!("file contains too many 0xFF bytes {:?}", path)
+                                }
+                                FileProcessingResultBlockZero::FileErrNoLinesFound => {
+                                    e_err!("no lines found {:?}", path)
+                                }
+                                FileProcessingResultBlockZero::FileErrNoSyslinesFound => {
+                                    e_err!("no syslines found {:?}", path)
+                                }
+                                FileProcessingResultBlockZero::FileErrNoValidFixedStruct => {
+                                    e_err!("no valid fixed struct {:?}", path)
+                                }
+                                FileProcessingResultBlockZero::FileErrDecompress => {
+                                    e_err!("could not decompress {:?}", path)
+                                }
                                 FileProcessingResultBlockZero::FileErrWrongType =>
                                     e_err!("bad path {:?}", path),
                                 FileProcessingResultBlockZero::FileErrIo(err) =>
                                     e_err!("{} for {:?}", err, path),
                                 FileProcessingResultBlockZero::FileErrIoPath(err) =>
                                     e_err!("{}", err),
-                                FileProcessingResultBlockZero::FileErrChanSend =>
-                                    panic!("Should not receive ChannelSend Error {}", path),
+                                FileProcessingResultBlockZero::FileErrChanSend => {
+                                    panic!("Should not receive ChannelSend Error {}", path)
+                                }
                                 FileProcessingResultBlockZero::FileOk => {}
                                 FileProcessingResultBlockZero::FileErrEmpty => {}
                                 FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange => {}
@@ -6542,6 +6595,40 @@ fn processing_loop(
                         // update the single total program `SummaryPrinted`
                         summaryprinted.summaryprint_update_pyevent(
                             pyevent, *pyevent_type, printed, flushed
+                        );
+                    }
+                }
+                LogMessage::Odl(odl) => {
+                    let (printed, flushed) = match printer.print_odl(odl) {
+                        Ok((printed, flushed)) => (printed as Count, flushed as Count),
+                        Err(error) => {
+                            if !has_print_err {
+                                has_print_err = true;
+                                e_err!("failed to print {}", error);
+                            }
+                            EXIT_EARLY.store(true, Ordering::Relaxed);
+                            disconnect.push(*pathid);
+                            (0, 0)
+                        }
+                    };
+                    if sepb_print {
+                        write_stdout(sepb);
+                        if cli_opt_summary {
+                            summaryprinted.bytes += sepb.len() as Count;
+                            summaryprinted.flushed += 1;
+                        }
+                    }
+                    _messages_printed += 1;
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        SummaryPrinted::summaryprint_map_update_odl(
+                            odl,
+                            pathid,
+                            &mut map_pathid_sumpr,
+                            printed,
+                            flushed,
+                        );
+                        summaryprinted.summaryprint_update_odl(odl, printed, flushed
                         );
                     }
                 }

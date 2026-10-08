@@ -44,13 +44,12 @@ use crate::readers::evtxreader::EvtxReader;
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{
-    path_id_generator,
     EVTX_KPNP_DATA1_S,
+    EVTX_KPNP_ENTRY_FO,
     EVTX_KPNP_ENTRY1_DT,
     EVTX_KPNP_ENTRY227_DT,
     EVTX_KPNP_EVENT_COUNT,
     EVTX_KPNP_FPATH,
-    EVTX_KPNP_ENTRY_FO,
     EVTX_KPNP_GZ_ENTRY1_DT,
     EVTX_KPNP_GZ_ENTRY227_DT,
     EVTX_KPNP_GZ_EVENT_COUNT,
@@ -68,8 +67,9 @@ use crate::tests::common::{
     EVTX_KPNP_XZ_EVENT_COUNT,
     EVTX_KPNP_XZ_FPATH,
     EVTX_NE_FPATH,
-    NTF_LOG_EMPTY_FPATH,
     FO_E8,
+    NTF_LOG_EMPTY_FPATH,
+    path_id_generator,
 };
 
 pub const EVTX_KPNP_DATA1_ID: RecordId = 1;
@@ -276,28 +276,20 @@ fn test_EvtxReader_next_summary(
     summary_stats_enable();
 
     match filetype {
-        FileType::Evtx { archival_type } => {
-            match archival_type {
-                FileTypeArchive::Normal
-                | FileTypeArchive::Bz2
-                | FileTypeArchive::Gz
-                | FileTypeArchive::Lz4
-                | FileTypeArchive::Tar
-                | FileTypeArchive::Xz
-                => {}
-            }
-        }
+        FileType::Evtx { archival_type } => match archival_type {
+            FileTypeArchive::Normal
+            | FileTypeArchive::Bz2
+            | FileTypeArchive::Gz
+            | FileTypeArchive::Lz4
+            | FileTypeArchive::Tar
+            | FileTypeArchive::Xz => {}
+        },
         _ => {
             panic!("filetype should be FileType::Evtx");
         }
     }
 
-    let mut evtxreader = EvtxReader::new(
-        path_id_generator(),
-        path.clone(),
-        filetype,
-        *EVTX_KPNP_ENTRY_FO,
-    ).unwrap();
+    let mut evtxreader = EvtxReader::new(path_id_generator(), path.clone(), filetype, *EVTX_KPNP_ENTRY_FO).unwrap();
     evtxreader.analyze(&None, &None);
     while let Some(evtx_) = evtxreader.next() {
         black_box(evtx_);

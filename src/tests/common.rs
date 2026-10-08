@@ -34,6 +34,7 @@ use crate::common::{
     FileTypeFixedStruct,
     FileTypeTextEncoding,
     FileTypeBasicEncoding,
+    OdlSubType,
     PathId,
     RegexId,
     Path,
@@ -5381,4 +5382,84 @@ lazy_static::lazy_static! {
 
         etl_data
     };
+}
+
+// ODL files
+//
+// Expected lines are `OdlEvent::render` output at `FO_M7`, without the trailing
+// newline. Parser fixture tests load the sibling `general.keystore`. Reader tests
+// discover that keystore themselves. Key material is not copied into this file.
+
+/// Rendered ODL event used by parser and reader fixture tests.
+pub struct OdlExpectedLine {
+    pub dt: DateTimeL,
+    pub line: &'static [u8],
+}
+
+pub const ODL_NUCLEUS_ODLGZ_PATH: &str =
+    "./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1217.7692.1.odlgz";
+pub const ODL_SYNCENGINE_ODL_PATH: &str =
+    "./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/SyncEngine-2025-12-21.1217.11144.1.odl";
+pub const ODL_NUCLEUSLOCAL_AODL_PATH: &str =
+    "./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Local/NucleusLocal-2025-12-21.1214.9352.1.aodl";
+
+pub const ODL_NUCLEUS_ODLGZ_FILETYPE: FileType = FileType::Odl {
+    archival_type: FileTypeArchive::Normal,
+    odl_sub_type: OdlSubType::Odlgz,
+};
+pub const ODL_SYNCENGINE_ODL_FILETYPE: FileType = FileType::Odl {
+    archival_type: FileTypeArchive::Normal,
+    odl_sub_type: OdlSubType::Odl,
+};
+pub const ODL_NUCLEUSLOCAL_AODL_FILETYPE: FileType = FileType::Odl {
+    archival_type: FileTypeArchive::Normal,
+    odl_sub_type: OdlSubType::Aodl,
+};
+
+fn odl_expected(
+    hour: u32,
+    min: u32,
+    sec: u32,
+    milli: i64,
+    line: &'static [u8],
+) -> OdlExpectedLine {
+    OdlExpectedLine {
+        dt: ymdhmsn(&FO_M7, 2025, 12, 21, hour, min, sec, milli * 1_000_000),
+        line,
+    }
+}
+
+lazy_static! {
+    pub static ref ODL_NUCLEUS_ODLGZ_DATA: Vec<OdlExpectedLine> = vec![
+        odl_expected(5, 17, 35, 756, br#"2025-12-21T05:17:35.756-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::Initialize; JokeYakLog:\RodOafGad\PieFarAwe\TaxZigPen\WarPewMuch\PenFoxRag\MuchGadSea\WolfSeaJoy\FoxKidTax\WowSewYup\QuillTheCan.txt"#),
+        odl_expected(5, 17, 35, 756, br#"2025-12-21T05:17:35.756-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::UpdateLocalVariableFromFile; 3, 0, 3, 2, 1, 1, "#),
+        odl_expected(5, 17, 35, 757, br#"2025-12-21T05:17:35.757-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::CreateLoggingTelemetrySession;"#),
+        odl_expected(5, 17, 35, 758, br#"2025-12-21T05:17:35.758-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::HasGroupPolicyConfiguringTelemetryUploadLocation;"#),
+        odl_expected(5, 17, 35, 758, br#"2025-12-21T05:17:35.758-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::ShouldUseExperimentalDll;"#),
+    ];
+    pub static ref ODL_SYNCENGINE_ODL_DATA: Vec<OdlExpectedLine> = vec![
+        odl_expected(5, 17, 16, 910, br#"2025-12-21T05:17:16.910-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::Initialize; JokeYakLog:\RodOafGad\PieFarAwe\TaxZigPen\WarPewMuch\PenFoxRag\MuchGadSea\WolfSeaJoy\MawPieTruck\QuillTheCan.txt"#),
+        odl_expected(5, 17, 16, 910, br#"2025-12-21T05:17:16.910-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::UpdateLocalVariableFromFile; 3, 0, 3, 2, 1, 1, "#),
+        odl_expected(5, 17, 16, 910, br#"2025-12-21T05:17:16.910-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::CreateLoggingTelemetrySession;"#),
+        odl_expected(5, 17, 16, 911, br#"2025-12-21T05:17:16.911-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::HasGroupPolicyConfiguringTelemetryUploadLocation;"#),
+        odl_expected(5, 17, 16, 911, br#"2025-12-21T05:17:16.911-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::ShouldUseExperimentalDll;"#),
+    ];
+    pub static ref ODL_NUCLEUSLOCAL_AODL_DATA: Vec<OdlExpectedLine> = vec![
+        odl_expected(5, 14, 8, 216, br#"2025-12-21T05:14:08.216-07:00 LocalEnvironment.cpp:Nucleus::System::CreateLocalEnvironment;"#),
+        odl_expected(5, 14, 8, 217, br#"2025-12-21T05:14:08.217-07:00 LocalEnvironment.cpp:Nucleus::System::LocalEnvironment::Start;"#),
+        odl_expected(5, 14, 8, 218, br#"2025-12-21T05:14:08.218-07:00 DatabasePathResolver.cpp:Nucleus::Database::DatabasePathResolver::DatabasePathResolver;"#),
+        odl_expected(5, 14, 8, 218, br#"2025-12-21T05:14:08.218-07:00 LocalContentDatabase.cpp:Nucleus::Database::LocalContentDatabase::Initialize;"#),
+        odl_expected(5, 14, 8, 226, br#"2025-12-21T05:14:08.226-07:00 DataSource.cpp:Nucleus::Database::DataSource::PrepareSchema; DataSourceDBResetOnStaleTempSchema localContent Success"#),
+        odl_expected(5, 14, 8, 232, br#"2025-12-21T05:14:08.232-07:00 DataSource.cpp:Nucleus::Database::DataSource::PrepareSchema; DataSourceDBResetOnStaleTempSchema thumbnailCache Success"#),
+        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 EventMachine.cpp:EvtMachine::EventMachine::AttachThread; Nucleus Shared Worker Thread"#),
+        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ 1f2b5e15-2693-4a5d-a6eb-f3a1aacfba80/"#),
+        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread"#),
+        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+        odl_expected(5, 14, 8, 234, br#"2025-12-21T05:14:08.234-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+        odl_expected(5, 14, 8, 234, br#"2025-12-21T05:14:08.234-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+        odl_expected(5, 14, 8, 234, br#"2025-12-21T05:14:08.234-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+        odl_expected(5, 14, 13, 366, br#"2025-12-21T05:14:13.366-07:00 EventMachine.cpp:EvtMachine::EventMachine::FireEvent; NucleusUpdateRingSettingsUpdated"#),
+        odl_expected(5, 14, 13, 366, br#"2025-12-21T05:14:13.366-07:00 EventMachine.cpp:EvtMachine::EventMachine::FireEvent; NucleusUpdateRingSettingsUpdated"#),
+    ];
 }

@@ -8,43 +8,51 @@
 #![allow(non_camel_case_types)]
 
 #[allow(unused_imports)]
-use ::si_trace_print::printers::{defn, defo, defx};
+use ::si_trace_print::printers::{
+    defn,
+    defo,
+    defx,
+};
 use ::test_case::test_case;
 
-use crate::common::{Count, FPath, FileSz, FileType, FileTypeArchive, OdlSubType};
-use crate::data::datetime::{ymdhmsl, DateTimeLOpt};
+use crate::common::{
+    Count,
+    FPath,
+    FileSz,
+    FileType,
+    FileTypeArchive,
+};
+use crate::data::datetime::{
+    DateTimeLOpt,
+    ymdhmsl,
+};
 use crate::python::pyrunner::PipeSz;
-use crate::readers::pyeventreader::{PyEventReader, ResultNextPyDataEvent};
+use crate::readers::pyeventreader::{
+    PyEventReader,
+    ResultNextPyDataEvent,
+};
 use crate::tests::common::{
-    path_id_generator, ASL_1_EVENT_COUNT, ASL_1_FILESZ, ASL_1_FPATH, FO_0, ODL_1_EVENT_COUNT, ODL_1_FILESZ, ODL_1_FPATH,
+    ASL_1_EVENT_COUNT,
+    ASL_1_FILESZ,
+    ASL_1_FPATH,
+    FO_0,
+    path_id_generator,
 };
 use crate::tests::venv_tests::venv_setup;
 
 const FILETYPE_ASL: FileType = FileType::Asl {
     archival_type: FileTypeArchive::Normal,
 };
-const FILETYPE_ODL: FileType = FileType::Odl {
-    archival_type: FileTypeArchive::Normal,
-    odl_sub_type: OdlSubType::Odl,
-};
-
-const PIPE_SZ_ASL_ODL: PipeSz = 1024;
+const PIPE_SZ_ASL: PipeSz = 1024;
 
 #[test_case(
     ASL_1_FPATH.clone(),
     ASL_1_FILESZ,
-    PIPE_SZ_ASL_ODL,
+    PIPE_SZ_ASL,
     FILETYPE_ASL;
     "asl"
 )]
-#[test_case(
-    ODL_1_FPATH.clone(),
-    ODL_1_FILESZ,
-    PIPE_SZ_ASL_ODL,
-    FILETYPE_ODL;
-    "odl"
-)]
-fn test_PyEventReader_new_asl_odl(
+fn test_PyEventReader_new_asl(
     path: FPath,
     size_expected: FileSz,
     pipe_sz: PipeSz,
@@ -71,7 +79,7 @@ fn test_PyEventReader_ts_data_to_datetime_ok() {
     defn!();
     venv_setup();
 
-    let per = PyEventReader::new(path_id_generator(), ODL_1_FPATH.clone(), FILETYPE_ODL, FO_0, 1).unwrap();
+    let per = PyEventReader::new(path_id_generator(), ASL_1_FPATH.clone(), FILETYPE_ASL, FO_0, 1).unwrap();
 
     let ts_data = b"1590429555554"; // 2020-05-25T17:59:15.554+00:00
     let dt_ts = per
@@ -90,7 +98,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
     defn!();
     venv_setup();
 
-    let per = PyEventReader::new(path_id_generator(), ODL_1_FPATH.clone(), FILETYPE_ODL, FO_0, 1).unwrap();
+    let per = PyEventReader::new(path_id_generator(), ASL_1_FPATH.clone(), FILETYPE_ASL, FO_0, 1).unwrap();
 
     let ts_data = b"-";
     let dt_ts = per.ts_data_to_datetime(ts_data);
@@ -127,44 +135,6 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
     0;
     "asl1 pipesz 64 events 0 after 2030-01-01T12:00:00.000"
 )]
-#[test_case(
-    ODL_1_FPATH.clone(),
-    8,
-    FILETYPE_ODL,
-    &DateTimeLOpt::None,
-    &DateTimeLOpt::None,
-    *ODL_1_EVENT_COUNT;
-    "odl1 pipesz 8 events all"
-)]
-#[test_case(
-    ODL_1_FPATH.clone(),
-    2056,
-    FILETYPE_ODL,
-    &DateTimeLOpt::None,
-    &DateTimeLOpt::None,
-    *ODL_1_EVENT_COUNT;
-    "odl1 pipesz 2056 events all"
-)]
-#[test_case(
-    ODL_1_FPATH.clone(),
-    64,
-    FILETYPE_ODL,
-    // 2030-01-01 12:00:00.000+00:00
-    &DateTimeLOpt::Some(ymdhmsl(&FO_0, 2030, 1, 1, 12, 0, 0, 0)),
-    &DateTimeLOpt::None,
-    0;
-    "odl1 pipesz 64 events 0 after 2030-01-01T12:00:00.000"
-)]
-#[test_case(
-    ODL_1_FPATH.clone(),
-    64,
-    FILETYPE_ODL,
-    &DateTimeLOpt::None,
-    // 2030-01-01 12:00:00.000+00:00
-    &DateTimeLOpt::Some(ymdhmsl(&FO_0, 2030, 1, 1, 12, 0, 0, 0)),
-    *ODL_1_EVENT_COUNT;
-    "odl1 pipesz 64 events all before 2030-01-01T12:00:00.000"
-)]
 fn test_PyEventReader_next(
     path: FPath,
     pipe_sz: PipeSz,
@@ -175,7 +145,13 @@ fn test_PyEventReader_next(
 ) {
     defn!(
         "test_PyEventReader_next: path={:?}, pipe_sz={:?}, file_type={:?}, dt_filter_after={:?}, dt_filter_before={:?}, events_expected={}",
-        path, pipe_sz, file_type, dt_filter_after,  dt_filter_before, events_expected);
+        path,
+        pipe_sz,
+        file_type,
+        dt_filter_after,
+        dt_filter_before,
+        events_expected
+    );
 
     venv_setup();
 

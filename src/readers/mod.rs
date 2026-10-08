@@ -13,9 +13,8 @@
 //! <br/>
 //!
 //! * A `BlockReader` only handles `u8` bytes.
-//! * A `LineReader` and a `SyslineReader` strongly prefer to handle `u8`
-//!   bytes but converts to `char` when necessary.<br/>
-//!   Avoiding `u8` to `char` conversion avoids potential errors and
+//! * A `LineReader` and a `SyslineReader` strongly prefer to handle `u8` bytes but converts to
+//!   `char` when necessary.<br/> Avoiding `u8` to `char` conversion avoids potential errors and
 //!   significantly improves program performance.
 //! * A `LineReader` does the majority of `u8` to `char` conversions.
 //!
@@ -96,6 +95,8 @@ pub mod fixedstructreader;
 pub mod helpers;
 pub mod journalreader;
 pub mod linereader;
+pub mod odlparser;
+pub mod odlreader;
 pub mod pyeventreader;
 pub mod summary;
 pub mod syslinereader;

@@ -14,15 +14,14 @@ use crate::data::datetime::FixedOffset;
 use crate::data::etl::Etl;
 use crate::readers::etlreader::EtlReader;
 use crate::tests::common::{
-    NTF_LOG_EMPTY_FPATH,
-    ETL_FILE1_PATH,
     ETL_FILE1_DATA,
+    ETL_FILE1_PATH,
+    NTF_LOG_EMPTY_FPATH,
     path_id_generator,
 };
 
 #[allow(non_upper_case_globals)]
 const FO_m7: FixedOffset = FixedOffset::east_opt(-7 * 3600).unwrap();
-
 
 /// create a `EtlReader` for the file at `ETL_FILE1_PATH`
 /// process the Events, compare them against expected results
@@ -47,12 +46,25 @@ fn test_etlreader_file1() {
     let mut expected: Vec<Etl> = ETL_FILE1_DATA.clone();
     expected.sort_by(|a, b| a.partial_cmp(b).unwrap());
     assert_eq!(actual.len(), expected.len(), "event count");
-    for (actual, expected) in actual.iter().zip(expected.iter()) {
+    for (actual, expected) in actual
+        .iter()
+        .zip(expected.iter())
+    {
         assert_eq!(actual.dt(), expected.dt());
         assert_eq!(actual.dt_beg_end(), expected.dt_beg_end());
-        assert_eq!(actual.as_bytes().strip_suffix(b"\n"), Some(expected.as_bytes()));
+        assert_eq!(
+            actual
+                .as_bytes()
+                .strip_suffix(b"\n"),
+            Some(expected.as_bytes())
+        );
     }
-    assert_eq!(reader.summary_complete().error, None);
+    assert_eq!(
+        reader
+            .summary_complete()
+            .error,
+        None
+    );
 }
 
 #[test]
@@ -70,7 +82,10 @@ fn test_etlreader_file_empty() {
 
     assert_eq!(reader.next(), None);
     assert_eq!(
-        reader.summary_complete().error.as_deref(),
+        reader
+            .summary_complete()
+            .error
+            .as_deref(),
         Some("ETL file has no buffers")
     );
 }

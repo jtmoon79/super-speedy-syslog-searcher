@@ -859,3 +859,15 @@ impl Etl {
         String::from_utf8_lossy(self.as_bytes()).into_owned()
     }
 }
+
+impl crate::data::common::PrintableEvent for Etl {
+    fn dt(&self) -> &DateTimeL {
+        self.dt()
+    }
+    fn dt_beg_end(&self) -> &DtBegEndPairOpt {
+        self.dt_beg_end()
+    }
+    fn as_bytes(&self) -> &[u8] {
+        self.as_bytes()
+    }
+}

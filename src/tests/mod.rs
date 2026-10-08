@@ -27,6 +27,8 @@ pub mod journal_tests;
 pub mod journalreader_tests;
 pub mod line_tests;
 pub mod linereader_tests;
+pub mod odlparser_tests;
+pub mod odlreader_tests;
 pub mod printers_tests;
 pub mod pydataevent_tests;
 pub mod pyeventreader_tests;

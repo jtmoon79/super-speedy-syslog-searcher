@@ -7,7 +7,7 @@ authors = [
 name = "s4_event_readers"
 # XXX: `version` should match Cargo.toml:package:version
 version = "0.10.83"
-description = "Event log readers (ASL, ODL) designed for use with Super Speedy Syslog Searcher (s4). Not intended to be used standalone."
+description = "Apple System Log (ASL) reader designed for use with Super Speedy Syslog Searcher (s4). Not intended to be used standalone."
 dynamic = ["dependencies"]
 # python dependencies in requirements.in and requirements.txt must be compatible
 # with this Python version
@@ -22,7 +22,6 @@ Changelog = "https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/maste
 
 [project.scripts]
 ccl_asldb = "s4_event_readers.ccl_asldb:main"
-odl_reader = "s4_event_readers.odl_reader:main"
 
 [build-system]
 requires = ["setuptools >= 77.0.3"]

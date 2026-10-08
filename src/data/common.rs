@@ -10,6 +10,8 @@ use crate::data::journal::JournalEntry;
 use crate::data::pydataevent::PyDataEvent;
 use crate::data::sysline::SyslineP;
 use crate::readers::pyeventreader::PyEventType;
+use crate::data::odl::Odl;
+
 
 /// The type of log message sent from file processing thread to the main
 /// printing thread enclosing the specific message.
@@ -21,6 +23,7 @@ pub enum LogMessage {
     Etl(Etl),
     Evtx(Evtx),
     Journal(JournalEntry),
+    Odl(Odl),
     PyEvent(PyDataEvent, PyEventType),
 }
 pub type LogMessageOpt = Option<LogMessage>;
@@ -35,6 +38,7 @@ impl LogMessage {
             LogMessage::Etl(etl) => etl.dt(),
             LogMessage::Evtx(evtx) => evtx.dt(),
             LogMessage::Journal(journal) => journal.dt(),
+            LogMessage::Odl(odl) => odl.dt(),
             LogMessage::PyEvent(pyevent, ..) => pyevent.dt(),
         }
     }
@@ -47,3 +51,10 @@ pub type DtBegEndPair = (usize, usize);
 
 /// [`Option`] of [`DtBegEndPair`].
 pub type DtBegEndPairOpt = Option<DtBegEndPair>;
+
+/// Rendered native events that share the byte-oriented printing pipeline.
+pub trait PrintableEvent {
+    fn dt(&self) -> &DateTimeL;
+    fn dt_beg_end(&self) -> &DtBegEndPairOpt;
+    fn as_bytes(&self) -> &[u8];
+}
