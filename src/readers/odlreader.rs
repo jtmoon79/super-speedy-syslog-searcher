@@ -151,6 +151,7 @@ impl OdlReader<FileHandleManaged> {
         for diagnostic in companions.diagnostics {
             reader.report_error(diagnostic);
         }
+
         Ok(reader)
     }
 }
@@ -169,6 +170,7 @@ impl<R: Read> OdlReader<R> {
             statistics.odlreader_filesz = source.filesz;
             statistics.odlreader_companions_available = decoding.has_companions();
         });
+
         Ok(Self {
             source,
             reader: Some(reader),
@@ -338,6 +340,7 @@ impl<R: Read> OdlReader<R> {
         if let Some(error) = &self.error {
             return Err(Error::new(ErrorKind::InvalidData, error.clone()));
         }
+
         Ok(())
     }
 
@@ -497,5 +500,6 @@ fn load_companions(
             }
         }
     }
+
     Ok(companions)
 }

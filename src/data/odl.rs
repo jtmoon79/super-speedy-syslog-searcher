@@ -107,6 +107,7 @@ impl OdlEvent {
             text.push_str(parameter);
         }
         text.push('\n');
+
         Ok(Odl {
             dt,
             dt_beg_end: Some((0, dt_end)),

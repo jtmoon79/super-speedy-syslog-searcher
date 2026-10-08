@@ -333,7 +333,7 @@ fn test_odlparser_fatal_record_stops_stream() {
             assert_eq!(ordinal, 1);
             assert_eq!(offset, 0);
             assert_eq!(error.kind(), ErrorKind::InvalidData);
-            assert_eq!(error.to_string(), "invalid ODL record signature");
+            assert_eq!(error.to_string(), "invalid ODL record signature: expected [204, 221, 238, 255], found [78, 79, 80, 69]");
         }
         other => panic!("expected fatal record error, got {other:?}"),
     }
@@ -348,7 +348,7 @@ fn test_odlparser_fatal_record_stops_stream() {
     let mut odl = parser_of(odl_file(3, &[oversized.as_slice()]));
     match odl.next_event() {
         Some(Err(OdlRecordError::Fatal { error, .. })) => {
-            assert_eq!(error.to_string(), "ODL record exceeds size limit");
+            assert_eq!(error.to_string(), "ODL record length 65537 exceeds size limit 65536");
         }
         other => panic!("expected fatal size error, got {other:?}"),
     }
@@ -456,7 +456,7 @@ fn test_odl_decoding_context_map_and_keystore() {
     let error = OdlDecodingContext::default()
         .load_map(Cursor::new(b"\tvalue\n".as_slice()))
         .unwrap_err();
-    assert_eq!(error.to_string(), "empty ODL obfuscation-map key");
+    assert_eq!(error.to_string(), "empty ODL obfuscation-map key at line 0");
 
     let error = OdlDecodingContext::default()
         .load_map(Cursor::new(b"continuation\n".as_slice()))
@@ -482,7 +482,7 @@ fn test_odl_decoding_context_map_and_keystore() {
     let error = OdlDecodingContext::default()
         .load_map(Cursor::new(vec![b'a'; ODL_COMPANION_BYTES_MAX + 1]))
         .unwrap_err();
-    assert_eq!(error.to_string(), "ODL companion exceeds size limit");
+    assert_eq!(error.to_string(), "ODL companion size 16777217 exceeds size limit 16777216");
 
     let error = OdlDecodingContext::default()
         .load_keystore(Cursor::new(b"{}".as_slice()))
@@ -492,13 +492,13 @@ fn test_odl_decoding_context_map_and_keystore() {
     let error = OdlDecodingContext::default()
         .load_keystore(Cursor::new(br#"[{"Version":2,"Key":"AAAA"}]"#.as_slice()))
         .unwrap_err();
-    assert_eq!(error.to_string(), "unsupported ODL keystore version");
+    assert_eq!(error.to_string(), "unsupported ODL keystore version Some(2)");
 
     let short_key = STANDARD.encode([1u8; 15]);
     let error = OdlDecodingContext::default()
         .load_keystore(Cursor::new(format!(r#"[{{"Version":1,"Key":"{short_key}"}}]"#)))
         .unwrap_err();
-    assert_eq!(error.to_string(), "unsupported ODL AES key length");
+    assert_eq!(error.to_string(), "unsupported ODL AES key length 15");
 
     let key = b"KEYMATERIAL12345";
     let mut decoding = OdlDecodingContext::default();
