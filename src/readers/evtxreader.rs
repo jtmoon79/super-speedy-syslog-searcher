@@ -652,6 +652,7 @@ impl EvtxReader {
             None,
             Some(summaryevtxreader),
             None,
+            None,
             error,
         )
     }

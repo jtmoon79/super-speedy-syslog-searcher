@@ -12,7 +12,6 @@ def main():
     print(
         f"s4_event_readers version: {__version__}\n"
         "Call with submodules:\n"
-        "  odl_reader            : Read ODL files (.odl, .aodl, .odlgz, .odlsent)\n"
         "  ccl_asldb             : Read ASL files (.asl)\n",
         file=sys.stderr,
     )

@@ -1,7 +1,7 @@
 // src/readers/pyeventreader.rs
 
 //! Create an event reader that uses a `PyRunner` with different Python
-//! scripts to read `.asl` and `.odl` files.
+//! scripts to read `.asl` files.
 
 use std::collections::VecDeque;
 use std::fmt;
@@ -126,11 +126,10 @@ type EntryBuffer = VecDeque<PyDataEvent>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum PyEventType {
     Asl,
-    Odl,
 }
 
 /// A wrapper for running a `PyRunner` instance that calls
-/// local Python scripts to read `.asl` and `.odl` files.
+/// local Python scripts to read `.asl` files.
 /// The Python scripts send bytes back via stdout that are parsed
 /// into `PyDataEvent`s.
 pub struct PyEventReader {
@@ -362,8 +361,7 @@ impl PyEventReader {
         // TODO: how to make a wrong `FileType` a compile-time error? i.e. how to be more rustic?
         let event_type: PyEventType = match file_type {
             FileType::Asl { .. } => PyEventType::Asl,
-            FileType::Odl { .. } => PyEventType::Odl,
-            _ => panic!("PyEventReader only supports FileType::Asl, FileType::Odl"),
+            _ => return Err(Error::new(ErrorKind::InvalidInput, "PyEventReader only supports FileType::Asl")),
         };
 
         let s4_python_module: String;
@@ -374,12 +372,6 @@ impl PyEventReader {
                 extra_args.push("--quiet");
                 extra_args.push("-t");
                 extra_args.push("s4");
-            },
-            PyEventType::Odl => {
-                s4_python_module = String::from("s4_event_readers.odl_reader");
-                extra_args.push("--no-color");
-                extra_args.push("--all_key_values");
-                extra_args.push("--all_data");
             }
         };
         let wait_input_per_prints: String = format!("--wait-input-per-prints={}", WAIT_INPUT_PER_PRINTS + 1);
@@ -581,8 +573,7 @@ impl PyEventReader {
             &ts_val_s,
             DATETIME_FORMAT,
         ) {
-            Ok(dt) => {
-                match dt.with_nanosecond(ts_val_ms_remainder * 1_000_000) {
+            Ok(dt) => match dt.with_nanosecond(ts_val_ms_remainder * 1_000_000) {
                     Some(dt_ns) => DateTimeLOpt::Some(
                         self.fixed_offset.from_utc_datetime(&dt_ns)
                     ),
@@ -590,7 +581,6 @@ impl PyEventReader {
                         def1ñ!("failed to set nanoseconds for {:?} remainder {}", dt, ts_val_ms_remainder);
                         DateTimeLOpt::None
                     }
-                }
             }
             Err(_err) => {
                 def1ñ!("failed to convert {:?}: {}", ts_str, _err);
@@ -972,6 +962,7 @@ impl PyEventReader {
             None,
             None,
             Some(summarypyeventreader),
+            None,
             None,
             None,
             None,

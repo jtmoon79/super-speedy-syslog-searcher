@@ -7,19 +7,19 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use std::env;
 use std::path::PathBuf;
-use std::sync::{
-    atomic::{
-        AtomicBool,
-        Ordering,
-    },
-    Arc,
+use std::sync::Arc;
+use std::sync::atomic::{
+    AtomicBool,
+    Ordering,
 };
-use std::thread;
 use std::time::{
     Duration,
     Instant,
+};
+use std::{
+    env,
+    thread,
 };
 
 #[allow(unused_imports)]
@@ -42,14 +42,17 @@ use crate::python::pyrunner::{
     PipeSz,
     PyRunner,
     PythonToUse,
-    find_python_executable,
     RECV_TIMEOUT,
+    find_python_executable,
 };
-use crate::tests::venv_tests::venv_setup;
 use crate::tests::common::path_id_generator;
+use crate::tests::venv_tests::venv_setup;
 
-
-fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
+fn swap_bytes(
+    data: &mut Option<Bytes>,
+    old: &str,
+    new: &str,
+) -> Bytes {
     let e_s = data.as_ref().unwrap().clone();
     let mut e_s_s: String = String::from_utf8_lossy(&e_s).to_string();
     e_s_s = e_s_s.replace(old, new);
@@ -58,9 +61,14 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
 }
 
 /// assert the bytes from PyRunner stdout or stderr match.
-fn assert_python_output_eq(output: &[u8], expected: &[u8], extra_message: &str) {
+fn assert_python_output_eq(
+    output: &[u8],
+    expected: &[u8],
+    extra_message: &str,
+) {
     assert_eq!(
-        output, expected,
+        output,
+        expected,
         "Python output mismatch;\ngot      {:?}\nexpected {:?}\n{}",
         buffer_to_string_noraw(output),
         buffer_to_string_noraw(expected),
@@ -209,13 +217,18 @@ fn test_PyRunner_new_run_run_once(
     expect_stdout: Bytes,
     expect_stderr: Bytes,
 ) {
-    defn!("test_PyRunner_new_run_run_once: pipe_sz={:?}, cmd_args[0]={:?}\ncmd_args[1]={}\n",
-        pipe_sz, cmd_args[0], cmd_args[1]);
+    defn!(
+        "test_PyRunner_new_run_run_once: pipe_sz={:?}, cmd_args[0]={:?}\ncmd_args[1]={}\n",
+        pipe_sz,
+        cmd_args[0],
+        cmd_args[1]
+    );
 
     venv_setup();
 
     let python_path = find_python_executable(PythonToUse::Path)
-        .as_ref().expect("failed to find python executable in the PATH");
+        .as_ref()
+        .expect("failed to find python executable in the PATH");
 
     // try with `new()` and `run()`
     let mut pyr = PyRunner::new(
@@ -227,7 +240,8 @@ fn test_PyRunner_new_run_run_once(
         None,
         Some(python_path.clone()),
         cmd_args.clone(),
-    ).unwrap();
+    )
+    .unwrap();
     let result = pyr.run(false, false, false);
     assert!(result.is_ok(), "PyRunner run failed: {:?}", result);
     let (stdout_bytes, stderr_bytes) = result.unwrap();
@@ -425,13 +439,20 @@ fn test_PyRunner_stdout_run_many_times(
     chunk_delimiter: ChunkDelimiter,
 ) {
     stack_offset_set(Some(2));
-    defn!("test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, chunk_delimiter={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
-        loops, pipe_sz, chunk_delimiter, cmd_args[0], cmd_args[1]);
+    defn!(
+        "test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, chunk_delimiter={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
+        loops,
+        pipe_sz,
+        chunk_delimiter,
+        cmd_args[0],
+        cmd_args[1]
+    );
 
     venv_setup();
 
     let python_path = find_python_executable(PythonToUse::Path)
-        .as_ref().expect("failed to find python executable in the PATH");
+        .as_ref()
+        .expect("failed to find python executable in the PATH");
 
     let result = PyRunner::new(
         PythonToUse::Value,
@@ -453,8 +474,15 @@ fn test_PyRunner_stdout_run_many_times(
     for i in 0..loops {
         defo!("PyRunner {i} write_read(None)",);
         let (exited, stdout_opt, stderr_opt) = pyr.write_read(None);
-        defo!("PyRunner {i} exited? {exited}, stdout bytes {:?}, stderr bytes {:?}",
-            stdout_opt.as_ref().map_or(0, |b| b.len()), stderr_opt.as_ref().map_or(0, |b| b.len()));
+        defo!(
+            "PyRunner {i} exited? {exited}, stdout bytes {:?}, stderr bytes {:?}",
+            stdout_opt
+                .as_ref()
+                .map_or(0, |b| b.len()),
+            stderr_opt
+                .as_ref()
+                .map_or(0, |b| b.len())
+        );
         match stdout_opt {
             Some(ref stdout) => {
                 defo!("PyRunner {i} got stdout: '{}'", buffer_to_string_noraw(stdout));
@@ -469,7 +497,9 @@ fn test_PyRunner_stdout_run_many_times(
             Some(ref stderr) => {
                 defo!("PyRunner {i} got stderr: '{}'", buffer_to_string_noraw(stderr));
                 assert!(expect_stderr.is_some(), "PyRunner {i} got stderr but None expected");
-                let e_s = expect_stderr.as_ref().unwrap();
+                let e_s = expect_stderr
+                    .as_ref()
+                    .unwrap();
                 assert_python_output_eq(stderr, &e_s, &format!("PyRunner {i} stderr mismatch on loop {loop_}"));
             }
             None => defo!("PyRunner {i} stderr: None"),
@@ -657,13 +687,21 @@ fn test_PyRunner_stdout_stderr_run_many_times(
     chunk_delimiter_stderr: Option<ChunkDelimiter>,
 ) {
     stack_offset_set(Some(2));
-    defn!("test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
-        loops, pipe_sz, chunk_delimiter_stdout, chunk_delimiter_stderr, cmd_args[0], cmd_args[1]);
+    defn!(
+        "test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
+        loops,
+        pipe_sz,
+        chunk_delimiter_stdout,
+        chunk_delimiter_stderr,
+        cmd_args[0],
+        cmd_args[1]
+    );
 
     venv_setup();
 
     let python_path = find_python_executable(PythonToUse::Path)
-        .as_ref().expect("failed to find python executable in the PATH");
+        .as_ref()
+        .expect("failed to find python executable in the PATH");
 
     let result = PyRunner::new(
         PythonToUse::Value,
@@ -687,13 +725,26 @@ fn test_PyRunner_stdout_stderr_run_many_times(
     for i in 0..loops {
         defo!("PyRunner {i} write_read(None)",);
         let (exited, stdout_opt, stderr_opt) = pyr.write_read(None);
-        defo!("PyRunner {i} exited? {exited}, stdout bytes {:?}, stderr bytes {:?}",
-            stdout_opt.as_ref().map_or(0, |b| b.len()), stderr_opt.as_ref().map_or(0, |b| b.len()));
+        defo!(
+            "PyRunner {i} exited? {exited}, stdout bytes {:?}, stderr bytes {:?}",
+            stdout_opt
+                .as_ref()
+                .map_or(0, |b| b.len()),
+            stderr_opt
+                .as_ref()
+                .map_or(0, |b| b.len())
+        );
         match stdout_opt {
             Some(ref stdout) => {
                 defo!("PyRunner {i} got stdout: '{}'", buffer_to_string_noraw(stdout));
                 assert!(expect_stdout.is_some(), "PyRunner loop {i} got stdout but None expected");
-                let e_s = swap_bytes(&mut expect_stdout, PYTHON_SRC_LOOP_KEYWORD, loop_stdout.to_string().as_str());
+                let e_s = swap_bytes(
+                    &mut expect_stdout,
+                    PYTHON_SRC_LOOP_KEYWORD,
+                    loop_stdout
+                        .to_string()
+                        .as_str(),
+                );
                 assert_python_output_eq(stdout, &e_s, &format!("PyRunner {i} stdout mismatch on loop {loop_stdout}"));
                 loop_stdout += 1;
             }
@@ -703,7 +754,13 @@ fn test_PyRunner_stdout_stderr_run_many_times(
             Some(ref stderr) => {
                 defo!("PyRunner {i} got stderr: '{}'", buffer_to_string_noraw(stderr));
                 assert!(expect_stderr.is_some(), "PyRunner {i} got stderr but None expected");
-                let e_s = swap_bytes(&mut expect_stderr, PYTHON_SRC_WSTDERR_LOOP_KEYWORD, loop_stderr.to_string().as_str());
+                let e_s = swap_bytes(
+                    &mut expect_stderr,
+                    PYTHON_SRC_WSTDERR_LOOP_KEYWORD,
+                    loop_stderr
+                        .to_string()
+                        .as_str(),
+                );
                 assert_python_output_eq(stderr, &e_s, &format!("PyRunner {i} stderr mismatch on loop {loop_stderr}"));
                 loop_stderr += 1;
             }
@@ -714,7 +771,6 @@ fn test_PyRunner_stdout_stderr_run_many_times(
 
     defx!();
 }
-
 
 const PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE: &str = r#"
 import sys
@@ -863,13 +919,21 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
     chunk_delimiter_stderr: Option<ChunkDelimiter>,
 ) {
     stack_offset_set(Some(2));
-    defn!("test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
-        loops, pipe_sz, chunk_delimiter_stdout, chunk_delimiter_stderr, cmd_args[0], cmd_args[1]);
+    defn!(
+        "test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
+        loops,
+        pipe_sz,
+        chunk_delimiter_stdout,
+        chunk_delimiter_stderr,
+        cmd_args[0],
+        cmd_args[1]
+    );
 
     venv_setup();
 
     let python_path = find_python_executable(PythonToUse::Path)
-        .as_ref().expect("failed to find python executable in the PATH");
+        .as_ref()
+        .expect("failed to find python executable in the PATH");
 
     let result = PyRunner::new(
         PythonToUse::Value,
@@ -891,13 +955,26 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
     for i in 0..loops {
         defo!("PyRunner {i} write_read(None)",);
         let (exited, stdout_opt, stderr_opt) = pyr.write_read(None);
-        defo!("PyRunner {i} exited? {exited}, stdout bytes {:?}, stderr bytes {:?}",
-            stdout_opt.as_ref().map_or(0, |b| b.len()), stderr_opt.as_ref().map_or(0, |b| b.len()));
+        defo!(
+            "PyRunner {i} exited? {exited}, stdout bytes {:?}, stderr bytes {:?}",
+            stdout_opt
+                .as_ref()
+                .map_or(0, |b| b.len()),
+            stderr_opt
+                .as_ref()
+                .map_or(0, |b| b.len())
+        );
         match stdout_opt {
             Some(ref stdout) => {
                 defo!("PyRunner {i} got stdout: '{}'", buffer_to_string_noraw(stdout));
                 assert!(expect_stdout.is_some(), "PyRunner loop {i} got stdout but None expected");
-                let e_s = swap_bytes(&mut expect_stdout, PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD, loop_stdout.to_string().as_str());
+                let e_s = swap_bytes(
+                    &mut expect_stdout,
+                    PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD,
+                    loop_stdout
+                        .to_string()
+                        .as_str(),
+                );
                 assert_python_output_eq(stdout, &e_s, &format!("PyRunner {i} stdout mismatch on loop {loop_stdout}"));
                 loop_stdout += 1;
             }
@@ -907,7 +984,13 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
             Some(ref stderr) => {
                 defo!("PyRunner {i} got stderr: '{}'", buffer_to_string_noraw(stderr));
                 assert!(expect_stderr.is_some(), "PyRunner {i} got stderr but None expected");
-                assert!(expect_stderr.as_ref().unwrap().is_empty(), "PyRunner {i} test setting should have empty stderr");
+                assert!(
+                    expect_stderr
+                        .as_ref()
+                        .unwrap()
+                        .is_empty(),
+                    "PyRunner {i} test setting should have empty stderr"
+                );
             }
             None => defo!("PyRunner {i} stderr: None"),
         }
@@ -1039,13 +1122,20 @@ fn test_PyRunner_exit_early(
     exit_status: i32,
 ) {
     stack_offset_set(Some(2));
-    defn!("test_PyRunner_exit_early: pipe_sz={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
-        pipe_sz, chunk_delimiter_stdout, chunk_delimiter_stderr, cmd_args[0], cmd_args[1]);
+    defn!(
+        "test_PyRunner_exit_early: pipe_sz={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
+        pipe_sz,
+        chunk_delimiter_stdout,
+        chunk_delimiter_stderr,
+        cmd_args[0],
+        cmd_args[1]
+    );
 
     venv_setup();
 
     let python_path = find_python_executable(PythonToUse::Path)
-        .as_ref().expect("failed to find python executable in the PATH");
+        .as_ref()
+        .expect("failed to find python executable in the PATH");
 
     let result = PyRunner::new(
         PythonToUse::Value,
@@ -1068,19 +1158,26 @@ fn test_PyRunner_exit_early(
 
     let input2 = b"\n";
     let mut loop_: usize = 0;
-    while ! pyr.exited_exhausted() {
-        let input = if loop_ == 0 {
-            Some(input2.as_ref())
-        } else {
-            None
-        };
+    while !pyr.exited_exhausted() {
+        let input = if loop_ == 0 { Some(input2.as_ref()) } else { None };
         loop_ += 1;
         defo!("PyRunner write_read({:?})", input);
         let (exited, stdout_opt, stderr_opt) = pyr.write_read(input);
-        defo!("PyRunner exited? {exited}, stdout bytes {:?}, stderr bytes {:?}\nstdout: '{}'\nstderr: '{}'",
-            stdout_opt.as_ref().map_or(0, |b| b.len()), stderr_opt.as_ref().map_or(0, |b| b.len()),
-            stdout_opt.as_ref().map_or("".to_string(), |b| buffer_to_string_noraw(b)),
-            stderr_opt.as_ref().map_or("".to_string(), |b| buffer_to_string_noraw(b)));
+        defo!(
+            "PyRunner exited? {exited}, stdout bytes {:?}, stderr bytes {:?}\nstdout: '{}'\nstderr: '{}'",
+            stdout_opt
+                .as_ref()
+                .map_or(0, |b| b.len()),
+            stderr_opt
+                .as_ref()
+                .map_or(0, |b| b.len()),
+            stdout_opt
+                .as_ref()
+                .map_or("".to_string(), |b| buffer_to_string_noraw(b)),
+            stderr_opt
+                .as_ref()
+                .map_or("".to_string(), |b| buffer_to_string_noraw(b))
+        );
         if let Some(ref stdout) = stdout_opt {
             for c in stdout {
                 let e_c = expect_stdout[0];
@@ -1109,17 +1206,24 @@ fn test_PyRunner_exit_early(
     assert!(pyr.exited_exhausted(), "PyRunner not exhausted after exit");
 
     assert_eq!(
-        pyr.exit_status().unwrap().code().unwrap(),
+        pyr.exit_status()
+            .unwrap()
+            .code()
+            .unwrap(),
         exit_status,
         "PyRunner exit status mismatch after early termination"
     );
 
-    assert!(expect_stdout.is_empty() || expect_stdout == b"\n".to_vec(),
+    assert!(
+        expect_stdout.is_empty() || expect_stdout == b"\n".to_vec(),
         "PyRunner stdout did not match expected value; remaining '{}'",
-        buffer_to_string_noraw(expect_stdout.as_slice()));
-    assert!(expect_stderr.is_empty() || expect_stderr == b"\n".to_vec(),
+        buffer_to_string_noraw(expect_stdout.as_slice())
+    );
+    assert!(
+        expect_stderr.is_empty() || expect_stderr == b"\n".to_vec(),
         "PyRunner stderr did not match expected value; remaining '{}'",
-        buffer_to_string_noraw(expect_stderr.as_slice()));
+        buffer_to_string_noraw(expect_stderr.as_slice())
+    );
 
     defx!();
 }
@@ -1129,7 +1233,8 @@ fn test_PyRunner_cancel_silent_process() {
     venv_setup();
 
     let python_path = find_python_executable(PythonToUse::Path)
-        .as_ref().expect("failed to find python executable in the PATH");
+        .as_ref()
+        .expect("failed to find python executable in the PATH");
     let mut pyr = PyRunner::new(
         PythonToUse::Value,
         path_id_generator(),
@@ -1138,8 +1243,12 @@ fn test_PyRunner_cancel_silent_process() {
         Some(b'\n'),
         None,
         Some(python_path.clone()),
-        vec!["-c", "import time; time.sleep(60)"],
-    ).expect("PyRunner new failed");
+        vec![
+            "-c",
+            "import time; time.sleep(60)",
+        ],
+    )
+    .expect("PyRunner new failed");
 
     let cancel = Arc::new(AtomicBool::new(false));
     let cancel_setter = Arc::clone(&cancel);
@@ -1151,14 +1260,19 @@ fn test_PyRunner_cancel_silent_process() {
     let start = Instant::now();
     let result = pyr.write_read_cancel(None, &cancel);
     let elapsed = start.elapsed();
-    cancel_thread.join().expect("cancellation thread panicked");
+    cancel_thread
+        .join()
+        .expect("cancellation thread panicked");
 
     assert!(result.is_none(), "write_read_cancel did not report cancellation");
     assert!(elapsed < Duration::from_secs(5), "cancellation took {elapsed:?}");
     assert!(pyr.exited(), "cancelled Python process was not reaped");
-    let exit_status = pyr.exit_status().expect("cancelled Python process has no exit status");
+    let exit_status = pyr
+        .exit_status()
+        .expect("cancelled Python process has no exit status");
     assert_eq!(
-        pyr.terminate().expect("repeated terminate failed"),
+        pyr.terminate()
+            .expect("repeated terminate failed"),
         exit_status,
         "repeated terminate changed the exit status"
     );
@@ -1180,7 +1294,7 @@ fn test_find_python_executable_path() {
         Some(val) => FPath::from(val.to_string_lossy()),
         None => {
             panic!("PATH env var not set!? cannot run test_find_python_executable_path");
-        },
+        }
     };
     // create a temporary directory to hold a contrived python executable
     let tmpdir = tempfile::tempdir().expect("failed to create temp dir");
@@ -1191,7 +1305,10 @@ fn test_find_python_executable_path() {
     // overwrite the PATH env var with added tmpdir at the front
     let path_new = format!(
         "{}{}{}",
-        contrived_python_path.parent().unwrap().to_string_lossy(),
+        contrived_python_path
+            .parent()
+            .unwrap()
+            .to_string_lossy(),
         std::path::MAIN_SEPARATOR,
         path_env_current
     );

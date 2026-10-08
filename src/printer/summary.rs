@@ -92,6 +92,9 @@ use crate::readers::summary::{
 };
 use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::FileProcessingResultBlockZero;
+use crate::data::odl::Odl;
+
+
 
 pub type MapPathIdSummaryPrint = BTreeMap<PathId, SummaryPrinted>;
 pub type MapPathIdSummary = HashMap<PathId, Summary>;
@@ -182,7 +185,7 @@ pub struct SummaryPrinted {
     pub evtxentries: Count,
     /// count of `JournalEntry` printed
     pub journalentries: Count,
-    /// count of `PyDataEvent` printed for .odl files
+    /// count of native `Odl` events printed
     pub odlentries: Count,
     /// last datetime printed
     pub dt_first: DateTimeLOpt,
@@ -279,6 +282,21 @@ impl SummaryPrinted {
             summaryevtxreader_opt,
             summaryjournalreader_opt,
         ) = match &summary.readerdata {
+            SummaryReaderData::Odl(statistics) => {
+                eprintln!("{}Printed:", indent1);
+                eprintln!("{}Events        : {}", indent2, self.odlentries);
+                eprintln!("{}Bytes         : {}", indent2, self.bytes);
+                eprintln!("{}Flushes       : {}", indent2, self.flushed);
+                eprintln!("{}Event largest processed: {}", indent2, statistics.odlreader_event_largest_processed);
+                eprintln!("{}Event largest accepted : {}", indent2, statistics.odlreader_event_largest_accepted);
+                if let Some(dt) = self.dt_first {
+                    eprintln!("{}Datetime First: {}", indent2, dt);
+                }
+                if let Some(dt) = self.dt_last {
+                    eprintln!("{}Datetime Last : {}", indent2, dt);
+                }
+                return;
+            }
             // `Dummy` may occur for files without adequate read permissions
             SummaryReaderData::Dummy => return,
             SummaryReaderData::Syslog(
@@ -288,8 +306,7 @@ impl SummaryPrinted {
                     summarysyslinereader,
                     summarysyslogprocessor,
                 )
-            ) => {
-                (
+            ) => (
                     Some(summaryblockreader),
                     Some(summarylinereader),
                     Some(summarysyslinereader),
@@ -299,8 +316,7 @@ impl SummaryPrinted {
                     None,
                     None,
                     None,
-                )
-            }
+                ),
             SummaryReaderData::FixedStruct(
                 (
                     summaryblockreader,
@@ -625,9 +641,6 @@ impl SummaryPrinted {
             PyEventType::Asl { .. } => {
                 self.aslentries += 1;
             }
-            PyEventType::Odl { .. } => {
-                self.odlentries += 1;
-            }
         }
         self.bytes += printed;
         self.flushed += flushed;
@@ -650,6 +663,31 @@ impl SummaryPrinted {
         self.bytes += printed;
         self.flushed += flushed;
         self.summaryprint_update_dt(etl.dt());
+    }
+
+    pub fn summaryprint_update_odl(
+        &mut self,
+        odl: &Odl,
+        printed: Count,
+        flushed: Count,
+    ) {
+        debug_assert!(matches!(self.logmessagetype, LogMessageType::Odl | LogMessageType::All));
+        self.odlentries += 1;
+        self.bytes += printed;
+        self.flushed += flushed;
+        self.summaryprint_update_dt(odl.dt());
+    }
+
+    pub fn summaryprint_map_update_odl(
+        odl: &Odl,
+        pathid: &PathId,
+        map_: &mut MapPathIdSummaryPrint,
+        printed: Count,
+        flushed: Count,
+    ) {
+        map_.entry(*pathid)
+            .or_insert_with(|| SummaryPrinted::new(LogMessageType::Odl))
+            .summaryprint_update_odl(odl, printed, flushed);
     }
 
     /// Update a `SummaryPrinted` with information from a printed `Evtx`.
@@ -840,12 +878,9 @@ impl SummaryPrinted {
     ) {
         defñ!();
         match logmessage {
-            LogMessage::Etl(etl) => {
-                Self::summaryprint_map_update_etl(etl, pathid, map_, printed, flushed)
-            }
-            LogMessage::Evtx(evtx) => {
-                Self::summaryprint_map_update_evtx(evtx, pathid, map_, printed, flushed)
-            }
+            LogMessage::Odl(odl) => Self::summaryprint_map_update_odl(odl, pathid, map_, printed, flushed),
+            LogMessage::Etl(etl) => Self::summaryprint_map_update_etl(etl, pathid, map_, printed, flushed),
+            LogMessage::Evtx(evtx) => Self::summaryprint_map_update_evtx(evtx, pathid, map_, printed, flushed),
             LogMessage::FixedStruct(entry) => {
                 Self::summaryprint_map_update_fixedstruct(
                     entry, pathid, map_, printed, flushed
@@ -1048,6 +1083,15 @@ pub fn print_summary(
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
     eprintln!("Printed Journal events : {}", summaryprinted.journalentries);
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
+    let odl_largest = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::Odl(stats) = &summary.readerdata { Some(stats) } else { None })
+        .fold((0, 0), |(processed, accepted), stats| {
+            (
+                std::cmp::max(processed, stats.odlreader_event_largest_processed),
+                std::cmp::max(accepted, stats.odlreader_event_largest_accepted),
+            )
+        });
     eprintln!("Line Maximum                   : {}", LINE_SEARCH_MAX);
     eprintln!("Line longest                   : {}", longest_line);
     eprintln!("Sysline longest                : {}", longest_sysline);
@@ -1057,6 +1101,8 @@ pub fn print_summary(
     eprintln!("EVTX event largest accepted    : {}", event_largest_accepted);
     eprintln!("Journal event largest processed: {}", journal_event_largest_processed);
     eprintln!("Journal event largest accepted : {}", journal_event_largest_accepted);
+    eprintln!("ODL event largest processed    : {}", odl_largest.0);
+    eprintln!("ODL event largest accepted     : {}", odl_largest.1);
     eprintln!("Managed files max deflt: {}", summary_filehandlemanager.open_max_default);
     eprintln!("Managed files max adjus: {}", summary_filehandlemanager.open_max_adjusted);
     // TODO: print `count_hi` in yellow if it is ==max
@@ -1282,13 +1328,11 @@ fn print_file_about(
         | FileType::Journal { archival_type: at }
         | FileType::Odl { archival_type: at , .. }
         | FileType::Text { archival_type: at, .. }
-        => {
-            match at {
+        => match at {
                 FileTypeArchive::Normal => {}
                 fta => {
                     eprint!(" ({})", fta);
                 }
-            }
         }
         FileType::Unparsable => {
             debug_panic!("unexpected FileType::Unparsable");
@@ -1494,7 +1538,7 @@ fn print_summary_opt_processed(
             let es_s: String = format!("{}", exit_status).replace("exit status: ", "");
             eprintln_display_color_error(
                 &es_s,
-                |_| { !exit_status.success() },
+                |_| !exit_status.success(),
                 color_choice,
             );
             let args: String = summarypyeventreader.pyeventreader_python_arguments.join(" ");
@@ -1535,6 +1579,33 @@ fn print_summary_opt_processed(
                 |n| *n != 0,
                 color_choice,
             );
+            return;
+        }
+        SummaryReaderData::Odl(stats) => {
+            eprintln!("{}File size          : {}", indent2, stats.odlreader_filesz);
+            eprintln!("{}ODL version        : {}", indent2, stats.odlreader_version);
+            eprintln!("{}Internal gzip      : {}", indent2, stats.odlreader_compressed);
+            eprintln!("{}Companions present : {}", indent2, stats.odlreader_companions_available);
+            eprintln!("{}Supplementary files used: {}", indent2, stats.odlreader_supplementary_files_used.len());
+            for path in &stats.odlreader_supplementary_files_used {
+                eprintln!("{}  {}", indent2, fpath_to_prependpath(path));
+            }
+            eprintln!("{}Supplementary files not found or inaccessible: {}", indent2, stats.odlreader_supplementary_files_notfound.len());
+            for path in &stats.odlreader_supplementary_files_notfound {
+                eprintln!("{}  {}", indent2, fpath_to_prependpath(path));
+            }
+            eprintln!("{}Events processed   : {}", indent2, stats.odlreader_events_processed);
+            eprintln!("{}Events accepted    : {}", indent2, stats.odlreader_events_accepted);
+            eprintln!("{}Events undecoded   : {}", indent2, stats.odlreader_events_undecoded);
+            eprintln!("{}Decoding failures  : {}", indent2, stats.odlreader_decoding_failures);
+            eprintln!("{}Records skipped    : {}", indent2, stats.odlreader_records_skipped);
+            eprintln!("{}Out of order       : {}", indent2, stats.odlreader_out_of_order);
+            if let Some(dt) = stats.odlreader_datetime_first_processed {
+                eprintln!("{}Datetime first     : {}", indent2, dt);
+            }
+            if let Some(dt) = stats.odlreader_datetime_last_processed {
+                eprintln!("{}Datetime last      : {}", indent2, dt);
+            }
             return;
         }
         SummaryReaderData::Etvx(summaryevtxreader) => {
@@ -2095,6 +2166,7 @@ fn print_cache_stats(
             );
         }
         SummaryReaderData::Etl(_summaryetlreader) => {}
+        SummaryReaderData::Odl(_) => {}
         SummaryReaderData::Etvx(_summaryevtxreader) => {}
         SummaryReaderData::Journal(_summaryjournalreader) => {}
         SummaryReaderData::PyEvent(_summarypyeventreader) => {}
@@ -2188,6 +2260,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
             );
         }
         SummaryReaderData::Etl(..) => debug_panic!("Unexpected SummaryReaderData::Etl"),
+        SummaryReaderData::Odl(..) => debug_panic!("Unexpected SummaryReaderData::Odl"),
         SummaryReaderData::Etvx(..) => debug_panic!("Unexpected SummaryReaderData::Etvx"),
         SummaryReaderData::Journal(..) => debug_panic!("Unexpected SummaryReaderData::Journal"),
         SummaryReaderData::PyEvent(..) => debug_panic!("Unexpected SummaryReaderData::PyEvent"),

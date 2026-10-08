@@ -1206,7 +1206,7 @@ impl FileType {
             FileType::Evtx { .. } => LogMessageType::Evtx,
             FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
             FileType::Journal { .. } => LogMessageType::Journal,
-            FileType::Odl { .. } => LogMessageType::PyEvent,
+            FileType::Odl { .. } => LogMessageType::Odl,
             FileType::Text { .. } => LogMessageType::Sysline,
             FileType::Unparsable => {
                 debug_panic!("FileType::Unparsable should not be converted to LogMessageType");
@@ -1339,7 +1339,9 @@ pub enum LogMessageType {
     /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
     /// [`JournalEntry`]: crate::data::journal::JournalEntry
     Journal,
-    /// an Apple System Log (ASL) file, or Windows OneDrive Log (ODL) file.
+    /// A native OneDrive Log event.
+    Odl,
+    /// an Apple System Log (ASL) file.
     PyEvent,
     /// Special case, used to indicate "ALL" or "ANY" message type.
     /// Useful for code objects tracking multiple files.
@@ -1357,7 +1359,8 @@ impl std::fmt::Display for LogMessageType {
             LogMessageType::Evtx => write!(f, "EVTX entries (Windows XML EventLog)"),
             LogMessageType::FixedStruct => write!(f, "fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)"),
             LogMessageType::Journal => write!(f, "systemd journal entries"),
-            LogMessageType::PyEvent => write!(f, "Python parsed events (ASL/ODL)"),
+            LogMessageType::Odl => write!(f, "ODL events (OneDrive Log)"),
+            LogMessageType::PyEvent => write!(f, "Python parsed events (ASL)"),
             LogMessageType::Sysline => write!(f, "text log lines"),
             LogMessageType::All => write!(f, "ALL"),
         }

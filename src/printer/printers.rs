@@ -70,6 +70,9 @@ use crate::data::line::{
 use crate::data::sysline::SyslineP;
 use crate::debug::printers::de_err;
 use crate::readers::helpers::basename;
+use crate::data::common::PrintableEvent;
+use crate::data::odl::Odl;
+
 
 // ---------------------
 // globals and constants
@@ -620,8 +623,8 @@ macro_rules! setcolor_or_return {
     }};
 }
 
-// XXX: this was a `fn -> PrinterLogMessageResult` but due to mutable and immutable error, it would not compile.
-//      So a macro is a decent workaround.
+// XXX: this was a `fn -> PrinterLogMessageResult` but due to mutable and immutable error, it would
+// not compile.      So a macro is a decent workaround.
 /// Macro helper to print a single line in color. Uses `PrinterLogMessage.buffer`.
 /// Flushes at end.
 macro_rules! print_color_line {
@@ -731,7 +734,8 @@ macro_rules! print_color_line_highlight_dt {
                     buffer_write_or_return!($self.stdout_color, $buffer, slice_b_dt, $printed, $flushed);
                     buffer_flush_or_return!($self.stdout_color, $buffer, $printed, $flushed);
                 }
-            // datetime began in previous linepart, extends into this linepart and ends within this linepart
+            // datetime began in previous linepart, extends into this linepart and ends within this
+            // linepart
             } else if $dt_beg < at && at <= $dt_end && $dt_end <= at_end {
                 debug_assert_le!(
                     ($dt_end - at),
@@ -909,12 +913,24 @@ impl PrinterLogMessage {
         &mut self,
         etl: &Etl,
     ) -> PrinterLogMessageResult {
+        self.print_native_event(etl)
+    }
+
+    pub fn print_odl(
+        &mut self,
+        odl: &Odl,
+    ) -> PrinterLogMessageResult {
+        self.print_native_event(odl)
+    }
+
+    fn print_native_event(
+        &mut self,
+        etl: &impl PrintableEvent,
+    ) -> PrinterLogMessageResult {
         defo!("do_color {} do_prepend_file {} do_prepend_date {}", self.do_color, self.do_prepend_file, self.do_prepend_date);
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_etl_(etl),
-            (false, do_prepend_file, do_prepend_date) => {
-                self.print_etl_prepend(etl, do_prepend_file, do_prepend_date)
-            }
+            (false, do_prepend_file, do_prepend_date) => self.print_etl_prepend(etl, do_prepend_file, do_prepend_date),
             (true, do_prepend_file, do_prepend_date) => {
                 match (do_prepend_file, do_prepend_date) {
                     (false, false) => self.print_etl_color(etl),
@@ -1046,7 +1062,7 @@ impl PrinterLogMessage {
     #[inline(always)]
     fn datetime_to_string_etl(
         &self,
-        etl: &Etl,
+        etl: &impl PrintableEvent,
     ) -> String {
         let dt_: DateTimeL = etl
             .dt()
@@ -1904,7 +1920,7 @@ impl PrinterLogMessage {
     /// common case.
     fn print_etl_(
         &mut self,
-        etl: &Etl,
+        etl: &impl PrintableEvent,
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
@@ -1920,11 +1936,12 @@ impl PrinterLogMessage {
     /// Print a `Etl` with prepended file and/or datetime.
     fn print_etl_prepend(
         &mut self,
-        etl: &Etl,
+        etl: &impl PrintableEvent,
         do_prependfile: bool,
         do_prependdate: bool,
     ) -> PrinterLogMessageResult {
-        debug_assert!(!self.prepend_date_format.is_empty());
+        debug_assert!(
+            !do_prependdate || !self.prepend_date_format.is_empty());
 
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
@@ -1971,7 +1988,7 @@ impl PrinterLogMessage {
     /// Print a `Etl` in color. Optimized for this simple common case.
     fn print_etl_color(
         &mut self,
-        etl: &Etl,
+        etl: &impl PrintableEvent,
     ) -> PrinterLogMessageResult {
         let (beg, end) = match etl.dt_beg_end() {
             Some((beg, end)) => (*beg, *end),
@@ -2005,7 +2022,7 @@ impl PrinterLogMessage {
     /// Print a `Etl` in color and prepended filename and/or datetime.
     fn print_etl_prepend_color(
         &mut self,
-        etl: &Etl,
+        etl: &impl PrintableEvent,
         do_prependfile: bool,
         do_prependdate: bool,
     ) -> PrinterLogMessageResult {

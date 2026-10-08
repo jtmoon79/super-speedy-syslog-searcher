@@ -1,6 +1,6 @@
 // src/data/pydataevent.rs
 
-//! Data representation of `.asl` and `.odl` events parsed by Python scripts.
+//! Data representation of `.asl` events parsed by Python scripts.
 
 use std::fmt;
 
@@ -31,7 +31,7 @@ use crate::data::datetime::DateTimeL;
 
 pub type EventBytes = Bytes;
 
-/// Data representing a single `.asl` or `.odl` file log message.
+/// Data representing a single `.asl` file log message.
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct PyDataEvent {
     /// Data extracted from the event.

@@ -195,7 +195,7 @@ See further options in section [_Building locally_](#building-locally).
 
 #### Create the Python Virtual Environment
 
-If there are `.asl` or `.odl` log files that may be processed then
+If there are `.asl` log files that may be processed then
 create a Python virtual environment:
 
 ```sh
@@ -656,8 +656,7 @@ Python Virtual Environment Mode:
 
       --venv  Create a Python virtual environment exclusively for s4.
               This is only necessary for parsing
-              Apple System Log (.asl) files and
-              OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files.
+              Apple System Log (.asl) files.
               This only needs to be created once.
               When this option is used, no other options may be passed.
               The Python interpreter used may be set by environment variable
@@ -939,13 +938,40 @@ See the latest [release] for pre-compiled binaries.
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within
   other archive files or compressed files ([Issue #14])<br/>
   e.g. cannot process `logs.tar.xz`, nor file `log.gz` within `logs.tar`
-- `.asl` and `.odl` files are processed by a Python script
+- `.asl` files are processed by a Python script
   run by a child process Python interpreter. _This is not super or speedy_.
-  It does implement support for these file types which are common on Windows
-  and Mac.
-  Someday it would be great to have a Rust implementation of those python-based
-  parsers ([Issue #443]).
+  It does implement support for this file type which is common on Mac.
+  Someday it would be great to have a Rust implementation of that Python-based
+  parser ([Issue #443]).
   See [`src/python/s4_event_readers/s4_event_readers`](src/python/s4_event_readers/s4_event_readers).
+- OneDrive Log files (`.odl`, `.odlgz`, `.aodl`, `.odlsent`) are parsed natively
+  without Python. ODL versions 2 and 3 are supported, including internal gzip
+  after the ODL header. Events are buffered and sorted by timestamp.
+  Printed ODL messages begin with the local ISO 8601 datetime, including
+  three-digit milliseconds and the UTC offset (for example,
+  `2026-10-06T13:53:45.676-07:00`).
+  Unknown parameter layouts remain undecoded; recognized UTF-8 string parameters
+  are extracted with their original bytes retained by the parser.
+  Legacy `ObfuscationStringMap.txt` and version-1 JSON `general.keystore`
+  companions are discovered beside the original log (also within tar archives),
+  including `EncryptionKeyStoreCopy/general.keystore`. Protected strings require
+  the matching originating map/key. Each log's `--summary` lists the paths of
+  successfully loaded supplementary files, including member paths within tar
+  archives, and separately lists searched paths that were missing or inaccessible.
+  Permission errors are reported; malformed files are not classified as missing.
+  Without matching companions, original tokens are retained
+  and a decoding warning is reported. Keys are not required for structural
+  parsing. Unsupported file/keystore versions and damaged records are reported.
+  These companion files can contain secrets: keep collected keys and decoded
+  personal output private. Administrator access is not normally required for
+  readable files in your own profile.
+  Parser limits are 1 MiB per record payload, 64 KiB per source/function or
+  decoded parameter string, 4096 extracted parameters per record, 4 MiB of
+  decoded parameters per record (including separators), and 16 MiB per companion
+  file, 100,000 legacy-map entries, and 64 AES keys per source. Limits are checked
+  before unbounded allocation or decoding expansion.
+  Accepted rendered events remain buffered for chronological sorting, so total
+  memory grows with the accepted event count.
 - `.etl` files are parsed natively. Events with self-describing TraceLogging
   metadata and kernel `EventTrace` header events are fully decoded. Events that
   require an external manifest or WPP `.tmf`/`.pdb` files are printed with their
@@ -1476,8 +1502,6 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
 - Code in this repository is licensed under [the MIT License](./LICENSE.txt).
 - Code in `src/python/s4_event_readers/s4_event_readers/ccl_asldb.py`
   is [licensed under a shareable copyright](src/python/s4_event_readers/s4_event_readers/LICENSE-ccl_asldb.txt).
-- Code in `src/python/s4_event_readers/s4_event_readers/odl_reader.py`
-  is [licensed under the MIT License](src/python/s4_event_readers/s4_event_readers/LICENSE-odl_reader.txt).
 - Some code under `subprojects/ere` is [licensed under the MIT License](https://github.com/2kai2kai2/ere/blob/9ae714909f24e025612e385419af17aaed843a60/LICENSE).
 - Code under `src/subprojects/lzma_rs` is [licensed under the MIT License](https://github.com/gendx/lzma-rs/blob/1f14478def43b8ea0d27a6b3db88bb307aafd18a/LICENSE).
 - Code under `src/subprojects/rust_lzxpress` is [licensed under the MIT License](src/subprojects/rust_lzxpress/LICENSE).

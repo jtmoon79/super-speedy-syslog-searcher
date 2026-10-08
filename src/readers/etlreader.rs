@@ -465,6 +465,7 @@ impl EtlReader {
             Some(summaryetlreader),
             None,
             None,
+            None,
             error,
         )
     }

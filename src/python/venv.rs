@@ -79,7 +79,7 @@ const PROJECT_NAME: &str = "s4_event_readers";
 
 /// embedded files of the s4_event_readers Python project.
 /// unpacked and installed during venv creation
-static PY_PROJECT_DIR: Include_Dir = include_dir!("$CARGO_MANIFEST_DIR/src/python/s4_event_readers");
+static PY_PROJECT_DIR: Include_Dir = include_dir!("$OUT_DIR/python_event_readers");
 
 /// return path to python s4 venv directory.
 /// does not check if it exists
@@ -549,7 +549,7 @@ pub fn create() -> Result3E<()> {
     }
 
     eprintln!("Python virtual environment created at {}", venv_path_pb.display());
-    eprintln!("This environment will be automatically used by s4 for Python-based event readers, i.e. for .asl, .etl, .odl files.");
+    eprintln!("This environment will be automatically used by s4 for Python-based Apple System Log (.asl) readers.");
 
     def1x!("return Ok");
 

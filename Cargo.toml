@@ -88,10 +88,13 @@ exclude = [
 ]
 
 [dependencies]
+aes = "0.8.4"
 anyhow = "1.0.104"
+base64 = "0.22.1"
 bitvec.workspace = true
 bstr = { version = "1.13.1", features = ["alloc", "std"] }
 bzip2-rs = "0.1.2"
+cbc = "0.1.2"
 # TODO: use `std::cfg_select!` at Rust 1.96
 cfg-if = "1.0.4"
 chardet = "0.2.4"
@@ -133,6 +136,7 @@ phf = { version = "0.14.0", features = ["macros"] }
 rand = { version = "0.10.3", features = ["thread_rng"] }
 rangemap = "1.8.0"
 regex = { version = "1.13.1", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
+serde_json = "1.0.150"
 shell-escape = "0.1.5"
 si_trace_print.workspace = true
 static_assertions = "1.1.0"
@@ -144,6 +148,7 @@ unroll = "0.1.5"
 utf8_iter = "1.0.4"
 version-compare = "0.2.1"
 walkdir = "2.5.0"
+zeroize = "1.9.0"
 # allocators
 mimalloc = { version = "0.1.52", optional = true }
 rpmalloc = { version = "0.2.2", optional = true }
