@@ -100,11 +100,25 @@ fn decode_text(data: &[u8]) -> io::Result<String> {
     }
 }
 
+/// Encoding selected from a keystore `Key` value, matching the replaced Python reader.
+///
+/// Two trailing NUL characters are the UTF-32 marker. They are not part of the Base64 key.
+#[derive(Clone, Copy)]
+enum OdlKeyEncoding {
+    Utf16Le,
+    Utf32Le,
+}
+
+struct OdlKey {
+    bytes: Zeroizing<Vec<u8>>,
+    encoding: OdlKeyEncoding,
+}
+
 /// Optional per-source deobfuscation. Debug output never contains keys or maps.
 #[derive(Default)]
 pub struct OdlDecodingContext {
     map: HashMap<String, String>,
-    keys: Vec<Zeroizing<Vec<u8>>>,
+    keys: Vec<OdlKey>,
 }
 
 impl fmt::Debug for OdlDecodingContext {
@@ -126,6 +140,50 @@ impl Drop for OdlDecodingContext {
             value.zeroize();
         }
     }
+}
+
+/// Decode AES plaintext with the encoding recorded for the key that produced it.
+///
+/// Embedded NULs are rejected so a wrong encoding is not accepted as text. A leading UTF-32LE BOM
+/// is skipped, matching Python's `utf32` codec.
+fn decode_keystore_plaintext(
+    data: &[u8],
+    encoding: OdlKeyEncoding,
+) -> Option<String> {
+    let text = match encoding {
+        OdlKeyEncoding::Utf16Le => {
+            if data.len() % 2 != 0 {
+                return None;
+            }
+            let units: Vec<u16> = data
+                .chunks_exact(2)
+                .map(|unit| u16::from_le_bytes([unit[0], unit[1]]))
+                .collect();
+            String::from_utf16(&units).ok()?
+        }
+        OdlKeyEncoding::Utf32Le => {
+            let data = data
+                .strip_prefix(&[0xff, 0xfe, 0x00, 0x00])
+                .unwrap_or(data);
+            if data.len() % 4 != 0 {
+                return None;
+            }
+            let mut text = String::with_capacity(data.len() / 4);
+            for unit in data.chunks_exact(4) {
+                let scalar = u32::from_le_bytes([unit[0], unit[1], unit[2], unit[3]]);
+                text.push(char::from_u32(scalar)?);
+            }
+            text
+        }
+    };
+    if text
+        .chars()
+        .any(|character| character == '\0')
+    {
+        return None;
+    }
+
+    Some(text)
 }
 
 impl OdlDecodingContext {
@@ -187,6 +245,9 @@ impl OdlDecodingContext {
     }
 
     /// Load version-1 JSON keystores. Key material is not included in errors.
+    ///
+    /// Each key keeps the UTF-16/UTF-32 marker from its `Key` string so decrypted plaintext is
+    /// decoded with that encoding.
     pub fn load_keystore(
         &mut self,
         reader: impl Read,
@@ -214,6 +275,12 @@ impl OdlDecodingContext {
                     .get("Key")
                     .and_then(serde_json::Value::as_str)
                     .ok_or_else(|| invalid("ODL keystore missing 'Key' field"))?;
+                // The replaced Python reader selected UTF-32 when the key text ended in two NULs.
+                let encoding = if text.ends_with("\0\0") {
+                    OdlKeyEncoding::Utf32Le
+                } else {
+                    OdlKeyEncoding::Utf16Le
+                };
                 let key = Zeroizing::new(
                     STANDARD
                         .decode(text.trim_end_matches('\0'))
@@ -222,7 +289,10 @@ impl OdlDecodingContext {
                 if !matches!(key.len(), 16 | 24 | 32) {
                     return Err(invalid(format!("unsupported ODL AES key length {}", key.len())));
                 }
-                keys.push(key);
+                keys.push(OdlKey {
+                    bytes: key,
+                    encoding,
+                });
             }
             self.keys.extend(keys);
             Ok(())
@@ -259,20 +329,20 @@ impl OdlDecodingContext {
         let mut plain = Zeroizing::new(vec![0u8; bytes.len()]);
         for key in &self.keys {
             plain.copy_from_slice(&bytes);
-            let result = match key.len() {
-                16 => cbc::Decryptor::<Aes128>::new_from_slices(key, &iv)
+            let result = match key.bytes.len() {
+                16 => cbc::Decryptor::<Aes128>::new_from_slices(&key.bytes, &iv)
                     .map_err(|_| ())
                     .and_then(|c| {
                         c.decrypt_padded_mut::<Pkcs7>(&mut plain)
                             .map_err(|_| ())
                     }),
-                24 => cbc::Decryptor::<Aes192>::new_from_slices(key, &iv)
+                24 => cbc::Decryptor::<Aes192>::new_from_slices(&key.bytes, &iv)
                     .map_err(|_| ())
                     .and_then(|c| {
                         c.decrypt_padded_mut::<Pkcs7>(&mut plain)
                             .map_err(|_| ())
                     }),
-                32 => cbc::Decryptor::<Aes256>::new_from_slices(key, &iv)
+                32 => cbc::Decryptor::<Aes256>::new_from_slices(&key.bytes, &iv)
                     .map_err(|_| ())
                     .and_then(|c| {
                         c.decrypt_padded_mut::<Pkcs7>(&mut plain)
@@ -281,19 +351,8 @@ impl OdlDecodingContext {
                 _ => continue,
             };
             if let Ok(data) = result {
-                if data.len() % 2 == 0 {
-                    let units: Vec<u16> = data
-                        .chunks_exact(2)
-                        .map(|b| u16::from_le_bytes([b[0], b[1]]))
-                        .collect();
-                    if let Ok(text) = String::from_utf16(&units) {
-                        if !text
-                            .chars()
-                            .any(|c| c == '\0')
-                        {
-                            return (text, false);
-                        }
-                    }
+                if let Some(text) = decode_keystore_plaintext(data, key.encoding) {
+                    return (text, false);
                 }
             }
         }
