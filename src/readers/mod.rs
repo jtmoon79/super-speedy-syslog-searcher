@@ -37,6 +37,12 @@
 //!
 //! <br/>
 //!
+//! ### Reading Apple System Log files
+//!
+//! * An [`AslReader`] drives an [`AslParser`] to derive [`Asl`] events.
+//!
+//! <br/>
+//!
 //! ### Reading [`systemd` journal files]
 //!
 //! * A [`JournalReader`] drives a [`JournalApiPtr`] to derive
@@ -52,13 +58,13 @@
 //! ---
 //!
 //! The _s4_ binary program uses a [`SyslogProcessor`], a [`FixedStructReader`],
-//! a [`EvtxReader`], a [`EtlReader`], or a [`JournalReader`], instance,
+//! a [`EvtxReader`], a [`EtlReader`], an [`AslReader`], or a [`JournalReader`], instance,
 //! one per file, to drive processing of the file.
 //!
 //! <br/>
 //!
-//! _These are not rust "Readers"; these structs do not implement the trait
-//! [`Read`]. These are "readers" in an informal sense._
+//! _Most of these are "readers" only in an informal sense; `AslReader`
+//! additionally implements [`Read`] over rendered event bytes._
 //!
 //! [_Definitions of data_]: crate::data
 //! [`Read`]: std::io::Read
@@ -74,6 +80,9 @@
 //! [`EtlReader`]: crate::readers::etlreader::EtlReader
 //! [`EtlParser`]: crate::readers::etlparser::EtlParser
 //! [`Etl`s]: crate::data::etl::Etl
+//! [`AslReader`]: crate::readers::aslreader::AslReader
+//! [`AslParser`]: crate::readers::aslparser::AslParser
+//! [`Asl`]: crate::data::asl::Asl
 //! [etl files]: https://learn.microsoft.com/en-us/windows/win32/etw/about-event-tracing
 //! [`systemd` journal files]: https://systemd.io/JOURNAL_FILES/
 //! [`JournalReader`]: crate::readers::journalreader::JournalReader
@@ -85,6 +94,8 @@
 //! [evtx files]: https://en.wikipedia.org/w/index.php?title=Event_Viewer&oldid=1130075772#Windows_Vista
 
 pub mod blockreader;
+pub mod aslparser;
+pub mod aslreader;
 pub mod etlparser;
 pub mod etlreader;
 pub mod evtxreader;
@@ -97,7 +108,6 @@ pub mod journalreader;
 pub mod linereader;
 pub mod odlparser;
 pub mod odlreader;
-pub mod pyeventreader;
 pub mod summary;
 pub mod syslinereader;
 pub mod syslogprocessor;

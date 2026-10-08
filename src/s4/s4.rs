@@ -177,7 +177,6 @@ use ::s4lib::common::{
     FileTypeTextEncoding,
     LogMessageType,
     NLu8a,
-    Result3E,
     PathId,
     SetPathId,
     FILE_TOO_SMALL_SZ,
@@ -249,24 +248,12 @@ use ::s4lib::printer::summary::{
     MapPathIdToStackSize,
     SummaryPrinted,
 };
-use ::s4lib::python::pyrunner::{
-    PipeSz,
-    PYTHON_ENV,
-};
-use ::s4lib::python::venv::{
-    PYTHON_VENV_PATH_DEFAULT,
-    create as venv_create,
-};
 use ::s4lib::readers::blockreader::{
     BlockSz,
     blocksz_def,
     ENV_BLOCKSZ,
 };
-use ::s4lib::readers::pyeventreader::{
-    PyEventReader,
-    PyEventType,
-    ResultNextPyDataEvent,
-};
+use ::s4lib::readers::aslreader::AslReader;
 use ::s4lib::readers::etlreader::EtlReader;
 use ::s4lib::readers::odlreader::OdlReader;
 use ::s4lib::readers::evtxreader::EvtxReader;
@@ -2882,12 +2869,6 @@ DateTimes supported are only of the Gregorian calendar.
 DateTimes supported language is English.
 
 
-The Python interpreter used during `--venv` requires Python 3.9 or higher.
-This installs to "#, PYTHON_VENV_PATH_DEFAULT, r#"
-The Python interpreter used may be overridden by setting environment variable
-"#, PYTHON_ENV, r#" to the path of the Python interpreter.
-
-
 The user may specify the path to the systemd shared library by setting
 environment variable "#, ENV_LIBSYSTEMD, r#". This library is used to read
 .journal files. Otherwise, s4 will attempt to locate and load
@@ -2956,10 +2937,6 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
     ),
     after_help = CLI_HELP_AFTER,
     verbatim_doc_comment,
-    // override usage to more clearly show `--venv` is an exclusive "mode".
-    // clap does not support multiple usage statements with exclusive args
-    // see https://github.com/clap-rs/clap/issues/4191
-    override_usage = "\n  s4 [OPTIONS] <PATHS>...\n\n  s4 --venv",
 )]
 struct CLI_Args {
     /// Path(s) of log files or directories.
@@ -2969,9 +2946,6 @@ struct CLI_Args {
     #[clap(
         required = true,
         verbatim_doc_comment,
-        groups = &[
-            "command_mode",
-        ],
     )]
     paths: Vec<String>,
 
@@ -3171,27 +3145,6 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         env="S4_LIGHT_THEME",
     )]
     color_theme_light: bool,
-
-    /// Create a Python virtual environment exclusively for s4.
-    /// This is only necessary for parsing
-    /// Apple System Log (.asl) files.
-    /// This only needs to be created once.
-    /// When this option is used, no other options may be passed.
-    /// The Python interpreter used may be set by environment variable
-    /// S4_PYTHON.
-    // XXX: S4_PYTHON must match PYTHON_ENV
-    #[clap(
-        long = "venv",
-        verbatim_doc_comment,
-        default_value_t = false,
-        groups = &[
-             "command_mode",
-        ],
-        conflicts_with = "paths",
-        exclusive = true,
-        help_heading = "Python Virtual Environment Mode",
-    )]
-    python_venv: bool,
 
     /// Print a summary of files processed to stderr.
     /// Most useful for developers.
@@ -3896,7 +3849,6 @@ fn cli_process_args() -> (
     bool,
     String,
     String,
-    bool,
     JournalOutput,
     bool,
 ) {
@@ -4106,7 +4058,6 @@ fn cli_process_args() -> (
     defo!("prepend_file_align {:?}", args.prepend_file_align);
     defo!("prepend_separator {:?}", prepend_separator);
     defo!("log_message_separator {:?}", log_message_separator);
-    defo!("python_venv {:?}", args.python_venv);
     defo!("journal_output {:?}", args.journal_output);
     defo!("summary {:?}", args.summary);
 
@@ -4124,7 +4075,6 @@ fn cli_process_args() -> (
         args.prepend_file_align,
         prepend_separator,
         log_message_separator,
-        args.python_venv,
         args.journal_output,
         args.summary,
     )
@@ -4162,27 +4112,12 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_file_align,
         cli_prepend_separator,
         log_message_separator,
-        python_venv,
         journal_output,
         cli_opt_summary,
     ) = cli_process_args();
 
     if cli_opt_summary {
         summary_stats_enable();
-    }
-
-    if python_venv {
-        let exitcode: ExitCode = match venv_create() {
-            Result3E::Ok(_) => ExitCode::SUCCESS,
-            Result3E::Err(err) => {
-                e_err!("{}", err);
-                ExitCode::FAILURE
-            }
-            Result3E::ErrNoReprint(_err) => ExitCode::FAILURE,
-        };
-        defx!("exitcode {:?}", exitcode);
-
-        return exitcode;
     }
 
     let mut processed_paths: ProcessPathResults = ProcessPathResults::with_capacity(paths.len() * 4);
@@ -5162,145 +5097,51 @@ fn exec_odlparser(
     chan_send(&chan_send_dt, ChanDatum::FileSummary(Some(reader.summary_complete()), status), &path);
 }
 
-/// Drive the Python-backed ASL reader.
-fn exec_pyeventprocessor(
+/// Drive the native Apple System Log reader.
+fn exec_aslreader(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
     _tname: &str,
     _tid: thread::ThreadId,
 ) {
-    let (
-        path,
-        pathid,
-        filetype,
-        filetypeexecdata,
-        blocksz,
-        filter_dt_after_opt,
-        filter_dt_before_opt,
-        tz_offset,
-    ) = thread_init_data;
-    defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
+    let (path, pathid, filetype, _, _, after, before, tz_offset) = thread_init_data;
     debug_assert!(filetype.is_asl());
-    debug_assert!(matches!(filetypeexecdata, FileTypeExecData::None));
-
     exit_early_return!();
-
-    let pyevent_type: PyEventType = match filetype {
-        FileType::Asl { .. } => PyEventType::Asl,
-        _ => {
-            debug_panic!(
-                "exec_pyeventprocessor called with wrong filetype {:?} for path {:?}",
-                filetype, path
-            );
-            e_err!("filetype is {:?} not Asl which is unexpected", filetype);
-            defx!("({:?}) return early due filetype is not Asl", path);
+    let mut reader = match AslReader::new(pathid, path.clone(), filetype, tz_offset) {
+        Ok(reader) => reader,
+        Err(error) => {
+            let summary = Summary::new_failed(path.clone(), filetype, LogMessageType::Asl, 0, Some(error.to_string()));
+            chan_send(&chan_send_dt, ChanDatum::FileInfo(None, FileProcessingResultBlockZero::FileErrIo(error)), &path);
+            chan_send(&chan_send_dt, ChanDatum::FileSummary(Some(summary), FILEERRSTUB), &path);
             return;
         }
     };
-
-    let mut py_event_reader: PyEventReader = match PyEventReader::new(
-        pathid,
-        path.clone(),
-        filetype,
-        tz_offset,
-        blocksz as PipeSz,
-    ) {
-        Ok(val) => val,
-        Err(err) => {
-            let err_string = err.to_string();
-            // send `ChanDatum::FileInfo`
-            chan_send(
-                &chan_send_dt,
-                ChanDatum::FileInfo(
-                    DateTimeLOpt::None,
-                    FileProcessingResultBlockZero::FileErrIo(err)
-                ),
-                &path
-            );
-            // send `ChanDatum::FileSummary`
-            let summary = Summary::new_failed(
-                path.clone(),
-                filetype,
-                LogMessageType::PyEvent,
-                0,
-                Some(err_string)
-            );
-            chan_send(
-                &chan_send_dt,
-                ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
-                &path
-            );
-            defx!("({:?}) thread will return early due to error", path);
-            return;
-        }
-    };
-    defo!("{:?}({}): py_event_reader {:?}", _tid, _tname, py_event_reader);
-
-    // send `ChanDatum::FileInfo`
-    let mtime = py_event_reader.mtime();
-    let dt = systemtime_to_datetime(&tz_offset, &mtime);
-    chan_send(
-        &chan_send_dt,
-        ChanDatum::FileInfo(DateTimeLOpt::Some(dt), FILEOK),
-        &path
-    );
-
-    let mut result_err: Option<FileProcessingResult<Error>> = None;
-    // call py_event_reader.next() until exhausted
+    let mtime = systemtime_to_datetime(&tz_offset, &reader.mtime());
+    if !chan_send(&chan_send_dt, ChanDatum::FileInfo(Some(mtime), FILEOK), &path) {
+        return;
+    }
+    let result = reader.analyze(&after, &before, &EXIT_EARLY);
+    exit_early_return!();
     loop {
         exit_early_return!();
-        let Some(next_result) = py_event_reader.next_cancel(
-            &filter_dt_after_opt,
-            &filter_dt_before_opt,
-            &EXIT_EARLY,
-        ) else {
-            return;
-        };
-        match next_result {
-            ResultNextPyDataEvent::Found(etl_event) => {
-                def1o!("ResultNextPyDataEvent::Found({} bytes); chan_send()…", etl_event.len());
-                if !chan_send(
-                    &chan_send_dt,
-                    ChanDatum::NewMessage(
-                        LogMessage::PyEvent(etl_event, pyevent_type),
-                        false,
-                    ),
-                    &path
-                ) {
-                    defx!("({:?}) return early during py_event_reader.next() loop, chan_send_dt.send failed", path);
+        match reader.next_event() {
+            Ok(Some(event)) => {
+                if !chan_send(&chan_send_dt, ChanDatum::NewMessage(LogMessage::Asl(event), false), &path) {
                     return;
                 }
-            }
-            ResultNextPyDataEvent::Done => {
-                def1o!("ResultNextPyDataEvent::Done");
-                break;
-            }
-            ResultNextPyDataEvent::Err(err) => {
-                def1o!("ResultNextPyDataEvent::Err({:?})", err);
-                de_err!("etl_reader.next(…) returned {}", err);
-                result_err = Some(FileProcessingResult::FileErrIo(err));
-                break;
-            }
-            ResultNextPyDataEvent::ErrIgnore(_err) => {
-                def1o!("ResultNextPyDataEvent::ErrIgnore({:?})", _err);
-                de_err!("etl_reader.next(…) returned {} (Ignored)", _err);
-            }
+            },
+            Ok(None) => break,
+            Err(error) => {
+                chan_send(&chan_send_dt, ChanDatum::FileSummary(Some(reader.summary_complete()), FileProcessingResultBlockZero::FileErrIo(error)), &path);
+                return;
+            },
         }
     }
-
-    exit_early_return!();
-
-    let summary = py_event_reader.summary_complete();
-    chan_send(
-        &chan_send_dt,
-        ChanDatum::FileSummary(
-            Some(summary),
-            result_err.unwrap_or(FILEOK),
-        ),
-        &path
-    );
-
-    defx!("({:?})", path);
+    let status = match result {
+        Ok(()) => FILEOK,
+        Err(error) => FileProcessingResultBlockZero::FileErrIo(error),
+    };
+    chan_send(&chan_send_dt, ChanDatum::FileSummary(Some(reader.summary_complete()), status), &path);
 }
 
 /// This function drives a [`JournalReader`] instance through it's processing.
@@ -5480,7 +5321,7 @@ fn exec_fileprocessor_thread(
     let tname: &str = "";
 
     match thread_init_data.2 {
-        FileType::Asl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Asl { .. } => exec_aslreader(chan_send_dt, thread_init_data, tname, tid),
         FileType::FixedStruct { .. } => exec_fixedstructprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Etl { .. } => exec_etlprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Evtx { .. } => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
@@ -6552,11 +6393,10 @@ fn processing_loop(
             // this `match` statement is where the actual printing takes place in this
             // main thread or "printing thread"
             match log_message {
-                LogMessage::PyEvent(pyevent, pyevent_type) => {
-                    defo!("A3 PyEvent printing PyDataEvent PathId: {:?}", pathid);
+                LogMessage::Asl(asl) => {
                     let mut printed: Count = 0;
                     let mut flushed: Count = 0;
-                    match printer.print_pyevent(pyevent) {
+                    match printer.print_asl(asl) {
                         Ok((printed_, flushed_)) => {
                             printed = printed_ as Count;
                             flushed = flushed_ as Count;
@@ -6584,17 +6424,16 @@ fn processing_loop(
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_pyevent(
-                            pyevent,
+                        SummaryPrinted::summaryprint_map_update_asl(
+                            asl,
                             pathid,
-                            *pyevent_type,
                             &mut map_pathid_sumpr,
                             printed,
                             flushed,
                         );
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_pyevent(
-                            pyevent, *pyevent_type, printed, flushed
+                        summaryprinted.summaryprint_update_asl(
+                            asl, printed, flushed
                         );
                     }
                 }

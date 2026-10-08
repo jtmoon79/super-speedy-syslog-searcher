@@ -2,14 +2,13 @@
 
 //! Common types and constants for `readers`.
 
+use crate::data::asl::Asl;
 use crate::data::datetime::DateTimeL;
 use crate::data::etl::Etl;
 use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
-use crate::data::pydataevent::PyDataEvent;
 use crate::data::sysline::SyslineP;
-use crate::readers::pyeventreader::PyEventType;
 use crate::data::odl::Odl;
 
 
@@ -24,7 +23,7 @@ pub enum LogMessage {
     Evtx(Evtx),
     Journal(JournalEntry),
     Odl(Odl),
-    PyEvent(PyDataEvent, PyEventType),
+    Asl(Asl),
 }
 pub type LogMessageOpt = Option<LogMessage>;
 
@@ -39,7 +38,7 @@ impl LogMessage {
             LogMessage::Evtx(evtx) => evtx.dt(),
             LogMessage::Journal(journal) => journal.dt(),
             LogMessage::Odl(odl) => odl.dt(),
-            LogMessage::PyEvent(pyevent, ..) => pyevent.dt(),
+            LogMessage::Asl(asl) => asl.dt(),
         }
     }
 }

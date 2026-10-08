@@ -23,9 +23,9 @@
 //!
 //! Broadly, there are definitions of data, under the [`data`] module, and
 //! there
-//! are Readers, under [`readers`] module. Note that the “Reader”s do not
-//! implement the Rust `Read` trait; it is merely a general phrase. These are
-//! where this tool's specific features are implemented.
+//! are Readers, under [`readers`] module. Most "Readers" do not implement
+//! the Rust `Read` trait; `AslReader` does, yielding rendered ASL bytes.
+//! These are where this tool's specific features are implemented.
 //! <br/>
 //! The [`printer`] module handles printing log messages to standard output,
 //! along with user-passed command-line printing options
@@ -54,7 +54,6 @@ pub mod data;
 pub mod debug;
 pub mod libload;
 pub mod printer;
-pub mod python;
 pub mod readers;
 pub mod subprojects;
 #[cfg(test)]

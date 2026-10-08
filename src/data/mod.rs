@@ -82,8 +82,8 @@
 //! <br/>
 //! <br/>
 //!
-//! _The "Readers" are not rust "Readers"; "_Reader_" structs do not implement
-//! the trait [`Read`]. These are "readers" in an informal sense._
+//! _Most "Readers" do not implement [`Read`]; `AslReader` does, over rendered
+//! event bytes._
 //!
 //! Also see [_Overview of readers_].
 //!
@@ -109,6 +109,7 @@
 //! [`Read`]: std::io::Read
 
 pub mod common;
+pub mod asl;
 pub mod datetime;
 pub mod etl;
 pub mod evtx;
@@ -116,6 +117,5 @@ pub mod fixedstruct;
 pub mod journal;
 pub mod line;
 pub mod odl;
-pub mod pydataevent;
 pub mod slice_contains;
 pub mod sysline;

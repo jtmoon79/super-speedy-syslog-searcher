@@ -1,8 +1,0 @@
-# requirements.in
-#
-# Basic dependencies for s4_event_readers.
-# Run pip-compile to regenerate requirements.txt.
-#
-# These versions are known to work with Python 3.9+.
-#
-inputimeout==1.0.4

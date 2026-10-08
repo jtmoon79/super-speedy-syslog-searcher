@@ -60,7 +60,7 @@ use crate::readers::evtxreader::SummaryEvtxReader;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::journalreader::SummaryJournalReader;
 use crate::readers::linereader::SummaryLineReader;
-use crate::readers::pyeventreader::SummaryPyEventReader;
+use crate::readers::aslreader::SummaryAslReader;
 use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::SummarySyslogProcessor;
 use crate::readers::odlreader::SummaryOdlReader;
@@ -88,10 +88,8 @@ pub enum SummaryReaderData {
     ///
     /// [`FixedStructReader`]: crate::readers::fixedstructreader::FixedStructReader
     FixedStruct((SummaryBlockReader, SummaryFixedStructReader)),
-    /// For an [`PyEventReader`].
-    ///
-    /// [`PyEventReader`]: crate::readers::pyeventreader::PyEventReader
-    PyEvent(SummaryPyEventReader),
+    /// Native Apple System Log reader statistics.
+    Asl(SummaryAslReader),
     /// For a [`EtlReader`].
     ///
     /// [`EtlReader`]: crate::readers::etlreader::EtlReader
@@ -138,8 +136,8 @@ pub struct Summary {
     /// When `logmessagetype` is [`LogMessageType::FixedStruct*`] then this must
     /// be [`SummaryReaderData::FixedStruct`].
     ///
-    /// When `logmessagetype` is [`LogMessageType::PyEvent`] then this must be
-    /// [`SummaryReaderData::PyEvent`].
+    /// When `logmessagetype` is [`LogMessageType::Asl`] then this must be
+    /// [`SummaryReaderData::Asl`].
     ///
     /// When `logmessagetype` is [`LogMessageType::Etl`] then this must be
     /// [`SummaryReaderData::Etl`].
@@ -177,7 +175,7 @@ impl Summary {
         summarysyslinereader_opt: Option<SummarySyslineReader>,
         summarysyslogprocessor_opt: Option<SummarySyslogProcessor>,
         summaryfixedstructreader_opt: Option<SummaryFixedStructReader>,
-        summarypyeventreader_opt: Option<SummaryPyEventReader>,
+        summaryaslreader_opt: Option<SummaryAslReader>,
         summaryetlreader_opt: Option<SummaryEtlReader>,
         summaryevtxreader_opt: Option<SummaryEvtxReader>,
         summaryjournalreader_opt: Option<SummaryJournalReader>,
@@ -213,7 +211,7 @@ impl Summary {
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
                     summaryfixedstructreader_opt,
-                    summarypyeventreader_opt,
+                    summaryaslreader_opt,
                     summaryetlreader_opt,
                     summaryevtxreader_opt,
                     summaryjournalreader_opt
@@ -230,7 +228,7 @@ impl Summary {
             LogMessageType::Sysline => {
                 debug_assert_nones!(
                     summaryfixedstructreader_opt,
-                    summarypyeventreader_opt,
+                    summaryaslreader_opt,
                     summaryetlreader_opt,
                     summaryevtxreader_opt,
                     summaryjournalreader_opt,
@@ -271,7 +269,7 @@ impl Summary {
                     summarylinereader_opt,
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
-                    summarypyeventreader_opt,
+                    summaryaslreader_opt,
                     summaryetlreader_opt,
                     summaryevtxreader_opt,
                     summaryodlreader_opt
@@ -302,7 +300,7 @@ impl Summary {
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
                     summaryfixedstructreader_opt,
-                    summarypyeventreader_opt,
+                    summaryaslreader_opt,
                     summaryevtxreader_opt,
                     summaryjournalreader_opt,
                     summaryodlreader_opt
@@ -322,7 +320,7 @@ impl Summary {
             LogMessageType::Evtx => {
                 debug_assert_nones!(
                     summaryblockreader_opt,
-                    summarypyeventreader_opt,
+                    summaryaslreader_opt,
                     summarylinereader_opt,
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
@@ -346,7 +344,7 @@ impl Summary {
             LogMessageType::Journal => {
                 debug_assert_nones!(
                     summaryblockreader_opt,
-                    summarypyeventreader_opt,
+                    summaryaslreader_opt,
                     summarylinereader_opt,
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
@@ -367,7 +365,7 @@ impl Summary {
                     error,
                 }
             }
-            LogMessageType::PyEvent => {
+            LogMessageType::Asl => {
                 debug_assert_nones!(
                     summaryblockreader_opt,
                     summarylinereader_opt,
@@ -379,8 +377,8 @@ impl Summary {
                     summaryjournalreader_opt,
                     summaryodlreader_opt
                 );
-                let readerdata: SummaryReaderData = SummaryReaderData::PyEvent(
-                    summarypyeventreader_opt.unwrap(),
+                let readerdata: SummaryReaderData = SummaryReaderData::Asl(
+                    summaryaslreader_opt.unwrap(),
                 );
                 def1x!();
                 Summary {
@@ -443,7 +441,7 @@ impl Summary {
             SummaryReaderData::Odl(_) => None,
             SummaryReaderData::Etvx(_) => None,
             SummaryReaderData::Journal(_) => None,
-            SummaryReaderData::PyEvent(_) => None,
+            SummaryReaderData::Asl(_) => None,
         }
     }
 
@@ -474,8 +472,8 @@ impl Summary {
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_first_accepted
             }
-            SummaryReaderData::PyEvent(summarypyeventreader) => {
-                &summarypyeventreader.pyeventreader_datetime_first_accepted
+            SummaryReaderData::Asl(summaryaslreader) => {
+                &summaryaslreader.aslreader_datetime_first_accepted
             }
         }
     }
@@ -503,8 +501,8 @@ impl Summary {
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_first_processed
             }
-            SummaryReaderData::PyEvent(summarypyeventreader) => {
-                &summarypyeventreader.pyeventreader_datetime_first_processed
+            SummaryReaderData::Asl(summaryaslreader) => {
+                &summaryaslreader.aslreader_datetime_first_processed
             }
         }
     }
@@ -531,8 +529,8 @@ impl Summary {
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_last_accepted
             }
-            SummaryReaderData::PyEvent(summarypyeventreader) => {
-                &summarypyeventreader.pyeventreader_datetime_last_accepted
+            SummaryReaderData::Asl(summaryaslreader) => {
+                &summaryaslreader.aslreader_datetime_last_accepted
             }
         }
     }
@@ -559,8 +557,8 @@ impl Summary {
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_last_processed
             }
-            SummaryReaderData::PyEvent(summarypyeventreader) => {
-                &summarypyeventreader.pyeventreader_datetime_last_processed
+            SummaryReaderData::Asl(summaryaslreader) => {
+                &summaryaslreader.aslreader_datetime_last_processed
             }
         }
     }
@@ -585,7 +583,7 @@ impl Summary {
             SummaryReaderData::Odl(summaryodlreader) => summaryodlreader.odlreader_out_of_order,
             SummaryReaderData::Etvx(summaryevtxreader) => summaryevtxreader.evtxreader_out_of_order,
             SummaryReaderData::Journal(summaryjournalreader) => summaryjournalreader.journalreader_out_of_order,
-            SummaryReaderData::PyEvent(summarypyeventreader) => summarypyeventreader.pyeventreader_out_of_order,
+            SummaryReaderData::Asl(summaryaslreader) => summaryaslreader.aslreader_out_of_order,
         }
     }
 
@@ -668,10 +666,10 @@ impl Summary {
                     summaryjournalreader.journalreader_events_processed
                 )
             }
-            SummaryReaderData::PyEvent(summarypyeventreader) => {
+            SummaryReaderData::Asl(summaryaslreader) => {
                 max!(
-                    summarypyeventreader.pyeventreader_events_accepted,
-                    summarypyeventreader.pyeventreader_events_processed
+                    summaryaslreader.aslreader_events_accepted,
+                    summaryaslreader.aslreader_events_processed
                 )
             }
         }
@@ -712,7 +710,7 @@ impl Summary {
             SummaryReaderData::Odl(_) => 0,
             SummaryReaderData::Etvx(_summaryevtxreader) => 0,
             SummaryReaderData::Journal(_summaryjournalreader) => 0,
-            SummaryReaderData::PyEvent(_summarypyeventreader) => 0,
+            SummaryReaderData::Asl(_) => 0,
         }
     }
 }
@@ -949,7 +947,7 @@ impl fmt::Debug for Summary {
                     ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
                 }
             }
-            SummaryReaderData::PyEvent(summarypyeventreader) => match self.filetype {
+            SummaryReaderData::Asl(summaryaslreader) => match self.filetype {
                 None => {
                     debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
 
@@ -959,8 +957,8 @@ impl fmt::Debug for Summary {
                 Some(filetype_) => match filetype_ {
                     FileType::Asl { .. } => f
                         .debug_struct("")
-                        .field("asl events processed", &summarypyeventreader.pyeventreader_events_processed)
-                        .field("asl events accepted", &summarypyeventreader.pyeventreader_events_accepted)
+                        .field("asl events processed", &summaryaslreader.aslreader_events_processed)
+                        .field("asl events accepted", &summaryaslreader.aslreader_events_accepted)
                         .finish(),
                     ft => {
                         debug_panic!("Unpexected filetype {}; path {:?}", ft, self.path);

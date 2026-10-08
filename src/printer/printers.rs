@@ -55,7 +55,7 @@ use crate::data::datetime::{
     DateTimePattern_string,
     FixedOffset,
 };
-use crate::data::pydataevent::PyDataEvent;
+use crate::data::asl::Asl;
 use crate::data::etl::Etl;
 use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::{
@@ -882,24 +882,24 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Print a `PyDataEvent` based on [`PrinterLogMessage`] settings.
+    /// Print an Apple System Log event based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
     #[inline(always)]
-    pub fn print_pyevent(
+    pub fn print_asl(
         &mut self,
-        pyevent: &PyDataEvent,
+        asl: &Asl,
     ) -> PrinterLogMessageResult {
         defo!("do_color {} do_prepend_file {} do_prepend_date {}", self.do_color, self.do_prepend_file, self.do_prepend_date);
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
-            (false, false, false) => self.print_pyevent_(pyevent),
+            (false, false, false) => self.print_asl_(asl),
             (false, do_prepend_file, do_prepend_date) => {
-                self.print_pyevent_prepend(pyevent, do_prepend_file, do_prepend_date)
+                self.print_asl_prepend(asl, do_prepend_file, do_prepend_date)
             }
             (true, do_prepend_file, do_prepend_date) => {
                 match (do_prepend_file, do_prepend_date) {
-                    (false, false) => self.print_pyevent_color(pyevent),
-                    (do_prepend_file, do_prepend_date) => self.print_pyevent_prepend_color(pyevent, do_prepend_file, do_prepend_date),
+                    (false, false) => self.print_asl_color(asl),
+                    (do_prepend_file, do_prepend_date) => self.print_asl_prepend_color(asl, do_prepend_file, do_prepend_date),
                 }
             }
         }
@@ -1041,12 +1041,11 @@ impl PrinterLogMessage {
     ///
     /// [`fixedstruct.dt`]: crate::data::fixedstruct::fixedstruct#structfield.dt
     #[inline(always)]
-    fn datetime_to_string_pyevent(
+    fn datetime_to_string_asl(
         &self,
-        pyevent: &PyDataEvent,
+        asl: &Asl,
     ) -> String {
-        // write the `pyevent.dt` into a `String` once
-        let dt: DateTimeL = pyevent
+        let dt: DateTimeL = asl
             .dt()
             .with_timezone(&self.prepend_date_offset);
         let dt_delayedformat = dt.format(
@@ -1738,25 +1737,25 @@ impl PrinterLogMessage {
 
     /// Print a `Evtx` without anything special. Optimized for this simple
     /// common case.
-    fn print_pyevent_(
+    fn print_asl_(
         &mut self,
-        pyevent: &PyDataEvent,
+        asl: &Asl,
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
-        buffer_write_or_return!(stdout_lock, self.buffer, pyevent.as_bytes(), printed, flushed);
+        buffer_write_or_return!(stdout_lock, self.buffer, asl.as_bytes(), printed, flushed);
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
     /// Print a `Evtx` with prepended file and/or datetime.
-    fn print_pyevent_prepend(
+    fn print_asl_prepend(
         &mut self,
-        pyevent: &PyDataEvent,
+        asl: &Asl,
         do_prependfile: bool,
         do_prependdate: bool,
     ) -> PrinterLogMessageResult {
@@ -1775,12 +1774,12 @@ impl PrinterLogMessage {
         let prepend_date_s: String;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_pyevent(pyevent);
+                prepend_date_s = self.datetime_to_string_asl(asl);
                 prepend_date_s.as_bytes()
             }
             false => &[],
         };
-        let data: &[u8] = pyevent.as_bytes();
+        let data: &[u8] = asl.as_bytes();
         let mut a: usize = 0;
         #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
@@ -1805,18 +1804,18 @@ impl PrinterLogMessage {
     }
 
     /// Print a `Evtx` in color. Optimized for this simple common case.
-    fn print_pyevent_color(
+    fn print_asl_color(
         &mut self,
-        pyevent: &PyDataEvent,
+        asl: &Asl,
     ) -> PrinterLogMessageResult {
-        let (beg, end) = match pyevent.dt_beg_end() {
+        let (beg, end) = match asl.dt_beg_end() {
             Some((beg, end)) => (*beg, *end),
             None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
-        let data: &[u8] = pyevent.as_bytes();
+        let data: &[u8] = asl.as_bytes();
         let stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
 
@@ -1839,9 +1838,9 @@ impl PrinterLogMessage {
     }
 
     /// Print a `Evtx` in color and prepended filename and/or datetime.
-    fn print_pyevent_prepend_color(
+    fn print_asl_prepend_color(
         &mut self,
-        pyevent: &PyDataEvent,
+        asl: &Asl,
         do_prependfile: bool,
         do_prependdate: bool,
     ) -> PrinterLogMessageResult {
@@ -1858,17 +1857,17 @@ impl PrinterLogMessage {
         let prepend_date_s: String;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_pyevent(pyevent);
+                prepend_date_s = self.datetime_to_string_asl(asl);
                 prepend_date_s.as_bytes()
             }
             false => &[],
         };
-        let (beg, end) = match pyevent.dt_beg_end() {
+        let (beg, end) = match asl.dt_beg_end() {
             Some((beg, end)) => (*beg, *end),
             None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
-        let data: &[u8] = pyevent.as_bytes();
+        let data: &[u8] = asl.as_bytes();
         let mut at: usize = 0;
         let mut a: usize = 0;
         let stdout_lock = self.stdout.lock();

@@ -4799,6 +4799,13 @@ pub const OPENBSD_X86_UTMP_BUFFER1: [u8; openbsd_x86::UTMP_SZ] = [
 
 // .asl data
 
+/// Path, record count, first ID, and last ID verified against ccl_asldb.
+pub const ASL_FIXTURES: [(&str, usize, u64, u64); 3] = [
+    ("./logs/MacOS11/asl/BB.2025.03.31.G80.asl", 5, 208037, 209198),
+    ("./logs/MacOS13/var/log/asl/BB.2025.03.31.G80.asl", 5, 425, 513),
+    ("./logs/Darwin25/var-log/asl/2026.05.29.G80.asl", 67, 2, 73),
+];
+
 pub const ASL_1_STR_PATH: &str = "./logs/MacOS11/powermanagement/2023.10.26.asl";
 pub const ASL_1_FILESZ: FileSz = 3366;
 pub const ASL_1_GZ_STR_PATH: &str = "./logs/MacOS11/powermanagement/2023.10.26.asl.gz";

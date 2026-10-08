@@ -46,8 +46,6 @@ declare -arg S4_ARGS=(
     --summary
 )
 declare -rg S4_ARGS_QUOTED=$(for arg in "${S4_ARGS[@]}"; do echo -n "'${arg}' "; done)
-declare -rg S4_VENV_PIP=~/.config/s4/venv/pip.conf
-
 function stderr_clean () {
     # remove text lines from `s4` stderr that vary from run to run
     # $1 is a file path

@@ -76,11 +76,6 @@ echo >&2
 (set -x; "${PROGRAM}" --version)
 echo >&2
 
-# setup venv if not already done
-if [[ ! -e "${S4_VENV_PIP}" ]]; then
-    "${PROGRAM}" --venv
-fi
-
 #
 # run s4 program
 #

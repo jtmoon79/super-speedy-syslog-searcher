@@ -387,36 +387,9 @@ fn dotenv_load() {
     }
 }
 
-/// Embed only distribution sources, never stale wheels, bytecode, or build copies.
-fn stage_python_project() -> std::io::Result<()> {
-    let source = PathBuf::from(env::var_os("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR"))
-        .join("src").join("python").join("s4_event_readers");
-    let destination = PathBuf::from(env::var_os("OUT_DIR").expect("OUT_DIR"))
-        .join("python_event_readers");
-    fs::create_dir_all(destination.join("s4_event_readers"))?;
-    let files = [
-        "pyproject.toml",
-        "requirements.in",
-        "requirements.txt",
-        "requirements-dev.in",
-        "requirements-dev.txt",
-        "s4_event_readers/__init__.py",
-        "s4_event_readers/__main__.py",
-        "s4_event_readers/ccl_asldb.py",
-        "s4_event_readers/LICENSE-ccl_asldb.txt",
-    ];
-    for file in files {
-        let path = source.join(file);
-        println!("cargo:rerun-if-changed={}", path.display());
-        fs::copy(path, destination.join(file))?;
-    }
-    Ok(())
-}
-
 fn main() {
     info!("main() build.rs for super_speedy_syslog_searcher");
     dotenv_load();
-    stage_python_project().expect("failed to stage embedded ASL Python project");
     write_timestamp_file();
     write_rustc_version_file();
     write_opt_level();

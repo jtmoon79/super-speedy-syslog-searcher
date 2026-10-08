@@ -1201,7 +1201,7 @@ impl FileType {
     /// convert a `FileType` to it's corresponding `LogMessageType`
     pub const fn to_logmessagetype(&self) -> LogMessageType {
         match self {
-            FileType::Asl { .. } => LogMessageType::PyEvent,
+            FileType::Asl { .. } => LogMessageType::Asl,
             FileType::Etl { .. } => LogMessageType::Etl,
             FileType::Evtx { .. } => LogMessageType::Evtx,
             FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
@@ -1341,8 +1341,8 @@ pub enum LogMessageType {
     Journal,
     /// A native OneDrive Log event.
     Odl,
-    /// an Apple System Log (ASL) file.
-    PyEvent,
+    /// a native Apple System Log (ASL) event.
+    Asl,
     /// Special case, used to indicate "ALL" or "ANY" message type.
     /// Useful for code objects tracking multiple files.
     #[default]
@@ -1360,7 +1360,7 @@ impl std::fmt::Display for LogMessageType {
             LogMessageType::FixedStruct => write!(f, "fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)"),
             LogMessageType::Journal => write!(f, "systemd journal entries"),
             LogMessageType::Odl => write!(f, "ODL events (OneDrive Log)"),
-            LogMessageType::PyEvent => write!(f, "Python parsed events (ASL)"),
+            LogMessageType::Asl => write!(f, "ASL events (Apple System Log)"),
             LogMessageType::Sysline => write!(f, "text log lines"),
             LogMessageType::All => write!(f, "ALL"),
         }
