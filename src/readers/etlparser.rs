@@ -891,10 +891,7 @@ fn tl_read_sid(cur: &mut Cur) -> Option<Sid> {
     if count as usize > SID_SUB_AUTHORITIES_MAX {
         return None;
     }
-    let identifier_authority: [u8; 6] = cur
-        .take(6)?
-        .try_into()
-        .ok()?;
+    let identifier_authority: [u8; 6] = cur.take(6)?.try_into().ok()?;
     let mut sub_authorities: [u32; SID_SUB_AUTHORITIES_MAX] = [0; SID_SUB_AUTHORITIES_MAX];
     for sub in sub_authorities
         .iter_mut()
@@ -927,11 +924,7 @@ pub fn tl_read_scalar(
         TLG_IN_UINT8 => {
             let b = cur.u8()?;
             // TlgOutBOOLEAN
-            if out_type == 3 {
-                EtlValue::Bool(b != 0)
-            } else {
-                EtlValue::U64(b as u64)
-            }
+            if out_type == 3 { EtlValue::Bool(b != 0) } else { EtlValue::U64(b as u64) }
         }
         TLG_IN_INT16 => EtlValue::I64(cur.u16()? as i16 as i64),
         TLG_IN_UINT16 => EtlValue::U64(cur.u16()? as u64),
@@ -960,7 +953,11 @@ pub fn tl_read_scalar(
             _ => EtlValue::Hex64(cur.u64()?),
         },
         TLG_IN_FILETIME => EtlValue::FileTime(cur.u64()?),
-        TLG_IN_SYSTEMTIME => EtlValue::SystemTime(cur.take(SYSTEMTIME_SZ)?.try_into().ok()?),
+        TLG_IN_SYSTEMTIME => EtlValue::SystemTime(
+            cur.take(SYSTEMTIME_SZ)?
+                .try_into()
+                .ok()?,
+        ),
         TLG_IN_SID => EtlValue::Sid(Box::new(tl_read_sid(cur)?)),
         TLG_IN_HEXINT32 => EtlValue::Hex32(cur.u32()?),
         TLG_IN_HEXINT64 => EtlValue::Hex64(cur.u64()?),
@@ -1004,16 +1001,7 @@ fn tl_read_field_value(
     if field.in_type == TLG_IN_STRUCT {
         let mut sub: Vec<(EtlName, EtlValue)> = Vec::with_capacity(sub_count);
         let mut sub_idx: usize = sub_start;
-        tl_decode_fields(
-            fields,
-            &mut sub_idx,
-            sub_count,
-            cur,
-            pointer_size,
-            &mut sub,
-            depth + 1,
-            values_left,
-        )?;
+        tl_decode_fields(fields, &mut sub_idx, sub_count, cur, pointer_size, &mut sub, depth + 1, values_left)?;
 
         Some(EtlValue::Struct(sub))
     } else {
@@ -1117,28 +1105,16 @@ pub fn decode_tracelogging(
         top_level_idx += extent;
     }
     let mut values_left: usize = TL_EVENT_VALUES_MAX;
-    let complete: bool = tl_decode_fields(
-        fields,
-        &mut idx,
-        top_level_fields,
-        &mut cur,
-        pointer_size,
-        &mut out,
-        1,
-        &mut values_left,
-    )
-    .is_some();
+    let complete: bool =
+        tl_decode_fields(fields, &mut idx, top_level_fields, &mut cur, pointer_size, &mut out, 1, &mut values_left)
+            .is_some();
 
     match (complete, cur.remaining()) {
         (true, _) if out.is_empty() && user_data.is_empty() => EtlPayload::Empty,
         (true, 0) => EtlPayload::Fields(out),
         (_, _) => {
             let rest: Vec<u8> = cur.rest().to_vec();
-            if out.is_empty() {
-                EtlPayload::Raw(rest)
-            } else {
-                EtlPayload::Partial(out, rest)
-            }
+            if out.is_empty() { EtlPayload::Raw(rest) } else { EtlPayload::Partial(out, rest) }
         }
     }
 }
@@ -1598,7 +1574,8 @@ impl<R: Read> EtlParser<R> {
             .provider_name
             .is_none()
         {
-            envelope.provider_name = Self::resolve_provider_name(provider_names, envelope.provider_guid, raw.provider_name);
+            envelope.provider_name =
+                Self::resolve_provider_name(provider_names, envelope.provider_guid, raw.provider_name);
         }
         let pointer_size: usize = raw
             .pointer_size

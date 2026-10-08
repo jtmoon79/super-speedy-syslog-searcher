@@ -311,7 +311,7 @@ pub struct SdJournalHApi {
 }
 
 /// `dlopen2` container for the `libsystemd` interface.
-pub type JournalApiContainer = Container::<SdJournalHApi>;
+pub type JournalApiContainer = Container<SdJournalHApi>;
 
 /// Multi-threaded pointer to a the `libsystemd` interface.
 pub type JournalApiPtr = Arc<JournalApiContainer>;
@@ -403,18 +403,15 @@ impl fmt::Debug for LoadLibraryError {
         f: &mut fmt::Formatter<'_>,
     ) -> fmt::Result {
         match self {
-            LoadLibraryError::Ok => {
-                f.debug_struct("LoadLibraryError::Ok")
-                .finish()
-            }
-            LoadLibraryError::Err(_) => {
-                f.debug_struct("LoadLibraryError::Err")
-                .finish()
-            }
-            LoadLibraryError::PrevErr => {
-                f.debug_struct("LoadLibraryError::PrevErr")
-                .finish()
-            }
+            LoadLibraryError::Ok => f
+                .debug_struct("LoadLibraryError::Ok")
+                .finish(),
+            LoadLibraryError::Err(_) => f
+                .debug_struct("LoadLibraryError::Err")
+                .finish(),
+            LoadLibraryError::PrevErr => f
+                .debug_struct("LoadLibraryError::PrevErr")
+                .finish(),
         }
     }
 }
@@ -434,15 +431,23 @@ impl LoadLibraryError {
     pub const fn is_prev_err(&self) -> bool {
         matches!(self, LoadLibraryError::PrevErr)
     }
-
 }
 
 /// Wrapper to set the global static variables.
-fn set_systemd_journal_api(container: JournalApiContainer, path: String) {
+fn set_systemd_journal_api(
+    container: JournalApiContainer,
+    path: String,
+) {
     defñ!();
-    *SYSTEMD_JOURNAL_API.write().unwrap() = Some(Arc::new(container));
-    *LOAD_LIBRARY_SYSTEMD_OK.write().unwrap() = Some(true);
-    *LOAD_LIBRARY_SYSTEMD_PATH.write().unwrap() = Some(path);
+    *SYSTEMD_JOURNAL_API
+        .write()
+        .unwrap() = Some(Arc::new(container));
+    *LOAD_LIBRARY_SYSTEMD_OK
+        .write()
+        .unwrap() = Some(true);
+    *LOAD_LIBRARY_SYSTEMD_PATH
+        .write()
+        .unwrap() = Some(path);
 }
 
 /// Load the shared library `libsystemd`. Store in the global static
@@ -460,7 +465,10 @@ fn set_systemd_journal_api(container: JournalApiContainer, path: String) {
 /// [`dlopen2::Container`]: https://docs.rs/dlopen2/0.4.1/dlopen2/wrapper/struct.Container.html
 pub fn load_library_systemd() -> LoadLibraryError {
     // only attempt to load the library once. if that fails don't try again.
-    match *LOAD_LIBRARY_SYSTEMD_OK.read().unwrap() {
+    match *LOAD_LIBRARY_SYSTEMD_OK
+        .read()
+        .unwrap()
+    {
         Some(true) => return LoadLibraryError::Ok,
         Some(false) => return LoadLibraryError::PrevErr,
         None => {}
@@ -472,8 +480,7 @@ pub fn load_library_systemd() -> LoadLibraryError {
     // try user-specified path first
     if let Ok(user_libsystemd_path) = env::var(ENV_LIBSYSTEMD) {
         defo!("Container::load(user specified path: {:?})", user_libsystemd_path);
-        match unsafe { JournalApiContainer::load(&user_libsystemd_path) }
-        {
+        match unsafe { JournalApiContainer::load(&user_libsystemd_path) } {
             Ok(container) => {
                 defx!("loaded user-specified library {:?}", user_libsystemd_path);
                 set_systemd_journal_api(container, user_libsystemd_path);
@@ -481,17 +488,21 @@ pub fn load_library_systemd() -> LoadLibraryError {
             }
             Err(err) => {
                 defo!("failed to load library from user specified path: {}", err);
-                *LOAD_LIBRARY_SYSTEMD_OK.write().unwrap() = Some(false);
+                *LOAD_LIBRARY_SYSTEMD_OK
+                    .write()
+                    .unwrap() = Some(false);
                 return LoadLibraryError::Err(err);
             }
         }
     }
 
     // try standard library names/paths
-    for (index, libname) in LIB_NAME_SYSTEMD_NAMES.iter().enumerate() {
+    for (index, libname) in LIB_NAME_SYSTEMD_NAMES
+        .iter()
+        .enumerate()
+    {
         defo!("Container::load({:?})", libname);
-        match unsafe { JournalApiContainer::load(libname) }
-        {
+        match unsafe { JournalApiContainer::load(libname) } {
             Ok(container) => {
                 defx!("loaded library {:?}", libname);
                 set_systemd_journal_api(container, libname.to_string());
@@ -500,7 +511,9 @@ pub fn load_library_systemd() -> LoadLibraryError {
             Err(err) => {
                 defo!("failed to load library: {}", err);
                 if index == LIB_NAME_SYSTEMD_NAMES.len() - 1 {
-                    *LOAD_LIBRARY_SYSTEMD_OK.write().unwrap() = Some(false);
+                    *LOAD_LIBRARY_SYSTEMD_OK
+                        .write()
+                        .unwrap() = Some(false);
                     defx!("return Err({:?})", err);
                     return LoadLibraryError::Err(err);
                 }
@@ -509,7 +522,9 @@ pub fn load_library_systemd() -> LoadLibraryError {
     }
     // XXX: should never get here
 
-    *LOAD_LIBRARY_SYSTEMD_OK.write().unwrap() = Some(false);
+    *LOAD_LIBRARY_SYSTEMD_OK
+        .write()
+        .unwrap() = Some(false);
 
     LoadLibraryError::PrevErr
 }

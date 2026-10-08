@@ -1114,8 +1114,7 @@ macro_rules! copy_capturegroup_to_buffer {
                 $buffer[$at..$at + len_].copy_from_slice(&$data[a..b]);
                 $at += len_;
             });
-        }
-    };
+    }};
 }
 
 /// Macro helper to [`captures_to_buffer_bytes`].
@@ -1124,14 +1123,12 @@ macro_rules! copy_slice_to_buffer {
         $u8_slice:expr,
         $buffer:ident,
         $at:ident
-    ) => {
-        {
-            let len_: usize = $u8_slice.len();
-            defo!("copy_slice_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
-            $buffer[$at..$at + len_].copy_from_slice($u8_slice);
-            $at += len_;
-        }
-    };
+    ) => {{
+        let len_: usize = $u8_slice.len();
+        defo!("copy_slice_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
+        $buffer[$at..$at + len_].copy_from_slice($u8_slice);
+        $at += len_;
+    }};
 }
 
 /// Macro helper to [`captures_to_buffer_bytes`].
@@ -1140,13 +1137,11 @@ macro_rules! copy_u8_to_buffer {
         $u8_:expr,
         $buffer:ident,
         $at:ident
-    ) => {
-        {
-            defo!("copy_slice_to_buffer! buffer[{:?}] = {:?}", $at, $u8_);
-            $buffer[$at] = $u8_;
-            $at += 1;
-        }
-    };
+    ) => {{
+        defo!("copy_slice_to_buffer! buffer[{:?}] = {:?}", $at, $u8_);
+        $buffer[$at] = $u8_;
+        $at += 1;
+    }};
 }
 
 // Variables `const MONTH_` are helpers to [`month_bB_to_month_m_bytes`].
