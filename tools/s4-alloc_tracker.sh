@@ -14,9 +14,5 @@ exec env \
     S4_ALLOC_TRACKER_TRACKING=${S4_ALLOC_TRACKER_TRACKING-1} \
     S4_BUILD_REGEX_PRINT=${S4_BUILD_REGEX_PRINT-0} \
     RUST_MIN_STACK=${RUST_MIN_STACK-20000000} \
-    cargo \
-    run \
-    --quiet \
-    --profile alloc_tracker \
-    --features alloc_tracker \
-    -- "$@"
+    ${PROGRAM-./target/alloc_tracker/s4} \
+    "$@"

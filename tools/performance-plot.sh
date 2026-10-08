@@ -35,12 +35,12 @@ user may set environment variables:
   PYTHON       - python3 interpreter
                  default: ${PYTHON_DEFAULT}
 
-  Disk I/O is measured once per file-count via /proc/<pid>/io
-  (syscr, rchar, syscw, write_bytes) before hyperfine runs.
-  rchar counts bytes requested via read syscalls (includes page cache).
-  Page cache is dropped when permitted (drop_caches); otherwise a
-  warning is printed and measurement continues.
-  Outputs include __diskio.md/csv and __diskio.svg (syscr + rchar).
+Disk I/O is measured once per file-count via /proc/<pid>/io
+(syscr, rchar, syscw, write_bytes) before hyperfine runs.
+rchar counts bytes requested via read syscalls (includes page cache).
+Page cache is dropped when permitted (drop_caches); otherwise a
+warning is printed and measurement continues.
+Outputs include __diskio.md/csv and __diskio.svg (syscr + rchar).
 
   # Block Size testing
 

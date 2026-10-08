@@ -9,7 +9,7 @@ set -euo pipefail
 export PATH="${PATH}:${HOME}/go/bin"  # for glow
 DIROUT=${DIROUT-$PWD}
 
-PROGRAM=${PROGRAM-./target/alloc_tracker/s4}
+export PROGRAM=${PROGRAM-./target/alloc_tracker/s4}
 
 cd "$(dirname -- "${0}")/.."
 
@@ -59,20 +59,18 @@ for LOGFILE in "${FILES[@]}"; do
 ## \`--version\`
 
 \`\`\`text" > "${OUT}"
-        ./target/alloc_tracker/s4 --version >> "${OUT}"
+        "${PROGRAM}" --version >> "${OUT}"
         echo "\`\`\`
 " >> "${OUT}"
         set -x
         env \
-            S4_ALLOC_TRACKER_DEPTH=1 \
+            S4_ALLOC_TRACKER_DEPTH=${S4_ALLOC_TRACKER_DEPTH-1} \
             S4_ALLOC_TRACKER_OUTPUT="${OUT}" \
-            S4_ALLOC_TRACKER_PRINT=0 \
-            S4_ALLOC_TRACKER_TRACKING=1 \
+            S4_ALLOC_TRACKER_PRINT=${S4_ALLOC_TRACKER_PRINT-0} \
+            S4_ALLOC_TRACKER_TRACKING=${S4_ALLOC_TRACKER_TRACKING-1} \
             S4_ALLOC_TRACKER_LINK="${S4_ALLOC_TRACKER_LINK}" \
-            S4_BUILD_REGEX_PRINT=0 \
             RUST_MIN_STACK=${RUST_MIN_STACK-20000000} \
             "${PROGRAM}" \
-            "$@" \
             "${LOGFILE}" 1>/dev/null
     ) || {
         echo "ERROR: s4-alloc_tracker.sh failed for ${LOGFILE}" >&2
