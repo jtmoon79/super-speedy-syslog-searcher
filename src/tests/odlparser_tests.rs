@@ -416,14 +416,11 @@ fn test_odlparser_version2_record() {
     assert!(odl.next_event().is_none());
 }
 
-fn utf16_token(
+fn encrypted_token(
     key: &[u8],
-    text: &str,
+    plain_text: &[u8],
 ) -> String {
-    let mut plain: Vec<u8> = text
-        .encode_utf16()
-        .flat_map(|unit| unit.to_le_bytes())
-        .collect();
+    let mut plain = plain_text.to_vec();
     let length = plain.len();
     plain.resize(length + 16, 0);
     let encrypted = cbc::Encryptor::<Aes128>::new_from_slices(key, &[0u8; 16])
@@ -431,6 +428,36 @@ fn utf16_token(
         .encrypt_padded_mut::<Pkcs7>(&mut plain, length)
         .unwrap();
     URL_SAFE_NO_PAD.encode(encrypted)
+}
+
+fn utf16_token(
+    key: &[u8],
+    text: &str,
+) -> String {
+    let plain: Vec<u8> = text
+        .encode_utf16()
+        .flat_map(|unit| unit.to_le_bytes())
+        .collect();
+    encrypted_token(key, &plain)
+}
+
+fn utf32_token(
+    key: &[u8],
+    text: &str,
+) -> String {
+    let mut plain = Vec::with_capacity(text.len() * 4);
+    for character in text.chars() {
+        plain.extend_from_slice(&u32::from(character).to_le_bytes());
+    }
+    encrypted_token(key, &plain)
+}
+
+fn keystore_with_marker(
+    key_b64: &str,
+    utf32: bool,
+) -> String {
+    let marker = if utf32 { r"\u0000\u0000" } else { "" };
+    format!(r#"[{{"Version":1,"Key":"{key_b64}{marker}"}}]"#)
 }
 
 #[test]
@@ -536,4 +563,104 @@ fn test_odl_decoding_context_map_and_keystore() {
         .unwrap();
     assert_eq!(event.parameters, [undecoded.as_str()]);
     assert_eq!(event.decoding_failures, 1);
+}
+
+#[test]
+fn test_odl_keystore_preserves_utf32_encoding_marker() {
+    let key = b"KEYMATERIAL12345";
+    let key_b64 = STANDARD.encode(key);
+    let mut decoding = OdlDecodingContext::default();
+    decoding
+        .load_keystore(Cursor::new(keystore_with_marker(&key_b64, true)))
+        .unwrap();
+
+    let token = utf32_token(key, "opened");
+    assert!(token.len() >= 22);
+    let record = v3_record(0, b"s", b"f", &[token.as_bytes()]);
+    let event = OdlParser::new(Cursor::new(odl_file(3, &[record.as_slice()])), decoding)
+        .unwrap()
+        .next_event()
+        .unwrap()
+        .unwrap();
+    assert_eq!(event.parameters, ["opened"]);
+    assert_eq!(event.decoding_failures, 0);
+
+    let mut bom = vec![0xff, 0xfe, 0x00, 0x00];
+    for character in "opened".chars() {
+        bom.extend_from_slice(&u32::from(character).to_le_bytes());
+    }
+    let mut decoding = OdlDecodingContext::default();
+    decoding
+        .load_keystore(Cursor::new(keystore_with_marker(&key_b64, true)))
+        .unwrap();
+    let token = encrypted_token(key, &bom);
+    let record = v3_record(0, b"s", b"f", &[token.as_bytes()]);
+    let event = OdlParser::new(Cursor::new(odl_file(3, &[record.as_slice()])), decoding)
+        .unwrap()
+        .next_event()
+        .unwrap()
+        .unwrap();
+    assert_eq!(event.parameters, ["opened"]);
+    assert_eq!(event.decoding_failures, 0);
+
+    // The marker selects the encoding. UTF-16 plaintext must not be accepted for a UTF-32 key.
+    let mut decoding = OdlDecodingContext::default();
+    decoding
+        .load_keystore(Cursor::new(keystore_with_marker(&key_b64, true)))
+        .unwrap();
+    let token = utf16_token(key, "opened");
+    let record = v3_record(0, b"s", b"f", &[token.as_bytes()]);
+    let event = OdlParser::new(Cursor::new(odl_file(3, &[record.as_slice()])), decoding)
+        .unwrap()
+        .next_event()
+        .unwrap()
+        .unwrap();
+    assert_eq!(event.parameters, [token.as_str()]);
+    assert_eq!(event.decoding_failures, 1);
+
+    // A key without the marker still decodes UTF-16 and rejects UTF-32 plaintext.
+    let mut decoding = OdlDecodingContext::default();
+    decoding
+        .load_keystore(Cursor::new(keystore_with_marker(&key_b64, false)))
+        .unwrap();
+    let token = utf32_token(key, "opened");
+    let record = v3_record(0, b"s", b"f", &[token.as_bytes()]);
+    let event = OdlParser::new(Cursor::new(odl_file(3, &[record.as_slice()])), decoding)
+        .unwrap()
+        .next_event()
+        .unwrap()
+        .unwrap();
+    assert_eq!(event.parameters, [token.as_str()]);
+    assert_eq!(event.decoding_failures, 1);
+
+    // Each key keeps its own marker. A shared encoding would fail one of these tokens.
+    let other = b"OTHERKEYMATERIAL";
+    let other_b64 = STANDARD.encode(other);
+    let keystore = format!(
+        r#"[{{"Version":1,"Key":"{key_b64}\u0000\u0000"}},{{"Version":1,"Key":"{other_b64}"}}]"#
+    );
+    let mut decoding = OdlDecodingContext::default();
+    decoding
+        .load_keystore(Cursor::new(keystore))
+        .unwrap();
+    let utf32 = utf32_token(key, "wide");
+    let utf16 = utf16_token(other, "narrow");
+    let records = [
+        v3_record(0, b"s", b"f", &[utf32.as_bytes()]),
+        v3_record(1, b"s", b"f", &[utf16.as_bytes()]),
+    ];
+    let record_refs = [records[0].as_slice(), records[1].as_slice()];
+    let mut parser = OdlParser::new(Cursor::new(odl_file(3, &record_refs)), decoding).unwrap();
+    let first = parser
+        .next_event()
+        .unwrap()
+        .unwrap();
+    let second = parser
+        .next_event()
+        .unwrap()
+        .unwrap();
+    assert_eq!(first.parameters, ["wide"]);
+    assert_eq!(first.decoding_failures, 0);
+    assert_eq!(second.parameters, ["narrow"]);
+    assert_eq!(second.decoding_failures, 0);
 }
