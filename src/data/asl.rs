@@ -23,7 +23,7 @@ use crate::data::datetime::{
     FixedOffset,
     Utc,
 };
-use crate::data::odl::single_line_chars;
+use crate::data::common::replace_control_chars;
 
 const RENDER_STACK_BYTES: usize = 1024;
 
@@ -88,7 +88,7 @@ impl fmt::Display for SingleLine<'_> {
         &self,
         formatter: &mut fmt::Formatter<'_>,
     ) -> fmt::Result {
-        for character in single_line_chars(self.0) {
+        for character in replace_control_chars(self.0) {
             formatter.write_char(character)?;
         }
 

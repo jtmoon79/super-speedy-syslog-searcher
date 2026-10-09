@@ -152,17 +152,17 @@ fn aslparser_empty_and_invalid_headers() {
     let mut bad = fixture_bytes();
     bad[0] = b'X';
     let error = expect_err(AslParser::new(Cursor::new(bad)));
-    assert_eq!(error.to_string(), "invalid ASL database signature");
+    assert_eq!(error.to_string(), "invalid ASL database signature \"XSL DB␀␀␀␀␀␀\"");
 
     let mut bad = fixture_bytes();
     bad[12..16].copy_from_slice(&3u32.to_be_bytes());
     let error = expect_err(AslParser::new(Cursor::new(bad)));
-    assert_eq!(error.to_string(), "unsupported ASL database version");
+    assert_eq!(error.to_string(), "unsupported ASL database version 3 (0x00000003), expected 2");
 
     let mut bad = fixture_bytes();
     bad[16..24].copy_from_slice(&0u64.to_be_bytes());
     let error = expect_err(AslParser::new(Cursor::new(bad)));
-    assert_eq!(error.to_string(), "invalid ASL first or last record offset");
+    assert_eq!(error.to_string(), "invalid ASL first record offset 0 or last record offset 1990");
 }
 
 #[test]

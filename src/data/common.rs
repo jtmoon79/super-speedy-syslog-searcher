@@ -56,3 +56,9 @@ pub trait PrintableEvent {
     fn dt_beg_end(&self) -> &DtBegEndPairOpt;
     fn as_bytes(&self) -> &[u8];
 }
+
+/// Replace control characters with spaces without allocating.
+pub(crate) fn replace_control_chars(text: &str) -> impl Iterator<Item = char> + '_ {
+    text.chars()
+        .map(|c| if c.is_control() { ' ' } else { c })
+}

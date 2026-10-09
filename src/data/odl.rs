@@ -26,6 +26,7 @@ use crate::common::Bytes;
 use crate::data::common::{
     DtBegEndPairOpt,
     PrintableEvent,
+    replace_control_chars,
 };
 use crate::data::datetime::{
     DateTime,
@@ -115,9 +116,9 @@ impl OdlEvent {
         .map_err(|error| Error::new(ErrorKind::InvalidData, error))?;
         let dt_end = text.len();
         text.push(' ');
-        text.extend(single_line_chars(&self.source_file));
+        text.extend(replace_control_chars(&self.source_file));
         text.push(':');
-        text.extend(single_line_chars(&self.function));
+        text.extend(replace_control_chars(&self.function));
         text.push(';');
         for parameter in &self.parameters {
             text.push(' ');
@@ -132,12 +133,6 @@ impl OdlEvent {
             data: text.into_bytes(),
         })
     }
-}
-
-/// Replace control characters with spaces without allocating.
-pub(crate) fn single_line_chars(text: &str) -> impl Iterator<Item = char> + '_ {
-    text.chars()
-        .map(|c| if c.is_control() { ' ' } else { c })
 }
 
 #[derive(Clone, PartialEq, Eq)]

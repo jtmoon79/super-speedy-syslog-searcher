@@ -23,16 +23,19 @@ use cbc::cipher::{
     KeyIvInit,
 };
 
-use crate::data::common::PrintableEvent;
+use crate::data::common::{
+    PrintableEvent,
+    replace_control_chars,
+};
 use crate::data::datetime::FixedOffset;
 use crate::data::odl::{
     Odl,
     OdlEvent,
-    single_line,
 };
 use crate::readers::odlparser::{
     ODL_COMPANION_BYTES_MAX,
     ODL_RECORD_BYTES_MAX,
+    ODL_STRING_BYTES_MAX,
     OdlDecodingContext,
     OdlParser,
     OdlRecordError,
@@ -167,10 +170,10 @@ fn sample_event(
 }
 
 #[test]
-fn test_single_line_chars_replaces_controls_without_collecting() {
-    assert!(single_line_chars("a\nb\tc").eq("a b c".chars()));
-    assert!(single_line_chars("plain").eq("plain".chars()));
-    assert!(single_line_chars("a\u{0085}é\t☃").eq("a é ☃".chars()));
+fn test_replace_control_chars() {
+    assert!(replace_control_chars("a\nb\tc").eq("a b c".chars()));
+    assert!(replace_control_chars("plain").eq("plain".chars()));
+    assert!(replace_control_chars("a\u{0085}é\t☃").eq("a é ☃".chars()));
 }
 
 #[test]
@@ -391,7 +394,7 @@ fn test_odlparser_rejects_bad_signature_and_version() {
     bad_magic[..4].copy_from_slice(b"XXXX");
     let error = expect_err(OdlParser::new(Cursor::new(bad_magic), OdlDecodingContext::default()));
     assert_eq!(error.kind(), ErrorKind::InvalidData);
-    assert_eq!(error.to_string(), "invalid ODL file signature");
+    assert_eq!(error.to_string(), "invalid ODL file signature \"XXXXONED\"");
 
     let error = expect_err(OdlParser::new(Cursor::new(odl_file(1, &[])), OdlDecodingContext::default()));
     assert_eq!(error.kind(), ErrorKind::Unsupported);

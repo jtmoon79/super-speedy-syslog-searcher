@@ -50,10 +50,8 @@ use zeroize::{
 };
 
 use crate::common::Bytes;
-use crate::data::odl::{
-    OdlEvent,
-    single_line_chars,
-};
+use crate::data::common::replace_control_chars;
+use crate::data::odl::OdlEvent;
 use crate::debug::printers::buffer_to_string_noraw;
 
 /// Corpus maximum payload is 6412 bytes
@@ -406,7 +404,7 @@ impl OdlDecodingContext {
                             decoded_len, ODL_STRING_BYTES_MAX
                         )));
                     }
-                    result.extend(single_line_chars(&value));
+                    result.extend(replace_control_chars(&value));
                     failures += usize::from(failed);
                 }
                 result.push(character);
@@ -423,7 +421,7 @@ impl OdlDecodingContext {
                     decoded_len, ODL_STRING_BYTES_MAX
                 )));
             }
-            result.extend(single_line_chars(&value));
+            result.extend(replace_control_chars(&value));
             failures += usize::from(failed);
         }
         if decoded_len > ODL_STRING_BYTES_MAX {
