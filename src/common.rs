@@ -1355,12 +1355,12 @@ impl std::fmt::Display for LogMessageType {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
-            LogMessageType::Etl => write!(f, "ETL events (Windows Event Trace Log)"),
-            LogMessageType::Evtx => write!(f, "EVTX entries (Windows XML EventLog)"),
-            LogMessageType::FixedStruct => write!(f, "fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)"),
-            LogMessageType::Journal => write!(f, "systemd journal entries"),
-            LogMessageType::Odl => write!(f, "ODL events (OneDrive Log)"),
-            LogMessageType::Asl => write!(f, "ASL events (Apple System Log)"),
+            LogMessageType::Etl => write!(f, "ETL event (Windows Event Trace Log)"),
+            LogMessageType::Evtx => write!(f, "EVTX entry (Windows XML EventLog)"),
+            LogMessageType::FixedStruct => write!(f, "fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)"),
+            LogMessageType::Journal => write!(f, "systemd journal entry"),
+            LogMessageType::Odl => write!(f, "ODL event (OneDrive Log)"),
+            LogMessageType::Asl => write!(f, "ASL event (Apple System Log)"),
             LogMessageType::Sysline => write!(f, "text log lines"),
             LogMessageType::All => write!(f, "ALL"),
         }
