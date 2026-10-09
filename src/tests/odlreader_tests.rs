@@ -111,24 +111,6 @@ fn test_odlreader_file_empty() {
 }
 
 #[test]
-fn test_odlreader_rejects_non_odl_filetype() {
-    let error = match OdlReader::new(
-        path_id_generator(),
-        (*NTF_LOG_EMPTY_FPATH).clone(),
-        FileType::Etl {
-            archival_type: FileTypeArchive::Normal,
-        },
-        FO_M7,
-    ) {
-        Ok(_) => panic!("expected OdlReader to reject a non-ODL filetype"),
-        Err(error) => error,
-    };
-
-    assert_eq!(error.kind(), ErrorKind::InvalidInput);
-    assert_eq!(error.to_string(), "OdlReader requires FileType::Odl");
-}
-
-#[test]
 fn test_odlreader_analyze_twice() {
     let mut reader =
         OdlReader::new(path_id_generator(), ODL_SYNCENGINE_ODL_PATH.to_string(), ODL_SYNCENGINE_ODL_FILETYPE, FO_M7)

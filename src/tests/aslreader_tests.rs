@@ -229,7 +229,7 @@ fn aslreader_empty_file_and_bad_signature() {
         .read(&mut [0])
         .unwrap_err();
     assert_eq!(error.kind(), ErrorKind::InvalidData);
-    assert_eq!(error.to_string(), "invalid ASL database signature");
+    assert_eq!(error.to_string(), "invalid ASL database signature \"␀␅␖␇␀␂␀␀Mac \"");
 }
 
 #[test]

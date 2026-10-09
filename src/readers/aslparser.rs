@@ -9,6 +9,7 @@ use compact_str::CompactString;
 
 use crate::common::Bytes;
 use crate::data::asl::AslRecord;
+use crate::debug::printers::buffer_to_string_noraw;
 
 const HEADER_LEN: u64 = 80;
 const RECORD_HEADER_LEN: u64 = 6;
@@ -62,10 +63,13 @@ impl<R: Read + Seek> AslParser<R> {
         let mut header = [0; HEADER_LEN as usize];
         reader.read_exact(&mut header)?;
         if &header[..12] != SIGNATURE {
-            return Err(invalid(format!("invalid ASL database signature {}", header[..12].escape_ascii())));
+            let s = buffer_to_string_noraw(&header[..12]);
+            return Err(invalid(format!("invalid ASL database signature \"{}\"", s)));
         }
-        if be_u32(&header[12..16]) != 2 {
-            return Err(invalid(format!("unsupported ASL database version {}", be_u32(&header[12..16]))));
+        const DB_VERSION: u32 = 2;
+        if be_u32(&header[12..16]) != DB_VERSION {
+            let v: u32 = be_u32(&header[12..16]);
+            return Err(invalid(format!("unsupported ASL database version {v} (0x{v:08X}), expected {DB_VERSION}")));
         }
         let next_offset = be_u64(&header[16..24]);
         // Version-2 stores a one-byte mask before the last-record offset.
@@ -73,7 +77,9 @@ impl<R: Read + Seek> AslParser<R> {
         if (next_offset == 0) != (last_offset == 0)
             || (next_offset != 0 && (next_offset < HEADER_LEN || last_offset < HEADER_LEN))
         {
-            return Err(invalid("invalid ASL first or last record offset"));
+            return Err(invalid(
+                format!("invalid ASL first record offset {next_offset} or last record offset {last_offset}")
+            ));
         }
 
         Ok(Self {
@@ -97,7 +103,7 @@ impl<R: Read + Seek> AslParser<R> {
             let raw = reference.to_be_bytes();
             let len = usize::from(raw[0] & 0x7f);
             if len > 7 {
-                return Err(invalid("invalid inline ASL string length"));
+                return Err(invalid(format!("invalid inline ASL string length {len}, must be [0, 7]")));
             }
             return std::str::from_utf8(&raw[1..1 + len])
                 .map(CompactString::new)
