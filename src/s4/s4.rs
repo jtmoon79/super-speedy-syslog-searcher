@@ -5408,7 +5408,8 @@ fn processing_loop(
     let mut map_pathid_results = MapPathIdToProcessPathResult::with_capacity(file_count);
     // `invalid` is used to help summarize why some files were not processed
     let mut map_pathid_results_invalid = MapPathIdToProcessPathResultOrdered::new();
-    // use `map_pathid_path` for iterating, it is a BTreeMap (which iterates in consistent key order)
+    // use `map_pathid_path` for iterating, a kind of "master map".
+    // It is a BTreeMap (which iterates in consistent key order).
     let mut map_pathid_path = MapPathIdToFPath::new();
     // map `PathId` to the last `FileProcessResult
     let mut map_pathid_file_processing_result = MapPathIdToFileProcessingResultBlockZero::with_capacity(file_count);
@@ -5433,6 +5434,12 @@ fn processing_loop(
     let mut map_pathid_logmessagetype = MapPathIdToLogMessageType::with_capacity(file_count);
     let mut paths_total: usize = 0;
 
+    // analyze the results of each `ProcessPathResult` and fill maps
+    // - `map_pathid_path`
+    // - `map_pathid_filetype`
+    // - `map_pathid_received_fileinfo`
+    // - `map_pathid_logmessagetype`
+    // - `map_pathid_results`
     for (counter, processpathresult) in paths_results
         .drain(..)
         .enumerate()
@@ -5546,6 +5553,7 @@ fn processing_loop(
     // rebind to be immutable just to be extra cautious
     let map_pathid_logmessagetype = map_pathid_logmessagetype;
 
+    // pre-check files for easily identifyied invalid files that can be rejected early
     for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
         match result_invalid {
             ProcessPathResult::FileErrEmpty(_path, _filetype) => {
@@ -5647,6 +5655,7 @@ fn processing_loop(
         (count_unmanaged != 0, *path_id)
     });
 
+    // for each pathid, initialize thread data and spawn the processing thread
     for pathid in pathids_processing_order.iter() {
         let path = map_pathid_path
             .get(pathid)
@@ -5783,6 +5792,7 @@ fn processing_loop(
 
     exit_early_return_false!();
 
+    // check for no threads created, early return
     if map_pathid_chanrecvdatum.is_empty() {
         // No threads were created. This can happen if user passes only paths
         // that do not exist.
@@ -5844,7 +5854,9 @@ fn processing_loop(
         Channel(PathId, usize, RecvResult4),
     }
 
-    /// run `.recv` on many Receiver channels simultaneously using `crossbeam_channel::Select`
+    /// Run `.recv` on many Receiver channels simultaneously using `crossbeam_channel::Select`.
+    /// Returns `Some(RecvManyResult)` if a channel received a message or a signal was received.
+    /// Returns `None` if an error occurred.
     /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
     #[inline(always)]
     fn recv_many_chan<'a>(
@@ -5954,6 +5966,9 @@ fn processing_loop(
     // buffer to assist printing FixedStruct; passed to `FixedStruct::as_bytes`
     let mut buffer_utmp: [u8; ENTRY_SZ_MAX * 2] = [0; ENTRY_SZ_MAX * 2];
 
+    // main thread processing loop
+    // receive log messages from file processing threads, print or store them.
+    // close channels and clean up resources for completed file processing threads.
     loop {
         disconnect.clear();
 
@@ -6745,7 +6760,7 @@ fn processing_loop(
 
     let cancelled = exit_early();
 
-    // Release all channel borrows and receivers before waiting for workers.
+    // Explicitly release all channel borrows and receivers before waiting for workers.
     // A worker still trying to send should observe disconnection and exit.
     drop(select);
     drop(map_pathid_chanrecvdatum);
@@ -6763,6 +6778,7 @@ fn processing_loop(
 
     // Temporary files owned by workers have now been dropped. Clean up any
     // leftovers before either normal summary processing or cancellation exit.
+    // XXX: this never finds leftover temporary files.
     let temporary_files_removed = remove_temporary_files();
     if !temporary_files_removed {
         de_err!("there was an error removing temporary files");
@@ -6780,7 +6796,7 @@ fn processing_loop(
     }
 
     // Getting here means main program processing has completed.
-    // Now to print the `--summary` (if it was requested).
+    // Now to print the `--summary` (if it was requested by the user).
 
     // quick count of `Summary` attached Errors
     let mut error_count: usize = thread_panic_count;
@@ -6850,9 +6866,11 @@ fn processing_loop(
     }
     defo!("I chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
 
+    // Determine the final return value based on any errors encountered during processing.
     // TODO: Issue #5 return code confusion
     //       the rationale for returning `false` (and then the process return code 1)
     //       is clunky, and could use a little refactoring.
+    // TODO: should this have differing return code for different types of errors?
     let mut ret: bool = true;
     if chan_recv_err > 0 {
         defo!("K chan_recv_err {}; return false", chan_recv_err);
