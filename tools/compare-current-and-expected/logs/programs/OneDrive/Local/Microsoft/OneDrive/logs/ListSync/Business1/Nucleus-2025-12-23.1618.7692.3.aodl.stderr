@@ -1,33 +1,32 @@
+WARNING: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl: 58 ODL protected tokens could not be decoded; original tokens retained
 
 Files:
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
   About:
       FileType      : AODL (OneDrive Log)
-      LogMessageType: ODL events (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
       Thread stack  : 524288 (bytes)
   Printed:
       Events        : 829
-      Bytes         : 207946
+      Bytes         : 209309
       Flushes       : 829
-      Event largest processed: 255
-      Event largest accepted : 255
+      Event largest processed: 302
+      Event largest accepted : 302
       Datetime First: 2025-12-24 00:18:40.364 +08:00
       Datetime Last : 2025-12-24 07:18:57.170 +08:00
   Processed:
       File size          : 130902
       ODL version        : 3
       Internal gzip      : false
-      Companions present : true
+      Decoding data avail?    : true
       Supplementary files used: 1
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/general.keystore
-      Supplementary files not found or inaccessible: 2
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/ObfuscationStringMap.txt
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/EncryptionKeyStoreCopy/general.keystore
+      Supplementary files not available: 2
       Events processed   : 829
       Events accepted    : 829
       Events undecoded   : 392
-      Decoding failures  : 0
+      Decoding failures  : 58
       Records skipped    : 0
       Out of order       : 0
       Datetime first     : 2025-12-24 00:18:40.364 +08:00
@@ -39,7 +38,7 @@ Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
-Printed bytes          : 211262
+Printed bytes          : 212625
 Printed flushes        : 1658
 Printed Lines          : 0
 Printed Syslines       : 0

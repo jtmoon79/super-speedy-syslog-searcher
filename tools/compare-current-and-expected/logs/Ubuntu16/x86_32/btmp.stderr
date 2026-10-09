@@ -5,7 +5,7 @@ File: ./logs/Ubuntu16/x86_32/btmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:

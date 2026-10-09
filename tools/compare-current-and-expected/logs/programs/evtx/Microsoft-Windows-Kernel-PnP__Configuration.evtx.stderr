@@ -4,7 +4,7 @@ Files:
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
       FileType      : EVTX (Windows XML EventLog)
-      LogMessageType: EVTX entries (Windows XML EventLog)
+      LogMessageType: EVTX entry (Windows XML EventLog)
       Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 1159282

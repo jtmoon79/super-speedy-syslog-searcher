@@ -5,7 +5,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.jour
   About:
       Archive subpath: Ubuntu22-user-1000x3.journal
       FileType      : JOURNAL (TAR) (systemd Journal)
-      LogMessageType: systemd journal entries
+      LogMessageType: systemd journal entry
       Thread stack  : 187392 (bytes)
   Printed:
       bytes         : 15276

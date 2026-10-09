@@ -5,7 +5,7 @@ Files:
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz
   About:
       FileType      : ODLGZ (OneDrive Log)
-      LogMessageType: ODL events (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
       Thread stack  : 524288 (bytes)
   Printed:
       Events        : 615
@@ -19,12 +19,10 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
       File size          : 20499
       ODL version        : 3
       Internal gzip      : true
-      Companions present : true
+      Decoding data avail?    : true
       Supplementary files used: 1
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/general.keystore
-      Supplementary files not found or inaccessible: 2
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/ObfuscationStringMap.txt
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/EncryptionKeyStoreCopy/general.keystore
+      Supplementary files not available: 2
       Events processed   : 615
       Events accepted    : 615
       Events undecoded   : 366

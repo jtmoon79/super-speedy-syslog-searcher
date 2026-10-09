@@ -4,7 +4,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.364000000┋2025-12-24T00:18:40.364+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.365000000┋2025-12-24T00:18:40.365+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. https://onedrive.live.com OneAuth
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.365000000┋2025-12-24T00:18:40.365+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.365000000┋2025-12-24T00:18:40.365+08:00 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
 ⇳
@@ -198,13 +198,13 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋2025-12-24T01:18:41.011+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋2025-12-24T01:18:41.011+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋2025-12-24T01:18:41.011+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋2025-12-24T01:18:41.011+08:00 Auth.cpp:Auth::IsOnPremServer;
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋2025-12-24T01:18:41.011+08:00 CWinHttp.cpp:CWinHttpSession::InitializeSession;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋2025-12-24T01:18:41.011+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋2025-12-24T01:18:41.011+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋2025-12-24T01:18:41.011+08:00 Auth.cpp:Auth::IsNetworkAuthSupported;
 ⇳
@@ -216,7 +216,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋2025-12-24T01:18:41.399+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋2025-12-24T01:18:41.399+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋2025-12-24T01:18:41.399+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋2025-12-24T01:18:41.399+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
 ⇳
@@ -234,7 +234,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋2025-12-24T01:18:41.400+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋2025-12-24T01:18:41.400+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. https://onedrive.live.com OneAuth
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋2025-12-24T01:18:41.400+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋2025-12-24T01:18:41.400+08:00 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
 ⇳
@@ -426,13 +426,13 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋2025-12-24T02:18:42.018+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋2025-12-24T02:18:42.018+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋2025-12-24T02:18:42.018+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋2025-12-24T02:18:42.018+08:00 Auth.cpp:Auth::IsOnPremServer;
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋2025-12-24T02:18:42.018+08:00 CWinHttp.cpp:CWinHttpSession::InitializeSession;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋2025-12-24T02:18:42.018+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋2025-12-24T02:18:42.018+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋2025-12-24T02:18:42.018+08:00 Auth.cpp:Auth::IsNetworkAuthSupported;
 ⇳
@@ -444,7 +444,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋2025-12-24T02:18:42.321+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋2025-12-24T02:18:42.321+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋2025-12-24T02:18:42.321+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋2025-12-24T02:18:42.321+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
 ⇳
@@ -462,7 +462,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋2025-12-24T02:18:42.322+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋2025-12-24T02:18:42.322+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. https://onedrive.live.com OneAuth
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋2025-12-24T02:18:42.322+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋2025-12-24T02:18:42.322+08:00 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
 ⇳
@@ -660,13 +660,13 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋2025-12-24T03:18:43.032+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋2025-12-24T03:18:43.032+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋2025-12-24T03:18:43.032+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋2025-12-24T03:18:43.032+08:00 Auth.cpp:Auth::IsOnPremServer;
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋2025-12-24T03:18:43.032+08:00 CWinHttp.cpp:CWinHttpSession::InitializeSession;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋2025-12-24T03:18:43.032+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋2025-12-24T03:18:43.032+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.033000000┋2025-12-24T03:18:43.033+08:00 Auth.cpp:Auth::IsNetworkAuthSupported;
 ⇳
@@ -678,7 +678,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋2025-12-24T03:18:43.393+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋2025-12-24T03:18:43.393+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋2025-12-24T03:18:43.393+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋2025-12-24T03:18:43.393+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
 ⇳
@@ -696,7 +696,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋2025-12-24T03:18:43.394+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋2025-12-24T03:18:43.394+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. https://onedrive.live.com OneAuth
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋2025-12-24T03:18:43.394+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋2025-12-24T03:18:43.394+08:00 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
 ⇳
@@ -890,13 +890,13 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋2025-12-24T04:18:44.030+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋2025-12-24T04:18:44.030+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋2025-12-24T04:18:44.030+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋2025-12-24T04:18:44.030+08:00 Auth.cpp:Auth::IsOnPremServer;
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋2025-12-24T04:18:44.030+08:00 CWinHttp.cpp:CWinHttpSession::InitializeSession;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋2025-12-24T04:18:44.030+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋2025-12-24T04:18:44.030+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋2025-12-24T04:18:44.030+08:00 Auth.cpp:Auth::IsNetworkAuthSupported;
 ⇳
@@ -908,7 +908,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.190000000┋2025-12-24T04:18:44.190+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋2025-12-24T04:18:44.191+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋2025-12-24T04:18:44.191+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋2025-12-24T04:18:44.191+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
 ⇳
@@ -926,7 +926,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋2025-12-24T04:18:44.191+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋2025-12-24T04:18:44.191+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. https://onedrive.live.com OneAuth
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋2025-12-24T04:18:44.191+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.192000000┋2025-12-24T04:18:44.192+08:00 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
 ⇳
@@ -1132,13 +1132,13 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋2025-12-24T05:18:45.022+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋2025-12-24T05:18:45.022+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋2025-12-24T05:18:45.022+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋2025-12-24T05:18:45.022+08:00 Auth.cpp:Auth::IsOnPremServer;
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋2025-12-24T05:18:45.022+08:00 CWinHttp.cpp:CWinHttpSession::InitializeSession;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋2025-12-24T05:18:45.022+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋2025-12-24T05:18:45.022+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋2025-12-24T05:18:45.022+08:00 Auth.cpp:Auth::IsNetworkAuthSupported;
 ⇳
@@ -1150,7 +1150,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋2025-12-24T05:18:45.274+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋2025-12-24T05:18:45.274+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋2025-12-24T05:18:45.274+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋2025-12-24T05:18:45.274+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
 ⇳
@@ -1168,7 +1168,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋2025-12-24T05:18:45.275+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋2025-12-24T05:18:45.275+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. https://onedrive.live.com OneAuth
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋2025-12-24T05:18:45.275+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋2025-12-24T05:18:45.275+08:00 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
 ⇳
@@ -1370,13 +1370,13 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋2025-12-24T06:18:46.053+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋2025-12-24T06:18:46.053+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋2025-12-24T06:18:46.053+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋2025-12-24T06:18:46.053+08:00 Auth.cpp:Auth::IsOnPremServer;
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋2025-12-24T06:18:46.053+08:00 CWinHttp.cpp:CWinHttpSession::InitializeSession;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋2025-12-24T06:18:46.053+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋2025-12-24T06:18:46.053+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋2025-12-24T06:18:46.053+08:00 Auth.cpp:Auth::IsNetworkAuthSupported;
 ⇳
@@ -1388,7 +1388,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋2025-12-24T06:18:46.316+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋2025-12-24T06:18:46.316+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋2025-12-24T06:18:46.316+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋2025-12-24T06:18:46.316+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
 ⇳
@@ -1406,7 +1406,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.317000000┋2025-12-24T06:18:46.317+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.318000000┋2025-12-24T06:18:46.318+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. https://onedrive.live.com OneAuth
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.318000000┋2025-12-24T06:18:46.318+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.318000000┋2025-12-24T06:18:46.318+08:00 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
 ⇳
@@ -1604,13 +1604,13 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋2025-12-24T07:18:47.026+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋2025-12-24T07:18:47.026+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋2025-12-24T07:18:47.026+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋2025-12-24T07:18:47.026+08:00 Auth.cpp:Auth::IsOnPremServer;
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋2025-12-24T07:18:47.026+08:00 CWinHttp.cpp:CWinHttpSession::InitializeSession;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋2025-12-24T07:18:47.026+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋2025-12-24T07:18:47.026+08:00 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋2025-12-24T07:18:47.026+08:00 Auth.cpp:Auth::IsNetworkAuthSupported;
 ⇳
@@ -1622,7 +1622,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋2025-12-24T07:18:47.154+08:00 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋2025-12-24T07:18:47.154+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; https://onedrive.live.com
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋2025-12-24T07:18:47.154+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋2025-12-24T07:18:47.154+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
 ⇳
@@ -1640,7 +1640,7 @@
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋2025-12-24T07:18:47.155+08:00 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
 ⇳
-./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋2025-12-24T07:18:47.155+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. https://onedrive.live.com OneAuth
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋2025-12-24T07:18:47.155+08:00 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
 ⇳
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋2025-12-24T07:18:47.155+08:00 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
 ⇳
