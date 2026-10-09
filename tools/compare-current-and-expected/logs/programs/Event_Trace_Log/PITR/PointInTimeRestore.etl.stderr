@@ -4,7 +4,7 @@ Files:
 File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
-      LogMessageType: ETL events (Windows Event Trace Log)
+      LogMessageType: ETL event (Windows Event Trace Log)
       Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0

@@ -5,7 +5,7 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_Arm64Aarch64_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:

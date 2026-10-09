@@ -5,7 +5,7 @@ File: ./logs/NetBSD9.3/x86_64/utmpx
   About:
       FileType      : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmpx
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:

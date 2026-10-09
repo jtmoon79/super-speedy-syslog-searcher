@@ -1,4 +1,5 @@
 WARNING: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz: 2 ODL protected tokens could not be decoded; original tokens retained
+WARNING: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl: 58 ODL protected tokens could not be decoded; original tokens retained
 
 Files:
 
@@ -6,7 +7,7 @@ File: ./logs/CentOS7/x86_64/btmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -37,7 +38,7 @@ File: ./logs/CentOS7/x86_64/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -68,7 +69,7 @@ File: ./logs/CentOS7/x86_64/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -99,7 +100,7 @@ File: ./logs/CentOS7/x86_64/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -174,7 +175,7 @@ File: ./logs/CentOS9/x86_64/btmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -205,7 +206,7 @@ File: ./logs/CentOS9/x86_64/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -322,7 +323,7 @@ File: ./logs/Debian11/aarch64_ARM64/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_Arm64Aarch64_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -353,7 +354,7 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_Arm64Aarch64_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -384,7 +385,7 @@ File: ./logs/Debian11/aarch64_ARM64/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_Arm64Aarch64_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -415,7 +416,7 @@ File: ./logs/Debian11/aarch64_ARMv6/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -446,7 +447,7 @@ File: ./logs/Debian11/aarch64_ARMv6/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -477,7 +478,7 @@ File: ./logs/Debian11/aarch64_ARMv6/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -637,7 +638,7 @@ File: ./logs/Debian11/armv6l_ARMv6/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -668,7 +669,7 @@ File: ./logs/Debian11/armv6l_ARMv6/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -699,7 +700,7 @@ File: ./logs/Debian11/armv6l_ARMv6/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -730,7 +731,7 @@ File: ./logs/Debian11/armv7l_ARMv6/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -761,7 +762,7 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -792,7 +793,7 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -823,7 +824,7 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -1072,7 +1073,7 @@ File: ./logs/Debian13/RISC-V/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -1103,7 +1104,7 @@ File: ./logs/Debian13/RISC-V/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -2902,25 +2903,21 @@ File: ./logs/FreeBSD13.1/devd.log
 File: ./logs/MacOS11/powermanagement/2023.10.26.asl
   About:
       FileType      : ASL (Apple System Log)
-      LogMessageType: Python parsed events (ASL)
+      LogMessageType: ASL event (Apple System Log)
       Thread stack  : 137216 (bytes)
   Printed:
-      bytes         : 5419
+      bytes         : 5689
       flushes       : 10
       Events        : 10
-      Datetime first: 2023-10-26 16:27:25 +08:00 (2023-10-26 08:27:25.731000 +00:00)
-      Datetime last : 2023-10-26 16:31:31 +08:00 (2023-10-26 08:31:31.898000 +00:00)
+      Datetime first: 2023-10-26 12:27:25 +08:00 (2023-10-26 04:27:25.731612 +00:00)
+      Datetime last : 2023-10-26 12:31:31 +08:00 (2023-10-26 04:31:31.898057 +00:00)
   Processed:
       File size          : 3366 (0xD26) (bytes)
       Events processed   : 10
       Events accepted    : 10
-      Events read max    : 1
-      Events queue high  : 1
-      Python pipe size stdout    : 256
-      Python pipe size stderr    : 256
-      Python exit status         : 0
-      Datetime first: 2023-10-26 16:27:25 +08:00 (2023-10-26 08:27:25.731000 +00:00)
-      Datetime last : 2023-10-26 16:31:31 +08:00 (2023-10-26 08:31:31.898000 +00:00)
+      Out of order       : 0
+      Datetime first: 2023-10-26 12:27:25 +08:00 (2023-10-26 04:27:25.731612 +00:00)
+      Datetime last : 2023-10-26 12:31:31 +08:00 (2023-10-26 04:31:31.898057 +00:00)
       out of order  : 0
 
 File: ./logs/MinGW64/pacman.log
@@ -2970,7 +2967,7 @@ File: ./logs/NetBSD9.3/x86_32/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3001,7 +2998,7 @@ File: ./logs/NetBSD9.3/x86_32/lastlogx
   About:
       FileType      : LASTLOGX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlogx
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 104448 (bytes)
       Processing Err : no valid fixed-structure records found in file
 
@@ -3009,7 +3006,7 @@ File: ./logs/NetBSD9.3/x86_32/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmp
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3040,7 +3037,7 @@ File: ./logs/NetBSD9.3/x86_32/utmpx
   About:
       FileType      : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmpx
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8632_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3071,7 +3068,7 @@ File: ./logs/NetBSD9.3/x86_32/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmp
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3102,7 +3099,7 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx
   About:
       FileType      : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmpx
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8632_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3133,7 +3130,7 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx.0
   About:
       FileType      : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmpx
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8632_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3164,7 +3161,7 @@ File: ./logs/NetBSD9.3/x86_64/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3195,7 +3192,7 @@ File: ./logs/NetBSD9.3/x86_64/lastlogx
   About:
       FileType      : LASTLOGX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlogx
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 104448 (bytes)
       Processing Err : no valid fixed-structure records found in file
 
@@ -3203,7 +3200,7 @@ File: ./logs/NetBSD9.3/x86_64/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmp
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3234,7 +3231,7 @@ File: ./logs/NetBSD9.3/x86_64/utmpx
   About:
       FileType      : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmpx
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3265,7 +3262,7 @@ File: ./logs/NetBSD9.3/x86_64/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmp
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3296,7 +3293,7 @@ File: ./logs/NetBSD9.3/x86_64/wtmpx
   About:
       FileType      : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmpx
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3327,7 +3324,7 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3358,7 +3355,7 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog.1
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3389,7 +3386,7 @@ File: ./logs/OpenBSD7.2/x86_32/utmp.1
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3420,7 +3417,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3451,7 +3448,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp.1
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3482,7 +3479,7 @@ File: ./logs/OpenBSD7.4/x86_64/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3513,7 +3510,7 @@ File: ./logs/OpenBSD7.4/x86_64/utmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
       Thread stack  : 104448 (bytes)
   Printed:
@@ -3544,7 +3541,7 @@ File: ./logs/OpenBSD7.4/x86_64/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
       Thread stack  : 104448 (bytes)
   Printed:
@@ -9969,7 +9966,7 @@ File: ./logs/other/tests/invalid.gz
 File: ./logs/other/tests/invalid.journal
   About:
       FileType      : JOURNAL (systemd Journal)
-      LogMessageType: systemd journal entries
+      LogMessageType: systemd journal entry
       Thread stack  : 131072 (bytes)
       Processing Err : sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
   Error: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
@@ -11196,7 +11193,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
 File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
-      LogMessageType: ETL events (Windows Event Trace Log)
+      LogMessageType: ETL event (Windows Event Trace Log)
       Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0
@@ -11222,7 +11219,7 @@ File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
-      LogMessageType: ETL events (Windows Event Trace Log)
+      LogMessageType: ETL event (Windows Event Trace Log)
       Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 9516
@@ -11250,7 +11247,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
   About:
       FileType      : ETL (BZIP2) (Windows Event Trace Log)
-      LogMessageType: ETL events (Windows Event Trace Log)
+      LogMessageType: ETL event (Windows Event Trace Log)
       Thread stack  : 265216 (bytes)
   Printed:
       bytes         : 9516
@@ -11278,7 +11275,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
   About:
       FileType      : ETL (GZIP) (Windows Event Trace Log)
-      LogMessageType: ETL events (Windows Event Trace Log)
+      LogMessageType: ETL event (Windows Event Trace Log)
       Thread stack  : 265216 (bytes)
   Printed:
       bytes         : 9516
@@ -11306,7 +11303,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
   About:
       FileType      : ETL (LZMA4) (Windows Event Trace Log)
-      LogMessageType: ETL events (Windows Event Trace Log)
+      LogMessageType: ETL event (Windows Event Trace Log)
       Thread stack  : 265216 (bytes)
   Printed:
       bytes         : 9516
@@ -11334,7 +11331,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
   About:
       FileType      : ETL (XZ) (Windows Event Trace Log)
-      LogMessageType: ETL events (Windows Event Trace Log)
+      LogMessageType: ETL event (Windows Event Trace Log)
       Thread stack  : 265216 (bytes)
   Printed:
       bytes         : 9516
@@ -11362,7 +11359,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
 File: ./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
-      LogMessageType: ETL events (Windows Event Trace Log)
+      LogMessageType: ETL event (Windows Event Trace Log)
       Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0
@@ -11388,7 +11385,7 @@ File: ./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl
 File: ./logs/programs/Event_Trace_Log/WindowsUpdate.20260923.202143.590.3.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
-      LogMessageType: ETL events (Windows Event Trace Log)
+      LogMessageType: ETL event (Windows Event Trace Log)
       Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0
@@ -11414,7 +11411,7 @@ File: ./logs/programs/Event_Trace_Log/WindowsUpdate.20260923.202143.590.3.etl
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
       FileType      : EVTX (Windows XML EventLog)
-      LogMessageType: EVTX entries (Windows XML EventLog)
+      LogMessageType: EVTX entry (Windows XML EventLog)
       Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 1561282
@@ -11435,7 +11432,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
   About:
       FileType      : EVTX (GZIP) (Windows XML EventLog)
-      LogMessageType: EVTX entries (Windows XML EventLog)
+      LogMessageType: EVTX entry (Windows XML EventLog)
       Thread stack  : 207872 (bytes)
   Printed:
       bytes         : 1561282
@@ -11457,7 +11454,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Micro
   About:
       Archive subpath: Microsoft-Windows-Kernel-PnP__Configuration.evtx
       FileType      : EVTX (TAR) (Windows XML EventLog)
-      LogMessageType: EVTX entries (Windows XML EventLog)
+      LogMessageType: EVTX entry (Windows XML EventLog)
       Thread stack  : 187392 (bytes)
   Printed:
       bytes         : 1561282
@@ -11521,7 +11518,7 @@ File: ./logs/programs/flask/server.log
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
   About:
       FileType      : JOURNAL (systemd Journal)
-      LogMessageType: systemd journal entries
+      LogMessageType: systemd journal entry
       Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 19676
@@ -11543,7 +11540,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
   About:
       FileType      : JOURNAL (BZIP2) (systemd Journal)
-      LogMessageType: systemd journal entries
+      LogMessageType: systemd journal entry
       Thread stack  : 207872 (bytes)
   Printed:
       bytes         : 19676
@@ -11565,7 +11562,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
   About:
       FileType      : JOURNAL (GZIP) (systemd Journal)
-      LogMessageType: systemd journal entries
+      LogMessageType: systemd journal entry
       Thread stack  : 207872 (bytes)
   Printed:
       bytes         : 19676
@@ -11587,7 +11584,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
   About:
       FileType      : JOURNAL (LZMA4) (systemd Journal)
-      LogMessageType: systemd journal entries
+      LogMessageType: systemd journal entry
       Thread stack  : 207872 (bytes)
   Printed:
       bytes         : 19676
@@ -11609,7 +11606,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
   About:
       FileType      : JOURNAL (XZ) (systemd Journal)
-      LogMessageType: systemd journal entries
+      LogMessageType: systemd journal entry
       Thread stack  : 207872 (bytes)
   Printed:
       bytes         : 19676
@@ -11632,7 +11629,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.jour
   About:
       Archive subpath: Ubuntu22-user-1000x3.journal
       FileType      : JOURNAL (TAR) (systemd Journal)
-      LogMessageType: systemd journal entries
+      LogMessageType: systemd journal entry
       Thread stack  : 187392 (bytes)
   Printed:
       bytes         : 19676
@@ -11654,7 +11651,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.jour
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
   About:
       FileType      : ODL (OneDrive Log)
-      LogMessageType: ODL events (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
       Thread stack  : 524288 (bytes)
   Printed:
       Events        : 11
@@ -11668,12 +11665,10 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       File size          : 1961
       ODL version        : 3
       Internal gzip      : false
-      Companions present : true
+      Decoding data avail?    : true
       Supplementary files used: 1
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
-      Supplementary files not found or inaccessible: 2
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
+      Supplementary files not available: 2
       Events processed   : 11
       Events accepted    : 11
       Events undecoded   : 10
@@ -11686,7 +11681,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.bz2
   About:
       FileType      : ODL (BZIP2) (OneDrive Log)
-      LogMessageType: ODL events (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
       Thread stack  : 601088 (bytes)
   Printed:
       Events        : 11
@@ -11700,12 +11695,10 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       File size          : 1961
       ODL version        : 3
       Internal gzip      : false
-      Companions present : true
+      Decoding data avail?    : true
       Supplementary files used: 1
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
-      Supplementary files not found or inaccessible: 2
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
+      Supplementary files not available: 2
       Events processed   : 11
       Events accepted    : 11
       Events undecoded   : 10
@@ -11718,7 +11711,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.gz
   About:
       FileType      : ODL (GZIP) (OneDrive Log)
-      LogMessageType: ODL events (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
       Thread stack  : 601088 (bytes)
   Printed:
       Events        : 11
@@ -11732,12 +11725,10 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       File size          : 1961
       ODL version        : 3
       Internal gzip      : false
-      Companions present : true
+      Decoding data avail?    : true
       Supplementary files used: 1
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
-      Supplementary files not found or inaccessible: 2
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
+      Supplementary files not available: 2
       Events processed   : 11
       Events accepted    : 11
       Events undecoded   : 10
@@ -11750,7 +11741,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.lz4
   About:
       FileType      : ODL (LZMA4) (OneDrive Log)
-      LogMessageType: ODL events (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
       Thread stack  : 601088 (bytes)
   Printed:
       Events        : 11
@@ -11764,12 +11755,10 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       File size          : 1961
       ODL version        : 3
       Internal gzip      : false
-      Companions present : true
+      Decoding data avail?    : true
       Supplementary files used: 1
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
-      Supplementary files not found or inaccessible: 2
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
+      Supplementary files not available: 2
       Events processed   : 11
       Events accepted    : 11
       Events undecoded   : 10
@@ -11782,7 +11771,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.xz
   About:
       FileType      : ODL (XZ) (OneDrive Log)
-      LogMessageType: ODL events (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
       Thread stack  : 601088 (bytes)
   Printed:
       Events        : 11
@@ -11796,12 +11785,10 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       File size          : 1961
       ODL version        : 3
       Internal gzip      : false
-      Companions present : true
+      Decoding data avail?    : true
       Supplementary files used: 1
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/general.keystore
-      Supplementary files not found or inaccessible: 2
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/ObfuscationStringMap.txt
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/EncryptionKeyStoreCopy/general.keystore
+      Supplementary files not available: 2
       Events processed   : 11
       Events accepted    : 11
       Events undecoded   : 10
@@ -11814,7 +11801,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz
   About:
       FileType      : ODLGZ (OneDrive Log)
-      LogMessageType: ODL events (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
       Thread stack  : 524288 (bytes)
   Printed:
       Events        : 615
@@ -11828,12 +11815,10 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
       File size          : 20499
       ODL version        : 3
       Internal gzip      : true
-      Companions present : true
+      Decoding data avail?    : true
       Supplementary files used: 1
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/general.keystore
-      Supplementary files not found or inaccessible: 2
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/ObfuscationStringMap.txt
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/EncryptionKeyStoreCopy/general.keystore
+      Supplementary files not available: 2
       Events processed   : 615
       Events accepted    : 615
       Events undecoded   : 366
@@ -11846,30 +11831,28 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
   About:
       FileType      : AODL (OneDrive Log)
-      LogMessageType: ODL events (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
       Thread stack  : 524288 (bytes)
   Printed:
       Events        : 829
-      Bytes         : 214578
+      Bytes         : 215941
       Flushes       : 829
-      Event largest processed: 255
-      Event largest accepted : 255
+      Event largest processed: 302
+      Event largest accepted : 302
       Datetime First: 2025-12-24 00:18:40.364 +08:00
       Datetime Last : 2025-12-24 07:18:57.170 +08:00
   Processed:
       File size          : 130902
       ODL version        : 3
       Internal gzip      : false
-      Companions present : true
+      Decoding data avail?    : true
       Supplementary files used: 1
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/general.keystore
-      Supplementary files not found or inaccessible: 2
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/ObfuscationStringMap.txt
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/EncryptionKeyStoreCopy/general.keystore
+      Supplementary files not available: 2
       Events processed   : 829
       Events accepted    : 829
       Events undecoded   : 392
-      Decoding failures  : 0
+      Decoding failures  : 58
       Records skipped    : 0
       Out of order       : 0
       Datetime first     : 2025-12-24 00:18:40.364 +08:00
@@ -12137,7 +12120,7 @@ File: ./logs/programs/utmp/host-entry1.wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 104448 (bytes)
       Processing Err : no valid fixed-structure records found in file
 
@@ -12146,7 +12129,7 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
       Archive subpath: host-entry6.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 160768 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
@@ -12156,7 +12139,7 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
       Archive subpath: host-entry1.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 160768 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
@@ -12165,7 +12148,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -12196,7 +12179,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.bz2
   About:
       FileType      : UTMP/WTMP (BZIP2) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 181248 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.bz2"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.bz2"
@@ -12205,7 +12188,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.gz
   About:
       FileType      : UTMP/WTMP (GZIP) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 181248 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.gz"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.gz"
@@ -12214,7 +12197,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.lz
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 104448 (bytes)
       Processing Err : no valid fixed-structure records found in file
 
@@ -12222,7 +12205,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.lz4
   About:
       FileType      : UTMP/WTMP (LZMA4) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 181248 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.lz4"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.lz4"
@@ -12231,7 +12214,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
   About:
       FileType      : UTMP/WTMP (XZ) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 181248 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.xz"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.xz"
@@ -21752,7 +21735,7 @@ File: ./logs/Ubuntu16/x86_32/btmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -21783,7 +21766,7 @@ File: ./logs/Ubuntu16/x86_32/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -21814,7 +21797,7 @@ File: ./logs/Ubuntu16/x86_32/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -23204,7 +23187,7 @@ File: ./logs/Ubuntu20/x86_64/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:
@@ -24269,7 +24252,7 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -24300,7 +24283,7 @@ File: ./logs/Ubuntu22/x86_64/wtmp
   About:
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
       Thread stack  : 104448 (bytes)
   Printed:
@@ -25520,7 +25503,7 @@ Paths considered       : 660
 Paths not processed    : 35
 Files processed        : 625
 Files printed          : 540
-Printed bytes          : 9351731
+Printed bytes          : 9353364
 Printed flushes        : 33191
 Printed Lines          : 16617
 Printed Syslines       : 12619
@@ -25546,7 +25529,7 @@ Managed files max adjus: 200
 Managed request open   : 754
 Managed request read   : 0
 Managed write calls    : 555
-Managed seek calls     : 16605
+Managed seek calls     : 16730
 Managed metadata calls : 639
 Managed open errors    : 14
 Managed evict fails    : 0
