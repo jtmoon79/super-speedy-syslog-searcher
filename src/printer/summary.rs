@@ -1525,15 +1525,12 @@ fn print_summary_opt_processed(
             eprintln!("{}File size          : {}", indent2, stats.odlreader_filesz);
             eprintln!("{}ODL version        : {}", indent2, stats.odlreader_version);
             eprintln!("{}Internal gzip      : {}", indent2, stats.odlreader_compressed);
-            eprintln!("{}Companions present : {}", indent2, stats.odlreader_companions_available);
+            eprintln!("{}Decoding data avail?    : {}", indent2, stats.odlreader_decoding_data_available);
             eprintln!("{}Supplementary files used: {}", indent2, stats.odlreader_supplementary_files_used.len());
             for path in &stats.odlreader_supplementary_files_used {
                 eprintln!("{}  {}", indent2, fpath_to_prependpath(path));
             }
-            eprintln!("{}Supplementary files not found or inaccessible: {}", indent2, stats.odlreader_supplementary_files_notfound.len());
-            for path in &stats.odlreader_supplementary_files_notfound {
-                eprintln!("{}  {}", indent2, fpath_to_prependpath(path));
-            }
+            eprintln!("{}Supplementary files not available: {}", indent2, stats.odlreader_supplementary_files_notfound.len());
             eprintln!("{}Events processed   : {}", indent2, stats.odlreader_events_processed);
             eprintln!("{}Events accepted    : {}", indent2, stats.odlreader_events_accepted);
             eprintln!("{}Events undecoded   : {}", indent2, stats.odlreader_events_undecoded);

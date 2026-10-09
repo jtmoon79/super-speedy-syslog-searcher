@@ -1613,7 +1613,7 @@ pub fn process_path(
             | FileType::Journal{ archival_type: FileTypeArchive::Lz4 }
             | FileType::Journal{ archival_type: FileTypeArchive::Tar }
             | FileType::Journal{ archival_type: FileTypeArchive::Xz }
-            | FileType::Odl{ archival_type: FileTypeArchive::Normal, odl_sub_type: _ }
+            | FileType::Odl{ .. }
             | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
             | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: _ }
             | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
@@ -1623,18 +1623,6 @@ pub fn process_path(
             => {
                 deo!("paths.push(FileValid(({:?}, {:?})))", fpath_entry, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, filetype));
-            }
-            ft @ FileType::Odl{ archival_type: FileTypeArchive::Bz2, odl_sub_type: _ }
-            | ft @ FileType::Odl{ archival_type: FileTypeArchive::Gz, odl_sub_type: _ }
-            | ft @ FileType::Odl{ archival_type: FileTypeArchive::Lz4, odl_sub_type: _ }
-            | ft @ FileType::Odl{ archival_type: FileTypeArchive::Tar, odl_sub_type: _ }
-            | ft @ FileType::Odl{ archival_type: FileTypeArchive::Xz, odl_sub_type: _ }
-           => {
-                deo!("Odl archived is not supported {:?}", std_path_entry);
-                paths.push(ProcessPathResult::FileErrNotSupported(
-                    fpath_entry,
-                    Some(format!("Compressed ODL {}", ft.archival_type())),
-                ));
             }
             FileType::Unparsable
             => {

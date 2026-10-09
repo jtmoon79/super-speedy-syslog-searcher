@@ -96,7 +96,6 @@ pub use e_wrn;
 /// only intended to aid visual debugging
 ///
 /// XXX: is this implemented in std or in a crate?
-#[cfg(any(debug_assertions, test))]
 pub const fn char_to_char_noraw(c: char) -> char {
     // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#C0_controls
     match c as u32 {
@@ -141,7 +140,6 @@ pub const fn char_to_char_noraw(c: char) -> char {
 ///
 /// only intended for debugging
 #[doc(hidden)]
-#[cfg(any(debug_assertions, test))]
 pub const fn byte_to_char_noraw(byte: u8) -> char {
     char_to_char_noraw(byte as char)
 }
@@ -153,7 +151,6 @@ pub const fn byte_to_char_noraw(byte: u8) -> char {
 /// only intended for debugging
 #[doc(hidden)]
 #[allow(non_snake_case)]
-#[cfg(any(debug_assertions, test))]
 pub fn buffer_to_string_noraw(buffer: &[u8]) -> String {
     let mut s2: String = String::with_capacity(buffer.len() + 1);
     for b in buffer.iter() {

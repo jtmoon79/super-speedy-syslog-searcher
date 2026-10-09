@@ -54,6 +54,7 @@ use crate::data::odl::{
     OdlEvent,
     single_line_chars,
 };
+use crate::debug::printers::buffer_to_string_noraw;
 
 /// Corpus maximum payload is 6412 bytes
 pub const ODL_RECORD_BYTES_MAX: usize = 64 * 1024;
@@ -505,8 +506,9 @@ impl<R: Read> OdlParser<R> {
         let mut bytes = [0u8; 256];
         reader.read_exact(&mut bytes[..12])?;
         if &bytes[..8] != ODL_FILE_SIGNATURE {
-            def2x!("invalid ODL file signature {:#?}", &bytes[..8]);
-            return Err(invalid(format!("invalid ODL file signature {:#?}", &bytes[..8])));
+            let s_e = buffer_to_string_noraw(&bytes[..8]);
+            def2x!("invalid ODL file signature \"{}\"", &s_e);
+            return Err(invalid(format!("invalid ODL file signature \"{}\"", &s_e)));
         }
         let version: u32 = u32::from_le_bytes([
             bytes[8], bytes[9], bytes[10], bytes[11],
