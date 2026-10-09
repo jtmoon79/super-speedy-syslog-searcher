@@ -1344,6 +1344,35 @@ fn test_process_path_dirs_file1() {
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
 }
 
+#[test_case("", FileTypeArchive::Normal; "normal")]
+#[test_case(".bz2", FileTypeArchive::Bz2; "bz2")]
+#[test_case(".gz", FileTypeArchive::Gz; "gz")]
+#[test_case(".lz4", FileTypeArchive::Lz4; "lz4")]
+#[test_case(".xz", FileTypeArchive::Xz; "xz")]
+fn test_process_path_odl_direct_and_directory(
+    suffix: &str,
+    archival_type: FileTypeArchive,
+) {
+    for (extension, odl_sub_type) in [
+        ("odl", OdlSubType::Odl),
+        ("odlgz", OdlSubType::Odlgz),
+        ("odlsent", OdlSubType::Odlsent),
+        ("aodl", OdlSubType::Aodl),
+    ] {
+        let filenames = &[FPath::from(format!("nested/file.{extension}{suffix}"))];
+        let (dir, fpaths) = create_files_and_tmpdir(filenames);
+        let checks = vec![ProcessPathResult::FileValid(
+            fpaths[0].clone(),
+            FileType::Odl { archival_type, odl_sub_type },
+        )];
+
+        for unparseable_are_text in [true, false] {
+            test_process_path_fpath(&fpaths[0], &checks, unparseable_are_text);
+            test_process_path_fpath(&path_to_fpath(dir.path()), &checks, unparseable_are_text);
+        }
+    }
+}
+
 #[test]
 fn test_process_path_dirs_file1_txt1_evtx1_journal1() {
     let filenames = &[

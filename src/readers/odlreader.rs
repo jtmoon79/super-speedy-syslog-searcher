@@ -19,6 +19,15 @@ use std::sync::atomic::{
 };
 
 use tempfile::TempPath;
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    def2n,
+    def2o,
+    def2x,
+    defn,
+    defo,
+    defx,
+};
 
 use crate::common::{
     Count,
@@ -71,7 +80,7 @@ pub struct SummaryOdlReader {
     pub odlreader_decoding_failures: Count,
     pub odlreader_version: u32,
     pub odlreader_compressed: bool,
-    pub odlreader_companions_available: bool,
+    pub odlreader_decoding_data_available: bool,
     /// Successfully loaded supplementary files, including archive member paths.
     pub odlreader_supplementary_files_used: Vec<FPath>,
     /// Supplementary files searched for but missing or inaccessible.
@@ -106,8 +115,12 @@ impl OdlReader<FileHandleManaged> {
         filetype: FileType,
         fixed_offset: FixedOffset,
     ) -> io::Result<Self> {
+        def2n!();
         if !filetype.is_odl() {
-            return Err(Error::new(ErrorKind::InvalidInput, "OdlReader requires FileType::Odl"));
+            return Err(Error::new(
+                ErrorKind::InvalidInput,
+                "OdlReader requires FileType::Odl, given FileType::".to_string() + &filetype.to_string()
+            ));
         }
         // Load companions before acquiring the long-lived primary input handle.
         let companions = load_companions(path_id, &path, filetype)?;
@@ -151,6 +164,7 @@ impl OdlReader<FileHandleManaged> {
         for diagnostic in companions.diagnostics {
             reader.report_error(diagnostic);
         }
+        def2x!();
 
         Ok(reader)
     }
@@ -162,14 +176,19 @@ impl<R: Read> OdlReader<R> {
         source: OdlSource,
         decoding: OdlDecodingContext,
     ) -> io::Result<Self> {
+        def2n!();
         if !source.filetype.is_odl() {
-            return Err(Error::new(ErrorKind::InvalidInput, "OdlReader requires FileType::Odl"));
+            return Err(Error::new(
+                ErrorKind::InvalidInput,
+                "OdlReader requires FileType::Odl given FileType::".to_string() + &source.filetype.to_string()
+            ));
         }
         let mut statistics = SummaryOdlReader::default();
         summary_stat!({
             statistics.odlreader_filesz = source.filesz;
-            statistics.odlreader_companions_available = decoding.has_companions();
+            statistics.odlreader_decoding_data_available = decoding.has_companions();
         });
+        def2x!();
 
         Ok(Self {
             source,

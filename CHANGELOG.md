@@ -259,6 +259,9 @@ Helpful `git log` command for generating changelog entries:
 
 ## Unreleased
 
+- Fix directory traversal rejecting compressed ODL files that are supported
+  when passed directly.
+
 - Replace Python OneDrive Log parsing with a native Rust `Read`-based ODL v2/v3
   parser and reader. Support internal gzip, original-location map/key discovery,
   stable chronological merging, native printing/summaries, and cancellation.
