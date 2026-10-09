@@ -458,6 +458,7 @@ jobs:
         shell: bash
         run: |
           set -eux
+          cargo --version
           cargo nextest --version
           export NEXTEST_TEST_THREADS=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
@@ -585,7 +586,7 @@ jobs:
         run: |
           set -euxo pipefail
           curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.sh' | \
-            VER=${{ env.S4_VERSION }} sh -x
+            sh -x
       - name: s4-easy-install.ps1
         if: ${{matrix.os == 'windows-latest'}}
         shell: pwsh
@@ -594,7 +595,7 @@ jobs:
           Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
           Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1' `
             -OutFile s4-easy-install.ps1
-          .\s4-easy-install.ps1 -Version ${{ env.S4_VERSION }} -trace
+          .\s4-easy-install.ps1 -trace
 
   job_codecov_validate:
     name: codecov validate
@@ -848,7 +849,7 @@ jobs:
   job_code_coverage_llvm:
     name: llvm_cov
     runs-on: ubuntu-latest
-    needs: [job_runs, job_test_linux]
+    needs: [job_runs]
     env:
       COVERALLS_FILE: ./coveralls.lcov
     steps:
@@ -876,6 +877,7 @@ jobs:
         run: |
           set -eux
           chmod -v +x ./tools/cargo-llvm-cov-combine-multiple.sh
+          cargo --version
           cargo llvm-cov --version
           cargo llvm-cov show-env
           export S4_BUILD_REGEX=TEST
