@@ -6,6 +6,9 @@
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
+
+use std::path::PathBuf;
+
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
