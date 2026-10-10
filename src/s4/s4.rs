@@ -118,12 +118,11 @@ use std::io::{
     BufRead, // for stdin::lock().lines()
     Error,
 };
+use std::path::PathBuf;
 use std::process::ExitCode;
-use std::sync::{
-    atomic::{
-        AtomicBool,
-        Ordering,
-    },
+use std::sync::atomic::{
+    AtomicBool,
+    Ordering,
 };
 use std::time::Instant;
 use std::{
@@ -260,6 +259,7 @@ use ::s4lib::readers::evtxreader::EvtxReader;
 use ::s4lib::readers::filedecompressor::{
     count_temporary_files,
     remove_temporary_files,
+    path_temporary_files_dir,
 };
 use ::s4lib::readers::filehandlemanager::{
     ENV_FILE_HANDLE_OPEN_MAX,
@@ -5809,6 +5809,7 @@ fn processing_loop(
             0,
             "no threads were created yet temporary files were created?"
         );
+        let temp_file_dir: PathBuf = path_temporary_files_dir();
         print_summary(
             map_pathid_results,
             map_pathid_results_invalid,
@@ -5835,6 +5836,7 @@ fn processing_loop(
             0,
             start_time,
             named_temp_files_count,
+            temp_file_dir,
             thread_count,
             thread_err_count,
             ALLOCATOR_CHOSEN,
@@ -6831,6 +6833,7 @@ fn processing_loop(
             }
         }
         let named_temp_files_count: usize = count_temporary_files();
+        let temp_file_dir: PathBuf = path_temporary_files_dir();
         // print the `--summary` of the entire process
         // consumes the various maps
         print_summary(
@@ -6859,6 +6862,7 @@ fn processing_loop(
             chan_recv_err,
             start_time,
             named_temp_files_count,
+            temp_file_dir,
             thread_count,
             thread_err_count,
             ALLOCATOR_CHOSEN,
