@@ -6,7 +6,10 @@ use std::io::{self, Cursor, ErrorKind};
 use compact_str::CompactString;
 
 use crate::data::asl::AslRecord;
-use crate::readers::aslparser::AslParser;
+use crate::readers::aslparser::{
+    AslParser,
+    RECORD_STRING_BYTES_MAX,
+};
 use crate::tests::common::ASL_FIXTURES;
 
 fn expect_err<T>(result: io::Result<T>) -> io::Error {
@@ -59,6 +62,82 @@ fn record_strings(record: &AslRecord) -> [&CompactString; 8] {
         &record.extra[0].0,
         &record.extra[0].1,
     ]
+}
+
+fn append_string(bytes: &mut Vec<u8>, len: usize) -> u64 {
+    let offset = bytes.len() as u64;
+    bytes.extend_from_slice(&1u16.to_be_bytes());
+    bytes.extend_from_slice(&((len + 1) as u32).to_be_bytes());
+    bytes.resize(bytes.len() + len, b'x');
+    bytes.push(0);
+    offset
+}
+
+#[test]
+fn aslparser_resolved_string_budget_boundary_and_fixed_fields() {
+    let len = RECORD_STRING_BYTES_MAX / 8;
+    for excess in [0, 1] {
+        let offset = database_with_string_reference([0; 8]).len() as u64;
+        let mut bytes = database_with_string_reference(offset.to_be_bytes());
+        assert_eq!(append_string(&mut bytes, len), offset);
+        if excess != 0 {
+            let longer = append_string(&mut bytes, len + excess);
+            bytes[86 + 60..86 + 68].copy_from_slice(&longer.to_be_bytes());
+        }
+        let result = parser(bytes).next_record();
+        if excess == 0 {
+            let record = result.unwrap().unwrap();
+            assert_eq!(record_strings(&record).iter().map(|text| text.len()).sum::<usize>(), RECORD_STRING_BYTES_MAX);
+        } else {
+            let error = expect_err(result);
+            assert_eq!(error.kind(), ErrorKind::InvalidData);
+            assert!(error.to_string().contains("resolved string bytes exceed limit"));
+        }
+    }
+}
+
+#[test]
+fn aslparser_resolved_string_budget_rejects_extra_before_reading_payload() {
+    let offset = database_with_string_reference([0; 8]).len() as u64;
+    let mut bytes = database_with_string_reference(offset.to_be_bytes());
+    assert_eq!(append_string(&mut bytes, RECORD_STRING_BYTES_MAX - 1), offset);
+    let mut reader = Cursor::new(bytes);
+    let error = expect_err(AslParser::new(&mut reader).unwrap().next_record());
+    assert_eq!(error.kind(), ErrorKind::InvalidData);
+    assert!(error.to_string().contains("resolved string bytes exceed limit"));
+    assert_eq!(reader.position(), offset + 6);
+}
+
+#[test]
+fn aslparser_resolved_string_budget_counts_inline_text() {
+    let offset = database_with_string_reference([0; 8]).len() as u64;
+    let mut bytes = database_with_string_reference([0; 8]);
+    bytes[86 + 108..86 + 116].copy_from_slice(&offset.to_be_bytes());
+    bytes[86 + 60..86 + 68].copy_from_slice(&[0x82, b'x', b'x', 0, 0, 0, 0, 0]);
+    append_string(&mut bytes, RECORD_STRING_BYTES_MAX - 1);
+    assert_record_error(bytes, "resolved string bytes exceed limit");
+}
+
+#[test]
+fn aslparser_resolved_string_budget_resets_per_record() {
+    let mut bytes = database_with_string_reference([0; 8]);
+    let second = bytes.len() as u64;
+    bytes.extend_from_within(80..);
+    let string = append_string(&mut bytes, RECORD_STRING_BYTES_MAX / 8);
+    bytes[37..45].copy_from_slice(&second.to_be_bytes());
+    bytes[86..94].copy_from_slice(&second.to_be_bytes());
+    for offset in [80usize, second as usize] {
+        for field in bytes[offset + 6 + 60..offset + 6 + 124].chunks_exact_mut(8) {
+            field.copy_from_slice(&string.to_be_bytes());
+        }
+    }
+    let mut parser = parser(bytes);
+    for ordinal in 0..2 {
+        let record = parser.next_record().unwrap().unwrap();
+        assert_eq!(record.ordinal, ordinal);
+        assert_eq!(record_strings(&record).iter().map(|text| text.len()).sum::<usize>(), RECORD_STRING_BYTES_MAX);
+    }
+    assert!(parser.next_record().unwrap().is_none());
 }
 
 fn assert_record_error(
