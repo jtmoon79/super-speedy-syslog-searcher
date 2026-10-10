@@ -1,4 +1,8 @@
 //! Managed ASL input, chronological event ordering, and rendered-byte `Read`.
+//!
+//! XXX: inserts entries into the `events` BTreeMap without an upper limit,
+//!      which may lead to Out Of Memory errors.
+//!      See [Issue #559](https://github.com/ulug/super-speedy-syslog-searcher/issues/559).
 
 use std::collections::BTreeMap;
 use std::io::{self, Error, ErrorKind, Read, Seek};
@@ -210,6 +214,7 @@ impl<R: Read + Seek> AslReader<R> {
                     stats.aslreader_datetime_last_accepted = Some(dt);
                 }
             });
+            // XXX: inserts entries without an upper limit 🤞
             self.events
                 .insert((dt, record.ordinal), rendered);
         }
