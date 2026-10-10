@@ -1,6 +1,8 @@
 //! Version-2 Apple System Log database parser.
 //! Eight-byte string references encode up to seven inline UTF-8 bytes or a file
 //! offset. Resolved inline strings are stored without a heap allocation.
+//! Each record is limited to 4 MiB of resolved UTF-8 text, counting repeated
+//! references separately and excluding external string terminators.
 
 use std::collections::HashSet;
 use std::io::{self, Error, ErrorKind, Read, Seek, SeekFrom};
@@ -16,10 +18,18 @@ const RECORD_HEADER_LEN: u64 = 6;
 const RECORD_DATA_MIN: usize = 116;
 const RECORD_BYTES_MAX: usize = 4 * 1024 * 1024;
 const STRING_BYTES_MAX: usize = 4 * 1024 * 1024;
+pub(crate) const RECORD_STRING_BYTES_MAX: usize = 4 * 1024 * 1024;
 const SIGNATURE: &[u8; 12] = b"ASL DB\0\0\0\0\0\0";
 
 fn invalid(message: impl Into<String>) -> Error {
     Error::new(ErrorKind::InvalidData, message.into())
+}
+
+fn charge_string_bytes(remaining: &mut usize, len: usize) -> io::Result<()> {
+    *remaining = remaining
+        .checked_sub(len)
+        .ok_or_else(|| invalid(format!("ASL record resolved string bytes exceed limit {RECORD_STRING_BYTES_MAX}")))?;
+    Ok(())
 }
 
 fn be_u16(bytes: &[u8]) -> u16 {
@@ -95,6 +105,7 @@ impl<R: Read + Seek> AslParser<R> {
     fn string_ref(
         &mut self,
         reference: u64,
+        remaining: &mut usize,
     ) -> io::Result<CompactString> {
         if reference == 0 {
             return Ok(CompactString::default());
@@ -105,6 +116,7 @@ impl<R: Read + Seek> AslParser<R> {
             if len > 7 {
                 return Err(invalid(format!("invalid inline ASL string length {len}, must be [0, 7]")));
             }
+            charge_string_bytes(remaining, len)?;
             return std::str::from_utf8(&raw[1..1 + len])
                 .map(CompactString::new)
                 .map_err(|error| invalid(format!("invalid inline ASL UTF-8: {error}")));
@@ -128,6 +140,7 @@ impl<R: Read + Seek> AslParser<R> {
         if size == 0 || size > STRING_BYTES_MAX || reference + 6 + size as u64 > self.file_len {
             return Err(invalid(format!("invalid ASL string length at offset {reference}")));
         }
+        charge_string_bytes(remaining, size - 1)?;
         let mut bytes: Bytes = vec![0; size];
         self.reader
             .read_exact(&mut bytes)?;
@@ -187,9 +200,13 @@ impl<R: Read + Seek> AslParser<R> {
         if (offset == self.last_offset) != (next == 0) || (next != 0 && (next < HEADER_LEN || next >= self.file_len)) {
             return Err(invalid(format!("invalid ASL next record offset at {offset}")));
         }
+        let mut remaining = RECORD_STRING_BYTES_MAX;
         let mut extra = Vec::with_capacity(extra_count);
         for pair in data[108..size - 8].chunks_exact(16) {
-            extra.push((self.string_ref(be_u64(&pair[..8]))?, self.string_ref(be_u64(&pair[8..]))?));
+            extra.push((
+                self.string_ref(be_u64(&pair[..8]), &mut remaining)?,
+                self.string_ref(be_u64(&pair[8..]), &mut remaining)?,
+            ));
         }
         let record = AslRecord {
             offset,
@@ -205,12 +222,12 @@ impl<R: Read + Seek> AslParser<R> {
             read_uid: be_u32(&data[44..48]),
             read_gid: be_u32(&data[48..52]),
             ref_pid: be_u32(&data[52..56]),
-            host: self.string_ref(be_u64(&data[60..68]))?,
-            sender: self.string_ref(be_u64(&data[68..76]))?,
-            facility: self.string_ref(be_u64(&data[76..84]))?,
-            message: self.string_ref(be_u64(&data[84..92]))?,
-            ref_proc: self.string_ref(be_u64(&data[92..100]))?,
-            session: self.string_ref(be_u64(&data[100..108]))?,
+            host: self.string_ref(be_u64(&data[60..68]), &mut remaining)?,
+            sender: self.string_ref(be_u64(&data[68..76]), &mut remaining)?,
+            facility: self.string_ref(be_u64(&data[76..84]), &mut remaining)?,
+            message: self.string_ref(be_u64(&data[84..92]), &mut remaining)?,
+            ref_proc: self.string_ref(be_u64(&data[92..100]), &mut remaining)?,
+            session: self.string_ref(be_u64(&data[100..108]), &mut remaining)?,
             extra,
         };
         self.next_offset = next;
