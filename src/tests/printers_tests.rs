@@ -770,6 +770,7 @@ fn test_print_summary_empty() {
         0,
         std::time::Instant::now(),
         0,
+        PathBuf::from("/tmp/test"),
         1,
         0,
         AllocatorChosen::System,

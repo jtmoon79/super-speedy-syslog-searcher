@@ -16,7 +16,11 @@ use std::io::{
     Result,
     Write,
 };
-use std::path::Path;
+use std::path::{
+    Path,
+    PathBuf,
+};
+use std::str::FromStr;
 use std::sync::{
     Mutex,
     RwLock,
@@ -30,6 +34,7 @@ use ::flate2::GzHeader;
 use ::lazy_static::lazy_static;
 // `lz4_flex` is for lz4 files.
 use ::lz4_flex;
+
 // `lzma_rs` is for xz files.
 use crate::subprojects::lzma_rs;
 #[allow(unused_imports)]
@@ -851,4 +856,38 @@ pub fn count_temporary_files() -> usize {
     defx!("return {}", count);
 
     count
+}
+
+/// return the directory path where temporary files are created.
+pub fn path_temporary_files_dir() -> PathBuf {
+    // first try to get the directory from an existing named temporary file.
+    match (&*NAMED_TEMP_FILES).read() {
+        Ok(named_temp_files) => {
+            if let Some(fpath) = named_temp_files.front() {
+                let path: &Path = fpath_to_path(fpath);
+                if let Some(parent) = path.parent() {
+                    defñ!("{:?} (from existing file)", parent);
+                    return parent.to_path_buf();
+                }
+            }
+        },
+        Err(_err) => {
+            debug_panic!("NAMED_TEMP_FILES.read().unwrap() failed {}", _err);
+        }
+    }
+
+    // create a new empty temporary file to determine the directory.
+    let tmpf = match Builder::new().tempfile() {
+        Ok(tmpf) => tmpf,
+        Err(err) => {
+            debug_panic!("Builder::new().tempfile() failed {}", err);
+            // don't fail, return some default
+            return PathBuf::from_str("/tmp").unwrap();
+        }
+    };
+    let pathf: &Path = tmpf.path();
+    let pathd: PathBuf = pathf.parent().unwrap().to_path_buf();
+    defñ!("{:?} (from empty file)", pathd);
+
+    pathd
 }

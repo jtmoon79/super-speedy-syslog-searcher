@@ -10,6 +10,7 @@ use std::collections::{
     HashMap,
 };
 use std::fmt;
+use std::path::PathBuf;
 use std::str;
 use std::time::{
     Instant,
@@ -1012,6 +1013,7 @@ pub fn print_summary(
     chan_recv_err: Count,
     start_time: Instant,
     named_temp_files_count: usize,
+    temp_file_dir: PathBuf,
     thread_count: usize,
     thread_err_count: usize,
     allocator_chosen: AllocatorChosen,
@@ -1184,6 +1186,7 @@ pub fn print_summary(
         }
     }
     eprintln!("Temporary files created: {}", named_temp_files_count);
+    eprintln!("Temporary directory    : {}", temp_file_dir.display());
     if let Ok(path) = LOAD_LIBRARY_SYSTEMD_PATH.read() {
         let path_s: String = match &*path {
             Some(p) => p.clone(),
