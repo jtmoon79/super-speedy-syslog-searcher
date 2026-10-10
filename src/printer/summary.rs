@@ -13,7 +13,6 @@ use std::fmt;
 use std::path::PathBuf;
 use std::str;
 use std::time::{
-    Duration,
     Instant,
 };
 
@@ -56,7 +55,7 @@ use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
 use crate::libload::systemd_dlopen2::LOAD_LIBRARY_SYSTEMD_PATH;
-use crate::data::pydataevent::PyDataEvent;
+use crate::data::asl::Asl;
 use crate::data::sysline::SyslineP;
 use crate::debug::printers::{
     de_err,
@@ -72,10 +71,6 @@ use crate::printer::printers::{
     color_dimmed,
     COLOR_ERROR,
 };
-use crate::python::pyrunner::{
-    ExitStatus,
-    PythonPathsRan,
-};
 use crate::readers::blockreader::SummaryBlockReader;
 use crate::readers::filehandlemanager::SummaryFileHandleManager;
 use crate::readers::filepreprocessor::ProcessPathResult;
@@ -84,7 +79,6 @@ use crate::readers::linereader::{
     LINE_SEARCH_MAX,
     SummaryLineReader,
 };
-use crate::readers::pyeventreader::PyEventType;
 use crate::readers::summary::{
     Summary,
     SummaryOpt,
@@ -177,7 +171,7 @@ pub struct SummaryPrinted {
     pub syslines: Count,
     /// count of `FixedStruct` printed
     pub fixedstructentries: Count,
-    /// count of `PyDataEvent` printed for .asl files
+    /// count of Apple System Log events printed
     pub aslentries: Count,
     /// count of `Etl` printed
     pub etlentries: Count,
@@ -277,7 +271,7 @@ impl SummaryPrinted {
             _summarysyslinereader_opt,
             _summarysyslogprocessor_opt,
             summaryfixedstructreader_opt,
-            summarypyeventreader_opt,
+            summaryaslreader_opt,
             summaryetlreader_opt,
             summaryevtxreader_opt,
             summaryjournalreader_opt,
@@ -335,14 +329,14 @@ impl SummaryPrinted {
                     None,
                 )
             }
-            SummaryReaderData::PyEvent(summarypyeventreader) => {
+            SummaryReaderData::Asl(summaryaslreader) => {
                 (
                     None,
                     None,
                     None,
                     None,
                     None,
-                    Some(summarypyeventreader),
+                    Some(summaryaslreader),
                     None,
                     None,
                     None,
@@ -463,24 +457,24 @@ impl SummaryPrinted {
             }
         }
 
-        if let Some(summarypyeventreader) = summarypyeventreader_opt {
+        if let Some(summaryaslreader) = summaryaslreader_opt {
             eprintln!("{}bytes         : {}", indent2, self.bytes);
             eprintln!("{}flushes       : {}", indent2, self.flushed);
-            eprintln!("{}Events        : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
-            if let Some(dt) = summarypyeventreader.pyeventreader_datetime_first_accepted {
+            eprintln!("{}Events        : {}", indent2, summaryaslreader.aslreader_events_accepted);
+            if let Some(dt) = summaryaslreader.aslreader_datetime_first_accepted {
                 eprint!("{}Datetime first: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
-            match summarypyeventreader.pyeventreader_datetime_last_accepted {
+            match summaryaslreader.aslreader_datetime_last_accepted {
                 Some(dt) => {
                     eprint!("{}Datetime last : ", indent2);
                     print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                     eprintln!();
-                    debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_some());
+                    debug_assert!(summaryaslreader.aslreader_datetime_first_accepted.is_some());
                 }
                 None => {
-                    debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_none());
+                    debug_assert!(summaryaslreader.aslreader_datetime_first_accepted.is_none());
                 }
             }
         }
@@ -623,28 +617,21 @@ impl SummaryPrinted {
         self.summaryprint_update_dt(entry.dt());
     }
 
-    pub fn summaryprint_update_pyevent(
+    pub fn summaryprint_update_asl(
         &mut self,
-        pyevent: &PyDataEvent,
-        pyevent_type: PyEventType,
+        asl: &Asl,
         printed: Count,
         flushed: Count,
     ) {
         defñ!();
-        // TODO [2025/12/23]: can `LogMessageType::All` be removed here?
-        //      I don't recall how this is ends up getting passed in.
         debug_assert!(
-            matches!(self.logmessagetype, LogMessageType::PyEvent | LogMessageType::All),
+            matches!(self.logmessagetype, LogMessageType::Asl | LogMessageType::All),
             "Unexpected LogMessageType {:?}", self.logmessagetype,
         );
-        match pyevent_type {
-            PyEventType::Asl { .. } => {
-                self.aslentries += 1;
-            }
-        }
+        self.aslentries += 1;
         self.bytes += printed;
         self.flushed += flushed;
-        self.summaryprint_update_dt(pyevent.dt());
+        self.summaryprint_update_dt(asl.dt());
     }
 
     /// Update a `SummaryPrinted` with information from a printed `Etl`.
@@ -773,13 +760,12 @@ impl SummaryPrinted {
         };
     }
 
-    /// Update a mapping of `PathId` to `SummaryPrinted` for a PyEvent.
+    /// Update a mapping of `PathId` to `SummaryPrinted` for an ASL event.
     ///
     /// Helper function to function `processing_loop`.
-    pub fn summaryprint_map_update_pyevent(
-        pyevent: &PyDataEvent,
+    pub fn summaryprint_map_update_asl(
+        asl: &Asl,
         pathid: &PathId,
-        pyevent_type: PyEventType,
         map_: &mut MapPathIdSummaryPrint,
         printed: Count,
         flushed: Count,
@@ -787,11 +773,11 @@ impl SummaryPrinted {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update_pyevent(pyevent, pyevent_type, printed, flushed);
+                sp.summaryprint_update_asl(asl, printed, flushed);
             }
             None => {
-                let mut sp = SummaryPrinted::new(LogMessageType::PyEvent);
-                sp.summaryprint_update_pyevent(pyevent, pyevent_type, printed, flushed);
+                let mut sp = SummaryPrinted::new(LogMessageType::Asl);
+                sp.summaryprint_update_asl(asl, printed, flushed);
                 map_.insert(*pathid, sp);
             }
         };
@@ -891,9 +877,9 @@ impl SummaryPrinted {
                     journalentry, pathid, map_, printed, flushed
                 )
             }
-            LogMessage::PyEvent(pyevent, pyevent_type) => {
-                Self::summaryprint_map_update_pyevent(
-                    pyevent, pathid, *pyevent_type, map_, printed, flushed
+            LogMessage::Asl(asl) => {
+                Self::summaryprint_map_update_asl(
+                    asl, pathid, map_, printed, flushed
                 )
             }
             LogMessage::Sysline(syslinep) => {
@@ -1027,6 +1013,7 @@ pub fn print_summary(
     chan_recv_err: Count,
     start_time: Instant,
     named_temp_files_count: usize,
+    temp_file_dir: PathBuf,
     thread_count: usize,
     thread_err_count: usize,
     allocator_chosen: AllocatorChosen,
@@ -1182,24 +1169,6 @@ pub fn print_summary(
         .with_timezone(&FIXEDOFFSET0);
     print_datetime_utc_dimmed(&utc_now, Some(color_choice));
     eprintln!();
-    // print the python executables that were run
-    if let Ok(python_exes_ran) = PythonPathsRan.read() {
-        for python_exe in python_exes_ran.iter() {
-            eprint!("Python Interpreter     : {}", python_exe);
-            // print the realpath if different than `python_exe`
-            let path_: PathBuf = PathBuf::from(python_exe);
-            if let Ok(pathbuf) = path_.canonicalize() {
-                if let Some(path_s) = pathbuf.to_str() {
-                    if path_s != python_exe.as_str() {
-                        print_dimmed(&format!(" ({})", path_s), Some(color_choice));
-                    }
-                }
-            } else {
-                de_err!("Unable to canonicalize python exe path {:?}", path_);
-            }
-            eprintln!();
-        }
-    }
     // print basic stats about the channel
     eprintln!("Channel receive ok     : {}", chan_recv_ok);
     eprintln!("Channel receive err    : {}", chan_recv_err);
@@ -1217,6 +1186,7 @@ pub fn print_summary(
         }
     }
     eprintln!("Temporary files created: {}", named_temp_files_count);
+    eprintln!("Temporary directory    : {}", temp_file_dir.display());
     if let Ok(path) = LOAD_LIBRARY_SYSTEMD_PATH.read() {
         let path_s: String = match &*path {
             Some(p) => p.clone(),
@@ -1508,41 +1478,14 @@ fn print_summary_opt_processed(
                 indent2, summaryfixedstructreader.fixedstructreader_map_tvpair_fo_max_len
             );
         }
-        SummaryReaderData::PyEvent(summarypyeventreader) => {
+        SummaryReaderData::Asl(summaryaslreader) => {
             eprintln!(
                 "{}File size          : {1} (0x{1:X}) (bytes)",
-                indent2, summarypyeventreader.pyeventreader_filesz,
+                indent2, summaryaslreader.aslreader_filesz,
             );
-            eprintln!("{}Events processed   : {}", indent2, summarypyeventreader.pyeventreader_events_processed);
-            eprintln!("{}Events accepted    : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
-            eprintln!("{}Events read max    : {}", indent2, summarypyeventreader.pyeventreader_events_read_max);
-            eprintln!("{}Events queue high  : {}", indent2, summarypyeventreader.pyeventreader_events_held_max);
-            eprintln!("{}Python process polls       : {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_polls);
-            eprintln!("{}Python process reads stdout: {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_reads_stdout);
-            eprintln!("{}Python process reads stderr: {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_reads_stderr);
-            eprintln!("{}Python process writes stdin: {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_writes);
-            eprintln!("{}Python pipe recv stdout    : {}", indent2, summarypyeventreader.pyeventreader_python_count_pipe_recv_stdout);
-            eprintln!("{}Python pipe recv stderr    : {}", indent2, summarypyeventreader.pyeventreader_python_count_pipe_recv_stderr);
-            eprintln!("{}Python pipe size stdout    : {}", indent2, summarypyeventreader.pyeventreader_pipe_sz_stdout);
-            eprintln!("{}Python pipe size stderr    : {}", indent2, summarypyeventreader.pyeventreader_pipe_sz_stderr);
-            eprintln!("{}Python pipe chan max stdout: {}", indent2, summarypyeventreader.pyeventreader_pipe_channel_max_stdout);
-            eprintln!("{}Python pipe chan max stderr: {}", indent2, summarypyeventreader.pyeventreader_pipe_channel_max_stderr);
-            // drop sub-milliseconds data, milliseconds is precise enough
-            let dur_ms_wait: Duration = Duration::from_millis(summarypyeventreader.pyeventreader_duration_proc_wait.as_millis() as u64);
-            eprintln!("{}Python process waits       : {:?}", indent2, dur_ms_wait);
-            let dur_ms_run: Duration = Duration::from_millis(summarypyeventreader.pyeventreader_duration_proc_run.as_millis() as u64);
-            eprintln!("{}Python process runtime     : {:?}", indent2, dur_ms_run);
-            eprint!("{}Python exit status         : ", indent2);
-            let exit_status: &ExitStatus = &summarypyeventreader.pyeventreader_python_exit_status.unwrap_or_default();
-            // remove "exit status: " from the ExitStatus display string
-            let es_s: String = format!("{}", exit_status).replace("exit status: ", "");
-            eprintln_display_color_error(
-                &es_s,
-                |_| !exit_status.success(),
-                color_choice,
-            );
-            let args: String = summarypyeventreader.pyeventreader_python_arguments.join(" ");
-            eprintln!("{}Python script arguments    : {}", indent2, args);
+            eprintln!("{}Events processed   : {}", indent2, summaryaslreader.aslreader_events_processed);
+            eprintln!("{}Events accepted    : {}", indent2, summaryaslreader.aslreader_events_accepted);
+            eprintln!("{}Out of order       : {}", indent2, summaryaslreader.aslreader_out_of_order);
         }
         SummaryReaderData::Etl(summaryetlreader) => {
             eprintln!(
@@ -1585,15 +1528,12 @@ fn print_summary_opt_processed(
             eprintln!("{}File size          : {}", indent2, stats.odlreader_filesz);
             eprintln!("{}ODL version        : {}", indent2, stats.odlreader_version);
             eprintln!("{}Internal gzip      : {}", indent2, stats.odlreader_compressed);
-            eprintln!("{}Companions present : {}", indent2, stats.odlreader_companions_available);
+            eprintln!("{}Decoding data avail?    : {}", indent2, stats.odlreader_decoding_data_available);
             eprintln!("{}Supplementary files used: {}", indent2, stats.odlreader_supplementary_files_used.len());
             for path in &stats.odlreader_supplementary_files_used {
                 eprintln!("{}  {}", indent2, fpath_to_prependpath(path));
             }
-            eprintln!("{}Supplementary files not found or inaccessible: {}", indent2, stats.odlreader_supplementary_files_notfound.len());
-            for path in &stats.odlreader_supplementary_files_notfound {
-                eprintln!("{}  {}", indent2, fpath_to_prependpath(path));
-            }
+            eprintln!("{}Supplementary files not available: {}", indent2, stats.odlreader_supplementary_files_notfound.len());
             eprintln!("{}Events processed   : {}", indent2, stats.odlreader_events_processed);
             eprintln!("{}Events accepted    : {}", indent2, stats.odlreader_events_accepted);
             eprintln!("{}Events undecoded   : {}", indent2, stats.odlreader_events_undecoded);
@@ -2169,7 +2109,7 @@ fn print_cache_stats(
         SummaryReaderData::Odl(_) => {}
         SummaryReaderData::Etvx(_summaryevtxreader) => {}
         SummaryReaderData::Journal(_summaryjournalreader) => {}
-        SummaryReaderData::PyEvent(_summarypyeventreader) => {}
+        SummaryReaderData::Asl(_) => {}
         SummaryReaderData::Dummy => panic!("Unexpected SummaryReaderData::Dummy"),
     }
 }
@@ -2263,7 +2203,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
         SummaryReaderData::Odl(..) => debug_panic!("Unexpected SummaryReaderData::Odl"),
         SummaryReaderData::Etvx(..) => debug_panic!("Unexpected SummaryReaderData::Etvx"),
         SummaryReaderData::Journal(..) => debug_panic!("Unexpected SummaryReaderData::Journal"),
-        SummaryReaderData::PyEvent(..) => debug_panic!("Unexpected SummaryReaderData::PyEvent"),
+        SummaryReaderData::Asl(..) => debug_panic!("Unexpected SummaryReaderData::Asl"),
         SummaryReaderData::Dummy => debug_panic!("Unexpected SummaryReaderData::Dummy"),
     }
 }

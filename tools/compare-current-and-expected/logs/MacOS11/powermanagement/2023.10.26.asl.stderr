@@ -4,25 +4,21 @@ Files:
 File: ./logs/MacOS11/powermanagement/2023.10.26.asl
   About:
       FileType      : ASL (Apple System Log)
-      LogMessageType: Python parsed events (ASL)
+      LogMessageType: ASL event (Apple System Log)
       Thread stack  : 137216 (bytes)
   Printed:
-      bytes         : 4699
+      bytes         : 4969
       flushes       : 10
       Events        : 10
-      Datetime first: 2023-10-26 16:27:25 +08:00 (2023-10-26 08:27:25.731000 +00:00)
-      Datetime last : 2023-10-26 16:31:31 +08:00 (2023-10-26 08:31:31.898000 +00:00)
+      Datetime first: 2023-10-26 12:27:25 +08:00 (2023-10-26 04:27:25.731612 +00:00)
+      Datetime last : 2023-10-26 12:31:31 +08:00 (2023-10-26 04:31:31.898057 +00:00)
   Processed:
       File size          : 3366 (0xD26) (bytes)
       Events processed   : 10
       Events accepted    : 10
-      Events read max    : 1
-      Events queue high  : 1
-      Python pipe size stdout    : 256
-      Python pipe size stderr    : 256
-      Python exit status         : 0
-      Datetime first: 2023-10-26 16:27:25 +08:00 (2023-10-26 08:27:25.731000 +00:00)
-      Datetime last : 2023-10-26 16:31:31 +08:00 (2023-10-26 08:31:31.898000 +00:00)
+      Out of order       : 0
+      Datetime first: 2023-10-26 12:27:25 +08:00 (2023-10-26 04:27:25.731612 +00:00)
+      Datetime last : 2023-10-26 12:31:31 +08:00 (2023-10-26 04:31:31.898057 +00:00)
       out of order  : 0
 
 Program summary:
@@ -31,7 +27,7 @@ Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
-Printed bytes          : 4739
+Printed bytes          : 5009
 Printed flushes        : 20
 Printed Lines          : 0
 Printed Syslines       : 0
@@ -57,15 +53,15 @@ Managed files max adjus: 200
 Managed request open   : 1
 Managed request read   : 0
 Managed write calls    : 0
-Managed seek calls     : 0
+Managed seek calls     : 125
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
 Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first : 2023-10-26 16:27:25 +08:00 (2023-10-26 08:27:25.731000 +00:00)
-Datetime printed last  : 2023-10-26 16:31:31 +08:00 (2023-10-26 08:31:31.898000 +00:00)
+Datetime printed first : 2023-10-26 12:27:25 +08:00 (2023-10-26 04:27:25.731612 +00:00)
+Datetime printed last  : 2023-10-26 12:31:31 +08:00 (2023-10-26 04:31:31.898057 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
 Channel receive ok     : 12
 Channel receive err    : 0

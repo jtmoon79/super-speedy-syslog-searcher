@@ -10,11 +10,14 @@
 //! testing, in practice that often makes tests difficult or impossible to
 //! implement.
 
+pub mod asl_tests;
+pub mod aslparser_tests;
+pub mod aslreader_tests;
 pub mod blockreader_tests;
 pub mod common;
 pub mod datetime_tests;
-pub mod etlreader_tests;
 pub mod etlparser_tests;
+pub mod etlreader_tests;
 pub mod evtx_tests;
 pub mod evtxreader_tests;
 pub mod filedecompressor_tests;
@@ -30,11 +33,7 @@ pub mod linereader_tests;
 pub mod odlparser_tests;
 pub mod odlreader_tests;
 pub mod printers_tests;
-pub mod pydataevent_tests;
-pub mod pyeventreader_tests;
-pub mod pyrunner_tests;
 pub mod rust_lzxpress_tests;
 pub mod sysline_tests;
 pub mod syslinereader_tests;
 pub mod syslogprocessor_tests;
-pub mod venv_tests;

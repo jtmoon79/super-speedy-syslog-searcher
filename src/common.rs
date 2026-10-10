@@ -1201,7 +1201,7 @@ impl FileType {
     /// convert a `FileType` to it's corresponding `LogMessageType`
     pub const fn to_logmessagetype(&self) -> LogMessageType {
         match self {
-            FileType::Asl { .. } => LogMessageType::PyEvent,
+            FileType::Asl { .. } => LogMessageType::Asl,
             FileType::Etl { .. } => LogMessageType::Etl,
             FileType::Evtx { .. } => LogMessageType::Evtx,
             FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
@@ -1341,8 +1341,8 @@ pub enum LogMessageType {
     Journal,
     /// A native OneDrive Log event.
     Odl,
-    /// an Apple System Log (ASL) file.
-    PyEvent,
+    /// a native Apple System Log (ASL) event.
+    Asl,
     /// Special case, used to indicate "ALL" or "ANY" message type.
     /// Useful for code objects tracking multiple files.
     #[default]
@@ -1355,12 +1355,12 @@ impl std::fmt::Display for LogMessageType {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
-            LogMessageType::Etl => write!(f, "ETL events (Windows Event Trace Log)"),
-            LogMessageType::Evtx => write!(f, "EVTX entries (Windows XML EventLog)"),
-            LogMessageType::FixedStruct => write!(f, "fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)"),
-            LogMessageType::Journal => write!(f, "systemd journal entries"),
-            LogMessageType::Odl => write!(f, "ODL events (OneDrive Log)"),
-            LogMessageType::PyEvent => write!(f, "Python parsed events (ASL)"),
+            LogMessageType::Etl => write!(f, "ETL event (Windows Event Trace Log)"),
+            LogMessageType::Evtx => write!(f, "EVTX entry (Windows XML EventLog)"),
+            LogMessageType::FixedStruct => write!(f, "fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)"),
+            LogMessageType::Journal => write!(f, "systemd journal entry"),
+            LogMessageType::Odl => write!(f, "ODL event (OneDrive Log)"),
+            LogMessageType::Asl => write!(f, "ASL event (Apple System Log)"),
             LogMessageType::Sysline => write!(f, "text log lines"),
             LogMessageType::All => write!(f, "ALL"),
         }
@@ -1464,7 +1464,7 @@ pub fn threadid_to_u64(tid: thread::ThreadId) -> u64 {
 
 /// Parse string to number type `T`.
 /// Supports binary, octal, decimal, and hexadecimal.
-pub (crate) fn parse_string_to_number<T>(val_s: &String) -> std::result::Result<T, String>
+pub(crate) fn parse_string_to_number<T>(val_s: &String) -> std::result::Result<T, String>
 where
     T: Num + std::str::FromStr + std::fmt::Debug,
     <T as Num>::FromStrRadixErr: std::fmt::Display,

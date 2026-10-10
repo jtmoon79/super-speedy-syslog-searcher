@@ -6,6 +6,9 @@
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
+
+use std::path::PathBuf;
+
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
@@ -770,6 +773,7 @@ fn test_print_summary_empty() {
         0,
         std::time::Instant::now(),
         0,
+        PathBuf::from("/tmp/test"),
         1,
         0,
         AllocatorChosen::System,

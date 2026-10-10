@@ -5,7 +5,7 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog
   About:
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Lastlog
       Thread stack  : 104448 (bytes)
   Printed:

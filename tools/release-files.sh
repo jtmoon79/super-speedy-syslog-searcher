@@ -37,11 +37,6 @@ mkdir -vp "${DIROUT}"
 
 ./tools/build-all-profiles.sh
 
-(
-    set -x
-    ./target/release/s4 --venv
-)
-
 # run first so interactive tools can be manually bypassed
 (
     export PROGRAMS_S4_LISTING=${TMPD-/tmp}/programs-s4-listing.tsv

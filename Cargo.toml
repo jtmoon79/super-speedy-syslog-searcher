@@ -46,7 +46,6 @@ categories = [
     "filesystem",
 ]
 readme = "README.md"
-# XXX: `version` should match src/python/s4_event_readers/pyproject.toml:project:version
 version = "0.10.83"  # PROJECT VERSION WIP
 edition = "2024"
 # MSRV: `rust-version` should match ./github/workflows/rust.yml:rust_msrv:msrv
@@ -99,6 +98,7 @@ cfg-if = "1.0.5"  # TODO: use `std::cfg_select!` at Rust 1.96
 chardet = "0.2.4"
 chrono = "0.4.45"
 clap = { version = "4.6.7", features = ["derive", "env"] }
+compact_str = { version = "0.10.0", features = ["zeroize"] }
 const_env = "0.1.5"
 const_format = { version = "0.2.36", features = ["assertcp", "rust_1_83"] }
 const-str.workspace = true
@@ -112,7 +112,6 @@ ere_automator_procmacro = { version = "=0.10.4", path = "subprojects/ere/ere_aut
 ere_datetimes_impl = { version = "=0.10.4", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
 evtx = { version = "0.12.3", features = ["multithreading"] }
 flate2 = "1.1.10"
-include_dir = "0.7.4"
 itertools = "0.15.0"
 jwalk = "0.9.0"
 kinded = "0.5.1"

@@ -259,12 +259,17 @@ Helpful `git log` command for generating changelog entries:
 
 ## Unreleased
 
+- Fix directory traversal rejecting compressed ODL files that are supported
+  when passed directly.
+
 - Replace Python OneDrive Log parsing with a native Rust `Read`-based ODL v2/v3
   parser and reader. Support internal gzip, original-location map/key discovery,
   stable chronological merging, native printing/summaries, and cancellation.
   ODL no longer requires a Python environment; ASL retains its Python reader.
   Remove the Python ODL module, entry point, license file, and exclusive
-  `construct`, `pycryptodome`, and `colorist` dependencies.
+  `construct`, `pycryptodome`, and `colorist` dependencies. A keystore `Key`
+  ending in two NUL characters keeps that UTF-32 marker; decrypted strings use
+  the key's UTF-16LE or UTF-32LE encoding instead of always UTF-16LE.
 
 [unreleased diff]
 
