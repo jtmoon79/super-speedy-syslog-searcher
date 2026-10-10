@@ -276,7 +276,37 @@ jobs:
         run: |
           set -eux
           cargo --version
-          cargo build --locked --verbose
+          # XXX: `cargo build` failing with return code 143
+          #      so aid investigations with memory usage monitoring
+          lscpu
+          # print memory usage during the build
+          /usr/bin/free --version
+          /usr/bin/free -ktw -s 10 &
+          PID_free=$!
+          while sleep 10; do
+            ps -eo comm:60,pid,ppid,rss,vsz --sort=-rss \
+              | head -n 12 \
+              | tr -s ' ' \
+              | column \
+                --table \
+                --separator ' ' \
+                --table-columns COMM,PID,PPID,RSS,VSZ \
+                --table-right PID,PPID,RSS,VSZ \
+                --table-noheadings
+          done &
+          PID_ps=$!
+          # cargo build with memory usage report
+          /usr/bin/time --version
+          env \
+            CARGO_PROFILE_DEV_CODEGEN_UNITS=1 \
+            CARGO_PROFILE_DEV_DEBUG=0 \
+            CARGO_PROFILE_DEV_INCREMENTAL=false \
+            CARGO_PROFILE_DEV_LTO=false \
+            /usr/bin/time --verbose -- \
+            cargo build --locked --jobs 1
+          sleep 11
+          kill $PID_free || true
+          kill $PID_ps || true
           cp -av ./target/debug/s4 ${S4D}
           chmod -v 0555 ${S4D}
           ${S4D} --version
