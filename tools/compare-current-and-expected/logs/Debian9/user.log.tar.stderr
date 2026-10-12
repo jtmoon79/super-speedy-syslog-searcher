@@ -6,7 +6,7 @@ File: ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1
       Archive subpath: ./logs/Debian9/user.log.1
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 2204672 (bytes)
   Printed:
       bytes         : 616
       flushes       : 3
@@ -94,5 +94,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

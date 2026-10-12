@@ -47,5 +47,6 @@ Channel receive err    : 0
 Threads spawned        : 0
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

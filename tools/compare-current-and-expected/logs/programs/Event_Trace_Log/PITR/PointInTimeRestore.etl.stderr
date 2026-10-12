@@ -5,7 +5,7 @@ File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 188416 (bytes)
+      Thread stack  : 2236416 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -74,5 +74,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

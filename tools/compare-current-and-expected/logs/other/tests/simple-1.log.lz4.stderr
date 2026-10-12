@@ -5,7 +5,7 @@ File: ./logs/other/tests/simple-1.log.lz4
   About:
       FileType      : TEXT UTF8/ASCII (LZMA4) (text log)
       LogMessageType: text log lines
-      Thread stack  : 177152 (bytes)
+      Thread stack  : 2225152 (bytes)
       Processing Err : file too small
   Printed:
       bytes         : 0
@@ -88,5 +88,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

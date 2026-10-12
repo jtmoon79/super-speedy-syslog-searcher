@@ -7,7 +7,7 @@ File: ./logs/OpenBSD7.2/x86_32/utmp.1
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
-      Thread stack  : 104448 (bytes)
+      Thread stack  : 2152448 (bytes)
   Printed:
       bytes         : 265
       flushes       : 2
@@ -79,5 +79,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

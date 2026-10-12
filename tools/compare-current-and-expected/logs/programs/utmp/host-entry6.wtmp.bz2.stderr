@@ -6,7 +6,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.bz2
       FileType      : UTMP/WTMP (BZIP2) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 181248 (bytes)
+      Thread stack  : 2229248 (bytes)
       Processing Err : streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.bz2"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.bz2"
 
@@ -57,5 +57,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

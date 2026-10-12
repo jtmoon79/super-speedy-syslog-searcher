@@ -5,7 +5,7 @@ File: ./logs/other/tests/invalid.journal
   About:
       FileType      : JOURNAL (systemd Journal)
       LogMessageType: systemd journal entry
-      Thread stack  : 131072 (bytes)
+      Thread stack  : 2179072 (bytes)
       Processing Err : sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
   Error: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
 
@@ -56,5 +56,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

@@ -5,7 +5,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
   About:
       FileType      : JOURNAL (BZIP2) (systemd Journal)
       LogMessageType: systemd journal entry
-      Thread stack  : 207872 (bytes)
+      Thread stack  : 2255872 (bytes)
   Printed:
       bytes         : 12966
       flushes       : 8
@@ -70,5 +70,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 1
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system
