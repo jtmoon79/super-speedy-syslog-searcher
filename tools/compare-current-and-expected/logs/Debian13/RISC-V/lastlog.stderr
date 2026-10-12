@@ -7,7 +7,7 @@ File: ./logs/Debian13/RISC-V/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
-      Thread stack  : 104448 (bytes)
+      Thread stack  : 2152448 (bytes)
   Printed:
       bytes         : 234
       flushes       : 2
@@ -79,5 +79,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

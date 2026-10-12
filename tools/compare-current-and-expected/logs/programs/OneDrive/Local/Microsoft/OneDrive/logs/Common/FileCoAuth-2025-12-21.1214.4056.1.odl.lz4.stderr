@@ -5,7 +5,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
   About:
       FileType      : ODL (LZMA4) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 601088 (bytes)
+      Thread stack  : 2649088 (bytes)
   Printed:
       Events        : 11
       Bytes         : 2744
@@ -78,5 +78,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 1
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

@@ -5,7 +5,7 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.lz4
   About:
       FileType      : TEXT UTF8/ASCII (LZMA4) (text log)
       LogMessageType: text log lines
-      Thread stack  : 177152 (bytes)
+      Thread stack  : 2225152 (bytes)
   Printed:
       bytes         : 1185
       flushes       : 6
@@ -92,5 +92,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

@@ -6,7 +6,7 @@ File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
       Archive subpath: dtf2-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 2204672 (bytes)
   Printed:
       bytes         : 375
       flushes       : 2
@@ -95,5 +95,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

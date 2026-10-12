@@ -6,7 +6,7 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       Archive subpath: dtf9c-12x2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 2204672 (bytes)
   Printed:
       bytes         : 2506
       flushes       : 23
@@ -94,5 +94,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

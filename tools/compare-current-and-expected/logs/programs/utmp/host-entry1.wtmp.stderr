@@ -6,7 +6,7 @@ File: ./logs/programs/utmp/host-entry1.wtmp
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 104448 (bytes)
+      Thread stack  : 2152448 (bytes)
       Processing Err : no valid fixed-structure records found in file
 
 Program summary:
@@ -56,5 +56,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

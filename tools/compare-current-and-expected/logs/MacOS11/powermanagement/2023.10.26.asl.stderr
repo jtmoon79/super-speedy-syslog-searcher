@@ -5,7 +5,7 @@ File: ./logs/MacOS11/powermanagement/2023.10.26.asl
   About:
       FileType      : ASL (Apple System Log)
       LogMessageType: ASL event (Apple System Log)
-      Thread stack  : 137216 (bytes)
+      Thread stack  : 2185216 (bytes)
   Printed:
       bytes         : 4969
       flushes       : 10
@@ -68,5 +68,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

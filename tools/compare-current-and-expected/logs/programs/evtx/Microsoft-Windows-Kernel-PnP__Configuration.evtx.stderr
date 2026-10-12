@@ -5,7 +5,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
       FileType      : EVTX (Windows XML EventLog)
       LogMessageType: EVTX entry (Windows XML EventLog)
-      Thread stack  : 131072 (bytes)
+      Thread stack  : 2179072 (bytes)
   Printed:
       bytes         : 1159282
       flushes       : 678
@@ -69,5 +69,6 @@ Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
 Temporary files created: 0
+Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system
