@@ -472,11 +472,12 @@ jobs:
           cargo test --locked
       - name: nextest (all)
         shell: bash
+        timeout-minutes: 60
         run: |
           set -eux
           cargo --version
           cargo nextest --version
-          export NEXTEST_TEST_THREADS=1
+          export NEXTEST_TEST_THREADS=4
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_macos:
