@@ -6,9 +6,22 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
-use std::time::SystemTime;
+use std::io::{
+    Cursor,
+    Seek,
+    SeekFrom,
+    Write,
+};
+use std::time::{
+    Duration,
+    SystemTime,
+};
 
-use ::chrono::Datelike;
+use ::chrono::{
+    Datelike,
+    Local,
+    TimeZone,
+};
 use ::lazy_static::lazy_static;
 use ::si_trace_print::stack::stack_offset_set;
 use ::si_trace_print::{
@@ -18,6 +31,13 @@ use ::si_trace_print::{
     defñ,
 };
 use ::test_case::test_case;
+use ::zip::{
+    CompressionMethod,
+    ExtraField,
+    ZipArchive,
+    ZipWriter,
+    write::SimpleFileOptions,
+};
 
 use crate::common::{
     Bytes,
@@ -26,6 +46,8 @@ use crate::common::{
     FileOffset,
     FileSz,
     FileType,
+    FileTypeArchive,
+    FileTypeTextEncoding,
     ResultFind,
     SUBPATH_SEP,
     parse_string_to_number,
@@ -232,17 +254,19 @@ fn test_new_BlockReader_no_file_permissions() {
 const BSZ: BlockSz = 64;
 
 /// XXX: assumes files are not more than two blocks in size `BSZ`
-#[test_case(&NTF_SYSLINE_2_PATH, FILETYPE_UTF8, BSZ, Some(*NTF_SYSLINE_2_SZ - BSZ), 1, *NTF_SYSLINE_2_SZ)]
-#[test_case(&NTF_1BYTE_FPATH, FILETYPE_UTF8, 1, None, 0, 1)]
-#[test_case(&NTF_8BYTE_FPATH, FILETYPE_UTF8, 8, None, 0, 8)]
-#[test_case(&NTF_BZ2_1BYTE_FPATH, FILETYPE_UTF8_BZ2, 1, None, 0, 1)]
-#[test_case(&NTF_GZ_1BYTE_FPATH, FILETYPE_UTF8_GZ, 1, None, 0, 1)]
-#[test_case(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 8, None, 0, 8)]
-#[test_case(&NTF_GZ_8BYTE_FPATH, FILETYPE_UTF8_GZ, 8, None, 0, 8)]
-#[test_case(&NTF_LZ4_8BYTE_FPATH, FILETYPE_UTF8_LZ4, 8, None, 0, 8)]
-#[test_case(&NTF_XZ_1BYTE_FPATH, FILETYPE_UTF8_XZ, 1, None, 0, 1)]
-#[test_case(&NTF_XZ_8BYTE_FPATH, FILETYPE_UTF8_XZ, 8, None, 0, 8)]
-#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, FILETYPE_UTF8_TAR, 1, None, 0, 1)]
+#[test_case(&NTF_SYSLINE_2_PATH, FILETYPE_UTF8, BSZ, Some(*NTF_SYSLINE_2_SZ - BSZ), 1, *NTF_SYSLINE_2_SZ; "sysline_2")]
+#[test_case(&NTF_1BYTE_FPATH, FILETYPE_UTF8, 1, None, 0, 1; "1byte")]
+#[test_case(&NTF_8BYTE_FPATH, FILETYPE_UTF8, 8, None, 0, 8; "8byte")]
+#[test_case(&NTF_BZ2_1BYTE_FPATH, FILETYPE_UTF8_BZ2, 1, None, 0, 1; "bz2_1byte")]
+#[test_case(&NTF_GZ_1BYTE_FPATH, FILETYPE_UTF8_GZ, 1, None, 0, 1; "gz_1byte")]
+#[test_case(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 8, None, 0, 8; "bz2_8byte")]
+#[test_case(&NTF_GZ_8BYTE_FPATH, FILETYPE_UTF8_GZ, 8, None, 0, 8; "gz_8byte")]
+#[test_case(&NTF_LZ4_8BYTE_FPATH, FILETYPE_UTF8_LZ4, 8, None, 0, 8; "lz4_8byte")]
+#[test_case(&NTF_XZ_1BYTE_FPATH, FILETYPE_UTF8_XZ, 1, None, 0, 1; "xz_1byte")]
+#[test_case(&NTF_XZ_8BYTE_FPATH, FILETYPE_UTF8_XZ, 8, None, 0, 8; "xz_8byte")]
+#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, FILETYPE_UTF8_TAR, 1, None, 0, 1; "tar_1byte")]
+#[test_case(&NTF_ZIP_1BYTE_FPATH, FILETYPE_UTF8_ZIP, 1, None, 0, 1; "zip_1byte")]
+#[test_case(&NTF_ZIP_8BYTE_FPATH, FILETYPE_UTF8_ZIP, 8, None, 0, 8; "zip_8byte")]
 fn test_BlockReader_helpers(
     path: &FPath,
     filetype: FileType,
@@ -1256,6 +1280,367 @@ fn test_tar_new_read_block_tar_8byte_99() {
     let mut checks = Checks::new();
     checks.push((99, (vec![], DONE)));
     test_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, FILETYPE_UTF8_TAR, BLOCKSZ_MIN, &offsets, &checks);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+// reading zip file tests
+
+const FILETYPE_UTF8_ZIP: FileType = FileType::Text {
+    archival_type: FileTypeArchive::Zip,
+    encoding_type: FileTypeTextEncoding::Utf8Ascii,
+};
+/// content of file `dtf2-2.log` but with `\r\n` line endings instead of `\n`
+const ZIP_DTF2_2_BYTES: &[u8] = b"2000-01-01T00:00:00 [dtf2-2]\r\n\r\n2000-01-01T00:00:01 [dtf2-2]a\r\n";
+
+/// helper function to create a temporary zip file with the given data
+fn zip_temp_file(data: &[u8]) -> (NamedTempFile, FPath) {
+    const ENTRY_PATH: &str = "fileA.txt";
+
+    let mut builder = ZipWriter::new(Cursor::new(Vec::new()));
+    builder.start_file(
+        ENTRY_PATH,
+        SimpleFileOptions::default().compression_method(CompressionMethod::Stored),
+    ).unwrap();
+    builder.write_all(data).unwrap();
+    let zip_data = builder.finish().unwrap().into_inner();
+    let ntf = create_temp_file_bytes_with_suffix(&zip_data, &String::from("-streamed.zip"));
+    let path = format!("{}{}{}", ntf_fpath(&ntf), SUBPATH_SEP, ENTRY_PATH);
+
+    (ntf, path)
+}
+
+lazy_static! {
+    static ref NTF_ZIP_1BYTE: (NamedTempFile, FPath) = zip_temp_file(BYTES_A.as_slice());
+    static ref NTF_ZIP_1BYTE_FPATH: FPath = NTF_ZIP_1BYTE.1.clone();
+    static ref NTF_ZIP_8BYTE: (NamedTempFile, FPath) = zip_temp_file(BYTES_ABCDEFGH.as_slice());
+    static ref NTF_ZIP_8BYTE_FPATH: FPath = NTF_ZIP_8BYTE.1.clone();
+}
+
+fn assert_zip_mtime(path: &FPath, expected: SystemTime) {
+    let mut br = new_BlockReader(path, FILETYPE_UTF8_ZIP, BSZ);
+
+    assert_eq!(br.mtime(), expected, "mtime for {path:?}");
+    assert_eq!(br.count_bytes(), 0);
+    assert_eq!(br.count_blocks_processed(), 0);
+    assert_eq!(br.filesz(), ZIP_DTF2_2_BYTES.len() as FileSz);
+    match br.read_block(0) {
+        ResultFindReadBlock::Found(blockp) => assert_eq!(blockp.as_slice(), ZIP_DTF2_2_BYTES),
+        result => panic!("read_block(0) returned {result:?}"),
+    }
+    assert_eq!(br.mtime(), expected, "mtime after reading {path:?}");
+    assert_eq!(br.count_bytes(), ZIP_DTF2_2_BYTES.len() as Count);
+    assert!(br.read_block(1).is_done());
+}
+
+// All three fixtures have the same whole-second mtime; their access/creation fields differ.
+#[test_case("100ns", 0, 133_436_317_866_708_256; "creation_time_100ns")]
+#[test_case("None", 0, 0; "no_access_or_creation_time")]
+#[test_case("OnlyAccessTime", 134_358_962_959_828_588, 0; "access_time_not_used_as_mtime")]
+fn test_zip_mtime_supplied_timestamps(
+    suffix: &str,
+    atime: u64,
+    ctime: u64,
+) {
+    let archive_path = format!("logs/other/test_cases/dtf2-2.Deflate.timestamp{suffix}.zip");
+    let mut archive = ZipArchive::new(std::fs::File::open(&archive_path).unwrap()).unwrap();
+    assert_eq!(archive.len(), 1);
+    let entry = archive.by_index(0).unwrap();
+    assert_eq!(entry.name().unwrap().as_ref(), "dtf2-2.log");
+    assert_eq!(entry.compression(), CompressionMethod::Deflated);
+    let ntfs_times = entry.extra_data_fields().find_map(|field| match field {
+        ExtraField::Ntfs(time) => Some((time.mtime(), time.atime(), time.ctime())),
+        _ => None,
+    });
+    assert_eq!(ntfs_times, Some((125_911_872_010_000_000, atime, ctime)));
+
+    let path = format!("{archive_path}{SUBPATH_SEP}dtf2-2.log");
+    assert_zip_mtime(&path, SystemTime::UNIX_EPOCH + Duration::new(946_713_601, 0));
+}
+
+fn zip_timestamp_temp_file(
+    suffix: &str,
+    mtime: u64,
+    clear_dos_time: bool,
+) -> (NamedTempFile, FPath) {
+    const CENTRAL_HEADER_SZ: usize = 46;
+    const NTFS_HEADER: &[u8] = b"\x0a\x00\x20\x00\x00\x00\x00\x00\x01\x00\x18\x00";
+
+    let archive_path = format!("logs/other/test_cases/dtf2-2.Deflate.timestamp{suffix}.zip");
+    let mut data = std::fs::read(archive_path).unwrap();
+    let (local_header, central_header, extra_start) = {
+        let mut archive = ZipArchive::new(Cursor::new(&data)).unwrap();
+        assert_eq!(archive.len(), 1);
+        let entry = archive.by_index(0).unwrap();
+        let local_header = entry.header_start() as usize;
+        let central_header = entry.central_header_start() as usize;
+        let extra_start = central_header + CENTRAL_HEADER_SZ + entry.name_raw().len();
+        (local_header, central_header, extra_start)
+    };
+    assert_eq!(&data[extra_start..extra_start + NTFS_HEADER.len()], NTFS_HEADER);
+    // The NTFS modification FILETIME follows its 12-byte extra-field header.
+    let mtime_start = extra_start + NTFS_HEADER.len();
+    data[mtime_start..mtime_start + 8].copy_from_slice(&mtime.to_le_bytes());
+    if clear_dos_time {
+        data[local_header + 10..local_header + 14].fill(0);
+        data[central_header + 12..central_header + 16].fill(0);
+    }
+    let ntf = create_temp_file_bytes_with_suffix(&data, &String::from("-timestamp.zip"));
+    filetime::set_file_mtime(ntf.path(), filetime::FileTime::from_unix_time(1_600_000_000, 0)).unwrap();
+    let path = format!("{}{}dtf2-2.log", ntf_fpath(&ntf), SUBPATH_SEP);
+
+    (ntf, path)
+}
+
+#[test]
+fn test_zip_mtime_preserves_100ns_precision() {
+    let (_ntf, path) = zip_timestamp_temp_file("100ns", 125_911_872_011_234_567, false);
+    assert_zip_mtime(&path, SystemTime::UNIX_EPOCH + Duration::new(946_713_601, 123_456_700));
+}
+
+#[test_case(false; "local_dos_time")]
+#[test_case(true; "archive_filesystem_time")]
+fn test_zip_mtime_missing_modification_time_fallback(clear_dos_time: bool) {
+    let (ntf, path) = zip_timestamp_temp_file("OnlyAccessTime", 0, clear_dos_time);
+    let mut archive = ZipArchive::new(ntf.reopen().unwrap()).unwrap();
+    let entry = archive.by_index(0).unwrap();
+    let ntfs_times = entry.extra_data_fields().find_map(|field| match field {
+        ExtraField::Ntfs(time) => Some((time.mtime(), time.atime())),
+        _ => None,
+    });
+    assert_eq!(ntfs_times, Some((0, 134_358_962_959_828_588)));
+    let archive_mtime = ntf.as_file().metadata().unwrap().modified().unwrap();
+    assert_eq!(archive_mtime, SystemTime::UNIX_EPOCH + Duration::from_secs(1_600_000_000));
+    let expected = if clear_dos_time {
+        archive_mtime
+    } else {
+        SystemTime::from(Local.with_ymd_and_hms(2000, 1, 1, 1, 0, 2).single().unwrap())
+    };
+    assert_zip_mtime(&path, expected);
+}
+
+#[test]
+fn test_zip_new_zip_does_not_read_entry_data() {
+    let br = new_BlockReader(&NTF_ZIP_8BYTE_FPATH, FILETYPE_UTF8_ZIP, BLOCKSZ_MIN);
+
+    assert_eq!(br.filesz(), 8);
+    assert_eq!(br.count_bytes(), 0);
+    assert_eq!(br.count_blocks_processed(), 0);
+    assert!(br.is_streamed_file());
+    assert!(br.get_block(&0).is_none());
+}
+
+#[test]
+fn test_zip_read_block_zip_reads_only_requested_block() {
+    let mut br = new_BlockReader(&NTF_ZIP_8BYTE_FPATH, FILETYPE_UTF8_ZIP, BLOCKSZ_MIN);
+
+    match br.read_block(0) {
+        ResultFindReadBlock::Found(blockp) => assert_eq!(blockp.as_slice(), BYTES_ABCD.as_slice()),
+        result => panic!("read_block(0) returned {result:?}"),
+    }
+    assert_eq!(br.count_bytes(), BLOCKSZ_MIN);
+    assert_eq!(br.count_blocks_processed(), 1);
+    assert!(br.get_block(&1).is_none());
+}
+
+#[test]
+fn test_zip_read_block_zip_forward_request_streams_intermediate_blocks() {
+    let data: Vec<u8> = (0..40).collect();
+    let (_ntf, path) = zip_temp_file(&data);
+    let mut br = new_BlockReader(&path, FILETYPE_UTF8_ZIP, BLOCKSZ_MIN);
+
+    match br.read_block(5) {
+        ResultFindReadBlock::Found(blockp) => assert_eq!(blockp.as_slice(), &data[20..24]),
+        result => panic!("read_block(5) returned {result:?}"),
+    }
+    assert_eq!(br.count_bytes(), 24);
+    assert_eq!(br.count_blocks_processed(), 6);
+    for blockoffset in 0..5 {
+        assert!(br.get_block(&blockoffset).is_none(), "block {blockoffset} was not dropped");
+    }
+    assert_eq!(br.get_block(&5).unwrap().as_slice(), &data[20..24]);
+}
+
+#[test]
+fn test_zip_read_block_rejects_dropped_block() {
+    let mut br = new_BlockReader(&NTF_ZIP_8BYTE_FPATH, FILETYPE_UTF8_ZIP, BLOCKSZ_MIN);
+
+    assert!(br.read_block(0).is_found());
+    assert!(br.read_block(1).is_found());
+    assert!(br.get_block(&0).is_none());
+    match br.read_block(0) {
+        ResultFindReadBlock::Err(error) => assert_eq!(error.kind(), std::io::ErrorKind::InvalidInput),
+        result => panic!("read_block(0) returned {result:?}"),
+    }
+    assert_eq!(br.count_blocks_processed(), 2);
+}
+
+#[test]
+fn test_zip_drop_reader_with_pending_output() {
+    let data: Vec<u8> = (0..64).collect();
+    let (_ntf, path) = zip_temp_file(&data);
+    let mut br = new_BlockReader(&path, FILETYPE_UTF8_ZIP, BLOCKSZ_MIN);
+
+    assert!(br.read_block(0).is_found());
+    drop(br);
+}
+
+#[test]
+fn test_zip_read_block_zip_reports_truncated_entry() {
+    let (ntf, path) = zip_temp_file(BYTES_ABCDEFGH.as_slice());
+    let mut archive = ZipArchive::new(ntf.reopen().unwrap()).unwrap();
+    let data_start = archive.by_index(0).unwrap().data_start().unwrap();
+    drop(archive);
+    let mut br = new_BlockReader(&path, FILETYPE_UTF8_ZIP, BLOCKSZ_MIN);
+    ntf.as_file().set_len(data_start + BLOCKSZ_MIN).unwrap();
+
+    assert!(br.read_block(0).is_found());
+    match br.read_block(1) {
+        ResultFindReadBlock::Err(error) => {
+            assert_eq!(error.kind(), std::io::ErrorKind::InvalidData);
+            assert!(error.to_string().contains("checksum"), "{error}");
+        }
+        result => panic!("read_block(1) returned {result:?}"),
+    }
+    assert!(br.get_block(&1).is_none());
+}
+
+#[test]
+fn test_zip_read_block_zip_reports_terminal_checksum_error() {
+    let (mut ntf, path) = zip_temp_file(BYTES_ABCDEFGH.as_slice());
+    let mut archive = ZipArchive::new(ntf.reopen().unwrap()).unwrap();
+    let data_start = archive.by_index(0).unwrap().data_start().unwrap();
+    drop(archive);
+    let mut br = new_BlockReader(&path, FILETYPE_UTF8_ZIP, BLOCKSZ_MIN);
+    ntf.as_file_mut().seek(SeekFrom::Start(data_start + BLOCKSZ_MIN)).unwrap();
+    ntf.as_file_mut().write_all(b"X").unwrap();
+
+    assert!(br.read_block(0).is_found());
+    match br.read_block(1) {
+        ResultFindReadBlock::Err(error) => {
+            assert_eq!(error.kind(), std::io::ErrorKind::InvalidData);
+            assert!(error.to_string().contains("checksum"), "{error}");
+        }
+        result => panic!("read_block(1) returned {result:?}"),
+    }
+    assert!(br.get_block(&1).is_none());
+    assert_eq!(br.count_blocks_processed(), 1);
+}
+
+#[test_case(b"", BLOCKSZ_MIN, &[0]; "0byte_0")]
+#[test_case(b"A", BLOCKSZ_MIN, &[0, 1]; "1byte_0_done")]
+#[test_case(b"ABC", BLOCKSZ_MIN, &[0, 0, 1]; "3byte_0_repeat_done")]
+#[test_case(b"ABCDEFGH", BLOCKSZ_MIN, &[0]; "8byte_0")]
+#[test_case(b"ABCDEFGH", BLOCKSZ_MIN, &[0, 1]; "8byte_0_1")]
+#[test_case(b"ABCDEFGH", BLOCKSZ_MIN, &[0, 1, 0, 1]; "8byte_0_1_0_1")]
+#[test_case(b"ABCDEFGH", BLOCKSZ_MIN, &[1, 0]; "8byte_1_0")]
+#[test_case(b"ABCDEFGH", BLOCKSZ_MIN, &[1]; "8byte_1")]
+#[test_case(b"ABCDEFGH", BLOCKSZ_MIN, &[0, 99]; "8byte_99")]
+#[test_case(b"ABCDEFGH", BLOCKSZ_MIN, &[0, 1, 2, 1]; "8byte_done_repeat")]
+#[test_case(b"ABCDEFGH", 16, &[0, 0, 1, 0, 1]; "8byte_bsz16")]
+fn test_zip_new_read_block(
+    data: &[u8],
+    blocksz: BlockSz,
+    offsets: &[BlockOffset],
+) {
+    let (_ntf, path) = zip_temp_file(data);
+    let checks: Checks = offsets.iter().map(|offset| {
+        let begin = (*offset * blocksz) as usize;
+        if begin >= data.len() {
+            (*offset, (vec![], DONE))
+        } else {
+            let end = std::cmp::min(begin + blocksz as usize, data.len());
+            (*offset, (data[begin..end].to_vec(), FOUND))
+        }
+    }).collect();
+    test_BlockReader(&path, FILETYPE_UTF8_ZIP, blocksz, offsets, &checks);
+}
+
+#[test_case("Deflate", CompressionMethod::Deflated; "deflate")]
+#[test_case("Deflate64", CompressionMethod::Deflate64; "deflate64")]
+#[test_case("PPMd", CompressionMethod::Ppmd; "ppmd")]
+// The bzip2-named fixture uses Stored compression, not BZip2.
+#[test_case("bzip2", CompressionMethod::Stored; "stored_bzip2_named_fixture")]
+#[test_case("lzma", CompressionMethod::Lzma; "lzma")]
+fn test_zip_read_block_compression_methods(
+    suffix: &str,
+    method: CompressionMethod,
+) {
+    let archive_path = format!("logs/other/test_cases/dtf2-2.log.{suffix}.zip");
+    let archive = ZipArchive::new(std::fs::File::open(&archive_path).unwrap()).unwrap();
+    assert_eq!(archive.by_index_data(0).unwrap().compression(), method);
+    let path = format!("{archive_path}{SUBPATH_SEP}dtf2-2.log");
+
+    // These archives preserve CRLF, unlike the LF originals beside them.
+    for blocksz in [BLOCKSZ_MIN, 8, BSZ] {
+        let mut br = new_BlockReader(&path, FILETYPE_UTF8_ZIP, blocksz);
+        br.disable_drop_data();
+        assert_eq!(br.filesz(), ZIP_DTF2_2_BYTES.len() as FileSz);
+        for (offset, expected) in ZIP_DTF2_2_BYTES.chunks(blocksz as usize).enumerate() {
+            match br.read_block(offset as BlockOffset) {
+                ResultFindReadBlock::Found(blockp) => assert_eq!(blockp.as_slice(), expected, "{suffix}, blocksz {blocksz}, block {offset}"),
+                result => panic!("{suffix}, blocksz {blocksz}: read_block({offset}) returned {result:?}"),
+            }
+        }
+        let blockn = ZIP_DTF2_2_BYTES.len().div_ceil(blocksz as usize) as BlockOffset;
+        assert_eq!(br.count_bytes(), ZIP_DTF2_2_BYTES.len() as Count);
+        assert_eq!(br.count_blocks_processed(), blockn);
+        assert!(br.read_block(blockn).is_done());
+        match br.read_block(0) {
+            ResultFindReadBlock::Found(blockp) => assert_eq!(blockp.as_slice(), &ZIP_DTF2_2_BYTES[..std::cmp::min(blocksz as usize, ZIP_DTF2_2_BYTES.len())]),
+            result => panic!("retained first block returned {result:?}"),
+        }
+        assert_eq!(br.count_bytes(), ZIP_DTF2_2_BYTES.len() as Count);
+    }
+}
+
+#[test]
+fn test_zip_new_rejects_encrypted_member() {
+    let path = format!("logs/other/test_cases/dtf2-2.log.Deflate.encrypted.zip{SUBPATH_SEP}dtf2-2.log");
+    match BlockReader::new(path_id_generator(), path, FILETYPE_UTF8_ZIP, BLOCKSZ_MIN) {
+        Ok(_) => panic!("BlockReader::new accepted an encrypted ZIP member"),
+        Err(error) => assert_eq!(error.kind(), std::io::ErrorKind::Unsupported),
+    }
+}
+
+#[test_case(BLOCKSZ_MIN; "bsz4")]
+#[test_case(BSZ; "bsz64")]
+#[test_case(128; "bsz128")]
+fn test_zip_read_block_multiple_members(blocksz: BlockSz) {
+    const MEMBERS: [(&str, &[u8]); 3] = [
+        ("dtf3-1.log", b"2000-01-01 00:00:00 [dtf3-1]\r\n"),
+        ("dtf3-2a.log", b"2000-01-01 00:00:00.000 [dtf3-2a]\r\n2000-01-01 00:00:00.001 [dtf3-2a]a"),
+        ("dtf3-2b.log", b"2000-01-01 00:00:00.002 [dtf3-2b]\r\n\r\n2000-01-01 00:00:00.003 [dtf3-2b]a\r\na"),
+    ];
+    let archive = ZipArchive::new(std::fs::File::open("logs/other/test_cases/dtf3.zip").unwrap()).unwrap();
+    assert_eq!(archive.len(), MEMBERS.len());
+    let mut readers: Vec<BlockReader> = MEMBERS.iter().map(|(name, expected)| {
+        let path = format!("logs/other/test_cases/dtf3.zip{SUBPATH_SEP}{name}");
+        let br = new_BlockReader(&path, FILETYPE_UTF8_ZIP, blocksz);
+        assert_eq!(br.path(), &path);
+        assert_eq!(br.filesz(), expected.len() as FileSz);
+        br
+    }).collect();
+    let blockn_max = MEMBERS.iter().map(|(_, expected)| expected.len().div_ceil(blocksz as usize)).max().unwrap();
+
+    for offset in 0..=blockn_max {
+        for (br, (name, expected)) in readers.iter_mut().zip(MEMBERS) {
+            let begin = offset * blocksz as usize;
+            if begin >= expected.len() {
+                assert!(br.read_block(offset as BlockOffset).is_done(), "{name}, block {offset}");
+            } else {
+                let end = std::cmp::min(begin + blocksz as usize, expected.len());
+                match br.read_block(offset as BlockOffset) {
+                    ResultFindReadBlock::Found(blockp) => assert_eq!(blockp.as_slice(), &expected[begin..end], "{name}, block {offset}"),
+                    result => panic!("{name}: read_block({offset}) returned {result:?}"),
+                }
+            }
+        }
+    }
+    for (br, (_, expected)) in readers.iter().zip(MEMBERS) {
+        assert_eq!(br.count_bytes(), expected.len() as Count);
+        assert_eq!(br.count_blocks_processed(), expected.len().div_ceil(blocksz as usize) as Count);
+    }
 }
 
 // -------------------------------------------------------------------------------------------------
