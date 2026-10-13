@@ -30,7 +30,7 @@ pub mod decompress {
     pub use crate::subprojects::lzma_rs::decode::options::*;
 
     //#[cfg(feature = "raw_decoder")]
-    #[cfg_attr(docsrs, doc(cfg(raw_decoder)))]
+    //#[cfg_attr(docsrs, doc(cfg(raw_decoder)))] // XXX: experimental
     pub mod raw {
         //! Raw decoding primitives for LZMA/LZMA2 streams.
         pub use crate::subprojects::lzma_rs::decode::lzma::{LzmaDecoder, LzmaParams, LzmaProperties};
@@ -38,7 +38,7 @@ pub mod decompress {
     }
 
     //#[cfg(feature = "stream")]
-    #[cfg_attr(docsrs, doc(cfg(stream)))]
+    //#[cfg_attr(docsrs, doc(cfg(stream)))] // XXX: experimental
     pub use crate::subprojects::lzma_rs::decode::stream::Stream;
 }
 

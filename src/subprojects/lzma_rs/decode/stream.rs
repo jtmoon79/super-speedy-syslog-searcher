@@ -62,7 +62,7 @@ where
 
 /// Lzma decompressor that can process multiple chunks of data using the
 /// [`io::Write`] interface.
-#[cfg_attr(docsrs, doc(cfg(stream)))]
+//#[cfg_attr(docsrs, doc(cfg(stream)))] // XXX: experimental
 pub struct Stream<W>
 where
     W: Write,
