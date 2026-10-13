@@ -1242,11 +1242,11 @@ fn print_file_about(
         de_err!("Unable to canonicalize path {:?}", path1);
     }
     if !subpath.is_empty() {
-        eprintln!("{}Archive subpath: {}", OPT_SUMMARY_PRINT_INDENT2, subpath);
+        eprintln!("{}Subpath     : {}", OPT_SUMMARY_PRINT_INDENT2, subpath);
     }
     if let Some(summary) = summary_opt {
         if let Some(path_ntf) = &summary.path_ntf {
-            eprintln!("{}Temporary path : {}", OPT_SUMMARY_PRINT_INDENT2, path_ntf);
+            eprintln!("{}Temporary path: {}", OPT_SUMMARY_PRINT_INDENT2, path_ntf);
         }
     }
     // print other facts
@@ -1337,7 +1337,7 @@ fn print_file_about(
     // print `FileProcessingResult` if it was not okay
     if let Some(result) = file_processing_result {
         if !result.is_ok() {
-            eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
+            eprint!("{}Processing Err: ", OPT_SUMMARY_PRINT_INDENT2);
             let indent: String = OPT_SUMMARY_PRINT_INDENT2.to_string() + "                 ";
             // if the error message has newlines then indent it
             let s: String = format!("{}", result);
