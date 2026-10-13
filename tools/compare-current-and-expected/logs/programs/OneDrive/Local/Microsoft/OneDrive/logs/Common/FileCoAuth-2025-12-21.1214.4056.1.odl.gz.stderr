@@ -5,7 +5,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
   About:
       FileType      : ODL (GZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 601088 (bytes)
+      Thread stack  : 575488 (bytes)
   Printed:
       Events        : 11
       Bytes         : 2733

@@ -6,7 +6,7 @@ File: ./logs/Ubuntu22/dmesg-+0400
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
       Thread stack  : 100352 (bytes)
-      Processing Err : failed to calculate systemtime at uptime zero
+      Processing Err: failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
       flushes       : 0
