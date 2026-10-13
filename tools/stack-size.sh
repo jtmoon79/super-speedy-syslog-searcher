@@ -165,13 +165,19 @@ for file in "$@"; do
 done
 echo >&2
 
+# quick check that all files are valid
 for file in "$@"; do
     if [[ ! -f "$file" ]]; then
         echo "Path not a file $file" >&2
         exit 1
     fi
+    if [[ ! -r "$file" ]]; then
+        echo "Path not readable $file" >&2
+        exit 1
+    fi
 done
 
+# for each file, check stack size cutoff
 for file in "$@"; do
     declare -i stack_size=$STACK_SIZE_START
     declare -i rc_run=1
