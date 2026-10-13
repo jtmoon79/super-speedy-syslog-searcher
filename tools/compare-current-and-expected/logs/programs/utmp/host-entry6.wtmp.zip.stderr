@@ -1,43 +1,37 @@
 
 Files:
 
-File: ./logs/programs/utmp/host-entry6.wtmp.zip
+File: ./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
-      Processing Err : no syslog lines found in file
+      Archive subpath: host-entry6.wtmp
+      FileType      : UTMP/WTMP (ZIP) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+      FixedStructTyp: Utmp
+      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      specific type : Fs_Linux_x86_Utmpx
+      Thread stack  : 237568 (bytes)
   Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
+      bytes         : 1643
+      flushes       : 6
+      Entries       : 6
   Processed:
-      File size     : 366 (0x16E) (bytes)
-      bytes         : 256 (0x100)
-      bytes total   : 366 (0x16E)
+      file size archive   : 366 (0x16E) (bytes)
+      file size unarchived: 2304 (0x900) (bytes)
+      bytes         : 2304 (0x900)
+      bytes total   : 2304 (0x900)
       Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 2 (512 bytes)
-      Lines         : 0
-      Line longest  : 0 (bytes)
-      Line parts    : 2
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
+      Blocks        : 9
+      Blocks total  : 9 (2304 bytes)
+      Entries       : 6
+      Entry size    : 384 (bytes)
+      Entry hi-score: 135
+      first Entry   : @0
+      Entry high    : 5
+      peak map size : 6
+      Datetime first: 2023-02-24 16:40:27 +08:00 (2023-02-24 08:40:27.123636 +00:00)
+      Datetime last : 2023-02-24 16:52:26 +08:00 (2023-02-24 08:52:26.987104 +00:00)
       out of order  : 0
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 0, miss 0
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
 
 Program summary:
@@ -45,15 +39,15 @@ Program summary:
 Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
-Files printed          : 0
-Printed bytes          : 0
-Printed flushes        : 0
+Files printed          : 1
+Printed bytes          : 1667
+Printed flushes        : 12
 Printed Lines          : 0
 Printed Syslines       : 0
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed FixedStruct    : 0
+Printed FixedStruct    : 6
 Printed Journal events : 0
 Printed ODL events     : 0
 Line Maximum                   : 393209
@@ -69,20 +63,20 @@ ODL event largest processed    : 0
 ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
-Managed request open   : 1
+Managed request open   : 2
 Managed request read   : 0
 Managed write calls    : 0
-Managed seek calls     : 1
+Managed seek calls     : 10
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
 Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first :
-Datetime printed last  :
+Datetime printed first : 2023-02-24 16:40:27 +08:00 (2023-02-24 08:40:27.123636 +00:00)
+Datetime printed last  : 2023-02-24 16:52:26 +08:00 (2023-02-24 08:52:26.987104 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel receive ok     : 2
+Channel receive ok     : 8
 Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0

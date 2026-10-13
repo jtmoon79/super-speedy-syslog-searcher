@@ -6,7 +6,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
   About:
       FileType      : ODLGZ (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 2572288 (bytes)
+      Thread stack  : 524288 (bytes)
   Printed:
       Events        : 615
       Bytes         : 197966

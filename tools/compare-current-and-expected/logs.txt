@@ -175,6 +175,8 @@
 ./logs/other/tests/dtf5-2c.log
 ./logs/other/tests/dtf5-3-LF-CR.log
 ./logs/other/tests/dtf5-3-r-n.log
+./logs/other/tests/dtf5.tar
+./logs/other/tests/dtf5.zip
 ./logs/other/tests/dtf5-6a.log
 ./logs/other/tests/dtf5-6a.log.1
 ./logs/other/tests/dtf5-6a.log.gz

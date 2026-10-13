@@ -1,45 +1,50 @@
 
 Files:
 
-File: ./logs/Debian9/user.log.zip
+File: ./logs/Debian9/user.log.zip|logs/Debian9/user.log.1
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
+      Archive subpath: logs/Debian9/user.log.1
+      FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
-      Processing Err : no syslog lines found in file
+      Thread stack  : 233472 (bytes)
   Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-      Datetime first: None Found
-      Datetime last : None Found
+      bytes         : 610
+      flushes       : 3
+      Lines         : 3
+      Syslines      : 3
+      Datetime first: 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
+      Datetime last : 2022-02-06 03:17:39 +08:00 (2022-02-05 19:17:39.000000 +00:00)
   Processed:
-      File size     : 427 (0x1AB) (bytes)
-      bytes         : 256 (0x100)
-      bytes total   : 427 (0x1AB)
+      file size archive   : 427 (0x1AB) (bytes)
+      file size unarchived: 364 (0x16C) (bytes)
+      bytes         : 364 (0x16C)
+      bytes total   : 364 (0x16C)
       Block size    : 256 (0x100)
-      Blocks        : 1
+      Blocks        : 2
       Blocks total  : 2 (512 bytes)
-      Lines         : 1
-      Line longest  : 213 (bytes)
-      Line parts    : 2
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
+      Lines         : 3
+      Line longest  : 180 (bytes)
+      Line parts    : 4
+      Syslines      : 4
+      Sysline longest: 180 (bytes)
+      Syslines high : 3
+      Datetime first: 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
+      Datetime last : 2022-02-06 03:17:39 +08:00 (2022-02-05 19:17:39.000000 +00:00)
       out of order  : 0
+  Parsers:
+                   datetime format missing year; estimated year of last sysline 2022
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 188, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  21, miss   0, 100.0%, largest skipped 212
-      optimize:SyslineReader::ezcheck12d2                          : hit  70, miss  97, 41.9%, largest skipped 49
-      process: regex captures                                      : hit   0, miss  97
+      storage: LineReader::find_line() lines                       : hit  1, miss  7, 12.5%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  6, 25.0%, put  6
+      copying: SyslineReader::get_boxptrs()                        : sgl 37, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  2, miss  4, 33.3%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  1, miss  4, 20.0%, put  4
+      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  7,  0.0%, put  7
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  8,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 29,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  5, miss 32
   Processing Drops:
 
 Program summary:
@@ -47,11 +52,11 @@ Program summary:
 Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
-Files printed          : 0
-Printed bytes          : 0
-Printed flushes        : 0
-Printed Lines          : 0
-Printed Syslines       : 0
+Files printed          : 1
+Printed bytes          : 622
+Printed flushes        : 6
+Printed Lines          : 3
+Printed Syslines       : 3
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
@@ -59,8 +64,8 @@ Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
 Line Maximum                   : 393209
-Line longest                   : 213
-Sysline longest                : 0
+Line longest                   : 180
+Sysline longest                : 180
 ETL event largest processed    : 0
 ETL event largest accepted     : 0
 EVTX event largest processed   : 0
@@ -71,20 +76,20 @@ ODL event largest processed    : 0
 ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
-Managed request open   : 1
+Managed request open   : 2
 Managed request read   : 0
 Managed write calls    : 0
-Managed seek calls     : 1
+Managed seek calls     : 10
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
 Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first :
-Datetime printed last  :
+Datetime printed first : 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
+Datetime printed last  : 2022-02-06 03:17:39 +08:00 (2022-02-05 19:17:39.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel receive ok     : 2
+Channel receive ok     : 5
 Channel receive err    : 0
 Threads spawned        : 1
 Thread spawn errors    : 0
