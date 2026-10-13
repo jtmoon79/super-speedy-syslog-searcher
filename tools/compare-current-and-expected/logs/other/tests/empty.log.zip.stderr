@@ -1,52 +1,10 @@
-
-Files:
-
-File: ./logs/other/tests/empty.log.zip
-  About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
-      Processing Err : no syslog lines found in file
-  Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-      Datetime first: None Found
-      Datetime last : None Found
-  Processed:
-      File size     : 152 (0x98) (bytes)
-      bytes         : 152 (0x98)
-      bytes total   : 152 (0x98)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 1 (256 bytes)
-      Lines         : 4
-      Line longest  : 57 (bytes)
-      Line parts    : 4
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
-      out of order  : 0
-  Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 564, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  63, miss   0, 100.0%, largest skipped 56
-      optimize:SyslineReader::ezcheck12d2                          : hit 501, miss   0, 100.0%, largest skipped 56
-      process: regex captures                                      : hit   0, miss   0
-  Processing Drops:
+File: ./logs/other/tests/empty.log.zip|empty.log (empty file) TEXT
 
 Program summary:
 
 Paths considered       : 1
-Paths not processed    : 0
-Files processed        : 1
+Paths not processed    : 1
+Files processed        : 0
 Files printed          : 0
 Printed bytes          : 0
 Printed flushes        : 0
@@ -59,7 +17,7 @@ Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
 Line Maximum                   : 393209
-Line longest                   : 57
+Line longest                   : 0
 Sysline longest                : 0
 ETL event largest processed    : 0
 ETL event largest accepted     : 0
@@ -71,11 +29,11 @@ ODL event largest processed    : 0
 ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
-Managed request open   : 1
+Managed request open   : 0
 Managed request read   : 0
 Managed write calls    : 0
-Managed seek calls     : 1
-Managed metadata calls : 1
+Managed seek calls     : 0
+Managed metadata calls : 0
 Managed open errors    : 0
 Managed evict fails    : 0
 Regex patterns known   : 190
@@ -84,9 +42,9 @@ Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 
 Datetime printed first :
 Datetime printed last  :
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel receive ok     : 2
+Channel receive ok     : 0
 Channel receive err    : 0
-Threads spawned        : 1
+Threads spawned        : 0
 Thread spawn errors    : 0
 Temporary files created: 0
 Temporary directory    : /tmp

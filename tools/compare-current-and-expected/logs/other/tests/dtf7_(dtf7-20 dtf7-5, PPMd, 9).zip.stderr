@@ -1,57 +1,106 @@
 
 Files:
 
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
+      Archive subpath: dtf7-20-LEVELS.log
+      FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 2148352 (bytes)
-      Processing Err : no syslog lines found in file
+      Thread stack  : 233472 (bytes)
   Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-      Datetime first: None Found
-      Datetime last : None Found
+      bytes         : 3320
+      flushes       : 20
+      Lines         : 20
+      Syslines      : 20
+      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
   Processed:
-      File size     : 608 (0x260) (bytes)
-      bytes         : 256 (0x100)
-      bytes total   : 608 (0x260)
+      file size archive   : 608 (0x260) (bytes)
+      file size unarchived: 1260 (0x4EC) (bytes)
+      bytes         : 1260 (0x4EC)
+      bytes total   : 1260 (0x4EC)
       Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 3 (768 bytes)
-      Lines         : 1
-      Line longest  : 11 (bytes)
-      Line parts    : 2
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
+      Blocks        : 5
+      Blocks total  : 5 (1280 bytes)
+      Lines         : 20
+      Line longest  : 73 (bytes)
+      Line parts    : 24
+      Syslines      : 20
+      Sysline longest: 73 (bytes)
+      Syslines high : 15
+      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
       out of order  : 0
+  Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 188, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  20, miss  20, 50.0%, put  20
+      copying: SyslineReader::get_boxptrs()                        : sgl 152, dbl    4, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  21, miss   0, 100.0%, largest skipped 10
-      optimize:SyslineReader::ezcheck12d2                          : hit 167, miss   0, 100.0%, largest skipped 10
-      process: regex captures                                      : hit   0, miss   0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 143,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  20, miss 136
+  Processing Drops:
+
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-5-LEVELS.log
+  About:
+      Archive subpath: dtf7-5-LEVELS.log
+      FileType      : TEXT UTF8/ASCII (ZIP) (text log)
+      LogMessageType: text log lines
+      Thread stack  : 233472 (bytes)
+  Printed:
+      bytes         : 787
+      flushes       : 5
+      Lines         : 5
+      Syslines      : 5
+      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      Datetime last : 2000-01-01 00:00:05 -04:00 (2000-01-01 04:00:05.000000 +00:00)
+  Processed:
+      file size archive   : 608 (0x260) (bytes)
+      file size unarchived: 272 (0x110) (bytes)
+      bytes         : 272 (0x110)
+      bytes total   : 272 (0x110)
+      Block size    : 256 (0x100)
+      Blocks        : 2
+      Blocks total  : 2 (512 bytes)
+      Lines         : 5
+      Line longest  : 57 (bytes)
+      Line parts    : 6
+      Syslines      : 5
+      Sysline longest: 57 (bytes)
+      Syslines high : 5
+      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      Datetime last : 2000-01-01 00:00:05 -04:00 (2000-01-01 04:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   5, miss   5, 50.0%, put   5
+      copying: SyslineReader::get_boxptrs()                        : sgl 140, dbl    1, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 128,  0.0%, largest skipped 0
+      process: regex captures                                      : hit   5, miss 136
   Processing Drops:
 
 Program summary:
 
-Paths considered       : 1
+Paths considered       : 2
 Paths not processed    : 0
-Files processed        : 1
-Files printed          : 0
-Printed bytes          : 0
-Printed flushes        : 0
-Printed Lines          : 0
-Printed Syslines       : 0
+Files processed        : 2
+Files printed          : 2
+Printed bytes          : 4209
+Printed flushes        : 52
+Printed Lines          : 25
+Printed Syslines       : 25
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
@@ -59,8 +108,8 @@ Printed FixedStruct    : 0
 Printed Journal events : 0
 Printed ODL events     : 0
 Line Maximum                   : 393209
-Line longest                   : 11
-Sysline longest                : 0
+Line longest                   : 73
+Sysline longest                : 73
 ETL event largest processed    : 0
 ETL event largest accepted     : 0
 EVTX event largest processed   : 0
@@ -71,22 +120,22 @@ ODL event largest processed    : 0
 ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
-Managed request open   : 1
+Managed request open   : 4
 Managed request read   : 0
 Managed write calls    : 0
-Managed seek calls     : 1
-Managed metadata calls : 1
+Managed seek calls     : 22
+Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
 Regex patterns known   : 190
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first :
-Datetime printed last  :
+Datetime printed first : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+Datetime printed last  : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel receive ok     : 2
+Channel receive ok     : 29
 Channel receive err    : 0
-Threads spawned        : 1
+Threads spawned        : 2
 Thread spawn errors    : 0
 Temporary files created: 0
 Temporary directory    : /tmp

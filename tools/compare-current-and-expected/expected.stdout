@@ -92,6 +92,76 @@
 ./logs/other/tests/dtf5-3-r-n.log                                                                                    ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6a]
 ./logs/other/tests/dtf5-3-r-n.log                                                                                    ┋19991231T160000.000000000┋second line, first sysline
 ⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6a.log                                                                              ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6a]
+⇳
+./logs/other/tests/dtf5.zip|dtf5-2a.log                                                                              ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-2a]
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6c]6c1
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160000.000000000┋6c2
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160000.000000000┋6b
+⇳
 ./logs/other/tests/dtf5-6a.log                                                                                       ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6a]
 ⇳
 ./logs/other/tests/dtf5-6a.log.1                                                                                     ┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6a]
@@ -238,6 +308,77 @@
 ./logs/other/tests/dtf5-3-r-n.log                                                                                    ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6a]
 ./logs/other/tests/dtf5-3-r-n.log                                                                                    ┋19991231T160001.000000000┋fourth line, second sysline, this ends with a "slash r"
 ⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6a.log                                                                              ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6a]a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-2a.log                                                                              ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-2a]a⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6c]6c3-a
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160001.000000000┋6c4-aa
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160001.000000000┋6c5-aaa
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160001.000000000┋6b-a
+⇳
 ./logs/other/tests/dtf5-6a.log                                                                                       ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6a]a
 ⇳
 ./logs/other/tests/dtf5-6a.log.1                                                                                     ┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6a]a
@@ -341,6 +482,75 @@
 ./logs/other/tests/dtf5-3-r-n.log                                                                                    ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6a]
 ./logs/other/tests/dtf5-3-r-n.log                                                                                    ┋19991231T160002.000000000┋sixth line, third sysline
 ⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6a.log                                                                              ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6a]ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6c]6c6-ab
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160002.000000000┋6c7-abab
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160002.000000000┋6c8-ababab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160002.000000000┋6b-ab
+⇳
 ./logs/other/tests/dtf5-6a.log                                                                                       ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6a]ab
 ⇳
 ./logs/other/tests/dtf5-6a.log.1                                                                                     ┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6a]ab
@@ -433,6 +643,75 @@
 ./logs/other/tests/dtf2-20-out-of-order.log                                                                          ┋19991231T160003.000000000┋2000-01-01T00:00:03 [dtf2-20] three
 ⇳
 ./logs/other/tests/dtf4-2b.log                                                                                       ┋19991231T160003.000000000┋INFO: Sat Jan 01 2000 00:00:03 [dtf4-2b]a
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6a.log                                                                              ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6a]abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6c]6c9-abc
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160003.000000000┋6c10-abcabc
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160003.000000000┋6c11-abcabcabc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160003.000000000┋6b-abc
 ⇳
 ./logs/other/tests/dtf5-6a.log                                                                                       ┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6a]abc
 ⇳
@@ -530,6 +809,75 @@
 ./logs/other/tests/basic-dt6.log                                                                                     ┋19991231T160004.000000000┋2000-01-01 00:00:04abcd
 ⇳
 ./logs/other/tests/dtf2-20-out-of-order.log                                                                          ┋19991231T160004.000000000┋2000-01-01T00:00:04 [dtf2-20] four
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6a.log                                                                              ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6a]abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6c]6c12-abcd
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160004.000000000┋6c13-abcdabcd
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160004.000000000┋6c14-abcdabcdabcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160004.000000000┋6b-abcd
 ⇳
 ./logs/other/tests/dtf5-6a.log                                                                                       ┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6a]abcd
 ⇳
@@ -634,6 +982,75 @@
 ./logs/other/tests/dtf-varying-10.log                                                                                ┋19991231T160005.000000000┋[20000101-00:00:06] Six
 ./logs/other/tests/dtf-varying-10.log                                                                                ┋19991231T160005.000000000┋[2000-01-01 00:00:07,123] Seven
 ⇳
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log                                                                        ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.log                                                                              ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6a.log                                                                              ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6a]abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6c]6c15-abcde
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160005.000000000┋6c16-abcdeabcde
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160005.000000000┋6c17-abcdeabcdeabcde
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log                                                                 ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log                                                                     ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log                                                                 ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log                                                                     ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log                                                                 ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log                                                                     ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log                                                                 ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log                                                                     ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log                                                                    ┋19991231T160005.000000000┋6b-abcde⇳
+
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log                                                                        ┋19991231T160005.000000000┋6b-abcde⇳
+
 ./logs/other/tests/dtf5-6a.log                                                                                       ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6a]abcde⇳
 
 ./logs/other/tests/dtf5-6a.log.1                                                                                     ┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6a]abcde⇳
@@ -739,6 +1156,10 @@
 ⇳
 ./logs/other/tests/dtf2-20-out-of-order.log                                                                          ┋19991231T160005.000000000┋2000-01-01T00:00:05 [dtf2-20] five
 ⇳
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160006.000000000┋2000-01-01 00:00:06 [dtf5-6c]6c18-abcdef
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160006.000000000┋6c19-abcdefabcdef
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160006.000000000┋6c20-abcdefabcdefabcdef
+⇳
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160006.000000000┋2000-01-01 00:00:06 [dtf5-6c]6c18-abcdef
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160006.000000000┋6c19-abcdefabcdef
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160006.000000000┋6c20-abcdefabcdefabcdef
@@ -778,6 +1199,10 @@
 ./logs/other/tests/basic-dt27.log                                                                                    ┋19991231T160007.000000000┋2000-01-01 00:00:07abcdefg
 ⇳
 ./logs/other/tests/dtf2-20-out-of-order.log                                                                          ┋19991231T160007.000000000┋2000-01-01T00:00:07 [dtf2-20] seven
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160007.000000000┋2000-01-01 00:00:07 [dtf5-6c]6c21-abcdefg
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160007.000000000┋6c22-abcdefgabcdefg
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160007.000000000┋6c23-abcdefgabcdefgabcdefg
 ⇳
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160007.000000000┋2000-01-01 00:00:07 [dtf5-6c]6c21-abcdefg
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160007.000000000┋6c22-abcdefgabcdefg
@@ -827,6 +1252,10 @@
 
 ./logs/other/tests/dtf2-20-out-of-order.log                                                                          ┋19991231T160008.000000000┋2000-01-01T00:00:08 [dtf2-20] eight
 ⇳
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160008.000000000┋2000-01-01 00:00:08 [dtf5-6c]6c24-abcdefgh
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160008.000000000┋6c25-abcdefghabcdefgh
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160008.000000000┋6c26-abcdefghabcdefghabcdefgh
+⇳
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160008.000000000┋2000-01-01 00:00:08 [dtf5-6c]6c24-abcdefgh
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160008.000000000┋6c25-abcdefghabcdefgh
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160008.000000000┋6c26-abcdefghabcdefghabcdefgh
@@ -872,6 +1301,10 @@
 ./logs/other/tests/basic-dt27.log                                                                                    ┋19991231T160009.000000000┋2000-01-01 00:00:09abcdefghi
 ⇳
 ./logs/other/tests/dtf2-20-out-of-order.log                                                                          ┋19991231T160009.000000000┋2000-01-01T00:00:09 [dtf2-20] nine
+⇳
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160009.000000000┋2000-01-01 00:00:09 [dtf5-6c]6c27-abcdefghi
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160009.000000000┋6c28-abcdefghiabcdefghi
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160009.000000000┋6c29-abcdefghiabcdefghiabcdefghi
 ⇳
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160009.000000000┋2000-01-01 00:00:09 [dtf5-6c]6c27-abcdefghi
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160009.000000000┋6c28-abcdefghiabcdefghi
@@ -923,6 +1356,10 @@
 ⇳
 ./logs/other/tests/dtf2-20-out-of-order.log                                                                          ┋19991231T160010.000000000┋2000-01-01T00:00:10 [dtf2-20] ten
 ⇳
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160010.000000000┋2000-01-01 00:00:10 [dtf5-6c]6c30-abcdefghij
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160010.000000000┋6c31-abcdefghijabcdefghij
+./logs/other/tests/dtf5.zip|dtf5-6c.log                                                                              ┋19991231T160010.000000000┋6c32-abcdefghijabcdefghijabcdefghij⇳
+
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160010.000000000┋2000-01-01 00:00:10 [dtf5-6c]6c30-abcdefghij
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160010.000000000┋6c31-abcdefghijabcdefghij
 ./logs/other/tests/dtf5-6c.log                                                                                       ┋19991231T160010.000000000┋6c32-abcdefghijabcdefghijabcdefghij⇳
@@ -1009,6 +1446,26 @@
 ⇳
 ./logs/other/tests/dtf6z-1.log                                                                                       ┋20000101T040001.000000000┋2000-01-01 00:00:01 -0400 [dtf6z-1] 1
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-5-LEVELS.log                                             ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-5-LEVELS.log                     ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-5-LEVELS.log                        ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-5-LEVELS.log                                           ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-5-LEVELS.log                                         ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-5-LEVELS.log                             ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
@@ -1021,6 +1478,10 @@
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
@@ -1032,6 +1493,10 @@
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log                         ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-5-LEVELS] 1
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040001.000000000┋[ERROR] 2000-01-01 00:00:01 -0400 [dtf7-20-LEVELS] 1
 ⇳
@@ -1051,6 +1516,26 @@
 ⇳
 ./logs/other/tests/dtf6z-1.log                                                                                       ┋20000101T040002.000000000┋2000-01-01 00:00:02 -0400 [dtf6z-1] 2
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-5-LEVELS.log                                             ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-5-LEVELS.log                     ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-5-LEVELS.log                        ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-5-LEVELS.log                                           ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-5-LEVELS.log                                         ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-5-LEVELS.log                             ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
@@ -1063,6 +1548,10 @@
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
@@ -1074,6 +1563,10 @@
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log                         ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-5-LEVELS] 22
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040002.000000000┋[WARNING] 2000-01-01 00:00:02 -0400 [dtf7-20-LEVELS] 22
 ⇳
@@ -1093,6 +1586,26 @@
 ⇳
 ./logs/other/tests/dtf6z-1.log                                                                                       ┋20000101T040003.000000000┋2000-01-01 00:00:03 -0400 [dtf6z-1] 3
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-5-LEVELS.log                                             ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-5-LEVELS.log                     ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-5-LEVELS.log                        ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-5-LEVELS.log                                           ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-5-LEVELS.log                                         ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-5-LEVELS.log                             ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
@@ -1105,6 +1618,10 @@
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
@@ -1116,6 +1633,10 @@
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log                         ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-5-LEVELS] 333
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040003.000000000┋[INFO] 2000-01-01 00:00:03 -0400 [dtf7-20-LEVELS] 333
 ⇳
@@ -1135,6 +1656,26 @@
 ⇳
 ./logs/other/tests/dtf6z-1.log                                                                                       ┋20000101T040004.000000000┋2000-01-01 00:00:04 -0400 [dtf6z-1] 4
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-5-LEVELS.log                                             ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-5-LEVELS.log                     ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-5-LEVELS.log                        ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-5-LEVELS.log                                           ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-5-LEVELS.log                                         ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-5-LEVELS.log                             ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
@@ -1147,6 +1688,10 @@
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
@@ -1158,6 +1703,10 @@
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log                         ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-5-LEVELS] 4444
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040004.000000000┋[VERBOSE] 2000-01-01 00:00:04 -0400 [dtf7-20-LEVELS] 4444
 ⇳
@@ -1177,6 +1726,26 @@
 ⇳
 ./logs/other/tests/dtf6z-1.log                                                                                       ┋20000101T040005.000000000┋2000-01-01 00:00:05 -0400 [dtf6z-1] 5⇳
 
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-5-LEVELS.log                                             ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-5-LEVELS.log                     ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-5-LEVELS.log                        ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-5-LEVELS.log                                           ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-5-LEVELS.log                                         ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
+
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-5-LEVELS.log                             ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
@@ -1189,6 +1758,10 @@
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
 
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
+
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log                           ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
@@ -1200,6 +1773,10 @@
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log                         ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-5-LEVELS.log                                              ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
 
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-20-LEVELS] 55555
 ⇳
@@ -1217,17 +1794,31 @@
 ⇳
 ./logs/other/tests/dtf7-5-LEVELS.log                                                                                 ┋20000101T040005.000000000┋[TRACE] 2000-01-01 00:00:05 -0400 [dtf7-5-LEVELS] 55555⇳
 
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
 ⇳
@@ -1243,17 +1834,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040006.000000000┋[ERROR] 2000-01-01 00:00:06 -0400 [dtf7-20-LEVELS] 666666
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
 ⇳
@@ -1269,17 +1874,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040007.000000000┋[WARNING] 2000-01-01 00:00:07 -0400 [dtf7-20-LEVELS] 7777777
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
 ⇳
@@ -1295,17 +1914,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040008.000000000┋[INFO] 2000-01-01 00:00:08 -0400 [dtf7-20-LEVELS] 88888888
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log                                                                                ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
 ⇳
@@ -1319,17 +1952,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040009.000000000┋[VERBOSE] 2000-01-01 00:00:09 -0400 [dtf7-20-LEVELS] 999999999
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
 ⇳
@@ -1347,17 +1994,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040010.000000000┋[TRACE] 2000-01-01 00:00:10 -0400 [dtf7-20-LEVELS] 1010101010
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
 ⇳
@@ -1373,17 +2034,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040011.000000000┋[ERROR] 2000-01-01 00:00:11 -0400 [dtf7-20-LEVELS] 11111111111
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
 ⇳
@@ -1399,17 +2074,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040012.000000000┋[WARNING] 2000-01-01 00:00:12 -0400 [dtf7-20-LEVELS] 121212121212
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
 ⇳
@@ -1425,17 +2114,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040013.000000000┋[INFO] 2000-01-01 00:00:13 -0400 [dtf7-20-LEVELS] 1313131313131
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
 ⇳
@@ -1451,17 +2154,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040014.000000000┋[VERBOSE] 2000-01-01 00:00:14 -0400 [dtf7-20-LEVELS] 14141414141414
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
 ⇳
@@ -1477,17 +2194,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040015.000000000┋[TRACE] 2000-01-01 00:00:15 -0400 [dtf7-20-LEVELS] 151515151515151
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
 ⇳
@@ -1503,17 +2234,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040016.000000000┋[TRACE] 2000-01-01 00:00:16 -0400 [dtf7-20-LEVELS] 1616161616161616
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log                                                                                ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
 ⇳
@@ -1527,17 +2272,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040017.000000000┋[ERROR] 2000-01-01 00:00:17 -0400 [dtf7-20-LEVELS] 17171717171717171
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
 ⇳
@@ -1555,17 +2314,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040018.000000000┋[WARNING] 2000-01-01 00:00:18 -0400 [dtf7-20-LEVELS] 181818181818181818
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
+⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
 ⇳
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
+⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
 ⇳
@@ -1581,17 +2354,31 @@
 ⇳
 ./logs/other/tests/dtf7-20-LEVELS.log.xz                                                                             ┋20000101T040019.000000000┋[INFO] 2000-01-01 00:00:19 -0400 [dtf7-20-LEVELS] 191919191919191919
 ⇳
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log                                            ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log                    ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log                       ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log                                          ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log                                        ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
+
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log                            ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
 
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log                             ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
 
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
 
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
+
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log                          ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
 
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log                           ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
 
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log                        ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
+
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log                                             ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020⇳
 
 ./logs/other/tests/dtf7-20-LEVELS-outoforder.log                                                                     ┋20000101T040020.000000000┋[VERBOSE] 2000-01-01 00:00:20 -0400 [dtf7-20-LEVELS] 20202020202020202020
 ⇳
@@ -16269,6 +17056,10 @@
 ⇳
 ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1                                                                ┋20220205T191711.000000000┋Feb  6 03:17:11 host5 mtp-probe: bus: 1, device: 3 was not an MTP device
 ⇳
+./logs/Debian9/user.log.zip|logs/Debian9/user.log.1                                                                  ┋20220205T191711.000000000┋Feb  6 03:17:11 host5 mtp-probe: checking bus 1, device 3: "/sys/devices/platform/soc/2849.usb/usb1/1-1/1-1.1"
+⇳
+./logs/Debian9/user.log.zip|logs/Debian9/user.log.1                                                                  ┋20220205T191711.000000000┋Feb  6 03:17:11 host5 mtp-probe: bus: 1, device: 3 was not an MTP device
+⇳
 ./logs/Debian9/user.log.1                                                                                            ┋20220205T191739.000000000┋Feb  6 03:17:39 host5 root[434]: mount --verbose -t cifs //host6/Vol /mnt/Vol -o ro,nodev,noexec,noiversion,nomand,_netdev,norelatime,nostrictatime,nosuid,loud -o domain=NET -o ro
 ⇳
 ./logs/Debian9/user.log.1.bz2                                                                                        ┋20220205T191739.000000000┋Feb  6 03:17:39 host5 root[434]: mount --verbose -t cifs //host6/Vol /mnt/Vol -o ro,nodev,noexec,noiversion,nomand,_netdev,norelatime,nostrictatime,nosuid,loud -o domain=NET -o ro
@@ -16280,6 +17071,8 @@
 ./logs/Debian9/user.log.1.xz                                                                                         ┋20220205T191739.000000000┋Feb  6 03:17:39 host5 root[434]: mount --verbose -t cifs //host6/Vol /mnt/Vol -o ro,nodev,noexec,noiversion,nomand,_netdev,norelatime,nostrictatime,nosuid,loud -o domain=NET -o ro
 ⇳
 ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1                                                                ┋20220205T191739.000000000┋Feb  6 03:17:39 host5 root[434]: mount --verbose -t cifs //host6/Vol /mnt/Vol -o ro,nodev,noexec,noiversion,nomand,_netdev,norelatime,nostrictatime,nosuid,loud -o domain=NET -o ro
+⇳
+./logs/Debian9/user.log.zip|logs/Debian9/user.log.1                                                                  ┋20220205T191739.000000000┋Feb  6 03:17:39 host5 root[434]: mount --verbose -t cifs //host6/Vol /mnt/Vol -o ro,nodev,noexec,noiversion,nomand,_netdev,norelatime,nostrictatime,nosuid,loud -o domain=NET -o ro
 ⇳
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log                                                          ┋20220210T051658.000000000┋2022-02-10 13:16:58, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
 ⇳
@@ -28901,15 +29694,27 @@
 ⇳
 20230224T084027.123636000┋./logs/programs/utmp/host-entry6.wtmp                                                                                ┋ut_type USER_PROCESS ut_pid 13236 ut_line 'pts/0' ut_id 'ts/0' ut_user 'admin' ut_host '192.168.100.11' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228027.123636 ut_addr 192.168.124.47
  ⇳
+20230224T084027.123636000┋./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp                                                           ┋ut_type USER_PROCESS ut_pid 13236 ut_line 'pts/0' ut_id 'ts/0' ut_user 'admin' ut_host '192.168.100.11' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228027.123636 ut_addr 192.168.124.47
+ ⇳
 20230224T084202.013372000┋./logs/programs/utmp/host-entry6.wtmp                                                                                ┋ut_type USER_PROCESS ut_pid 13898 ut_line 'pts/1' ut_id 'ts/1' ut_user 'admin' ut_host '192.168.100.11' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228122.13372 ut_addr 192.168.124.47
+ ⇳
+20230224T084202.013372000┋./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp                                                           ┋ut_type USER_PROCESS ut_pid 13898 ut_line 'pts/1' ut_id 'ts/1' ut_user 'admin' ut_host '192.168.100.11' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228122.13372 ut_addr 192.168.124.47
  ⇳
 20230224T085124.381158000┋./logs/programs/utmp/host-entry6.wtmp                                                                                ┋ut_type USER_PROCESS ut_pid 15449 ut_line 'pts/2' ut_id 'ts/2' ut_user 'root' ut_host '192.168.100.12' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228684.381158 ut_addr 192.168.124.180
  ⇳
+20230224T085124.381158000┋./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp                                                           ┋ut_type USER_PROCESS ut_pid 15449 ut_line 'pts/2' ut_id 'ts/2' ut_user 'root' ut_host '192.168.100.12' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228684.381158 ut_addr 192.168.124.180
+ ⇳
 20230224T085225.870871000┋./logs/programs/utmp/host-entry6.wtmp                                                                                ┋ut_type USER_PROCESS ut_pid 15946 ut_line 'pts/3' ut_id 'ts/3' ut_user 'root' ut_host '192.168.100.12' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228745.870871 ut_addr 192.168.124.180
+ ⇳
+20230224T085225.870871000┋./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp                                                           ┋ut_type USER_PROCESS ut_pid 15946 ut_line 'pts/3' ut_id 'ts/3' ut_user 'root' ut_host '192.168.100.12' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228745.870871 ut_addr 192.168.124.180
  ⇳
 20230224T085226.517171000┋./logs/programs/utmp/host-entry6.wtmp                                                                                ┋ut_type DEAD_PROCESS ut_pid 13893 ut_line 'pts/1' ut_id '' ut_user '' ut_host '' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228746.517171 ut_addr 0.0.0.0
  ⇳
+20230224T085226.517171000┋./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp                                                           ┋ut_type DEAD_PROCESS ut_pid 13893 ut_line 'pts/1' ut_id '' ut_user '' ut_host '' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228746.517171 ut_addr 0.0.0.0
+ ⇳
 20230224T085226.987104000┋./logs/programs/utmp/host-entry6.wtmp                                                                                ┋ut_type DEAD_PROCESS ut_pid 13209 ut_line 'pts/0' ut_id '' ut_user '' ut_host '' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228746.987104 ut_addr 0.0.0.0
+ ⇳
+20230224T085226.987104000┋./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp                                                           ┋ut_type DEAD_PROCESS ut_pid 13209 ut_line 'pts/0' ut_id '' ut_user '' ut_host '' e_termination 0 e_exit 0 ut_session '0' ut_xtime 1677228746.987104 ut_addr 0.0.0.0
  ⇳
 ./logs/FreeBSD13.1/devd.log                                                                                          ┋20230309T071521.000000000┋Mar 9 15:15:21 f13b newsyslog[566]: logfile first created
 ./logs/FreeBSD13.1/devd.log                                                                                          ┋20230309T071521.000000000┋... done
