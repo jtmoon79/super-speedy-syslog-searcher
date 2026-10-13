@@ -186,6 +186,7 @@ use ::s4lib::common::{
 };
 #[cfg(test)]
 use ::s4lib::common::FIXEDOFFSETp0900;
+use ::s4lib::common::FileTypeArchive;
 
 use ::s4lib::data::common::LogMessage;
 use ::s4lib::data::datetime::{
@@ -5755,14 +5756,28 @@ fn processing_loop(
             // non-debug non-optimized "release" builds
             stack_size += 1024 * 2000;
         }
-        // compressed versions of files add between 0 to 60KB, depending
-        // upon the compression type. This did not vary due to log file size.
-        if filetype.is_compressed () {
-            stack_size += 1024 * 75;
-        }
-        // archive versions of files add ~50KB
-        if filetype.is_archived () {
-            stack_size += 1024 * 55;
+        // compressed/archived files add between 0 to 50KB stack, depending
+        // upon the type. This did not vary due to log file size.
+        match filetype.to_filetypearchive() {
+            FileTypeArchive::Normal => {}
+            FileTypeArchive::Bz2 => {
+                stack_size += 1024 * 30;
+            }
+            FileTypeArchive::Gz => {
+                stack_size += 1024 * 50;
+            }
+            FileTypeArchive::Lz4 => {
+                stack_size += 1024 * 5;
+            }
+            FileTypeArchive::Tar => {
+                stack_size += 1024 * 35;
+            }
+            FileTypeArchive::Xz => {
+                stack_size += 1024 * 10;
+            }
+            FileTypeArchive::Zip => {
+                stack_size += 1024 * 55;
+            }
         }
         // ETL files may need extra stack for excessive nested structures
         // add 50 KB
