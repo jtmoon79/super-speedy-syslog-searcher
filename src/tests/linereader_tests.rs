@@ -36,7 +36,10 @@ use crate::common::{
     Count,
     FPath,
     FileOffset,
+    FileType,
+    FileTypeArchive,
     FileTypeTextEncoding,
+    SUBPATH_SEP,
     summary_stats_enable,
 };
 use crate::data::line::{
@@ -143,17 +146,39 @@ const UTF_32BE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf32beBOM;
 // -------------------------------------------------------------------------------------------------
 
 /// Helper to wrap the match and panic checks
-fn new_LineReader(
-    path: &FPath,
-    blocksz: BlockSz,
-) -> LineReader {
-    let result = fpath_to_filetype(path, true);
-    let filetype = match result {
+/// `fpath_to_filetype` treats a bare `.tar` or `.zip` as an archive and does not
+/// split `SUBPATH_SEP`. Tests pass `archive\0inner.log`, so build the member
+/// filetype here. Single-file compression still goes through `fpath_to_filetype`.
+fn filetype_for_linereader_test(path: &FPath) -> FileType {
+    if let Some((archive_path, _subpath)) = path.split_once(SUBPATH_SEP) {
+        let archival_type = if archive_path.ends_with(".tar") {
+            FileTypeArchive::Tar
+        } else if archive_path.ends_with(".zip") {
+            FileTypeArchive::Zip
+        } else {
+            panic!(
+                "ERROR: archive path {:?} has no supported .tar or .zip suffix before {:?}",
+                path, SUBPATH_SEP
+            );
+        };
+        return FileType::Text {
+            archival_type,
+            encoding_type: FileTypeTextEncoding::Utf8Ascii,
+        };
+    }
+    match fpath_to_filetype(path, true) {
         PathToFiletypeResult::Filetype(ft) => ft,
         PathToFiletypeResult::Archive(..) => {
             panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
         }
-    };
+    }
+}
+
+fn new_LineReader(
+    path: &FPath,
+    blocksz: BlockSz,
+) -> LineReader {
+    let filetype = filetype_for_linereader_test(path);
     match LineReader::new(path_id_generator(), path.clone(), filetype, blocksz) {
         Ok(val) => val,
         Err(err) => {
@@ -1993,126 +2018,615 @@ lazy_static::lazy_static! {
 }
 
 // FILE_UTF8_ABC_FPATH
-#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc"); "UTF8 ABC 4 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc"); "UTF8 ABC 4 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc"); "UTF8 ABC 4 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 3, RS3T_DONE, None, ES.clone(); "UTF8 ABC 4 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC 4 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc"), &[]; "UTF8 ABC 4 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc"), &[]; "UTF8 ABC 4 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc"), &[]; "UTF8 ABC 4 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 3, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC 4 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC 4 4")]
 // FILE_UTF8_ABC_NL_FPATH
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL 4 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL 4 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL 4 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL 4 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL 4 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL 4 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL 4 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL 4 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL 4 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL 4 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL 4 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL 4 5")]
 // FILE_UTF8_ABC_NL_DEF_FPATH
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 4 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 4 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 4 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 4 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 8")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 5 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 5 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 5 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 5 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 8")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 6 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 6 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 6 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 6 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 8")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 7 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 7 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 7 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 7 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 8")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 8 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 8 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 8 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 8 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 4, RS3T_FOUND, None, String::from("def"); "UTF8 ABC NL DEF 8 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 5, RS3T_FOUND, None, String::from("def"); "UTF8 ABC NL DEF 8 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 6, RS3T_FOUND, None, String::from("def"); "UTF8 ABC NL DEF 8 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 8 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 8 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 4 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 4 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 4 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 4 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 4 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 4 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 6, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 4 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 7, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 4 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 4 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 5 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 5 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 5 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 5 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 5 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 5 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 6, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 5 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 7, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 5 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 5 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 6 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 6 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 6 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 6 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 6 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 6 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 6, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 6 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 7, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 6 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 6 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 7 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 7 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 7 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 7 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 7 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 7 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 6, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 7 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 7, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 7 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 7 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 8 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 8 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 8 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF 8 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 4, RS3T_FOUND, None, String::from("def"), &[]; "UTF8 ABC NL DEF 8 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 5, RS3T_FOUND, None, String::from("def"), &[]; "UTF8 ABC NL DEF 8 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 6, RS3T_FOUND, None, String::from("def"), &[]; "UTF8 ABC NL DEF 8 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 7, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 8 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF 8 8")]
 // FILE_UTF8_ABC_NL_DEF_NL_FPATH
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 4 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 4 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 4 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 4 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 8")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 9")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 5 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 5 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 5 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 5 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 8")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 9")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 6 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 6 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 6 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 6 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 8")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 9")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 7 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 7 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 7 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 7 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 8")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 9")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 8 0")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 8 1")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 8 2")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 8 3")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 4, RS3T_FOUND, None, String::from("def\n"); "UTF8 ABC NL DEF NL 8 4")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 5, RS3T_FOUND, None, String::from("def\n"); "UTF8 ABC NL DEF NL 8 5")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 6, RS3T_FOUND, None, String::from("def\n"); "UTF8 ABC NL DEF NL 8 6")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 7, RS3T_FOUND, None, String::from("def\n"); "UTF8 ABC NL DEF NL 8 7")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 8 8")]
-#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 8 9")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 4 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 4 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 4 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 4 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 4 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 4 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 6, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 4 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 7, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 4 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 4 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 9, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 4 9")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 5 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 5 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 5 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 5 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 5 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 5 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 6, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 5 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 7, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 5 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 5 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 9, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 5 9")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 6 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 6 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 6 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 6 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 6 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 6 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 6, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 6 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 7, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 6 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 6 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 9, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 6 9")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 7 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 7 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 7 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 7 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 4, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 7 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 7 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 6, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 7 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 7, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 7 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 7 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 9, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 7 9")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 0, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 8 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 1, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 8 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 2, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 8 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 3, RS3T_FOUND, None, String::from("abc\n"), &[]; "UTF8 ABC NL DEF NL 8 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 4, RS3T_FOUND, None, String::from("def\n"), &[]; "UTF8 ABC NL DEF NL 8 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 5, RS3T_FOUND, None, String::from("def\n"), &[]; "UTF8 ABC NL DEF NL 8 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 6, RS3T_FOUND, None, String::from("def\n"), &[]; "UTF8 ABC NL DEF NL 8 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 7, RS3T_FOUND, None, String::from("def\n"), &[]; "UTF8 ABC NL DEF NL 8 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 8, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 8 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 9, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ABC NL DEF NL 8 9")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_BZ2_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN BZ2 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "PLAIN BZ2 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_BZ2_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN BZ2 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_BZ2_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "PLAIN BZ2 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_GZ_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN GZ 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "PLAIN GZ 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_GZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN GZ 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_GZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "PLAIN GZ 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_LZ4_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN LZ4 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "PLAIN LZ4 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_LZ4_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN LZ4 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_LZ4_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "PLAIN LZ4 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_XZ_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN XZ 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "PLAIN XZ 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_XZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN XZ 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_XZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "PLAIN XZ 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_TAR_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN TAR 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "PLAIN TAR 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_TAR_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN TAR 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_TAR_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "PLAIN TAR 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_ZIP_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN ZIP 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "PLAIN ZIP 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_ZIP_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "PLAIN ZIP 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_PLAIN_ZIP_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "PLAIN ZIP 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_BZ2_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 BZ2 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 BZ2 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_BZ2_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 BZ2 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_BZ2_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "UTF8 BZ2 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_GZ_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 GZ 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 GZ 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_GZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 GZ 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_GZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "UTF8 GZ 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_LZ4_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 LZ4 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 LZ4 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_LZ4_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 LZ4 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_LZ4_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "UTF8 LZ4 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_XZ_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 XZ 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 XZ 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_XZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 XZ 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_XZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "UTF8 XZ 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_TAR_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 TAR 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 TAR 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_TAR_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 TAR 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_TAR_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "UTF8 TAR 16 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_ZIP_FPATH, 4, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 ZIP 4 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8 ZIP 4 5")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_ZIP_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6162630A; "UTF8 ZIP 16 0")]
+#[test_case(UTF_8, &ABC_NL_DEF_NL_UTF8_ZIP_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6465660A; "UTF8 ZIP 16 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_BZ2_FPATH, 4, 0, RS3T_DONE, Some(BYTES_EF), ES.clone(), &[]; "UTF8BOM BZ2 4 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8BOM BZ2 4 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_BZ2_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM BZ2 16 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_BZ2_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM BZ2 16 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_GZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_EF), ES.clone(), &[]; "UTF8BOM GZ 4 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8BOM GZ 4 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_GZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM GZ 16 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_GZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM GZ 16 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_LZ4_FPATH, 4, 0, RS3T_DONE, Some(BYTES_EF), ES.clone(), &[]; "UTF8BOM LZ4 4 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8BOM LZ4 4 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_LZ4_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM LZ4 16 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_LZ4_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM LZ4 16 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_XZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_EF), ES.clone(), &[]; "UTF8BOM XZ 4 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8BOM XZ 4 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_XZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM XZ 16 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_XZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM XZ 16 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_TAR_FPATH, 4, 0, RS3T_DONE, Some(BYTES_EF), ES.clone(), &[]; "UTF8BOM TAR 4 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8BOM TAR 4 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_TAR_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM TAR 16 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_TAR_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM TAR 16 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_ZIP_FPATH, 4, 0, RS3T_DONE, Some(BYTES_EF), ES.clone(), &[]; "UTF8BOM ZIP 4 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF8BOM ZIP 4 5")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_ZIP_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM ZIP 16 0")]
+#[test_case(UTF_8_BOM, &ABC_NL_DEF_NL_UTF8BOM_ZIP_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_EFBBBF6162630A; "UTF8BOM ZIP 16 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_BZ2_FPATH, 4, 0, RS3T_DONE, Some(BYTES_6100), ES.clone(), &[]; "UTF16LE BZ2 4 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LE BZ2 4 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_BZ2_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE BZ2 16 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_BZ2_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE BZ2 16 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_GZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_6100), ES.clone(), &[]; "UTF16LE GZ 4 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LE GZ 4 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_GZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE GZ 16 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_GZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE GZ 16 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_LZ4_FPATH, 4, 0, RS3T_DONE, Some(BYTES_6100), ES.clone(), &[]; "UTF16LE LZ4 4 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LE LZ4 4 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_LZ4_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE LZ4 16 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_LZ4_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE LZ4 16 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_XZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_6100), ES.clone(), &[]; "UTF16LE XZ 4 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LE XZ 4 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_XZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE XZ 16 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_XZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE XZ 16 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_TAR_FPATH, 4, 0, RS3T_DONE, Some(BYTES_6100), ES.clone(), &[]; "UTF16LE TAR 4 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LE TAR 4 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_TAR_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE TAR 16 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_TAR_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE TAR 16 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_ZIP_FPATH, 4, 0, RS3T_DONE, Some(BYTES_6100), ES.clone(), &[]; "UTF16LE ZIP 4 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LE ZIP 4 5")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_ZIP_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE ZIP 16 0")]
+#[test_case(UTF_16LE, &ABC_NL_DEF_NL_UTF16LE_ZIP_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100620063000A00; "UTF16LE ZIP 16 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_BZ2_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE), ES.clone(), &[]; "UTF16LEBOM BZ2 4 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LEBOM BZ2 4 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_BZ2_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM BZ2 16 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_BZ2_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM BZ2 16 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_GZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE), ES.clone(), &[]; "UTF16LEBOM GZ 4 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LEBOM GZ 4 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_GZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM GZ 16 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_GZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM GZ 16 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_LZ4_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE), ES.clone(), &[]; "UTF16LEBOM LZ4 4 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LEBOM LZ4 4 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_LZ4_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM LZ4 16 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_LZ4_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM LZ4 16 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_XZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE), ES.clone(), &[]; "UTF16LEBOM XZ 4 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LEBOM XZ 4 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_XZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM XZ 16 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_XZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM XZ 16 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_TAR_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE), ES.clone(), &[]; "UTF16LEBOM TAR 4 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LEBOM TAR 4 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_TAR_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM TAR 16 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_TAR_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM TAR 16 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_ZIP_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE), ES.clone(), &[]; "UTF16LEBOM ZIP 4 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16LEBOM ZIP 4 5")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_ZIP_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM ZIP 16 0")]
+#[test_case(UTF_16LE_BOM, &ABC_NL_DEF_NL_UTF16LEBOM_ZIP_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FFFE6100620063000A00; "UTF16LEBOM ZIP 16 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_BZ2_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FEFF), ES.clone(), &[]; "UTF16BEBOM BZ2 4 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16BEBOM BZ2 4 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_BZ2_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM BZ2 16 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_BZ2_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM BZ2 16 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_GZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FEFF), ES.clone(), &[]; "UTF16BEBOM GZ 4 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16BEBOM GZ 4 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_GZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM GZ 16 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_GZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM GZ 16 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_LZ4_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FEFF), ES.clone(), &[]; "UTF16BEBOM LZ4 4 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16BEBOM LZ4 4 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_LZ4_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM LZ4 16 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_LZ4_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM LZ4 16 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_XZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FEFF), ES.clone(), &[]; "UTF16BEBOM XZ 4 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16BEBOM XZ 4 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_XZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM XZ 16 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_XZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM XZ 16 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_TAR_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FEFF), ES.clone(), &[]; "UTF16BEBOM TAR 4 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16BEBOM TAR 4 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_TAR_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM TAR 16 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_TAR_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM TAR 16 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_ZIP_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FEFF), ES.clone(), &[]; "UTF16BEBOM ZIP 4 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF16BEBOM ZIP 4 5")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_ZIP_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM ZIP 16 0")]
+#[test_case(UTF_16BE_BOM, &ABC_NL_DEF_NL_UTF16BEBOM_ZIP_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_FEFF006100620063000A; "UTF16BEBOM ZIP 16 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_BZ2_FPATH, 4, 0, RS3T_DONE, Some(BYTES_61000000), ES.clone(), &[]; "UTF32LE BZ2 4 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LE BZ2 4 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_BZ2_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE BZ2 16 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_BZ2_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE BZ2 16 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_GZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_61000000), ES.clone(), &[]; "UTF32LE GZ 4 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LE GZ 4 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_GZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE GZ 16 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_GZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE GZ 16 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_LZ4_FPATH, 4, 0, RS3T_DONE, Some(BYTES_61000000), ES.clone(), &[]; "UTF32LE LZ4 4 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LE LZ4 4 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_LZ4_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE LZ4 16 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_LZ4_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE LZ4 16 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_XZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_61000000), ES.clone(), &[]; "UTF32LE XZ 4 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LE XZ 4 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_XZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE XZ 16 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_XZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE XZ 16 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_TAR_FPATH, 4, 0, RS3T_DONE, Some(BYTES_61000000), ES.clone(), &[]; "UTF32LE TAR 4 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LE TAR 4 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_TAR_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE TAR 16 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_TAR_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE TAR 16 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_ZIP_FPATH, 4, 0, RS3T_DONE, Some(BYTES_61000000), ES.clone(), &[]; "UTF32LE ZIP 4 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LE ZIP 4 5")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_ZIP_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE ZIP 16 0")]
+#[test_case(UTF_32LE, &ABC_NL_DEF_NL_UTF32LE_ZIP_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_6100000062000000630000000A000000; "UTF32LE ZIP 16 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_BZ2_FPATH, 4, 0, RS3T_DONE, Some(BYTES_00000061), ES.clone(), &[]; "UTF32BE BZ2 4 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BE BZ2 4 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_BZ2_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE BZ2 16 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_BZ2_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE BZ2 16 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_GZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_00000061), ES.clone(), &[]; "UTF32BE GZ 4 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BE GZ 4 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_GZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE GZ 16 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_GZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE GZ 16 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_LZ4_FPATH, 4, 0, RS3T_DONE, Some(BYTES_00000061), ES.clone(), &[]; "UTF32BE LZ4 4 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BE LZ4 4 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_LZ4_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE LZ4 16 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_LZ4_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE LZ4 16 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_XZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_00000061), ES.clone(), &[]; "UTF32BE XZ 4 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BE XZ 4 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_XZ_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE XZ 16 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_XZ_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE XZ 16 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_TAR_FPATH, 4, 0, RS3T_DONE, Some(BYTES_00000061), ES.clone(), &[]; "UTF32BE TAR 4 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BE TAR 4 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_TAR_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE TAR 16 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_TAR_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE TAR 16 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_ZIP_FPATH, 4, 0, RS3T_DONE, Some(BYTES_00000061), ES.clone(), &[]; "UTF32BE ZIP 4 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BE ZIP 4 5")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_ZIP_FPATH, 16, 0, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE ZIP 16 0")]
+#[test_case(UTF_32BE, &ABC_NL_DEF_NL_UTF32BE_ZIP_FPATH, 16, 5, RS3T_FOUND, None, ES.clone(), BYTES_0000006100000062000000630000000A; "UTF32BE ZIP 16 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_BZ2_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM BZ2 4 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LEBOM BZ2 4 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_BZ2_FPATH, 16, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM BZ2 16 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_BZ2_FPATH, 16, 5, RS3T_DONE, Some(BYTES_FFFE000061000000), ES.clone(), &[]; "UTF32LEBOM BZ2 16 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_GZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM GZ 4 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LEBOM GZ 4 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_GZ_FPATH, 16, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM GZ 16 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_GZ_FPATH, 16, 5, RS3T_DONE, Some(BYTES_FFFE000061000000), ES.clone(), &[]; "UTF32LEBOM GZ 16 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_LZ4_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM LZ4 4 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LEBOM LZ4 4 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_LZ4_FPATH, 16, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM LZ4 16 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_LZ4_FPATH, 16, 5, RS3T_DONE, Some(BYTES_FFFE000061000000), ES.clone(), &[]; "UTF32LEBOM LZ4 16 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_XZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM XZ 4 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LEBOM XZ 4 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_XZ_FPATH, 16, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM XZ 16 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_XZ_FPATH, 16, 5, RS3T_DONE, Some(BYTES_FFFE000061000000), ES.clone(), &[]; "UTF32LEBOM XZ 16 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_TAR_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM TAR 4 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LEBOM TAR 4 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_TAR_FPATH, 16, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM TAR 16 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_TAR_FPATH, 16, 5, RS3T_DONE, Some(BYTES_FFFE000061000000), ES.clone(), &[]; "UTF32LEBOM TAR 16 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_ZIP_FPATH, 4, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM ZIP 4 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32LEBOM ZIP 4 5")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_ZIP_FPATH, 16, 0, RS3T_DONE, Some(BYTES_FFFE0000), ES.clone(), &[]; "UTF32LEBOM ZIP 16 0")]
+#[test_case(UTF_32LE_BOM, &ABC_NL_DEF_NL_UTF32LEBOM_ZIP_FPATH, 16, 5, RS3T_DONE, Some(BYTES_FFFE000061000000), ES.clone(), &[]; "UTF32LEBOM ZIP 16 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_BZ2_FPATH, 4, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM BZ2 4 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_BZ2_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BEBOM BZ2 4 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_BZ2_FPATH, 16, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM BZ2 16 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_BZ2_FPATH, 16, 5, RS3T_DONE, Some(BYTES_0000FEFF00000061), ES.clone(), &[]; "UTF32BEBOM BZ2 16 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_GZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM GZ 4 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_GZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BEBOM GZ 4 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_GZ_FPATH, 16, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM GZ 16 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_GZ_FPATH, 16, 5, RS3T_DONE, Some(BYTES_0000FEFF00000061), ES.clone(), &[]; "UTF32BEBOM GZ 16 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_LZ4_FPATH, 4, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM LZ4 4 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_LZ4_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BEBOM LZ4 4 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_LZ4_FPATH, 16, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM LZ4 16 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_LZ4_FPATH, 16, 5, RS3T_DONE, Some(BYTES_0000FEFF00000061), ES.clone(), &[]; "UTF32BEBOM LZ4 16 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_XZ_FPATH, 4, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM XZ 4 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_XZ_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BEBOM XZ 4 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_XZ_FPATH, 16, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM XZ 16 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_XZ_FPATH, 16, 5, RS3T_DONE, Some(BYTES_0000FEFF00000061), ES.clone(), &[]; "UTF32BEBOM XZ 16 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_TAR_FPATH, 4, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM TAR 4 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_TAR_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BEBOM TAR 4 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_TAR_FPATH, 16, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM TAR 16 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_TAR_FPATH, 16, 5, RS3T_DONE, Some(BYTES_0000FEFF00000061), ES.clone(), &[]; "UTF32BEBOM TAR 16 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_ZIP_FPATH, 4, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM ZIP 4 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_ZIP_FPATH, 4, 5, RS3T_DONE, None, ES.clone(), &[]; "UTF32BEBOM ZIP 4 5")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_ZIP_FPATH, 16, 0, RS3T_DONE, Some(BYTES_0000FEFF), ES.clone(), &[]; "UTF32BEBOM ZIP 16 0")]
+#[test_case(UTF_32BE_BOM, &ABC_NL_DEF_NL_UTF32BEBOM_ZIP_FPATH, 16, 5, RS3T_DONE, Some(BYTES_0000FEFF00000061), ES.clone(), &[]; "UTF32BEBOM ZIP 16 5")]
 fn test_find_line_in_block_utf(
     encoding: FileTypeTextEncoding,
     fpath: &FPath,
     blocksz: BlockSz,
     fileoffset: FileOffset,
     expect_result: ResultFindLine_Test,
-    expect_partial: Option<&'static str>,
+    expect_partial: Option<&'static [u8]>,
     expect_str: String,
+    expect_bytes: &'static [u8],
 ) {
-    let in_out: TestFindLineInBlockCheck = vec![(fileoffset, (expect_result, expect_partial), expect_str)];
-    test_find_line_in_block(fpath, true, blocksz, encoding, &in_out);
+    let mut lr = new_LineReader(fpath, blocksz);
+    lr.filetype_text_encoding_update(encoding);
+    match lr.find_line_in_block(fileoffset) {
+        (ResultFindLine::Found((_, lp)), partial_actual) => {
+            assert_eq!(
+                expect_result, RS3T_FOUND,
+                "expected {expect_result:?}, got Found for {fpath:?} blocksz {blocksz} offset {fileoffset}"
+            );
+            assert!(partial_actual.is_none(), "unexpected partial for Found {fpath:?}");
+            assert!(expect_partial.is_none(), "bad test: partial expected for Found {fpath:?}");
+            let actual = line_raw_bytes(&lp);
+            let expect_compare: &[u8] = if !expect_bytes.is_empty() {
+                assert!(
+                    expect_str.is_empty(),
+                    "pass either expect_str or expect_bytes, not both; {fpath:?}"
+                );
+                expect_bytes
+            } else {
+                expect_str.as_bytes()
+            };
+            assert_eq!(
+                actual.as_slice(),
+                expect_compare,
+                "line bytes mismatch for {fpath:?} blocksz {blocksz} offset {fileoffset}"
+            );
+        }
+        (ResultFindLine::Done, partial_actual) => {
+            assert_eq!(
+                expect_result, RS3T_DONE,
+                "expected {expect_result:?}, got Done for {fpath:?} blocksz {blocksz} offset {fileoffset}"
+            );
+            assert!(expect_bytes.is_empty(), "Done should not expect line bytes for {fpath:?}");
+            assert!(expect_str.is_empty(), "Done should not expect a string for {fpath:?}");
+            match (partial_actual, expect_partial) {
+                (Some(line), Some(expect)) => {
+                    let actual = line_raw_bytes(&line);
+                    assert_eq!(
+                        actual.as_slice(),
+                        expect,
+                        "partial bytes mismatch for {fpath:?} blocksz {blocksz} offset {fileoffset}"
+                    );
+                }
+                (None, None) => {}
+                (actual, expect) => {
+                    panic!(
+                        "partial mismatch for {fpath:?} blocksz {blocksz} offset {fileoffset}: actual_is_some={} expect_is_some={}",
+                        actual.is_some(),
+                        expect.is_some()
+                    );
+                }
+            }
+        }
+        (ResultFindLine::Err(err), _) => {
+            panic!(
+                "find_line_in_block({fileoffset}) on {fpath:?} blocksz {blocksz} returned Err {err}"
+            );
+        }
+    }
+}
+
+// generated paths for archived abc_nl_def_nl fixtures
+lazy_static! {
+    static ref ABC_NL_DEF_NL_PLAIN_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.bz2");
+    static ref ABC_NL_DEF_NL_PLAIN_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.gz");
+    static ref ABC_NL_DEF_NL_PLAIN_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.lz4");
+    static ref ABC_NL_DEF_NL_PLAIN_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.xz");
+    static ref ABC_NL_DEF_NL_PLAIN_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_PLAIN_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF8_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.bz2");
+    static ref ABC_NL_DEF_NL_UTF8_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.gz");
+    static ref ABC_NL_DEF_NL_UTF8_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.lz4");
+    static ref ABC_NL_DEF_NL_UTF8_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.xz");
+    static ref ABC_NL_DEF_NL_UTF8_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-8.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF8_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-8.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF8BOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.bz2");
+    static ref ABC_NL_DEF_NL_UTF8BOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.gz");
+    static ref ABC_NL_DEF_NL_UTF8BOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.lz4");
+    static ref ABC_NL_DEF_NL_UTF8BOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.xz");
+    static ref ABC_NL_DEF_NL_UTF8BOM_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-8_BOM.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF8BOM_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-8_BOM.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF16LE_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.bz2");
+    static ref ABC_NL_DEF_NL_UTF16LE_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.gz");
+    static ref ABC_NL_DEF_NL_UTF16LE_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.lz4");
+    static ref ABC_NL_DEF_NL_UTF16LE_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.xz");
+    static ref ABC_NL_DEF_NL_UTF16LE_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-16LE.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF16LE_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-16LE.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF16LEBOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.bz2");
+    static ref ABC_NL_DEF_NL_UTF16LEBOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.gz");
+    static ref ABC_NL_DEF_NL_UTF16LEBOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.lz4");
+    static ref ABC_NL_DEF_NL_UTF16LEBOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.xz");
+    static ref ABC_NL_DEF_NL_UTF16LEBOM_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-16LE_BOM.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF16LEBOM_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-16LE_BOM.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF16BEBOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.bz2");
+    static ref ABC_NL_DEF_NL_UTF16BEBOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.gz");
+    static ref ABC_NL_DEF_NL_UTF16BEBOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.lz4");
+    static ref ABC_NL_DEF_NL_UTF16BEBOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.xz");
+    static ref ABC_NL_DEF_NL_UTF16BEBOM_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-16BE_BOM.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF16BEBOM_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-16BE_BOM.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF32LE_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.bz2");
+    static ref ABC_NL_DEF_NL_UTF32LE_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.gz");
+    static ref ABC_NL_DEF_NL_UTF32LE_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.lz4");
+    static ref ABC_NL_DEF_NL_UTF32LE_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.xz");
+    static ref ABC_NL_DEF_NL_UTF32LE_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-32LE.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF32LE_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-32LE.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF32BE_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.bz2");
+    static ref ABC_NL_DEF_NL_UTF32BE_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.gz");
+    static ref ABC_NL_DEF_NL_UTF32BE_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.lz4");
+    static ref ABC_NL_DEF_NL_UTF32BE_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.xz");
+    static ref ABC_NL_DEF_NL_UTF32BE_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-32BE.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF32BE_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-32BE.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF32LEBOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.bz2");
+    static ref ABC_NL_DEF_NL_UTF32LEBOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.gz");
+    static ref ABC_NL_DEF_NL_UTF32LEBOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.lz4");
+    static ref ABC_NL_DEF_NL_UTF32LEBOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.xz");
+    static ref ABC_NL_DEF_NL_UTF32LEBOM_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-32LE_BOM.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF32LEBOM_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-32LE_BOM.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF32BEBOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.bz2");
+    static ref ABC_NL_DEF_NL_UTF32BEBOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.gz");
+    static ref ABC_NL_DEF_NL_UTF32BEBOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.lz4");
+    static ref ABC_NL_DEF_NL_UTF32BEBOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.xz");
+    static ref ABC_NL_DEF_NL_UTF32BEBOM_TAR_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.tar");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-32BE_BOM.log");
+        path
+    };
+    static ref ABC_NL_DEF_NL_UTF32BEBOM_ZIP_FPATH: FPath = {
+        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.zip");
+        path.push(SUBPATH_SEP);
+        path.push_str("abc_nl_def_nl.UTF-32BE_BOM.log");
+        path
+    };
+}
+
+const BYTES_EF: &[u8] = &[0xEF];
+const BYTES_6100: &[u8] = &[0x61, 0x00];
+const BYTES_FEFF: &[u8] = &[0xFE, 0xFF];
+const BYTES_FFFE: &[u8] = &[0xFF, 0xFE];
+const BYTES_00000061: &[u8] = &[0x00, 0x00, 0x00, 0x61];
+const BYTES_0000FEFF: &[u8] = &[0x00, 0x00, 0xFE, 0xFF];
+const BYTES_61000000: &[u8] = &[0x61, 0x00, 0x00, 0x00];
+const BYTES_6162630A: &[u8] = &[0x61, 0x62, 0x63, 0x0A];
+const BYTES_6465660A: &[u8] = &[0x64, 0x65, 0x66, 0x0A];
+const BYTES_FFFE0000: &[u8] = &[0xFF, 0xFE, 0x00, 0x00];
+const BYTES_EFBBBF6162630A: &[u8] = &[0xEF, 0xBB, 0xBF, 0x61, 0x62, 0x63, 0x0A];
+const BYTES_0000FEFF00000061: &[u8] = &[0x00, 0x00, 0xFE, 0xFF, 0x00, 0x00, 0x00, 0x61];
+const BYTES_6100620063000A00: &[u8] = &[0x61, 0x00, 0x62, 0x00, 0x63, 0x00, 0x0A, 0x00];
+const BYTES_FFFE000061000000: &[u8] = &[0xFF, 0xFE, 0x00, 0x00, 0x61, 0x00, 0x00, 0x00];
+const BYTES_FEFF006100620063000A: &[u8] = &[0xFE, 0xFF, 0x00, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00, 0x0A];
+const BYTES_FFFE6100620063000A00: &[u8] = &[0xFF, 0xFE, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00, 0x0A, 0x00];
+const BYTES_0000006100000062000000630000000A: &[u8] = &[0x00, 0x00, 0x00, 0x61, 0x00, 0x00, 0x00, 0x62, 0x00, 0x00, 0x00, 0x63, 0x00, 0x00, 0x00, 0x0A];
+const BYTES_6100000062000000630000000A000000: &[u8] = &[0x61, 0x00, 0x00, 0x00, 0x62, 0x00, 0x00, 0x00, 0x63, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x00, 0x00];
+
+
+fn line_raw_bytes(line: &crate::data::line::Line) -> Vec<u8> {
+    let mut bytes = Vec::new();
+    for part in &line.lineparts {
+        bytes.extend_from_slice(part.as_slice());
+    }
+    bytes
 }
 
 const UTF8_BOM_ABC_BYTES: [u8; 6] = [
