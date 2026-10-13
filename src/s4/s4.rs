@@ -6,7 +6,7 @@
 //!
 //! Processes user-passed command-line arguments.
 //! Then processes paths passed; directories are enumerated for parseable files,
-//! archive files (`.tar`) are enumerated for file entries, other
+//! archive files (`.tar`, `.zip`) are enumerated for file entries, other
 //! paths tested for suitability (readable? is it a file? etc.).
 //!
 //! For each parseable file found, a file processing thread is created.
@@ -268,6 +268,9 @@ use ::s4lib::readers::filehandlemanager::{
     FILE_HANDLE_OPEN_MAX_DEFAULT_S,
 };
 use ::s4lib::readers::filepreprocessor::{
+    FileTypeArchiveMultiple,
+    PathToFiletypeResult,
+    path_to_filetype,
     process_path,
     ProcessPathResult,
     ProcessPathResults,
@@ -2847,7 +2850,7 @@ s4 uses file naming to determine the file type.
 
 
 s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
-archived within a .tar file.
+archived within a .tar or .zip file.
 
 
 Log messages from different files with the same datetime are printed in order
@@ -5564,8 +5567,18 @@ fn processing_loop(
             }
             ProcessPathResult::FileErrNoPermissions(path) =>
                 e_err!("not enough permissions {:?}", path),
-            ProcessPathResult::FileErrNotSupported(_path, _message) => {
-                // behave like Unix tools; do not print errors about unsupported files
+            ProcessPathResult::FileErrNotSupported(path, message) => {
+                let archive_path = path.rsplit_once(SUBPATH_SEP)
+                    .map_or(path.as_str(), |(archive_path, _)| archive_path);
+                if matches!(
+                    path_to_filetype(std::path::Path::new(archive_path), false),
+                    PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Zip, _)
+                ) {
+                    if let Some(message) = message {
+                        e_err!("{message} for {path:?}");
+                    }
+                }
+                // Other unsupported files are quietly skipped, like Unix tools.
                 // TODO: this should distinguish between files passed directly and those
                 //       found via directory walk
                 //       Files passed directly that are not supported should be printed (though

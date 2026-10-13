@@ -198,7 +198,8 @@ fn test_decompress_to_ntf_ok_some(
             | FileTypeArchive::Gz
             | FileTypeArchive::Lz4
             | FileTypeArchive::Tar
-            | FileTypeArchive::Xz => {}
+            | FileTypeArchive::Xz
+            | FileTypeArchive::Zip => {}
         },
     }
     let path = fpath_to_path(fpath);
@@ -264,7 +265,8 @@ fn test_decompress_to_ntf_ok_none(
             | FileTypeArchive::Gz
             | FileTypeArchive::Lz4
             | FileTypeArchive::Tar
-            | FileTypeArchive::Xz => {}
+            | FileTypeArchive::Xz
+            | FileTypeArchive::Zip => {}
         },
     }
     let path = fpath_to_path(fpath);
@@ -329,7 +331,8 @@ fn test_decompress_to_ntf_panic(
             | FileTypeArchive::Gz
             | FileTypeArchive::Lz4
             | FileTypeArchive::Tar
-            | FileTypeArchive::Xz => {}
+            | FileTypeArchive::Xz
+            | FileTypeArchive::Zip => {}
         },
     }
     let path = fpath_to_path(fpath);

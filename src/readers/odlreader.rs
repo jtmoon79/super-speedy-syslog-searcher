@@ -34,6 +34,7 @@ use crate::common::{
     FPath,
     FileSz,
     FileType,
+    FileTypeArchive,
     LogMessageType,
     PathId,
     SUBPATH_SEP,
@@ -55,7 +56,10 @@ use crate::readers::filehandlemanager::{
     FileHandleRole,
     OpenOptionsManaged,
 };
-use crate::readers::helpers::path_to_fpath;
+use crate::readers::helpers::{
+    path_to_fpath,
+    zip_error,
+};
 use crate::readers::odlparser::{
     OdlDecodingContext,
     OdlParser,
@@ -454,10 +458,10 @@ fn load_companions(
     if filetype.is_archived() {
         let (archive_path, member) = path
             .rsplit_once(SUBPATH_SEP)
-            .ok_or_else(|| Error::new(ErrorKind::InvalidInput, "ODL tar input has no member path"))?;
+            .ok_or_else(|| Error::new(ErrorKind::InvalidInput, "ODL archive input has no member path"))?;
         let parent = Path::new(member)
             .parent()
-            .ok_or_else(|| Error::new(ErrorKind::InvalidInput, "ODL tar member has no parent"))?;
+            .ok_or_else(|| Error::new(ErrorKind::InvalidInput, "ODL archive member has no parent"))?;
         let targets: Vec<PathBuf> = names
             .iter()
             .map(|name| parent.join(name))
@@ -468,18 +472,40 @@ fn load_companions(
             Path::new(archive_path),
             OpenOptionsManaged::read_only(),
         )?;
-        let mut archive = tar::Archive::new(file);
         let mut found = [false; 3];
-        for entry in archive.entries()? {
-            let mut entry = entry?;
-            let entry_path = entry.path()?.into_owned();
-            if let Some(index) = targets
-                .iter()
-                .position(|path| path == &entry_path)
-            {
-                let companion_path = format!("{}{}{}", archive_path, SUBPATH_SEP, path_to_fpath(&entry_path));
-                found[index] = true;
-                companions.load(index, companion_path, &mut entry);
+        if filetype.to_filetypearchive() == FileTypeArchive::Zip {
+            let mut archive = zip::ZipArchive::new(file).map_err(|error| zip_error(error, path))?;
+            for entry_index in 0..archive.len() {
+                let data = archive.by_index_data(entry_index).map_err(|error| zip_error(error, path))?;
+                if !data.is_file() {
+                    continue;
+                }
+                let name = data.name().map_err(|error| zip_error(error, path))?;
+                if let Some(index) = targets.iter().position(|target| target == Path::new(name.as_ref())) {
+                    let companion_path = format!("{archive_path}{SUBPATH_SEP}{name}");
+                    found[index] = true;
+                    match archive.by_index(entry_index) {
+                        Ok(mut entry) => companions.load(index, companion_path, &mut entry),
+                        Err(error) => {
+                            let error = zip_error(error, &companion_path);
+                            companions.report_error(companion_path, error);
+                        }
+                    }
+                }
+            }
+        } else {
+            let mut archive = tar::Archive::new(file);
+            for entry in archive.entries()? {
+                let mut entry = entry?;
+                let entry_path = entry.path()?.into_owned();
+                if let Some(index) = targets
+                    .iter()
+                    .position(|path| path == &entry_path)
+                {
+                    let companion_path = format!("{}{}{}", archive_path, SUBPATH_SEP, path_to_fpath(&entry_path));
+                    found[index] = true;
+                    companions.load(index, companion_path, &mut entry);
+                }
             }
         }
         summary_stat!({

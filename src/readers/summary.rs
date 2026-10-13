@@ -744,7 +744,7 @@ impl fmt::Debug for Summary {
                                 fixedstruct_type: _,
                             }
                             | FileType::FixedStruct {
-                                archival_type: FileTypeArchive::Tar,
+                                archival_type: FileTypeArchive::Tar | FileTypeArchive::Zip,
                                 fixedstruct_type: _,
                             }
                             | FileType::Text {
@@ -752,7 +752,7 @@ impl fmt::Debug for Summary {
                                 encoding_type: _,
                             }
                             | FileType::Text {
-                                archival_type: FileTypeArchive::Tar,
+                                archival_type: FileTypeArchive::Tar | FileTypeArchive::Zip,
                                 encoding_type: _,
                             } => f
                                 .debug_struct("")

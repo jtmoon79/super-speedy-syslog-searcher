@@ -1190,7 +1190,7 @@ impl FixedStructReader {
     /// Return a count of out of order entries, and map of filtered tv_pair to
     /// fileoffsets. The fileoffsets in the map are the fixedstruct offsets
     /// (not timevalue offsets).
-    pub(crate) fn preprocess_timevalues(
+    pub fn preprocess_timevalues(
         blockreader: &mut BlockReader,
         fixedstruct_type: FixedStructType,
         dt_filter_after: &DateTimeLOpt,

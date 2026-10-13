@@ -47,7 +47,7 @@ Windows Event Logs (`.evtx`),
 Windows Event Trace Logs (`.etl`),
 OneDrive Log files (`.odl`, `.aodl`, `.odlgz`, `.odlsent`),
 and Apple System Logs (`.asl`).
-`s4` can read logs that are compressed (`.bz2`, `.gz`, `.lz4`, `.xz`), or archived logs (`.tar`).
+`s4` can read logs that are compressed (`.bz2`, `.gz`, `.lz4`, `.xz`), or archived logs (`.tar`, `.zip`).
 
 `s4` aims to be very fast.
 
@@ -725,7 +725,7 @@ the "--summary" output.
 s4 uses file naming to determine the file type.
 
 s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
-archived within a .tar file.
+archived within a .tar or .zip file.
 
 Log messages from different files with the same datetime are printed in order
 of the arguments from the command-line.
@@ -813,7 +813,7 @@ See the real-world example rationale in the section below,
   - binary [OneDrive Log] files (`.odl`, `.aodl`, `.odlgz`, `.odlsent`)
   - many varying text log messages with ad-hoc datetime formats
   - multi-line log messages
-- Inspects `.tar` archive files for parseable log files <sup><a href="#f2">\[2\]</a></sup>
+- Inspects `.tar` and `.zip` archive files for parseable log files <sup><a href="#f2">\[2\]</a></sup>
 - Can process `.bz2`, `.gz`, `.lz4`, or `.xz` containing log files.
 - Tested against "in the wild" log files from varying sources
   (see project path [`./logs/`])
@@ -862,7 +862,9 @@ compressed file.
 When a file type cannot be guessed then it is treated as a text log file.
 For example, a file name `unknown` is not any obvious type so it is attempted to be parsed as a text log file.
 
-`tar` files are inspected for parseable files.<sup><a href="#f2">\[2\]</a></sup>
+`tar` and `zip` files are inspected for parseable files.<sup><a href="#f2">\[2\]</a></sup>
+Directories and symbolic links within archives are skipped; encrypted ZIP members
+are not supported.
 
 #### Directory walks<!-- omit in toc -->
 
@@ -892,7 +894,6 @@ See the latest [release] for pre-compiled binaries.
   ([Issue #8])
 - Cannot process multi-file `.xz` files (only processes first stream found).
   ([Issue #11])
-- Cannot process `.zip` archives ([Issue #39])
 - <span id="f1"><sup>\[1\]</sup></span> ISO 8601
   - ISO 8601 forms recognized (using [ISO descriptive format])
     - `YYYY-MM-DDThh:mm:ss`
@@ -906,16 +907,17 @@ See the latest [release] for pre-compiled binaries.
     - times [without minutes and seconds] (i.e. only `hh`)
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within
   other archive files or compressed files ([Issue #14])<br/>
-  e.g. cannot process `logs.tar.xz`, nor file `log.gz` within `logs.tar`
+  e.g. cannot process `logs.tar.xz`, `logs.zip.gz`, nor file `log.gz` within `logs.tar` or `logs.zip`
 - OneDrive Log files (`.odl`, `.odlgz`, `.aodl`, `.odlsent`) are parsed natively.
   ODL versions 2 and 3 are supported, including internal gzip
   after the ODL header. Events are buffered and sorted by timestamp.
   Unknown parameter layouts remain undecoded; recognized UTF-8 string parameters
   are extracted with their original bytes retained by the parser.
   Legacy `ObfuscationStringMap.txt` and version-1 JSON `general.keystore`
-  companions are discovered beside the original log (also within tar archives),
+  companions are discovered beside the original log (also within TAR and ZIP archives),
   including `EncryptionKeyStoreCopy/general.keystore`. Protected strings require
-  the matching originating map/key.
+  the matching originating map/key. Archived logs look for companions inside
+  the same archive, not beside the archive on disk.
 - `.etl` files are parsed natively. Events with self-describing TraceLogging
   metadata and kernel `EventTrace` header events are fully decoded. Events that
   require an external manifest or WPP `.tmf`/`.pdb` files are printed with their
@@ -1072,7 +1074,7 @@ Text encodings:
 |Program        |`.gz`     |`.lz`  |`.lz4`   |`.bz`    |`.bz2`       |`.xz`   |`.tar`|`.zip`|
 |-              |-         |-      |-        |-        |-            |-       |-     |-     |
 |`grep \| sort` |☐ `zgrep`|☐ `lz`|☐ `lz4`  |☐ `bzip`|☐ `bzip2`    |☐ `xz` |✗     |✗     |
-|`s4`           |✔        |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/128)|✔|✗|✔|✔|✔|[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39)|
+|`s4`           |✔        |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/128)|✔|✗|✔|✔|✔|✔|
 |`lnav`         |✔        |✔      |✔        |?        |✔            |✔      |✔     |✔     |
 |`logmerger`    |✔        |✗      |✗        |✗        |✗            |✗      |✗     |✗     |
 |`tl`           |✔        |✗      |✗        |✔        |✔            |✗      |✗     |✗     |

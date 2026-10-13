@@ -1822,7 +1822,7 @@ impl<'a> JournalReader {
     }
 
     /// Common calls for all `next*` functions.
-    fn next_common(
+    pub fn next_common(
         &mut self,
         rts_filter_before: &EpochMicrosecondsOpt,
     ) -> ResultNextCommon {
