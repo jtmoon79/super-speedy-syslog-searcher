@@ -36,6 +36,7 @@ pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";
 pub const PATH_FILE_OPT_LEVEL: &str = "opt_level.txt";
 pub const PATH_FILE_GIT_COMMIT: &str = "git_commit.txt";
 pub const PATH_FILE_PROFILE_NAME: &str = "profile_name.txt";
+pub const PATH_FILE_CPU_TARGET: &str = "cpu_target.txt";
 
 fn is_env_var_truthy(env_var: &str) -> bool {
     match std::env::var(env_var) {
@@ -278,6 +279,51 @@ fn write_cpu_features_file() {
     info!("Wrote CPU features {cpu_features:?} to file {out_path:?}");
 }
 
+/// Return the *specific* target CPU as indicated by the
+/// `CARGO_ENCODED_RUSTFLAGS` environment variable.
+/// e.g. `x86-64` or `x86-64-v3`.
+/// Created to distinguish between varying `x86-64` instruction-set
+/// compatibility levels.
+fn cpu_target_from_rustflags(encoded_flags: &str) -> &str {
+    let mut cpu_target = "default";
+    let mut flags = encoded_flags.split('\x1f');
+    while let Some(flag) = flags.next() {
+        let codegen = if flag == "-C" || flag == "--codegen" {
+            flags.next().expect("codegen option in CARGO_ENCODED_RUSTFLAGS is missing")
+        } else if let Some(option) = flag.strip_prefix("-C") {
+            option
+        } else if let Some(option) = flag.strip_prefix("--codegen=") {
+            option
+        } else {
+            continue;
+        };
+        if let Some(cpu) = codegen.strip_prefix("target-cpu=") {
+            if cpu.is_empty() {
+                warn!("target-cpu value in CARGO_ENCODED_RUSTFLAGS is empty");
+                cpu_target = "unknown";
+            } else {
+                cpu_target = cpu;
+            }
+        } else if codegen == "target-cpu" {
+            warn!("target-cpu value in CARGO_ENCODED_RUSTFLAGS is missing");
+            cpu_target = "unknown";
+        }
+    }
+
+    cpu_target
+}
+
+/// Record the requested CPU name, not an inferred instruction-set compatibility level.
+fn write_cpu_target_file() {
+    let out_path = out_path().join(PATH_FILE_CPU_TARGET);
+    let encoded_flags = env::var("CARGO_ENCODED_RUSTFLAGS")
+        .expect("CARGO_ENCODED_RUSTFLAGS not set or not valid Unicode");
+    let cpu_target = cpu_target_from_rustflags(&encoded_flags);
+    fs::write(&out_path, format!("{cpu_target:?}"))
+        .unwrap_or_else(|e| panic!("write_cpu_target_file failed to write file {out_path:?}: {e:?}"));
+    info!("Wrote CPU target {cpu_target:?} to file {out_path:?}");
+}
+
 /// Write build profile name to a file as a string for `include!`.
 fn write_profile_file() {
     // ripped from https://stackoverflow.com/a/73603419/471376
@@ -396,6 +442,7 @@ fn main() {
     write_git_commit_file();
     write_features_file();
     write_cpu_features_file();
+    write_cpu_target_file();
     write_profile_file();
     windows_exe_info_create();
     parse_regex_values();

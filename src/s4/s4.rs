@@ -323,6 +323,9 @@ const LIST_FEATURES: &str = include!(concat!(env!("OUT_DIR"), "/", "list_feature
 /// The value of `CARGO_CFG_TARGET_FEATURE`.
 /// Created by `build.rs`. Path must match that in `build.rs`.
 const LIST_CPU_FEATURES: &str = include!(concat!(env!("OUT_DIR"), "/", "list_cpu_features.txt"));
+/// File with the CPU target triple.
+/// Created by `build.rs`. Path must match that in `build.rs`.
+const CPU_TARGET: &str = include!(concat!(env!("OUT_DIR"), "/", "cpu_target.txt"));
 /// File with name of build profile.
 /// Created by `build.rs`. Path must match that in `build.rs`.
 const PROFILE_NAME: &str = include!(concat!(env!("OUT_DIR"), "/", "profile_name.txt"));
@@ -2927,6 +2930,7 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         "Target OS: ", std::env::consts::OS, "\n",
         "Target OS Family: ", std::env::consts::FAMILY, "\n",
         "Arch: ", std::env::consts::ARCH, "\n",
+        "CPU Target: ", CPU_TARGET, "\n",
         "CPU Features: ", LIST_CPU_FEATURES, "\n",
         "Compiled Regular Expressions: ", DATETIME_PARSE_DATAS_LEN, "\n",
         "Compiler Version: ", RUSTC_VERSION, "\n",
