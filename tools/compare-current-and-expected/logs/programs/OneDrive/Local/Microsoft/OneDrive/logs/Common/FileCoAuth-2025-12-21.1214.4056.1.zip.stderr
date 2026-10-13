@@ -1,0 +1,83 @@
+
+Files:
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.zip|logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
+  About:
+      Subpath     : logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
+      FileType      : ODL (ZIP) (OneDrive Log)
+      LogMessageType: ODL event (OneDrive Log)
+      Thread stack  : 580608 (bytes)
+  Printed:
+      Events        : 11
+      Bytes         : 3778
+      Flushes       : 11
+      Event largest processed: 224
+      Event largest accepted : 224
+      Datetime First: 2025-12-21 20:14:05.875 +08:00
+      Datetime Last : 2025-12-21 20:14:05.897 +08:00
+  Processed:
+      File size          : 1961
+      ODL version        : 3
+      Internal gzip      : false
+      Decoding data avail?    : false
+      Supplementary files used: 0
+      Supplementary files not available: 3
+      Events processed   : 11
+      Events accepted    : 11
+      Events undecoded   : 10
+      Decoding failures  : 0
+      Records skipped    : 0
+      Out of order       : 0
+      Datetime first     : 2025-12-21 20:14:05.875 +08:00
+      Datetime last      : 2025-12-21 20:14:05.897 +08:00
+
+Program summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 3822
+Printed flushes        : 22
+Printed Lines          : 0
+Printed Syslines       : 0
+Printed ASL events     : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
+Printed ODL events     : 11
+Line Maximum                   : 393209
+Line longest                   : 0
+Sysline longest                : 0
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
+ODL event largest processed    : 0
+ODL event largest accepted     : 0
+Managed files max deflt: 980
+Managed files max adjus: 200
+Managed request open   : 4
+Managed request read   : 0
+Managed write calls    : 1
+Managed seek calls     : 16
+Managed metadata calls : 1
+Managed open errors    : 0
+Managed evict fails    : 0
+Regex patterns known   : 190
+Regex patterns compiled: 188
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+Datetime printed last  : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel receive ok     : 13
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
+Temporary files created: 1
+Temporary directory    : /tmp
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system

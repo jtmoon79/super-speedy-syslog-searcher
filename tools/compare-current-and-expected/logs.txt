@@ -314,11 +314,13 @@
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
 ./logs/programs/journal/Ubuntu22-user-1000x3.tar
+./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.bz2
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.gz
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.lz4
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.xz
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.zip
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
 ./logs/programs/pacman/pacman.log

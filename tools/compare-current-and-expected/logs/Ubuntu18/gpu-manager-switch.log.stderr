@@ -6,7 +6,7 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
       Thread stack  : 100352 (bytes)
-      Processing Err : no syslog lines found in file
+      Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
       flushes       : 0

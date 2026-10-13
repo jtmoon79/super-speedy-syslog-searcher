@@ -3,10 +3,10 @@ Files:
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log
   About:
-      Archive subpath: dtf5-6b.UTF-16BE_BOM.log
+      Subpath     : dtf5-6b.UTF-16BE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -48,10 +48,10 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log
   About:
-      Archive subpath: dtf5-6b.UTF-16BE.log
+      Subpath     : dtf5-6b.UTF-16BE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -93,10 +93,10 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log
   About:
-      Archive subpath: dtf5-6b.UTF-16LE_BOM.log
+      Subpath     : dtf5-6b.UTF-16LE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -138,10 +138,10 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log
   About:
-      Archive subpath: dtf5-6b.UTF-16LE.log
+      Subpath     : dtf5-6b.UTF-16LE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -183,10 +183,10 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log
   About:
-      Archive subpath: dtf5-6b.UTF-32BE_BOM.log
+      Subpath     : dtf5-6b.UTF-32BE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -228,10 +228,10 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log
   About:
-      Archive subpath: dtf5-6b.UTF-32BE.log
+      Subpath     : dtf5-6b.UTF-32BE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -273,10 +273,10 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log
   About:
-      Archive subpath: dtf5-6b.UTF-32LE_BOM.log
+      Subpath     : dtf5-6b.UTF-32LE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -318,10 +318,10 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log
   About:
-      Archive subpath: dtf5-6b.UTF-32LE.log
+      Subpath     : dtf5-6b.UTF-32LE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -363,10 +363,10 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log
   About:
-      Archive subpath: dtf5-6b.UTF-8_BOM.log
+      Subpath     : dtf5-6b.UTF-8_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -408,10 +408,10 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log
   About:
-      Archive subpath: dtf5-6b.UTF-8.log
+      Subpath     : dtf5-6b.UTF-8.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6

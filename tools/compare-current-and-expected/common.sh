@@ -110,5 +110,6 @@ function stderr_clean () {
         -e '/^Path libsystemd[ ]+: .*$/d' \
         -e '/^ERROR: .*$/d' \
         -e '/.*DateTimeParseInstr:.*/d' \
+        -e '/^WARNING: .* ODL protected tokens could not be decoded.*$/d' \
         "${1}"
 }

@@ -1,3 +1,5 @@
+# log-files-time-update.txt
+#
 # file listing, used by log-files-time-update.sh
 #     find ./logs/ -type f -printf '%p|%TY-%Tm-%Td %TH:%TM:%TS -08:00\n'
 # columns:
@@ -37,7 +39,20 @@
 ./logs/CentOS7/x86_64/utmp-offsets_x86_64_CentOS_7.out.txt|2024-03-02 23:11:28.214775293 -0800
 ./logs/CentOS7/x86_64/utmp.utmpdump.txt|2024-03-02 23:23:58.424677520 -0800
 ./logs/CentOS7/x86_64/utmp|2024-03-02 23:23:58.524677505 -0800
+./logs/CentOS7/x86_64/wtmp.bz2|2024-03-02 23:23:57 -0800
+./logs/CentOS7/x86_64/wtmp.gz|2024-03-02 23:23:57.964677572 -0800
+./logs/CentOS7/x86_64/wtmp.lz|2024-03-02 23:23:57 -0800
+./logs/CentOS7/x86_64/wtmp.lz4|2024-03-02 23:23:57 -0800
+./logs/CentOS7/x86_64/wtmp.lzo|2024-03-02 23:23:57 -0800
+./logs/CentOS7/x86_64/wtmp.tar.gz|2024-03-02 23:23:57.964677572 -0800
+./logs/CentOS7/x86_64/wtmp.tar.lz|2024-03-02 23:23:57.964677572 -0800
+./logs/CentOS7/x86_64/wtmp.tar.lzo|2024-03-02 23:23:57.964677572 -0800
+./logs/CentOS7/x86_64/wtmp.tar.xz|2024-03-02 23:23:57.964677572 -0800
+./logs/CentOS7/x86_64/wtmp.tar|2024-03-02 23:23:57.964677572 -0800
 ./logs/CentOS7/x86_64/wtmp.utmpdump.txt|2024-03-02 23:23:57.744677598 -0800
+./logs/CentOS7/x86_64/wtmp.xz|2024-03-02 23:23:57.964677572 -0800
+./logs/CentOS7/x86_64/wtmp.zip|2024-03-02 23:23:58 -0800
+./logs/CentOS7/x86_64/wtmp.zst|2024-03-02 23:23:57.964677572 -0800
 ./logs/CentOS7/x86_64/wtmp|2024-03-02 23:23:57.964677572 -0800
 ./logs/CentOS7/yum.log|2022-01-21 13:29:39.003877800 -0800
 ./logs/CentOS9/anaconda/anaconda.log|2024-03-10 21:19:31.176332890 -0700
@@ -966,6 +981,7 @@
 ./logs/other/tests/dtf5-6b.log.lz4|2000-01-01 00:00:05 -0700
 ./logs/other/tests/dtf5-6b.log.lzo|2000-01-01 00:00:05 -0700
 ./logs/other/tests/dtf5-6b.log.xz|2000-01-01 00:00:05 -0700
+./logs/other/tests/dtf5-6b.log.zip|2000-01-01 00:00:05 -0700
 ./logs/other/tests/dtf5-6b.log.zst|2000-01-01 00:00:05 -0700
 ./logs/other/tests/dtf5-6b.log|2000-01-01 00:00:05 -0700
 ./logs/other/tests/dtf5-6b.tar.gz|2000-01-01 00:00:05 -0700
@@ -1189,6 +1205,7 @@
 ./logs/other/tests/gen-1000-3-foobar.log.lz4|2000-01-01 00:16:40 -0000
 ./logs/other/tests/gen-1000-3-foobar.log.tar|2000-01-01 00:16:40 -0000
 ./logs/other/tests/gen-1000-3-foobar.log.xz|2000-01-01 00:16:40 -0000
+./logs/other/tests/gen-1000-3-foobar.log.zip|2000-01-01 00:16:40 -0000
 ./logs/other/tests/gen-1000-3-foobar.log|2000-01-01 00:16:40 -0000
 ./logs/other/tests/gen-1000-3-foobar.log|2000-01-01 00:16:40 -0000
 ./logs/other/tests/gen-1000-3-foobar.UTF-16BE.log|2000-01-01 00:16:40 -0000
@@ -1467,6 +1484,7 @@
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/telemetryCache.otc-shm|2025-12-21 04:17:17.482120200 -0800
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/telemetryCache.otc-wal|2025-12-21 04:17:17.482120200 -0800
 ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/telemetryCache.otc|2025-12-21 04:17:17.482120200 -0800
+./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|2026-10-13 14:49:27.968875500 -0700
 ./logs/programs/OneDrive/StandaloneUpdater/logs/StandaloneUpdater-2025-12-21.1214.2516.1.odl|2025-12-21 04:14:07.253000000 -0800
 ./logs/programs/OneDrive/StandaloneUpdater/logs/StandaloneUpdater-2025-12-23.1317.5732.1.odl|2025-12-23 05:18:47.089000000 -0800
 ./logs/programs/OneDrive/StandaloneUpdater/logs/StandaloneUpdater-2025-12-23.1330.7836.1.odl|2025-12-23 05:30:14.425000000 -0800

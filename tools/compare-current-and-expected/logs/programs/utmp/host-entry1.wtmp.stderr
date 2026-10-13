@@ -7,7 +7,7 @@ File: ./logs/programs/utmp/host-entry1.wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Thread stack  : 104448 (bytes)
-      Processing Err : no valid fixed-structure records found in file
+      Processing Err: no valid fixed-structure records found in file
 
 Program summary:
 

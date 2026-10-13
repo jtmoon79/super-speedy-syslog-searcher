@@ -3,10 +3,10 @@ Files:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log
   About:
-      Archive subpath: dtf7-20-LEVELS.log
+      Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 3680
       flushes       : 20
@@ -48,10 +48,10 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-5-LEVELS.log
   About:
-      Archive subpath: dtf7-5-LEVELS.log
+      Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
+      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 877
       flushes       : 5
