@@ -249,6 +249,8 @@ const FTJOURNALX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType
     archival_type: FileTypeArchive::Xz,
 });
 const FTUNPARSABLE: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::Unparsable);
+const FTZIP: PathToFiletypeResult =
+    PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Zip, FileTypeArchive::Normal);
 //
 // ODL
 //
@@ -1003,10 +1005,10 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::
 #[test_case("log.tgz.99", FTTN8, true)]
 #[test_case(
     "logs.2.zip",
-    FTUNPARSABLE,
+    FTZIP,
     false
 )]
-#[test_case("logs.2.zip", FTTN8, true)]
+#[test_case("logs.2.zip", FTZIP, true)]
 #[test_case(
     "logs.tgz.99",
     FTUNPARSABLE,
@@ -1017,22 +1019,22 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::
 #[test_case("LOGS.TGZ.99", FTTN8, true; "LOGS.TGZ.99 ALLCAPS filetype_utf8")]
 #[test_case(
     "logs.xz.zip",
-    FTUNPARSABLE,
+    FTZIP,
     false
 )]
-#[test_case("logs.xz.zip", FTTN8, true)]
+#[test_case("logs.xz.zip", FTZIP, true)]
 #[test_case(
     "logs.zip",
-    FTUNPARSABLE,
+    FTZIP,
     false
 )]
-#[test_case("logs.zip", FTTN8, true)]
+#[test_case("logs.zip", FTZIP, true)]
 #[test_case(
     "logs.zip.2",
-    FTUNPARSABLE,
+    FTZIP,
     false
 )]
-#[test_case("logs.zip.2", FTTN8, true)]
+#[test_case("logs.zip.2", FTZIP, true)]
 #[test_case(
     "media.avi",
     FTUNPARSABLE,
@@ -1113,11 +1115,12 @@ fn test_fpath_to_filetype(
                 panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
             }
         },
-        PathToFiletypeResult::Archive(_ftam, _fta) => match expect_result {
+        PathToFiletypeResult::Archive(ftam, fta) => match expect_result {
             PathToFiletypeResult::Filetype(ft) => {
                 panic!("Expected FileType::{:?}, got PathToFiletypeResult::Archive", ft);
             }
-            PathToFiletypeResult::Archive(_ftam, _fta) => {
+            PathToFiletypeResult::Archive(expected_ftam, expected_fta) => {
+                assert_eq!((ftam, fta), (expected_ftam, expected_fta));
                 defx!();
                 return;
             }
@@ -1147,11 +1150,12 @@ fn test_fpath_to_filetype(
                 panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
             }
         },
-        PathToFiletypeResult::Archive(_ftam, _fta) => match expect_result {
+        PathToFiletypeResult::Archive(ftam, fta) => match expect_result {
             PathToFiletypeResult::Filetype(ft) => {
                 panic!("Expected FileType::{:?}, got PathToFiletypeResult::Archive", ft);
             }
-            PathToFiletypeResult::Archive(_ftam, _fta) => {
+            PathToFiletypeResult::Archive(expected_ftam, expected_fta) => {
+                assert_eq!((ftam, fta), (expected_ftam, expected_fta));
                 defx!();
                 return;
             }

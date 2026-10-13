@@ -30,6 +30,7 @@ use ::si_trace_print::{
     deñ,
 };
 use ::tar;
+use ::zip;
 
 use crate::common::{
     BOM_UTF16BE,
@@ -50,7 +51,10 @@ use crate::debug_panic;
 use crate::debug::printers::de_err;
 #[cfg(any(debug_assertions, test))]
 use crate::readers::helpers::fpath_to_path;
-use crate::readers::helpers::path_to_fpath;
+use crate::readers::helpers::{
+    path_to_fpath,
+    zip_error,
+};
 
 #[inline(always)]
 fn is_texty_ascii_byte(b: u8) -> bool {
@@ -461,6 +465,8 @@ impl PartialEq for ProcessPathResult {
 pub enum FileTypeArchiveMultiple {
     /// a `.tar` archive file
     Tar,
+    /// a `.zip` archive file
+    Zip,
 }
 
 #[cfg(test)]
@@ -807,6 +813,9 @@ fn pathbuf_to_filetype_impl(
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
         }
+        "zip" => {
+            return PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Zip, fta);
+        }
         "jsonl"
         | "log"
         | "text"
@@ -964,7 +973,6 @@ fn pathbuf_to_filetype_impl(
         | "webp"
         | "wma"
         | "wmv"
-        | "zip"
         => {
             match unparseable_are_text {
                 true => {
@@ -1318,6 +1326,7 @@ pub fn process_path_tar(
                     | FileType::Etl { archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::Etl{ archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::Etl{ archival_type: at @ FileTypeArchive::Tar, .. }
+                    | FileType::Etl{ archival_type: at @ FileTypeArchive::Zip, .. }
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
@@ -1336,6 +1345,7 @@ pub fn process_path_tar(
                     | FileType::Evtx { archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::Evtx{ archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::Evtx{ archival_type: at @ FileTypeArchive::Tar, .. }
+                    | FileType::Evtx{ archival_type: at @ FileTypeArchive::Zip, .. }
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
@@ -1354,6 +1364,7 @@ pub fn process_path_tar(
                     | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Tar, .. }
+                    | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Zip, .. }
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
@@ -1374,6 +1385,7 @@ pub fn process_path_tar(
                     | FileType::Odl { archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::Odl{ archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::Odl{ archival_type: at @ FileTypeArchive::Tar, .. }
+                    | FileType::Odl{ archival_type: at @ FileTypeArchive::Zip, .. }
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
@@ -1392,6 +1404,7 @@ pub fn process_path_tar(
                     | FileType::Journal { archival_type: at @ FileTypeArchive::Lz4 }
                     | FileType::Journal { archival_type: at @ FileTypeArchive::Xz }
                     | FileType::Journal { archival_type: at @ FileTypeArchive::Tar }
+                    | FileType::Journal { archival_type: at @ FileTypeArchive::Zip }
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
@@ -1412,6 +1425,7 @@ pub fn process_path_tar(
                     | FileType::Text { archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::Text { archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::Text { archival_type: at @ FileTypeArchive::Tar, .. }
+                    | FileType::Text { archival_type: at @ FileTypeArchive::Zip, .. }
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
@@ -1453,13 +1467,144 @@ pub fn process_path_tar(
     results
 }
 
+/// Return a result for each regular member of a ZIP archive.
+pub fn process_path_zip(
+    path: &FPath,
+    unparseable_are_text: bool,
+    filetypearchive: FileTypeArchive,
+) -> Vec<ProcessPathResult> {
+    defn!("path={:?}", path);
+
+    if filetypearchive != FileTypeArchive::Normal {
+        debug_panic!("unsupported filetypearchive={:?}", filetypearchive);
+        defx!("unsupported filetypearchive={:?}", filetypearchive);
+        return vec![ProcessPathResult::FileErrNotSupported(
+            path.clone(), Some(String::from("externally compressed ZIP archives are not supported")),
+        )];
+    }
+    let file: File = match File::open(path) {
+        Ok(file) => file,
+        Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+            defx!("permission denied for path={:?}", path);
+            return vec![ProcessPathResult::FileErrNoPermissions(path.clone())];
+        }
+        Err(error) => {
+            defx!("error opening path={:?}: {:?}", path, error);
+            return vec![ProcessPathResult::FileErr(path.clone(), error_to_string(&error, path))];
+        }
+    };
+    let archive: zip::ZipArchive<File> = match zip::ZipArchive::new(file) {
+        Ok(archive) => archive,
+        Err(error) => {
+            let zip_err = zip_error(error, path);
+            defx!("error creating ZIP archive for path={:?}: {:?}", path, zip_err);
+            return vec![ProcessPathResult::FileErr(path.clone(), zip_err.to_string())];
+        }
+    };
+    let mut results: Vec<ProcessPathResult> = Vec::new();
+    for index in 0..archive.len() {
+        defo!("processing ZIP entry at index {}", index);
+        let entry = match archive.by_index_data(index) {
+            Ok(entry) => entry,
+            Err(error) => {
+                let zip_err = zip_error(error, path);
+                defo!("skip entry; error reading ZIP entry at index {}: {:?}", index, zip_err);
+                results.push(ProcessPathResult::FileErr(path.clone(), zip_err.to_string()));
+                continue;
+            }
+        };
+        if !entry.is_file() {
+            continue;
+        }
+        let name = match entry.name() {
+            Ok(name) => name,
+            Err(error) => {
+                let zip_err = zip_error(error, path);
+                defo!("skip entry; error getting ZIP entry name: {:?}", zip_err);
+                results.push(ProcessPathResult::FileErr(path.clone(), zip_err.to_string()));
+                continue;
+            }
+        };
+        defo!("ZIP entry name for index {}: {:?}", index, name);
+        if name.contains(SUBPATH_SEP) || entry.name_raw().contains(&0) {
+            results.push(ProcessPathResult::FileErr(
+                path.clone(), format!("ZIP member {name:?} contains the archive separator"),
+            ));
+            continue;
+        }
+        let fullpath = format!("{path}{SUBPATH_SEP}{name}");
+        if entry.encrypted() {
+            defo!("skip entry; ZIP entry is encrypted: {:?}", fullpath);
+            results.push(ProcessPathResult::FileErrNotSupported(
+                fullpath,
+                Some(String::from("encrypted ZIP members are not supported")),
+            ));
+            continue;
+        }
+        // zip's SUPPORTED_COMPRESSION_METHODS omits its LZMA reader.
+        if !matches!(entry.compression(),
+            zip::CompressionMethod::Stored
+                | zip::CompressionMethod::Deflated
+                | zip::CompressionMethod::Deflate64
+                | zip::CompressionMethod::Bzip2
+                | zip::CompressionMethod::Lzma
+                | zip::CompressionMethod::Ppmd
+        ) {
+            defo!("skip entry; unsupported ZIP compression method: {:?}", entry.compression());
+            results.push(ProcessPathResult::FileErrNotSupported(
+                fullpath, Some(format!("unsupported ZIP compression method {}", entry.compression())),
+            ));
+            continue;
+        }
+        let result = match path_to_filetype(Path::new(name.as_ref()), unparseable_are_text) {
+            PathToFiletypeResult::Archive(..) => ProcessPathResult::FileErrNotSupported(
+                fullpath, Some(String::from("nested archives are not supported")),
+            ),
+            PathToFiletypeResult::Filetype(FileType::Unparsable) => {
+                ProcessPathResult::FileErrNotSupported(fullpath, None)
+            }
+            PathToFiletypeResult::Filetype(filetype) if filetype.to_filetypearchive() != FileTypeArchive::Normal => {
+                ProcessPathResult::FileErrNotSupported(
+                    fullpath, Some(String::from("compressed files within ZIP archives are not supported")),
+                )
+            }
+            PathToFiletypeResult::Filetype(mut filetype) => {
+                match &mut filetype {
+                    FileType::Asl { archival_type }
+                    | FileType::Etl { archival_type }
+                    | FileType::Evtx { archival_type }
+                    | FileType::FixedStruct { archival_type, .. }
+                    | FileType::Journal { archival_type }
+                    | FileType::Odl { archival_type, .. }
+                    | FileType::Text { archival_type, .. }
+                    => *archival_type = FileTypeArchive::Zip,
+                    FileType::Unparsable => unreachable!(),
+                }
+                if entry.size() == 0 {
+                    ProcessPathResult::FileErrEmpty(fullpath, filetype)
+                } else {
+                    ProcessPathResult::FileValid(fullpath, filetype)
+                }
+            }
+        };
+        defo!("result for entry: {:?}", result);
+        results.push(result);
+    }
+    if results.is_empty() {
+        defo!("no valid files found; returning FileErrEmpty for path {:?}", path);
+        results.push(ProcessPathResult::FileErrEmpty(path.clone(), FileType::Unparsable));
+    }
+
+    results
+}
+
 /// Return all parseable files in the `path`.
 ///
 /// Given a directory, recurses the directory.<br/>
 /// Given a plain file path, returns that path.<br/>
 /// For each recursed file, checks if file is parseable (correct file type,
 /// appropriate permissions).<br/>
-/// For archive files, `.tar`, enumerates files within the archive.<br/>
+/// For archive files, `.tar` and `.zip`, enumerates files within the archive.<br/>
 /// For compressed files, `.gz` `.xz`, presumes they hold only one file
 /// (Relates to Issue #11, Issue #8).
 ///
@@ -1510,6 +1655,9 @@ pub fn process_path(
             }
             PathToFiletypeResult::Archive(archive, fta) => {
                 match archive {
+                    FileTypeArchiveMultiple::Zip => {
+                        return process_path_zip(path, unparseable_are_text, fta);
+                    }
                     FileTypeArchiveMultiple::Tar => {
                         // getting here means `std_path` is a `.tar` file
                         defo!("std_path is a .tar file {:?}", std_path);
@@ -1569,6 +1717,9 @@ pub fn process_path(
             PathToFiletypeResult::Filetype(filetype) => filetype,
             PathToFiletypeResult::Archive(archive, fta) => {
                 let results: Vec<ProcessPathResult> = match archive {
+                    FileTypeArchiveMultiple::Zip => {
+                        process_path_zip(&fpath_entry, unparseable_are_text, fta)
+                    }
                     FileTypeArchiveMultiple::Tar => {
                         // getting here means `std_path` is a `.tar` file
                         defo!("std_path_entry is a .tar file {:?}", std_path_entry);
@@ -1589,30 +1740,35 @@ pub fn process_path(
             | FileType::Asl{ archival_type: FileTypeArchive::Lz4 }
             | FileType::Asl{ archival_type: FileTypeArchive::Tar }
             | FileType::Asl{ archival_type: FileTypeArchive::Xz }
+            | FileType::Asl{ archival_type: FileTypeArchive::Zip }
             | FileType::Etl{ archival_type: FileTypeArchive::Normal }
             | FileType::Etl{ archival_type: FileTypeArchive::Bz2 }
             | FileType::Etl{ archival_type: FileTypeArchive::Gz }
             | FileType::Etl{ archival_type: FileTypeArchive::Lz4 }
             | FileType::Etl{ archival_type: FileTypeArchive::Tar }
             | FileType::Etl{ archival_type: FileTypeArchive::Xz }
+            | FileType::Etl{ archival_type: FileTypeArchive::Zip }
             | FileType::Evtx{ archival_type: FileTypeArchive::Normal }
             | FileType::Evtx{ archival_type: FileTypeArchive::Bz2 }
             | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
             | FileType::Evtx{ archival_type: FileTypeArchive::Lz4 }
             | FileType::Evtx{ archival_type: FileTypeArchive::Tar }
             | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
+            | FileType::Evtx{ archival_type: FileTypeArchive::Zip }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, fixedstruct_type: _ }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, fixedstruct_type: _ }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
+            | FileType::FixedStruct{ archival_type: FileTypeArchive::Zip, fixedstruct_type: _ }
             | FileType::Journal{ archival_type: FileTypeArchive::Normal }
             | FileType::Journal{ archival_type: FileTypeArchive::Bz2 }
             | FileType::Journal{ archival_type: FileTypeArchive::Gz }
             | FileType::Journal{ archival_type: FileTypeArchive::Lz4 }
             | FileType::Journal{ archival_type: FileTypeArchive::Tar }
             | FileType::Journal{ archival_type: FileTypeArchive::Xz }
+            | FileType::Journal{ archival_type: FileTypeArchive::Zip }
             | FileType::Odl{ .. }
             | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
             | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: _ }
@@ -1620,6 +1776,7 @@ pub fn process_path(
             | FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: _ }
             | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ }
             | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }
+            | FileType::Text{ archival_type: FileTypeArchive::Zip, encoding_type: _ }
             => {
                 defo!("paths.push(FileValid(({:?}, {:?})))", fpath_entry, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, filetype));

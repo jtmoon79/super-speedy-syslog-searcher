@@ -119,15 +119,15 @@ const EXT_TYPE_PROV_TRAITS: u16 = 0x000C;
 /// sanity limit on extended data items per record
 const EXT_ITEMS_MAX: usize = 16;
 /// sanity limit on GUID values of one kernel `EventTrace` event.
-pub(crate) const KERNEL_EVENT_GUIDS_MAX: usize = 4096;
+pub const KERNEL_EVENT_GUIDS_MAX: usize = 4096;
 /// sanity limit on elements of one decoded TraceLogging array.
 /// `Fixed` and `Var` counts are `u16`, so this must be below `u16::MAX` to reject a single array.
-pub(crate) const TL_ARRAY_LEN_MAX: usize = 4096;
+pub const TL_ARRAY_LEN_MAX: usize = 4096;
 /// sanity limit on materialized `EtlValue` nodes of one TraceLogging event.
 /// Nested struct arrays share this budget so their counts cannot multiply.
-pub(crate) const TL_EVENT_VALUES_MAX: usize = 8192;
+pub const TL_EVENT_VALUES_MAX: usize = 8192;
 /// sanity limit on TraceLogging struct nesting; prevents stackoverflow.
-pub(crate) const TL_STRUCT_DEPTH_MAX: usize = 64;
+pub const TL_STRUCT_DEPTH_MAX: usize = 64;
 
 // `TRACE_MESSAGE_*` flags of a WPP message header
 const TRACE_MESSAGE_SEQUENCE: u16 = 0x0001;

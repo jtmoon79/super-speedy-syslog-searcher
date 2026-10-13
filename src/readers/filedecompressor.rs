@@ -34,6 +34,8 @@ use ::flate2::GzHeader;
 use ::lazy_static::lazy_static;
 // `lz4_flex` is for lz4 files.
 use ::lz4_flex;
+pub use ::zip::read::ZipArchive;
+pub use ::zip::read::ZipFile;
 
 // `lzma_rs` is for xz files.
 use crate::subprojects::lzma_rs;
@@ -77,6 +79,11 @@ use crate::readers::helpers::{
     fpath_to_path,
     path_filesz,
     path_to_fpath,
+    open_zip,
+    zip_error,
+    zip_member_index,
+    zip_member_mtime,
+    ZipHandle,
 };
 use crate::readers::filehandlemanager::{
     FILE_HANDLE_MANAGER,
@@ -110,9 +117,9 @@ const SUFFIX_TEXT: &str = ".log";
 /// - `TempPath` is the temporary file path
 /// - `Option<SystemTime>` is the file modification time if found
 /// - `FileSz` is the size of the temporary file
-type DecompressToNtfValue = Option<(TempPath, Option<SystemTime>, FileSz)>;
+pub type DecompressToNtfValue = Option<(TempPath, Option<SystemTime>, FileSz)>;
 /// `Result` wrapper for `DecompressToNtfValue`
-type DecompressToNtfResult = Result<DecompressToNtfValue>;
+pub type DecompressToNtfResult = Result<DecompressToNtfValue>;
 
 /// wrapper for call to `err_from_err_path_result::<DecompressToNtfValue>`
 macro_rules! err_from_err_path_result_dtn {
@@ -221,6 +228,7 @@ pub fn decompress_to_ntf(
         | FileTypeArchive::Gz
         | FileTypeArchive::Lz4
         | FileTypeArchive::Tar
+        | FileTypeArchive::Zip
         | FileTypeArchive::Xz => {}
     }
 
@@ -351,6 +359,85 @@ pub fn decompress_to_ntf(
                     );
                 }
             };
+        }
+        FileTypeArchive::Zip => {
+            let (archive_path, member) = fpath.rsplit_once(SUBPATH_SEP).ok_or_else(|| Error::new(
+                ErrorKind::InvalidInput, format!("ZIP input has no member path: {fpath:?}"),
+            ))?;
+            let archive_path: &Path = Path::new(archive_path);
+            let fallback: SystemTime = match archive_path.metadata() {
+                Ok(metadata) => match metadata.modified() {
+                    Ok(time) => time,
+                    Err(err) => {
+                        defx!("archive_path.metadata().modified() Error, return {:?}", err);
+                        return err_from_err_path_result_dtn!(
+                            &err, &fpath, Some("archive_path.metadata().modified() failed")
+                        );
+                    }
+                },
+                Err(err) => {
+                    defx!("archive_path.metadata() Error, return {:?}", err);
+                    return err_from_err_path_result_dtn!(
+                        &err, &fpath, Some("archive_path.metadata() failed")
+                    );
+                }
+            };
+            let mut archive: ZipHandle = match open_zip(path_id, FileHandleRole::SecondaryRead, archive_path) {
+                Ok(arch) => arch,
+                Err(err) => {
+                    defx!("open_zip() Error, return {:?}", err);
+                    return err_from_err_path_result_dtn!(
+                        &err, &fpath, Some("open_zip() failed")
+                    );
+                }
+            };
+            let index: usize = match zip_member_index(&archive, member, &fpath) {
+                Ok(idx) => idx,
+                Err(err) => {
+                    defx!("zip_member_index() Error, return {:?}", err);
+                    return err_from_err_path_result_dtn!(
+                        &err, &fpath, Some("zip_member_index() failed")
+                    );
+                }
+            };
+            let mut entry: ZipFile<'_, FileHandleManaged> = match archive.by_index(index)
+                .map_err(|error| zip_error(error, &fpath))
+            {
+                Ok(e) => e,
+                Err(err) => {
+                    defx!("archive.by_index() Error, return {:?}", err);
+                    return err_from_err_path_result_dtn!(
+                        &err, &fpath, Some("archive.by_index() failed")
+                    );
+                }
+            };
+            let filesz_header: FileSz = entry.size();
+            let mtime: SystemTime = zip_member_mtime(&entry, fallback, &fpath);
+            let mut bufwriter: BufWriter<FileHandleManaged> = BufWriter::new(file_ntf);
+            let bytes_written: u64 = match std::io::copy(&mut entry, &mut bufwriter)
+                .map_err(|error| err_from_err_path(&error, &fpath, Some("ZIP extraction"))) {
+                Ok(bytes) => bytes,
+                Err(err) => {
+                    defx!("std::io::copy() Error, return {:?}", err);
+                    return Err(err);
+                }
+            };
+            match bufwriter.flush().map_err(|error| err_from_err_path(&error, &fpath, Some("ZIP temporary file flush"))) {
+                Ok(_) => {},
+                Err(err) => {
+                    defx!("bufwriter.flush() Error, return {:?}", err);
+                    return Err(err);
+                }
+            }
+            let file_sz: FileSz = path_filesz_or_return_err!(path_ntf);
+            if file_sz != filesz_header || bytes_written != filesz_header {
+                return Err(Error::new(ErrorKind::InvalidData, format!(
+                    "ZIP member {fpath:?} size mismatch: header {filesz_header}, copied {bytes_written}, temporary file {file_sz}",
+                )));
+            }
+
+            defx!("ZIP extraction successful, temporary file at {:?}", temp_path);
+            return Ok(Some((temp_path, Some(mtime), file_sz)));
         }
         FileTypeArchive::Tar
         => {
@@ -701,9 +788,10 @@ pub fn decompress_to_ntf(
             defo!("_filesz_uncompressed {}", _filesz_uncompressed);
         }
         FileTypeArchive::Tar
+        | FileTypeArchive::Zip
         => {
-            debug_panic!("FileTypeArchive::Tar already handled, should not reach here");
-            return Err(Error::new(ErrorKind::Other, format!("Unexpected FileTypeArchive::Tar for {:?}", path_std)));
+            debug_panic!("archive already handled, should not reach here");
+            return Err(Error::other(format!("Unexpected {file_type_archive:?} for {path_std:?}")));
         }
         FileTypeArchive::Xz
         => {
@@ -772,9 +860,10 @@ pub fn decompress_to_ntf(
                                 }
                             }
                         }
-                        FileTypeArchive::Tar => {
-                            debug_panic!("Unexpected FileTypeArchive::Tar");
-                            e_wrn!("Unexpected FileTypeArchive::Tar for {:?}", path_std);
+                        FileTypeArchive::Tar
+                        | FileTypeArchive::Zip => {
+                            debug_panic!("Unexpected FileTypeArchive::{:?}", file_type.to_filetypearchive());
+                            e_wrn!("Unexpected FileTypeArchive::{:?} for {:?}", file_type.to_filetypearchive(), path_std);
                             defo!("mtime from fallback {:?}", SystemTime::UNIX_EPOCH);
 
                             Some(SystemTime::UNIX_EPOCH)

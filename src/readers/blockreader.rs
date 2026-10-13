@@ -120,6 +120,14 @@ use crate::readers::filehandlemanager::{
     FileHandleManaged,
     OpenOptionsManaged,
 };
+use crate::readers::helpers::{
+    open_zip,
+    zip_error,
+    zip_member_index,
+    zip_member_mtime,
+    ZipHandle,
+    ZipArchive,
+};
 
 /// [`Block`] Size in bytes.
 // TODO: move this into crate::common ?
@@ -754,7 +762,7 @@ pub type TarChecksum = u32;
 pub type TarMTime = u64;
 
 #[derive(Debug)]
-enum TarMessage {
+enum ArchiveMessage {
     Block(Block),
     Done,
     Error(Error),
@@ -779,7 +787,7 @@ pub struct TarData {
     /// > since January 1, 1970, 00:00 Coordinated Universal Time.
     pub mtime: TarMTime,
     archive: Option<TarHandle>,
-    receiver: Option<Receiver<TarMessage>>,
+    receiver: Option<Receiver<ArchiveMessage>>,
     producer: Option<JoinHandle<()>>,
     finished: bool,
 }
@@ -810,7 +818,7 @@ impl TarData {
             )?;
         let entry_index = self.entry_index;
         let filesz = self.filesz;
-        let (sender, receiver) = bounded::<TarMessage>(1);
+        let (sender, receiver) = bounded::<ArchiveMessage>(1);
         let thread_name_cur: String = match std::thread::current().name() {
             Some(name) => name.to_string(),
             None => path.clone(),
@@ -823,7 +831,7 @@ impl TarData {
                 let mut entry_iter: tar::Entries<FileHandleManaged> = match archive.entries_with_seek() {
                     Ok(entry_iter) => entry_iter,
                     Err(error) => {
-                        _ = sender.send(TarMessage::Error(err_from_err_path(
+                        _ = sender.send(ArchiveMessage::Error(err_from_err_path(
                             &error,
                             &path2,
                             Some("(tar entries_with_seek failed)"),
@@ -834,7 +842,7 @@ impl TarData {
                 let mut entry: tar::Entry<FileHandleManaged> = match entry_iter.nth(entry_index) {
                     Some(Ok(entry)) => entry,
                     Some(Err(error)) => {
-                        _ = sender.send(TarMessage::Error(err_from_err_path(
+                        _ = sender.send(ArchiveMessage::Error(err_from_err_path(
                             &error,
                             &path2,
                             Some("(tar entry selection failed)"),
@@ -842,7 +850,7 @@ impl TarData {
                         return;
                     }
                     None => {
-                        _ = sender.send(TarMessage::Error(Error::new(
+                        _ = sender.send(ArchiveMessage::Error(Error::new(
                             ErrorKind::UnexpectedEof,
                             format!("tar entry {entry_index} not found for file {path2:?}"),
                         )));
@@ -854,7 +862,7 @@ impl TarData {
                     let blocksz_at = std::cmp::min(blocksz, remaining) as usize;
                     let mut block: Block = vec![0; blocksz_at];
                     if let Err(error) = entry.read_exact(block.as_mut_slice()) {
-                        _ = sender.send(TarMessage::Error(err_from_err_path(
+                        _ = sender.send(ArchiveMessage::Error(err_from_err_path(
                             &error,
                             &path2,
                             Some("(tar entry read_exact failed)"),
@@ -862,11 +870,11 @@ impl TarData {
                         return;
                     }
                     remaining -= block.len() as FileSz;
-                    if sender.send(TarMessage::Block(block)).is_err() {
+                    if sender.send(ArchiveMessage::Block(block)).is_err() {
                         return;
                     }
                 }
-                _ = sender.send(TarMessage::Done);
+                _ = sender.send(ArchiveMessage::Done);
             })
             .map_err(|error|
                 err_from_err_path(&error, path, Some("(spawn tar reader failed)"))
@@ -879,7 +887,7 @@ impl TarData {
         Ok(())
     }
 
-    fn recv(&self) -> Result<TarMessage> {
+    fn recv(&self) -> Result<ArchiveMessage> {
         def1ñ!();
         self.receiver
             .as_ref()
@@ -918,17 +926,105 @@ impl Drop for TarData {
     }
 }
 
+struct ZipData {
+    archive: Option<ZipHandle>,
+    entry_index: usize,
+    mtime: SystemTime,
+    receiver: Option<Receiver<ArchiveMessage>>,
+    producer: Option<JoinHandle<()>>,
+    finished: bool,
+}
+
+impl ZipData {
+    fn start(&mut self, blocksz: BlockSz, filesz: FileSz, path: &FPath) -> Result<()> {
+        if self.finished || self.producer.is_some() {
+            return Ok(());
+        }
+        let mut archive = self.archive.take().ok_or_else(|| Error::new(
+            ErrorKind::InvalidData, format!("ZIP archive not initialized for {path:?}"),
+        ))?;
+        let entry_index = self.entry_index;
+        let (sender, receiver) = bounded::<ArchiveMessage>(1);
+        let path = path.clone();
+        let thread_name = format!("{}-zip-reader", thread::current().name().unwrap_or("s4"));
+        let producer = thread::Builder::new()
+            .name(thread_name)
+            .spawn(move || {
+                let result = (|| -> Result<()> {
+                    let mut entry = archive.by_index(entry_index)
+                        .map_err(|error| zip_error(error, &path))?;
+                    let mut remaining = filesz;
+                    while remaining > 0 {
+                        let mut block = vec![0; std::cmp::min(blocksz, remaining) as usize];
+                        entry.read_exact(&mut block)?;
+                        remaining -= block.len() as FileSz;
+                        // Reading EOF triggers the ZIP reader's terminal CRC validation.
+                        if remaining == 0 && entry.read(&mut [0; 1])? != 0 {
+                            return Err(Error::new(ErrorKind::InvalidData, "ZIP member exceeds its advertised size"));
+                        }
+                        if sender.send(ArchiveMessage::Block(block)).is_err() {
+                            return Ok(());
+                        }
+                    }
+                    _ = sender.send(ArchiveMessage::Done);
+                    Ok(())
+                })();
+                if let Err(error) = result {
+                    _ = sender.send(ArchiveMessage::Error(err_from_err_path(
+                        &error, &path, Some("ZIP member read"),
+                    )));
+                }
+            })?;
+        self.receiver = Some(receiver);
+        self.producer = Some(producer);
+        Ok(())
+    }
+
+    fn recv(&self) -> Result<ArchiveMessage> {
+        self.receiver.as_ref()
+            .ok_or_else(|| Error::new(ErrorKind::InvalidData, "ZIP block receiver not initialized"))?
+            .recv()
+            .map_err(|_| Error::new(ErrorKind::UnexpectedEof, "ZIP reader stopped without a terminal message"))
+    }
+
+    fn finish_producer(&mut self) -> Result<()> {
+        self.receiver = None;
+        self.finished = true;
+        if let Some(producer) = self.producer.take() {
+            producer.join().map_err(|_| Error::other("ZIP reader thread panicked"))?;
+        }
+        Ok(())
+    }
+
+    fn finish_with_error(&mut self, error: Error) -> Error {
+        match self.finish_producer() {
+            Ok(()) => error,
+            Err(join_error) => Error::new(error.kind(), format!("{error}; {join_error}")),
+        }
+    }
+}
+
+impl Drop for ZipData {
+    fn drop(&mut self) {
+        def2ñ!("ZipData");
+        if let Err(error) = self.finish_producer() {
+            e_err!("{}", error);
+            debug_panic!("ZIP reader thread panicked during drop: {}", error);
+        }
+    }
+}
+
 /// A `BlockReader` reads a file in [`BlockSz`] byte-sized [`Block`s]. It
 /// interfaces with the filesystem. It handles reading from specialized
 /// storage files like
-/// compressed files (e.g. `.gz`, `.xz`) and archive files (e.g `.tar`).
+/// compressed files (e.g. `.gz`, `.xz`) and archive files (e.g. `.tar`, `.zip`).
 /// `BlockReader` handles the run-time in-memory storage the `Block`s of data
 /// it reads.
 ///
 /// A `BlockReader` uses the passed [`FileType`] to determine how to handle
 /// files.
 /// This includes reading bytes from files (e.g. `.log`),
-/// compressed files (e.g. `.gz`, `.xz`), and archive files (e.g. `.tar`).
+/// compressed files (e.g. `.gz`, `.xz`), and archive files (e.g. `.tar`, `.zip`).
 ///
 /// One `BlockReader` corresponds to one file. For archive files and
 /// compressed files, one `BlockReader` handles only one file *within*
@@ -1014,6 +1110,8 @@ pub struct BlockReader {
     xz: Option<XzData>,
     /// For files within a `.tar` file ([FileTypeArchive::Tar]), otherwise `None`.
     tar: Option<TarData>,
+    /// For files within a `.zip` file ([FileTypeArchive::Zip]), otherwise `None`.
+    zip: Option<ZipData>,
     /// The filesz of uncompressed data, set during `new`.
     /// Users should always call `filesz()`.
     pub(crate) filesz_actual: FileSz,
@@ -1305,6 +1403,7 @@ impl BlockReader {
         let mut lz_opt: Option<Lz4Data> = None;
         let mut xz_opt: Option<XzData> = None;
         let mut tar_opt: Option<TarData> = None;
+        let mut zip_opt: Option<ZipData> = None;
         let read_blocks_put: Count = 0;
 
         match filetype {
@@ -1444,7 +1543,7 @@ impl BlockReader {
                     filesz: filesz_uncompressed,
                     decoder: Bz2DecoderReader::new(file_handle3),
                 });
-                def1o!("Bz2: created bz2_opt");
+                def1o!("Bz2: created bz2_opt for {:?}", path);
             }
             FileType::FixedStruct {
                 archival_type: FileTypeArchive::Gz,
@@ -1616,7 +1715,7 @@ impl BlockReader {
                     mtime,
                     crc32,
                 });
-                def1o!("FileGz: created {:?}", gz_opt);
+                def1o!("FileGz: created {:?} for {:?}", gz_opt, path);
             }
             FileType::FixedStruct {
                 archival_type: FileTypeArchive::Lz4,
@@ -1707,6 +1806,7 @@ impl BlockReader {
                     filesz: filesz_uncompressed,
                     reader: lz4_decoder,
                 });
+                def1o!("FileLz4: lz_opt created for {:?}", path);
             }
             FileType::FixedStruct {
                 archival_type: FileTypeArchive::Tar,
@@ -1813,6 +1913,7 @@ impl BlockReader {
                     producer: None,
                     finished: false,
                 });
+                def1o!("FileTar: tar_opt created for {:?}", path_subpath);
             }
             FileType::FixedStruct {
                 archival_type: FileTypeArchive::Xz,
@@ -2342,6 +2443,61 @@ impl BlockReader {
                 });
                 def1o!("FileXz: created {:?}", xz_opt.as_ref().unwrap());
             }
+            FileType::FixedStruct { archival_type: FileTypeArchive::Zip, .. }
+            | FileType::Text { archival_type: FileTypeArchive::Zip, .. }
+            => {
+                blocksz = blocksz_;
+                let mut archive: ZipArchive<FileHandleManaged> = match open_zip(path_id, FileHandleRole::SecondaryRead, path_std) {
+                    Ok(archive) => archive,
+                    Err(err) => {
+                        def1x!("FileZip: return G {:?}", err);
+                        return err_from_err_path_result::<BlockReader>(
+                            &err,
+                            &path,
+                            Some("(open ZIP archive)"),
+                        );
+                    }
+                };
+                let entry_index: usize = match zip_member_index(
+                    &archive, subpath_opt.as_ref().unwrap(), &path_subpath,
+                ) {
+                    Ok(index) => index,
+                    Err(err) => {
+                        def1x!("FileZip: return G {:?}", err);
+                        return err_from_err_path_result::<BlockReader>(
+                            &err,
+                            &path,
+                            Some("(ZIP entry index)"),
+                        );
+                    }
+                };
+                let entry = match archive.by_index(entry_index)
+                    .map_err(|error| zip_error(error, &path_subpath))
+                {
+                    Ok(entry) => entry,
+                    Err(err) => {
+                        def1x!("FileZip: return G {:?}", err);
+                        return err_from_err_path_result::<BlockReader>(
+                            &err,
+                            &path,
+                            Some("(ZIP entry by index)"),
+                        );
+                    }
+                };
+                filesz_actual = entry.size();
+                let mtime: SystemTime = zip_member_mtime(&entry, file_metadata_modified, &path_subpath);
+                drop(entry);
+
+                zip_opt = Some(ZipData {
+                    archive: Some(archive),
+                    entry_index,
+                    mtime,
+                    receiver: None,
+                    producer: None,
+                    finished: false,
+                });
+                def1o!("FileZip: zip_opt created for {:?}", path_subpath);
+            }
             FileType::Unparsable => {
                 debug_panic!("BlockReader::new bad filetype {:?} for file {:?}", filetype, path);
 
@@ -2375,6 +2531,7 @@ impl BlockReader {
             lz: lz_opt,
             xz: xz_opt,
             tar: tar_opt,
+            zip: zip_opt,
             filesz,
             filesz_actual,
             blockn,
@@ -2431,6 +2588,7 @@ impl BlockReader {
     //       indicate to the reader they are not supported.
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
+            // Asl
             FileType::Asl {
                 archival_type: FileTypeArchive::Normal,
             } => self.filesz,
@@ -2449,6 +2607,10 @@ impl BlockReader {
             FileType::Asl {
                 archival_type: FileTypeArchive::Xz,
             } => self.filesz_actual,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Zip,
+            } => self.filesz_actual,
+            // Etl
             FileType::Etl {
                 archival_type: FileTypeArchive::Normal,
             } => self.filesz,
@@ -2467,6 +2629,10 @@ impl BlockReader {
             FileType::Etl {
                 archival_type: FileTypeArchive::Xz,
             } => self.filesz_actual,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Zip,
+            } => self.filesz_actual,
+            // Evtx
             FileType::Evtx {
                 archival_type: FileTypeArchive::Normal,
             } => self.filesz,
@@ -2485,6 +2651,10 @@ impl BlockReader {
             FileType::Evtx {
                 archival_type: FileTypeArchive::Xz,
             } => self.filesz_actual,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Zip,
+            } => self.filesz_actual,
+            // FixedStruct
             FileType::FixedStruct {
                 archival_type: FileTypeArchive::Normal,
                 ..
@@ -2509,12 +2679,17 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Xz,
                 ..
             } => self.filesz_actual,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Zip,
+                ..
+            } => self.filesz_actual,
+            // Journal
             FileType::Journal {
                 archival_type: FileTypeArchive::Normal,
             } => self.filesz,
             FileType::Journal {
                 archival_type: FileTypeArchive::Bz2,
-            } => self.filesz,
+            } => self.filesz_actual,
             FileType::Journal {
                 archival_type: FileTypeArchive::Gz,
             } => self.filesz_actual,
@@ -2527,6 +2702,10 @@ impl BlockReader {
             FileType::Journal {
                 archival_type: FileTypeArchive::Xz,
             } => self.filesz_actual,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Zip,
+            } => self.filesz_actual,
+            // Odl
             FileType::Odl {
                 archival_type: FileTypeArchive::Normal,
                 ..
@@ -2551,6 +2730,11 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Xz,
                 ..
             } => self.filesz_actual,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Zip,
+                ..
+            } => self.filesz_actual,
+            // Text
             FileType::Text {
                 archival_type: FileTypeArchive::Normal,
                 ..
@@ -2575,6 +2759,11 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Xz,
                 ..
             } => self.filesz_actual,
+            FileType::Text {
+                archival_type: FileTypeArchive::Zip,
+                ..
+            } => self.filesz_actual,
+            // Unparsable
             FileType::Unparsable => panic!("BlockerReader::filesz Unexpected Unparsable"),
         }
     }
@@ -2632,6 +2821,10 @@ impl BlockReader {
     // TODO: it would be nice to cache the value from this but that would require passing `mut`
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
+            FileType::FixedStruct { archival_type: FileTypeArchive::Zip, .. }
+            | FileType::Text { archival_type: FileTypeArchive::Zip, .. } => {
+                self.zip.as_ref().unwrap().mtime
+            }
             FileType::Asl { .. } => {
                 panic!("BlockerReader::mtime FileType::Asl does not use a BlockReader")
             }
@@ -2970,7 +3163,7 @@ impl BlockReader {
 
     /// Is the current file a "streaming" file? i.e. must the file be read in
     /// a linear manner starting from the first byte? Compressed files
-    /// must be read in this manner.
+    /// must be read in this manner. In other words, not in a random access manner.
     ///
     /// If `true` then it is presumed calls to `read_block_File` will
     /// always be in sequential (linear) manner; i.e. only increasing values of
@@ -2984,9 +3177,10 @@ impl BlockReader {
     //       indicate to the reader they are not supported.
     pub const fn is_streamed_file(&self) -> bool {
         match self.filetype {
+            // Asl
             FileType::Asl {
                 archival_type: FileTypeArchive::Normal,
-            } => false,
+            } => true,
             FileType::Asl {
                 archival_type: FileTypeArchive::Bz2,
             } => true,
@@ -3002,9 +3196,13 @@ impl BlockReader {
             FileType::Asl {
                 archival_type: FileTypeArchive::Xz,
             } => true,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Zip,
+            } => true,
+            // Etl
             FileType::Etl {
                 archival_type: FileTypeArchive::Normal,
-            } => false,
+            } => true,
             FileType::Etl {
                 archival_type: FileTypeArchive::Bz2,
             } => true,
@@ -3020,9 +3218,13 @@ impl BlockReader {
             FileType::Etl {
                 archival_type: FileTypeArchive::Xz,
             } => true,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Zip,
+            } => true,
+            // Evtx
             FileType::Evtx {
                 archival_type: FileTypeArchive::Normal,
-            } => false,
+            } => true,
             FileType::Evtx {
                 archival_type: FileTypeArchive::Bz2,
             } => true,
@@ -3038,6 +3240,10 @@ impl BlockReader {
             FileType::Evtx {
                 archival_type: FileTypeArchive::Xz,
             } => true,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Zip,
+            } => true,
+            // FixedStruct
             FileType::FixedStruct {
                 archival_type: FileTypeArchive::Normal,
                 ..
@@ -3062,6 +3268,11 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Xz,
                 ..
             } => true,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Zip,
+                ..
+            } => true,
+            // Journal
             FileType::Journal {
                 archival_type: FileTypeArchive::Normal,
             } => false,
@@ -3080,14 +3291,14 @@ impl BlockReader {
             FileType::Journal {
                 archival_type: FileTypeArchive::Xz,
             } => true,
-            FileType::Text {
-                archival_type: FileTypeArchive::Normal,
-                ..
-            } => false,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Zip,
+            } => true,
+            // Odl
             FileType::Odl {
                 archival_type: FileTypeArchive::Normal,
                 ..
-            } => false,
+            } => true,
             FileType::Odl {
                 archival_type: FileTypeArchive::Bz2,
                 ..
@@ -3108,6 +3319,15 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Xz,
                 ..
             } => true,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Zip,
+                ..
+            } => true,
+            // Text
+            FileType::Text {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => false,
             FileType::Text {
                 archival_type: FileTypeArchive::Bz2,
                 ..
@@ -3128,6 +3348,11 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Xz,
                 ..
             } => true,
+            FileType::Text {
+                archival_type: FileTypeArchive::Zip,
+                ..
+            } => true,
+            // Unparsable
             FileType::Unparsable => false,
         }
     }
@@ -4360,7 +4585,7 @@ impl BlockReader {
     }
 
     /// Read a block of data from a file within a .tar archive file
-    /// ([`FileType::Tar`]).
+    /// ([`FileTypeArchive::Tar`]).
     /// `BlockOffset` refers to the untarred version of the file.
     ///
     /// Called from `read_block`.
@@ -4381,7 +4606,7 @@ impl BlockReader {
     ///
     /// [`tar::Archive`]: https://docs.rs/tar/0.4.46/tar/struct.Archive.html
     /// [`tar::Entry`]: https://docs.rs/tar/0.4.46/tar/struct.Entry.html
-    /// [`FileType::Tar`]: crate::common::FileType
+    /// [`FileTypeArchive::Tar`]: crate::common::FileTypeArchive
     #[allow(non_snake_case)]
     fn read_block_FileTar(
         &mut self,
@@ -4461,8 +4686,8 @@ impl BlockReader {
 
             summary_stat!(self.read_blocks_miss += 1);
             let block = match self.tar.as_ref().unwrap().recv() {
-                Ok(TarMessage::Block(block)) => block,
-                Ok(TarMessage::Done) => {
+                Ok(ArchiveMessage::Block(block)) => block,
+                Ok(ArchiveMessage::Done) => {
                     _ = self.tar.as_mut().unwrap().finish_producer();
                     defx!("({}): tar.recv() Done, return Err", blockoffset);
                     return ResultFindReadBlock::Err(Error::new(
@@ -4470,7 +4695,7 @@ impl BlockReader {
                         format!("tar entry ended before block {bo_at} for file {:?}", self.path),
                     ));
                 }
-                Ok(TarMessage::Error(error)) => {
+                Ok(ArchiveMessage::Error(error)) => {
                     _ = self.tar.as_mut().unwrap().finish_producer();
                     defx!("({}): tar.recv() returned TarMessage::Error, return Err({error})", blockoffset);
                     return ResultFindReadBlock::Err(error);
@@ -4500,18 +4725,18 @@ impl BlockReader {
 
             if bo_at == blockoffset_last {
                 match self.tar.as_ref().unwrap().recv() {
-                    Ok(TarMessage::Done) => {
+                    Ok(ArchiveMessage::Done) => {
                         if let Err(error) = self.tar.as_mut().unwrap().finish_producer() {
                             defx!("({}): return Err({error})", blockoffset);
                             return ResultFindReadBlock::Err(error);
                         }
                     }
-                    Ok(TarMessage::Error(error)) => {
+                    Ok(ArchiveMessage::Error(error)) => {
                         _ = self.tar.as_mut().unwrap().finish_producer();
                         defx!("({}): return Err({error})", blockoffset);
                         return ResultFindReadBlock::Err(error);
                     }
-                    Ok(TarMessage::Block(block)) => {
+                    Ok(ArchiveMessage::Block(block)) => {
                         _ = self.tar.as_mut().unwrap().finish_producer();
                         defx!("({}): return Err(InvalidData), unexpected bytes found after blockoffset_last {}",
                               blockoffset, blockoffset_last);
@@ -4542,6 +4767,77 @@ impl BlockReader {
         }
 
         defx!("({}): return Done", blockoffset);
+        ResultFindReadBlock::Done
+    }
+
+    #[allow(non_snake_case)]
+    fn read_block_FileZip(&mut self, blockoffset: BlockOffset) -> ResultFindReadBlock {
+        defn!("({})", blockoffset);
+        if self.filesz_actual == 0 {
+            defx!("({}): filesz_actual is 0, returning Done", blockoffset);
+            return ResultFindReadBlock::Done;
+        }
+        let path = self.path_subpath.clone();
+        if let Err(error) = self.zip.as_mut().unwrap().start(self.blocksz, self.filesz_actual, &path) {
+            defx!("({}): zip.start() error {} for {:?}", blockoffset, error, &path);
+            return ResultFindReadBlock::Err(err_from_err_path(&error, &path, Some("start ZIP reader")));
+        }
+        let mut next = self.blocks_read.last().map_or(0, |offset| offset + 1);
+        while next <= blockoffset {
+            defo!("({}): reading block {}", blockoffset, next);
+            let block = match self.zip.as_ref().unwrap().recv() {
+                Ok(ArchiveMessage::Block(block)) => block,
+                Ok(ArchiveMessage::Done) => {
+                    let error = Error::new(
+                        ErrorKind::UnexpectedEof, format!("ZIP member ended before block {next}: {path:?}"),
+                    );
+                    return ResultFindReadBlock::Err(self.zip.as_mut().unwrap().finish_with_error(error));
+                }
+                Ok(ArchiveMessage::Error(error)) | Err(error) => {
+                    return ResultFindReadBlock::Err(self.zip.as_mut().unwrap().finish_with_error(error));
+                }
+            };
+            if block.len() != self.blocksz_at_blockoffset(&next) as usize {
+                let error = Error::new(
+                    ErrorKind::InvalidData, format!("ZIP block {next} has an unexpected size: {path:?}"),
+                );
+                defx!("({}): ZIP block {next} has an unexpected size", blockoffset);
+                return ResultFindReadBlock::Err(self.zip.as_mut().unwrap().finish_with_error(error));
+            }
+            if next == self.blockoffset_last() {
+                let result = match self.zip.as_ref().unwrap().recv() {
+                    Ok(ArchiveMessage::Done) => Ok(()),
+                    Ok(ArchiveMessage::Error(error)) | Err(error) => Err(error),
+                    Ok(ArchiveMessage::Block(_)) => Err(Error::new(
+                        ErrorKind::InvalidData, format!("ZIP member produced extra blocks: {path:?}"),
+                    )),
+                };
+                if let Err(error) = result {
+                    defx!("({}): ZIP reader finished with error for last block: {}", blockoffset, error);
+                    return ResultFindReadBlock::Err(self.zip.as_mut().unwrap().finish_with_error(error));
+                }
+                if let Err(error) = self.zip.as_mut().unwrap().finish_producer() {
+                    defx!("({}): ZIP reader finished with error during finish_producer: {}", blockoffset, error);
+                    return ResultFindReadBlock::Err(error);
+                }
+            }
+            summary_stat!(self.read_blocks_miss += 1);
+            self.count_bytes_read += block.len() as Count;
+            let blockp = BlockP::new(block);
+            self.store_block_in_storage(next, &blockp);
+            self.store_block_in_LRU_cache(next, &blockp);
+            // FixedStructReader revisits layouts and owns block release via use counts.
+            if BlockReader::READ_BLOCK_LOOKBACK_DROP && self.filetype.is_text() && next > 0 {
+                self.drop_block(next - 1);
+            }
+            if next == blockoffset {
+                defx!("({}): found requested block {}", blockoffset, next);
+                return ResultFindReadBlock::Found(blockp);
+            }
+            next += 1;
+        }
+
+        defx!("({}): reached end of read_block loop, returning Done", blockoffset);
         ResultFindReadBlock::Done
     }
 
@@ -4716,6 +5012,10 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Xz,
                 ..
             } => self.read_block_FileXz(blockoffset),
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Zip,
+                ..
+            } => self.read_block_FileZip(blockoffset),
             FileType::Journal { .. } => {
                 panic!(
                     "BlockReader::read_block unsupported filetype {:?}; path {:?}",
@@ -4752,6 +5052,10 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Xz,
                 ..
             } => self.read_block_FileXz(blockoffset),
+            FileType::Text {
+                archival_type: FileTypeArchive::Zip,
+                ..
+            } => self.read_block_FileZip(blockoffset),
             FileType::Unparsable => {
                 panic!(
                     "BlockReader::read_block bad filetype {:?}; path {:?}",

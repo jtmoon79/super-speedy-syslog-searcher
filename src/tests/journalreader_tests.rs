@@ -549,6 +549,7 @@ fn test_JournalReader_next_summary(
             FileTypeArchive::Lz4 => {}
             FileTypeArchive::Tar => {}
             FileTypeArchive::Xz => {}
+            FileTypeArchive::Zip => {}
         },
         _ => {
             panic!("filetype should be FileType::Journal");

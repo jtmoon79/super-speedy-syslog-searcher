@@ -1707,8 +1707,8 @@ fn print_summary_opt_processed_summaryblockreader(
                 indent, summaryblockreader.blockreader_filesz
             );
         }
-        FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
-        | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ }
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Tar | FileTypeArchive::Zip, fixedstruct_type: _ }
+        | FileType::Text{ archival_type: FileTypeArchive::Tar | FileTypeArchive::Zip, encoding_type: _ }
         => {
             eprintln!(
                 "{}file size archive   : {1} (0x{1:X}) (bytes)",

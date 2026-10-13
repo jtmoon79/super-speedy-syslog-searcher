@@ -19,9 +19,95 @@ use rand::seq::SliceRandom; // brings in `shuffle`
 #[cfg(test)]
 use crate::common::FileOffset;
 use crate::common::{
+    err_from_err_path,
     FPath,
     FileSz,
+    PathId,
 };
+use crate::readers::filehandlemanager::{
+    FILE_HANDLE_MANAGER,
+    FileHandleManaged,
+    FileHandleRole,
+    OpenOptionsManaged,
+};
+pub(crate) use ::zip::read::ZipArchive;
+pub(crate) use ::zip::read::ZipFile;
+
+pub(crate) type ZipHandle = ZipArchive<FileHandleManaged>;
+
+pub(crate) fn zip_error(error: zip::result::ZipError, path: &str) -> std::io::Error {
+    let error = std::io::Error::from(error);
+    err_from_err_path(&error, &path.to_string(), Some("ZIP"))
+}
+
+pub(crate) fn open_zip(
+    path_id: PathId,
+    role: FileHandleRole,
+    path: &std::path::Path,
+) -> std::io::Result<ZipHandle> {
+    let file = FILE_HANDLE_MANAGER.request_open_managed(
+        path_id, role, path, OpenOptionsManaged::read_only(),
+    )?;
+    ZipArchive::new(file).map_err(|error| zip_error(error, &path_to_fpath(path)))
+}
+
+pub(crate) fn zip_member_index<R: std::io::Read + std::io::Seek>(
+    archive: &ZipArchive<R>,
+    member: &str,
+    path: &str,
+) -> std::io::Result<usize> {
+    for index in 0..archive.len() {
+        let entry = archive.by_index_data(index).map_err(|error| zip_error(error, path))?;
+        if entry.name().map_err(|error| zip_error(error, path))?.as_ref() == member {
+            if !entry.is_file() || entry.encrypted() || entry.name_raw().contains(&0) {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::Unsupported,
+                    format!("ZIP member is not an unencrypted regular file with a valid name: {path:?}"),
+                ));
+            }
+            return Ok(index);
+        }
+    }
+    Err(std::io::Error::new(
+        std::io::ErrorKind::NotFound, format!("ZIP member not found: {path:?}"),
+    ))
+}
+
+pub(crate) fn zip_member_mtime<R: std::io::Read>(
+    entry: &ZipFile<'_, R>,
+    fallback: std::time::SystemTime,
+    path: &str,
+) -> std::time::SystemTime {
+    use chrono::{Local, NaiveDateTime, Utc};
+    use zip::ExtraField;
+
+    let ntfs = entry.extra_data_fields().find_map(|field| match field {
+        ExtraField::Ntfs(time) => crate::data::etl::filetime_to_datetimel(
+            time.mtime(), &chrono::FixedOffset::east_opt(0).unwrap(),
+        ).map(std::time::SystemTime::from),
+        _ => None,
+    });
+    if let Some(time) = ntfs {
+        return time;
+    }
+    let unix = entry.extra_data_fields().find_map(|field| match field {
+        ExtraField::ExtendedTimestamp(time) => time.mod_time()
+            .and_then(|seconds| chrono::DateTime::<Utc>::from_timestamp(i64::from(seconds), 0))
+            .map(std::time::SystemTime::from),
+        _ => None,
+    });
+    if let Some(time) = unix {
+        return time;
+    }
+    let dos = entry.last_modified()
+        .and_then(|time| NaiveDateTime::try_from(time).ok())
+        .and_then(|time| time.and_local_timezone(Local).single());
+    if let Some(time) = dos {
+        return time.into();
+    }
+    crate::e_wrn!("ZIP member {:?} has no usable modification time; using archive modification time", path);
+    fallback
+}
 
 /// Return the basename of an `FPath`.
 pub fn basename(path: &FPath) -> FPath {

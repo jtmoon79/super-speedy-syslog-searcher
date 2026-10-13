@@ -282,7 +282,8 @@ fn test_EvtxReader_next_summary(
             | FileTypeArchive::Gz
             | FileTypeArchive::Lz4
             | FileTypeArchive::Tar
-            | FileTypeArchive::Xz => {}
+            | FileTypeArchive::Xz
+            | FileTypeArchive::Zip => {}
         },
         _ => {
             panic!("filetype should be FileType::Evtx");

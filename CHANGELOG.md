@@ -259,6 +259,12 @@ Helpful `git log` command for generating changelog entries:
 
 ## Unreleased
 
+- Read supported logs within ZIP archives, including Stored, Deflate,
+  Deflate64, BZip2, LZMA, and PPMd members. Stream text and Unix accounting
+  members into blocks; extract seek-required formats to managed temporary
+  files. Support in-archive ODL companions and ZIP member modification times.
+  Nested storage and encrypted ZIP members remain unsupported.
+
 - Fix directory traversal rejecting compressed ODL files that are supported
   when passed directly.
 

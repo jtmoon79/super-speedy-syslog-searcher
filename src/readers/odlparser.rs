@@ -152,6 +152,7 @@ impl fmt::Debug for OdlDecodingContext {
 
 impl Drop for OdlDecodingContext {
     fn drop(&mut self) {
+        def2ñ!();
         for (mut key, mut value) in self.map.drain() {
             key.zeroize();
             value.zeroize();
