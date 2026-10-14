@@ -47,7 +47,8 @@ Windows Event Logs (`.evtx`),
 Windows Event Trace Logs (`.etl`),
 OneDrive Log files (`.odl`, `.aodl`, `.odlgz`, `.odlsent`),
 and Apple System Logs (`.asl`).
-`s4` can read logs that are compressed (`.bz2`, `.gz`, `.lz4`, `.xz`), or archived logs (`.tar`, `.zip`).
+`s4` can read logs that are compressed (`.bz2`, `.gz`, `.lz4`, `.xz`),
+or archived logs (`.tar`, `.zip`).
 
 `s4` aims to be very fast.
 
