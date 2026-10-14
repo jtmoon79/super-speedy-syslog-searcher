@@ -6,7 +6,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 3320
       flushes       : 20
@@ -51,7 +50,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-5-LEVELS.log
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 787
       flushes       : 5

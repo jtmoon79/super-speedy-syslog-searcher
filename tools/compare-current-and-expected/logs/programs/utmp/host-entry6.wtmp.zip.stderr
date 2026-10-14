@@ -8,7 +8,6 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 160768 (bytes)
   Printed:
       bytes         : 1643
       flushes       : 6

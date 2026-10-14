@@ -5,7 +5,6 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2759
       flushes       : 2

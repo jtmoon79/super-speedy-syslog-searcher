@@ -6,7 +6,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 3700
       flushes       : 20
@@ -51,7 +50,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 882
       flushes       : 5

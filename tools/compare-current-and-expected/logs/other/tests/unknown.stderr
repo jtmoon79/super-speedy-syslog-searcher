@@ -5,7 +5,6 @@ File: ./logs/other/tests/unknown
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 420
       flushes       : 4

@@ -5,7 +5,6 @@ File: ./logs/other/tests/dtf5-6a.log.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
   Printed:
       bytes         : 578
       flushes       : 6

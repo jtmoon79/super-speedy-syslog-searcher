@@ -5,7 +5,6 @@ File: ./logs/synology-DS6/upstart/nginx.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2453
       flushes       : 19

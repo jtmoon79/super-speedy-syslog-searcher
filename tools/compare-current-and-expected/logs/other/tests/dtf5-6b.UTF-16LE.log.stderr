@@ -5,7 +5,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-16LE.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1089
       flushes       : 6
