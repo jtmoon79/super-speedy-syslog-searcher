@@ -187,6 +187,7 @@ if [[ ! "${PROGRAMS_S4_LISTING-}" ]]; then
 ./target/x86_64-unknown-linux-gnu/release/s4
 ./target/x86_64-unknown-linux-musl/release/s4
 ./target/x86_64-unknown-linux-ohos/release/s4
+./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4
 ' > "${PROGRAMS_S4_LISTING}"
     cat "${PROGRAMS_S4_LISTING}" >&2
     echo >&2
