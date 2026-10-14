@@ -6,7 +6,6 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       Subpath     : simple-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
       Processing Err: file too small
   Printed:
       bytes         : 0
@@ -47,7 +46,6 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       Subpath     : simple-3.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
       Processing Err: file too small
   Printed:
       bytes         : 0

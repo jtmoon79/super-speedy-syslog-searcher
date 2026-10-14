@@ -6,7 +6,6 @@ File: ./logs/Debian9/user.log.zip|logs/Debian9/user.log.1
       Subpath     : logs/Debian9/user.log.1
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 610
       flushes       : 3

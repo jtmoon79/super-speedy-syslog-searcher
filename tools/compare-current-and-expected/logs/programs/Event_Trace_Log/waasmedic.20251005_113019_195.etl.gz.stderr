@@ -5,7 +5,6 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
   About:
       FileType      : ETL (GZIP) (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 239616 (bytes)
   Printed:
       bytes         : 8487
       flushes       : 21

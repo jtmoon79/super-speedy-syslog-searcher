@@ -6,7 +6,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.log
       Subpath     : dtf5-6b.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -51,7 +50,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6a.log
       Subpath     : dtf5-6a.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 692
       flushes       : 6
@@ -96,7 +94,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-2a.log
       Subpath     : dtf5-2a.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 226
       flushes       : 2
@@ -141,7 +138,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6c.log
       Subpath     : dtf5-6c.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 3485
       flushes       : 11
@@ -186,7 +182,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log
       Subpath     : dtf5-6b.UTF-16BE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -231,7 +226,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log
       Subpath     : dtf5-6b.UTF-16BE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -276,7 +270,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log
       Subpath     : dtf5-6b.UTF-16LE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -321,7 +314,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log
       Subpath     : dtf5-6b.UTF-16LE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -366,7 +358,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log
       Subpath     : dtf5-6b.UTF-32BE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -411,7 +402,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log
       Subpath     : dtf5-6b.UTF-32BE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -456,7 +446,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log
       Subpath     : dtf5-6b.UTF-32LE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -501,7 +490,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log
       Subpath     : dtf5-6b.UTF-32LE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -546,7 +534,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log
       Subpath     : dtf5-6b.UTF-8_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6
@@ -591,7 +578,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log
       Subpath     : dtf5-6b.UTF-8.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1245
       flushes       : 6

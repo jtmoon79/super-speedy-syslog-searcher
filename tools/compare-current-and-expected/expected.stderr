@@ -7,7 +7,6 @@ File: ./logs/CentOS7/x86_64/btmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 1198
       flushes       : 3
@@ -38,7 +37,6 @@ File: ./logs/CentOS7/x86_64/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 567
       flushes       : 2
@@ -69,7 +67,6 @@ File: ./logs/CentOS7/x86_64/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 1650
       flushes       : 4
@@ -100,7 +97,6 @@ File: ./logs/CentOS7/x86_64/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 22046
       flushes       : 54
@@ -129,7 +125,6 @@ File: ./logs/CentOS7/yum.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 41646
       flushes       : 142
@@ -175,7 +170,6 @@ File: ./logs/CentOS9/x86_64/btmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 419
       flushes       : 1
@@ -206,7 +200,6 @@ File: ./logs/CentOS9/x86_64/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 22084
       flushes       : 54
@@ -235,7 +228,6 @@ File: ./logs/cygwin/setup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 23680
       flushes       : 76
@@ -278,7 +270,6 @@ File: ./logs/cygwin/setup.log.full
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 21631
       flushes       : 20
@@ -323,7 +314,6 @@ File: ./logs/Debian11/aarch64_ARM64/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_Arm64Aarch64_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 287
       flushes       : 1
@@ -354,7 +344,6 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_Arm64Aarch64_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2348
       flushes       : 6
@@ -385,7 +374,6 @@ File: ./logs/Debian11/aarch64_ARM64/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_Arm64Aarch64_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 1961
       flushes       : 5
@@ -416,7 +404,6 @@ File: ./logs/Debian11/aarch64_ARMv6/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 580
       flushes       : 2
@@ -447,7 +434,6 @@ File: ./logs/Debian11/aarch64_ARMv6/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 3247
       flushes       : 8
@@ -478,7 +464,6 @@ File: ./logs/Debian11/aarch64_ARMv6/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 1240
       flushes       : 3
@@ -507,7 +492,6 @@ File: ./logs/Debian11/alternatives.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7642
       flushes       : 15
@@ -550,7 +534,6 @@ File: ./logs/Debian11/apache2/access.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1874
       flushes       : 5
@@ -593,7 +576,6 @@ File: ./logs/Debian11/apache2/error.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1833
       flushes       : 5
@@ -638,7 +620,6 @@ File: ./logs/Debian11/armv6l_ARMv6/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 568
       flushes       : 2
@@ -669,7 +650,6 @@ File: ./logs/Debian11/armv6l_ARMv6/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 1628
       flushes       : 4
@@ -700,7 +680,6 @@ File: ./logs/Debian11/armv6l_ARMv6/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2042
       flushes       : 5
@@ -731,7 +710,6 @@ File: ./logs/Debian11/armv7l_ARMv6/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 568
       flushes       : 2
@@ -762,7 +740,6 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2036
       flushes       : 5
@@ -793,7 +770,6 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2047
       flushes       : 5
@@ -824,7 +800,6 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2047
       flushes       : 5
@@ -853,7 +828,6 @@ File: ./logs/Debian11/dpkg.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 14232
       flushes       : 48
@@ -896,7 +870,6 @@ File: ./logs/Debian11/kern.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 8218
       flushes       : 20
@@ -940,7 +913,6 @@ File: ./logs/Debian11/messages
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 8046
       flushes       : 20
@@ -984,7 +956,6 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1736
       flushes       : 5
@@ -1027,7 +998,6 @@ File: ./logs/Debian11/user.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 8838
       flushes       : 25
@@ -1073,7 +1043,6 @@ File: ./logs/Debian13/RISC-V/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 568
       flushes       : 2
@@ -1104,7 +1073,6 @@ File: ./logs/Debian13/RISC-V/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2428
       flushes       : 6
@@ -1133,7 +1101,6 @@ File: ./logs/Debian9/alternatives.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7095
       flushes       : 14
@@ -1176,7 +1143,6 @@ File: ./logs/Debian9/apport.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2113
       flushes       : 6
@@ -1219,7 +1185,6 @@ File: ./logs/Debian9/apt/eipp.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -1260,7 +1225,6 @@ File: ./logs/Debian9/apt/history.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2349
       flushes       : 4
@@ -1303,7 +1267,6 @@ File: ./logs/Debian9/apt/term.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 83998
       flushes       : 46
@@ -1346,7 +1309,6 @@ File: ./logs/Debian9/aptitude.4
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4911
       flushes       : 3
@@ -1389,7 +1351,6 @@ File: ./logs/Debian9/auth.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6084
       flushes       : 19
@@ -1433,7 +1394,6 @@ File: ./logs/Debian9/boot.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -1474,7 +1434,6 @@ File: ./logs/Debian9/clamav/clamd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2394
       flushes       : 8
@@ -1517,7 +1476,6 @@ File: ./logs/Debian9/dpkg.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5427
       flushes       : 19
@@ -1560,7 +1518,6 @@ File: ./logs/Debian9/kern.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5951
       flushes       : 19
@@ -1604,7 +1561,6 @@ File: ./logs/Debian9/messages.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 381
       flushes       : 1
@@ -1648,7 +1604,6 @@ File: ./logs/Debian9/nginx/access.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 8569
       flushes       : 19
@@ -1691,7 +1646,6 @@ File: ./logs/Debian9/nginx/access.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 8569
       flushes       : 19
@@ -1734,7 +1688,6 @@ File: ./logs/Debian9/nginx/error.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 8322
       flushes       : 19
@@ -1777,7 +1730,6 @@ File: ./logs/Debian9/nginx/error.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 8322
       flushes       : 19
@@ -1820,7 +1772,6 @@ File: ./logs/Debian9/samba/log.192.168.0.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 614
       flushes       : 1
@@ -1863,7 +1814,6 @@ File: ./logs/Debian9/samba/log.192.168.0.2
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 615
       flushes       : 1
@@ -1906,7 +1856,6 @@ File: ./logs/Debian9/samba/log.host1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 615
       flushes       : 1
@@ -1949,7 +1898,6 @@ File: ./logs/Debian9/samba/log.host2
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 614
       flushes       : 1
@@ -1992,7 +1940,6 @@ File: ./logs/Debian9/samba/log.nmbd
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 910
       flushes       : 1
@@ -2035,7 +1982,6 @@ File: ./logs/Debian9/samba/log.nmbd.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5802
       flushes       : 6
@@ -2078,7 +2024,6 @@ File: ./logs/Debian9/samba/log.nmbd.old
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5802
       flushes       : 6
@@ -2121,7 +2066,6 @@ File: ./logs/Debian9/samba/log.smbd.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 609
       flushes       : 1
@@ -2164,7 +2108,6 @@ File: ./logs/Debian9/syslog
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6181
       flushes       : 19
@@ -2208,7 +2151,6 @@ File: ./logs/Debian9/user.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1048
       flushes       : 3
@@ -2252,7 +2194,6 @@ File: ./logs/Debian9/user.log.1.bz2
   About:
       FileType      : TEXT UTF8/ASCII (BZIP2) (text log)
       LogMessageType: text log lines
-      Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 1048
       flushes       : 3
@@ -2297,7 +2238,6 @@ File: ./logs/Debian9/user.log.1.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
   Printed:
       bytes         : 1048
       flushes       : 3
@@ -2342,7 +2282,6 @@ File: ./logs/Debian9/user.log.1.lz
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -2381,7 +2320,6 @@ File: ./logs/Debian9/user.log.1.lz4
   About:
       FileType      : TEXT UTF8/ASCII (LZMA4) (text log)
       LogMessageType: text log lines
-      Thread stack  : 105472 (bytes)
   Printed:
       bytes         : 1048
       flushes       : 3
@@ -2426,7 +2364,6 @@ File: ./logs/Debian9/user.log.1.lzo
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -2467,7 +2404,6 @@ File: ./logs/Debian9/user.log.1.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
   Printed:
       bytes         : 1048
       flushes       : 3
@@ -2512,7 +2448,6 @@ File: ./logs/Debian9/user.log.1.zst
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -2554,7 +2489,6 @@ File: ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1
       Subpath     : ./logs/Debian9/user.log.1
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1048
       flushes       : 3
@@ -2600,7 +2534,6 @@ File: ./logs/Debian9/user.log.zip|logs/Debian9/user.log.1
       Subpath     : logs/Debian9/user.log.1
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1048
       flushes       : 3
@@ -2645,7 +2578,6 @@ File: ./logs/Debian9/Xorg.0.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -2689,7 +2621,6 @@ File: ./logs/Debian9/Xorg.0.log.old
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -2733,7 +2664,6 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 9327
       flushes       : 27
@@ -2776,7 +2706,6 @@ File: ./logs/FedoraRemix29/dnf.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 145163
       flushes       : 261
@@ -2819,7 +2748,6 @@ File: ./logs/FedoraRemix29/hawkeye.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 11903
       flushes       : 36
@@ -2863,7 +2791,6 @@ File: ./logs/FreeBSD13.1/devd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4944
       flushes       : 9
@@ -2907,7 +2834,6 @@ File: ./logs/MacOS11/powermanagement/2023.10.26.asl
   About:
       FileType      : ASL (Apple System Log)
       LogMessageType: ASL event (Apple System Log)
-      Thread stack  : 137216 (bytes)
   Printed:
       bytes         : 6489
       flushes       : 10
@@ -2927,7 +2853,6 @@ File: ./logs/MinGW64/pacman.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 28955
       flushes       : 102
@@ -2972,7 +2897,6 @@ File: ./logs/NetBSD9.3/x86_32/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 290
       flushes       : 1
@@ -3002,7 +2926,6 @@ File: ./logs/NetBSD9.3/x86_32/lastlogx
       FileType      : LASTLOGX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlogx
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 104448 (bytes)
       Processing Err: no valid fixed-structure records found in file
 
 File: ./logs/NetBSD9.3/x86_32/utmp
@@ -3011,7 +2934,6 @@ File: ./logs/NetBSD9.3/x86_32/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmp
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 305
       flushes       : 1
@@ -3042,7 +2964,6 @@ File: ./logs/NetBSD9.3/x86_32/utmpx
       FixedStructTyp: Utmpx
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8632_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 3571
       flushes       : 9
@@ -3073,7 +2994,6 @@ File: ./logs/NetBSD9.3/x86_32/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmp
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2351
       flushes       : 8
@@ -3104,7 +3024,6 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx
       FixedStructTyp: Utmpx
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8632_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 4661
       flushes       : 12
@@ -3135,7 +3054,6 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx.0
       FixedStructTyp: Utmpx
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8632_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2697
       flushes       : 7
@@ -3166,7 +3084,6 @@ File: ./logs/NetBSD9.3/x86_64/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 290
       flushes       : 1
@@ -3196,7 +3113,6 @@ File: ./logs/NetBSD9.3/x86_64/lastlogx
       FileType      : LASTLOGX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlogx
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 104448 (bytes)
       Processing Err: no valid fixed-structure records found in file
 
 File: ./logs/NetBSD9.3/x86_64/utmp
@@ -3205,7 +3121,6 @@ File: ./logs/NetBSD9.3/x86_64/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmp
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 305
       flushes       : 1
@@ -3236,7 +3151,6 @@ File: ./logs/NetBSD9.3/x86_64/utmpx
       FixedStructTyp: Utmpx
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 3482
       flushes       : 9
@@ -3267,7 +3181,6 @@ File: ./logs/NetBSD9.3/x86_64/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmp
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 883
       flushes       : 3
@@ -3298,7 +3211,6 @@ File: ./logs/NetBSD9.3/x86_64/wtmpx
       FixedStructTyp: Utmpx
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Netbsd_x8664_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2627
       flushes       : 7
@@ -3329,7 +3241,6 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 272
       flushes       : 1
@@ -3360,7 +3271,6 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog.1
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 290
       flushes       : 1
@@ -3391,7 +3301,6 @@ File: ./logs/OpenBSD7.2/x86_32/utmp.1
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 597
       flushes       : 2
@@ -3422,7 +3331,6 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 5534
       flushes       : 19
@@ -3453,7 +3361,6 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp.1
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 7886
       flushes       : 27
@@ -3484,7 +3391,6 @@ File: ./logs/OpenBSD7.4/x86_64/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 290
       flushes       : 1
@@ -3515,7 +3421,6 @@ File: ./logs/OpenBSD7.4/x86_64/utmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 595
       flushes       : 2
@@ -3546,7 +3451,6 @@ File: ./logs/OpenBSD7.4/x86_64/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Openbsd_x86_Utmp
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 1459
       flushes       : 5
@@ -3575,7 +3479,6 @@ File: ./logs/OpenSUSE15/lightdm.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -3619,7 +3522,6 @@ File: ./logs/OpenSUSE15/YaST2/y2log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6539
       flushes       : 20
@@ -3662,7 +3564,6 @@ File: ./logs/OpenSUSE15/zypp/history
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 13657
       flushes       : 19
@@ -3705,7 +3606,6 @@ File: ./logs/OpenSUSE15/zypper.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7097
       flushes       : 19
@@ -3748,7 +3648,6 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2695
       flushes       : 8
@@ -3791,7 +3690,6 @@ File: ./logs/Orbi/tmp/dal_ash.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2883
       flushes       : 8
@@ -3834,7 +3732,6 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5491
       flushes       : 19
@@ -3877,7 +3774,6 @@ File: ./logs/Orbi/tmp/UpAgent.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6197
       flushes       : 18
@@ -3920,7 +3816,6 @@ File: ./logs/Orbi/tmp/xagent.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5927
       flushes       : 19
@@ -3963,7 +3858,6 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6196
       flushes       : 17
@@ -4006,7 +3900,6 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6196
       flushes       : 17
@@ -4049,7 +3942,6 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6467
       flushes       : 19
@@ -4092,7 +3984,6 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6365
       flushes       : 19
@@ -4135,7 +4026,6 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 14079
       flushes       : 55
@@ -4178,7 +4068,6 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 13750
       flushes       : 55
@@ -4221,7 +4110,6 @@ File: ./logs/other/tests/basic-basic-dt20.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4959
       flushes       : 20
@@ -4264,7 +4152,6 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 15223
       flushes       : 13
@@ -4307,7 +4194,6 @@ File: ./logs/other/tests/basic-dt-u.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 13580
       flushes       : 27
@@ -4350,7 +4236,6 @@ File: ./logs/other/tests/basic-dt1.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 248
       flushes       : 1
@@ -4393,7 +4278,6 @@ File: ./logs/other/tests/basic-dt2.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 496
       flushes       : 2
@@ -4436,7 +4320,6 @@ File: ./logs/other/tests/basic-dt27.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7046
       flushes       : 27
@@ -4479,7 +4362,6 @@ File: ./logs/other/tests/basic-dt2b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 955
       flushes       : 2
@@ -4522,7 +4404,6 @@ File: ./logs/other/tests/basic-dt6.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1502
       flushes       : 6
@@ -4565,7 +4446,6 @@ File: ./logs/other/tests/dt-mix1.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5208
       flushes       : 11
@@ -4609,7 +4489,6 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       Subpath     : ./logs/other/tests/dtf11-A.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 3444
       flushes       : 13
@@ -4654,7 +4533,6 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       Subpath     : ./logs/other/tests/dtf13a.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 915
       flushes       : 3
@@ -4699,7 +4577,6 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       Subpath     : ./logs/other/tests/dtf13b.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 912
       flushes       : 3
@@ -4744,7 +4621,6 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       Subpath     : ./logs/other/tests/dtf13c.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 915
       flushes       : 3
@@ -4789,7 +4665,6 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       Subpath     : ./logs/other/tests/dtf13d.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 906
       flushes       : 3
@@ -4833,7 +4708,6 @@ File: ./logs/other/tests/dtf-varying-10.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2576
       flushes       : 4
@@ -4876,7 +4750,6 @@ File: ./logs/other/tests/dtf10-10a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2122
       flushes       : 8
@@ -4919,7 +4792,6 @@ File: ./logs/other/tests/dtf10-10b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3362
       flushes       : 8
@@ -4962,7 +4834,6 @@ File: ./logs/other/tests/dtf11-A.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3444
       flushes       : 13
@@ -5005,7 +4876,6 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2119
       flushes       : 8
@@ -5048,7 +4918,6 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2119
       flushes       : 8
@@ -5091,7 +4960,6 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3186
       flushes       : 8
@@ -5134,7 +5002,6 @@ File: ./logs/other/tests/dtf13a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 915
       flushes       : 3
@@ -5177,7 +5044,6 @@ File: ./logs/other/tests/dtf13b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 912
       flushes       : 3
@@ -5220,7 +5086,6 @@ File: ./logs/other/tests/dtf13c.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 915
       flushes       : 3
@@ -5263,7 +5128,6 @@ File: ./logs/other/tests/dtf13d.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 906
       flushes       : 3
@@ -5306,7 +5170,6 @@ File: ./logs/other/tests/dtf14a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1390
       flushes       : 4
@@ -5349,7 +5212,6 @@ File: ./logs/other/tests/dtf15a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1354
       flushes       : 3
@@ -5392,7 +5254,6 @@ File: ./logs/other/tests/dtf15b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1360
       flushes       : 3
@@ -5435,7 +5296,6 @@ File: ./logs/other/tests/dtf16a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1354
       flushes       : 3
@@ -5478,7 +5338,6 @@ File: ./logs/other/tests/dtf16b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1360
       flushes       : 3
@@ -5521,7 +5380,6 @@ File: ./logs/other/tests/dtf16c.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1363
       flushes       : 3
@@ -5564,7 +5422,6 @@ File: ./logs/other/tests/dtf16d.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1363
       flushes       : 3
@@ -5607,7 +5464,6 @@ File: ./logs/other/tests/dtf16e.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1354
       flushes       : 3
@@ -5651,7 +5507,6 @@ File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
       Subpath     : dtf2-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -5695,7 +5550,6 @@ File: ./logs/other/tests/dtf2-2.bz2
   About:
       FileType      : TEXT UTF8/ASCII (BZIP2) (text log)
       LogMessageType: text log lines
-      Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -5739,7 +5593,6 @@ File: ./logs/other/tests/dtf2-2.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -5783,7 +5636,6 @@ File: ./logs/other/tests/dtf2-2.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -5826,7 +5678,6 @@ File: ./logs/other/tests/dtf2-2.log.bz2
   About:
       FileType      : TEXT UTF8/ASCII (BZIP2) (text log)
       LogMessageType: text log lines
-      Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -5870,7 +5721,6 @@ File: ./logs/other/tests/dtf2-2.log.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -5914,7 +5764,6 @@ File: ./logs/other/tests/dtf2-2.log.lz
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -5955,7 +5804,6 @@ File: ./logs/other/tests/dtf2-2.log.lz4
   About:
       FileType      : TEXT UTF8/ASCII (LZMA4) (text log)
       LogMessageType: text log lines
-      Thread stack  : 105472 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -6000,7 +5848,6 @@ File: ./logs/other/tests/dtf2-2.log.tar|dtf2-2.log
       Subpath     : dtf2-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -6044,7 +5891,6 @@ File: ./logs/other/tests/dtf2-2.log.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -6088,7 +5934,6 @@ File: ./logs/other/tests/dtf2-2.lz
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -6129,7 +5974,6 @@ File: ./logs/other/tests/dtf2-2.lz4
   About:
       FileType      : TEXT UTF8/ASCII (LZMA4) (text log)
       LogMessageType: text log lines
-      Thread stack  : 105472 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -6174,7 +6018,6 @@ File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
       Subpath     : dtf2-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -6218,7 +6061,6 @@ File: ./logs/other/tests/dtf2-2.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
   Printed:
       bytes         : 744
       flushes       : 2
@@ -6262,7 +6104,6 @@ File: ./logs/other/tests/dtf2-20-out-of-order.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5289
       flushes       : 20
@@ -6305,7 +6146,6 @@ File: ./logs/other/tests/dtf3-1.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 257
       flushes       : 1
@@ -6348,7 +6188,6 @@ File: ./logs/other/tests/dtf3-2a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 524
       flushes       : 2
@@ -6391,7 +6230,6 @@ File: ./logs/other/tests/dtf3-2b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 983
       flushes       : 2
@@ -6434,7 +6272,6 @@ File: ./logs/other/tests/dtf3-3a-invalid-UTF8.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1488
       flushes       : 5
@@ -6477,7 +6314,6 @@ File: ./logs/other/tests/dtf4-2a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 538
       flushes       : 2
@@ -6520,7 +6356,6 @@ File: ./logs/other/tests/dtf4-2b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 768
       flushes       : 2
@@ -6563,7 +6398,6 @@ File: ./logs/other/tests/dtf5-1.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 256
       flushes       : 1
@@ -6606,7 +6440,6 @@ File: ./logs/other/tests/dtf5-2a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 516
       flushes       : 2
@@ -6649,7 +6482,6 @@ File: ./logs/other/tests/dtf5-2b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 975
       flushes       : 2
@@ -6692,7 +6524,6 @@ File: ./logs/other/tests/dtf5-2c.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1434
       flushes       : 2
@@ -6735,7 +6566,6 @@ File: ./logs/other/tests/dtf5-3-LF-CR.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1101
       flushes       : 2
@@ -6778,7 +6608,6 @@ File: ./logs/other/tests/dtf5-3-r-n.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1567
       flushes       : 3
@@ -6822,7 +6651,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log
       Subpath     : dtf5-6b.UTF-16BE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -6867,7 +6695,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log
       Subpath     : dtf5-6b.UTF-16BE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -6912,7 +6739,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log
       Subpath     : dtf5-6b.UTF-16LE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -6957,7 +6783,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log
       Subpath     : dtf5-6b.UTF-16LE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7002,7 +6827,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log
       Subpath     : dtf5-6b.UTF-32BE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7047,7 +6871,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log
       Subpath     : dtf5-6b.UTF-32BE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7092,7 +6915,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log
       Subpath     : dtf5-6b.UTF-32LE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7137,7 +6959,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log
       Subpath     : dtf5-6b.UTF-32LE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7182,7 +7003,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log
       Subpath     : dtf5-6b.UTF-8_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7227,7 +7047,6 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log
       Subpath     : dtf5-6b.UTF-8.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7272,7 +7091,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.log
       Subpath     : dtf5-6b.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7317,7 +7135,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6a.log
       Subpath     : dtf5-6a.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1562
       flushes       : 6
@@ -7362,7 +7179,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-2a.log
       Subpath     : dtf5-2a.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 516
       flushes       : 2
@@ -7407,7 +7223,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6c.log
       Subpath     : dtf5-6c.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 8125
       flushes       : 11
@@ -7452,7 +7267,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log
       Subpath     : dtf5-6b.UTF-16BE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7497,7 +7311,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log
       Subpath     : dtf5-6b.UTF-16BE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7542,7 +7355,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log
       Subpath     : dtf5-6b.UTF-16LE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7587,7 +7399,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log
       Subpath     : dtf5-6b.UTF-16LE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7632,7 +7443,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log
       Subpath     : dtf5-6b.UTF-32BE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7677,7 +7487,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log
       Subpath     : dtf5-6b.UTF-32BE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7722,7 +7531,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log
       Subpath     : dtf5-6b.UTF-32LE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7767,7 +7575,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log
       Subpath     : dtf5-6b.UTF-32LE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7812,7 +7619,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log
       Subpath     : dtf5-6b.UTF-8_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7857,7 +7663,6 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log
       Subpath     : dtf5-6b.UTF-8.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -7901,7 +7706,6 @@ File: ./logs/other/tests/dtf5-6a.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1562
       flushes       : 6
@@ -7944,7 +7748,6 @@ File: ./logs/other/tests/dtf5-6a.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1562
       flushes       : 6
@@ -7987,7 +7790,6 @@ File: ./logs/other/tests/dtf5-6a.log.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
   Printed:
       bytes         : 1562
       flushes       : 6
@@ -8031,7 +7833,6 @@ File: ./logs/other/tests/dtf5-6a.log.old
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1562
       flushes       : 6
@@ -8074,7 +7875,6 @@ File: ./logs/other/tests/dtf5-6a.log.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
   Printed:
       bytes         : 1562
       flushes       : 6
@@ -8118,7 +7918,6 @@ File: ./logs/other/tests/dtf5-6b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8161,7 +7960,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8204,7 +8002,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.bz2
   About:
       FileType      : TEXT UTF8/ASCII (BZIP2) (text log)
       LogMessageType: text log lines
-      Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8248,7 +8045,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8292,7 +8088,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.lz4
   About:
       FileType      : TEXT UTF8/ASCII (LZMA4) (text log)
       LogMessageType: text log lines
-      Thread stack  : 105472 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8336,7 +8131,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8380,7 +8174,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8423,7 +8216,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8466,7 +8258,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-16LE.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8509,7 +8300,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8552,7 +8342,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-32BE.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8595,7 +8384,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8638,7 +8426,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-32LE.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8681,7 +8468,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-32LE.log.bz2
   About:
       FileType      : TEXT UTF8/ASCII (BZIP2) (text log)
       LogMessageType: text log lines
-      Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8725,7 +8511,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-32LE.log.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8769,7 +8554,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-32LE.log.lz4
   About:
       FileType      : TEXT UTF8/ASCII (LZMA4) (text log)
       LogMessageType: text log lines
-      Thread stack  : 105472 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8813,7 +8597,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-32LE.log.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8857,7 +8640,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-8_BOM.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8900,7 +8682,6 @@ File: ./logs/other/tests/dtf5-6b.UTF-8.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2985
       flushes       : 6
@@ -8943,7 +8724,6 @@ File: ./logs/other/tests/dtf5-6c.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 8125
       flushes       : 11
@@ -8986,7 +8766,6 @@ File: ./logs/other/tests/dtf6z-1.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1329
       flushes       : 5
@@ -9029,7 +8808,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).7z
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -9071,7 +8849,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -9116,7 +8893,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-5-LEVELS.log
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -9161,7 +8937,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns)
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -9206,7 +8981,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns)
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -9251,7 +9025,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zi
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -9296,7 +9069,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zi
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -9341,7 +9113,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.lo
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -9386,7 +9157,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-5-LEVELS.log
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -9431,7 +9201,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -9476,7 +9245,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-5-LEVELS.l
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -9521,7 +9289,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -9566,7 +9333,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -9611,7 +9377,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -9656,7 +9421,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -9701,7 +9465,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -9746,7 +9509,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -9790,7 +9552,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -9832,7 +9593,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -9877,7 +9637,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-5-LEVELS.log
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -9921,7 +9680,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9, store all times).7z
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -9962,7 +9720,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9).7z
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -10004,7 +9761,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10049,7 +9805,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -10094,7 +9849,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10139,7 +9893,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -10184,7 +9937,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10229,7 +9981,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -10273,7 +10024,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -10315,7 +10065,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log
       Subpath     : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10360,7 +10109,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-5-LEVELS.log
       Subpath     : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -10404,7 +10152,6 @@ File: ./logs/other/tests/dtf7-20-LEVELS-outoforder.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5849
       flushes       : 20
@@ -10447,7 +10194,6 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10490,7 +10236,6 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10534,7 +10279,6 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -10575,7 +10319,6 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10618,7 +10361,6 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10663,7 +10405,6 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVEL
       Subpath     : ./logs/other/tests/dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10707,7 +10448,6 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
   Printed:
       bytes         : 5820
       flushes       : 20
@@ -10751,7 +10491,6 @@ File: ./logs/other/tests/dtf7-5-LEVELS.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1412
       flushes       : 5
@@ -10794,7 +10533,6 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5940
       flushes       : 20
@@ -10837,7 +10575,6 @@ File: ./logs/other/tests/dtf9a-2.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 934
       flushes       : 2
@@ -10881,7 +10618,6 @@ File: ./logs/other/tests/dtf9b-12-leapday.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -10920,7 +10656,6 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -10960,7 +10695,6 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       Subpath     : dtf9c-12x2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 6131
       flushes       : 23
@@ -11005,7 +10739,6 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6131
       flushes       : 23
@@ -11049,7 +10782,6 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 9503
       flushes       : 37
@@ -11093,7 +10825,6 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5998
       flushes       : 23
@@ -11137,7 +10868,6 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6227
       flushes       : 23
@@ -11181,7 +10911,6 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4006
       flushes       : 16
@@ -11225,7 +10954,6 @@ File: ./logs/other/tests/empty.7z
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -11270,7 +10998,6 @@ File: ./logs/other/tests/invalid.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
       Processing Err: unexpected end of file (GzDecoder.read(…) failed) file "./logs/other/tests/invalid.gz"
   Printed:
       bytes         : 0
@@ -11311,7 +11038,6 @@ File: ./logs/other/tests/invalid.journal
   About:
       FileType      : JOURNAL (systemd Journal)
       LogMessageType: systemd journal entry
-      Thread stack  : 131072 (bytes)
       Processing Err: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
   Error: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
 
@@ -11319,7 +11045,6 @@ File: ./logs/other/tests/invalid.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
       Processing Err: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
   Error: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
 
@@ -11327,7 +11052,6 @@ File: ./logs/other/tests/invalid2.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 563
       flushes       : 2
@@ -11370,7 +11094,6 @@ File: ./logs/other/tests/invalid3.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 569
       flushes       : 2
@@ -11413,7 +11136,6 @@ File: ./logs/other/tests/invalid4.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 565
       flushes       : 2
@@ -11456,7 +11178,6 @@ File: ./logs/other/tests/simple-1.log.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
       Processing Err: file too small
   Printed:
       bytes         : 0
@@ -11496,7 +11217,6 @@ File: ./logs/other/tests/simple-1.log.lz4
   About:
       FileType      : TEXT UTF8/ASCII (LZMA4) (text log)
       LogMessageType: text log lines
-      Thread stack  : 105472 (bytes)
       Processing Err: file too small
   Printed:
       bytes         : 0
@@ -11536,7 +11256,6 @@ File: ./logs/other/tests/simple-1.log.xz
   About:
       FileType      : TEXT UTF8/ASCII (XZ) (text log)
       LogMessageType: text log lines
-      Thread stack  : 110592 (bytes)
       Processing Err: file too small
   Printed:
       bytes         : 0
@@ -11576,7 +11295,6 @@ File: ./logs/other/tests/simple-10.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -11617,7 +11335,6 @@ File: ./logs/other/tests/simple-10s.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -11658,7 +11375,6 @@ File: ./logs/other/tests/simple-11.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -11699,7 +11415,6 @@ File: ./logs/other/tests/simple-11s_b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 240
       flushes       : 1
@@ -11743,7 +11458,6 @@ File: ./logs/other/tests/simple-11s.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -11784,7 +11498,6 @@ File: ./logs/other/tests/simple-12.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 240
       flushes       : 1
@@ -11827,7 +11540,6 @@ File: ./logs/other/tests/simple-13.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -11868,7 +11580,6 @@ File: ./logs/other/tests/simple-14.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 242
       flushes       : 1
@@ -11911,7 +11622,6 @@ File: ./logs/other/tests/simple-14s_.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -11952,7 +11662,6 @@ File: ./logs/other/tests/simple-14s_b.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 244
       flushes       : 1
@@ -11996,7 +11705,6 @@ File: ./logs/other/tests/simple-15.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 243
       flushes       : 1
@@ -12039,7 +11747,6 @@ File: ./logs/other/tests/simple-16.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 244
       flushes       : 1
@@ -12083,7 +11790,6 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       Subpath     : simple-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
       Processing Err: file too small
   Printed:
       bytes         : 0
@@ -12124,7 +11830,6 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       Subpath     : simple-3.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
       Processing Err: file too small
   Printed:
       bytes         : 0
@@ -12164,7 +11869,6 @@ File: ./logs/other/tests/simple-6.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -12205,7 +11909,6 @@ File: ./logs/other/tests/simple-7.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -12246,7 +11949,6 @@ File: ./logs/other/tests/simple-8.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -12287,7 +11989,6 @@ File: ./logs/other/tests/simple-9.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -12328,7 +12029,6 @@ File: ./logs/other/tests/unknown
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1104
       flushes       : 4
@@ -12371,7 +12071,6 @@ File: ./logs/other/tests/zero100.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: file contains null bytes
   Printed:
       bytes         : 0
@@ -12410,7 +12109,6 @@ File: ./logs/programs/claude/history.jsonl
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -12454,7 +12152,6 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -12495,7 +12192,6 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 11380
       flushes       : 30
@@ -12538,7 +12234,6 @@ File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -12564,7 +12259,6 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 11196
       flushes       : 21
@@ -12592,7 +12286,6 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
   About:
       FileType      : ETL (BZIP2) (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 219136 (bytes)
   Printed:
       bytes         : 11196
       flushes       : 21
@@ -12620,7 +12313,6 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
   About:
       FileType      : ETL (GZIP) (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 239616 (bytes)
   Printed:
       bytes         : 11196
       flushes       : 21
@@ -12648,7 +12340,6 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
   About:
       FileType      : ETL (LZMA4) (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 193536 (bytes)
   Printed:
       bytes         : 11196
       flushes       : 21
@@ -12676,7 +12367,6 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
   About:
       FileType      : ETL (XZ) (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 198656 (bytes)
   Printed:
       bytes         : 11196
       flushes       : 21
@@ -12704,7 +12394,6 @@ File: ./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -12730,7 +12419,6 @@ File: ./logs/programs/Event_Trace_Log/WindowsUpdate.20260923.202143.590.3.etl
   About:
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
-      Thread stack  : 188416 (bytes)
   Printed:
       bytes         : 0
       flushes       : 0
@@ -12756,7 +12444,6 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
       FileType      : EVTX (Windows XML EventLog)
       LogMessageType: EVTX entry (Windows XML EventLog)
-      Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 2231282
       flushes       : 1245
@@ -12777,7 +12464,6 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
   About:
       FileType      : EVTX (GZIP) (Windows XML EventLog)
       LogMessageType: EVTX entry (Windows XML EventLog)
-      Thread stack  : 182272 (bytes)
   Printed:
       bytes         : 2231282
       flushes       : 1245
@@ -12799,7 +12485,6 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Micro
       Subpath     : Microsoft-Windows-Kernel-PnP__Configuration.evtx
       FileType      : EVTX (TAR) (Windows XML EventLog)
       LogMessageType: EVTX entry (Windows XML EventLog)
-      Thread stack  : 166912 (bytes)
   Printed:
       bytes         : 2231282
       flushes       : 1245
@@ -12820,7 +12505,6 @@ File: ./logs/programs/flask/server.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1152
       flushes       : 4
@@ -12863,7 +12547,6 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
   About:
       FileType      : JOURNAL (systemd Journal)
       LogMessageType: systemd journal entry
-      Thread stack  : 131072 (bytes)
   Printed:
       bytes         : 28476
       flushes       : 17
@@ -12885,7 +12568,6 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
   About:
       FileType      : JOURNAL (BZIP2) (systemd Journal)
       LogMessageType: systemd journal entry
-      Thread stack  : 161792 (bytes)
   Printed:
       bytes         : 28476
       flushes       : 17
@@ -12907,7 +12589,6 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
   About:
       FileType      : JOURNAL (GZIP) (systemd Journal)
       LogMessageType: systemd journal entry
-      Thread stack  : 182272 (bytes)
   Printed:
       bytes         : 28476
       flushes       : 17
@@ -12929,7 +12610,6 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
   About:
       FileType      : JOURNAL (LZMA4) (systemd Journal)
       LogMessageType: systemd journal entry
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 28476
       flushes       : 17
@@ -12951,7 +12631,6 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
   About:
       FileType      : JOURNAL (XZ) (systemd Journal)
       LogMessageType: systemd journal entry
-      Thread stack  : 141312 (bytes)
   Printed:
       bytes         : 28476
       flushes       : 17
@@ -12974,7 +12653,6 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.jour
       Subpath     : Ubuntu22-user-1000x3.journal
       FileType      : JOURNAL (TAR) (systemd Journal)
       LogMessageType: systemd journal entry
-      Thread stack  : 166912 (bytes)
   Printed:
       bytes         : 28476
       flushes       : 17
@@ -12997,7 +12675,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|FeedbackHub/Sub
       Subpath     : FeedbackHub/SubmissionPayload.json
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -13040,7 +12717,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|general.keystor
       Subpath     : general.keystore
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -13083,7 +12759,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleu
       Subpath     : microsoftNucleusTelemetryCache.otc
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -13124,7 +12799,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleu
       Subpath     : microsoftNucleusTelemetryCache.otc-shm
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -13165,7 +12839,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleu
       Subpath     : microsoftNucleusTelemetryCache.otc-wal
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 156672 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -13206,7 +12879,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-09-15.2333.24940.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13235,7 +12907,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-09-24.0253.5716.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13264,7 +12935,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-09-24.0347.38964.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13293,7 +12963,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-09-24.1754.26324.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13322,7 +12991,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-09-29.1702.24824.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13351,7 +13019,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-09-29.1711.19032.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13380,7 +13047,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-09-29.1716.24660.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13409,7 +13075,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-09-30.2012.26512.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13438,7 +13103,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-09-30.2356.5684.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13467,7 +13131,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-10-04.0014.22988.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13496,7 +13159,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-10-08.1128.35340.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13525,7 +13187,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath     : NucleusUnAuthenticated-2026-10-10.1343.8720.1.aodl
       FileType      : AODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13553,7 +13214,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
   About:
       FileType      : ODL (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 524288 (bytes)
   Printed:
       Events        : 11
       Bytes         : 3778
@@ -13583,7 +13243,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
   About:
       FileType      : ODL (BZIP2) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 555008 (bytes)
   Printed:
       Events        : 11
       Bytes         : 3778
@@ -13613,7 +13272,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
   About:
       FileType      : ODL (GZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 575488 (bytes)
   Printed:
       Events        : 11
       Bytes         : 3778
@@ -13643,7 +13301,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
   About:
       FileType      : ODL (LZMA4) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 529408 (bytes)
   Printed:
       Events        : 11
       Bytes         : 3778
@@ -13673,7 +13330,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
   About:
       FileType      : ODL (XZ) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 534528 (bytes)
   Printed:
       Events        : 11
       Bytes         : 3778
@@ -13704,7 +13360,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       Subpath     : logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 580608 (bytes)
   Printed:
       Events        : 11
       Bytes         : 3778
@@ -13733,7 +13388,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
   About:
       FileType      : ODLGZ (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 524288 (bytes)
   Printed:
       Events        : 615
       Bytes         : 251471
@@ -13763,7 +13417,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
   About:
       FileType      : AODL (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 524288 (bytes)
   Printed:
       Events        : 829
       Bytes         : 282261
@@ -13793,7 +13446,6 @@ File: ./logs/programs/pacman/pacman.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 56543
       flushes       : 195
@@ -13836,7 +13488,6 @@ File: ./logs/programs/proftpd/controls.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2038
       flushes       : 6
@@ -13879,7 +13530,6 @@ File: ./logs/programs/proftpd/proftpd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6406
       flushes       : 19
@@ -13922,7 +13572,6 @@ File: ./logs/programs/proftpd/xferlog
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 963
       flushes       : 3
@@ -13965,7 +13614,6 @@ File: ./logs/programs/tomcat/catalina-access.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 888
       flushes       : 2
@@ -14008,7 +13656,6 @@ File: ./logs/programs/tomcat/catalina.out
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6620
       flushes       : 9
@@ -14052,7 +13699,6 @@ File: ./logs/programs/utmp/host-entry1.wtmp
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 104448 (bytes)
       Processing Err: no valid fixed-structure records found in file
 
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
@@ -14061,7 +13707,6 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 140288 (bytes)
       Processing Err: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
 
@@ -14071,7 +13716,6 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 140288 (bytes)
       Processing Err: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar"
 
@@ -14081,7 +13725,6 @@ File: ./logs/programs/utmp/host-entry6.wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2477
       flushes       : 6
@@ -14111,7 +13754,6 @@ File: ./logs/programs/utmp/host-entry6.wtmp.bz2
       FileType      : UTMP/WTMP (BZIP2) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 135168 (bytes)
       Processing Err: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.bz2"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.bz2"
 
@@ -14120,7 +13762,6 @@ File: ./logs/programs/utmp/host-entry6.wtmp.gz
       FileType      : UTMP/WTMP (GZIP) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 155648 (bytes)
       Processing Err: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.gz"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.gz"
 
@@ -14129,7 +13770,6 @@ File: ./logs/programs/utmp/host-entry6.wtmp.lz
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 104448 (bytes)
       Processing Err: no valid fixed-structure records found in file
 
 File: ./logs/programs/utmp/host-entry6.wtmp.lz4
@@ -14137,7 +13777,6 @@ File: ./logs/programs/utmp/host-entry6.wtmp.lz4
       FileType      : UTMP/WTMP (LZMA4) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 109568 (bytes)
       Processing Err: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.lz4"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.lz4"
 
@@ -14146,7 +13785,6 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
       FileType      : UTMP/WTMP (XZ) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Thread stack  : 114688 (bytes)
       Processing Err: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.xz"
   Error: streamed block 0 was previously dropped for file "./logs/programs/utmp/host-entry6.wtmp.xz"
 
@@ -14157,7 +13795,6 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 160768 (bytes)
   Printed:
       bytes         : 2477
       flushes       : 6
@@ -14187,7 +13824,6 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 639
       flushes       : 2
@@ -14230,7 +13866,6 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3232
       flushes       : 8
@@ -14273,7 +13908,6 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1650
       flushes       : 5
@@ -14316,7 +13950,6 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6956
       flushes       : 18
@@ -14359,7 +13992,6 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7798
       flushes       : 18
@@ -14402,7 +14034,6 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6497
       flushes       : 20
@@ -14445,7 +14076,6 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6287
       flushes       : 18
@@ -14488,7 +14118,6 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3106
       flushes       : 10
@@ -14531,7 +14160,6 @@ File: ./logs/RancherOS-1.5.8/docker.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 24224
       flushes       : 66
@@ -14574,7 +14202,6 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 14817
       flushes       : 45
@@ -14617,7 +14244,6 @@ File: ./logs/RancherOS-1.5.8/messages
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 80598
       flushes       : 231
@@ -14661,7 +14287,6 @@ File: ./logs/RancherOS-1.5.8/syslog
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3547
       flushes       : 10
@@ -14705,7 +14330,6 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6983
       flushes       : 4
@@ -14748,7 +14372,6 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 9254
       flushes       : 19
@@ -14792,7 +14415,6 @@ File: ./logs/RockyLinux9/cron
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 38980
       flushes       : 116
@@ -14836,7 +14458,6 @@ File: ./logs/RockyLinux9/dnf.librepo.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 39863
       flushes       : 104
@@ -14879,7 +14500,6 @@ File: ./logs/RockyLinux9/dnf.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 230937
       flushes       : 686
@@ -14922,7 +14542,6 @@ File: ./logs/RockyLinux9/dnf.rpm.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 11292
       flushes       : 36
@@ -14965,7 +14584,6 @@ File: ./logs/RockyLinux9/hawkey.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 8063
       flushes       : 28
@@ -15008,7 +14626,6 @@ File: ./logs/RockyLinux9/messages
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 810632
       flushes       : 2433
@@ -15052,7 +14669,6 @@ File: ./logs/RockyLinux9/messages-DropletAgent
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 13665
       flushes       : 37
@@ -15096,7 +14712,6 @@ File: ./logs/RockyLinux9/nginx/access.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1464
       flushes       : 4
@@ -15139,7 +14754,6 @@ File: ./logs/RockyLinux9/nginx/error.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 917
       flushes       : 2
@@ -15182,7 +14796,6 @@ File: ./logs/RockyLinux9/secure
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 197946
       flushes       : 545
@@ -15226,7 +14839,6 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 253
       flushes       : 1
@@ -15269,7 +14881,6 @@ File: ./logs/synology-DS6/apparmor.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6074
       flushes       : 19
@@ -15312,7 +14923,6 @@ File: ./logs/synology-DS6/auth.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6499
       flushes       : 19
@@ -15355,7 +14965,6 @@ File: ./logs/synology-DS6/checker.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6043
       flushes       : 19
@@ -15398,7 +15007,6 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2409
       flushes       : 7
@@ -15442,7 +15050,6 @@ File: ./logs/synology-DS6/datascrubbing.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6738
       flushes       : 19
@@ -15485,7 +15092,6 @@ File: ./logs/synology-DS6/disk.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6517
       flushes       : 19
@@ -15528,7 +15134,6 @@ File: ./logs/synology-DS6/dmesg
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6040
       flushes       : 19
@@ -15571,7 +15176,6 @@ File: ./logs/synology-DS6/downloadstation.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6519
       flushes       : 19
@@ -15614,7 +15218,6 @@ File: ./logs/synology-DS6/dpkg_upgrade.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5743
       flushes       : 7
@@ -15657,7 +15260,6 @@ File: ./logs/synology-DS6/dpkg.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5788
       flushes       : 19
@@ -15700,7 +15302,6 @@ File: ./logs/synology-DS6/esynoscheduler.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5959
       flushes       : 4
@@ -15743,7 +15344,6 @@ File: ./logs/synology-DS6/fsck/root.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 17015
       flushes       : 9
@@ -15786,7 +15386,6 @@ File: ./logs/synology-DS6/ha.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6889
       flushes       : 19
@@ -15829,7 +15428,6 @@ File: ./logs/synology-DS6/iscsi.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6640
       flushes       : 19
@@ -15872,7 +15470,6 @@ File: ./logs/synology-DS6/kern.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6596
       flushes       : 19
@@ -15915,7 +15512,6 @@ File: ./logs/synology-DS6/messages
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7923
       flushes       : 19
@@ -15958,7 +15554,6 @@ File: ./logs/synology-DS6/opentftp.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5962
       flushes       : 21
@@ -16001,7 +15596,6 @@ File: ./logs/synology-DS6/packages/CloudSync.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5933
       flushes       : 19
@@ -16044,7 +15638,6 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5288
       flushes       : 3
@@ -16087,7 +15680,6 @@ File: ./logs/synology-DS6/packages/FileStation.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6198
       flushes       : 19
@@ -16130,7 +15722,6 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5984
       flushes       : 5
@@ -16173,7 +15764,6 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5932
       flushes       : 16
@@ -16216,7 +15806,6 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5802
       flushes       : 10
@@ -16259,7 +15848,6 @@ File: ./logs/synology-DS6/packages/LogCenter.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5255
       flushes       : 6
@@ -16302,7 +15890,6 @@ File: ./logs/synology-DS6/packages/Node.js_v4.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6071
       flushes       : 19
@@ -16345,7 +15932,6 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6367
       flushes       : 19
@@ -16388,7 +15974,6 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5383
       flushes       : 7
@@ -16431,7 +16016,6 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5674
       flushes       : 4
@@ -16474,7 +16058,6 @@ File: ./logs/synology-DS6/packages/SynoFinder.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6168
       flushes       : 19
@@ -16517,7 +16100,6 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5907
       flushes       : 7
@@ -16560,7 +16142,6 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5836
       flushes       : 13
@@ -16603,7 +16184,6 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5475
       flushes       : 4
@@ -16646,7 +16226,6 @@ File: ./logs/synology-DS6/packages/USBCopy.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5918
       flushes       : 19
@@ -16689,7 +16268,6 @@ File: ./logs/synology-DS6/postgresql.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6658
       flushes       : 19
@@ -16732,7 +16310,6 @@ File: ./logs/synology-DS6/router.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6636
       flushes       : 19
@@ -16775,7 +16352,6 @@ File: ./logs/synology-DS6/samba/log.nmbd
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5395
       flushes       : 8
@@ -16818,7 +16394,6 @@ File: ./logs/synology-DS6/samba/log.smbd
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5423
       flushes       : 8
@@ -16861,7 +16436,6 @@ File: ./logs/synology-DS6/scemd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6681
       flushes       : 19
@@ -16904,7 +16478,6 @@ File: ./logs/synology-DS6/sfdisk.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6173
       flushes       : 19
@@ -16947,7 +16520,6 @@ File: ./logs/synology-DS6/smart_extend_log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2090
       flushes       : 4
@@ -16990,7 +16562,6 @@ File: ./logs/synology-DS6/smart_quick_log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2090
       flushes       : 4
@@ -17033,7 +16604,6 @@ File: ./logs/synology-DS6/space_operation_error.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6685
       flushes       : 19
@@ -17077,7 +16647,6 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6427
       flushes       : 19
@@ -17121,7 +16690,6 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6465
       flushes       : 19
@@ -17165,7 +16733,6 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6397
       flushes       : 19
@@ -17209,7 +16776,6 @@ File: ./logs/synology-DS6/synobackup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4974
       flushes       : 14
@@ -17252,7 +16818,6 @@ File: ./logs/synology-DS6/synocmsclient.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4940
       flushes       : 11
@@ -17295,7 +16860,6 @@ File: ./logs/synology-DS6/synocontentextractd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7958
       flushes       : 19
@@ -17338,7 +16902,6 @@ File: ./logs/synology-DS6/synocrond-execute.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6785
       flushes       : 19
@@ -17382,7 +16945,6 @@ File: ./logs/synology-DS6/synocrond.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4147
       flushes       : 11
@@ -17425,7 +16987,6 @@ File: ./logs/synology-DS6/synofeasibilitycheck.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7797
       flushes       : 19
@@ -17468,7 +17029,6 @@ File: ./logs/synology-DS6/synoindex.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3259
       flushes       : 8
@@ -17511,7 +17071,6 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6468
       flushes       : 19
@@ -17554,7 +17113,6 @@ File: ./logs/synology-DS6/synolog/synobackup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5352
       flushes       : 15
@@ -17597,7 +17155,6 @@ File: ./logs/synology-DS6/synologydrive.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6465
       flushes       : 17
@@ -17640,7 +17197,6 @@ File: ./logs/synology-DS6/synophoto.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7114
       flushes       : 19
@@ -17683,7 +17239,6 @@ File: ./logs/synology-DS6/synopkg.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6439
       flushes       : 10
@@ -17726,7 +17281,6 @@ File: ./logs/synology-DS6/synopoweroff.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7134
       flushes       : 19
@@ -17769,7 +17323,6 @@ File: ./logs/synology-DS6/synorelayd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5426
       flushes       : 19
@@ -17812,7 +17365,6 @@ File: ./logs/synology-DS6/synoreport.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5352
       flushes       : 19
@@ -17855,7 +17407,6 @@ File: ./logs/synology-DS6/synoscheduler.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6042
       flushes       : 18
@@ -17898,7 +17449,6 @@ File: ./logs/synology-DS6/synoservice.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6276
       flushes       : 19
@@ -17941,7 +17491,6 @@ File: ./logs/synology-DS6/synotifyd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5866
       flushes       : 19
@@ -17984,7 +17533,6 @@ File: ./logs/synology-DS6/synoupdate.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5563
       flushes       : 19
@@ -18027,7 +17575,6 @@ File: ./logs/synology-DS6/syslog.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6558
       flushes       : 19
@@ -18070,7 +17617,6 @@ File: ./logs/synology-DS6/sysnotify.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7327
       flushes       : 19
@@ -18113,7 +17659,6 @@ File: ./logs/synology-DS6/upstart/3rdparty-services.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5819
       flushes       : 19
@@ -18156,7 +17701,6 @@ File: ./logs/synology-DS6/upstart/apparmor.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5396
       flushes       : 19
@@ -18199,7 +17743,6 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2232
       flushes       : 8
@@ -18242,7 +17785,6 @@ File: ./logs/synology-DS6/upstart/avahi.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5909
       flushes       : 19
@@ -18285,7 +17827,6 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1861
       flushes       : 5
@@ -18328,7 +17869,6 @@ File: ./logs/synology-DS6/upstart/crond.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5298
       flushes       : 19
@@ -18371,7 +17911,6 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 46257
       flushes       : 25
@@ -18414,7 +17953,6 @@ File: ./logs/synology-DS6/upstart/dbus-system.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5579
       flushes       : 19
@@ -18457,7 +17995,6 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4419
       flushes       : 12
@@ -18500,7 +18037,6 @@ File: ./logs/synology-DS6/upstart/DiskHealthCk.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 648
       flushes       : 2
@@ -18543,7 +18079,6 @@ File: ./logs/synology-DS6/upstart/dsm-services.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5992
       flushes       : 19
@@ -18586,7 +18121,6 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5915
       flushes       : 19
@@ -18629,7 +18163,6 @@ File: ./logs/synology-DS6/upstart/eaupgrade.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6042
       flushes       : 19
@@ -18672,7 +18205,6 @@ File: ./logs/synology-DS6/upstart/findhostd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5623
       flushes       : 18
@@ -18715,7 +18247,6 @@ File: ./logs/synology-DS6/upstart/ftpd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5232
       flushes       : 18
@@ -18758,7 +18289,6 @@ File: ./logs/synology-DS6/upstart/hotplugd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1472
       flushes       : 4
@@ -18801,7 +18331,6 @@ File: ./logs/synology-DS6/upstart/inetd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5047
       flushes       : 11
@@ -18844,7 +18373,6 @@ File: ./logs/synology-DS6/upstart/iptablesTc.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5605
       flushes       : 19
@@ -18887,7 +18415,6 @@ File: ./logs/synology-DS6/upstart/is_plugind.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6825
       flushes       : 19
@@ -18930,7 +18457,6 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5566
       flushes       : 17
@@ -18973,7 +18499,6 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5425
       flushes       : 19
@@ -19016,7 +18541,6 @@ File: ./logs/synology-DS6/upstart/job-monitor-handler.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5282
       flushes       : 19
@@ -19059,7 +18583,6 @@ File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6308
       flushes       : 19
@@ -19102,7 +18625,6 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5362
       flushes       : 18
@@ -19145,7 +18667,6 @@ File: ./logs/synology-DS6/upstart/mkcert.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5744
       flushes       : 15
@@ -19188,7 +18709,6 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3460
       flushes       : 8
@@ -19231,7 +18751,6 @@ File: ./logs/synology-DS6/upstart/netatalk.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5182
       flushes       : 17
@@ -19274,7 +18793,6 @@ File: ./logs/synology-DS6/upstart/network.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5415
       flushes       : 8
@@ -19317,7 +18835,6 @@ File: ./logs/synology-DS6/upstart/nfsd-adapter.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5525
       flushes       : 19
@@ -19360,7 +18877,6 @@ File: ./logs/synology-DS6/upstart/nginx.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5493
       flushes       : 19
@@ -19403,7 +18919,6 @@ File: ./logs/synology-DS6/upstart/nmbd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5428
       flushes       : 19
@@ -19446,7 +18961,6 @@ File: ./logs/synology-DS6/upstart/opentftp.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5083
       flushes       : 19
@@ -19489,7 +19003,6 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5420
       flushes       : 19
@@ -19532,7 +19045,6 @@ File: ./logs/synology-DS6/upstart/pgsql.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5734
       flushes       : 15
@@ -19575,7 +19087,6 @@ File: ./logs/synology-DS6/upstart/php_timezone_update.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5206
       flushes       : 19
@@ -19618,7 +19129,6 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6474
       flushes       : 18
@@ -19661,7 +19171,6 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5656
       flushes       : 19
@@ -19704,7 +19213,6 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3880
       flushes       : 4
@@ -19747,7 +19255,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5408
       flushes       : 19
@@ -19790,7 +19297,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5368
       flushes       : 19
@@ -19833,7 +19339,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5396
       flushes       : 19
@@ -19876,7 +19381,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-assessment.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5930
       flushes       : 19
@@ -19919,7 +19423,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-check-center.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5938
       flushes       : 19
@@ -19962,7 +19465,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-concept.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5866
       flushes       : 19
@@ -20005,7 +19507,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-face-extraction.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5995
       flushes       : 19
@@ -20048,7 +19549,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5854
       flushes       : 19
@@ -20091,7 +19591,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-geocoding.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5881
       flushes       : 19
@@ -20134,7 +19633,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5949
       flushes       : 19
@@ -20177,7 +19675,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5957
       flushes       : 19
@@ -20220,7 +19717,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6033
       flushes       : 19
@@ -20263,7 +19759,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-task-center.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5919
       flushes       : 19
@@ -20306,7 +19801,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumb.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5805
       flushes       : 19
@@ -20349,7 +19843,6 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumbnail-provider.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6052
       flushes       : 19
@@ -20392,7 +19885,6 @@ File: ./logs/synology-DS6/upstart/pkg-synoreport.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6454
       flushes       : 19
@@ -20435,7 +19927,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5828
       flushes       : 19
@@ -20478,7 +19969,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5633
       flushes       : 19
@@ -20521,7 +20011,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5823
       flushes       : 19
@@ -20564,7 +20053,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5591
       flushes       : 19
@@ -20607,7 +20095,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5501
       flushes       : 19
@@ -20650,7 +20137,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5598
       flushes       : 19
@@ -20693,7 +20179,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-LogCenter.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5574
       flushes       : 19
@@ -20736,7 +20221,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v4.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5460
       flushes       : 19
@@ -20779,7 +20263,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6155
       flushes       : 19
@@ -20822,7 +20305,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5521
       flushes       : 19
@@ -20865,7 +20347,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5579
       flushes       : 19
@@ -20908,7 +20389,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5610
       flushes       : 19
@@ -20951,7 +20431,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5564
       flushes       : 19
@@ -20994,7 +20473,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5704
       flushes       : 19
@@ -21037,7 +20515,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5596
       flushes       : 19
@@ -21080,7 +20557,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5577
       flushes       : 19
@@ -21123,7 +20599,6 @@ File: ./logs/synology-DS6/upstart/pkgctl-USBCopy.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5797
       flushes       : 19
@@ -21166,7 +20641,6 @@ File: ./logs/synology-DS6/upstart/pppoerelay.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5764
       flushes       : 19
@@ -21209,7 +20683,6 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 325
       flushes       : 1
@@ -21252,7 +20725,6 @@ File: ./logs/synology-DS6/upstart/rc-sysinit.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5904
       flushes       : 19
@@ -21295,7 +20767,6 @@ File: ./logs/synology-DS6/upstart/rc.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5510
       flushes       : 16
@@ -21338,7 +20809,6 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5292
       flushes       : 3
@@ -21381,7 +20851,6 @@ File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5510
       flushes       : 19
@@ -21424,7 +20893,6 @@ File: ./logs/synology-DS6/upstart/s2s_daemon.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5236
       flushes       : 19
@@ -21467,7 +20935,6 @@ File: ./logs/synology-DS6/upstart/scemd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5618
       flushes       : 19
@@ -21510,7 +20977,6 @@ File: ./logs/synology-DS6/upstart/scrubbing-conf-sync.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6251
       flushes       : 19
@@ -21553,7 +21019,6 @@ File: ./logs/synology-DS6/upstart/smallupdate.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1839
       flushes       : 6
@@ -21596,7 +21061,6 @@ File: ./logs/synology-DS6/upstart/smbd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5717
       flushes       : 16
@@ -21639,7 +21103,6 @@ File: ./logs/synology-DS6/upstart/ssh-sftp.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5294
       flushes       : 19
@@ -21682,7 +21145,6 @@ File: ./logs/synology-DS6/upstart/ssh-shell.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5426
       flushes       : 19
@@ -21725,7 +21187,6 @@ File: ./logs/synology-DS6/upstart/sshd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5092
       flushes       : 7
@@ -21768,7 +21229,6 @@ File: ./logs/synology-DS6/upstart/syno-auth-check.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5277
       flushes       : 19
@@ -21811,7 +21271,6 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6365
       flushes       : 19
@@ -21854,7 +21313,6 @@ File: ./logs/synology-DS6/upstart/syno-move-coredump.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5624
       flushes       : 19
@@ -21897,7 +21355,6 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5881
       flushes       : 15
@@ -21940,7 +21397,6 @@ File: ./logs/synology-DS6/upstart/syno-share-check.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5740
       flushes       : 16
@@ -21983,7 +21439,6 @@ File: ./logs/synology-DS6/upstart/synocgid.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5237
       flushes       : 19
@@ -22026,7 +21481,6 @@ File: ./logs/synology-DS6/upstart/synoconfd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5693
       flushes       : 19
@@ -22069,7 +21523,6 @@ File: ./logs/synology-DS6/upstart/synocrond.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5179
       flushes       : 19
@@ -22112,7 +21565,6 @@ File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5491
       flushes       : 19
@@ -22155,7 +21607,6 @@ File: ./logs/synology-DS6/upstart/synoindexd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5472
       flushes       : 19
@@ -22198,7 +21649,6 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4447
       flushes       : 16
@@ -22241,7 +21691,6 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5285
       flushes       : 19
@@ -22284,7 +21733,6 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5284
       flushes       : 19
@@ -22327,7 +21775,6 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2522
       flushes       : 9
@@ -22370,7 +21817,6 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1924
       flushes       : 7
@@ -22413,7 +21859,6 @@ File: ./logs/synology-DS6/upstart/synologand.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5293
       flushes       : 19
@@ -22456,7 +21901,6 @@ File: ./logs/synology-DS6/upstart/synologd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5261
       flushes       : 19
@@ -22499,7 +21943,6 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4365
       flushes       : 15
@@ -22542,7 +21985,6 @@ File: ./logs/synology-DS6/upstart/synomkthumbd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4688
       flushes       : 16
@@ -22585,7 +22027,6 @@ File: ./logs/synology-DS6/upstart/synomount.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5151
       flushes       : 18
@@ -22628,7 +22069,6 @@ File: ./logs/synology-DS6/upstart/synonetd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5226
       flushes       : 18
@@ -22671,7 +22111,6 @@ File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5377
       flushes       : 19
@@ -22714,7 +22153,6 @@ File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6160
       flushes       : 19
@@ -22757,7 +22195,6 @@ File: ./logs/synology-DS6/upstart/synoscgi.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6576
       flushes       : 18
@@ -22800,7 +22237,6 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5225
       flushes       : 19
@@ -22843,7 +22279,6 @@ File: ./logs/synology-DS6/upstart/synoscheduler.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6042
       flushes       : 19
@@ -22886,7 +22321,6 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4014
       flushes       : 13
@@ -22929,7 +22363,6 @@ File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5302
       flushes       : 19
@@ -22972,7 +22405,6 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 569
       flushes       : 1
@@ -23015,7 +22447,6 @@ File: ./logs/synology-DS6/upstart/synostoraged.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5600
       flushes       : 19
@@ -23058,7 +22489,6 @@ File: ./logs/synology-DS6/upstart/synovpnclient.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5206
       flushes       : 19
@@ -23101,7 +22531,6 @@ File: ./logs/synology-DS6/upstart/synowifid-handler.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6066
       flushes       : 19
@@ -23144,7 +22573,6 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5280
       flushes       : 4
@@ -23187,7 +22615,6 @@ File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5551
       flushes       : 19
@@ -23230,7 +22657,6 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5470
       flushes       : 5
@@ -23273,7 +22699,6 @@ File: ./logs/synology-DS6/upstart/syslog-ng.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6023
       flushes       : 19
@@ -23316,7 +22741,6 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5205
       flushes       : 16
@@ -23359,7 +22783,6 @@ File: ./logs/synology-DS6/upstart/system-profile-tuning.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5431
       flushes       : 19
@@ -23402,7 +22825,6 @@ File: ./logs/synology-DS6/upstart/telnetd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5215
       flushes       : 15
@@ -23445,7 +22867,6 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5368
       flushes       : 19
@@ -23488,7 +22909,6 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5081
       flushes       : 11
@@ -23531,7 +22951,6 @@ File: ./logs/synology-DS6/upstart/update-apppriv-remote.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5333
       flushes       : 18
@@ -23574,7 +22993,6 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5521
       flushes       : 18
@@ -23617,7 +23035,6 @@ File: ./logs/synology-DS6/usbcopyd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6205
       flushes       : 19
@@ -23662,7 +23079,6 @@ File: ./logs/Ubuntu16/x86_32/btmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 1257
       flushes       : 3
@@ -23693,7 +23109,6 @@ File: ./logs/Ubuntu16/x86_32/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 564
       flushes       : 2
@@ -23724,7 +23139,6 @@ File: ./logs/Ubuntu16/x86_32/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 7655
       flushes       : 19
@@ -23753,7 +23167,6 @@ File: ./logs/Ubuntu18/apt/history.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1799
       flushes       : 2
@@ -23796,7 +23209,6 @@ File: ./logs/Ubuntu18/apt/term.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5649
       flushes       : 3
@@ -23839,7 +23251,6 @@ File: ./logs/Ubuntu18/cups/access_log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 680
       flushes       : 2
@@ -23882,7 +23293,6 @@ File: ./logs/Ubuntu18/cups/access_log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 2017
       flushes       : 6
@@ -23925,7 +23335,6 @@ File: ./logs/Ubuntu18/cups/error_log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 348
       flushes       : 1
@@ -23968,7 +23377,6 @@ File: ./logs/Ubuntu18/fontconfig.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -24009,7 +23417,6 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -24050,7 +23457,6 @@ File: ./logs/Ubuntu18/gpu-manager.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -24091,7 +23497,6 @@ File: ./logs/Ubuntu18/installer/initial-status
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -24132,7 +23537,6 @@ File: ./logs/Ubuntu18/installer/media-info
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -24173,7 +23577,6 @@ File: ./logs/Ubuntu18/installer/telemetry
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -24212,7 +23615,6 @@ File: ./logs/Ubuntu18/kern.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6003
       flushes       : 19
@@ -24256,7 +23658,6 @@ File: ./logs/Ubuntu18/nvidia-installer.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4920
       flushes       : 3
@@ -24299,7 +23700,6 @@ File: ./logs/Ubuntu18/prime-offload.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -24340,7 +23740,6 @@ File: ./logs/Ubuntu18/prime-supported.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -24381,7 +23780,6 @@ File: ./logs/Ubuntu18/samba/log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5350
       flushes       : 7
@@ -24424,7 +23822,6 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5543
       flushes       : 10
@@ -24467,7 +23864,6 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.2
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5493
       flushes       : 10
@@ -24510,7 +23906,6 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5543
       flushes       : 10
@@ -24553,7 +23948,6 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5543
       flushes       : 10
@@ -24596,7 +23990,6 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.5
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5481
       flushes       : 10
@@ -24639,7 +24032,6 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.6
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5490
       flushes       : 10
@@ -24682,7 +24074,6 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.7
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5490
       flushes       : 10
@@ -24725,7 +24116,6 @@ File: ./logs/Ubuntu18/samba/log.nmbd
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6078
       flushes       : 10
@@ -24768,7 +24158,6 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5756
       flushes       : 7
@@ -24811,7 +24200,6 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6088
       flushes       : 10
@@ -24854,7 +24242,6 @@ File: ./logs/Ubuntu18/samba/log.smbd
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5224
       flushes       : 5
@@ -24897,7 +24284,6 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5473
       flushes       : 7
@@ -24940,7 +24326,6 @@ File: ./logs/Ubuntu18/vmware-installer
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5648
       flushes       : 18
@@ -24983,7 +24368,6 @@ File: ./logs/Ubuntu18/vmware/hostd-62.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7013
       flushes       : 19
@@ -25026,7 +24410,6 @@ File: ./logs/Ubuntu18/vmware/hostd.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7013
       flushes       : 19
@@ -25069,7 +24452,6 @@ File: ./logs/Ubuntu18/xrdp.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 5667
       flushes       : 19
@@ -25114,7 +24496,6 @@ File: ./logs/Ubuntu20/x86_64/lastlog
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Lastlog
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 574
       flushes       : 2
@@ -25143,7 +24524,6 @@ File: ./logs/Ubuntu22/alternatives.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 9640
       flushes       : 13
@@ -25186,7 +24566,6 @@ File: ./logs/Ubuntu22/apport.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1664
       flushes       : 5
@@ -25229,7 +24608,6 @@ File: ./logs/Ubuntu22/apt/eipp.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -25270,7 +24648,6 @@ File: ./logs/Ubuntu22/apt/history.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4360
       flushes       : 5
@@ -25313,7 +24690,6 @@ File: ./logs/Ubuntu22/apt/term.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4344
       flushes       : 3
@@ -25356,7 +24732,6 @@ File: ./logs/Ubuntu22/auth.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4675
       flushes       : 14
@@ -25400,7 +24775,6 @@ File: ./logs/Ubuntu22/auth.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4624
       flushes       : 14
@@ -25444,7 +24818,6 @@ File: ./logs/Ubuntu22/cloud-init-output.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4285
       flushes       : 3
@@ -25487,7 +24860,6 @@ File: ./logs/Ubuntu22/cloud-init.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4648
       flushes       : 14
@@ -25530,7 +24902,6 @@ File: ./logs/Ubuntu22/dmesg
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -25574,7 +24945,6 @@ File: ./logs/Ubuntu22/dmesg-+0400
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -25618,7 +24988,6 @@ File: ./logs/Ubuntu22/dmesg.0
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -25662,7 +25031,6 @@ File: ./logs/Ubuntu22/dmesg.0.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Thread stack  : 151552 (bytes)
       Processing Err: failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
@@ -25707,7 +25075,6 @@ File: ./logs/Ubuntu22/dpkg.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4216
       flushes       : 14
@@ -25750,7 +25117,6 @@ File: ./logs/Ubuntu22/dpkg.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4143
       flushes       : 14
@@ -25793,7 +25159,6 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -25834,7 +25199,6 @@ File: ./logs/Ubuntu22/kern.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 6075
       flushes       : 14
@@ -25878,7 +25242,6 @@ File: ./logs/Ubuntu22/kern.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -25917,7 +25280,6 @@ File: ./logs/Ubuntu22/syslog
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4678
       flushes       : 14
@@ -25961,7 +25323,6 @@ File: ./logs/Ubuntu22/syslog.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4450
       flushes       : 14
@@ -26005,7 +25366,6 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 3684
       flushes       : 12
@@ -26048,7 +25408,6 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4297
       flushes       : 14
@@ -26091,7 +25450,6 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4621
       flushes       : 3
@@ -26134,7 +25492,6 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 4450
       flushes       : 14
@@ -26179,7 +25536,6 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 2521
       flushes       : 6
@@ -26210,7 +25566,6 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
       specific type : Fs_Linux_x86_Utmpx
-      Thread stack  : 104448 (bytes)
   Printed:
       bytes         : 37785
       flushes       : 93
@@ -26239,7 +25594,6 @@ File: ./logs/Windows10Pro/CBS/CBS.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 55810
       flushes       : 152
@@ -26282,7 +25636,6 @@ File: ./logs/Windows10Pro/comsetup.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -26323,7 +25676,6 @@ File: ./logs/Windows10Pro/debug/mrt.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 11977
       flushes       : 8
@@ -26366,7 +25718,6 @@ File: ./logs/Windows10Pro/DirectX.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 12549
       flushes       : 18
@@ -26410,7 +25761,6 @@ File: ./logs/Windows10Pro/DISM/dism.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 40740
       flushes       : 94
@@ -26453,7 +25803,6 @@ File: ./logs/Windows10Pro/DtcInstall.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -26494,7 +25843,6 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 11529
       flushes       : 8
@@ -26537,7 +25885,6 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 12804
       flushes       : 8
@@ -26580,7 +25927,6 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 47090
       flushes       : 27
@@ -26623,7 +25969,6 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 7804
       flushes       : 6
@@ -26666,7 +26011,6 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 36485
       flushes       : 21
@@ -26709,7 +26053,6 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 1248
       flushes       : 4
@@ -26752,7 +26095,6 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -26793,7 +26135,6 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -26834,7 +26175,6 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 17796
       flushes       : 37
@@ -26877,7 +26217,6 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 10240
       flushes       : 17
@@ -26920,7 +26259,6 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 23021
       flushes       : 12
@@ -26963,7 +26301,6 @@ File: ./logs/Windows10Pro/PFRO.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 54948
       flushes       : 96
@@ -27006,7 +26343,6 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 41532
       flushes       : 22
@@ -27049,7 +26385,6 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 85359
       flushes       : 163
@@ -27092,7 +26427,6 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 421626
       flushes       : 1205
@@ -27135,7 +26469,6 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 39195
       flushes       : 105
@@ -27178,7 +26511,6 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -27219,7 +26551,6 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 14573
       flushes       : 40
@@ -27262,7 +26593,6 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 340590
       flushes       : 241
@@ -27305,7 +26635,6 @@ File: ./logs/Windows11Pro/setupact.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
       Processing Err: no syslog lines found in file
   Printed:
       bytes         : 0
@@ -27346,7 +26675,6 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
   About:
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
-      Thread stack  : 100352 (bytes)
   Printed:
       bytes         : 33520
       flushes       : 96

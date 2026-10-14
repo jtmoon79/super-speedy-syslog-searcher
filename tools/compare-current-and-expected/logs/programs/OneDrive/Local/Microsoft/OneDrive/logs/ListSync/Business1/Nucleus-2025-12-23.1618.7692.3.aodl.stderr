@@ -5,7 +5,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
   About:
       FileType      : AODL (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
-      Thread stack  : 524288 (bytes)
   Printed:
       Events        : 829
       Bytes         : 209309

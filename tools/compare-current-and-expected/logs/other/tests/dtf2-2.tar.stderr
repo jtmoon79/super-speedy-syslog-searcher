@@ -6,7 +6,6 @@ File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
       Subpath     : dtf2-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
-      Thread stack  : 136192 (bytes)
   Printed:
       bytes         : 273
       flushes       : 2
