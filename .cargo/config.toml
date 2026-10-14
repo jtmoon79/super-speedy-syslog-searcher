@@ -1,0 +1,13 @@
+[alias]
+build-x86_64-v4 = [
+    "build",
+    "--bin", "s4",
+    "--target", "x86_64-unknown-linux-musl",
+    "--target-dir", "./target/x86_64-v4",
+    "--config", 'target.x86_64-unknown-linux-musl.linker="musl-gcc"',
+    "--config", 'target.x86_64-unknown-linux-musl.rustflags=["-C", "target-cpu=x86-64-v4", "-C", "target-feature=+crt-static"]',
+    "--config", 'env.CC_x86_64_unknown_linux_musl.value="musl-gcc"',
+    "--config", 'env.CC_x86_64_unknown_linux_musl.force=true',
+    "--config", 'env.CFLAGS_x86_64_unknown_linux_musl.value="-march=x86-64-v4"',
+    "--config", 'env.CFLAGS_x86_64_unknown_linux_musl.force=true',
+]
