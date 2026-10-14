@@ -625,7 +625,8 @@ pub fn new_ere_regex(input: TokenStream) -> TokenStream {
     let resolved_engine = engine.to_token_stream().to_string();
     let print_progress: bool = match std::env::var("S4_BUILD_REGEX_PRINT") {
       Ok(val) => {
-        if val == "1" || val == "yes" || val == "ON" {
+        let val_u: String = val.to_lowercase();
+        if val_u == "1" || val_u == "yes" || val_u == "on" {
             true
         } else {
             false
