@@ -94,6 +94,7 @@ function stderr_clean () {
         -e '/^[ ]+storage: BlockReader::read_block.*$/d' \
         -e '/^[ ]+[Bb]locks high[ ]+: .*$/d' \
         -e '/^[ ]+[Ll]ines high[ ]+: .*$/d' \
+        -e '/^[ ]+Thread stack[ ]*:.*$/d' \
         -e '/^Managed evict succeed[ ]*:.*$/d' \
         -e '/^Managed [Ff]iles high[ ]*:.*$/d' \
         -e '/^Managed [Hh]andles high[ ]*:.*$/d' \
