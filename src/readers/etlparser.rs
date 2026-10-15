@@ -1754,7 +1754,7 @@ impl<R: Read> EtlParser<R> {
         data: &[u8],
         fixed_sz: usize,
         kind: EtlHeaderKind,
-    ) -> std::result::Result<(RawRecord, usize), String> {
+    ) -> std::result::Result<(RawRecord<'_>, usize), String> {
         let version_word: u16 = read_u16_at(data, 0).ok_or("truncated")?;
         let size: usize = read_u16_at(data, 4).ok_or("truncated")? as usize;
         let hook_id: u16 = read_u16_at(data, 6).ok_or("truncated")?;
@@ -1805,7 +1805,7 @@ impl<R: Read> EtlParser<R> {
     }
 
     /// `EVENT_HEADER` with optional `EVENT_HEADER_EXTENDED_DATA_ITEM`s
-    fn split_event(data: &[u8]) -> std::result::Result<(RawRecord, usize), String> {
+    fn split_event(data: &[u8]) -> std::result::Result<(RawRecord<'_>, usize), String> {
         let size: usize = read_u16_at(data, 0).ok_or("truncated")? as usize;
         if size < EVENT_HEADER_SZ || size > data.len() {
             return Err(format!("Event record size {} invalid", size));
@@ -1907,7 +1907,7 @@ impl<R: Read> EtlParser<R> {
         data: &[u8],
         header_sz: usize,
         kind: EtlHeaderKind,
-    ) -> std::result::Result<(RawRecord, usize), String> {
+    ) -> std::result::Result<(RawRecord<'_>, usize), String> {
         let size: usize = read_u16_at(data, 0).ok_or("truncated")? as usize;
         if size < header_sz || size > data.len() {
             return Err(format!("{} record size {} invalid", kind.as_str(), size));
@@ -1945,7 +1945,7 @@ impl<R: Read> EtlParser<R> {
     }
 
     /// `MESSAGE_TRACE_HEADER` (WPP) with `TRACE_MESSAGE_*` optional fields
-    fn split_message(data: &[u8]) -> std::result::Result<(RawRecord, usize), String> {
+    fn split_message(data: &[u8]) -> std::result::Result<(RawRecord<'_>, usize), String> {
         let size: usize = read_u16_at(data, 0).ok_or("truncated")? as usize;
         if size < MESSAGE_HEADER_SZ || size > data.len() {
             return Err(format!("Message record size {} invalid", size));
@@ -1997,7 +1997,7 @@ impl<R: Read> EtlParser<R> {
 
     /// `TRACE_HEADER_TYPE_ERROR` and any other header type not decoded here;
     /// `Size` is the `u16` at offset 0, contents are opaque.
-    fn split_error(data: &[u8]) -> std::result::Result<(RawRecord, usize), String> {
+    fn split_error(data: &[u8]) -> std::result::Result<(RawRecord<'_>, usize), String> {
         let size: usize = read_u16_at(data, 0).ok_or("truncated")? as usize;
         if size < 4 || size > data.len() {
             let marker: u32 = read_u32_at(data, 0).unwrap_or_default();
