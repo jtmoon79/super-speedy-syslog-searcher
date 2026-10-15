@@ -8,6 +8,7 @@
 
 use std::borrow::Cow;
 use std::ffi::OsStr;
+use std::fmt::format;
 use std::fs::File;
 use std::path::{
     Path,
@@ -1468,6 +1469,9 @@ pub fn process_path_tar(
 }
 
 /// Return a result for each regular member of a ZIP archive.
+///
+/// XXX: Technically ZIP specification supports duplicate named entries.
+///      The `zip` crate will only return the last entry in that case.
 pub fn process_path_zip(
     path: &FPath,
     unparseable_are_text: bool,
@@ -1497,8 +1501,9 @@ pub fn process_path_zip(
         Ok(archive) => archive,
         Err(error) => {
             let zip_err = zip_error(error, path);
-            defx!("error creating ZIP archive for path={:?}: {:?}", path, zip_err);
-            return vec![ProcessPathResult::FileErr(path.clone(), zip_err.to_string())];
+            let s = format!("error creating ZIP archive for path={:?}: {}", path, zip_err);
+            defx!("{s}");
+            return vec![ProcessPathResult::FileErr(path.clone(), s)];
         }
     };
     let mut results: Vec<ProcessPathResult> = Vec::new();
@@ -1508,8 +1513,9 @@ pub fn process_path_zip(
             Ok(entry) => entry,
             Err(error) => {
                 let zip_err = zip_error(error, path);
-                defo!("skip entry; error reading ZIP entry at index {}: {:?}", index, zip_err);
-                results.push(ProcessPathResult::FileErr(path.clone(), zip_err.to_string()));
+                let s = format!("error reading ZIP entry at index {}: {}", index, zip_err);
+                defo!("skip entry; {s}");
+                results.push(ProcessPathResult::FileErr(path.clone(), s));
                 continue;
             }
         };
@@ -1520,25 +1526,23 @@ pub fn process_path_zip(
             Ok(name) => name,
             Err(error) => {
                 let zip_err = zip_error(error, path);
-                defo!("skip entry; error getting ZIP entry name: {:?}", zip_err);
-                results.push(ProcessPathResult::FileErr(path.clone(), zip_err.to_string()));
+                let s = format!("error getting ZIP entry name: {}", zip_err);
+                defo!("skip entry; {s}");
+                results.push(ProcessPathResult::FileErr(path.clone(), s));
                 continue;
             }
         };
         defo!("ZIP entry name for index {}: {:?}", index, name);
         if name.contains(SUBPATH_SEP) || entry.name_raw().contains(&0) {
-            results.push(ProcessPathResult::FileErr(
-                path.clone(), format!("ZIP member {name:?} contains the archive separator"),
-            ));
+            let s: String = format!("ZIP member {name:?} contains the archive separator {SUBPATH_SEP:?}");
+            results.push(ProcessPathResult::FileErr(path.clone(), s));
             continue;
         }
         let fullpath = format!("{path}{SUBPATH_SEP}{name}");
         if entry.encrypted() {
-            defo!("skip entry; ZIP entry is encrypted: {:?}", fullpath);
-            results.push(ProcessPathResult::FileErrNotSupported(
-                fullpath,
-                Some(String::from("encrypted ZIP members are not supported")),
-            ));
+            let s: String = format!("skip entry; ZIP entry is encrypted: {path:?}:{name:?}");
+            defo!("{s}");
+            results.push(ProcessPathResult::FileErrNotSupported(path.clone(), Some(s)));
             continue;
         }
         // zip's SUPPORTED_COMPRESSION_METHODS omits its LZMA reader.

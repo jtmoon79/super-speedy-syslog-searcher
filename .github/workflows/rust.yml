@@ -31,11 +31,11 @@ env:
   # MSRV
   # default rust version
   # should match first value in matrix.msrv
-  MSRV_UPLOAD: 1.88.0
+  MSRV_UPLOAD: 1.99.0
   # MSRV
   # rust version for llvm_cov job
   # should be equal or greater than $MSRV_UPLOAD
-  VERSION_LLVM_COV: 1.88.0
+  VERSION_LLVM_COV: 1.99.0
   # version of flamegraph which is often using latest rust
   # so a specific version must be installed for the current MSRV
   FLAMEGRAPH_VERSION: "0.6.14"
@@ -162,20 +162,14 @@ jobs:
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
         msrv: [
-          "1.88.0",  # MSRV
-          "1.90.0",
-          "1.94.1",
+          "1.99.0",  # MSRV
         ]
-        exclude:
-          # for mac and windows, only run MSRV
-          - os: macos-latest
-            msrv: "1.90.0"
-          - os: macos-latest
-            msrv: "1.94.1"
-          - os: windows-latest
-            msrv: "1.90.0"
-          - os: windows-latest
-            msrv: "1.94.1"
+        # exclude:
+        #   # for mac and windows, only run MSRV
+        #   - os: macos-latest
+        #     msrv: "1.100.0"
+        #   - os: windows-latest
+        #     msrv: "1.100.0"
     runs-on: ${{ matrix.os }}
     steps:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
