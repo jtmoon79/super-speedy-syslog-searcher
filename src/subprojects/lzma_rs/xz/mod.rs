@@ -90,7 +90,7 @@ mod test {
     #[test]
     fn test_checkmethod_roundtrip() {
         let mut count_valid = 0;
-        for input in 0..std::u8::MAX {
+        for input in 0..u8::MAX {
             if let Ok(check) = CheckMethod::try_from(input) {
                 let output: u8 = check.into();
                 assert_eq!(input, output);

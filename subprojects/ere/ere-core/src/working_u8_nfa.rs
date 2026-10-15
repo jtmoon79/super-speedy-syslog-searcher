@@ -7,7 +7,7 @@
 use crate::working_nfa::{EpsilonType, WorkingNFA};
 use crate::{parse_tree::Atom, working_nfa::EpsilonTransition};
 use std::ops::RangeInclusive;
-use std::{usize, vec};
+use std::vec;
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct U8Atom(pub RangeInclusive<u8>);

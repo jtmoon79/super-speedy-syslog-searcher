@@ -236,7 +236,7 @@ where
                         let position = self.tmp.position();
                         let bytes_read =
                             input.read(&mut self.tmp.get_mut()[position as usize..])?;
-                        let bytes_read = if bytes_read < std::u64::MAX as usize {
+                        let bytes_read = if bytes_read < u64::MAX as usize {
                             bytes_read as u64
                         } else {
                             return Err(io::Error::new(
@@ -277,7 +277,7 @@ where
                                 // reset the cursor because we may have partial reads
                                 input.set_position(0);
                                 let bytes_read = input.read(&mut self.tmp.get_mut()[..])?;
-                                let bytes_read = if bytes_read < std::u64::MAX as usize {
+                                let bytes_read = if bytes_read < u64::MAX as usize {
                                     bytes_read as u64
                                 } else {
                                     return Err(io::Error::new(
