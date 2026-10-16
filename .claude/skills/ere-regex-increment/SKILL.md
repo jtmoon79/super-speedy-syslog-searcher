@@ -66,8 +66,7 @@ git diff --check -- subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs
 5. If cargo validation is requested or the edit is risky, use this repo's regex build convention:
 
 ```sh
-S4_BUILD_REGEX=1 cargo check
-S4_BUILD_REGEX=ALL cargo check
+cargo check
 ```
 
 ## Reporting
