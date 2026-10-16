@@ -15,7 +15,7 @@
 # env. vars:
 #   DIROUT when set, the s4 binary built for each target will be copied to
 #          DIROUT with meaningful names
-#   MSRV the Rust version to install for toolchains, defaults to 1.99.0
+#   MSRV the Rust version to install for toolchains, defaults to current override
 #   FILTER when set, only targets matching the regex pattern in FILTER will be built
 #
 # Must support running on Ubuntu and Darwin OS

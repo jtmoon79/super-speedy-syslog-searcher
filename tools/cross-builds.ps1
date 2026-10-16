@@ -99,7 +99,7 @@ function Set-FileNoWrite {
 
 $MSRV = ${env:MSRV}
 if (-not $MSRV) {
-    $MSRV = '1.99.0'
+    $MSRV = '1.99.1'
 }
 $PROJECT_ROOT = Join-Path $PSScriptRoot '..'
 $PROJECT_MANIFEST_ITEM = Get-Item -LiteralPath (Join-Path $PROJECT_ROOT 'Cargo.toml') -ErrorAction Stop

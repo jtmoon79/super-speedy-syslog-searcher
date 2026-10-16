@@ -31,11 +31,11 @@ env:
   # MSRV
   # default rust version
   # should match first value in matrix.msrv
-  MSRV_UPLOAD: 1.99.0
+  MSRV_UPLOAD: 1.99.1
   # MSRV
   # rust version for llvm_cov job
   # should be equal or greater than $MSRV_UPLOAD
-  VERSION_LLVM_COV: 1.99.0
+  VERSION_LLVM_COV: 1.99.1
   # version of flamegraph which is often using latest rust
   # so a specific version must be installed for the current MSRV
   FLAMEGRAPH_VERSION: "0.6.14"
@@ -162,7 +162,7 @@ jobs:
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
         msrv: [
-          "1.99.0",  # MSRV
+          "1.99.1",  # MSRV
         ]
         # exclude:
         #   # for mac and windows, only run MSRV

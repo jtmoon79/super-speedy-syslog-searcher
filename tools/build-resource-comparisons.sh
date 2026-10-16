@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Compare builds across the Cartesian product of these CSVs:
-#   MSRV_LIST                         (default: 1.99.0)
+#   MSRV_LIST                         (default: 1.99.1)
 #   JOBS_LIST                         (default: 1)
 #   PROFILES_LIST                     (default: dev)
 #   CARGO_PROFILE_DEV_CODEGEN_UNITS    (default: 256)
@@ -66,7 +66,7 @@ declare -a codegen_list
 declare -a debug_list
 declare -a incremental_list
 declare -a rows=()
-parse_list MSRV_LIST "${MSRV_LIST-1.99.0}" '^[[:alnum:]][[:alnum:]._-]*$' versions
+parse_list MSRV_LIST "${MSRV_LIST-1.99.1}" '^[[:alnum:]][[:alnum:]._-]*$' versions
 parse_list JOBS_LIST "${JOBS_LIST-1}" '^[1-9][0-9]*$' jobs_list
 parse_list PROFILES_LIST "${PROFILES_LIST-dev}" '^[[:alnum:]][[:alnum:]_-]*$' profiles
 parse_list CARGO_PROFILE_DEV_CODEGEN_UNITS "${CARGO_PROFILE_DEV_CODEGEN_UNITS-256}" \
