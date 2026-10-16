@@ -233,7 +233,7 @@ impl LinePart {
         // some sanity checks
         assert_ne!(fileoffset, FileOffset::MAX, "Bad fileoffset MAX");
         assert_ne!(blockoffset, BlockOffset::MAX, "Bad blockoffset MAX");
-        let fo1 = BlockReader::file_offset_at_block_offset(blockoffset, blocksz);
+        let fo1: FileOffset = BlockReader::file_offset_at_block_offset(blockoffset, blocksz);
         assert_le!(
             fo1,
             fileoffset,
@@ -243,7 +243,7 @@ impl LinePart {
             blockoffset,
             blocksz
         );
-        let fo2 = BlockReader::file_offset_at_block_offset(blockoffset + 1, blocksz);
+        let fo2: FileOffset = BlockReader::file_offset_at_block_offset(blockoffset + 1, blocksz);
         assert_le!(
             fileoffset,
             fo2,
@@ -253,9 +253,9 @@ impl LinePart {
             blockoffset + 1,
             blocksz
         );
-        let bo = BlockReader::block_offset_at_file_offset(fileoffset, blocksz);
+        let bo: BlockOffset = BlockReader::block_offset_at_file_offset(fileoffset, blocksz);
         assert_eq!(blockoffset, bo, "Bad BlockOffset {}, expected {} (based on block_offset_at_file_offset(FileOffset {}, BlockSz {}))", blockoffset, bo, fileoffset, blocksz);
-        let bi = BlockReader::block_index_at_file_offset(fileoffset, blocksz);
+        let bi: BlockIndex = BlockReader::block_index_at_file_offset(fileoffset, blocksz);
         assert_eq!(
             blocki_beg, bi,
             "blocki_beg {} ≠ {} block_index_at_file_offset({}, {})",
