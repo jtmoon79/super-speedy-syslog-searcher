@@ -961,11 +961,9 @@ impl SyslineReader {
         };
         let mut dt_patterns_counts = DateTimePatternCounts::new();
         let mut dt_patterns_indexes = DateTimeParseDatasIndexes::with_capacity(DATETIME_PARSE_DATAS_LEN);
-        let mut index = 0;
-        while index < DATETIME_PARSE_DATAS_LEN {
+        for index in 0..DATETIME_PARSE_DATAS_LEN {
             dt_patterns_counts.insert(index as DateTimeParseInstrsIndex, 0);
             dt_patterns_indexes.push(index as DateTimeParseInstrsIndex);
-            index += 1;
         }
         def1x!("return Ok(SyslineReader)");
 
@@ -2072,15 +2070,13 @@ impl SyslineReader {
     #[cfg(test)]
     pub(crate) fn dt_patterns_reset(&mut self) {
         defñ!();
-        let mut index: DateTimeParseInstrsIndex = 0;
         self.analyzed = false;
         self.dt_patterns_counts.clear();
         self.dt_patterns_indexes.clear();
-        while index < DATETIME_PARSE_DATAS_LEN {
+        for index in 0..DATETIME_PARSE_DATAS_LEN {
             self.dt_patterns_counts.insert(index, 0);
             //self.dt_patterns_indexes.insert(index);
             self.dt_patterns_indexes.push(index);
-            index += 1;
         }
     }
 

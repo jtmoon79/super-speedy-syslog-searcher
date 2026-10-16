@@ -795,7 +795,7 @@ lazy_static! {
     pub static ref FILE_UTF8_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_DTF56B_PATH);
 }
 
-pub const REGEX_ID_DTF56B: RegexId = 46;
+pub const REGEX_ID_DTF56B: RegexId = 45;
 
 // ---------
 

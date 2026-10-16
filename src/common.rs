@@ -58,7 +58,7 @@ pub type PathId = u32;
 /// a set of [`PathId`]
 pub type SetPathId = HashSet<PathId>;
 
-pub type RegexId = u16;
+pub type RegexId = u8;
 
 /// Status of whether summary statistics are enabled.
 ///
