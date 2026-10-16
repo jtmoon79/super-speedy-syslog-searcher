@@ -22,7 +22,7 @@ more-asserts = "0.3.1"
 proc-macro2 = "1.0.107"
 quote = "1.0.47"
 si_trace_print = "0.3.12"
-syn = "3.0.6"
+syn = "3.0.9"
 thiserror = "2.0.21"
 utf8-ranges = "1.0.5"  # TODO: utf8-ranges is deprecated
 
@@ -133,7 +133,7 @@ phf = { version = "0.14.0", features = ["macros"] }
 rand = { version = "0.10.3", features = ["thread_rng"] }
 rangemap = "1.8.0"
 regex = { version = "1.13.1", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
-serde_json = "1.0.150"
+serde_json = "1.0.154"
 shell-escape = "0.1.5"
 si_trace_print.workspace = true
 static_assertions = "1.1.0"
@@ -145,8 +145,8 @@ unroll = "0.1.5"
 utf8_iter = "1.0.4"
 version-compare = "0.2.1"
 walkdir = "2.5.0"
-zeroize = "1.9.0"
-zip = { version = "9.0.2", default-features = false, features = ["bzip2", "chrono", "deflate-flate2", "deflate64", "lzma", "ppmd"] }
+zeroize = "1.9.1"
+zip = { version = "9.0.3", default-features = false, features = ["bzip2", "chrono", "deflate-flate2", "deflate64", "lzma", "ppmd"] }
 # allocators
 mimalloc = { version = "0.1.52", optional = true }
 rpmalloc = { version = "0.2.2", optional = true }
@@ -165,7 +165,7 @@ log = { version = "0.4.34", optional = true }
 env_logger = { version = "0.11.11", optional = true }
 # benches
 jetscii = { version = "0.5.3", optional = true }
-regex-automata = { version = "0.4.16", optional = true }
+regex-automata = { version = "0.4.18", optional = true }
 stringzilla = { version = "3.12.6", optional = true }
 
 [build-dependencies]
@@ -185,7 +185,7 @@ doc = true
 doctest = true
 bench = false
 [target.'cfg(windows)'.dependencies]
-libc = "0.2.176"
+libc = "0.2.190"
 
 [[bin]]
 name = "s4"
@@ -207,12 +207,12 @@ cargo-msrv = "0.18.4"
 criterion = "0.8.2"
 cross = "0.2.5"
 filepath = "0.2.0"
-filetime = "0.2.27"
+filetime = "0.2.29"
 flamegraph = "0.6.14"  # XXX: flamegraph version must match `.github/workflows/rust.yml:FLAMEGRAPH_VERSION`
 test-case = "=3.2.1"  # XXX: cannot upgrade `test-case` beyond `3.2.1` until fix of https://github.com/frondeus/test-case/issues/153
 # benches
 jetscii = "0.5.3"
-regex-automata = "0.4.16"
+regex-automata = "0.4.18"
 range-set-blaze = "0.7.0"
 stringzilla = "3.12.6"
 # src/subprojects/lzma_rs/

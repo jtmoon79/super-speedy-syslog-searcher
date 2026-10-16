@@ -26,8 +26,8 @@ ere-macros = { version = "=0.10.4", path = "../ere-macros", package = "super-spe
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
 pprof = { version = "0.15", features = ["flamegraph", "criterion"] }
-regex = { version = "1.12.2" } # for benchmark comparison
-trybuild = { version = "1.0.121", features = ["diff"] }
+regex = { version = "1.13.1" } # for benchmark comparison
+trybuild = { version = "1.0.122", features = ["diff"] }
 
 [features]
 unstable-attr-regex = [
