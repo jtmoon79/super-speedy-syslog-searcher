@@ -18,6 +18,9 @@
 #   <path-to-s4> <extra-info>
 # Hint: use `download-released-s4.sh` to quickly get old s4 binaries.
 #
+# PROGRAM_LNAV to override the lnav found in PATH.
+# PROGRAM_LM to override the logmerger found in PATH.
+# PROGRAM_TL to override the toolong (tl) found in PATH.
 
 set -eu
 
@@ -51,6 +54,8 @@ readonly REQUIREMENTS_FILE=./tools/compare-log-mergers/requirements.txt
     # pipe to `cat` to make very sure a pager is not used
     git log -n1 --oneline -1 | cat -
 )
+
+echo
 
 # use full path to Unix tools
 TIME=$(which time)
@@ -98,6 +103,8 @@ if [[ "${PROGRAM_LNAV-}" = '' ]] && ! which lnav &>/dev/null; then
     exit 1
 fi
 readonly PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
+
+echo
 
 declare -ir HRUNS=30
 
@@ -164,31 +171,35 @@ trap exit_ EXIT
 
 if [[ ! "${PROGRAMS_S4_LISTING-}" ]]; then
     echo "Environment variable PROGRAMS_S4_LISTING not set to a TSV file" >&2
-    echo "Use default values:" >&2
+    echo "Use found values:" >&2
     readonly PROGRAMS_S4_LISTING=${TEMPD}/programs-s4-listing.tsv
-    echo '
-./target/release/s4
-./target/release_O0_cgu1/s4
-./target/release_O0_cgu512_pa/s4
-./target/release_O1_cgu1/s4
-./target/release_O1_cgu256_pa/s4
-./target/release_O1_cgu512_pa/s4
-./target/release_O2_cgu1/s4
-./target/release_O2_cgu256_pa/s4
-./target/release_O2_cgu512_pa/s4
-./target/release_O3_cgu1_pa/s4
-./target/release_O3_cgu256_pa/s4
-./target/release_O3_cgu512_pa/s4
-./target/release_Opt0/s4
-./target/jemalloc/s4
-./target/mimalloc/s4
-./target/rpmalloc/s4
-./target/tcmalloc/s4
-./target/x86_64-unknown-linux-gnu/release/s4
-./target/x86_64-unknown-linux-musl/release/s4
-./target/x86_64-unknown-linux-ohos/release/s4
-./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4
-' > "${PROGRAMS_S4_LISTING}"
+    for p in \
+            ./target/release/s4 \
+            ./target/release_O0_cgu1/s4 \
+            ./target/release_O0_cgu512_pa/s4 \
+            ./target/release_O1_cgu1/s4 \
+            ./target/release_O1_cgu256_pa/s4 \
+            ./target/release_O1_cgu512_pa/s4 \
+            ./target/release_O2_cgu1/s4 \
+            ./target/release_O2_cgu256_pa/s4 \
+            ./target/release_O2_cgu512_pa/s4 \
+            ./target/release_O3_cgu1_pa/s4 \
+            ./target/release_O3_cgu256_pa/s4 \
+            ./target/release_O3_cgu512_pa/s4 \
+            ./target/release_Opt0/s4 \
+            ./target/jemalloc/s4 \
+            ./target/mimalloc/s4 \
+            ./target/rpmalloc/s4 \
+            ./target/tcmalloc/s4 \
+            ./target/x86_64-unknown-linux-gnu/release/s4 \
+            ./target/x86_64-unknown-linux-musl/release/s4 \
+            ./target/x86_64-unknown-linux-ohos/release/s4 \
+            ./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4 \
+    ; do
+        if [[ -e "${p}" ]]; then
+            echo "${p}"
+        fi
+    done > "${PROGRAMS_S4_LISTING}"
     cat "${PROGRAMS_S4_LISTING}" >&2
     echo >&2
     sleep 1
@@ -254,6 +265,29 @@ function file_isempty() {
 readonly TIME_FORMAT='%M|%P|%E'
 
 # print the s4 version string from the --version string
+#
+# handle newer 0.10 format
+#    s4 (Super Speedy Syslog Searcher)
+#    Version: 0.10.83
+#    MSRV: 1.88.0
+#    Profile: release_Opt0
+#    Allocator: system
+#    Features:
+#    Platform: x86_64-unknown-linux-gnu
+#    Target OS: linux
+#    Target OS Family: unix
+#    Arch: x86_64
+#    CPU Target: default
+#    CPU Features: fxsr,sse,sse2
+#    Compiled Regular Expressions: 188
+#    Compiler Version: 1.88.0
+#    Rust Build Flags:
+#    Optimization Level: 0
+#    Git Commit: 8003ab87a10130dfd56897b0cfae712b94466023
+#    Build Date: 2026-10-13T20:03:29
+#    License: MIT
+#    Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+#    Author: James Thomas Moon
 #
 # handle newer 0.8.80 format
 #    $ s4 --version
@@ -321,6 +355,20 @@ function s4_platform() {
     else
         # try to grep the platform from the file name
         echo -n "${prog}" | sed -E 's/.+\/s4_(.+)_v[0-9.]+/\1/'
+    fi
+}
+
+function s4_cpu_target() {
+    declare -r prog=$1
+    declare out=
+    out=$("${prog}" --version)
+    # check if new version
+    if echo -n "${out}" | grep -qE '^CPU Target: ' &> /dev/null; then
+        # new version format
+        echo -n "${out}" | grep -Ee '^CPU Target: ' | sed -E 's/^CPU Target: (.+)$/\1/'
+    else
+        # old version format
+        echo_warn "no CPU Target found for s4 program ${prog}" >&2
     fi
 }
 
@@ -392,9 +440,10 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
         profile=$(s4_profile "${s4_full_path}")
         allocator=$(s4_allocator "${s4_full_path}")
         platform=$(s4_platform "${s4_full_path}")
+        cpu_target=$(s4_cpu_target "${s4_full_path}")
         opt_lvl=$(s4_opt_lvl "${s4_full_path}")
         set -x
-        "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
+        "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
             -- \
             "${s4_full_path}" \
             "-a=${after_dt}" \
@@ -434,58 +483,73 @@ tm_file=$(tm_file_new)
     profile=' '
     allocator=' '
     platform=$(arch)
+    cpu_target=' '
     opt_lvl=' '
     set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
         -- \
         sh -c "'"${GREP}"' -hEe '${regex_dt}' -- ${files[*]} | '${SORT}' -t ' ' -k 1 -s" > "${tmpOut}"
 )
 
-# BUG: [20260712] lnav schema input is broken!? Using lnav 0.13.2, get this error:
-#
-#      $ lnav -N -n -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime("2000-01-01T00:20:00") AND Datetime("2000-01-01T00:50:00")' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log
-#      ✘ error: “title” is not a valid log format
-#       reason: no regexes specified
-#       --> /home/user/.config/lnav/formats/installed/title.json:3
-#      ✘ error: “title” is not a valid log format
-#       reason: log message samples must be included in a format definition
-#       --> /home/user/.config/lnav/formats/installed/title.json:3
-#
-
-if false; then
-
 echo_line
 echo_title "lnav"
+
+# Keep the grep/sort reference, normalizing equal-timestamp ordering.
+readonly lnav_expected="${TEMPD}/lnav-expected.out"
+LC_ALL=C "${SORT}" "${tmpOut}" > "${lnav_expected}"
+
+mkdir -p "${TEMPD}/lnav-home" "${TEMPD}/lnav-config"
+# show-file restores identical input files that lnav otherwise hides.
+# Numeric datetime comparison includes the upper endpoint with either precision.
+declare -ar lnav_args=(
+    env "HOME=${TEMPD}/lnav-home" "XDG_CONFIG_HOME=${TEMPD}/lnav-config"
+    "${PROGRAM_LNAV}" -I "${PROJ_DIR}/tools/compare-log-mergers/config" -N -n
+    -c ':show-file *'
+    -c ";SELECT log_raw_text FROM lnav1 WHERE julianday(log_time) BETWEEN julianday('${after_dt}') AND julianday('${befor_dt}') ORDER BY log_time, log_raw_text"
+    -c ':write-raw-to -'
+    "${files[@]}"
+)
+# hyperfine --shell=none parses POSIX quoting, not Bash printf %q escapes.
+lnav_command=
+for arg in "${lnav_args[@]}"; do
+    lnav_command+="'${arg//\'/\'\\\'\'}' "
+done
+readonly lnav_command
 
 json_file=$(json_file_new)
 tm_file=$(tm_file_new)
 (
     files_caching
-    echo_command "${PROGRAM_LNAV}' -N -n -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime(\"${after_dt}\") AND Datetime(\"${befor_dt}\")' ${files[*]}"
+    echo_command "${lnav_command}"
     set -x
     "${PROGRAM_LNAV}" --version
-    "${PROGRAM_LNAV}" -i -W ./tools/compare-log-mergers/lnav1.json
     "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "${PROGRAM_LNAV}" \
         -- \
-        "'${PROGRAM_LNAV}' -N -n \
--c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime(\"${after_dt}\") AND Datetime(\"${befor_dt}\")' \
-${files[*]}"
+        "${lnav_command}"
 )
 
 (
     files_caching
     version=$("${PROGRAM_LNAV}" --version | head -n1 | cut -d' ' -f2)
-    profile=$(arch)
+    profile=' '
     allocator=' '
-    platform=' '
+    platform=$(arch)
+    cpu_target=' '
     opt_lvl=' '
     set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
         -- \
-        "${PROGRAM_LNAV}" -N -n \
-            -c ";SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('${after_dt}') AND Datetime('${befor_dt}')" \
-            "${files[@]}" > "${tmpOut}"
+        "${lnav_args[@]}" > "${tmpOut}"
 )
+
+if ! LC_ALL=C "${SORT}" --check --stable --key=1,1 "${tmpOut}"; then
+    echo "ERROR: lnav output is not sorted by datetime" >&2
+    exit 1
+fi
+LC_ALL=C "${SORT}" "${tmpOut}" > "${TEMPD}/lnav-actual.out"
+if ! cmp -s "${lnav_expected}" "${TEMPD}/lnav-actual.out"; then
+    echo "ERROR: lnav output does not match the filtered grep/sort reference" >&2
+    exit 1
 fi
 
 echo_line
@@ -522,10 +586,11 @@ tm_file=$(tm_file_new)
     profile=' '
     allocator=' '
     platform=$("${PYTHON}" --version)
+    cpu_target=' '
     export PYTHONOPTIMIZE=2
     opt_lvl='2'
     set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
         -- \
         "${PROGRAM_LM}" \
         "--inline" \
@@ -554,10 +619,11 @@ echo
     profile=$("${PYTHON}" -c 'import platform; print(platform.machine())')
     allocator=' '
     platform=' '
+    cpu_target=' '
     opt_lvl=' '
     echo_command "${PROGRAM_LD}" --range "'${after_dt_ld}-${befor_dt_ld}'" "${files[@]}" >&2
     set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm}" \
         -- \
         "${PROGRAM_LD}" \
         --range "${after_dt_ld}-${befor_dt_ld}" \
@@ -591,6 +657,7 @@ if ! ${skip_tl}; then
         allocator=' '
         profile=' '
         platform=$("${PYTHON}" --version)
+        cpu_target=' '
         export PYTHONOPTIMIZE=2
         opt_lvl='2'
         echo_command "${PROGRAM_TL}" --merge --output-merge "${tmpOut}" "${files[@]}"
@@ -598,7 +665,7 @@ if ! ${skip_tl}; then
         # there is no way to make toolong automatically exit after processing input
         # the user must manually exit the TUI
         set -x
-        "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${opt_lvl}" --output="${tm_file}" \
+        "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
             -- \
             "${PROGRAM_TL}" \
             --merge \
@@ -677,8 +744,8 @@ function to_milliseconds() {
 }
 
 # markdown table header
-echo '|Program|Version|Profile|Allocator|Platform|Opt Level|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
-echo '|:---   |:---   |:---   |:---     |:---    |:---     |---:    |---:    |---:      |---:       |---: |' >> "${tmpOut}"
+echo '|Program|Version|Profile|Allocator|Platform|CPU Target|Opt Level|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
+echo '|:---   |:---   |:---   |:---     |:---    |:---      |:---     |---:    |---:    |---:      |---:       |---: |' >> "${tmpOut}"
 
 json_count=$(wc -l < "${json_files}")
 tm_count=$(wc -l < "${tm_files}")
@@ -716,8 +783,9 @@ while IFS= read -r json <&3 && IFS= read -r tm <&4; do
         profile=$(cat "${tm}" | cut -d'|' -f5)
         allocator=$(cat "${tm}" | cut -d'|' -f6)
         platform=$(cat "${tm}" | cut -d'|' -f7)
-        opt_lvl=$(cat "${tm}" | cut -d'|' -f8)
-        echo "|\`${command}\`|${version}|${profile}|${allocator}|${platform}|${opt_lvl}|${mean} ± ${stddev}|${min}|${max}|${mss}|${cpup}|"
+        cpu_target=$(cat "${tm}" | cut -d'|' -f8)
+        opt_lvl=$(cat "${tm}" | cut -d'|' -f9)
+        echo "|\`${command}\`|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}|${mean} ± ${stddev}|${min}|${max}|${mss}|${cpup}|"
     ) >> "${tmpOut}"
 done
 exec 3<&-
@@ -740,7 +808,7 @@ echo
 
 export PATH="${PATH}:${HOME}/go/bin"  # for glow
 if which glow &>/dev/null; then
-    declare -i col=160
+    declare -i col=180
     if [[ $COLUMNS -lt $col ]]; then
         col=${COLUMNS}
     fi
