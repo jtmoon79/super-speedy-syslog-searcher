@@ -147,8 +147,8 @@ impl LinePart {
     #[inline(always)]
     /// Append one UTF-8 character to a reusable output buffer.
     fn push_utf8_char(buffer_utf8_bytes: &mut Bytes, c: char) {
-        let mut dst = [0u8; 4];
-        let s = c.encode_utf8(&mut dst);
+        let mut dst = [0u8; char::MAX_LEN_UTF8];
+        let s: &mut str = c.encode_utf8(&mut dst);
         buffer_utf8_bytes.extend_from_slice(s.as_bytes());
     }
 
@@ -168,7 +168,7 @@ impl LinePart {
             if fileoffset == 0 && chunk_index == 0 && unit == 0xFEFF {
                 continue;
             }
-            for c in std::char::decode_utf16([unit]) {
+            for c in char::decode_utf16([unit]) {
                 match c {
                     Ok(ch) => LinePart::push_utf8_char(buffer_utf8_bytes, ch),
                     Err(_) => LinePart::push_utf8_char(buffer_utf8_bytes, '\u{FFFD}'),
@@ -1035,7 +1035,7 @@ impl Line {
                         continue;
                     }
                 };
-                let mut dst: [u8; 4] = [0, 0, 0, 0];
+                let mut dst = [0u8; char::MAX_LEN_UTF8];
                 for c in s.chars() {
                     let c_ = char_to_char_noraw(c);
                     let _cs = c_.encode_utf8(&mut dst);
