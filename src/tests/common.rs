@@ -298,7 +298,7 @@ lazy_static! {
         ymdhms(&FO_0, 2000, 1, 2, 3, 4, 6)
     };
     pub static ref NTF_SYSLINE_2_SZ: FileSz = {
-        (*NTF_SYSLINE_2_DATA).as_bytes().len() as FileSz
+        (*NTF_SYSLINE_2_DATA).len() as FileSz
     };
 
     pub static ref NTF_LINE_TOO_LONG_UTF8: NamedTempFile = {

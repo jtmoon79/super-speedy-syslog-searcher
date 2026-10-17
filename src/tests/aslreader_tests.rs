@@ -1,15 +1,34 @@
 //! Tests for `AslReader` event and rendered-byte APIs.
 
-use std::io::{Cursor, ErrorKind, Read};
+#![allow(clippy::too_many_arguments)]
+
+use std::io::{
+    Cursor,
+    ErrorKind,
+    Read,
+};
 use std::sync::atomic::AtomicBool;
 use std::time::SystemTime;
 
-use crate::common::{FileType, FileTypeArchive, LogMessageType, summary_stats_enabled};
+use crate::common::{
+    FileType,
+    FileTypeArchive,
+    LogMessageType,
+    summary_stats_enabled,
+};
 use crate::data::asl::Asl;
 use crate::data::datetime::ymdhmsl;
-use crate::readers::aslreader::{AslReader, AslSource};
+use crate::readers::aslreader::{
+    AslReader,
+    AslSource,
+};
 use crate::readers::summary::SummaryReaderData;
-use crate::tests::common::{ASL_FIXTURES, FO_0, NTF_LOG_EMPTY_FPATH, path_id_generator};
+use crate::tests::common::{
+    ASL_FIXTURES,
+    FO_0,
+    NTF_LOG_EMPTY_FPATH,
+    path_id_generator,
+};
 
 const ASL_FILETYPE: FileType = FileType::Asl {
     archival_type: FileTypeArchive::Normal,

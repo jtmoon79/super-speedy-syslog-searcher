@@ -1,7 +1,13 @@
 //! Tests for the version-2 Apple System Log binary parser.
 
+#![allow(clippy::too_many_arguments)]
+
 use std::fs::File;
-use std::io::{self, Cursor, ErrorKind};
+use std::io::{
+    self,
+    Cursor,
+    ErrorKind,
+};
 
 use compact_str::CompactString;
 

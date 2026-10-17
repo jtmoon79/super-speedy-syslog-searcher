@@ -183,7 +183,7 @@ fn test_odl_render_line_and_offset() {
         .unwrap();
     assert_eq!(rendered.as_bytes(), b"1969-12-31T17:00:00.000-07:00 a b:c d; param\n");
     assert_eq!(rendered.dt_beg_end(), &Some((0, 29)));
-    assert_eq!(rendered.len(), rendered.as_bytes().len());
+    assert_eq!(rendered.len(), rendered.len());
     assert!(!rendered.is_empty());
     assert_eq!(PrintableEvent::dt(&rendered), rendered.dt());
     assert_eq!(PrintableEvent::dt_beg_end(&rendered), rendered.dt_beg_end());

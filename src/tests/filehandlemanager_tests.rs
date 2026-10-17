@@ -4,6 +4,8 @@
 
 //! Tests for `FileHandleManager`.
 
+#![allow(clippy::too_many_arguments)]
+
 use std::collections::HashMap;
 use std::io::{
     ErrorKind,

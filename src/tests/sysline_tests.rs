@@ -5,6 +5,7 @@
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
+#![allow(clippy::too_many_arguments)]
 
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
@@ -64,8 +65,8 @@ lazy_static! {
     static ref DT_1: DateTimeL = DateTimeL::parse_from_rfc3339(DT_STR1).unwrap();
     static ref DIFF_0_1: Duration = Duration::try_seconds(1).unwrap();
     static ref BLOCKOFFSET_LAST: BlockOffset = {
-        let n_: BlockOffset = (DATA_STR0.as_bytes().len() / (BLOCKSZ as usize)) as BlockOffset;
-        let x_: BlockOffset = match DATA_STR0.as_bytes().len() % (BLOCKSZ as usize) {
+        let n_: BlockOffset = (DATA_STR0.len() / (BLOCKSZ as usize)) as BlockOffset;
+        let x_: BlockOffset = match DATA_STR0.len() % (BLOCKSZ as usize) {
             0 => 0 as BlockOffset,
             _ => 1 as BlockOffset,
         };
@@ -80,7 +81,7 @@ fn new_sysline(
     _dt_beg: usize,
     _dt_end: usize,
 ) -> Sysline {
-    let at_stop: usize = data.as_bytes().len();
+    let at_stop: usize = data.len();
     let mut at_byte: usize = 0;
     let mut bo_off: BlockOffset = BLOCKOFFSET_INIT;
     let mut fo_byte: FileOffset = (BLOCKOFFSET_INIT * (BLOCKSZ as BlockOffset)) as FileOffset;
@@ -161,7 +162,7 @@ fn test_sysline_blockoffset() {
 #[test]
 fn test_sysline_len() {
     let sysline: Sysline = new_sysline0();
-    assert_eq!(sysline.len(), DATA_STR0.as_bytes().len());
+    assert_eq!(sysline.len(), DATA_STR0.len());
 }
 
 #[test]
@@ -206,7 +207,7 @@ fn test_sysline_ends_with_newline_sysline2() {
 
 #[test]
 fn test_sysline_get_slices() {
-    let cap: usize = DATA_STR0.as_bytes().len() + 1;
+    let cap: usize = DATA_STR0.len() + 1;
 
     let sysline: Sysline = new_sysline0();
     let slices = sysline.get_slices();

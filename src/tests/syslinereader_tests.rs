@@ -5127,17 +5127,17 @@ lazy_static! {
     static ref NTF_A3_DATA_LINE1_STRING: String = String::from(NTF_A3_DATA_LINE1);
     static ref NTF_A3_DATA_LINE2_STRING: String = String::from(NTF_A3_DATA_LINE2);
 
-    static ref NTF_A3_DATA_LINE1_BYTES_LEN: usize = NTF_A3_DATA_LINE1_STRING.as_bytes().len();
+    static ref NTF_A3_DATA_LINE1_BYTES_LEN: usize = NTF_A3_DATA_LINE1_STRING.len();
     /// length `NTF_A3_DATA_LINE1_STRING` to nearest even number
     static ref NTF_A3_DATA_LINE1_BYTES_LEN_EVEN: usize = {
-        let len_ = NTF_A3_DATA_LINE1_STRING.as_bytes().len();
+        let len_ = NTF_A3_DATA_LINE1_STRING.len();
         if len_ % 2 == 0 {
             len_
         } else {
             len_ + 1
         }
     };
-    static ref NTF_A3_DATA_LINE2_BYTES_LEN: usize = NTF_A3_DATA_LINE2_STRING.as_bytes().len();
+    static ref NTF_A3_DATA_LINE2_BYTES_LEN: usize = NTF_A3_DATA_LINE2_STRING.len();
 
     static ref NTF_A3_1: NamedTempFile = create_temp_file(NTF_A3_DATA_LINE1);
     static ref NTF_A3_1_PATH: FPath = ntf_fpath(&NTF_A3_1);
@@ -5385,307 +5385,141 @@ const DTF56B_SYSLINE1_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF8
         .as_bytes()
         .len() as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF8
-    + DTF56B_SYSLINE1
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE1.len() as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF8
-    + DTF56B_SYSLINE2
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE2.len() as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF8
-    + DTF56B_SYSLINE3
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE3.len() as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF8
-    + DTF56B_SYSLINE4
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE4.len() as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF8
-    + DTF56B_SYSLINE5
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE5.len() as FileOffset;
 // UTF-8 with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF8_BOM: FileOffset = FileTypeTextEncoding::Utf8BOM.bomsz();
 const DTF56B_SYSLINE1_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF8_BOM
-    + DTF56B_SYSLINE0
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE0.len() as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF8_BOM
-    + DTF56B_SYSLINE1
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE1.len() as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF8_BOM
-    + DTF56B_SYSLINE2
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE2.len() as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF8_BOM
-    + DTF56B_SYSLINE3
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE3.len() as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF8_BOM
-    + DTF56B_SYSLINE4
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE4.len() as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF8_BOM
-    + DTF56B_SYSLINE5
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE5.len() as FileOffset;
 // UTF-16 BE
 const DTF56B_SYSLINE0_OFFSET_UTF16BE: FileOffset = 0;
 const DTF56B_SYSLINE1_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16BE
-    + (DTF56B_SYSLINE0
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE0.len() * 2) as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16BE
-    + (DTF56B_SYSLINE1
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE1.len() * 2) as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16BE
-    + (DTF56B_SYSLINE2
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE2.len() * 2) as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16BE
-    + (DTF56B_SYSLINE3
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE3.len() * 2) as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16BE
-    + (DTF56B_SYSLINE4
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE4.len() * 2) as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16BE
-    + (DTF56B_SYSLINE5
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE5.len() * 2) as FileOffset;
 // UTF-16 BE with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF16BE_BOM: FileOffset = FileTypeTextEncoding::Utf16beBOM.bomsz();
 const DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16BE_BOM
-    + (DTF56B_SYSLINE0
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE0.len() * 2) as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM
-    + (DTF56B_SYSLINE1
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE1.len() * 2) as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM
-    + (DTF56B_SYSLINE2
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE2.len() * 2) as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM
-    + (DTF56B_SYSLINE3
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE3.len() * 2) as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM
-    + (DTF56B_SYSLINE4
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE4.len() * 2) as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM
-    + (DTF56B_SYSLINE5
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE5.len() * 2) as FileOffset;
 // UTF-16 LE
 const DTF56B_SYSLINE0_OFFSET_UTF16LE: FileOffset = 0;
 const DTF56B_SYSLINE1_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16LE
-    + (DTF56B_SYSLINE0
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE0.len() * 2) as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16LE
-    + (DTF56B_SYSLINE1
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE1.len() * 2) as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16LE
-    + (DTF56B_SYSLINE2
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE2.len() * 2) as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16LE
-    + (DTF56B_SYSLINE3
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE3.len() * 2) as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16LE
-    + (DTF56B_SYSLINE4
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE4.len() * 2) as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16LE
-    + (DTF56B_SYSLINE5
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE5.len() * 2) as FileOffset;
 // UTF-16 LE with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF16LE_BOM: FileOffset = FileTypeTextEncoding::Utf16leBOM.bomsz();
 const DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16LE_BOM
-    + (DTF56B_SYSLINE0
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE0.len() * 2) as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM
-    + (DTF56B_SYSLINE1
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE1.len() * 2) as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM
-    + (DTF56B_SYSLINE2
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE2.len() * 2) as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM
-    + (DTF56B_SYSLINE3
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE3.len() * 2) as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM
-    + (DTF56B_SYSLINE4
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE4.len() * 2) as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM
-    + (DTF56B_SYSLINE5
-        .as_bytes()
-        .len()
-        * 2) as FileOffset;
+    + (DTF56B_SYSLINE5.len() * 2) as FileOffset;
 // UTF-32 BE
 const DTF56B_SYSLINE0_OFFSET_UTF32BE: FileOffset = 0;
 const DTF56B_SYSLINE1_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32BE
-    + (DTF56B_SYSLINE0
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE0.len() * 4) as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32BE
-    + (DTF56B_SYSLINE1
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE1.len() * 4) as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32BE
-    + (DTF56B_SYSLINE2
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE2.len() * 4) as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32BE
-    + (DTF56B_SYSLINE3
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE3.len() * 4) as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32BE
-    + (DTF56B_SYSLINE4
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE4.len() * 4) as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32BE
-    + (DTF56B_SYSLINE5
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE5.len() * 4) as FileOffset;
 // UTF-32 BE with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF32BE_BOM: FileOffset = FileTypeTextEncoding::Utf32beBOM.bomsz();
 const DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32BE_BOM
-    + (DTF56B_SYSLINE0
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE0.len() * 4) as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM
-    + (DTF56B_SYSLINE1
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE1.len() * 4) as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM
-    + (DTF56B_SYSLINE2
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE2.len() * 4) as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM
-    + (DTF56B_SYSLINE3
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE3.len() * 4) as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM
-    + (DTF56B_SYSLINE4
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE4.len() * 4) as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM
-    + (DTF56B_SYSLINE5
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE5.len() * 4) as FileOffset;
 // UTF-32 LE
 const DTF56B_SYSLINE0_OFFSET_UTF32LE: FileOffset = 0;
 const DTF56B_SYSLINE1_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32LE
-    + (DTF56B_SYSLINE0
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE0.len() * 4) as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32LE
-    + (DTF56B_SYSLINE1
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE1.len() * 4) as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32LE
-    + (DTF56B_SYSLINE2
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE2.len() * 4) as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32LE
-    + (DTF56B_SYSLINE3
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE3.len() * 4) as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32LE
-    + (DTF56B_SYSLINE4
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE4.len() * 4) as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32LE
-    + (DTF56B_SYSLINE5
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE5.len() * 4) as FileOffset;
 // UTF-32 LE with BOM
 const DTF56B_SYSLINE0_OFFSET_UTF32LE_BOM: FileOffset = FileTypeTextEncoding::Utf32leBOM.bomsz();
 const DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32LE_BOM
-    + (DTF56B_SYSLINE0
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE0.len() * 4) as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM
-    + (DTF56B_SYSLINE1
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE1.len() * 4) as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM
-    + (DTF56B_SYSLINE2
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE2.len() * 4) as FileOffset;
 const DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM
-    + (DTF56B_SYSLINE3
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE3.len() * 4) as FileOffset;
 const DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM
-    + (DTF56B_SYSLINE4
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE4.len() * 4) as FileOffset;
 const DTF56B_FILE_END_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM
-    + (DTF56B_SYSLINE5
-        .as_bytes()
-        .len()
-        * 4) as FileOffset;
+    + (DTF56B_SYSLINE5.len() * 4) as FileOffset;
 
 // UTF-8 (no BOM)
 #[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 32, 0, DONE, ES, E; "UTF8 32 0")]

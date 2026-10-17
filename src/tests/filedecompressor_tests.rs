@@ -1,5 +1,7 @@
 // filedecompressor_tests.rs
 
+#![allow(clippy::too_many_arguments)]
+
 use std::time::SystemTime;
 
 use ::test_case::test_case;
