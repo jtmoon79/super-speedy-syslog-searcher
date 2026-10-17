@@ -115,7 +115,7 @@ pub const FILE_HANDLE_OPEN_MAX_DEFAULT: OpenMaxCountType = {
     }
     #[cfg(not(windows))]
     {
-        unsafe { OpenMaxCountType::new_unchecked(980) }
+        OpenMaxCountType::new(980).unwrap()
     }
 };
 
@@ -1168,6 +1168,12 @@ impl FileHandleManager {
     }
 }
 
+impl Default for FileHandleManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 /// Managed file handle wrapper.
 #[derive(Debug)]
 pub struct FileHandleManaged {
@@ -1211,7 +1217,7 @@ impl FileHandleManaged {
             .ok_or_else(|| Error::new(ErrorKind::NotFound, "file handle manager is no longer available"))?;
         let mut state = state
             .lock()
-            .map_err(|_| Error::new(ErrorKind::Other, "file handle manager lock poisoned"))?;
+            .map_err(|_| Error::other("file handle manager lock poisoned"))?;
         let result = f(&mut state);
         def1x!("ok? {:?}", result.is_ok());
 

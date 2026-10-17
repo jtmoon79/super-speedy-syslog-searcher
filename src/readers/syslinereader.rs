@@ -210,11 +210,11 @@ fn push_utf8_char(buffer_utf8_bytes: &mut Bytes, c: char) {
 }
 
 /// Return data after conditionally skipping BOM bytes.
-fn data_without_bom<'a>(
-    data: &'a [u8],
+fn data_without_bom(
+    data: &[u8],
     encoding_type: FileTypeTextEncoding,
     fileoffset: FileOffset,
-) -> Option<&'a [u8]> {
+) -> Option<&[u8]> {
     if encoding_type.has_bom()
         && fileoffset < encoding_type.bomsz() as FileOffset
         && data.starts_with(encoding_type.bom())
@@ -2411,7 +2411,7 @@ impl SyslineReader {
                         fo,
                     );
                     summary_stat!(self.syslines_by_range_hit += 1);
-                    let syslinep: SyslineP = SyslineP::clone(&self.syslines.get(fo).unwrap());
+                    let syslinep: SyslineP = SyslineP::clone(self.syslines.get(fo).unwrap());
                     let fo_next: FileOffset = (*syslinep).fileoffset_next();
                     if self.is_sysline_last(&syslinep) {
                         defx!(
@@ -2461,7 +2461,7 @@ impl SyslineReader {
         {
             summary_stat!(self.syslines_hit += 1);
             defo!("hit self.syslines for FileOffset {}", fileoffset);
-            let syslinep: SyslineP = SyslineP::clone(&self.syslines.get(&fileoffset).unwrap());
+            let syslinep: SyslineP = SyslineP::clone(self.syslines.get(&fileoffset).unwrap());
             let fo_next: FileOffset = (*syslinep).fileoffset_end() + 1;
             if self.is_sysline_last(&syslinep) {
                 defo!(

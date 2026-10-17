@@ -10,7 +10,6 @@
 use std::hint::black_box;
 use std::io::{
     Error,
-    ErrorKind,
     Result,
     StdoutLock,
     Write, // for `std::io::Stdout.flush`
@@ -1557,8 +1556,7 @@ impl PrinterLogMessage {
         let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
-                let err = Error::new(
-                    ErrorKind::Other,
+                let err = Error::other(
                     format!("buffer of len {} given too little data {}", buffer.len(), at),
                 );
                 return PrinterLogMessageResult::Err(err);
@@ -1599,8 +1597,7 @@ impl PrinterLogMessage {
         let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
-                let err = Error::new(
-                    ErrorKind::Other,
+                let err = Error::other(
                     format!("buffer of len {} given too little data {}", buffer.len(), at),
                 );
                 return PrinterLogMessageResult::Err(err);
@@ -1649,8 +1646,7 @@ impl PrinterLogMessage {
         let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
-                let err = Error::new(
-                    ErrorKind::Other,
+                let err = Error::other(
                     format!("buffer of len {} given too little data {}", buffer.len(), at),
                 );
                 return PrinterLogMessageResult::Err(err);
@@ -1701,8 +1697,7 @@ impl PrinterLogMessage {
         let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
-                let err = Error::new(
-                    ErrorKind::Other,
+                let err = Error::other(
                     format!("buffer of len {} given too little data {}", buffer.len(), at),
                 );
                 return PrinterLogMessageResult::Err(err);

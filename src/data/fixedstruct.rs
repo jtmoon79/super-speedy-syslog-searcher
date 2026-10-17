@@ -3732,60 +3732,60 @@ pub(crate) fn filesz_to_types(filesz: FileSz, file_type_fixed_struct: &FileTypeF
     // it gets a bonus score.
     match file_type_fixed_struct {
         FileTypeFixedStruct::Acct => {
-            if filesz % linux_x86::ACCT_SZ_FO == 0 {
+            if filesz.is_multiple_of(linux_x86::ACCT_SZ_FO) {
                 set.insert(FixedStructType::Fs_Linux_x86_Acct, BONUS);
             }
-            if filesz % netbsd_x8632::ACCT_SZ_FO == 0 {
+            if filesz.is_multiple_of(netbsd_x8632::ACCT_SZ_FO) {
                 set.insert(FixedStructType::Fs_Netbsd_x8632_Acct, BONUS);
             }
         }
         FileTypeFixedStruct::AcctV3 => {
-            if filesz % linux_x86::ACCT_V3_SZ_FO == 0 {
+            if filesz.is_multiple_of(linux_x86::ACCT_V3_SZ_FO) {
                 set.insert(FixedStructType::Fs_Linux_x86_Acct_v3, BONUS);
             }
         }
         FileTypeFixedStruct::Lastlog => {
-            if filesz % linux_arm64aarch64::LASTLOG_SZ_FO == 0 {
+            if filesz.is_multiple_of(linux_arm64aarch64::LASTLOG_SZ_FO) {
                 set.insert(FixedStructType::Fs_Linux_Arm64Aarch64_Lastlog, BONUS);
             }
-            if filesz % linux_x86::LASTLOG_SZ_FO == 0 {
+            if filesz.is_multiple_of(linux_x86::LASTLOG_SZ_FO) {
                 set.insert(FixedStructType::Fs_Linux_x86_Lastlog, BONUS);
             }
-            if filesz % netbsd_x8664::LASTLOG_SZ_FO == 0 {
+            if filesz.is_multiple_of(netbsd_x8664::LASTLOG_SZ_FO) {
                 set.insert(FixedStructType::Fs_Netbsd_x8664_Lastlog, BONUS);
             }
-            if filesz % openbsd_x86::LASTLOG_SZ_FO == 0 {
+            if filesz.is_multiple_of(openbsd_x86::LASTLOG_SZ_FO) {
                 set.insert(FixedStructType::Fs_Openbsd_x86_Lastlog, BONUS);
             }
         }
         FileTypeFixedStruct::Lastlogx => {
-            if filesz % netbsd_x8632::LASTLOGX_SZ_FO == 0 {
+            if filesz.is_multiple_of(netbsd_x8632::LASTLOGX_SZ_FO) {
                 set.insert(FixedStructType::Fs_Netbsd_x8632_Lastlogx, BONUS);
             }
         }
         FileTypeFixedStruct::Utmp => {
-            if filesz % netbsd_x8664::UTMP_SZ_FO == 0 {
+            if filesz.is_multiple_of(netbsd_x8664::UTMP_SZ_FO) {
                 set.insert(FixedStructType::Fs_Netbsd_x8664_Utmp, BONUS);
             }
-            if filesz % openbsd_x86::UTMP_SZ_FO == 0 {
+            if filesz.is_multiple_of(openbsd_x86::UTMP_SZ_FO) {
                 set.insert(FixedStructType::Fs_Openbsd_x86_Utmp, BONUS);
             }
         }
         FileTypeFixedStruct::Utmpx => {
-            if filesz % freebsd_x8664::UTMPX_SZ_FO == 0 {
+            if filesz.is_multiple_of(freebsd_x8664::UTMPX_SZ_FO) {
                 set.insert(FixedStructType::Fs_Freebsd_x8664_Utmpx, BONUS);
             }
-            if filesz % linux_arm64aarch64::UTMPX_SZ_FO == 0 {
+            if filesz.is_multiple_of(linux_arm64aarch64::UTMPX_SZ_FO) {
                 set.insert(FixedStructType::Fs_Linux_Arm64Aarch64_Utmpx, BONUS);
             }
-            if filesz % linux_x86::UTMPX_SZ_FO == 0 {
+            if filesz.is_multiple_of(linux_x86::UTMPX_SZ_FO) {
                 set.insert(FixedStructType::Fs_Linux_x86_Utmpx, BONUS);
             }
 
-            if filesz % netbsd_x8632::UTMPX_SZ_FO == 0 {
+            if filesz.is_multiple_of(netbsd_x8632::UTMPX_SZ_FO) {
                 set.insert(FixedStructType::Fs_Netbsd_x8632_Utmpx, BONUS);
             }
-            if filesz % netbsd_x8664::UTMPX_SZ_FO == 0 {
+            if filesz.is_multiple_of(netbsd_x8664::UTMPX_SZ_FO) {
                 set.insert(FixedStructType::Fs_Netbsd_x8664_Utmpx, BONUS);
             }
         }
@@ -3794,49 +3794,49 @@ pub(crate) fn filesz_to_types(filesz: FileSz, file_type_fixed_struct: &FileTypeF
     // try _all_ types anyway; the file naming varies widely and follows
     // general patterns but is not strict.
 
-    if filesz % freebsd_x8664::UTMPX_SZ_FO == 0 {
+    if filesz.is_multiple_of(freebsd_x8664::UTMPX_SZ_FO) {
         set.entry(FixedStructType::Fs_Freebsd_x8664_Utmpx).or_insert(0);
     }
-    if filesz % linux_arm64aarch64::LASTLOG_SZ_FO == 0 {
+    if filesz.is_multiple_of(linux_arm64aarch64::LASTLOG_SZ_FO) {
         set.entry(FixedStructType::Fs_Linux_Arm64Aarch64_Lastlog).or_insert(0);
     }
-    if filesz % linux_arm64aarch64::UTMPX_SZ_FO == 0 {
+    if filesz.is_multiple_of(linux_arm64aarch64::UTMPX_SZ_FO) {
         set.entry(FixedStructType::Fs_Linux_Arm64Aarch64_Utmpx).or_insert(0);
     }
-    if filesz % linux_x86::ACCT_SZ_FO == 0 {
+    if filesz.is_multiple_of(linux_x86::ACCT_SZ_FO) {
         set.entry(FixedStructType::Fs_Linux_x86_Acct).or_insert(0);
     }
-    if filesz % linux_x86::ACCT_V3_SZ_FO == 0 {
+    if filesz.is_multiple_of(linux_x86::ACCT_V3_SZ_FO) {
         set.entry(FixedStructType::Fs_Linux_x86_Acct_v3).or_insert(0);
     }
-    if filesz % linux_x86::LASTLOG_SZ_FO == 0 {
+    if filesz.is_multiple_of(linux_x86::LASTLOG_SZ_FO) {
         set.entry(FixedStructType::Fs_Linux_x86_Lastlog).or_insert(0);
     }
-    if filesz % linux_x86::UTMPX_SZ_FO == 0 {
+    if filesz.is_multiple_of(linux_x86::UTMPX_SZ_FO) {
         set.entry(FixedStructType::Fs_Linux_x86_Utmpx).or_insert(0);
     }
-    if filesz % netbsd_x8632::ACCT_SZ_FO == 0 {
+    if filesz.is_multiple_of(netbsd_x8632::ACCT_SZ_FO) {
         set.entry(FixedStructType::Fs_Netbsd_x8632_Acct).or_insert(0);
     }
-    if filesz % netbsd_x8632::LASTLOGX_SZ_FO == 0 {
+    if filesz.is_multiple_of(netbsd_x8632::LASTLOGX_SZ_FO) {
         set.entry(FixedStructType::Fs_Netbsd_x8632_Lastlogx).or_insert(0);
     }
-    if filesz % netbsd_x8632::UTMPX_SZ_FO == 0 {
+    if filesz.is_multiple_of(netbsd_x8632::UTMPX_SZ_FO) {
         set.entry(FixedStructType::Fs_Netbsd_x8632_Utmpx).or_insert(0);
     }
-    if filesz % netbsd_x8664::LASTLOG_SZ_FO == 0 {
+    if filesz.is_multiple_of(netbsd_x8664::LASTLOG_SZ_FO) {
         set.entry(FixedStructType::Fs_Netbsd_x8664_Lastlog).or_insert(0);
     }
-    if filesz % netbsd_x8664::UTMP_SZ_FO == 0 {
+    if filesz.is_multiple_of(netbsd_x8664::UTMP_SZ_FO) {
         set.entry(FixedStructType::Fs_Netbsd_x8664_Utmp).or_insert(0);
     }
-    if filesz % netbsd_x8664::UTMPX_SZ_FO == 0 {
+    if filesz.is_multiple_of(netbsd_x8664::UTMPX_SZ_FO) {
         set.entry(FixedStructType::Fs_Netbsd_x8664_Utmpx).or_insert(0);
     }
-    if filesz % openbsd_x86::LASTLOG_SZ_FO == 0 {
+    if filesz.is_multiple_of(openbsd_x86::LASTLOG_SZ_FO) {
         set.entry(FixedStructType::Fs_Openbsd_x86_Lastlog).or_insert(0);
     }
-    if filesz % openbsd_x86::UTMP_SZ_FO == 0 {
+    if filesz.is_multiple_of(openbsd_x86::UTMP_SZ_FO) {
         set.entry(FixedStructType::Fs_Openbsd_x86_Utmp).or_insert(0);
     }
 

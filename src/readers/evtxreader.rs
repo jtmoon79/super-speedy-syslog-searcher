@@ -21,7 +21,6 @@ use std::collections::BTreeMap;
 use std::fmt;
 use std::io::{
     Error,
-    ErrorKind,
     Result,
 };
 use std::path::Path;
@@ -366,7 +365,7 @@ impl EvtxReader {
         let evtxparser: EvtxParser<FileHandleManaged> = match EvtxParser::from_read_seek(file) {
             Ok(evtxparser) => evtxparser.with_configuration(settings),
             Err(err) => {
-                return Err(Error::new(ErrorKind::Other, format!("EvtxParser::from_read_seek({:?}): {}", path_actual, err)));
+                return Err(Error::other(format!("EvtxParser::from_read_seek({:?}): {}", path_actual, err)));
             }
         };
         def1x!("return Ok(EvtxReader)");
@@ -438,33 +437,33 @@ impl EvtxReader {
                         match self.ts_first_processed.as_ref()
                         {
                             Some(ts_first_) => {
-                                if ts_first_ > &timestamp.into() {
-                                    self.ts_first_processed = Some(timestamp.into());
+                                if ts_first_ > &timestamp {
+                                    self.ts_first_processed = Some(timestamp);
                                 }
                             }
-                            None => self.ts_first_processed = Some(timestamp.into()),
+                            None => self.ts_first_processed = Some(timestamp),
                         }
                     );
                     summary_stat!(
                         match self.ts_last_processed.as_ref()
                         {
                             Some(ts_last_) => {
-                                if ts_last_ < &timestamp.into() {
-                                    self.ts_last_processed = Some(timestamp.into());
+                                if ts_last_ < &timestamp {
+                                    self.ts_last_processed = Some(timestamp);
                                 }
                             }
-                            None => self.ts_last_processed = Some(timestamp.into()),
+                            None => self.ts_last_processed = Some(timestamp),
                         }
                     );
                     // update "out of order" counter
                     if let Some(ts_last_) = timestamp_last.as_ref() {
                         summary_stat!(
-                            if ts_last_ > &timestamp.into() {
+                            if ts_last_ > &timestamp {
                                 self.out_of_order += 1;
                             }
                         );
                     }
-                    timestamp_last = Some(timestamp.into());
+                    timestamp_last = Some(timestamp);
 
                     // filter by date
                     match ts_pass_filters(&timestamp, &ts_filter_after, &ts_filter_before) {
@@ -491,7 +490,7 @@ impl EvtxReader {
                         DateTimeLOpt::Some(dt) => dt,
                     };
                     let evtx: Evtx = Evtx::from_evtxrs(
-                        Some(datetime_.clone()),
+                        Some(datetime_),
                         &self.fixed_offset,
                         record,
                     );
@@ -629,10 +628,7 @@ impl EvtxReader {
     /// [`Summary`]: crate::readers::summary::Summary
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
-        let path_ntf: Option<FPath> = match &self.named_temp_file {
-            Some(ntf) => Some(path_to_fpath(ntf.as_ref())),
-            None => None,
-        };
+        let path_ntf: Option<FPath> = self.named_temp_file.as_ref().map(|ntf| path_to_fpath(ntf.as_ref()));
         let filetype = self.filetype();
         let logmessagetype = filetype.to_logmessagetype();
         let summaryevtxreader = self.summary();

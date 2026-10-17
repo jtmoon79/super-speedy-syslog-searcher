@@ -44,9 +44,7 @@ impl StreamFlags {
     {
         // First byte is currently unused and hard-coded to null.
         writer
-            .write(&[0x00, self.check_method as u8])
-            .map_err(Into::into)
-    }
+            .write(&[0x00, self.check_method as u8])}
 }
 
 /// Stream check type, see sect. 2.1.1.2.

@@ -460,7 +460,7 @@ impl FixedStructReader {
 
         // set `first_entry_fileoffset` to the first entry by fileoffset
         let mut first_entry_fileoffset: FileOffset = blockreader.filesz();
-        for (_tv_pair, fo) in map_tvpair_fo.iter() {
+        for fo in map_tvpair_fo.values() {
             if &first_entry_fileoffset > fo {
                 first_entry_fileoffset = *fo;
             }
@@ -471,7 +471,7 @@ impl FixedStructReader {
         // later on, this will be used to proactively drop blocks
         let mut block_use_count: BTreeMap<BlockOffset, usize> = BTreeMap::new();
         def1o!("block_use_count create");
-        for (_tv_pair, fo) in map_tvpair_fo.iter() {
+        for fo in map_tvpair_fo.values() {
             let bo_beg: BlockOffset = BlockReader::block_offset_at_file_offset(*fo, blocksz);
             let fo_end: FileOffset = *fo + fixedstruct_type.size() as FileOffset;
             let bo_end: BlockOffset = BlockReader::block_offset_at_file_offset(fo_end, blocksz);

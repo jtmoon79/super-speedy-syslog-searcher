@@ -6,10 +6,7 @@
 
 use std::fmt;
 use std::hash::Hash;
-use std::io::{
-    Error,
-    ErrorKind,
-};
+use std::io::Error;
 
 pub(crate) use ::evtx::{
     err::EvtxError,
@@ -216,8 +213,7 @@ impl Evtx {
             }
             Err (err) => {
                 Err(
-                    Error::new(
-                        ErrorKind::Other,
+                    Error::other(
                         format!("EvtxError: {}", err)
                     )
                 )

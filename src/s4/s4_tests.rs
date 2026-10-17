@@ -295,7 +295,7 @@ const FO_M0100: &FixedOffset = &FixedOffset::east_opt(-3600).unwrap();
     Some(String::from("23:55")),
     *FO_M0130,
     Some(ymdhms(
-        &FO_M0130,
+        FO_M0130,
         LOCAL_NOW_YEAR.with(|y| *y),
         LOCAL_NOW_MONTH.with(|m| *m),
         LOCAL_NOW_DAY.with(|d| *d),
@@ -327,7 +327,7 @@ const FO_M0100: &FixedOffset = &FixedOffset::east_opt(-3600).unwrap();
     Some(String::from("23:55:59")),
     *FO_M0130,
     Some(ymdhms(
-        &FO_M0130,
+        FO_M0130,
         LOCAL_NOW_YEAR.with(|y| *y),
         LOCAL_NOW_MONTH.with(|m| *m),
         LOCAL_NOW_DAY.with(|d| *d),
@@ -462,7 +462,7 @@ fn test_cli_filter_patterns_print_indexes() {
     defx!();
 }
 
-#[test_matrix(0..95)]  // last matrix value must be CLI_FILTER_PATTERNS_COUNT
+#[test_matrix(..95)]  // last matrix value must be CLI_FILTER_PATTERNS_COUNT
 fn test_cli_filter_patterns_test_cases(index: usize) {
     stack_offset_set(None);
     defn!("test_cli_filter_patterns_test_cases index: {}", index);

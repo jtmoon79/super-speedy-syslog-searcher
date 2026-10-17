@@ -216,7 +216,7 @@ pub fn decompress_to_ntf(
         FileType::Unparsable => {
             debug_panic!("Unexpected {:?}", file_type);
 
-            return Err(Error::new(ErrorKind::Other, format!("Unexpected FileType::Unparsable for {:?}", path_std)));
+            return Err(Error::other(format!("Unexpected FileType::Unparsable for {:?}", path_std)));
         }
     };
     match file_type_archive {
@@ -252,7 +252,7 @@ pub fn decompress_to_ntf(
         let _tempfile_create_guard = match (&*TEMPFILE_CREATE_LOCK).lock() {
             Ok(val) => val,
             Err(err) => {
-                let ioerr = Error::new(ErrorKind::Other, format!("TEMPFILE_CREATE_LOCK.lock() failed: {:?}", err));
+                let ioerr = Error::other(format!("TEMPFILE_CREATE_LOCK.lock() failed: {:?}", err));
                 defx!("TEMPFILE_CREATE_LOCK.lock() failed, return {:?}", err);
                 return err_from_err_path_result_dtn!(&ioerr, &fpath, Some("TEMPFILE_CREATE_LOCK.lock() failed"));
             }
@@ -626,8 +626,7 @@ pub fn decompress_to_ntf(
         FileTypeArchive::Normal => {
             debug_panic!("Unexpected {:?}", file_type_archive);
             return Err(
-                Error::new(
-                    ErrorKind::Other,
+                Error::other(
                     format!("Unexpected FileTypeArchive::Normal for {:?}", path_std)
                 )
             )
@@ -813,8 +812,7 @@ pub fn decompress_to_ntf(
                         }
                     }
                     defx!("xz_decompress Error, return Err({:?})", err);
-                    return Err(Error::new(
-                        ErrorKind::Other,
+                    return Err(Error::other(
                         format!("xz_decompress failed: {} for file {:?}", err, fpath),
                     ));
                 }

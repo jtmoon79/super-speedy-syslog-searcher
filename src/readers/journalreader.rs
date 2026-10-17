@@ -1566,7 +1566,7 @@ impl<'a> JournalReader {
         unsafe {
             let mut rt: std::os::raw::c_ulonglong = 0;
             let prt: *mut std::os::raw::c_ulonglong = &mut rt;
-            let pboot: *mut sd_id128 = &mut boot_id_id128 as *mut _ as *mut sd_id128;
+            let pboot: *mut sd_id128 = &mut boot_id_id128 as *mut _ as *mut _;
             def1o!("sd_journal_get_monotonic_usec(@{:p}, @{:p}, @{:p})", journal_handle_ptr, prt, pboot);
             let r: i32 = (*journal_api_ptr).sd_journal_get_monotonic_usec(
                 *journal_handle_ptr,
@@ -1607,7 +1607,7 @@ impl<'a> JournalReader {
             //
             // call sd_id128_get_boot
             //
-            let pboot: *mut sd_id128 = &mut boot_id_id128 as *mut _ as *mut sd_id128;
+            let pboot: *mut sd_id128 = &mut boot_id_id128 as *mut _ as *mut _;
             def1o!("sd_id128_get_boot(@{:p})", pboot);
             let r: i32 = (*journal_api_ptr).sd_id128_get_boot(pboot);
             let e = Errno::from_raw(r.abs());
@@ -1804,7 +1804,7 @@ impl<'a> JournalReader {
                 self.next_short(rts_filter_before, DATETIME_FORMAT_SHORT_FULL, false)
             },
             JournalOutput::ShortMonotonic => {
-                self.next_short(rts_filter_before, &"", true)
+                self.next_short(rts_filter_before, "", true)
             },
             JournalOutput::ShortUnix => {
                 self.next_short(rts_filter_before, DATETIME_FORMAT_SHORT_UNIX, false)
@@ -2117,10 +2117,7 @@ impl<'a> JournalReader {
                     buffer.push(b'[');
                     let mud = mu as f64 / 1000000.0;
                     buffer.push_str(format!("{:>12.6}", mud));
-                    dt_a = match buffer.find_byteset(b"0123456789") {
-                        Some(pos) => pos,
-                        None => 1
-                    };
+                    dt_a = buffer.find_byteset(b"0123456789").unwrap_or(1);
                     dt_b = buffer.len();
                     buffer.push(b']');
                 },
@@ -2684,14 +2681,7 @@ impl<'a> JournalReader {
         buffer.push(FIELD_END_U8);
 
         // set aside `_SOURCE_REALTIME_TIMESTAMP`
-        let source_realtime_timestamp_field: Option<&[u8]> = match fields.remove(&*KEY_SOURCE_REALTIME_TIMESTAMP_BYTES) {
-            Some(s) => {
-                Some(s)
-            }
-            None => {
-                None
-            }
-        };
+        let source_realtime_timestamp_field: Option<&[u8]> = fields.remove(KEY_SOURCE_REALTIME_TIMESTAMP_BYTES);
 
         // write the remaining lines in order of `FIELD_ORDER_VERBOSE`
         for field in &Self::FIELD_ORDER_VERBOSE {
@@ -2915,14 +2905,14 @@ impl<'a> JournalReader {
         }
         match dt_uses_source {
             DtUsesSource::RealtimeTimestamp => {
-                self.em_first_last_update_accepted(&realtime_timestamp);
+                self.em_first_last_update_accepted(realtime_timestamp);
             }
             DtUsesSource::SourceRealtimeTimestamp => match source_realtime_timestamp {
                 Some(em) => {
                     self.em_first_last_update_accepted(em);
                 }
                 None => {
-                    self.em_first_last_update_accepted(&realtime_timestamp);
+                    self.em_first_last_update_accepted(realtime_timestamp);
                 }
             },
         }
@@ -3058,10 +3048,7 @@ impl<'a> JournalReader {
     /// [`Summary`]: crate::readers::summary::Summary
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
-        let path_ntf: Option<FPath> = match &self.named_temp_file {
-            Some(ntf) => Some(path_to_fpath(ntf.as_ref())),
-            None => None,
-        };
+        let path_ntf: Option<FPath> = self.named_temp_file.as_ref().map(|ntf| path_to_fpath(ntf.as_ref()));
         let filetype = self.filetype();
         let logmessagetype = filetype.to_logmessagetype();
         let summaryjournalreader = self.summary();

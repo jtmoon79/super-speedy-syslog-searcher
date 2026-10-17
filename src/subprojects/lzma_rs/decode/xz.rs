@@ -345,7 +345,7 @@ where
 
         records.push(Record {
             unpadded_size: (count_input.count() - padding_size) as u64,
-            unpacked_size: unpacked_size,
+            unpacked_size,
         });
     } else {
         // Fallback: Buffer in memory for multiple filters or unsupported checks

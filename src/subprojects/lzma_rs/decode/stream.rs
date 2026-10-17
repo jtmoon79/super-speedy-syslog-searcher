@@ -239,8 +239,7 @@ where
                         let bytes_read = if bytes_read < u64::MAX as usize {
                             bytes_read as u64
                         } else {
-                            return Err(io::Error::new(
-                                io::ErrorKind::Other,
+                            return Err(io::Error::other(
                                 "Failed to convert integer to u64.",
                             ));
                         };
@@ -280,8 +279,7 @@ where
                                 let bytes_read = if bytes_read < u64::MAX as usize {
                                     bytes_read as u64
                                 } else {
-                                    return Err(io::Error::new(
-                                        io::ErrorKind::Other,
+                                    return Err(io::Error::other(
                                         "Failed to convert integer to u64.",
                                     ));
                                 };
@@ -300,7 +298,7 @@ where
                             return Err(match e {
                                 Error::IoError(e) | Error::HeaderTooShort(e) => e,
                                 Error::LzmaError(e) | Error::XzError(e) => {
-                                    io::Error::new(io::ErrorKind::Other, e)
+                                    io::Error::other(e)
                                 }
                             });
                         }
@@ -341,7 +339,7 @@ where
 
 impl From<Error> for io::Error {
     fn from(error: Error) -> io::Error {
-        io::Error::new(io::ErrorKind::Other, format!("{:?}", error))
+        io::Error::other(format!("{:?}", error))
     }
 }
 

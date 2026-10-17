@@ -159,7 +159,7 @@ impl LinePart {
         fileoffset: FileOffset,
         buffer_utf8_bytes: &mut Bytes,
     ) {
-        for (chunk_index, chunk) in slice.chunks_exact(2).enumerate() {
+        for (chunk_index, chunk) in slice.as_chunks::<2>().0.iter().enumerate() {
             let unit: u16 = if little_endian {
                 u16::from_le_bytes([chunk[0], chunk[1]])
             } else {
@@ -188,7 +188,7 @@ impl LinePart {
         fileoffset: FileOffset,
         buffer_utf8_bytes: &mut Bytes,
     ) {
-        for (chunk_index, chunk) in slice.chunks_exact(4).enumerate() {
+        for (chunk_index, chunk) in slice.as_chunks::<4>().0.iter().enumerate() {
             let val: u32 = if little_endian {
                 u32::from_le_bytes([chunk[0], chunk[1], chunk[2], chunk[3]])
             } else {
@@ -571,12 +571,12 @@ impl fmt::Debug for Line {
         for li in self.lineparts.iter() {
             li_s.push_str(&format!(
                 " (blocki_beg {}, blocki_end {}, len() {}, BlockP.len() {}, fileoffset {}, blockoffset {})",
-                &li.blocki_beg,
-                &li.blocki_end,
-                &li.len(),
-                &li.blockp.len(),
-                &li.fileoffset,
-                &li.blockoffset
+                li.blocki_beg,
+                li.blocki_end,
+                li.len(),
+                li.blockp.len(),
+                li.fileoffset,
+                li.blockoffset
             ));
         }
         let mut fo_b = 0;

@@ -355,7 +355,7 @@ impl SyslogProcessor {
                     "BlockSz {0} (0x{0:08X}) is too small, SyslogProcessor has BlockSz minimum {1} (0x{1:08X}) file {2:?}",
                     blocksz,
                     SyslogProcessor::BLOCKSZ_MIN,
-                    &path,
+                    path,
                 ),
             ));
         }
@@ -763,7 +763,7 @@ impl SyslogProcessor {
             }
         };
         let dt = syslinep.dt();
-        let diff_ = datetime_minus_systemtime(&dt, &UPTIME_DEFAULT_OFFSET);
+        let diff_ = datetime_minus_systemtime(dt, &UPTIME_DEFAULT_OFFSET);
         defo!("diff_ from UPTIME_DEFAULT_OFFSET {:?}", diff_);
         let diff_secs = diff_.num_seconds();
         defo!("diff_secs {:?}", diff_secs);

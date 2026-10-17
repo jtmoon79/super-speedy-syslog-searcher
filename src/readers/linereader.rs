@@ -1571,11 +1571,7 @@ impl LineReader {
         // For multibyte encodings, search from the previous *code unit*
         // boundary, not the previous byte, otherwise newline checks become
         // misaligned (e.g. UTF-32LE checks at ...987, 983, ...).
-        let fo_nl_a_search_start: FileOffset = if fileoffset >= charsz_fo {
-            fileoffset - charsz_fo
-        } else {
-            0
-        };
+        let fo_nl_a_search_start: FileOffset = fileoffset.saturating_sub(charsz_fo);
         // BlockOFfset
         let bof: BlockOffset = self.block_offset_at_file_offset(fo_nl_a_search_start);
         // BEGinning OFfset?
@@ -2357,11 +2353,7 @@ impl LineReader {
         //
 
         // For multibyte encodings, search from the previous code-unit boundary.
-        let fo_nl_a_search_start: FileOffset = if fileoffset >= charsz_fo {
-            fileoffset - charsz_fo
-        } else {
-            0
-        };
+        let fo_nl_a_search_start: FileOffset = fileoffset.saturating_sub(charsz_fo);
         let mut bof: BlockOffset = self.block_offset_at_file_offset(fo_nl_a_search_start);
         let mut begof: bool = false; // run into beginning of file (as in first byte)?
                                      // newline A plus one (one charsz past preceding Line terminating '\n')

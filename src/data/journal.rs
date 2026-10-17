@@ -195,12 +195,7 @@ pub fn datetimel_to_realtime_timestamp(
 pub fn datetimelopt_to_realtime_timestamp_opt(
     datetime_opt: &DateTimeLOpt,
 ) -> EpochMicrosecondsOpt {
-    match datetime_opt {
-        None => None,
-        Some(datetime) => {
-            Some(datetimel_to_realtime_timestamp(datetime))
-        }
-    }
+    datetime_opt.as_ref().map(datetimel_to_realtime_timestamp)
 }
 
 /// Data representing a single `.journal` file log message.

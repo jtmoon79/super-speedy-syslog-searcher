@@ -1487,35 +1487,35 @@ where
     <T as Num>::FromStrRadixErr: std::fmt::Display,
     T::Err: std::fmt::Display,
 {
-    let ret_val: T;
+    
 
-    if val_s.starts_with("0x") {
-        ret_val = match T::from_str_radix(val_s.trim_start_matches("0x"), 16) {
+    let ret_val: T = if val_s.starts_with("0x") {
+        match T::from_str_radix(val_s.trim_start_matches("0x"), 16) {
             Ok(val) => val,
             Err(err) => return Err(format!("Unable to parse a hexadecimal number for value {val_s:?}: {err}")),
-        };
+        }
     } else if val_s.starts_with("0d") {
-        ret_val = match T::from_str_radix(val_s.trim_start_matches("0d"), 10) {
+        match T::from_str_radix(val_s.trim_start_matches("0d"), 10) {
             Ok(val) => val,
             Err(err) => return Err(format!("Unable to parse a decimal number for value {val_s:?}: {err}")),
-        };
+        }
     } else if val_s.starts_with("0o") {
-        ret_val = match T::from_str_radix(val_s.trim_start_matches("0o"), 8) {
+        match T::from_str_radix(val_s.trim_start_matches("0o"), 8) {
             Ok(val) => val,
             Err(err) => return Err(format!("Unable to parse an octal number for value {val_s:?}: {err}")),
-        };
+        }
     } else if val_s.starts_with("0b") {
-        ret_val = match T::from_str_radix(val_s.trim_start_matches("0b"), 2) {
+        match T::from_str_radix(val_s.trim_start_matches("0b"), 2) {
             Ok(val) => val,
             Err(err) => return Err(format!("Unable to parse a binary number for value {val_s:?}: {err}")),
-        };
+        }
     } else {
         // must be decimal
-        ret_val = match val_s.parse::<T>() {
+        match val_s.parse::<T>() {
             Ok(val) => val,
             Err(err) => return Err(format!("Unable to parse a decimal number for value {val_s:?}: {err}")),
-        };
-    }
+        }
+    };
 
     Ok(ret_val)
 }

@@ -188,7 +188,7 @@ impl<R: Read + Seek> AslParser<R> {
             .read_exact(&mut data)?;
         let kv_count = be_u32(&data[56..60]) as usize;
         let extra_count = kv_count / 2;
-        if kv_count % 2 != 0
+        if !kv_count.is_multiple_of(2)
             || extra_count
                 .checked_mul(16)
                 .and_then(|len| len.checked_add(RECORD_DATA_MIN))
@@ -202,7 +202,7 @@ impl<R: Read + Seek> AslParser<R> {
         }
         let mut remaining = RECORD_STRING_BYTES_MAX;
         let mut extra = Vec::with_capacity(extra_count);
-        for pair in data[108..size - 8].chunks_exact(16) {
+        for pair in data[108..size - 8].as_chunks::<16>().0 {
             extra.push((
                 self.string_ref(be_u64(&pair[..8]), &mut remaining)?,
                 self.string_ref(be_u64(&pair[8..]), &mut remaining)?,

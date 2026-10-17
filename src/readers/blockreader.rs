@@ -719,7 +719,7 @@ impl XzData {
         if let Some(producer) = self.producer.take() {
             producer
                 .join()
-                .map_err(|_| Error::new(ErrorKind::Other, "XZ decompressor thread panicked"))?;
+                .map_err(|_| Error::other("XZ decompressor thread panicked"))?;
         }
 
         Ok(())
@@ -903,7 +903,7 @@ impl TarData {
         if let Some(producer) = self.producer.take() {
             producer
                 .join()
-                .map_err(|_| Error::new(ErrorKind::Other, "tar reader thread panicked"))?;
+                .map_err(|_| Error::other("tar reader thread panicked"))?;
         }
 
         Ok(())
@@ -3032,7 +3032,7 @@ impl BlockReader {
         filesz: FileSz,
         blocksz: BlockSz,
     ) -> Count {
-        filesz / blocksz + (if filesz % blocksz > 0 { 1 } else { 0 })
+        filesz / blocksz + (if !filesz.is_multiple_of(blocksz) { 1 } else { 0 })
     }
 
     /// Specific `BlockSz` (size in bytes) of block at `BlockOffset`.
@@ -3485,7 +3485,7 @@ impl BlockReader {
             return;
         }
         self.read_block_lru_cache
-            .put(blockoffset, BlockP::clone(&blockp));
+            .put(blockoffset, BlockP::clone(blockp));
         summary_stat!(self.read_block_cache_lru_put += 1);
     }
 
@@ -3505,7 +3505,7 @@ impl BlockReader {
         );
         if let Some(_bp) = self
             .blocks
-            .insert(blockoffset, BlockP::clone(&blockp))
+            .insert(blockoffset, BlockP::clone(blockp))
         {
             de_wrn!(
                 "blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p} for file {:?}",
@@ -4898,7 +4898,7 @@ impl BlockReader {
                             BlockReader::file_offset_at_block_offset(blockoffset + 1, self.blocksz),
                             (*bp).len(),
                         );
-                        return ResultFindReadBlock::Found(BlockP::clone(&bp));
+                        return ResultFindReadBlock::Found(BlockP::clone(bp));
                     }
                     None => {
                         summary_stat!(self.read_block_cache_lru_miss += 1);
@@ -4920,7 +4920,7 @@ impl BlockReader {
                         .blocks
                         .get_mut(&blockoffset)
                     {
-                        Some(blockp) => BlockP::clone(&blockp),
+                        Some(blockp) => BlockP::clone(blockp),
                         None => {
                             // A streamed file cannot seek backward to recreate a Block
                             // after it has been dropped. A non-streamed file can reread it.
@@ -5171,8 +5171,7 @@ impl BlockReader {
                 }
                 ResultFindReadBlock::Done => {
                     defo!("read_block({}) returned Done", bo2);
-                    let err = Error::new(
-                        ErrorKind::Other,
+                    let err = Error::other(
                         format!(
                             "read_block({}) returned Done, block_last is {} for file {:?}",
                             bo2, bo_last, self.path

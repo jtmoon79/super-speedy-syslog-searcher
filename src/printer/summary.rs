@@ -2399,7 +2399,7 @@ fn print_files_processpathresult(
         );
     }
 
-    for (_pathid, result) in map_pathid_result.iter() {
+    for result in map_pathid_result.values() {
         match result {
             ProcessPathResult::FileValid(path, _filetype) => {
                 // defo!("FileValid");

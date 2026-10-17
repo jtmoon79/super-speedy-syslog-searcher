@@ -96,12 +96,12 @@ fn decode_text(data: &[u8]) -> io::Result<CompactString> {
         let data = data
             .strip_prefix(&[0xff, 0xfe])
             .unwrap_or(data);
-        if data.len() % 2 != 0 {
+        if !data.len().is_multiple_of(2) {
             return Err(invalid(format!("odd-length UTF-16LE companion, length {}", data.len())));
         }
         let mut text = CompactString::with_capacity(data.len() / 2);
         let units = data
-            .chunks_exact(2)
+            .as_chunks::<2>().0.iter()
             .map(|unit| u16::from_le_bytes([unit[0], unit[1]]));
         for unit in char::decode_utf16(units) {
             text.push(unit.map_err(|_| invalid("invalid UTF-16LE companion data"))?);
@@ -172,7 +172,7 @@ fn decode_keystore_plaintext(
 
     let text = match encoding {
         OdlKeyEncoding::Utf16Le => {
-            if data.len() % 2 != 0 {
+            if !data.len().is_multiple_of(2) {
                 return None;
             }
             CompactString::from_utf16le(data).ok()?
@@ -183,11 +183,11 @@ fn decode_keystore_plaintext(
                     0xff, 0xfe, 0x00, 0x00,
                 ])
                 .unwrap_or(data);
-            if data.len() % 4 != 0 {
+            if !data.len().is_multiple_of(4) {
                 return None;
             }
             let mut text = CompactString::with_capacity(data.len() / 4);
-            for unit in data.chunks_exact(4) {
+            for unit in data.as_chunks::<4>().0 {
                 let scalar = u32::from_le_bytes([
                     unit[0], unit[1], unit[2], unit[3],
                 ]);
@@ -507,7 +507,7 @@ impl<R: Read> OdlParser<R> {
         if &bytes[..8] != ODL_FILE_SIGNATURE {
             let s_e = buffer_to_string_noraw(&bytes[..8]);
             def2x!("invalid ODL file signature \"{}\"", &s_e);
-            return Err(invalid(format!("invalid ODL file signature \"{}\"", &s_e)));
+            return Err(invalid(format!("invalid ODL file signature \"{}\"", s_e)));
         }
         let version: u32 = u32::from_le_bytes([
             bytes[8], bytes[9], bytes[10], bytes[11],

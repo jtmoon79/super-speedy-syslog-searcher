@@ -471,6 +471,7 @@ enum CLI_Color_Choice {
 //       define them in s4lib::data::datetime and use them wherever possible.
 
 #[cfg(test)]
+#[allow(clippy::too_many_arguments)]
 type zymdhmsf_ = (
     FixedOffset,
     i32, // year
@@ -483,6 +484,7 @@ type zymdhmsf_ = (
 );
 
 #[cfg(test)]
+#[allow(clippy::too_many_arguments)]
 const fn zymdhms(
     fixedoffset: FixedOffset,
     year: i32,
@@ -496,6 +498,7 @@ const fn zymdhms(
 }
 
 #[cfg(test)]
+#[allow(clippy::too_many_arguments)]
 const fn zymdhmsf3(
     fixedoffset: FixedOffset,
     year: i32,
@@ -510,6 +513,7 @@ const fn zymdhmsf3(
 }
 
 #[cfg(test)]
+#[allow(clippy::too_many_arguments)]
 const fn zymdhmsf6(
     fixedoffset: FixedOffset,
     year: i32,
@@ -3953,12 +3957,11 @@ fn cli_process_args() -> (
 
     #[allow(clippy::single_match)]
     match (filter_dt_after, filter_dt_before) {
-        (Some(dta), Some(dtb)) => {
-            if dta > dtb {
+        (Some(dta), Some(dtb))
+            if dta > dtb => {
                 e_err!("Datetime --after ({}) is after Datetime --before ({})", dta, dtb);
                 std::process::exit(EXIT_ERR);
             }
-        }
         _ => {}
     }
 
@@ -5562,7 +5565,7 @@ fn processing_loop(
     let map_pathid_logmessagetype = map_pathid_logmessagetype;
 
     // pre-check files for easily identifyied invalid files that can be rejected early
-    for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
+    for result_invalid in map_pathid_results_invalid.values() {
         match result_invalid {
             ProcessPathResult::FileErrEmpty(_path, _filetype) => {
                 // behave like Unix tools; do not print errors about empty files
@@ -6013,7 +6016,7 @@ fn processing_loop(
         #[cfg(debug_assertions)]
         {
             defo!("map_pathid_datum.len() {}", map_pathid_datum.len());
-            for (pathid, _datum) in map_pathid_datum.iter() {
+            for pathid in map_pathid_datum.keys() {
                 let _path: &FPath = map_pathid_path
                     .get(pathid)
                     .unwrap();
@@ -6185,7 +6188,7 @@ fn processing_loop(
                 // debug sanity check
                 #[cfg(any(debug_assertions, test))]
                 {
-                    for (k, _v) in map_pathid_received_fileinfo.iter()
+                    for k in map_pathid_received_fileinfo.keys()
                     {
                         assert!(map_pathid_path.contains_key(k),
                             "map_pathid_received_fileinfo PathID key {:?} not in map_pathid_path", k);
@@ -6294,7 +6297,7 @@ fn processing_loop(
                 // - do not include them in determining prepended width (CLI option `-w`).
                 // - do not create a `PrinterLogMessage` for them.
                 let mut pathid_with_logmessages: SetPathId = SetPathId::with_capacity(map_pathid_datum.len());
-                for (pathid, _) in map_pathid_datum.iter() {
+                for pathid in map_pathid_datum.keys() {
                     pathid_with_logmessages.insert(*pathid);
                 }
 
@@ -6834,7 +6837,7 @@ fn processing_loop(
 
     // quick count of `Summary` attached Errors
     let mut error_count: usize = thread_panic_count;
-    for (_pathid, summary) in map_pathid_summary.iter() {
+    for summary in map_pathid_summary.values() {
         if summary.error.is_some() {
             error_count += 1;
         }
