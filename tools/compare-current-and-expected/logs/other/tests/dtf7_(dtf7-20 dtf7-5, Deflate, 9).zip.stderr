@@ -125,7 +125,7 @@ Managed seek calls     : 22
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0
-Regex patterns known   : 190
+Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
