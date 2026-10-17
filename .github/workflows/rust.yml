@@ -411,6 +411,7 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v2
         with:
           toolchain: ${{ env.MSRV_UPLOAD }}
+          components: clippy
       - name: cargo clippy
         shell: bash
         run: |
