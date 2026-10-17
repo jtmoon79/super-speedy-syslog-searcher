@@ -46,6 +46,7 @@ const DATA_STR0_LAST_BYTE: u8 = b'Z';
 const DT_BEG0: usize = 0;
 const DT_END0: usize = 24;
 
+#[allow(dead_code)] // XXX: used in `lazy_static`
 const DT_STR1: &str = "2022-01-02T03:04:06+08:00";
 
 #[allow(dead_code)]

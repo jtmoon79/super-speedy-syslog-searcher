@@ -161,7 +161,9 @@ const NTF5_MTIME_UNIXEPOCH: i64 = 957502855;
 
 const NTF5_DATA: &str = concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
+#[allow(dead_code)] // XXX: used in `lazy_static`
 const NTF5_LINE2_DATETIME_STR: &str = "Mar 3 03:00:00 +0000";
+#[allow(dead_code)] // XXX: used in `lazy_static`
 const NTF5_LINE2_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %z";
 
 //
@@ -196,7 +198,9 @@ const REGEX_ID_NTF3: RegexId = 31;
 
 const NTF3_DATA: &str = concatcp!(NTF3_DATA_LINE0, NTF3_DATA_LINE1, NTF3_DATA_LINE2,);
 
+#[allow(dead_code)] // XXX: used in `lazy_static`
 const NTF3_LINE1_DATETIME_STR: &str = "Feb 2 02:00:00 2000 +0000";
+#[allow(dead_code)] // XXX: used in `lazy_static`
 const NTF3_LINE1_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %Y %z";
 
 const NTF3_DATA_SYSLINES: [&str; 3] = [
@@ -354,7 +358,9 @@ const NTF7_2_DATA_SYSLINES: [&str; 8] = [
 // NTF0X12000
 //
 
+#[allow(dead_code)] // XXX: used in `lazy_static`
 const NTF0X12000_DATA: &[u8; 12000] = &[0; 12000];
+#[allow(dead_code)] // XXX: used in `lazy_static`
 const TIMEZONE_0: FixedOffset = FixedOffset::west_opt(0).unwrap();
 
 lazy_static! {
