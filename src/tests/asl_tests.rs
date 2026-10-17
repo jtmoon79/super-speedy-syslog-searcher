@@ -5,7 +5,11 @@ use std::io::ErrorKind;
 
 use crate::data::common::PrintableEvent;
 use crate::readers::aslparser::AslParser;
-use crate::tests::common::{ASL_FIXTURES, FO_0, FO_W8};
+use crate::tests::common::{
+    ASL_FIXTURES,
+    FO_0,
+    FO_W8,
+};
 
 #[test]
 fn asl_render_timestamp_fields_and_control_characters() {
