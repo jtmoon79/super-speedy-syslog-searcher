@@ -249,6 +249,7 @@ lto = true
 opt-level = 3
 debug = 0
 split-debuginfo = "packed"
+build.warnings = "warn"
 
 [profile.flamegraph]
 inherits = "release"
