@@ -87,11 +87,15 @@ wait ${PIDs[@]}
 
 ./target/valgrind/s4 --version
 
-# release_Opt0
+# release_Opt0, clippy, docs
 
 declare -a PIDs=()
 
 cargo build --locked --profile release_Opt0 &
+PIDs+=($!)
+cargo clippy --locked --no-deps --all-targets --all-features &
+PIDs+=($!)
+cargo doc --locked --release --no-deps &
 PIDs+=($!)
 
 wait ${PIDs[@]}
