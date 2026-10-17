@@ -332,7 +332,14 @@ jobs:
           - armv7-unknown-linux-gnueabihf
           - armv7-unknown-linux-musleabihf
           - riscv64gc-unknown-linux-gnu
-          - s390x-unknown-linux-gnu
+          # BUG: cannot build `s390x-unknown-linux-gnu` due to crate `sonic-number`
+          #     error: SWAR digit parsing requires little-endian byte order
+          #     Error:  --> /cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sonic-number-0.1.3/src/swar.rs:9:1
+          #       |
+          #     9 | compile_error!("SWAR digit parsing requires little-endian byte order");
+          #       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          #     error: could not compile `sonic-number` (lib) due to 1 previous error
+          # - s390x-unknown-linux-gnu
           - thumbv7neon-linux-androideabi
           - x86_64-unknown-freebsd
           - x86_64-unknown-illumos
