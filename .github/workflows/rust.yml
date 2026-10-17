@@ -179,15 +179,9 @@ jobs:
           git config --global core.autocrlf false
           git config --global core.protectNTFS false
       - uses: actions/checkout@v7
-      # TODO: use `https://github.com/actions-rust-lang/setup-rust-toolchain`?
-      #       why did I stop using it?
-      - run: rustup toolchain install ${{ matrix.msrv }} --profile minimal
-      - name: print default-target
-        shell: bash
-        run: |
-          set -eux
-          cargo install --locked default-target
-          ~/.cargo/bin/default-target
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ matrix.msrv }}
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile release
         shell: bash
         run: |
@@ -195,6 +189,8 @@ jobs:
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
           export S4_BUILD_REGEX=1
           cargo --version
+          rustc --version
+          rustc --print target-list
           rustc --print cfg
           cargo build --locked --profile release
           ./target/release/s4 --version
@@ -262,7 +258,9 @@ jobs:
       # build & upload debug
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ matrix.msrv }}
       - run: rustup default ${{ env.MSRV_UPLOAD }}
 
       - name: Add swap file for memory-intensive builds
@@ -343,7 +341,10 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
+          target: ${{ matrix.target }}
       - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
       - name: cross check ${{ matrix.target }}
@@ -367,7 +368,9 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ matrix.msrv }}
       - name: Check (cargo check --all-targets)
         shell: bash
         # `cargo check` builds dependences and other things but skips
@@ -388,7 +391,9 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ matrix.msrv }}
       - run: cargo install --locked cargo-deny
       - name: Deny (cargo-deny.sh)
         shell: bash
@@ -403,7 +408,9 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile default
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
       - name: cargo clippy
         shell: bash
         run: |
@@ -421,7 +428,9 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
       - name: Benches (cargo bench --no-run)
         shell: bash
         run: |
@@ -438,7 +447,9 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
       - run: cargo install --locked cargo-nextest
       - name: Install libsystemd
         shell: bash
@@ -481,7 +492,9 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
       - run: cargo install --locked cargo-nextest
       # XXX: MacOS tools do not support `touch` arguments run in
       #      `./tools/log-files-time-update.sh`. So skip running `log-files-time-update.sh`
@@ -509,7 +522,9 @@ jobs:
           git config --global core.protectNTFS false
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
       - name: set log file filesystem Modified Times
         shell: powershell
         run: |
@@ -638,7 +653,9 @@ jobs:
       # checkout for the log files
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ matrix.msrv }}
       - name: set log file filesystem Modified Times
         shell: bash
         run: |
@@ -866,7 +883,9 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v7
-      - run: rustup toolchain install ${{ env.VERSION_LLVM_COV }} --profile minimal
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ matrix.msrv }}
       - name: Install libsystemd
         shell: bash
         run: |
