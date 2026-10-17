@@ -556,17 +556,26 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v7
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
       - name: Build Documentation
         run: cargo doc --locked --release --no-deps -v
-      - uses: dtolnay/rust-toolchain@nightly
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: nightly
       - uses: dtolnay/install@cargo-docs-rs
       - name: Build documentation for docs.rs (cargo docs-rs)
-        run: cargo rustdoc --locked
+        run: |
+          set -eux
+          cargo --version
+          cargo rustdoc --locked
       - name: Publish to crates.io; dry run (cargo package --dry-run)
         shell: bash
         continue-on-error: true
         run: |
           set -eux
+          cargo --version
           cargo publish --locked --dry-run
           cargo package --list --all-features
           cargo package --locked
