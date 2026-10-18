@@ -67,43 +67,43 @@ use crate::alloc_tracker::AllocTrackerImpl;
 // first setup the custom global allocator
 use ::s4lib::common::AllocatorChosen;
 
-cfg_if::cfg_if! {
-    if #[cfg(feature = "jemalloc")] {
+cfg_select! {
+    feature = "jemalloc" => {
         use ::tikv_jemallocator::Jemalloc;
         #[global_allocator]
         static GLOBAL: Jemalloc = Jemalloc;
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Jemalloc;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "jemalloc";
     }
-    else if #[cfg(feature = "mimalloc")] {
+    feature = "mimalloc" => {
         use ::mimalloc::MiMalloc;
         #[global_allocator]
         static GLOBAL: MiMalloc = MiMalloc;
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Mimalloc;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "mimalloc";
     }
-    else if #[cfg(feature = "rpmalloc")] {
+    feature = "rpmalloc" => {
         use ::rpmalloc::RpMalloc;
         #[global_allocator]
         static GLOBAL: RpMalloc = RpMalloc;
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Rpmalloc;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "rpmalloc";
     }
-    else if #[cfg(feature = "tcmalloc")] {
+    feature = "tcmalloc" => {
         use ::tcmalloc::TCMalloc;
         #[global_allocator]
         static GLOBAL: TCMalloc = TCMalloc;
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::TCMalloc;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "tcmalloc";
     }
-    else if #[cfg(feature = "alloc_tracker")] {
+    feature = "alloc_tracker" => {
         // `AllocTrackerImpl` is implemented in module `alloc_tracker` below
         #[global_allocator]
         static GLOBAL: AllocTrackerImpl = AllocTrackerImpl;
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::AllocTracker;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "alloc_tracker";
     }
-    else {
+    _ => {
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::System;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "system";
     }

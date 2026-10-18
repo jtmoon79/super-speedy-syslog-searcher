@@ -53,24 +53,28 @@ const PATH_ID_C: PathId = 99_002;
 const PATH_ID_D: PathId = 99_003;
 
 fn raw_os_error_too_many_open_files() -> i32 {
-    cfg_if::cfg_if! {
-        if #[cfg(unix)] {
+    cfg_select! {
+        unix => {
             ::nix::errno::Errno::EMFILE as i32
-        } else if #[cfg(windows)] {
+        }
+        windows => {
             4
-        } else {
+        }
+        _ => {
             0
         }
     }
 }
 
 fn raw_os_error_not_found() -> i32 {
-    cfg_if::cfg_if! {
-        if #[cfg(unix)] {
+    cfg_select! {
+        unix => {
             ::nix::errno::Errno::ENOENT as i32
-        } else if #[cfg(windows)] {
+        }
+        windows => {
             2
-        } else {
+        }
+        _ => {
             0
         }
     }

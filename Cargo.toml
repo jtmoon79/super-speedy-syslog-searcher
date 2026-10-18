@@ -85,9 +85,6 @@ exclude = [
     ".venv/*",
 ]
 
-[build]
-warnings = "warn"
-
 [dependencies]
 aes = "0.8.4"
 anyhow = "1.0.104"
@@ -96,7 +93,6 @@ bitvec.workspace = true
 bstr = { version = "1.13.1", features = ["alloc", "std"] }
 bzip2-rs = "0.1.2"
 cbc = "0.1.2"
-cfg-if = "1.0.5"  # TODO: use `std::cfg_select!` at Rust 1.96
 chardet = "0.2.4"
 chrono = "0.4.45"
 clap = { version = "4.6.7", features = ["derive", "env"] }

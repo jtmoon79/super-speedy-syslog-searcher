@@ -5343,7 +5343,6 @@ dependencies = [
  "bzip2-rs",
  "cargo-msrv",
  "cbc",
- "cfg-if",
  "chardet",
  "chrono",
  "clap 4.6.7",

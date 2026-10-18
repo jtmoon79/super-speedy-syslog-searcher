@@ -310,8 +310,8 @@ impl OpenOptionsManaged {
 
 /// Return true if the `err` is a "_too many open files_" error.
 pub(crate) fn is_error_too_many_open_files(err: &Error) -> bool {
-    cfg_if::cfg_if! {
-        if #[cfg(unix)] {
+    cfg_select! {
+        unix => {
             err.raw_os_error()
                 .is_some_and(
                     |raw_os_error|
@@ -320,11 +320,13 @@ pub(crate) fn is_error_too_many_open_files(err: &Error) -> bool {
                         ::nix::errno::Errno::EMFILE | ::nix::errno::Errno::ENFILE
                     )
                 )
-        } else if #[cfg(windows)] {
+        }
+        windows => {
             const ERROR_TOO_MANY_OPEN_FILES: i32 = 4;
             err.raw_os_error()
                 .is_some_and(|raw_os_error| raw_os_error == ERROR_TOO_MANY_OPEN_FILES)
-        } else {
+        }
+        _ => {
             false
         }
     }
