@@ -18,6 +18,7 @@ use ::s4lib::data::datetime::{
     MAP_TZZ_TO_TZz,
 };
 
+#[allow(unused_imports)]  // XXX: imports used within `test_matrix` are erroneously reported as unused
 use crate::s4::{
     cli_process_tz_offset,
     cli_parser_prepend_dt_format,
@@ -462,7 +463,7 @@ fn test_cli_filter_patterns_print_indexes() {
     defx!();
 }
 
-#[test_matrix(..95)]  // last matrix value must be CLI_FILTER_PATTERNS_COUNT
+#[test_matrix(0..95)]  // last matrix value must be CLI_FILTER_PATTERNS_COUNT
 fn test_cli_filter_patterns_test_cases(index: usize) {
     stack_offset_set(None);
     defn!("test_cli_filter_patterns_test_cases index: {}", index);

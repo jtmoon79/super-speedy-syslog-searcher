@@ -369,7 +369,8 @@ impl LinePart {
         } else {
             slice
         };
-        let result = match encoding_type {
+
+        match encoding_type {
             FileTypeTextEncoding::Utf8Ascii | FileTypeTextEncoding::Utf8BOM => slice,
             FileTypeTextEncoding::Utf16le | FileTypeTextEncoding::Utf16leBOM => {
                 buffer_utf8_bytes.clear();
@@ -395,8 +396,7 @@ impl LinePart {
                 LinePart::utf32_to_utf8(slice, false, self.fileoffset, buffer_utf8_bytes);
                 buffer_utf8_bytes.as_slice()
             }
-        };
-        result
+        }
     }
 
     /// Count of bytes of this `LinePart`.
@@ -911,9 +911,9 @@ impl Line {
         }
         // handle special case where `b` is beyond last `lineparts` but `a` data is
         // within last `linepart`
-        if bptr_a.is_some() {
+        if let Some(a) = bptr_a {
             defx!("special case: return SinglePtr({})", a1);
-            return LinePartPtrs::SinglePtr(bptr_a.unwrap());
+            return LinePartPtrs::SinglePtr(a);
         }
 
         // previous searches failed, so it must be the hardest case.
