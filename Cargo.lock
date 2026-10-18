@@ -5385,7 +5385,6 @@ dependencies = [
  "nix 0.31.3",
  "num-traits",
  "numtoa",
- "once_cell",
  "pathsearch",
  "phf",
  "project-root",
