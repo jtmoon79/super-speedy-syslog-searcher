@@ -85,6 +85,9 @@ exclude = [
     ".venv/*",
 ]
 
+[build]
+warnings = "warn"
+
 [dependencies]
 aes = "0.8.4"
 anyhow = "1.0.104"
@@ -249,7 +252,6 @@ lto = true
 opt-level = 3
 debug = 0
 split-debuginfo = "packed"
-build.warnings = "warn"
 
 [profile.flamegraph]
 inherits = "release"
