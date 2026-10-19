@@ -326,7 +326,10 @@ jobs:
           # Tier 2
           - aarch64-unknown-linux-musl
           - arm-linux-androideabi
-          - arm-unknown-linux-gnueabi
+          # BUG: cannot build `arm-unknown-linux-gnueabi` due to crate `num_derive`
+          #     error: /target/release/deps/libnum_derive-565f9910f92da08a.so: symbol gettid, version GLIBC_2.30 not defined in file libc.so.6 with link time reference
+          #     Error:   --> /cargo/registry/src/index.crates.io-1949cf8c6b5b557f/winstructs-0.3.2/src/lib.rs:20:1
+          #- arm-unknown-linux-gnueabi
           - arm-unknown-linux-gnueabihf
           - armv7-linux-androideabi
           - armv7-unknown-linux-gnueabihf
