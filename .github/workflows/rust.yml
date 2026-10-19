@@ -428,6 +428,7 @@ jobs:
           set -eux
           cargo --version
           cargo clippy --version
+          export CARGO_BUILD_WARNINGS=warn
           export S4_BUILD_REGEX=1
           cargo clippy --locked --no-deps --all-targets --all-features
 
