@@ -233,7 +233,10 @@ jobs:
           - armv7-linux-androideabi
           - armv7-unknown-linux-gnueabihf
           - armv7-unknown-linux-musleabihf
-          - riscv64gc-unknown-linux-gnu
+          # BUG: cannot build `riscv64gc-unknown-linux-gnu` due to crate `num_derive`
+          #     error: /target/release/deps/libnum_derive-565f9910f92da08a.so: symbol gettid version GLIBC_2.30 not defined in file libc.so.6 with link time reference
+          #     Error:   --> /cargo/registry/src/index.crates.io-1949cf8c6b5b557f/winstructs-0.3.2/src/lib.rs:20:1
+          # - riscv64gc-unknown-linux-gnu
           # BUG: cannot build `s390x-unknown-linux-gnu` due to crate `sonic-number`
           #     error: SWAR digit parsing requires little-endian byte order
           #     Error:  --> /cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sonic-number-0.1.3/src/swar.rs:9:1
