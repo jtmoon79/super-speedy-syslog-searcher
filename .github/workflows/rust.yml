@@ -25,6 +25,7 @@ on:  # yamllint disable-line rule:truthy
   workflow_dispatch:  # yamllint disable-line rule:empty-values
 env:
   CARGO_TERM_COLOR: always
+  CARGO_BUILD_WARNINGS: warn
   S4_BUILD_PRINT: 1
   S4_BUILD_REGEX_PRINT: 1
   RUST_BACKTRACE: 1
@@ -428,7 +429,6 @@ jobs:
           set -eux
           cargo --version
           cargo clippy --version
-          export CARGO_BUILD_WARNINGS=warn
           export S4_BUILD_REGEX=1
           cargo clippy --locked --no-deps --all-targets --all-features
 
