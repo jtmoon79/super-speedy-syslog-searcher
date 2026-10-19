@@ -555,9 +555,7 @@ fn test_odl_decoded_parameters_compact_storage() {
         "\u{0085}".repeat(inline_capacity),
         "é☃".repeat(100),
     ] {
-        let expected = text
-            .replace('\u{0085}', " ")
-            .replace('\t', " ");
+        let expected: String = text.replace(['\u{0085}', '\t'], " ");
         for utf16_map in [false, true] {
             let map = format!("mapped\t{text}\n");
             let map_bytes = if utf16_map {
