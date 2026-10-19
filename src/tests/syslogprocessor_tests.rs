@@ -245,18 +245,12 @@ const NTF9_DATA: &str = concatcp!(
 
 const NTF9_DATA_LINE0_OFFSET: usize = 0;
 const NTF9_DATA_LINE1_OFFSET: usize = NTF9_DATA_LINE0_OFFSET
-    + NTF9_DATA_LINE0
-        .as_bytes()
-        .len();
+    + NTF9_DATA_LINE0.len();
 const NTF9_DATA_LINE2_OFFSET: usize = NTF9_DATA_LINE1_OFFSET
-    + NTF9_DATA_LINE1
-        .as_bytes()
-        .len();
+    + NTF9_DATA_LINE1.len();
 #[allow(dead_code)]
 const NTF9_DATA_LINE3_OFFSET: usize = NTF9_DATA_LINE2_OFFSET
-    + NTF9_DATA_LINE2
-        .as_bytes()
-        .len();
+    + NTF9_DATA_LINE2.len();
 const NTF9_BLOCKSZ_MIN: BlockSz = (NTF9_DATA_LINE2_OFFSET + NTF9_DATA_LINE2_OFFSET % 2) as BlockSz;
 
 //
@@ -304,26 +298,16 @@ const NTF7_2_DATA: &str = concatcp!(
 
 const NTF7_2_DATA_LINE0_OFFSET: usize = 0;
 const NTF7_2_DATA_LINE1_OFFSET: usize = NTF7_2_DATA_LINE0_OFFSET
-    + NTF7_2_DATA_LINE0
-        .as_bytes()
-        .len();
+    + NTF7_2_DATA_LINE0.len();
 const NTF7_2_DATA_LINE2_OFFSET: usize = NTF7_2_DATA_LINE1_OFFSET
-    + NTF7_2_DATA_LINE1
-        .as_bytes()
-        .len();
+    + NTF7_2_DATA_LINE1.len();
 const NTF7_2_DATA_LINE3_OFFSET: usize = NTF7_2_DATA_LINE2_OFFSET
-    + NTF7_2_DATA_LINE2
-        .as_bytes()
-        .len();
+    + NTF7_2_DATA_LINE2.len();
 const NTF7_2_DATA_LINE4_OFFSET: usize = NTF7_2_DATA_LINE3_OFFSET
-    + NTF7_2_DATA_LINE3
-        .as_bytes()
-        .len();
+    + NTF7_2_DATA_LINE3.len();
 #[allow(dead_code)]
 const NTF7_2_DATA_LINE5_OFFSET: usize = NTF7_2_DATA_LINE4_OFFSET
-    + NTF7_2_DATA_LINE4
-        .as_bytes()
-        .len();
+    + NTF7_2_DATA_LINE4.len();
 const NTF7_2_BLOCKSZ_MIN: BlockSz = (NTF7_2_DATA_LINE2_OFFSET + NTF7_2_DATA_LINE2_OFFSET % 2) as BlockSz;
 
 #[allow(dead_code)]

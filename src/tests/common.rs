@@ -5361,7 +5361,7 @@ lazy_static::lazy_static! {
                 Bytes::from(br#"2023-04-22T03:47:25.5884987-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="DNS Resiliency Feature is switched ON.""#),
             ),
             Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 030548300),
+                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 30548300),
                 DtBegEndPairOpt::Some((0, 33)),
                 Bytes::from(br#"2023-04-22T03:47:45.0305483-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="report [0] on [slscr.update.microsoft.com] with Alternate DNS needed[false], fPassDefault[true], fPassFallback[false]""#),
             ),

@@ -247,21 +247,13 @@ const NTF5_DATA_LINE4: &str = "[20200113-11:13:59] [DEBUG] Certification complet
 const NTF5_DATA: &str = concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
 const NTF5_DATA_LINE0_OFFSET: usize = 0;
-const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0
-    .as_bytes()
-    .len();
+const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0.len();
 const NTF5_DATA_LINE2_OFFSET: usize = NTF5_DATA_LINE1_OFFSET
-    + NTF5_DATA_LINE1
-        .as_bytes()
-        .len();
+    + NTF5_DATA_LINE1.len();
 const NTF5_DATA_LINE3_OFFSET: usize = NTF5_DATA_LINE2_OFFSET
-    + NTF5_DATA_LINE2
-        .as_bytes()
-        .len();
+    + NTF5_DATA_LINE2.len();
 const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET
-    + NTF5_DATA_LINE3
-        .as_bytes()
-        .len();
+    + NTF5_DATA_LINE3.len();
 
 lazy_static! {
     static ref NTF5: NamedTempFile = create_temp_file(NTF5_DATA);
@@ -4015,7 +4007,7 @@ fn copy_TestDataA2Dt6Checks(checks: &TestDataA2Dt6Checks) -> TestDataA2Dt6Checks
             ResultFind::Found(_) => FOUND,
             ResultFind::Done => DONE,
             ResultFind::Err(_) => {
-                ResultFindSysline_Test::Err(std::io::Error::new(std::io::ErrorKind::Other, "dummy error"))
+                ResultFindSysline_Test::Err(std::io::Error::other("dummy error"))
             }
         };
         data.push((check.0, result, check.2, check.3));
@@ -5131,7 +5123,7 @@ lazy_static! {
     /// length `NTF_A3_DATA_LINE1_STRING` to nearest even number
     static ref NTF_A3_DATA_LINE1_BYTES_LEN_EVEN: usize = {
         let len_ = NTF_A3_DATA_LINE1_STRING.len();
-        if len_ % 2 == 0 {
+        if len_.is_multiple_of(2) {
             len_
         } else {
             len_ + 1
@@ -5381,9 +5373,7 @@ lazy_static! {
 // UTF-8
 const DTF56B_SYSLINE0_OFFSET_UTF8: FileOffset = 0;
 const DTF56B_SYSLINE1_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF8
-    + DTF56B_SYSLINE0
-        .as_bytes()
-        .len() as FileOffset;
+    + DTF56B_SYSLINE0.len() as FileOffset;
 const DTF56B_SYSLINE2_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF8
     + DTF56B_SYSLINE1.len() as FileOffset;
 const DTF56B_SYSLINE3_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF8
@@ -5981,7 +5971,7 @@ fn test_find_sysline_utf(
             let value_bytes = slices.concat();
             let value_actual = String::from_utf8_lossy(&value_bytes).to_string();
             let value_actual_utf8 = bytes_to_utf8(&value_bytes, encoding);
-            let value_expect_utf8 = utf_to_utf8(&expect_str, encoding);
+            let value_expect_utf8 = utf_to_utf8(expect_str, encoding);
             eprintln!("value_actual      {:?}", value_actual);
             eprintln!("value_actual_utf8 {:?}", value_actual_utf8);
             eprintln!("value_expect_utf8 {:?}", value_expect_utf8);
@@ -6001,13 +5991,13 @@ Actual (UTF-8)   {value_actual_utf8:?}
 Expected (bytes) {:?}
 Actual (bytes)   {:?}
 ",
-                &expect_str.as_bytes(),
+                expect_str.as_bytes(),
                 value_bytes,
             );
             eprintln!("matched Found");
         }
         ResultFindSysline::Done => {
-            assert_eq!(&expect_str, &String::from(""), "bad test check value {:?}", expect_str);
+            assert_eq!(expect_str, &String::from(""), "bad test check value {:?}", expect_str);
             eprintln!("matched Done");
         }
         ResultFindSysline::Err(err) => {

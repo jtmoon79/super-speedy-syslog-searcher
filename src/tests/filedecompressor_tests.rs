@@ -179,7 +179,7 @@ use crate::tests::common::{
 fn test_decompress_to_ntf_ok_some(
     fpath: &FPath,
     filetype: FileType,
-    systemtime: Option<SystemTime>,
+    _systemtime: Option<SystemTime>,
     filesz: FileSz,
 ) {
     // XXX: is it possible to catch error for newly added FileType or FileTypeArchive variants not yet
@@ -217,7 +217,7 @@ fn test_decompress_to_ntf_ok_some(
     //      just skips the file modified time check when run on MacOS.
     #[cfg(not(target_os = "macos"))]
     {
-        assert_eq!(systemtime, value.1, "systemtime differs;\nexpected: {:?}\ngot     : {:?}", systemtime, value.1,);
+        assert_eq!(_systemtime, value.1, "systemtime differs;\nexpected: {:?}\ngot     : {:?}", _systemtime, value.1,);
     }
     assert_eq!(filesz, value.2, "filesz differs; expected: {}, got: {}", filesz, value.2,);
 }
