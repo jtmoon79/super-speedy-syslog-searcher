@@ -1189,7 +1189,7 @@ fn pathbuf_to_filetype_impl(
     ret
 }
 
-/// Wrapper function for [`pathbuf_to_filetype_impl`]
+/// Wrapper function for function `pathbuf_to_filetype_impl`
 pub fn pathbuf_to_filetype(
     pathbuf: &PathBuf,
     unparseable_are_text: bool,

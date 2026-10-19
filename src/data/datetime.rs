@@ -20,7 +20,7 @@
 //!
 //! The most relevant functions are:
 //! 1. [`bytes_to_regex_to_datetime`] which calls private function:
-//! 2. [`captures_to_buffer_bytes`]
+//! 2. `captures_to_buffer_bytes`
 //!
 //! Uses regular expressions defined in [`DATETIME_PARSE_DATAS`].
 //!

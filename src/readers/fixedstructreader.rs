@@ -191,7 +191,7 @@ pub type ResultFixedStructReaderScoreFileError = ResultFixedStructReaderScoreFil
 /// ## Summary of operation
 ///
 /// A `FixedStructReader` first deteremines the `FixedStructType` of the file
-/// in [`preprocess_fixedstructtype`].
+/// in function `preprocess_fixedstructtype`.
 /// Then it scans all ***t***ime ***v***alues in each entry to determine the
 /// order to process the entries in [`preprocess_timevalues`]. This implies the
 /// `blockreader` must read the entire file into memory. So far, "in the wild"
@@ -211,7 +211,6 @@ pub type ResultFixedStructReaderScoreFileError = ResultFixedStructReaderScoreFil
 /// [`buffer_to_fixedstructptr`]: crate::data::fixedstruct::buffer_to_fixedstructptr
 /// [`BlockReader`]: crate::readers::blockreader::BlockReader
 /// [`Read`]: std::io::Read
-/// [`preprocess_fixedstructtype`]: FixedStructReader::preprocess_fixedstructtype
 /// [`preprocess_timevalues`]: FixedStructReader::preprocess_timevalues
 /// [`process_entry_at`]: FixedStructReader::process_entry_at
 pub struct FixedStructReader {
