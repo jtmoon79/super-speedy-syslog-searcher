@@ -209,7 +209,7 @@ test-case = "=3.2.1"  # XXX: cannot upgrade `test-case` beyond `3.2.1` until fix
 # benches
 jetscii = "0.5.3"
 regex-automata = "0.4.18"
-range-set-blaze = "0.7.0"
+range-set-blaze = "0.8.0"
 stringzilla = "3.12.6"
 # src/subprojects/lzma_rs/
 seq-macro = "0.3"
