@@ -199,7 +199,7 @@ pkg-fmt = "zip"
 
 [dev-dependencies]
 arraystring = "0.3.0"
-cargo-msrv = "0.18.4"
+cargo-msrv = "0.19.3"
 criterion = "0.8.2"
 cross = "0.2.5"
 filepath = "0.2.0"
