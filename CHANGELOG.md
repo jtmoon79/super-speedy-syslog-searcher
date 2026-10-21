@@ -259,6 +259,11 @@ Helpful `git log` command for generating changelog entries:
 
 ## Unreleased
 
+- Bound Unix accounting string-field reads to their declared widths, fixing
+  out-of-bounds reads and intermittent format-detection failures on malformed
+  records. Fixed-struct character accessors now return `&[u8]` instead of
+  `&CStr`, stopping at the first NUL or preserving the whole field if absent.
+
 - Read supported logs within ZIP archives, including Stored, Deflate,
   Deflate64, BZip2, LZMA, and PPMd members. Stream text and Unix accounting
   members into blocks; extract seek-required formats to managed temporary
