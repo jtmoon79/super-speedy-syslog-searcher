@@ -26784,7 +26784,7 @@ Managed files max adjus: 200
 Managed request open   : 885
 Managed request read   : 0
 Managed write calls    : 1007
-Managed seek calls     : 18081
+Managed seek calls     : 28115
 Managed metadata calls : 686
 Managed open errors    : 14
 Managed evict fails    : 0
