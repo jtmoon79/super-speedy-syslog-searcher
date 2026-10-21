@@ -15,7 +15,6 @@
 
 use core::panic;
 use std::collections::HashMap;
-use std::ffi::CStr;
 use std::fmt;
 use std::io::{
     Error,
@@ -23,6 +22,7 @@ use std::io::{
 };
 
 use ::const_format::assertcp;
+use ::bstr::ByteSlice;
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,
@@ -417,11 +417,16 @@ impl FixedStructType {
 // listing of specific FixedStruct implementations
 // all listings should be in alphabetical order
 
-// BUG: [2024/03/10] the `&CStr` wrappers do not protect against no
-//      null-termination in the underlying buffer.
-//      e.g. `freebsd_x8664::utmpx::ut_user()` may include the following field
-//      `freebsd_x8664::utmpx::ut_line`.
-//      This only affects debug printing and tests.
+/// Borrow bytes before the first NUL, or the entire fixed-width field
+/// if NUL is absent.
+const fn fixed_field_bytes(field: &[std::ffi::c_char]) -> &[u8] {
+    let mut len: usize = 0;
+    while len < field.len() && field[len] != 0 {
+        len += 1;
+    }
+    // The borrowed prefix remains within the original field.
+    unsafe { std::slice::from_raw_parts(field.as_ptr().cast::<u8>(), len) }
+}
 
 // freebsd_x8664
 
@@ -430,7 +435,7 @@ impl FixedStructType {
 #[allow(non_camel_case_types, unused)]
 pub mod freebsd_x8664 {
     use crate::common::FileOffset;
-    use std::ffi::CStr;
+    use super::fixed_field_bytes;
     use std::mem::size_of;
     // TODO: can `memoffset::offset_of` be replaced with native `offset_of`?
     //       see https://releases.rs/docs/1.82.0/
@@ -555,17 +560,17 @@ pub mod freebsd_x8664 {
 
     /// Helpers for use in `fmt::Debug` trait.
     impl utmpx {
-        pub fn ut_id(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_id[..UT_IDSIZE].as_ptr()) }
+        pub fn ut_id(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_id[..UT_IDSIZE])
         }
-        pub fn ut_user(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_user[..UT_USERSIZE].as_ptr()) }
+        pub fn ut_user(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_user[..UT_USERSIZE])
         }
-        pub fn ut_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_line[..UT_LINESIZE].as_ptr()) }
+        pub fn ut_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_line[..UT_LINESIZE])
         }
-        pub fn ut_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_host[..UT_HOSTSIZE].as_ptr()) }
+        pub fn ut_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_host[..UT_HOSTSIZE])
         }
     }
 
@@ -601,7 +606,7 @@ pub mod freebsd_x8664 {
 #[allow(non_camel_case_types)]
 pub mod linux_arm64aarch64 {
     use crate::common::FileOffset;
-    use std::ffi::CStr;
+    use super::fixed_field_bytes;
     use std::mem::size_of;
     use ::const_format::assertcp_eq;
     use ::memoffset::offset_of;
@@ -656,11 +661,11 @@ pub mod linux_arm64aarch64 {
     }
 
     impl lastlog {
-        pub const fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line.as_ptr()) }
+        pub const fn ll_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_line)
         }
-        pub const fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host.as_ptr()) }
+        pub const fn ll_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_host)
         }
     }
 
@@ -785,17 +790,17 @@ pub mod linux_arm64aarch64 {
     }
 
     impl utmpx {
-        pub fn ut_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_line.as_ptr()) }
+        pub fn ut_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_line)
         }
-        pub fn ut_id(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_id.as_ptr()) }
+        pub fn ut_id(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_id)
         }
-        pub fn ut_user(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_user.as_ptr()) }
+        pub fn ut_user(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_user)
         }
-        pub fn ut_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_host.as_ptr()) }
+        pub fn ut_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_host)
         }
     }
 
@@ -869,7 +874,7 @@ pub mod linux_arm64aarch64 {
 #[allow(non_camel_case_types)]
 pub mod linux_x86 {
     use crate::common::FileOffset;
-    use std::ffi::CStr;
+    use super::fixed_field_bytes;
     use std::mem::size_of;
     use ::memoffset::offset_of;
     use ::const_format::assertcp_eq;
@@ -994,8 +999,8 @@ pub mod linux_x86 {
     assertcp_eq!(offset_of!(acct, ac_pad), 53);
 
     impl acct {
-        pub fn ac_comm(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ac_comm.as_ptr()) }
+        pub fn ac_comm(&self) -> &[u8] {
+            fixed_field_bytes(&self.ac_comm)
         }
     }
 
@@ -1112,8 +1117,8 @@ pub mod linux_x86 {
     assertcp_eq!(offset_of!(acct_v3, ac_comm), 48);
 
     impl acct_v3 {
-        pub fn ac_comm(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ac_comm.as_ptr()) }
+        pub fn ac_comm(&self) -> &[u8] {
+            fixed_field_bytes(&self.ac_comm)
         }
     }
 
@@ -1150,11 +1155,11 @@ pub mod linux_x86 {
     assertcp_eq!(offset_of!(lastlog, ll_host), 36);
 
     impl lastlog {
-        pub const fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line.as_ptr()) }
+        pub const fn ll_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_line)
         }
-        pub const fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host.as_ptr()) }
+        pub const fn ll_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_host)
         }
     }
 
@@ -1308,21 +1313,20 @@ pub mod linux_x86 {
 
     /// helpers for `fmt::Debug` trait
     ///
-    /// The slicing in each `CStr` function below is to due to
-    /// `__attribute_nonstring__` which means the field may not end with a
-    /// null byte.
+    /// Fields marked `__attribute_nonstring__` need not end with a NUL byte.
+    /// Accessors never read beyond their field's declared width.
     impl utmpx {
-        pub fn ut_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_line[..UT_LINESIZE].as_ptr()) }
+        pub fn ut_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_line[..UT_LINESIZE])
         }
-        pub fn ut_id(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_id[..UT_IDSIZE].as_ptr()) }
+        pub fn ut_id(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_id[..UT_IDSIZE])
         }
-        pub fn ut_user(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_user[..UT_USERSIZE].as_ptr()) }
+        pub fn ut_user(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_user[..UT_USERSIZE])
         }
-        pub fn ut_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_host[..UT_HOSTSIZE].as_ptr()) }
+        pub fn ut_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_host[..UT_HOSTSIZE])
         }
     }
 
@@ -1350,8 +1354,7 @@ pub mod linux_x86 {
 #[allow(non_camel_case_types, unused)]
 pub mod netbsd_x8632 {
     use crate::common::FileOffset;
-    use std::ffi::CStr;
-    use std::ffi::CString;
+    use super::fixed_field_bytes;
     use std::mem::size_of;
     use ::memoffset::offset_of;
     use ::const_format::assertcp_eq;
@@ -1470,8 +1473,8 @@ pub mod netbsd_x8632 {
     assertcp_eq!(offset_of!(acct, ac_flag), 52);
 
     impl acct {
-        pub fn ac_comm(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ac_comm.as_ptr()) }
+        pub fn ac_comm(&self) -> &[u8] {
+            fixed_field_bytes(&self.ac_comm)
         }
     }
 
@@ -1544,11 +1547,11 @@ pub mod netbsd_x8632 {
     pub const PATH_LASTLOGX: &str = "/var/log/lastlogx";
 
     impl lastlogx {
-        pub const fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line.as_slice().as_ptr()) }
+        pub const fn ll_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_line)
         }
-        pub const fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host.as_slice().as_ptr()) }
+        pub const fn ll_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_host)
         }
     }
 
@@ -1625,17 +1628,17 @@ pub mod netbsd_x8632 {
 
     /// Helpers for use in `fmt::Debug` trait.
     impl utmpx {
-        pub fn ut_name(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_name[..UTX_USERSIZE].as_ptr()) }
+        pub fn ut_name(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_name[..UTX_USERSIZE])
         }
-        pub fn ut_id(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_id[..UTX_IDSIZE].as_ptr()) }
+        pub fn ut_id(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_id[..UTX_IDSIZE])
         }
-        pub fn ut_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_line[..UTX_LINESIZE].as_ptr()) }
+        pub fn ut_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_line[..UTX_LINESIZE])
         }
-        pub fn ut_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_host[..UTX_HOSTSIZE].as_ptr()) }
+        pub fn ut_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_host[..UTX_HOSTSIZE])
         }
     }
 
@@ -1668,7 +1671,7 @@ pub mod netbsd_x8632 {
 #[allow(non_camel_case_types, unused)]
 pub mod netbsd_x8664 {
     use crate::common::FileOffset;
-    use std::ffi::CStr;
+    use super::fixed_field_bytes;
     use std::mem::size_of;
     use ::const_format::assertcp_eq;
     use ::memoffset::offset_of;
@@ -1764,11 +1767,11 @@ pub mod netbsd_x8664 {
     pub const PATH_LASTLOG: &str = "/var/log/lastlog";
 
     impl lastlog {
-        pub const fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line.as_slice().as_ptr()) }
+        pub const fn ll_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_line)
         }
-        pub const fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host.as_slice().as_ptr()) }
+        pub const fn ll_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_host)
         }
     }
 
@@ -1838,11 +1841,11 @@ pub mod netbsd_x8664 {
     pub const PATH_LASTLOGX: &str = "/var/log/lastlogx";
 
     impl lastlogx {
-        pub const fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line.as_slice().as_ptr()) }
+        pub const fn ll_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_line)
         }
-        pub const fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host.as_slice().as_ptr()) }
+        pub const fn ll_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_host)
         }
     }
 
@@ -1899,14 +1902,14 @@ pub mod netbsd_x8664 {
     pub const PATH_WTMP: &str = "/var/log/wtmp";
 
     impl utmp {
-        pub fn ut_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_line[..UT_LINESIZE].as_ptr()) }
+        pub fn ut_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_line[..UT_LINESIZE])
         }
-        pub fn ut_name(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_name[..UT_NAMESIZE].as_ptr()) }
+        pub fn ut_name(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_name[..UT_NAMESIZE])
         }
-        pub fn ut_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_host[..UT_HOSTSIZE].as_ptr()) }
+        pub fn ut_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_host[..UT_HOSTSIZE])
         }
     }
 
@@ -2033,17 +2036,17 @@ pub mod netbsd_x8664 {
 
     /// Helpers for use in `fmt::Debug` trait.
     impl utmpx {
-        pub fn ut_user(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_user[..UTX_USERSIZE].as_ptr()) }
+        pub fn ut_user(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_user[..UTX_USERSIZE])
         }
-        pub fn ut_id(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_id[..UTX_IDSIZE].as_ptr()) }
+        pub fn ut_id(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_id[..UTX_IDSIZE])
         }
-        pub fn ut_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_line[..UTX_LINESIZE].as_ptr()) }
+        pub fn ut_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_line[..UTX_LINESIZE])
         }
-        pub fn ut_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_host[..UTX_HOSTSIZE].as_ptr()) }
+        pub fn ut_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_host[..UTX_HOSTSIZE])
         }
     }
 
@@ -2087,7 +2090,7 @@ pub mod netbsd_x8664 {
 #[allow(non_camel_case_types, unused)]
 pub mod openbsd_x86 {
     use crate::common::FileOffset;
-    use std::ffi::CStr;
+    use super::fixed_field_bytes;
     use std::mem::size_of;
     use ::const_format::assertcp_eq;
     use ::memoffset::offset_of;
@@ -2145,7 +2148,7 @@ pub mod openbsd_x86 {
 
     /// Helpers for use in `fmt::Debug` trait.
     ///
-    /// The slicing in each `CStr` function below is to due to:
+    /// Accessors are bounded because:
     /// ```C
     /// /*
     ///  * Note that these are *not* C strings and thus are not
@@ -2154,14 +2157,13 @@ pub mod openbsd_x86 {
     /// ```
     /// <https://github.com/openbsd/src/blob/20248fc4cbb7c0efca41a8aafd40db7747023515/include/utmp.h#L51-L54>
     ///
-    /// to avoid the `CStr` constructor from reading past the end of the given
-    /// field into the next field.
+    /// A field without a NUL is returned in full, without reading the next field.
     impl lastlog {
-        pub const fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line.as_slice().as_ptr()) }
+        pub const fn ll_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_line)
         }
-        pub const fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host.as_slice().as_ptr()) }
+        pub const fn ll_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ll_host)
         }
     }
 
@@ -2216,7 +2218,7 @@ pub mod openbsd_x86 {
 
     /// Helpers for use in `fmt::Debug` trait.
     ///
-    /// The slicing in each `CStr` function below is to due to:
+    /// Accessors are bounded because:
     /// ```C
     /// /*
     ///  * Note that these are *not* C strings and thus are not
@@ -2225,17 +2227,16 @@ pub mod openbsd_x86 {
     /// ```
     /// <https://github.com/openbsd/src/blob/20248fc4cbb7c0efca41a8aafd40db7747023515/include/utmp.h#L51-L54>
     ///
-    /// to avoid the `CStr` constructor from reading past the end of the given
-    /// field into the next field.
+    /// A field without a NUL is returned in full, without reading the next field.
     impl utmp {
-        pub fn ut_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_line[..UT_LINESIZE].as_ptr()) }
+        pub fn ut_line(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_line[..UT_LINESIZE])
         }
-        pub fn ut_name(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_name[..UT_NAMESIZE].as_ptr()) }
+        pub fn ut_name(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_name[..UT_NAMESIZE])
         }
-        pub fn ut_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ut_host[..UT_HOSTSIZE].as_ptr()) }
+        pub fn ut_host(&self) -> &[u8] {
+            fixed_field_bytes(&self.ut_host[..UT_HOSTSIZE])
         }
     }
 }
@@ -2539,10 +2540,10 @@ impl fmt::Debug for freebsd_x8664::utmpx {
             .field("size", &self.size())
             .field("ut_type", &self.ut_type)
             .field("ut_pid", &format_args!("{}", ut_pid_s))
-            .field("ut_line", &self.ut_line())
-            .field("ut_id", &self.ut_id())
-            .field("ut_user", &self.ut_user())
-            .field("ut_host", &self.ut_host())
+            .field("ut_line", &self.ut_line().as_bstr())
+            .field("ut_id", &self.ut_id().as_bstr())
+            .field("ut_user", &self.ut_user().as_bstr())
+            .field("ut_host", &self.ut_host().as_bstr())
             .field("ut_tv.tv_sec", &self.ut_tv.tv_sec)
             .field("ut_tv.tv_usec", &self.ut_tv.tv_usec)
             .finish()
@@ -2614,8 +2615,8 @@ impl fmt::Debug for linux_arm64aarch64::lastlog {
         f.debug_struct("linux_arm64aarch64::lastlog")
             .field("size", &self.size())
             .field("ll_time", &self.ll_time)
-            .field("ll_line", &self.ll_line())
-            .field("ll_host", &self.ll_host())
+            .field("ll_line", &self.ll_line().as_bstr())
+            .field("ll_host", &self.ll_host().as_bstr())
             .finish()
     }
 }
@@ -2686,10 +2687,10 @@ impl fmt::Debug for linux_arm64aarch64::utmpx {
             .field("size", &self.size())
             .field("ut_type", &self.ut_type)
             .field("ut_pid", &self.ut_pid)
-            .field("ut_line", &self.ut_line())
-            .field("ut_id", &self.ut_id())
-            .field("ut_user", &self.ut_user())
-            .field("ut_host", &self.ut_host())
+            .field("ut_line", &self.ut_line().as_bstr())
+            .field("ut_id", &self.ut_id().as_bstr())
+            .field("ut_user", &self.ut_user().as_bstr())
+            .field("ut_host", &self.ut_host().as_bstr())
             .field("ut_tv.tv_sec", &self.ut_tv.tv_sec)
             .field("ut_tv.tv_usec", &self.ut_tv.tv_usec)
             .field("ut_addr_v6", &self.ut_addr_v6)
@@ -2776,7 +2777,7 @@ impl fmt::Debug for linux_x86::acct {
             .field("ac_majflt", &self.ac_majflt)
             .field("ac_swaps", &self.ac_swaps)
             .field("ac_exitcode", &self.ac_exitcode)
-            .field("ac_comm", &self.ac_comm())
+            .field("ac_comm", &self.ac_comm().as_bstr())
             .finish()
     }
 }
@@ -2862,7 +2863,7 @@ impl fmt::Debug for linux_x86::acct_v3 {
             .field("ac_minflt", &self.ac_minflt)
             .field("ac_majflt", &self.ac_majflt)
             .field("ac_swaps", &self.ac_swaps)
-            .field("ac_comm", &self.ac_comm())
+            .field("ac_comm", &self.ac_comm().as_bstr())
             .finish()
     }
 }
@@ -2932,8 +2933,8 @@ impl fmt::Debug for linux_x86::lastlog {
         f.debug_struct("linux_x86::lastlog")
             .field("size", &self.size())
             .field("ll_time", &self.ll_time)
-            .field("ll_line", &self.ll_line())
-            .field("ll_host", &self.ll_host())
+            .field("ll_line", &self.ll_line().as_bstr())
+            .field("ll_host", &self.ll_host().as_bstr())
             .finish()
     }
 }
@@ -3008,10 +3009,10 @@ impl fmt::Debug for linux_x86::utmpx {
             .field("size", &self.size())
             .field("ut_type", &self.ut_type)
             .field("ut_pid", &format_args!("{}", ut_pid_s))
-            .field("ut_line", &self.ut_line())
-            .field("ut_id", &self.ut_id())
-            .field("ut_user", &self.ut_user())
-            .field("ut_host", &self.ut_host())
+            .field("ut_line", &self.ut_line().as_bstr())
+            .field("ut_id", &self.ut_id().as_bstr())
+            .field("ut_user", &self.ut_user().as_bstr())
+            .field("ut_host", &self.ut_host().as_bstr())
             .field("ut_exit_e_termination", &self.ut_exit.e_termination)
             .field("ut_exit_e_exit", &self.ut_exit.e_exit)
             .field("ut_session", &self.ut_session)
@@ -3095,7 +3096,7 @@ impl fmt::Debug for netbsd_x8632::acct {
         let ac_flag = self.ac_flag;
         f.debug_struct("netbsd_x8632::acct")
             .field("size", &self.size())
-            .field("ac_comm", &self.ac_comm())
+            .field("ac_comm", &self.ac_comm().as_bstr())
             .field("ac_utime", &ac_utime)
             .field("ac_stime", &ac_stime)
             .field("ac_etime", &ac_etime)
@@ -3180,8 +3181,8 @@ impl fmt::Debug for netbsd_x8632::lastlogx {
             .field("size", &self.size())
             .field("ll_tv.tv_sec", &tv_sec)
             .field("ll_tv.tv_usec", &tv_usec)
-            .field("ll_line", &self.ll_line())
-            .field("ll_host", &self.ll_host())
+            .field("ll_line", &self.ll_line().as_bstr())
+            .field("ll_host", &self.ll_host().as_bstr())
             .field("ll_ss", &self.ll_ss)
             .finish()
     }
@@ -3255,10 +3256,10 @@ impl fmt::Debug for netbsd_x8632::utmpx {
         let tv_usec = self.ut_tv.tv_usec;
         f.debug_struct("netbsd_x8632::utmpx")
             .field("size", &self.size())
-            .field("ut_name", &self.ut_name())
-            .field("ut_id", &self.ut_id())
-            .field("ut_line", &self.ut_line())
-            .field("ut_host", &self.ut_host())
+            .field("ut_name", &self.ut_name().as_bstr())
+            .field("ut_id", &self.ut_id().as_bstr())
+            .field("ut_line", &self.ut_line().as_bstr())
+            .field("ut_host", &self.ut_host().as_bstr())
             .field("ut_session", &self.ut_session)
             .field("ut_type", &self.ut_type)
             .field("ut_pid", &self.ut_pid)
@@ -3337,8 +3338,8 @@ impl fmt::Debug for netbsd_x8664::lastlog {
         f.debug_struct("netbsd_x8664::lastlog")
             .field("size", &self.size())
             .field("ll_time", &self.ll_time)
-            .field("ll_line", &self.ll_line())
-            .field("ll_host", &self.ll_host())
+            .field("ll_line", &self.ll_line().as_bstr())
+            .field("ll_host", &self.ll_host().as_bstr())
             .finish()
     }
 }
@@ -3409,8 +3410,8 @@ impl fmt::Debug for netbsd_x8664::lastlogx {
             .field("size", &self.size())
             .field("ll_tv.tv_sec", &self.ll_tv.tv_sec)
             .field("ll_tv.tv_usec", &self.ll_tv.tv_usec)
-            .field("ll_line", &self.ll_line())
-            .field("ll_host", &self.ll_host())
+            .field("ll_line", &self.ll_line().as_bstr())
+            .field("ll_host", &self.ll_host().as_bstr())
             .field("ll_ss", &self.ll_ss)
             .finish()
     }
@@ -3480,9 +3481,9 @@ impl fmt::Debug for netbsd_x8664::utmp {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("netbsd_x8664::utmp")
             .field("size", &self.size())
-            .field("ut_line", &self.ut_line())
-            .field("ut_name", &self.ut_name())
-            .field("ut_host", &self.ut_host())
+            .field("ut_line", &self.ut_line().as_bstr())
+            .field("ut_name", &self.ut_name().as_bstr())
+            .field("ut_host", &self.ut_host().as_bstr())
             .field("ut_time", &self.ut_time)
             .finish()
     }
@@ -3552,10 +3553,10 @@ impl fmt::Debug for netbsd_x8664::utmpx {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("netbsd_x8664::utmpx")
             .field("size", &self.size())
-            .field("ut_user", &self.ut_user())
-            .field("ut_id", &self.ut_id())
-            .field("ut_line", &self.ut_line())
-            .field("ut_host", &self.ut_host())
+            .field("ut_user", &self.ut_user().as_bstr())
+            .field("ut_id", &self.ut_id().as_bstr())
+            .field("ut_line", &self.ut_line().as_bstr())
+            .field("ut_host", &self.ut_host().as_bstr())
             .field("ut_session", &self.ut_session)
             .field("ut_type", &self.ut_type)
             .field("ut_pid", &self.ut_pid)
@@ -3632,8 +3633,8 @@ impl fmt::Debug for openbsd_x86::lastlog {
         f.debug_struct("openbsd_x86::lastlog")
             .field("size", &self.size())
             .field("ll_time", &self.ll_time)
-            .field("ll_line", &self.ll_line())
-            .field("ll_host", &self.ll_host())
+            .field("ll_line", &self.ll_line().as_bstr())
+            .field("ll_host", &self.ll_host().as_bstr())
             .finish()
     }
 }
@@ -3702,9 +3703,9 @@ impl fmt::Debug for openbsd_x86::utmp {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("openbsd_x86::utmp")
             .field("size", &self.size())
-            .field("ut_line", &self.ut_line())
-            .field("ut_name", &self.ut_name())
-            .field("ut_host", &self.ut_host())
+            .field("ut_line", &self.ut_line().as_bstr())
+            .field("ut_name", &self.ut_name().as_bstr())
+            .field("ut_host", &self.ut_host().as_bstr())
             .field("ut_time", &self.ut_time)
             .finish()
     }
@@ -4756,14 +4757,13 @@ macro_rules! tv_to_datetime_or_err {
 }
 
 /// Helper to [`FixedStruct::score_fixedstruct`]
-/// Increase score if the buffer appears to be a valid C string (has
-/// typical ASCII characters found in such strings).
+/// Score the bounded field bytes by their typical ASCII string characters.
 macro_rules! score_fixedstruct_cstr {
     ($score:ident, $cstr:expr) => {{
-        let cstr_: &CStr = $cstr;
-        if !cstr_.is_empty() {
+        let bytes_: &[u8] = $cstr;
+        if !bytes_.is_empty() {
             $score += 1;
-            for c in cstr_.to_bytes().iter() {
+            for c in bytes_.iter() {
                 match c {
                     // all visible ASCII characters <128
                     &(b' '..=b'~') => $score += 2,

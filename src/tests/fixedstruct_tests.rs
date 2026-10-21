@@ -7,7 +7,6 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
-use std::ffi::CString;
 use std::str; // for `from_utf8`
 
 use ::chrono::FixedOffset;
@@ -286,14 +285,15 @@ fn test_buffer_to_fixedstructptr(
 #[test_case(&LINUX_X86_ACCT_BUFFER1, FixedStructType::Fs_Linux_x86_Acct, 0, 48)]
 #[test_case(&LINUX_X86_ACCT_V3_BUFFER1, FixedStructType::Fs_Linux_x86_Acct_v3, 0, -75)]
 #[test_case(&LINUX_X86_LASTLOG_BUFFER1, FixedStructType::Fs_Linux_x86_Lastlog, 0, 60)]
-#[test_case(&LINUX_X86_UTMPX_BUFFER1, FixedStructType::Fs_Linux_x86_Utmpx, 0, 129)]
+#[test_case(&LINUX_X86_UTMPX_BUFFER1, FixedStructType::Fs_Linux_x86_Utmpx, 0, 119)]
 #[test_case(&NETBSD_X8632_ACCT_BUFFER1, FixedStructType::Fs_Netbsd_x8632_Acct, 0, 58)]
 #[test_case(&NETBSD_X8632_LASTLOGX_BUFFER1, FixedStructType::Fs_Netbsd_x8632_Lastlogx, 0, 72)]
-#[test_case(&NETBSD_X8632_UTMPX_BUFFER1, FixedStructType::Fs_Netbsd_x8632_Utmpx, 0, 140)]
+#[test_case(&NETBSD_X8632_UTMPX_BUFFER1, FixedStructType::Fs_Netbsd_x8632_Utmpx, 0, 126)]
 #[test_case(&NETBSD_X8664_LASTLOG_BUFFER1, FixedStructType::Fs_Netbsd_x8664_Lastlog, 0, 62)]
 #[test_case(&NETBSD_X8664_LASTLOGX_BUFFER1, FixedStructType::Fs_Netbsd_x8664_Lastlogx, 0, -20)]
 #[test_case(&NETBSD_X8664_UTMP_BUFFER1, FixedStructType::Fs_Netbsd_x8664_Utmp, 0, 81)]
-#[test_case(&NETBSD_X8664_UTMPX_BUFFER1, FixedStructType::Fs_Netbsd_x8664_Utmpx, 0, 135)]
+#[test_case(&NETBSD_X8664_UTMPX_BUFFER1, FixedStructType::Fs_Netbsd_x8664_Utmpx, 0, 125)]
+#[test_case(&[0xAA; netbsd_x8664::LASTLOG_SZ], FixedStructType::Fs_Netbsd_x8664_Lastlog, 0, -100)]
 #[test_case(&OPENBSD_X86_LASTLOG_BUFFER1, FixedStructType::Fs_Openbsd_x86_Lastlog, 0, 72)]
 #[test_case(&OPENBSD_X86_UTMP_BUFFER1, FixedStructType::Fs_Openbsd_x86_Utmp, 0, 81)]
 fn test_score_fixedstruct(
@@ -313,6 +313,132 @@ fn test_score_fixedstruct(
 
 // individual FixedStruct tests
 
+#[test_case([0; 8], b""; "all NUL")]
+#[test_case(*b"\0ignored", b""; "initial NUL")]
+#[test_case(*b"abc\0tail", b"abc"; "embedded NUL")]
+#[test_case(*b"abcdefg\0", b"abcdefg"; "final NUL")]
+#[test_case(*b"abcdefgh", b"abcdefgh"; "full width")]
+#[test_case([0xAA; 8], &[0xAA; 8]; "non ASCII")]
+fn test_fixed_field_bytes(field: [u8; 8], expected: &[u8]) {
+    let record = netbsd_x8664::lastlog {
+        ll_time: 0,
+        ll_line: field.map(|b| b as std::ffi::c_char),
+        ll_host: [b'Z' as std::ffi::c_char; netbsd_x8664::UT_HOSTSIZE],
+    };
+    assert_eq!(record.ll_line(), expected);
+    assert_eq!(record.ll_host(), &[b'Z'; netbsd_x8664::UT_HOSTSIZE]);
+}
+
+#[test]
+fn test_fixed_field_bytes_const() {
+    const RECORD: netbsd_x8664::lastlog = netbsd_x8664::lastlog {
+        ll_time: 0,
+        ll_line: [b'A' as std::ffi::c_char; netbsd_x8664::UT_LINESIZE],
+        ll_host: [0; netbsd_x8664::UT_HOSTSIZE],
+    };
+    const LINE: &[u8] = RECORD.ll_line();
+    const HOST: &[u8] = RECORD.ll_host();
+    assert_eq!(LINE, b"AAAAAAAA");
+    assert!(HOST.is_empty());
+}
+
+#[test_case(FixedStructType::Fs_Freebsd_x8664_Utmpx)]
+#[test_case(FixedStructType::Fs_Linux_Arm64Aarch64_Lastlog)]
+#[test_case(FixedStructType::Fs_Linux_Arm64Aarch64_Utmpx)]
+#[test_case(FixedStructType::Fs_Linux_x86_Acct)]
+#[test_case(FixedStructType::Fs_Linux_x86_Acct_v3)]
+#[test_case(FixedStructType::Fs_Linux_x86_Lastlog)]
+#[test_case(FixedStructType::Fs_Linux_x86_Utmpx)]
+#[test_case(FixedStructType::Fs_Netbsd_x8632_Acct)]
+#[test_case(FixedStructType::Fs_Netbsd_x8632_Lastlogx)]
+#[test_case(FixedStructType::Fs_Netbsd_x8632_Utmpx)]
+#[test_case(FixedStructType::Fs_Netbsd_x8664_Lastlog)]
+#[test_case(FixedStructType::Fs_Netbsd_x8664_Lastlogx)]
+#[test_case(FixedStructType::Fs_Netbsd_x8664_Utmp)]
+#[test_case(FixedStructType::Fs_Netbsd_x8664_Utmpx)]
+#[test_case(FixedStructType::Fs_Openbsd_x86_Lastlog)]
+#[test_case(FixedStructType::Fs_Openbsd_x86_Utmp)]
+fn test_fixedstruct_unterminated_fields(fixedstructtype: FixedStructType) {
+    let buffer = [0xAA; ENTRY_SZ_MAX];
+    let entry = buffer_to_fixedstructptr(&buffer[..fixedstructtype.size()], fixedstructtype).unwrap();
+    macro_rules! check_fields {
+        ($record:expr, $($field:ident),+) => {{
+            let record = $record;
+            $(
+                assert_eq!(
+                    record.$field(),
+                    &buffer[..record.$field.len()],
+                    "{:?}.{}", fixedstructtype, stringify!($field),
+                );
+            )+
+            let debug = format!("{:?}", record);
+            assert!(debug.contains("\\xaa"), "{}", debug);
+        }};
+    }
+    match fixedstructtype {
+        FixedStructType::Fs_Freebsd_x8664_Utmpx =>
+            check_fields!(entry.as_freebsd_x8664_utmpx(), ut_id, ut_user, ut_line, ut_host),
+        FixedStructType::Fs_Linux_Arm64Aarch64_Lastlog =>
+            check_fields!(entry.as_linux_arm64aarch64_lastlog(), ll_line, ll_host),
+        FixedStructType::Fs_Linux_Arm64Aarch64_Utmpx =>
+            check_fields!(entry.as_linux_arm64aarch64_utmpx(), ut_line, ut_id, ut_user, ut_host),
+        FixedStructType::Fs_Linux_x86_Acct =>
+            check_fields!(entry.as_linux_x86_acct(), ac_comm),
+        FixedStructType::Fs_Linux_x86_Acct_v3 =>
+            check_fields!(entry.as_linux_x86_acct_v3(), ac_comm),
+        FixedStructType::Fs_Linux_x86_Lastlog =>
+            check_fields!(entry.as_linux_x86_lastlog(), ll_line, ll_host),
+        FixedStructType::Fs_Linux_x86_Utmpx =>
+            check_fields!(entry.as_linux_x86_utmpx(), ut_line, ut_id, ut_user, ut_host),
+        FixedStructType::Fs_Netbsd_x8632_Acct =>
+            check_fields!(entry.as_netbsd_x8632_acct(), ac_comm),
+        FixedStructType::Fs_Netbsd_x8632_Lastlogx =>
+            check_fields!(entry.as_netbsd_x8632_lastlogx(), ll_line, ll_host),
+        FixedStructType::Fs_Netbsd_x8632_Utmpx =>
+            check_fields!(entry.as_netbsd_x8632_utmpx(), ut_name, ut_id, ut_line, ut_host),
+        FixedStructType::Fs_Netbsd_x8664_Lastlog =>
+            check_fields!(entry.as_netbsd_x8664_lastlog(), ll_line, ll_host),
+        FixedStructType::Fs_Netbsd_x8664_Lastlogx =>
+            check_fields!(entry.as_netbsd_x8664_lastlogx(), ll_line, ll_host),
+        FixedStructType::Fs_Netbsd_x8664_Utmp =>
+            check_fields!(entry.as_netbsd_x8664_utmp(), ut_line, ut_name, ut_host),
+        FixedStructType::Fs_Netbsd_x8664_Utmpx =>
+            check_fields!(entry.as_netbsd_x8664_utmpx(), ut_user, ut_id, ut_line, ut_host),
+        FixedStructType::Fs_Openbsd_x86_Lastlog =>
+            check_fields!(entry.as_openbsd_x86_lastlog(), ll_line, ll_host),
+        FixedStructType::Fs_Openbsd_x86_Utmp =>
+            check_fields!(entry.as_openbsd_x86_utmp(), ut_line, ut_name, ut_host),
+    }
+}
+
+#[test_case(*b"abc\0tail", "abc"; "terminated")]
+#[test_case(*b"abcdefgh", "abcdefgh"; "unterminated")]
+fn test_fixedstruct_debug_field_boundaries(line: [u8; 8], expected: &str) {
+    #[repr(C)]
+    struct RecordWithTail {
+        record: netbsd_x8664::lastlog,
+        tail: [u8; 128],
+    }
+    let mut record = RecordWithTail {
+        record: netbsd_x8664::lastlog {
+            ll_time: 0,
+            ll_line: line.map(|b| b as std::ffi::c_char),
+            ll_host: [b'Z' as std::ffi::c_char; netbsd_x8664::UT_HOSTSIZE],
+        },
+        tail: [b'X'; 128],
+    };
+    let debug = format!("{:?}", record.record);
+    assert_eq!(
+        debug,
+        format!(
+            "netbsd_x8664::lastlog {{ size: 32, ll_time: 0, ll_line: \"{}\", ll_host: \"ZZZZZZZZZZZZZZZZ\" }}",
+            expected,
+        ),
+    );
+    record.tail.fill(b'Y');
+    assert_eq!(format!("{:?}", record.record), debug);
+}
+
 #[test]
 fn test_freebsd_x8664_utmpx() {
     // TODO: [2024/03/10] need valid data for `FREEBSD_X8664_UTMPX_BUFFER1`
@@ -323,9 +449,7 @@ fn test_freebsd_x8664_utmpx() {
     assert_eq!(utmpx.ut_type, 3, "ut_type");
     assert_eq!(
         utmpx.ut_user(),
-        CString::new("A")
-            .unwrap()
-            .as_c_str(),
+        b"A",
         "ut_user"
     );
 
@@ -348,16 +472,12 @@ fn test_linux_arm64aarch64_lastlog() {
     assert_eq!(lastlog.ll_time, 1708204125, "ll_time");
     assert_eq!(
         lastlog.ll_line(),
-        CString::new("pts/0")
-            .unwrap()
-            .as_c_str(),
+        b"pts/0",
         "ll_line"
     );
     assert_eq!(
         lastlog.ll_host(),
-        CString::new("67.184.33.88")
-            .unwrap()
-            .as_c_str(),
+        b"67.184.33.88",
         "ll_host"
     );
 
@@ -381,9 +501,7 @@ fn test_linux_arm64aarch64_utmpx() {
     assert_eq!(utmpx.ut_pid, 0, "ut_pid");
     assert_eq!(
         utmpx.ut_line(),
-        CString::new("~")
-            .unwrap()
-            .as_c_str(),
+        b"~",
         "ut_line"
     );
     assert_eq!(
@@ -395,16 +513,12 @@ fn test_linux_arm64aarch64_utmpx() {
     );
     assert_eq!(
         utmpx.ut_user(),
-        CString::new("reboot")
-            .unwrap()
-            .as_c_str(),
+        b"reboot",
         "ut_user"
     );
     assert_eq!(
         utmpx.ut_host(),
-        CString::new("6.1.63-current-rockchip64")
-            .unwrap()
-            .as_c_str(),
+        b"6.1.63-current-rockchip64",
         "ut_host"
     );
     assert_eq!(utmpx.ut_exit, 0, "ut_exit");
@@ -444,9 +558,7 @@ fn test_linux_x86_acct() {
     assert_eq!(acct.ac_exitcode, 0, "ac_exitcode");
     assert_eq!(
         acct.ac_comm(),
-        CString::new("accton")
-            .unwrap()
-            .as_c_str(),
+        b"accton",
         "ac_comm"
     );
 
@@ -487,16 +599,12 @@ fn test_linux_86_lastlog() {
     assert_eq!(lastlog.ll_time, 1702627821, "ll_time");
     assert_eq!(
         lastlog.ll_line(),
-        CString::new("pts/1")
-            .unwrap()
-            .as_c_str(),
+        b"pts/1",
         "ll_line"
     );
     assert_eq!(
         lastlog.ll_host(),
-        CString::new("localhost")
-            .unwrap()
-            .as_c_str(),
+        b"localhost",
         "ll_host"
     );
 
@@ -518,9 +626,7 @@ fn test_linux_x86_utmpx() {
     assert_eq!(utmpx.ut_pid, 41908, "ut_pid");
     assert_eq!(
         utmpx.ut_line(),
-        CString::new("pts/1")
-            .unwrap()
-            .as_c_str(),
+        b"pts/1",
         "ut_line"
     );
     assert_eq!(
@@ -532,16 +638,12 @@ fn test_linux_x86_utmpx() {
     );
     assert_eq!(
         utmpx.ut_user(),
-        CString::new("admin")
-            .unwrap()
-            .as_c_str(),
+        b"admin",
         "ut_user"
     );
     assert_eq!(
         utmpx.ut_host(),
-        CString::new("192.168.1.5")
-            .unwrap()
-            .as_c_str(),
+        b"192.168.1.5",
         "ut_host"
     );
     assert_eq!(utmpx.ut_exit.e_termination, 7, "ut_exit.e_termination");
@@ -554,7 +656,7 @@ fn test_linux_x86_utmpx() {
     eprintln!("linux_x86::utmpx: {:?}", utmpx);
 
     let score = FixedStruct::score_fixedstruct(&entry, 0);
-    assert_eq!(score, 129, "score");
+    assert_eq!(score, 119, "score");
 
     let fs = FixedStruct::from_fixedstructptr(0, &FO_0, entry).unwrap();
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
@@ -567,9 +669,7 @@ fn test_netbsd_x8632_acct() {
     let acct: &netbsd_x8632::acct = entry.as_netbsd_x8632_acct();
     assert_eq!(
         acct.ac_comm(),
-        CString::new("accton")
-            .unwrap()
-            .as_c_str(),
+        b"accton",
         "ac_comm"
     );
     let ac_utime = acct.ac_utime;
@@ -614,16 +714,12 @@ fn test_netbsd_x8632_lastlogx() {
     assert_eq!(tv_usec, 276757, "ll_tv.tv_usec");
     assert_eq!(
         lastlogx.ll_line(),
-        CString::new("pts/2")
-            .unwrap()
-            .as_c_str(),
+        b"pts/2",
         "ll_line"
     );
     assert_eq!(
         lastlogx.ll_host(),
-        CString::new("192.168.100.254")
-            .unwrap()
-            .as_c_str(),
+        b"192.168.100.254",
         "ll_host"
     );
     const LL_SS: [u8; netbsd_x8632::UTX_SSSIZE] = [
@@ -654,32 +750,22 @@ fn test_netbsd_x8632_utmpx() {
     let utmpx: &netbsd_x8632::utmpx = entry.as_netbsd_x8632_utmpx();
     assert_eq!(
         utmpx.ut_name(),
-        CString::new("/usr/libexec/getty")
-            .unwrap()
-            .as_c_str(),
+        b"/usr/libexec/getty",
         "ut_name"
     );
-    // BUG: `ut_id` and goes to it's end, need to fix the wrapper functions
-    //      see Issue #MNO
     assert_eq!(
         utmpx.ut_id(),
-        CString::new("sttyconstty")
-            .unwrap()
-            .as_c_str(),
+        b"stty",
         "ut_id"
     );
     assert_eq!(
         utmpx.ut_line(),
-        CString::new("constty")
-            .unwrap()
-            .as_c_str(),
+        b"constty",
         "ut_line"
     );
     assert_eq!(
         utmpx.ut_host(),
-        CString::new("")
-            .unwrap()
-            .as_c_str(),
+        b"",
         "ut_host"
     );
     assert_eq!(utmpx.ut_session, 2, "ut_session");
@@ -695,7 +781,7 @@ fn test_netbsd_x8632_utmpx() {
     eprintln!("netbsd_x8632::utmpx: {:?}", utmpx);
 
     let score = FixedStruct::score_fixedstruct(&entry, 0);
-    assert_eq!(score, 140, "score");
+    assert_eq!(score, 126, "score");
 
     let fs = FixedStruct::from_fixedstructptr(0, &FO_0, entry).unwrap();
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
@@ -711,16 +797,12 @@ fn test_netbsd_x8664_lastlog() {
     assert_eq!(tv_sec, 1708850203, "ll_time");
     assert_eq!(
         lastlog.ll_line(),
-        CString::new("pts/2")
-            .unwrap()
-            .as_c_str(),
+        b"pts/2",
         "ll_line"
     );
     assert_eq!(
         lastlog.ll_host(),
-        CString::new("192.168.100.254")
-            .unwrap()
-            .as_c_str(),
+        b"192.168.100.254",
         "ll_host"
     );
 
@@ -751,23 +833,17 @@ fn test_netbsd_x8664_utmp() {
     let utmp: &netbsd_x8664::utmp = entry.as_netbsd_x8664_utmp();
     assert_eq!(
         utmp.ut_line(),
-        CString::new("pts/2")
-            .unwrap()
-            .as_c_str(),
+        b"pts/2",
         "ut_line"
     );
     assert_eq!(
         utmp.ut_name(),
-        CString::new("root")
-            .unwrap()
-            .as_c_str(),
+        b"root",
         "ut_name"
     );
     assert_eq!(
         utmp.ut_host(),
-        CString::new("192.168.100.254")
-            .unwrap()
-            .as_c_str(),
+        b"192.168.100.254",
         "ut_host"
     );
     assert_eq!(utmp.ut_time, 1708850203, "ut_time");
@@ -788,31 +864,22 @@ fn test_netbsd_x8664_utmpx() {
     let utmpx: &netbsd_x8664::utmpx = entry.as_netbsd_x8664_utmpx();
     assert_eq!(
         utmpx.ut_user(),
-        CString::new("root")
-            .unwrap()
-            .as_c_str(),
+        b"root",
         "ut_user"
     );
-    // BUG: see Issue #MNO
     assert_eq!(
         utmpx.ut_id(),
-        CString::new("ts/2pts/2")
-            .unwrap()
-            .as_c_str(),
+        b"ts/2",
         "ut_id"
     );
     assert_eq!(
         utmpx.ut_line(),
-        CString::new("pts/2")
-            .unwrap()
-            .as_c_str(),
+        b"pts/2",
         "ut_line"
     );
     assert_eq!(
         utmpx.ut_host(),
-        CString::new("192.168.100.254")
-            .unwrap()
-            .as_c_str(),
+        b"192.168.100.254",
         "ut_host"
     );
     assert_eq!(utmpx.ut_session, 0, "ut_session");
@@ -826,7 +893,7 @@ fn test_netbsd_x8664_utmpx() {
     eprintln!("netbsd_x8664::utmpx: {:?}", utmpx);
 
     let score = FixedStruct::score_fixedstruct(&entry, 0);
-    assert_eq!(score, 135, "score");
+    assert_eq!(score, 125, "score");
 
     let fs = FixedStruct::from_fixedstructptr(0, &FO_0, entry).unwrap();
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
@@ -841,16 +908,12 @@ fn test_openbsd_x86_lastlog() {
     assert_eq!(lastlog.ll_time, 1706487506, "ll_time");
     assert_eq!(
         lastlog.ll_line(),
-        CString::new("ttyp0")
-            .unwrap()
-            .as_c_str(),
+        b"ttyp0",
         "ll_line"
     );
     assert_eq!(
         lastlog.ll_host(),
-        CString::new("192.168.100.254")
-            .unwrap()
-            .as_c_str(),
+        b"192.168.100.254",
         "ll_host"
     );
 
@@ -870,23 +933,17 @@ fn test_openbsd_x86_utmp() {
     let utmp: &openbsd_x86::utmp = entry.as_openbsd_x86_utmp();
     assert_eq!(
         utmp.ut_line(),
-        CString::new("ttyp0")
-            .unwrap()
-            .as_c_str(),
+        b"ttyp0",
         "ut_line"
     );
     assert_eq!(
         utmp.ut_name(),
-        CString::new("root")
-            .unwrap()
-            .as_c_str(),
+        b"root",
         "ut_name"
     );
     assert_eq!(
         utmp.ut_host(),
-        CString::new("192.168.100.254")
-            .unwrap()
-            .as_c_str(),
+        b"192.168.100.254",
         "ut_host"
     );
     assert_eq!(utmp.ut_time, 1706487506, "ut_time");
