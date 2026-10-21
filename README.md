@@ -98,7 +98,7 @@ or archived logs (`.tar`, `.zip`).
 
 ##### Unix<!-- omit in toc -->
 
-Run the POSIX-compliant shell script `s4-easy-install.sh`
+Run the POSIX-compliant shell script [`s4-easy-install.sh`](https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.sh)
 
 ```sh
 curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.sh' | sh
@@ -106,7 +106,7 @@ curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searc
 
 ##### Windows<!-- omit in toc -->
 
-On Windows, run the PowerShell script `s4-easy-install.ps1`
+On Windows, run the PowerShell script [`s4-easy-install.ps1`](https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1)
 
 ```powershell
 & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1")))
@@ -927,7 +927,6 @@ See the latest [release] for pre-compiled binaries.
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
 [Issue #11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11
 [Issue #14]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14
-[Issue #39]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39
 [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
 [ISO descriptive format]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates
 [_Ordinal dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates
@@ -941,11 +940,13 @@ See the latest [release] for pre-compiled binaries.
 - Ad-hoc text log files without a year in the date are read once before
   processing.
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
-- Entire [user accounting record files are read into memory] before printing
+- Entire [user accounting record files, `utmp`, are read into memory] before printing
+- Entire [`.asl` (Apple System Logs), `.etl` (Windows Event Trace Logs), and `.odl*` (OneDrive Logs)] are read into memory before printing ([Issue #559])
 
-[user accounting record files are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
+[user accounting record files, `utmp`, are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
 [Issue #293]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/293
 [Issue #300]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/300
+[Issue #559]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/559
 
 <br/>
 
@@ -1034,25 +1035,25 @@ XXX: I could not get `logdissect.py` to work for any "parser" for any standard R
 
 Binary formats supported:
 
-|Program        |journal|`acct`/`lastlog`/`utmp`|`.evtx`|`.pcap`/`.pcapng`|`.jsonl`|`.asl`|`.etl`|`.odl`|
-|-              |-      |-                      |-      |-                |-       |-     |-     |-     |
-|`grep \| sort` |✗      |✗                     |✗      |✗               |✗       |✗    |✗     |✗     |
-|`s4`           |✔      |✔                     |✔      |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/255)|✔ |✔ |✔ |✔ |
-|`lnav`         |✗      |✗                     |✗      |✔               |✗       |✗    |✗     |✗     |
-|`logmerger`    |✗      |✗                     |✗      |✔               |✗       |✗    |✗     |✗     |
-|`tl`           |✗      |✗                     |✗      |✗               |✔       |✗    |✗     |✗     |
+|Program        |journal|`acct`/<br/>`lastlog`/<br/>`utmp`|`.evtx`|`.pcap`/`.pcapng`|`.jsonl`|`.asl`|`.etl`|`.odl`|
+|-              |-      |-                                |-      |-                |-       |-     |-     |-     |
+|`grep \| sort` |✗      |✗                               |✗      |✗               |✗       |✗    |✗     |✗     |
+|`s4`           |✔      |✔                               |✔      |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/255)|✔ |✔ |✔ |✔ |
+|`lnav`         |✗      |✗                               |✗      |✔               |✗       |✗    |✗     |✗     |
+|`logmerger`    |✗      |✗                               |✗      |✔               |✗       |✗    |✗     |✗     |
+|`tl`           |✗      |✗                               |✗      |✗               |✔       |✗    |✗     |✗     |
 
 <br/>
 
 Ad-hoc text formats:
 
-|Program        |Ad-hoc text formats|Red Hat Audit Log|strace|Apache Common Log Format|dmesg|
-|-              |-                  |-                |-     |-                       |-    |
-|`grep \| sort` |‼                  |!                |✔     |‼                       |!   |
-|`s4`           |✔                  |✔               |✔     |✔                      |✔   |
-|`lnav`         |‼                  |‼                |‼     |✔                       |✗   |
-|`logmerger`    |‼                  |‼                |✔     |‼                       |✗   |
-|`tl`           |✗                  |✗               |✗     |✔                       |✗   |
+|Program        |Ad-hoc text formats|Red Hat<br/>Audit Log|strace|Apache<br/>Common<br/>Log Format|dmesg|
+|-              |-                  |-                    |-     |-                               |-    |
+|`grep \| sort` |‼                  |!                    |✔     |‼                               |!    |
+|`s4`           |✔                  |✔                   |✔     |✔                              |✔    |
+|`lnav`         |‼                  |‼                    |‼     |✔                               |✗    |
+|`logmerger`    |‼                  |‼                    |✔     |‼                               |✗    |
+|`tl`           |✗                  |✗                   |✗     |✔                               |✗    |
 
 All programs besides `s4` fail to merge different text log formats.
 
