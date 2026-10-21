@@ -3,7 +3,7 @@
 # run `cargo upgrade` with preferred options
 #
 # to install:
-#     cargo install cargo-edit
+#     cargo install --locked cargo-edit
 
 set -eu
 
