@@ -199,11 +199,28 @@ main() {
             curl --silent --show-error --fail  --location --retry 2 'https://sh.rustup.rs' | sh
         )
     fi
+    # manually adjust to 'musl' build for some Operating Systems
+    # typically the target triple for 'alpine' will already be set to 'musl'
+    # but the triple for 'nixos' may need to be adjusted to 'musl'
+    if [ -r /etc/os-release ]; then
+        (
+            . /etc/os-release
+            if [ "${ID-}" = 'nixos' ] || [ "${ID-}" = 'alpine' ]; then
+                if has_command rev; then
+                    target_triple="$(echo "${target_triple}" | rev | cut -f 2- -d '-' | rev)-musl"
+                    info "target triple set to musl for OS ${ID-}"
+                else
+                    die "Program 'rev' is not available while trying to adjust target triple for OS ${ID-}"
+                fi
+            fi
+        )
+    fi
     info "platform target is ${target_triple}"
     printf '\n' >&2
 
     [ -n "${target_triple}" ] || die "Platform target could not be determined."
 
+    # override target ABI if user requested it
     if [ -n "${ABI}" ]; then
         if ! has_command rev || ! has_command cut; then
             die "Cannot override target triple with ABI '${ABI}' because required commands 'rev' or 'cut' are not available."
