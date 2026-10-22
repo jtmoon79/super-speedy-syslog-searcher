@@ -6,6 +6,7 @@
 gprof2dot==2024.06.06
 
 # journal_print.py
+# requires apt package `libsystemd-dev`
 systemd-python==235
 
 # yamllint.sh
