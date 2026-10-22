@@ -12,6 +12,12 @@ cd "$(dirname -- "${0}")/.."
 # in case `mdtohtml` is not in the PATH, add the default Go bin directory to the PATH
 export PATH="${PATH}:${HOME}/go/bin"
 
+if ! command -v mdtohtml &>/dev/null; then
+    echo "ERROR: mdtohtml is not installed." >&2
+    echo "       go install 'github.com/gomarkdown/mdtohtml@latest'" >&2
+    exit 1
+fi
+
 file=${1}
 file_html="${file}.html"
 shift
