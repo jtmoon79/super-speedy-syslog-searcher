@@ -258,9 +258,11 @@ jobs:
           toolchain: ${{ env.MSRV_UPLOAD }}
           target: ${{ matrix.target }}
       - run: rustup target add ${{ matrix.target }}
-      - run: cargo install --locked cross
+      - run: cargo install --locked cross cargo-cross
       - name: cross check ${{ matrix.target }}
         shell: bash
+        continue-on-error: true
+        id: cross_check
         run: |
           set -eux
           cargo --version
@@ -271,6 +273,13 @@ jobs:
           # the docker instance.
           echo 1 | tee ./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX S4_BUILD_REGEX
           cross check --locked --lib --bins --release --target ${{ matrix.target }}
+      - name: cargo cross check ${{ matrix.target }}
+        shell: bash
+        # if prior `cross check` failed then run `cargo cross check` as a fallback
+        if: steps.cross_check.outcome != 'success'
+        run: |
+          set -eux
+          cargo cross check --locked --lib --bins --release --target ${{ matrix.target }}
 
   job_check:
     # this job downloads and builds dependency crates
