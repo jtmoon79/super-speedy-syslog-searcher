@@ -45,7 +45,8 @@ jobs:
           mkdir -vp "$HOME/bin"
           mv -v "${HYPERFINE_BIN}" "$HOME/bin/hyperfine"
           export PATH="$HOME/bin:$PATH"
-          which -a hyperfine
+          which which
+          which hyperfine
           hv=$(hyperfine --version)
           echo "${hv}"
           if [[ "${hv}" != 'hyperfine 2.'* ]]; then
