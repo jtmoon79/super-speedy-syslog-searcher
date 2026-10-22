@@ -44,6 +44,7 @@ jobs:
           tar -xzvf "${HYPERFINE_ARCHIVE}"
           mkdir -vp "$HOME/.local/bin"
           mv -v "${HYPERFINE_BIN}" "$HOME/.local/bin/hyperfine"
+          chmod -v +x "$HOME/.local/bin/hyperfine"
           echo "$PATH"
           which -a which
           which -a hyperfine
