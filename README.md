@@ -1123,8 +1123,7 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 <sup style="font-size: xxx-small">• _Mean_ is mean runtime in milliseconds</sup>
 <sup style="font-size: xxx-small">• _Max RSS_ is maximum Resident Set Size in Kilobytes</sup>
 
-Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
-Run on Ubuntu 24 on WSL.
+Using `hyperfine` for measurements. Run on Ubuntu 26 on WSL.
 
 See further performance measurements in the [`releases`] directory.
 
