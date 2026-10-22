@@ -167,14 +167,17 @@ jobs:
         run: |
           SWAPFILE=/swapfile_16GB
           set -euxo pipefail
+          # show memory and disk usage before
           df -h /
           swapon --show
+          # create the swap file
           sudo install -m 0600 /dev/null ${SWAPFILE}
           sudo dd if=/dev/zero of=${SWAPFILE} bs=1M count=16384 status=progress
           sudo mkswap ${SWAPFILE}
           sudo swapon ${SWAPFILE}
+          # show memory and disk usage after
           swapon --show
-          free -h
+          free -htvw
           df -h /
       - name: Build Debug using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         timeout-minutes: 35
