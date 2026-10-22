@@ -5,13 +5,14 @@
 #
 # For each log merging tool, this script runs a search for log lines
 # between two datetimes in three 5,000-line log files.
-# Gathers program runtime performance data using `hyperfine` and GNU `time`.
+# Gathers runtime, peak RSS, and hardware counters using `hyperfine` 2.0.
 # Then does some scraping of those results and outputs that as a markdown table.
 # The markdown output is typically for display (bragging) in the top-level
 # README.md file.
 #
 # pass `--skip-tl` to skip processing toolong which takes over the console
-# window and stalls non-interactive consoles
+# window and stalls non-interactive consoles. Otherwise it is measured once;
+# manually exit its TUI when merging finishes.
 #
 # Set PROGRAMS_S4_LISTING to a TSV file listing other s4 programs to compare.
 # Each non-empty line must have 2 tab-separated fields:
@@ -48,20 +49,6 @@ readonly PROJ_DIR
 cd "${PROJ_DIR}"
 readonly REQUIREMENTS_FILE=./tools/compare-log-mergers/requirements.txt
 
-(
-    export PAGER=cat
-    set -x
-    # pipe to `cat` to make very sure a pager is not used
-    git log -n1 --oneline -1 | cat -
-)
-
-echo
-
-# use full path to Unix tools
-TIME=$(which time)
-(set -x; "${TIME}" --version) | head -n1
-readonly TIME
-
 # do a little work to find Python interpreter in the PATH
 PYTHON=${PYTHON-$(
     if which python3 &>/dev/null; then
@@ -74,14 +61,19 @@ readonly PYTHON
 (set -x; "${PYTHON}" --version) | head -n1
 
 # check for hyperfine
-HYPERFINE=$(which hyperfine) || {
-    echo "ERROR: hyperfine not found in PATH" >&2
+readonly HYPERFINE=/home/ulug/.cargo/bin/hyperfine
+if [[ ! -x "${HYPERFINE}" ]]; then
+    echo "ERROR: hyperfine 2 required at ${HYPERFINE}" >&2
     echo "install:" >&2
     echo "    cargo install --locked hyperfine" >&2
     exit 1
-}
-readonly HYPERFINE
+fi
+if [[ "$("${HYPERFINE}" --version)" != 'hyperfine 2.'* ]]; then
+    echo "ERROR: hyperfine 2.x required at ${HYPERFINE}" >&2
+    exit 1
+fi
 (set -x; "${HYPERFINE}" --version)
+readonly METRICS='time_wall_clock:ms,memory_peak_resident:kB,cpu_cycles:M,cache_references:M,cache_misses:M,branch_misses:M'
 
 # check for jq
 if ! which jq &>/dev/null; then
@@ -97,7 +89,7 @@ readonly JQ
 # check for lnav
 if [[ "${PROGRAM_LNAV-}" = '' ]] && ! which lnav &>/dev/null; then
     echo "ERROR: lnav not found in PATH" >&2
-    echo '       and $PROGRAM_LNAV not set' >&2
+    echo "       and \$PROGRAM_LNAV not set" >&2
     echo "install:" >&2
     echo "    sudo apt install lnav" >&2
     exit 1
@@ -148,8 +140,6 @@ mdfinal="${TEMPD}/compare-log-mergers.md"
 readonly mdfinal
 json_files=$(mktemp -p "${TEMPD}" -t "json_files_XXX.txt")
 readonly json_files
-tm_files=$(mktemp -p "${TEMPD}" -t "tm_files_XXX.txt")
-readonly tm_files
 
 function json_file_new() {
     local path
@@ -157,10 +147,81 @@ function json_file_new() {
     printf '%s\n' "${path}" | tee -a "${json_files}"
 }
 
-function tm_file_new() {
-    local path
-    path=$(mktemp -p "${TEMPD}" -t "tm_XXXXX.txt")
-    printf '%s\n' "${path}" | tee -a "${tm_files}"
+function write_metadata() {
+    printf '%s|%s|%s|%s|%s|%s\n' "$@" > "${json_file}.metadata"
+}
+
+# JSON always exports seconds, bytes, and raw counts, regardless of --metrics units.
+# Schema 2: {schema_version: 2, results: [{name: "...", command: "...",
+#   measurements: [{time_wall_clock: {value: 1, unit: "second"}, ...}],
+#   summary: {time_wall_clock: {mean: 1, stddev: null, min: 1, max: 1,
+#                             count: 1, unit: "second"}, ...}}]}
+function validate_json() {
+    # shellcheck disable=SC2016
+    "${JQ}" -e '
+        def require($ok; $message):
+            if $ok then . else error($message) end;
+        require(.schema_version == 2; "expected hyperfine JSON schema_version 2")
+        | require((.results | type) == "array" and (.results | length) == 1;
+                  "expected exactly one benchmark result")
+        | .results[0]
+        | (.name // .command) as $name
+        | require(($name | type) == "string"; "missing benchmark name")
+        | require((.measurements | type) == "array" and (.measurements | length) > 0;
+                  "\($name): missing measurements")
+        | . as $result
+        | (.measurements | length) as $runs
+        | ["time_wall_clock", "memory_peak_resident", "cpu_cycles",
+           "cache_references", "cache_misses", "branch_misses"][]
+        | . as $metric
+        | $result
+        | require(all(.measurements[]; (.[$metric].value | type) == "number");
+                  "\($name): unavailable or incomplete metric \($metric)")
+        | .summary[$metric]
+        | require(.count == $runs and all(.mean, .min, .max; type == "number");
+                  "\($name): invalid or incomplete summary for \($metric)")
+        | require((if $runs == 1 then .stddev == null
+                   else (.stddev | type) == "number" end);
+                  "\($name): invalid standard deviation for \($metric)")
+        | require((if $metric == "time_wall_clock" then
+                       .unit == "second" and all($result.measurements[];
+                           .time_wall_clock.unit == "second")
+                   elif $metric == "memory_peak_resident" then
+                       .unit == "byte" and all($result.measurements[];
+                           .memory_peak_resident.unit == "byte")
+                   else true end);
+                  "\($name): unexpected unit for \($metric)")
+        | true
+    ' "${1}" > /dev/null || {
+        echo "ERROR: invalid hyperfine measurements in ${1}; all requested metrics are required (check hardware counter permissions)" >&2
+        return 1
+    }
+}
+
+function metrics_row() {
+    local mean stddev min max rss cycles references misses branches LC_NUMERIC=C
+    IFS=$'\t' read -r mean stddev min max rss cycles references misses branches < <(
+        # shellcheck disable=SC2016
+        "${JQ}" -r '
+            .results[0] | .summary as $s |
+            [($s.time_wall_clock.mean * 1000),
+             (if $s.time_wall_clock.stddev == null then "N/A"
+              else ($s.time_wall_clock.stddev * 1000) end),
+             ($s.time_wall_clock.min * 1000),
+             ($s.time_wall_clock.max * 1000),
+             ($s.memory_peak_resident.mean / 1000),
+             ($s.cpu_cycles.mean / 1000000),
+             ($s.cache_references.mean / 1000000),
+             ($s.cache_misses.mean / 1000000),
+             ($s.branch_misses.mean / 1000000)] | @tsv
+        ' "${1}"
+    )
+    if [[ "${stddev}" != 'N/A' ]]; then
+        printf -v stddev '%.1f' "${stddev}"
+    fi
+    printf '%.1f ± %s|%.1f|%.1f|%.1f|%.3f|%.3f|%.3f|%.3f|\n' \
+        "${mean}" "${stddev}" "${min}" "${max}" "${rss}" \
+        "${cycles}" "${references}" "${misses}" "${branches}"
 }
 
 function exit_() {
@@ -213,9 +274,6 @@ fi
 # datetime range for s4, lnav
 readonly after_dt="2000-01-01T00:20:00"
 readonly befor_dt="2000-01-01T00:50:00"
-# datetime range for logdissect
-readonly after_dt_ld="200001010020"
-readonly befor_dt_ld="200001010050"
 # datetime range for GNU grep + sort
 # grep regex equivalent of $after_dt $befor_dt
 readonly regex_dt='^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'
@@ -249,24 +307,9 @@ function echo_command() {
 }
 
 
-function file_size() {
-    stat --printf='%s' "${1}"
-}
-
-function file_isempty() {
-    [[ $(file_size "${1}") -eq 0 ]]
-}
-
-# %M = Maximum resident set size in KB
-# %P = CPU percentage
-# %E = Elapsed real time
-# see https://www.man7.org/linux/man-pages/man1/time.1.html
-# Note: metrics %t %K and other memory metrics always returned 0
-readonly TIME_FORMAT='%M|%P|%E'
-
 # print the s4 version string from the --version string
 #
-# handle newer 0.10 format
+# s4 newer --version format <=0.10
 #    s4 (Super Speedy Syslog Searcher)
 #    Version: 0.10.83
 #    MSRV: 1.88.0
@@ -289,14 +332,14 @@ readonly TIME_FORMAT='%M|%P|%E'
 #    Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
 #    Author: James Thomas Moon
 #
-# handle newer 0.8.80 format
+# s4 0.8.80 version format
 #    $ s4 --version
 #    s4 (Super Speedy Syslog Searcher)
 #    Version: 0.9.81
 #    MSRV: 1.88.0
 #    Allocator: system
 #
-# handle older formats format <0.8.80
+# s4 older --version formats <0.8.80
 #    $ s4 --version
 #    s4 (Super Speedy Syslog Searcher), Version 0.7.79, Allocator system
 #
@@ -391,7 +434,7 @@ echo "Processing s4 programs from TSV file: ${PROGRAMS_S4_LISTING}" >&2
 echo >&2
 
 declare -i line_no=0
-while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
+while IFS=$'\t' read -r s4_prog_path s4_prog_extra || [[ -n "${s4_prog_path}" ]]; do
     line_no=$((line_no + 1)) || true
     if [[ -z "${s4_prog_path-}" ]]; then
         continue
@@ -422,7 +465,6 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
 
     echo >&2
     json_file=$(json_file_new)
-    tm_file=$(tm_file_new)
     (
         files_caching
         if [[ -n "${s4_prog_extra-}" ]]; then
@@ -430,28 +472,28 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
         fi
         echo_command "${s4_full_path} -a='${after_dt}' -b='${befor_dt}' -cn ${files[*]}"
         set -x
-        "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "s4${s4_prog_extra-}" \
+        "${HYPERFINE}" \
+            --metrics "${METRICS}" \
+            --warmup=2 \
+            --style=basic \
+            --runs=${HRUNS} \
+            --export-json "${json_file}" \
+            -N \
+            -n "s4${s4_prog_extra-}" \
             -- \
-            "'${s4_full_path}' -a='${after_dt}' -b='${befor_dt}' -cn ${files[*]} > /dev/null"
+            "'${s4_full_path}' -a='${after_dt}' -b='${befor_dt}' -cn ${files[*]}"
     )
+    validate_json "${json_file}"
     (
-        files_caching
         version=$(s4_version "${s4_full_path}")
         profile=$(s4_profile "${s4_full_path}")
         allocator=$(s4_allocator "${s4_full_path}")
         platform=$(s4_platform "${s4_full_path}")
         cpu_target=$(s4_cpu_target "${s4_full_path}")
         opt_lvl=$(s4_opt_lvl "${s4_full_path}")
-        set -x
-        "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
-            -- \
-            "${s4_full_path}" \
-            "-a=${after_dt}" \
-            "-b=${befor_dt}" \
-            "--color=never" \
-            "${files[@]}" > "${tmpOut}"
+        write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
     )
-done <<< $(cat "${PROGRAMS_S4_LISTING}")
+done < "${PROGRAMS_S4_LISTING}"
 
 echo_line
 echo_title "GNU grep + sort"
@@ -466,17 +508,26 @@ readonly SORT
 echo
 
 json_file=$(json_file_new)
-tm_file=$(tm_file_new)
 (
     files_caching
     # search for datetimes between $after_dt $befor_dt
     # using decently constrained regexp to match meaning
     echo_command "${GREP} -hEe '${regex_dt}' -- ${files[*]} | ${SORT} -t ' ' -k 1 -s"
+    pipeline="'${GREP}' -hEe '${regex_dt}' -- ${files[*]} | '${SORT}' -t ' ' -k 1 -s"
+    # Hardware counters require --shell=none; execute the pipeline shell directly.
     set -x
-    "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" --shell sh -n "grep+sort" \
+    "${HYPERFINE}" \
+        --metrics "${METRICS}" \
+        --warmup=2 \
+        --style=basic \
+        --runs=${HRUNS} \
+        --export-json "${json_file}" \
+        -N \
+        -n "grep+sort" \
         -- \
-        ""${GREP}" -hEe '${regex_dt}' -- ${files[*]} | ${SORT} -t ' ' -k 1 -s > /dev/null"
+        "sh -c '${pipeline//\'/\'\\\'\'}'"
 )
+validate_json "${json_file}"
 (
     files_caching
     version=$("${GREP}" --version | head -n1 | cut -f4 -d' ')
@@ -485,10 +536,8 @@ tm_file=$(tm_file_new)
     platform=$(arch)
     cpu_target=' '
     opt_lvl=' '
-    set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
-        -- \
-        sh -c "'"${GREP}"' -hEe '${regex_dt}' -- ${files[*]} | '${SORT}' -t ' ' -k 1 -s" > "${tmpOut}"
+    write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
+    "${GREP}" -hEe "${regex_dt}" -- "${files[@]}" | "${SORT}" -t ' ' -k 1 -s > "${tmpOut}"
 )
 
 echo_line
@@ -517,16 +566,23 @@ done
 readonly lnav_command
 
 json_file=$(json_file_new)
-tm_file=$(tm_file_new)
 (
     files_caching
     echo_command "${lnav_command}"
     set -x
     "${PROGRAM_LNAV}" --version
-    "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "${PROGRAM_LNAV}" \
+    "${HYPERFINE}" \
+        --metrics "${METRICS}" \
+        --warmup=2 \
+        --style=basic \
+        --runs=${HRUNS} \
+        --export-json "${json_file}" \
+        -N \
+        -n "${PROGRAM_LNAV}" \
         -- \
         "${lnav_command}"
 )
+validate_json "${json_file}"
 
 (
     files_caching
@@ -536,10 +592,8 @@ tm_file=$(tm_file_new)
     platform=$(arch)
     cpu_target=' '
     opt_lvl=' '
-    set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
-        -- \
-        "${lnav_args[@]}" > "${tmpOut}"
+    write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
+    "${lnav_args[@]}" > "${tmpOut}"
 )
 
 if ! LC_ALL=C "${SORT}" --check --stable --key=1,1 "${tmpOut}"; then
@@ -569,39 +623,32 @@ echo "${PS4}logmerger --version"
 echo
 
 json_file=$(json_file_new)
-tm_file=$(tm_file_new)
 (
     files_caching
-    export PYTHONOPTIMIZE=2
     echo_command "${PROGRAM_LM} --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]}"
     set -x
-    "${HYPERFINE}" -i --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" \
-        --shell sh -n "${PROGRAM_LM}" \
+    "${HYPERFINE}" \
+        --metrics "${METRICS}" \
+        -i \
+        --warmup=2 \
+        --style=basic \
+        --runs=${HRUNS} \
+        --export-json "${json_file}" \
+        -N -n "${PROGRAM_LM}" \
+        --env PYTHONOPTIMIZE=2 \
         -- \
-        "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]} > /dev/null"
+        "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]}"
 )
+validate_json "${json_file}"
 (
-    files_caching
     version=$("${PYTHON}" -m pip list | grep -Fe 'logmerger' | awk '{print $2}')
     profile=' '
     allocator=' '
     platform=$("${PYTHON}" --version)
     cpu_target=' '
-    export PYTHONOPTIMIZE=2
     opt_lvl='2'
-    set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
-        -- \
-        "${PROGRAM_LM}" \
-        "--inline" \
-        "--output=-" \
-        "--start" \
-        "${after_dt}" \
-        "--end" \
-        "${befor_dt}" \
-        "${files[@]}" \
-         > "${tmpOut}"
-) || true
+    write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
+)
 
 echo_line
 echo_title "logdissect"
@@ -611,25 +658,7 @@ PROGRAM_LD=${PROGRAM_LD-logdissect}
 
 echo
 
-(
-    echo "TODO: figure out how to use logdissect. I'm unable to get it to match on ANY files." >&2
-    exit 0
-    files_caching
-    version=$("${PROGRAM_LD}" --version | head -n1)
-    profile=$("${PYTHON}" -c 'import platform; print(platform.machine())')
-    allocator=' '
-    platform=' '
-    cpu_target=' '
-    opt_lvl=' '
-    echo_command "${PROGRAM_LD}" --range "'${after_dt_ld}-${befor_dt_ld}'" "${files[@]}" >&2
-    set -x
-    "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm}" \
-        -- \
-        "${PROGRAM_LD}" \
-        --range "${after_dt_ld}-${befor_dt_ld}" \
-        "${files[@]}" \
-        > "${tmpOut}"
-)
+echo "TODO: figure out how to use logdissect. I'm unable to get it to match on ANY files." >&2
 echo
 
 echo_line
@@ -637,19 +666,15 @@ echo_title "TooLong"
 
 # TODO: how to force toolong to not create a TUI window so it doesn't need
 #       to be forcefully killed?
-PROGRAM_TL=${PROGRAM_TL-tl}
-(set -x; "${PROGRAM_TL}" --version)
-
-(
-    # precompile toolong
-    set -x
-    "${PYTHON}" -m compileall -o 0 -o 1 -o 2 -q "${PYSITE_PKG_PATH}/toolong"
-)
-
-echo
-
-tm_file=$(tm_file_new)
 if ! ${skip_tl}; then
+    PROGRAM_TL=${PROGRAM_TL-tl}
+    PROGRAM_TL_RP=$(realpath "${PROGRAM_TL}")
+    (set -x; "${PROGRAM_TL}" --version)
+    (
+        set -x
+        "${PYTHON}" -m compileall -o 0 -o 1 -o 2 -q "${PYSITE_PKG_PATH}/toolong"
+    )
+    json_file=$(json_file_new)
     (
         files_caching
         # tl, version 1.5.0
@@ -658,138 +683,59 @@ if ! ${skip_tl}; then
         profile=' '
         platform=$("${PYTHON}" --version)
         cpu_target=' '
-        export PYTHONOPTIMIZE=2
         opt_lvl='2'
         echo_command "${PROGRAM_TL}" --merge --output-merge "${tmpOut}" "${files[@]}"
-        # run toolong (tl)
-        # there is no way to make toolong automatically exit after processing input
-        # the user must manually exit the TUI
+        write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
         set -x
-        "${TIME}" --format="${TIME_FORMAT}|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}" --output="${tm_file}" \
+        "${HYPERFINE}" \
+            --metrics "${METRICS}" \
+            --warmup=0 \
+            --runs=1 \
+            --show-output \
+            --export-json "${json_file}" \
+            -N \
+            -n "toolong" \
+            --env "PYTHONOPTIMIZE=2" \
+            --ignore-failure \
             -- \
-            "${PROGRAM_TL}" \
-            --merge \
-            --output-merge "${tmpOut}" \
-            "${files[@]}"
+            "'${PROGRAM_TL}' --merge --output-merge '${tmpOut}' ${files[*]}" &
     )
+    sleep 3
+    echo
+    # BUG: this kill `tl` in a way that causes the terminal window to become unresponsive.
+    (set -x; pkill --signal SIGINT -f "${PROGRAM_TL_RP}")
+    sleep 1
+    validate_json "${json_file}"
 else
     echo "Skipping toolong (tl)" >&2
-    # set dummy data
-    echo '0|0|0:0' > "${tm_file}"
 fi
-cat "${tm_file}"
 echo
-
-erealtime=$(cat "${tm_file}" | cut -d'|' -f3 | cut -d':' -f2)
-json_file=$(json_file_new)
-echo '{
-"results": [ {
-    "command": "toolong",
-    "mean": '"${erealtime}"',
-    "stddev": 0.0,
-    "min": 0.0,
-    "max": 0.0,
-    "times": [0.0],
-    "exit_codes": [0]
-  } ]
-}' > "${json_file}"
 
 echo_line
 
-# merge separate files into one final markdown file
-#
-# example json output:
-#
-# $  hyperfine --show-output --export-json /tmp/out.json -n 'my sleep' --shell sh -- "sleep 0.1"
-#
-#   {
-#     "results": [
-#         {
-#         "command": "my sleep",
-#         "mean": 0.10085313591172414,
-#         "stddev": 0.00013263308766873322,
-#         "median": 0.10084629836000002,
-#         "user": 0.0007963648275862067,
-#         "system": 0.00002696551724137931,
-#         "min": 0.10058878336000002,
-#         "max": 0.10112353836000001,
-#         "times": [
-#             0.10059074636000001,
-#             ...
-#         ],
-#         "exit_codes": [
-#             0,
-#             ...
-#         ]
-#       }
-#     ]
-#   }
-#
-# example time output:
-#
-#   402418|81.2
-
-function to_milliseconds() {
-    # from seconds to milliseconds; '0.0034125904' -> '3.0'
-    # $1 must be a number
-    if [[ 1 -ne ${#} ]]; then
-        echo "ERROR: wrong number of arguments" >&2
-        exit 1
-    fi
-    if [[ -z "${1}" ]]; then
-        echo "ERROR: empty value" >&2
-        exit 1
-    fi
-    "${PYTHON}" -c "print('%.1f' % (${1} * 1000))"
-}
-
 # markdown table header
-echo '|Program|Version|Profile|Allocator|Platform|CPU Target|Opt Level|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
-echo '|:---   |:---   |:---   |:---     |:---    |:---      |:---     |---:    |---:    |---:      |---:       |---: |' >> "${tmpOut}"
+echo '|Program|Version|Profile|Allocator|Platform|CPU Target|Opt Level|Mean (ms)|Min (ms)|Max (ms)|Mean peak RSS (kB)|Mean CPU cycles (M)|Mean cache references (M)|Mean cache misses (M)|Mean branch misses (M)|' > "${tmpOut}"
+echo '|:---|:---|:---|:---|:---|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|' >> "${tmpOut}"
 
 json_count=$(wc -l < "${json_files}")
-tm_count=$(wc -l < "${tm_files}")
-echo "Processing ${json_count} JSON and time files to generate markdown table..." >&2
-
-# sanity self-check
-if [[ "${json_count}" -ne "${tm_count}" ]]; then
-    echo "ERROR: number of JSON files ${json_count} does not match number of time files ${tm_count}" >&2
-    exit 1
-fi
+echo "Processing ${json_count} JSON files to generate markdown table..." >&2
 
 # markdown table rows
 exec 3< "${json_files}"
-exec 4< "${tm_files}"
-while IFS= read -r json <&3 && IFS= read -r tm <&4; do
-    if file_isempty "${json}"; then
-        echo "skip empty JSON file ${json}" >&2
-        continue
+while IFS= read -r json <&3; do
+    validate_json "${json}"
+    if [[ ! -s "${json}.metadata" ]]; then
+        echo "ERROR: missing benchmark metadata for ${json}" >&2
+        exit 1
     fi
-    if file_isempty "${tm}"; then
-        echo "skip empty time file ${tm}" >&2
-        continue
-    fi
-    echo "Processing files: ${json} ${tm}" >&2
+    echo "Processing file: ${json}" >&2
     (
-        command=$($JQ '.results[0].command' < "${json}" | tr -d '"')
-        mean=$(to_milliseconds $($JQ '.results[0].mean' < "${json}"))
-        stddev=$(to_milliseconds $($JQ '.results[0].stddev' < "${json}"))
-        min=$(to_milliseconds $($JQ '.results[0].min' < "${json}"))
-        max=$(to_milliseconds $($JQ '.results[0].max' < "${json}"))
-        mss=$(cat "${tm}" | cut -d'|' -f1)
-        cpup=$(cat "${tm}" | cut -d'|' -f2)
-        elapsed=$(cat "${tm}" | cut -d'|' -f3)
-        version=$(cat "${tm}" | cut -d'|' -f4)
-        profile=$(cat "${tm}" | cut -d'|' -f5)
-        allocator=$(cat "${tm}" | cut -d'|' -f6)
-        platform=$(cat "${tm}" | cut -d'|' -f7)
-        cpu_target=$(cat "${tm}" | cut -d'|' -f8)
-        opt_lvl=$(cat "${tm}" | cut -d'|' -f9)
-        echo "|\`${command}\`|${version}|${profile}|${allocator}|${platform}|${cpu_target}|${opt_lvl}|${mean} ± ${stddev}|${min}|${max}|${mss}|${cpup}|"
+        command=$("${JQ}" -r '.results[0].name // .results[0].command' "${json}")
+        printf "|\`%s\`|%s|" "${command}" "$(cat "${json}.metadata")"
+        metrics_row "${json}"
     ) >> "${tmpOut}"
 done
 exec 3<&-
-exec 4<&-
 
 cat "${tmpOut}" | column -t -s '|' -o '|' > "${mdfinal}"
 
