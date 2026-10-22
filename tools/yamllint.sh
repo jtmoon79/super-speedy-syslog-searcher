@@ -20,6 +20,7 @@ exec \
     --config-file ./tools/yamllint.yml \
     "./tools/yamllint.yml" \
     "./.github/workflows/rust.yml" \
+    "./.github/workflows/bencher.yml" \
     "./.github/codecov.yml" \
     "./.github/dependabot.yml" \
    "${@}"
