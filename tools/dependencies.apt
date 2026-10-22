@@ -49,5 +49,7 @@ libtcmalloc-minimal4
 google-perftools
 libgoogle-perftools-dev
 
-# Copilot
+# used by Copilot
 shellcheck
+gh
+# jq
