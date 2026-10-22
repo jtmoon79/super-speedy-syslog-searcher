@@ -44,7 +44,7 @@ env:
   S4_ARGSD: -s
   # run options for release
   S4_ARGSR: -s
-  S4R: ./s4_release
+  S4R: ./s4_release_Opt0
   S4D: ./s4_debug
 
 jobs:
@@ -192,7 +192,7 @@ jobs:
           name: s4_debug
           path: ./s4_debug
       # build & upload release
-      - name: Build Release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
+      - name: Build release_Opt0 using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         timeout-minutes: 35
         shell: bash
         run: |
@@ -208,8 +208,19 @@ jobs:
       - name: Upload release binary for test
         uses: actions/upload-artifact@v7
         with:
-          name: s4_release
-          path: ./s4_release
+          name: s4_release_Opt0
+          path: ./s4_release_Opt0
+
+  job_bencher:
+    name: Bencher
+    needs: [job_rust_msrv_os]
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.repository == 'jtmoon79/super-speedy-syslog-searcher') }}
+    permissions:
+      contents: read
+    # MSRV in `bencher.yml:env:MSRV_UPLOAD` should match `env:MSRV_UPLOAD`
+    uses: ./.github/workflows/bencher.yml
+    secrets:
+      BENCHER_RUN_KEY: ${{ secrets.BENCHER_RUN_KEY }}
 
   job_cross_targets:
     name: cross ${{ matrix.target }} on ubuntu-latest
@@ -711,9 +722,9 @@ jobs:
       - name: Download release binary
         uses: actions/download-artifact@v8
         with:
-          name: s4_release
+          name: s4_release_Opt0
       # set mode
-      - name: chmod +x s4_debug s4_release
+      - name: chmod +x s4_debug s4_release_Opt0
         shell: bash
         run: |
           set -eux

@@ -1,0 +1,135 @@
+# bencher.yml
+#
+# benchmark an optimized `s4` and report to Bencher
+#
+# yamllint disable-line rule:line-length
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
+---
+name: Bencher
+on:  # yamllint disable-line rule:truthy
+  workflow_call:
+    secrets:
+      BENCHER_RUN_KEY:
+        required: true
+  workflow_dispatch:  # yamllint disable-line rule:empty-values
+permissions:
+  contents: read
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_BUILD_WARNINGS: warn
+  S4_BUILD_PRINT: 1
+  S4_BUILD_REGEX_PRINT: 1
+  RUST_BACKTRACE: 1
+  # MSRV
+  # should match `rust.yml:env:MSRV_UPLOAD`
+  MSRV_UPLOAD: 1.99.1
+  S4R: ./s4_release
+
+jobs:
+
+  job_bencher:
+    name: Bencher
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - name: Install Hyperfine
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cd /tmp
+          HYPERFINE_VERSION=v2.0.0
+          HYPERFINE_ARCHIVE="hyperfine-${HYPERFINE_VERSION}-x86_64-unknown-linux-musl.tar.gz"
+          HYPERFINE_BIN="hyperfine-${HYPERFINE_VERSION}-x86_64-unknown-linux-musl"
+          wget --tries=3 "https://github.com/sharkdp/hyperfine/releases/download/${HYPERFINE_VERSION}/${HYPERFINE_ARCHIVE}"
+          tar -xzvf "${HYPERFINE_ARCHIVE}"
+          mv -v "${HYPERFINE_BIN}" "/usr/local/bin/${HYPERFINE_BIN}"
+          ln -vs "/usr/local/bin/${HYPERFINE_BIN}" /usr/local/bin/hyperfine
+          which -a hyperfine
+          hv=$(hyperfine --version)
+          echo "${hv}"
+          if [[ "${hv}" != 'hyperfine 2.'* ]]; then
+              echo "ERROR: hyperfine 2.x required, found ${hv}" >&2
+              exit 1
+          fi
+      - uses: actions/checkout@v7
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - name: Add swap file for memory-intensive build
+        shell: bash
+        run: |
+          SWAPFILE=/swapfile_16GB
+          set -euxo pipefail
+          df -h /
+          swapon --show
+          sudo install -m 0600 /dev/null ${SWAPFILE}
+          sudo dd if=/dev/zero of=${SWAPFILE} bs=1M count=16384 status=progress
+          sudo mkswap ${SWAPFILE}
+          sudo swapon ${SWAPFILE}
+          swapon --show
+          free -h
+          df -h /
+      - name: Build release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
+        timeout-minutes: 120
+        shell: bash
+        run: |
+          set -euxo pipefail
+          unset S4_BUILD_REGEX
+          cargo --version
+          /usr/bin/time --verbose -- cargo build --locked --profile release --bin s4
+          cp -av ./target/release/s4 "${S4R}"
+          chmod -v 0555 "${S4R}"
+          "${S4R}" --version
+      - uses: bencherdev/bencher@v0.6.13
+      - name: Benchmark each log file
+        shell: bash
+        run: |
+          set -euo pipefail
+          declare -ar files=(
+            ./logs/other/tests/gen-99999-1-Motley_Crue.log
+            ./logs/other/tests/gen-99999-1-Motley_Crue.log.bz2
+            ./logs/other/tests/gen-99999-1-Motley_Crue.log.gz
+            ./logs/other/tests/gen-99999-1-Motley_Crue.log.lz4
+            ./logs/other/tests/gen-99999-1-Motley_Crue.log.xz
+            ./logs/other/tests/gen-99999-1-Motley_Crue.tar
+            ./logs/other/tests/gen-99999-1-Motley_Crue.zip
+            ./logs/NetBSD9.3/Xorg.0.log.old
+            ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
+            ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/SyncEngine-2025-12-21.1217.11144.2.odl
+            ./logs/OpenBSD7.4/x86_64/utmp
+          )
+          declare -a args=()
+          for file in "${files[@]}"; do
+            if [[ ! -s "${file}" ]]; then
+              echo "::error::Missing or empty benchmark input: ${file}" >&2
+              exit 1
+            fi
+            args+=(--command-name "$(basename "${file}")" "'${S4R}' -cn '${file}' > /dev/null")
+          done
+          set -x
+          hyperfine \
+            --shell=sh \
+            --show-output \
+            --warmup 2 \
+            --runs 10 \
+            --export-json hyperfine-results.json \
+            "${args[@]}"
+      - name: Report benchmarks to Bencher
+        shell: bash
+        env:
+          BENCHER_API_KEY: ${{ secrets.BENCHER_RUN_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${BENCHER_API_KEY}" ]]; then
+            echo "::error::BENCHER_RUN_KEY repository secret is required" >&2
+            exit 1
+          fi
+          set -x
+          bencher run \
+            --project super-speedy-syslog-searcher \
+            --branch "${GITHUB_REF_NAME}" \
+            --hash "${GITHUB_SHA}" \
+            --testbed ubuntu-latest_profile-release \
+            --adapter shell_hyperfine \
+            --file hyperfine-results.json
+...
