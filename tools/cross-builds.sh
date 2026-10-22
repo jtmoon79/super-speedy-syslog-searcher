@@ -518,6 +518,7 @@ for TIER_TARGET in "${tiertargets_to_build[@]}"; do
     if ! (
         set -eux
         rustup toolchain install --profile minimal --target "$TARGET" "$MSRV"
+        rustup target add "${TARGET}"
     ); then
         declare -i total_time=$((SECONDS - start_time))
         time_hms=$(seconds_to_hms "$total_time")
@@ -538,12 +539,19 @@ for TIER_TARGET in "${tiertargets_to_build[@]}"; do
             exit 0
         fi
         # cross failed; try nightly with `-Zbuild-std` to build the standard library for the target
-        (
+        if (
             echo -n "cargo +nightly build -Zbuild-std --target $TARGET ${*}" > "$BUILT_COMMAND"
             set -eux
-            rustup target add "${TARGET}"
             rustup component add rust-src --toolchain "nightly-${TARGET}"
             cargo +nightly build -Zbuild-std --target "${TARGET}" "${@}"
+        ); then
+            exit 0
+        fi
+        # try cargo-cross as a fallback
+        (
+            echo -n "cargo cross build --target $TARGET ${*}" > "$BUILT_COMMAND"
+            set -eux
+            cargo cross build --target "$TARGET" "${@}"
         )
     ); then
         # build passed
