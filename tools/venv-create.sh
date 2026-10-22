@@ -3,6 +3,7 @@
 # venv-create.sh
 #
 # Create a Python virtual environment and install dependencies for project development.
+# Requires apt package `python3-dev`
 
 set -euo pipefail
 
