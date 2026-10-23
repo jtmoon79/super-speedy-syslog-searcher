@@ -28,6 +28,10 @@ readonly VER
 ABI=${ABI-}
 readonly ABI
 
+# hidden override for dry run mode; i.e. testing in CI
+DRY_RUN=${DRY_RUN-0}
+readonly DRY_RUN
+
 # allow override of install directory via environment variable
 INSTALL_DIR=${INSTALL_DIR-}
 
@@ -239,7 +243,15 @@ main() {
     url_checksum="${url_zip}.sha256"
 
     info "download release ${VER} for target ${target_triple} ..."
-    (set -x; curl  --silent --show-error --fail --location --retry 2 --output "${zip_path}" "${url_zip}")
+    head=''
+    if [ "${DRY_RUN}" -eq 1 ]; then
+        head='--head'
+    fi
+    (set -x; curl --silent --show-error --fail --location --retry 2 ${head} --output "${zip_path}" "${url_zip}")
+    if [ "${DRY_RUN}" -eq 1 ]; then
+        info "DRY_RUN: would download ${url_zip}, exiting..." >&2
+        exit 0
+    fi
 
     if [ "${has_sha256sum}" -eq 0 ] \
        && curl --head --fail --location --retry 2 --silent --fail --output /dev/null "${url_checksum}"; then
