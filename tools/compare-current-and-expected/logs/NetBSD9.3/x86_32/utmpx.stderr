@@ -20,7 +20,7 @@ File: ./logs/NetBSD9.3/x86_32/utmpx
       Blocks total  : 21 (5376 bytes)
       Entries       : 9
       Entry size    : 516 (bytes)
-      Entry hi-score: 155
+      Entry hi-score: 141
       first Entry   : @516
       Entry high    : 4
       peak map size : 9
