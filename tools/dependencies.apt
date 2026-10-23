@@ -42,14 +42,13 @@ lnav
 # compare-mem.sh
 gnuplot
 gnuplot-doc
-#jq
+jq
 
 # build --profile=tcmalloc --feature=tcmalloc
-libtcmalloc-minimal4
-google-perftools
+libgoogle-perftools4t64
 libgoogle-perftools-dev
 
 # used by Copilot
 shellcheck
 gh
-# jq
+jq
