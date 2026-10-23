@@ -45,7 +45,7 @@ if ! which python3 &>/dev/null; then
     exit 1
 fi
 
-readonly HRUNS=5
+declare -ir HRUNS=${HRUNS-5}
 
 declare -ar FILES_ALL=(
     './tools/compare-log-mergers/gen-5000-1-facesA.log'
