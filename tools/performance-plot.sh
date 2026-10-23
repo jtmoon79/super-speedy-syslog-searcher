@@ -691,17 +691,10 @@ cp -av "${CSV_DRAFT}" "${CSV_FINAL}"
 cat "${MD_DRAFT_DISKIO}" | column -t -s '|' -o '|' > "${MD_FINAL_DISKIO}"
 cp -av "${CSV_DRAFT_DISKIO}" "${CSV_FINAL_DISKIO}"
 
-export PATH="${PATH}:${HOME}/go/bin"  # for glow
-if which glow &>/dev/null; then
-    glow --width=${COLUMNS} --preserve-new-lines "${MD_FINAL}"
-    echo >&2
-    glow --width=${COLUMNS} --preserve-new-lines "${MD_FINAL_DISKIO}"
-else
-    cat "${MD_FINAL}"
-    echo >&2
-    cat "${MD_FINAL_DISKIO}"
-fi
 
+./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${MD_FINAL}"
+echo >&2
+./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${MD_FINAL_DISKIO}"
 echo >&2
 
 #
@@ -1277,12 +1270,8 @@ cat "${MD_DRAFT_BSZ}" | column -t -s '|' -o '|' > "${MD_FINAL_BSZ}"
 # save the CSV data
 cp -av "${CSV_DRAFT_BSZ}" "${CSV_FINAL_BSZ}"
 
-if which glow &>/dev/null; then
-    glow --width=${COLUMNS} --preserve-new-lines "${MD_FINAL_BSZ}"
-else
-    cat "${MD_FINAL_BSZ}"
-fi
 
+./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${MD_FINAL_BSZ}"
 echo >&2
 
 echo_line
