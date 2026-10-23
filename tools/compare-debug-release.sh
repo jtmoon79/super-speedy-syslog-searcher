@@ -15,5 +15,6 @@ exec \
     /usr/bin/env \
         PROGRAM_A=${PROGRAM_A-./target/release/s4} \
         PROGRAM_B=${PROGRAM_B-./target/debug/s4} \
+        RUST_MIN_STACK=${RUST_MIN_STACK-12000000} \
         LOGS_LISTING=${LOGS_LISTING-./tools/compare-debug-release_logs.txt} \
             ./tools/compare-two-s4.sh "$@"
