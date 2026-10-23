@@ -245,10 +245,4 @@ cat "${mddraft}" | column -t -s '|' -o '|' > "${mdfinal}"
 
 (set -x; cat "${mdfinal}")
 
-export PATH="${PATH}:${HOME}/go/bin"  # for glow
-if which glow &>/dev/null; then
-    glow --width=${COLUMNS} --preserve-new-lines "${mdfinal}"
-else
-    echo "install 'glow' for pretty markdown viewing" >&2
-    echo "    go install github.com/charmbracelet/glow/v2@latest" >&2
-fi
+./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${mdfinal}"

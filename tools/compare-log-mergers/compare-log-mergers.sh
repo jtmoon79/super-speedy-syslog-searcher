@@ -751,17 +751,8 @@ echo
 cat "${mdFinalFinal}"
 echo
 
+# create HTML of .md file
 (set -x; ./tools/mdtohtml.sh "${mdFinalFinal}")
 
-export PATH="${PATH}:${HOME}/go/bin"  # for glow
-if which glow &>/dev/null; then
-    declare -i col=180
-    if [[ $COLUMNS -lt $col ]]; then
-        col=${COLUMNS}
-    fi
-    glow "${mdFinalFinal}" --width ${col}
-    echo
-else
-    echo "install 'glow' for pretty markdown viewing" >&2
-    echo "    go install github.com/charmbracelet/glow/v2@latest" >&2
-fi
+# print markdown nicely using glow
+./tools/glow.sh --preserve-new-lines "${mdFinalFinal}"
