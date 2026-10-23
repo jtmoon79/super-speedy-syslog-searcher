@@ -20,7 +20,7 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
       Blocks total  : 9 (2304 bytes)
       Entries       : 5
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @384
       Entry high    : 4
       peak map size : 5

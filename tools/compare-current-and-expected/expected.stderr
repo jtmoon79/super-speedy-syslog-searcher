@@ -447,7 +447,7 @@ File: ./logs/Debian11/aarch64_ARMv6/utmp
       Blocks total  : 14 (3584 bytes)
       Entries       : 8
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @384
       Entry high    : 4
       peak map size : 8
@@ -477,7 +477,7 @@ File: ./logs/Debian11/aarch64_ARMv6/wtmp
       Blocks total  : 5 (1280 bytes)
       Entries       : 3
       Entry size    : 384 (bytes)
-      Entry hi-score: 141
+      Entry hi-score: 129
       first Entry   : @0
       Entry high    : 3
       peak map size : 3
@@ -663,7 +663,7 @@ File: ./logs/Debian11/armv6l_ARMv6/utmp
       Blocks total  : 8 (2048 bytes)
       Entries       : 4
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @384
       Entry high    : 4
       peak map size : 4
@@ -693,7 +693,7 @@ File: ./logs/Debian11/armv6l_ARMv6/wtmp
       Blocks total  : 8 (2048 bytes)
       Entries       : 5
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @0
       Entry high    : 5
       peak map size : 5
@@ -753,7 +753,7 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
       Blocks total  : 9 (2304 bytes)
       Entries       : 5
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @384
       Entry high    : 4
       peak map size : 5
@@ -783,7 +783,7 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp
       Blocks total  : 8 (2048 bytes)
       Entries       : 5
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @0
       Entry high    : 5
       peak map size : 5
@@ -813,7 +813,7 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup
       Blocks total  : 8 (2048 bytes)
       Entries       : 5
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @0
       Entry high    : 5
       peak map size : 5
@@ -1086,7 +1086,7 @@ File: ./logs/Debian13/RISC-V/utmp
       Blocks total  : 9 (2304 bytes)
       Entries       : 6
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @0
       Entry high    : 5
       peak map size : 6
@@ -2977,7 +2977,7 @@ File: ./logs/NetBSD9.3/x86_32/utmpx
       Blocks total  : 21 (5376 bytes)
       Entries       : 9
       Entry size    : 516 (bytes)
-      Entry hi-score: 155
+      Entry hi-score: 141
       first Entry   : @516
       Entry high    : 4
       peak map size : 9
@@ -3037,7 +3037,7 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx
       Blocks total  : 25 (6400 bytes)
       Entries       : 12
       Entry size    : 516 (bytes)
-      Entry hi-score: 150
+      Entry hi-score: 140
       first Entry   : @0
       Entry high    : 5
       peak map size : 12
@@ -3164,7 +3164,7 @@ File: ./logs/NetBSD9.3/x86_64/utmpx
       Blocks total  : 21 (5376 bytes)
       Entries       : 9
       Entry size    : 520 (bytes)
-      Entry hi-score: 155
+      Entry hi-score: 141
       first Entry   : @520
       Entry high    : 4
       peak map size : 9
@@ -13738,7 +13738,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp
       Blocks total  : 9 (2304 bytes)
       Entries       : 6
       Entry size    : 384 (bytes)
-      Entry hi-score: 135
+      Entry hi-score: 125
       first Entry   : @0
       Entry high    : 5
       peak map size : 6
@@ -13809,7 +13809,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp
       Blocks total  : 9 (2304 bytes)
       Entries       : 6
       Entry size    : 384 (bytes)
-      Entry hi-score: 135
+      Entry hi-score: 125
       first Entry   : @0
       Entry high    : 5
       peak map size : 6
