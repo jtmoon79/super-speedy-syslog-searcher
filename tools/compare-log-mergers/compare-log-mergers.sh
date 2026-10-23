@@ -22,6 +22,7 @@
 # PROGRAM_LNAV to override the lnav found in PATH.
 # PROGRAM_LM to override the logmerger found in PATH.
 # PROGRAM_TL to override the toolong (tl) found in PATH.
+# HRUNS: number of hyperfine runs to perform (default: 30)
 
 set -eu
 
@@ -98,7 +99,7 @@ readonly PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
 
 echo
 
-declare -ir HRUNS=30
+declare -ir HRUNS=${HRUNS-30}
 
 # make sure Python packages are installed to expected versions
 (
