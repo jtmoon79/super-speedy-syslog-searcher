@@ -33,14 +33,13 @@ fn new_syslinereader(
 ) -> SyslineReader {
     let tz_offset: FixedOffset = FixedOffset::east_opt(0).unwrap();
     let path_id = PATH_ID_GENERATOR.fetch_add(1, Ordering::SeqCst);
-    let sr = match SyslineReader::new(path_id, path.clone(), filetype, BLOCKSZ, tz_offset) {
+
+    match SyslineReader::new(path_id, path.clone(), filetype, BLOCKSZ, tz_offset) {
         Result::Ok(val) => val,
         Result::Err(err) => {
             panic!("Sysline::new({:?}, {:?}, {:?}, {:?}) error {}", path, filetype, BLOCKSZ, tz_offset, err);
         }
-    };
-
-    sr
+    }
 }
 
 #[inline(never)]
