@@ -477,7 +477,7 @@ fn _test_LineReader_all(
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}_test_LineReader_all({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}_test_LineReader_all({:?}, {:?})", sx(), path, blocksz);
 }
 
 #[test]
@@ -595,7 +595,7 @@ fn test_LineReader_all_reversed(
     blocksz: BlockSz,
 ) {
     stack_offset_set(None);
-    eprintln!("{}test_LineReader_all_reversed({:?}, {:?})", sn(), &path, blocksz);
+    eprintln!("{}test_LineReader_all_reversed({:?}, {:?})", sn(), path, blocksz);
     let mut lr1 = new_LineReader(path, blocksz);
     if !cache_enabled {
         lr1.LRU_cache_disable();
@@ -616,7 +616,7 @@ fn test_LineReader_all_reversed(
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}test_LineReader_all_reversed({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_all_reversed({:?}, {:?})", sx(), path, blocksz);
 }
 
 #[test]
@@ -710,7 +710,7 @@ fn test_LineReader_half_even(
     path: &FPath,
     blocksz: BlockSz,
 ) {
-    eprintln!("{}test_LineReader_half_even({:?}, {:?})", sn(), &path, blocksz);
+    eprintln!("{}test_LineReader_half_even({:?}, {:?})", sn(), path, blocksz);
     let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
     let fillsz: usize = match lr1.filesz() as usize {
@@ -728,7 +728,7 @@ fn test_LineReader_half_even(
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}test_LineReader_half_even({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_half_even({:?}, {:?})", sx(), path, blocksz);
 }
 
 #[test]
@@ -853,7 +853,7 @@ fn test_LineReader_half_odd(
     path: &FPath,
     blocksz: BlockSz,
 ) {
-    eprintln!("{}test_LineReader_half_odd({:?}, {:?})", sn(), &path, blocksz);
+    eprintln!("{}test_LineReader_half_odd({:?}, {:?})", sn(), path, blocksz);
     let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
     let fillsz: usize = match lr1.filesz() as usize {
@@ -871,7 +871,7 @@ fn test_LineReader_half_odd(
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}test_LineReader_half_odd({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_half_odd({:?}, {:?})", sx(), path, blocksz);
 }
 
 #[test]
@@ -958,7 +958,7 @@ fn test_LineReader_rand(
     blocksz: BlockSz,
 ) {
     stack_offset_set(None);
-    eprintln!("{}test_LineReader_rand({:?}, {:?})", sn(), &path, blocksz);
+    eprintln!("{}test_LineReader_rand({:?}, {:?})", sn(), path, blocksz);
 
     let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
@@ -979,7 +979,7 @@ fn test_LineReader_rand(
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}test_LineReader_rand({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_rand({:?}, {:?})", sx(), path, blocksz);
 }
 
 #[test]
@@ -1066,7 +1066,7 @@ fn test_LineReader_precise_order(
     offsets: &Vec<FileOffset>,
 ) {
     stack_offset_set(None);
-    eprintln!("{}test_LineReader_rand({:?}, {:?}, {:?})", sn(), &path, blocksz, offsets);
+    eprintln!("{}test_LineReader_rand({:?}, {:?}, {:?})", sn(), path, blocksz, offsets);
     eprint_file(path);
     let mut lr1: LineReader = new_LineReader(path, blocksz);
     if !cache_enabled {
@@ -1086,7 +1086,7 @@ fn test_LineReader_precise_order(
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}test_LineReader_rand({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_rand({:?}, {:?})", sx(), path, blocksz);
 }
 
 #[test]
@@ -1349,7 +1349,7 @@ fn test_find_line_in_block_all(
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}test_find_line_in_block_all({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_find_line_in_block_all({:?}, {:?})", sx(), path, blocksz);
 }
 
 #[test]
@@ -1439,7 +1439,7 @@ fn test_find_line_in_block(
     in_out: &TestFindLineInBlockCheck,
 ) {
     stack_offset_set(Some(2));
-    eprintln!("test_find_line_in_block({:?}, {:?}, {:?}, {:?})", &path, cache_enabled, blocksz, in_out);
+    eprintln!("test_find_line_in_block({:?}, {:?}, {:?}, {:?})", path, cache_enabled, blocksz, in_out);
     eprint_file(path);
     let mut lr1: LineReader = new_LineReader(path, blocksz);
     if !cache_enabled {

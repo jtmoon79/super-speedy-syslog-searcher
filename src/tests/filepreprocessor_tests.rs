@@ -1172,7 +1172,7 @@ fn test_fpath_to_filetype(
 
 fn test_process_path_fpath(
     path: &FPath,
-    checks: &Vec<ProcessPathResult>,
+    checks: &[ProcessPathResult],
     unparseable_are_text: bool,
 ) {
     defn!("({:?}, …, unparseable_are_text={:?})", path, unparseable_are_text);
@@ -1235,7 +1235,7 @@ fn test_process_path_fpath(
 
 fn test_process_path_ntf(
     ntf: &NamedTempFile,
-    checks: &Vec<ProcessPathResult>,
+    checks: &[ProcessPathResult],
     unparseable_are_text: bool,
 ) {
     let path = ntf_fpath(ntf);
@@ -1342,6 +1342,7 @@ fn test_process_path_dirs_file1() {
     let filenames = &[FPath::from("file1")];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
+    #[allow(clippy::get_first)]
     let checks: Vec<ProcessPathResult> =
         vec![ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8)];
 
@@ -1379,6 +1380,7 @@ fn test_process_path_odl_direct_and_directory(
 }
 
 #[test]
+#[allow(clippy::get_first)]
 fn test_process_path_dirs_file1_txt1_evtx1_journal1() {
     let filenames = &[
         FPath::from("file1"),
@@ -1402,6 +1404,7 @@ fn test_process_path_dirs_file1_txt1_evtx1_journal1() {
 }
 
 #[test]
+#[allow(clippy::get_first)]
 fn test_process_path_dirs_gz1_tar1_txt1_journal1() {
     let filenames = &[
         FPath::from("file1.gz"),
@@ -1423,6 +1426,7 @@ fn test_process_path_dirs_gz1_tar1_txt1_journal1() {
 }
 
 #[test]
+#[allow(clippy::get_first)]
 fn test_process_path_dirs_dirA_fileA1() {
     let filenames = &[FPath::from(
         "dirA/fileA1.txt",
@@ -1437,6 +1441,7 @@ fn test_process_path_dirs_dirA_fileA1() {
 }
 
 #[test]
+#[allow(clippy::get_first)]
 fn test_process_path_dirs_dirABC_files3() {
     let filenames = &[
         FPath::from("file1.txt"),
@@ -1485,6 +1490,7 @@ fn test_process_path_dirs_dirABC_files6() {
 }
 
 #[test]
+#[allow(clippy::get_first)]
 fn test_process_path_dirs_dirAB_files4() {
     let filenames = &[
         FPath::from("dirA1/system@f2e8a336aa58640aa39cac58b6ffc7e7-0000000000294e62-0d05dc1215b8e84c.journal"),
@@ -1507,6 +1513,7 @@ fn test_process_path_dirs_dirAB_files4() {
 }
 
 #[test]
+#[allow(clippy::get_first)]
 fn test_process_path_dirs_dirAB_files4_false() {
     let filenames = &[
         FPath::from("dirA1/system@f2e8a336aa58640aa39cac58b6ffc7e7-0000000000294e62-0d05dc1215b8e84c.journal"),
@@ -1527,6 +1534,7 @@ fn test_process_path_dirs_dirAB_files4_false() {
 }
 
 #[test]
+#[allow(clippy::get_first)]
 fn test_process_path_evtx_gz_lz4_xz() {
     let filenames = &[
         FPath::from("dirA/user.evtx"),
@@ -1547,7 +1555,7 @@ fn test_process_path_evtx_gz_lz4_xz() {
 }
 
 #[test]
-
+#[allow(clippy::get_first)]
 fn test_process_path_journal_gz_lz4_xz() {
     let filenames = &[
         FPath::from("dirA/user.journal"),
@@ -1569,7 +1577,7 @@ fn test_process_path_journal_gz_lz4_xz() {
 
 fn test_process_path_tar(
     path: &FPath,
-    checks: &Vec<ProcessPathResult>,
+    checks: &[ProcessPathResult],
     unparseable_are_text: bool,
 ) {
     defn!("test_process_path_tar({:?}, …, {:?})", path, unparseable_are_text);

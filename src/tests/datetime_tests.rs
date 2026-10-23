@@ -287,15 +287,15 @@ fn test_DTP_ALL_duplicates() {
 /// O(n^2) check for duplicate `DTFSSet`
 #[test]
 fn test_DTFSS_ALL_duplicates() {
-    for i in 0..DTFSS_ALL.len() {
-        for j in 0..DTFSS_ALL.len() {
+    for (i, item_i) in DTFSS_ALL.iter().enumerate() {
+        for (j, item_j) in DTFSS_ALL.iter().enumerate() {
             if i == j {
                 continue;
             }
-            let dtfss_i = DTFSS_ALL[i].0;
-            let dtfss_j = DTFSS_ALL[j].0;
-            let dtfss_i_s = DTFSS_ALL[i].1;
-            let dtfss_j_s = DTFSS_ALL[j].1;
+            let dtfss_i = item_i.0;
+            let dtfss_j = item_j.0;
+            let dtfss_i_s = item_i.1;
+            let dtfss_j_s = item_j.1;
             assert_ne!(
                 dtfss_i, dtfss_j,
                 "duplicate DTFSS_ALL[{}] == DTFSS_ALL[{}] ({} == {})",
@@ -308,14 +308,16 @@ fn test_DTFSS_ALL_duplicates() {
 /// O(n^2) check for duplicate `DATETIME_PARSE_DATAS`
 #[test]
 fn test_DATETIME_PARSE_DATAS_duplicates() {
-    for i in 0..DATETIME_PARSE_DATAS.len() {
-        for j in 0..DATETIME_PARSE_DATAS.len() {
+    for (i, patt_i) in DATETIME_PARSE_DATAS.iter().enumerate() {
+        for (j, patt_j) in DATETIME_PARSE_DATAS.iter().enumerate() {
             if i == j {
                 continue;
             }
-            let patt_i = DATETIME_PARSE_DATAS[i].regex_pattern;
-            let patt_j = DATETIME_PARSE_DATAS[j].regex_pattern;
-            assert_ne!(patt_i, patt_j, "duplicate DTFSS_ALL[{}] == DTFSS_ALL[{}] ({:?} == {:?})", i, j, patt_i, patt_j,);
+            assert_ne!(
+                patt_i.regex_pattern, patt_j.regex_pattern,
+                "duplicate DATETIME_PARSE_DATAS[{}] == DATETIME_PARSE_DATAS[{}] ({:?} == {:?})",
+                i, j, patt_i.regex_pattern, patt_j.regex_pattern,
+            );
         }
     }
 }
@@ -323,16 +325,16 @@ fn test_DATETIME_PARSE_DATAS_duplicates() {
 /// O(n^2) check for duplicate regex id in `DATETIME_PARSE_DATAS`
 #[test]
 fn test_DATETIME_PARSE_DATAS_regex_id_duplicates() {
-    for i in 0..DATETIME_PARSE_DATAS.len() {
-        for j in 0..DATETIME_PARSE_DATAS.len() {
+    for (i, item_i) in DATETIME_PARSE_DATAS.iter().enumerate() {
+        for (j, item_j) in DATETIME_PARSE_DATAS.iter().enumerate() {
             if i == j {
                 continue;
             }
-            let regex_id_i = DATETIME_PARSE_DATAS[i].regex_id;
-            let regex_id_j = DATETIME_PARSE_DATAS[j].regex_id;
+            let regex_id_i = item_i.regex_id;
+            let regex_id_j = item_j.regex_id;
             assert_ne!(
                 regex_id_i, regex_id_j,
-                "duplicate regex_id DTFSS_ALL[{}] == DTFSS_ALL[{}] ({} == {})",
+                "duplicate regex_id DATETIME_PARSE_DATAS[{}] == DATETIME_PARSE_DATAS[{}] ({} == {})",
                 i, j, regex_id_i, regex_id_j,
             );
         }
@@ -348,7 +350,7 @@ fn test_DATETIME_PARSE_DATAS_regex_id_sequential() {
         assert_lt!(
             regex_id_i,
             regex_id_j,
-            "regex_id at [{}] [{}] is not sequential ({} !< {})",
+            "regex_id at DATETIME_PARSE_DATAS[{}] DATETIME_PARSE_DATAS[{}] is not sequential ({} !< {})",
             i,
             i + 1,
             regex_id_i,

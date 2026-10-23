@@ -3811,7 +3811,7 @@ impl_test_findsysline: expect value:       {expect_val}\n",
     let cache_actual = slr.LRU_cache_disable();
     assert_eq!(cache, cache_actual, "Expected cache_enabled to be {}, it was {}", cache, cache_actual);
 
-    defx!("({:?}, {})", &path, blocksz);
+    defx!("({:?}, {})", path, blocksz);
 }
 
 const test_data_A2_dt6_sysline0: &str = "2000-01-01 00:00:00\n";

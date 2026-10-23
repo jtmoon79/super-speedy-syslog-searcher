@@ -415,7 +415,7 @@ fn test_handle_unmanaged_reservation_releases_on_drop() {
     let manager = manager(2);
 
     {
-        let fpath: FPath = path_to_fpath(&ntf.path());
+        let fpath: FPath = path_to_fpath(ntf.path());
         let _handle = manager
             .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
             .unwrap();
@@ -546,7 +546,7 @@ fn test_planned_unmanaged_request_consumes_multi_slot_reservation() {
     let managed = manager
         .request_open_managed(PATH_ID_C, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
         .unwrap();
-    let fpath: FPath = path_to_fpath(&ntf.path());
+    let fpath: FPath = path_to_fpath(ntf.path());
     {
         let _handle = manager
             .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
@@ -600,7 +600,7 @@ fn test_planned_unmanaged_request_failure_preserves_reservation() {
     );
 
     manager.handle_reservations(&list_files);
-    let fpath: FPath = path_to_fpath(&ntf.path());
+    let fpath: FPath = path_to_fpath(ntf.path());
     let err = manager
         .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
         .unwrap_err();
