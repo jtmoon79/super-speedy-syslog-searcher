@@ -242,16 +242,13 @@ main() {
     checksum_path="${WORKDIR}/${checksum_name}"
     url_checksum="${url_zip}.sha256"
 
-    info "download release ${VER} for target ${target_triple} ..."
-    head=''
-    if [ "${DRY_RUN}" -eq 1 ]; then
-        head='--head'
-    fi
-    (set -x; curl --silent --show-error --fail --location --retry 2 ${head} --output "${zip_path}" "${url_zip}")
-    if [ "${DRY_RUN}" -eq 1 ]; then
+    if [ "${DRY_RUN}" = 1 ]; then
         info "DRY_RUN: would download ${url_zip}, exiting..." >&2
         exit 0
     fi
+
+    info "download release ${VER} for target ${target_triple} ..."
+    (set -x; curl --silent --show-error --fail --location --retry 2 ${head} --output "${zip_path}" "${url_zip}")
 
     if [ "${has_sha256sum}" -eq 0 ] \
        && curl --head --fail --location --retry 2 --silent --fail --output /dev/null "${url_checksum}"; then
