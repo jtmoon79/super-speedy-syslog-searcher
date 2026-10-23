@@ -63,12 +63,40 @@ echo >&2
 (set -x; "${DIFF}" --version) | head -n1
 echo >&2
 
+# example --version output
+#   $ ./target/release/s4 --version
+#   s4 (Super Speedy Syslog Searcher)
+#   Version: 0.11.84
+#   MSRV: 1.99.1
+#   Profile: release
+#   Allocator: system
+#   Features:
+#   Platform: x86_64-unknown-linux-gnu
+#   Target OS: linux
+#   Target OS Family: unix
+#   Arch: x86_64
+#   CPU Target: default
+#   CPU Features: fxsr,sse,sse2
+#   Compiled Regular Expressions: 188
+#   Compiler Version: 1.99.1
+#   Rust Build Flags:
+#   Optimization Level: 3
+#   Git Commit: 635f183b941f20def3482fb353eecd31acb214b0
+#   Build Date: 2026-10-22T18:10:53
+#   License: MIT
+#   Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+#   Author: James Thomas Moon
+
 PROGRAM_A=${PROGRAM_A-./target/release/s4}
 (set -x; "${PROGRAM_A}" --version 2>/dev/null)
 readonly PROGRAM_A
+PROFILE_A=$("${PROGRAM_A}" --version | grep -oEe 'Profile: [^ ]*' | awk '{print $2}')
+echo "Profile A: ${PROFILE_A}" >&2
 
 PROGRAM_B=${PROGRAM_B-./target/debug/s4}
 (set -x; "${PROGRAM_B}" --version 2>/dev/null)
+PROFILE_B=$("${PROGRAM_B}" --version | grep -oEe 'Profile: [^ ]*' | awk '{print $2}')
+echo "Profile B: ${PROFILE_B}" >&2
 echo >&2
 readonly PROGRAM_B
 
@@ -121,7 +149,7 @@ for log in "${logs[@]}"; do
     set -e
 
     if [[ ${rcA} -ne ${rcB} ]]; then
-        echo "${C_ERR}Return codes differ A=${rcA} B=${rcB} for log '${log}'${C_OFF}" >&2
+        echo "${C_ERR}Return codes differ ${PROFILE_A}=${rcA} ${PROFILE_B}=${rcB} for log '${log}'${C_OFF}" >&2
         ret=1
         okay=false
     fi
@@ -169,7 +197,7 @@ set -e
 echo
 s4r_lc=$(wc -l < "${tmpA}")
 s4r_bc=$(wc -c < "${tmpA}")
-echo "super_speedy_syslog_searcher output A '${tmpA}'"
+echo "super_speedy_syslog_searcher output ${PROFILE_A} '${tmpA}'"
 echo "  Line Count ${s4r_lc}"
 echo "  Byte Count ${s4r_bc}"
 echo "  Return Code ${rcA}"
@@ -177,7 +205,7 @@ echo "  Return Code ${rcA}"
 # s4 B line count, byte count; only informative
 s4d_lc=$(wc -l < "${tmpB}")
 s4d_bc=$(wc -c < "${tmpB}")
-echo "super_speedy_syslog_searcher output B '${tmpB}'"
+echo "super_speedy_syslog_searcher output ${PROFILE_B} '${tmpB}'"
 echo "  Line Count ${s4d_lc}"
 echo "  Byte Count ${s4d_bc}"
 echo "  Return Code ${rcB}"
