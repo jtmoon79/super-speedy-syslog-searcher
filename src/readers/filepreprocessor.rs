@@ -46,6 +46,7 @@ use crate::common::{
     FileTypeTextEncoding,
     OdlSubType,
     SUBPATH_SEP,
+    SUBPATH_SEP_DISPLAY,
 };
 use crate::debug_panic;
 use crate::debug::printers::de_err;
@@ -528,6 +529,7 @@ pub(crate) fn copy_process_path_result_canonicalize_path(ppr: ProcessPathResult)
     }
 }
 
+/// A list of `ProcessPathResult` items.
 pub type ProcessPathResults = Vec<ProcessPathResult>;
 
 /// returned by `pathbuf_to_filetype`, if `filetype` is set then
@@ -1216,13 +1218,79 @@ fn error_to_string(error: &std::io::Error, path: &FPath) -> String {
     format!("{}: {} for file {:?}", error.kind(), error, path)
 }
 
+/// Check if an archive member's name matches the given selector.
+/// Returns `true` if the archive member's name matches the selector, `false` otherwise.
+///
+/// e.g. given an archive member name "dir1/file2.txt" and a selector "dir1",
+/// this function will return `true`.
+fn archive_member_matches(name: &str, selector: Option<&str>) -> bool {
+    defñ!("name = {name:?}, selector = {selector:?}");
+    match selector {
+        None | Some("") => true,
+        Some(selector) => name == selector || name
+            .strip_prefix(selector.trim_end_matches('/'))
+            .is_some_and(|suffix| suffix.starts_with('/')),
+    }
+}
+
+/// Returned updated `results` of archive members based on the given `selector`.
+fn archive_selection(
+    mut results: ProcessPathResults,
+    path: &FPath,
+    selector: Option<&str>,
+) -> ProcessPathResults {
+    defn!("path: {path:?}, selector: {selector:?}, results {results:?}");
+    let Some(selector) = selector.filter(|selector| !selector.is_empty()) else {
+        defx!("empty or None selector");
+        return results;
+    };
+    fn result_path(result: &ProcessPathResult) -> &str {
+        match result {
+            ProcessPathResult::FileValid(path, _)
+            | ProcessPathResult::FileErrEmpty(path, _)
+            | ProcessPathResult::FileErrTooSmall(path, _, _)
+            | ProcessPathResult::FileErrNoPermissions(path)
+            | ProcessPathResult::FileErrNotSupported(path, _)
+            | ProcessPathResult::FileErrNotAFile(path)
+            | ProcessPathResult::FileErrNotExist(path)
+            | ProcessPathResult::FileErrLoadingLibrary(path, _, _)
+            | ProcessPathResult::FileErr(path, _) => path,
+        }
+    }
+    let exact_path = format!("{path}{SUBPATH_SEP}{selector}");
+    if results.iter().any(|result| result_path(result) == exact_path) {
+        // Keep archive-level errors even when an exact member wins over descendants.
+        results.retain(|result| {
+            let path = result_path(result);
+            path == exact_path || !path.contains(SUBPATH_SEP)
+        });
+    }
+    if results.is_empty() {
+        results.push(ProcessPathResult::FileErrNotExist(
+            format!("{path}{SUBPATH_SEP_DISPLAY}{selector}"),
+        ));
+    }
+    defx!();
+
+    results
+}
+
 /// Return a `ProcessPathResult` for each parseable file within
 /// the `.tar` file at `path`.
 pub fn process_path_tar(
     path: &FPath,
     unparseable_are_text: bool,
     _filetypearchive: FileTypeArchive,
-) -> Vec<ProcessPathResult> {
+) -> ProcessPathResults {
+    process_path_tar_impl(path, unparseable_are_text, _filetypearchive, None)
+}
+
+fn process_path_tar_impl(
+    path: &FPath,
+    unparseable_are_text: bool,
+    _filetypearchive: FileTypeArchive,
+    selector: Option<&str>,
+) -> ProcessPathResults {
     defn!("({:?}, {:?}, {:?})", path, unparseable_are_text, _filetypearchive);
 
     // TODO [2024/04/29] handle `filetypearchive`; extract the file first and then process it
@@ -1240,7 +1308,15 @@ pub fn process_path_tar(
         }
     }
 
-    let file: File = File::open(path).unwrap();
+    let file: File = match File::open(path) {
+        Ok(file) => file,
+        Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+            return vec![ProcessPathResult::FileErrNoPermissions(path.clone())];
+        }
+        Err(error) => {
+            return vec![ProcessPathResult::FileErr(path.clone(), error_to_string(&error, path))];
+        }
+    };
     defo!("tar::Archive::<File>::new({:?})", path);
     let mut archive: tar::Archive<File> = tar::Archive::<File>::new(file);
     let entry_iter: tar::Entries<File> = match archive.entries() {
@@ -1280,6 +1356,11 @@ pub fn process_path_tar(
                 continue;
             }
         };
+        let name = subpath.to_string_lossy();
+        if !archive_member_matches(&name, selector) {
+            continue;
+        }
+        let unparseable_are_text = unparseable_are_text || selector == Some(name.as_ref());
         if entry.size() == 0 {
             defo!("entry.size() is 0; skip");
             let subfpath: FPath = path.clone()
@@ -1465,9 +1546,10 @@ pub fn process_path_tar(
             defo!("result {} {:?}", i, result);
         }
     }
-    defx!("process_path_tar({:?}) {} results", path, results.len());
+    let results_: ProcessPathResults = archive_selection(results, path, selector);
+    defx!("process_path_tar({path:?}) {} results: {results_:?}", results_.len());
 
-    results
+    results_
 }
 
 /// Return a result for each regular member of a ZIP archive.
@@ -1478,7 +1560,16 @@ pub fn process_path_zip(
     path: &FPath,
     unparseable_are_text: bool,
     filetypearchive: FileTypeArchive,
-) -> Vec<ProcessPathResult> {
+) -> ProcessPathResults {
+    process_path_zip_impl(path, unparseable_are_text, filetypearchive, None)
+}
+
+fn process_path_zip_impl(
+    path: &FPath,
+    unparseable_are_text: bool,
+    filetypearchive: FileTypeArchive,
+    selector: Option<&str>,
+) -> ProcessPathResults {
     defn!("path={:?}", path);
 
     if filetypearchive != FileTypeArchive::Normal {
@@ -1508,7 +1599,7 @@ pub fn process_path_zip(
             return vec![ProcessPathResult::FileErr(path.clone(), s)];
         }
     };
-    let mut results: Vec<ProcessPathResult> = Vec::new();
+    let mut results: ProcessPathResults = ProcessPathResults::new();
     for index in 0..archive.len() {
         defo!("processing ZIP entry at index {}", index);
         let entry = match archive.by_index_data(index) {
@@ -1535,6 +1626,11 @@ pub fn process_path_zip(
             }
         };
         defo!("ZIP entry name for index {}: {:?}", index, name);
+        if !archive_member_matches(name.as_ref(), selector) {
+            defo!("skip entry; archive member does not match selector: {name:?}");
+            continue;
+        }
+        let unparseable_are_text = unparseable_are_text || selector == Some(name.as_ref());
         if name.contains(SUBPATH_SEP) || entry.name_raw().contains(&0) {
             let s: String = format!("ZIP member {name:?} contains the archive separator {SUBPATH_SEP:?}");
             results.push(ProcessPathResult::FileErr(path.clone(), s));
@@ -1544,7 +1640,9 @@ pub fn process_path_zip(
         if entry.encrypted() {
             let s: String = format!("skip entry; ZIP entry is encrypted: {path:?}:{name:?}");
             defo!("{s}");
-            results.push(ProcessPathResult::FileErrNotSupported(path.clone(), Some(s)));
+            results.push(ProcessPathResult::FileErrNotSupported(
+                if selector.is_some() { fullpath } else { path.clone() }, Some(s),
+            ));
             continue;
         }
         // zip's SUPPORTED_COMPRESSION_METHODS omits its LZMA reader.
@@ -1596,12 +1694,58 @@ pub fn process_path_zip(
         defo!("result for entry: {:?}", result);
         results.push(result);
     }
-    if results.is_empty() {
+    if results.is_empty() && selector.is_none_or(|selector| selector.is_empty()) {
         defo!("no valid files found; returning FileErrEmpty for path {:?}", path);
         results.push(ProcessPathResult::FileErrEmpty(path.clone(), FileType::Unparsable));
     }
+    let results_: ProcessPathResults = archive_selection(results, path, selector);
+    defx!("process_path_zip({path:?}) {} results: {results_:?}", results_.len());
 
-    results
+    results_
+}
+
+fn process_archive_selector(
+    path: &FPath,
+    archive_path: &str,
+    selector: &str,
+) -> ProcessPathResults {
+    defn!("path={path:?}, archive_path={archive_path:?}, selector={selector:?}");
+    let archive_path: FPath = FPath::from(archive_path);
+    let std_path: PathBuf = match Path::new(&archive_path).canonicalize() {
+        Ok(path) => path,
+        Err(error) => {
+            defx!("error={error:?}");
+            return vec![match error.kind() {
+                std::io::ErrorKind::NotFound => ProcessPathResult::FileErrNotExist(path.clone()),
+                std::io::ErrorKind::PermissionDenied => ProcessPathResult::FileErrNoPermissions(path.clone()),
+                _ => ProcessPathResult::FileErr(path.clone(), error_to_string(&error, path)),
+            }];
+        }
+    };
+    if !std_path.is_file() {
+        defx!("not a file: {:?}", std_path);
+        return vec![ProcessPathResult::FileErrNotAFile(archive_path)];
+    }
+
+    match path_to_filetype(&std_path, false) {
+        PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Zip, FileTypeArchive::Normal) => {
+            defx!("processing zip archive with selector: {:?}", selector);
+            process_path_zip_impl(&archive_path, false, FileTypeArchive::Normal, Some(selector))
+        }
+        PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Tar, FileTypeArchive::Normal) => {
+            defx!("processing tar archive with selector: {:?}", selector);
+            process_path_tar_impl(&archive_path, false, FileTypeArchive::Normal, Some(selector))
+        }
+        _ft => {
+            defx!("unsupported filetype: {:?}", _ft);
+
+            vec![
+                ProcessPathResult::FileErrNotSupported(
+                    path.clone(),
+                    Some(String::from("member selection requires a ZIP or TAR archive")),
+            )]
+        }
+    }
 }
 
 /// Return all parseable files in the `path`.
@@ -1615,11 +1759,14 @@ pub fn process_path_zip(
 /// (Relates to Issue #11, Issue #8).
 ///
 /// This behavior assumes a user-passed file path should attempt to be parsed.
+/// Archive members follow directory-discovery exclusions even for user-passed archives.
+/// A missing filesystem path may select an archive member or directory with `archive|member`.
+/// Exact member selections use the same text-parser override as directly passed files.
 pub fn process_path(
     path: &FPath,
-    unparseable_are_text: bool,
-) -> Vec<ProcessPathResult> {
-    defn!("({:?}, {:?})", path, unparseable_are_text);
+    _unparseable_are_text: bool,
+) -> ProcessPathResults {
+    defn!("({:?}, {:?})", path, _unparseable_are_text);
 
     let mut std_path: PathBuf = PathBuf::from(path);
 
@@ -1627,19 +1774,29 @@ pub fn process_path(
 
     std_path = match std_path.canonicalize() {
         Ok(val) => val,
-        Err(err) => match err.kind() {
-            std::io::ErrorKind::NotFound => {
-                defx!("return FileErrNotExist({:?})", path);
-                return vec![ProcessPathResult::FileErrNotExist(path.clone())];
+        Err(err) => {
+            // Windows rejects the display separator before checking path existence.
+            if err.kind() == std::io::ErrorKind::NotFound
+                || (cfg!(windows) && err.kind() == std::io::ErrorKind::InvalidFilename)
+            {
+                if let Some((archive_path, selector)) = path.split_once(SUBPATH_SEP_DISPLAY) {
+                    return process_archive_selector(path, archive_path, selector);
+                }
             }
-            std::io::ErrorKind::PermissionDenied => {
-                defx!("return FileErrNoPermissions({:?})", path);
-                return vec![ProcessPathResult::FileErrNoPermissions(path.clone())];
-            }
-            _ => {
-                let err_string = error_to_string(&err, path);
-                defx!("return FileErr({:?}, {:?})", path, err_string);
-                return vec![ProcessPathResult::FileErr(path.clone(), err_string)];
+            match err.kind() {
+                std::io::ErrorKind::NotFound => {
+                    defx!("return FileErrNotExist({:?})", path);
+                    return vec![ProcessPathResult::FileErrNotExist(path.clone())];
+                }
+                std::io::ErrorKind::PermissionDenied => {
+                    defx!("return FileErrNoPermissions({:?})", path);
+                    return vec![ProcessPathResult::FileErrNoPermissions(path.clone())];
+                }
+                _ => {
+                    let err_string = error_to_string(&err, path);
+                    defx!("return FileErr({:?}, {:?})", path, err_string);
+                    return vec![ProcessPathResult::FileErr(path.clone(), err_string)];
+                }
             }
         }
     };
@@ -1655,19 +1812,22 @@ pub fn process_path(
         match result {
             PathToFiletypeResult::Filetype(filetype) => {
                 debug_assert!(!filetype.is_archived());
-                let paths: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(path.clone(), filetype)];
+                let paths: ProcessPathResults = vec![ProcessPathResult::FileValid(path.clone(), filetype)];
                 defx!("({:?}) {:?}", path, paths);
                 return paths;
             }
             PathToFiletypeResult::Archive(archive, fta) => {
                 match archive {
                     FileTypeArchiveMultiple::Zip => {
-                        return process_path_zip(path, unparseable_are_text, fta);
+                        defo!("std_path is a .zip file {:?}", std_path);
+                        let results = process_path_zip(path, false, fta);
+                        defx!("return process_path_zip({:?}) returned {} results", path, results.len());
+                        return results;
                     }
                     FileTypeArchiveMultiple::Tar => {
                         // getting here means `std_path` is a `.tar` file
                         defo!("std_path is a .tar file {:?}", std_path);
-                        let results = process_path_tar(path, unparseable_are_text, fta);
+                        let results = process_path_tar(path, false, fta);
                         defx!("return process_path_tar({:?}) returned {} results", path, results.len());
                         return results;
                     }
@@ -1678,7 +1838,7 @@ pub fn process_path(
 
     // getting here means `path` likely refers to a directory
 
-    let mut paths: Vec<ProcessPathResult> = Vec::<ProcessPathResult>::new();
+    let mut paths: ProcessPathResults = ProcessPathResults::new();
 
     defo!("jwalk::rayon::current_num_threads = {}", jwalk::rayon::current_num_threads());
     defo!("jwalk::rayon::max_num_threads = {}", jwalk::rayon::max_num_threads());
@@ -1722,15 +1882,15 @@ pub fn process_path(
         let filetype: FileType = match result {
             PathToFiletypeResult::Filetype(filetype) => filetype,
             PathToFiletypeResult::Archive(archive, fta) => {
-                let results: Vec<ProcessPathResult> = match archive {
+                let results: ProcessPathResults = match archive {
                     FileTypeArchiveMultiple::Zip => {
-                        process_path_zip(&fpath_entry, unparseable_are_text, fta)
+                        process_path_zip(&fpath_entry, false, fta)
                     }
                     FileTypeArchiveMultiple::Tar => {
                         // getting here means `std_path` is a `.tar` file
                         defo!("std_path_entry is a .tar file {:?}", std_path_entry);
 
-                        process_path_tar(&path_to_fpath(std_path_entry), unparseable_are_text, fta)
+                        process_path_tar(&path_to_fpath(std_path_entry), false, fta)
                     }
                 };
                 for result in results.into_iter() {
