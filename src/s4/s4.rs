@@ -3108,8 +3108,6 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     )]
     prepend_separator: String,
 
-    // TODO: [2023/02/26] add option to prepend byte offset along with filename, helpful for development
-
     /// An extra separator string between printed log messages.
     /// Per log message not per line of text.
     /// Accepts escapes and hexadecimal escapes; "\0" or "\x00" for the null character.
