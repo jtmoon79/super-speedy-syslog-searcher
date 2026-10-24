@@ -4,17 +4,36 @@
 
 #![allow(non_snake_case)]
 
-use std::io::ErrorKind;
+use std::io::{
+    Cursor,
+    ErrorKind,
+};
 use std::sync::atomic::AtomicBool;
+use std::time::{
+    Duration,
+    SystemTime,
+};
+
+use ::test_case::test_case;
 
 use crate::common::{
     FileType,
     FileTypeArchive,
     OdlSubType,
+    summary_stats_enable,
 };
 use crate::data::datetime::ymdhms;
 use crate::data::odl::Odl;
-use crate::readers::odlreader::OdlReader;
+use crate::readers::odlparser::OdlDecodingContext;
+use crate::readers::odlreader::{
+    OdlReader,
+    OdlSource,
+};
+use crate::readers::summary::SummaryReaderData;
+use crate::tests::odlparser_tests::{
+    odl_file,
+    v3_record,
+};
 use crate::tests::common::{
     FO_M7,
     NTF_LOG_EMPTY_FPATH,
@@ -30,6 +49,41 @@ use crate::tests::common::{
     OdlExpectedLine,
     path_id_generator,
 };
+
+#[test_case(&[100_000, 90_250, 110_000, 80_500, 79_000], 3, Some(Duration::from_millis(29_500)); "largest consecutive backward jump")]
+#[test_case(&[79_000, 80_500, 90_250, 110_000, 110_000], 0, None; "ordered and equal")]
+#[test_case(&[110_000, 109_999], 1, Some(Duration::from_millis(1)); "millisecond")]
+#[test_case(&[], 0, None; "empty")]
+fn test_odlreader_out_of_order_max(timestamps: &[u64], count: u64, maximum: Option<Duration>) {
+    summary_stats_enable();
+    let records: Vec<_> = timestamps.iter().map(|timestamp| v3_record(*timestamp, b"source.cpp", b"function", &[])).collect();
+    let slices: Vec<_> = records.iter().map(Vec::as_slice).collect();
+    let bytes = odl_file(3, &slices);
+    for before in [None, Some(ymdhms(&FO_M7, 1900, 1, 1, 0, 0, 0))] {
+        let source = OdlSource {
+            path_id: path_id_generator(),
+            path: "test.odl".into(),
+            filetype: ODL_SYNCENGINE_ODL_FILETYPE,
+            filesz: bytes.len() as u64,
+            mtime: SystemTime::UNIX_EPOCH,
+            fixed_offset: FO_M7,
+        };
+        let mut reader = OdlReader::from_reader(Cursor::new(bytes.clone()), source, OdlDecodingContext::default()).unwrap();
+        assert_eq!(reader.summary().odlreader_out_of_order_max, None);
+        reader.analyze(&None, &before, &AtomicBool::new(false)).unwrap();
+        let stats = reader.summary();
+        assert_eq!(stats.odlreader_events_processed, timestamps.len() as u64);
+        assert_eq!(stats.odlreader_events_accepted, if before.is_some() { 0 } else { timestamps.len() as u64 });
+        assert_eq!(stats.odlreader_out_of_order, count);
+        assert_eq!(stats.odlreader_out_of_order_max, maximum);
+        let summary = reader.summary_complete();
+        assert_eq!(summary.error, None);
+        let SummaryReaderData::Odl(stats) = summary.readerdata else {
+            panic!("expected ODL summary")
+        };
+        assert_eq!(stats.odlreader_out_of_order_max, maximum);
+    }
+}
 
 fn assert_reader_fixture(
     path: &str,

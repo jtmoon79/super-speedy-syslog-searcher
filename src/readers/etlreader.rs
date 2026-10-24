@@ -18,6 +18,7 @@ use std::collections::BTreeMap;
 use std::fmt;
 use std::io::Result;
 use std::path::Path;
+use std::time::Duration;
 
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -95,6 +96,8 @@ pub struct SummaryEtlReader {
     pub etlreader_datetime_last_accepted: DateTimeLOpt,
     pub etlreader_filesz: FileSz,
     pub etlreader_out_of_order: Count,
+    /// Largest backward timestamp jump, or `None` if none was observed.
+    pub etlreader_out_of_order_max: Option<Duration>,
     pub etlreader_buffers_read: Count,
     pub etlreader_buffers_compressed: Count,
     /// events decoded from TraceLogging metadata
@@ -136,6 +139,8 @@ pub struct EtlReader {
     pub(crate) dt_first_accepted: DateTimeLOpt,
     pub(crate) dt_last_accepted: DateTimeLOpt,
     pub(crate) out_of_order: Count,
+    /// Largest backward timestamp jump between consecutive processed events.
+    pub(crate) out_of_order_max: Option<Duration>,
     pub(crate) buffers_read: Count,
     pub(crate) buffers_compressed: Count,
     pub(crate) events_tracelogging: Count,
@@ -241,6 +246,7 @@ impl EtlReader {
             dt_first_accepted: None,
             dt_last_accepted: None,
             out_of_order: 0,
+            out_of_order_max: None,
             buffers_read: 0,
             buffers_compressed: 0,
             events_tracelogging: 0,
@@ -364,6 +370,8 @@ impl EtlReader {
             summary_stat!(if let Some(last) = dt_last {
                 if last > dt {
                     self.out_of_order += 1;
+                    let duration = (last - dt).to_std().expect("backward timestamp jump is positive");
+                    self.out_of_order_max = Some(self.out_of_order_max.map_or(duration, |max| max.max(duration)));
                 }
             });
             dt_last = Some(dt);
@@ -427,6 +435,7 @@ impl EtlReader {
             etlreader_datetime_last_accepted: self.dt_last_accepted,
             etlreader_filesz: self.filesz,
             etlreader_out_of_order: self.out_of_order,
+            etlreader_out_of_order_max: self.out_of_order_max,
             etlreader_buffers_read: self.buffers_read,
             etlreader_buffers_compressed: self.buffers_compressed,
             etlreader_events_tracelogging: self.events_tracelogging,

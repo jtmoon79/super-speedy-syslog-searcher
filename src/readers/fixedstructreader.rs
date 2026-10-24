@@ -34,6 +34,7 @@ use std::io::{
     ErrorKind,
     Result,
 };
+use std::time::Duration;
 
 use ::more_asserts::{
     debug_assert_ge,
@@ -139,7 +140,7 @@ pub type ResultFindFixedStruct = ResultFind<(FileOffset, FixedStruct), (Option<F
 
 pub type ResultFindFixedStructProcZeroBlock = ResultFind<(FixedStructType, Score, ListFileOffsetFixedStructPtr), Error>;
 
-pub type ResultTvFo = Result<(usize, usize, usize, Count, MapTvPairToFo)>;
+pub type ResultTvFo = Result<(usize, usize, usize, Count, Option<Duration>, MapTvPairToFo)>;
 
 #[cfg(test)]
 pub type DroppedBlocks = LinkedList<BlockOffset>;
@@ -245,6 +246,8 @@ pub struct FixedStructReader {
     /// "high watermark" of `FixedStruct` stored in `self.cache_entries`
     pub(crate) entries_stored_highest: usize,
     pub(crate) entries_out_of_order: Count,
+    /// Largest backward timestamp jump between consecutive preprocessed entries.
+    pub(crate) out_of_order_max: Option<Duration>,
     /// Internal stats - hits of `self.cache_entries` in `find_entry*` functions.
     pub(super) entries_hits: Count,
     /// Internal stats - misses of `self.cache_entries` in `find_entry*` functions.
@@ -310,6 +313,8 @@ pub struct SummaryFixedStructReader {
     pub fixedstructreader_utmp_entries: Count,
     pub fixedstructreader_first_entry_fileoffset: FileOffset,
     pub fixedstructreader_entries_out_of_order: Count,
+    /// Largest backward timestamp jump, or `None` if none was observed.
+    pub fixedstructreader_out_of_order_max: Option<Duration>,
     pub fixedstructreader_utmp_entries_max: Count,
     pub fixedstructreader_utmp_entries_hit: Count,
     pub fixedstructreader_utmp_entries_miss: Count,
@@ -417,7 +422,7 @@ impl FixedStructReader {
             }
         };
 
-        let (total, invalid, valid_no_filter, out_of_order, map_tvpair_fo) = 
+        let (total, invalid, valid_no_filter, out_of_order, out_of_order_max, map_tvpair_fo) =
             match FixedStructReader::preprocess_timevalues(
                 &mut blockreader,
                 fixedstruct_type,
@@ -432,9 +437,9 @@ impl FixedStructReader {
                 return ResultFixedStructReaderNew::FileErrIo(err);
             }
             ResultTvFo::Ok(
-                (total_, invalid_, valid_no_filter_, out_of_order_, map_tvpair_fo_)
+                (total_, invalid_, valid_no_filter_, out_of_order_, out_of_order_max_, map_tvpair_fo_)
             ) =>
-                (total_, invalid_, valid_no_filter_, out_of_order_, map_tvpair_fo_),
+                (total_, invalid_, valid_no_filter_, out_of_order_, out_of_order_max_, map_tvpair_fo_),
         };
         def1o!("total: {}, invalid: {}, valid_no_filter: {}, out_of_order: {}",
                total, invalid, valid_no_filter, out_of_order);
@@ -532,6 +537,7 @@ impl FixedStructReader {
             first_entry_fileoffset,
             entries_stored_highest: 0,
             entries_out_of_order: out_of_order,
+            out_of_order_max,
             entries_hits: 0,
             entries_miss: 0,
             entries_processed: 0,
@@ -1186,8 +1192,8 @@ impl FixedStructReader {
     /// Jump to each entry offset, convert the raw bytes to a `tv_pair_type`.
     /// If the value is within the passed filters than save the value and the
     /// file offset of the entry.
-    /// Return a count of out of order entries, and map of filtered tv_pair to
-    /// fileoffsets. The fileoffsets in the map are the fixedstruct offsets
+    /// Return a count and maximum duration of out of order entries, and a map
+    /// of filtered tv_pair to fileoffsets. The fileoffsets are fixedstruct offsets
     /// (not timevalue offsets).
     pub fn preprocess_timevalues(
         blockreader: &mut BlockReader,
@@ -1202,6 +1208,7 @@ impl FixedStructReader {
         let mut map_tv_pair_fo: MapTvPairToFo = MapTvPairToFo::new();
         // count of out of order entries
         let mut out_of_order: Count = 0;
+        let mut out_of_order_max: Option<Duration> = None;
         // valid fixedstruct but does not pass the time value filters
         let mut valid_no_pass_filter: usize = 0;
         // null fixedstruct or non-sense time values
@@ -1267,17 +1274,29 @@ impl FixedStructReader {
                 fo += entry_sz;
                 continue;
             }
-            if let Some(tv_pair_prev) = tv_pair_prev {
-                if tv_pair < tv_pair_prev {
-                    out_of_order += 1;
-                    defo!(
-                        "out_of_order = {}; tv_pair = {:?}, tv_pair_prev = {:?}",
-                        out_of_order,
-                        tv_pair,
-                        tv_pair_prev,
-                    );
+            summary_stat!(
+                if let Some(tv_pair_prev_) = tv_pair_prev {
+                    if tv_pair < tv_pair_prev_ {
+                        out_of_order += 1;
+                        let micros = (i128::from(tv_pair_prev_.0) - i128::from(tv_pair.0)) * 1_000_000
+                            + i128::from(tv_pair_prev_.1) - i128::from(tv_pair.1);
+                        // TODO: only debug error instead of returning Err
+                        let seconds = u64::try_from(micros / 1_000_000)
+                            .map_err(|err| Error::new(ErrorKind::InvalidData, format!("invalid backward timestamp jump: {}", err)))?;
+                        // TODO: only debug error instead of returning Err
+                        let subsec_micros = u32::try_from(micros % 1_000_000)
+                            .map_err(|err| Error::new(ErrorKind::InvalidData, format!("invalid backward timestamp jump: {}", err)))?;
+                        let duration = Duration::new(seconds, subsec_micros * 1000);
+                        out_of_order_max = Some(out_of_order_max.map_or(duration, |max| max.max(duration)));
+                        defo!(
+                            "out_of_order = {}; tv_pair = {:?}, tv_pair_prev = {:?}",
+                            out_of_order,
+                            tv_pair,
+                            tv_pair_prev_,
+                        );
+                    }
                 }
-            }
+            );
             tv_pair_prev = Some(tv_pair);
             total_entries += 1;
             // 4. compare to time value filters
@@ -1308,7 +1327,7 @@ impl FixedStructReader {
         // 6. return list of valid entries
         defx!("map_tv_pair_fo len {}", map_tv_pair_fo.len());
 
-        ResultTvFo::Ok((total_entries, invalid, valid_no_pass_filter, out_of_order, map_tv_pair_fo))
+        ResultTvFo::Ok((total_entries, invalid, valid_no_pass_filter, out_of_order, out_of_order_max, map_tv_pair_fo))
     }
 
     /// Process the data at FileOffset `fo`. Transform it into a `FixedStruct`
@@ -1505,6 +1524,7 @@ impl FixedStructReader {
         let fixedstructreader_utmp_entries: Count = self.entries_processed;
         let fixedstructreader_first_entry_fileoffset: FileOffset = self.first_entry_fileoffset;
         let fixedstructreader_entries_out_of_order: Count = self.entries_out_of_order;
+        let fixedstructreader_out_of_order_max = self.out_of_order_max;
         let fixedstructreader_utmp_entries_max: Count = self.entries_stored_highest as Count;
         let fixedstructreader_utmp_entries_hit: Count = self.entries_hits as Count;
         let fixedstructreader_utmp_entries_miss: Count = self.entries_miss as Count;
@@ -1522,6 +1542,7 @@ impl FixedStructReader {
             fixedstructreader_utmp_entries,
             fixedstructreader_first_entry_fileoffset,
             fixedstructreader_entries_out_of_order,
+            fixedstructreader_out_of_order_max,
             fixedstructreader_utmp_entries_max,
             fixedstructreader_utmp_entries_hit,
             fixedstructreader_utmp_entries_miss,

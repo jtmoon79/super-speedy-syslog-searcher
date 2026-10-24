@@ -1515,6 +1515,9 @@ fn print_summary_opt_processed(
             eprintln!("{}Events processed   : {}", indent2, summaryaslreader.aslreader_events_processed);
             eprintln!("{}Events accepted    : {}", indent2, summaryaslreader.aslreader_events_accepted);
             eprintln!("{}Out of order       : {}", indent2, summaryaslreader.aslreader_out_of_order);
+            if let Some(duration) = summaryaslreader.aslreader_out_of_order_max {
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+            }
         }
         SummaryReaderData::Etl(summaryetlreader) => {
             eprintln!(
@@ -1551,6 +1554,9 @@ fn print_summary_opt_processed(
                 |n| *n != 0,
                 color_choice,
             );
+            if let Some(duration) = summaryetlreader.etlreader_out_of_order_max {
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+            }
             return;
         }
         SummaryReaderData::Odl(stats) => {
@@ -1569,6 +1575,9 @@ fn print_summary_opt_processed(
             eprintln!("{}Decoding failures  : {}", indent2, stats.odlreader_decoding_failures);
             eprintln!("{}Records skipped    : {}", indent2, stats.odlreader_records_skipped);
             eprintln!("{}Out of order       : {}", indent2, stats.odlreader_out_of_order);
+            if let Some(duration) = stats.odlreader_out_of_order_max {
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+            }
             if let Some(dt) = stats.odlreader_datetime_first_processed {
                 eprintln!("{}Datetime first     : {}", indent2, dt);
             }
@@ -1646,6 +1655,9 @@ fn print_summary_opt_processed(
                 |n| *n != 0,
                 color_choice,
             );
+            if let Some(duration) = summaryjournalreader.journalreader_out_of_order_max {
+                eprintln!("{}Out of order max: {}", indent2, seconds_to_hmsm(duration));
+            }
             return;
         }
     }
@@ -1673,6 +1685,14 @@ fn print_summary_opt_processed(
     let dt_out_of_order = summary.datetime_out_of_order();
     eprint!("{}out of order  : ", indent2);
     eprintln_display_color_error(&dt_out_of_order, |n| *n != 0, color_choice);
+    let out_of_order_max = match &summary.readerdata {
+        SummaryReaderData::FixedStruct((_, stats)) => stats.fixedstructreader_out_of_order_max,
+        SummaryReaderData::Syslog((_, _, stats, _)) => stats.syslinereader_out_of_order_max,
+        _ => None,
+    };
+    if let Some(duration) = out_of_order_max {
+        eprintln!("{}out of order max: {}", indent2, seconds_to_hmsm(duration));
+    }
 
     // print datetime regex patterns
     match &summary.readerdata {

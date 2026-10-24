@@ -9,6 +9,7 @@
 use std::io::Write; // for `flush()`
 use std::str;
 use std::time::UNIX_EPOCH;
+use std::time::Duration;
 
 use ::bstr::ByteSlice;
 use ::const_format::concatcp;
@@ -202,6 +203,29 @@ fn new_SyslineReader(
 #[test]
 fn test_new_SyslineReader_1() {
     new_SyslineReader(&NTF_LOG_EMPTY_FPATH, 1024, FO_P8);
+}
+
+#[test_case(&[(0, 100_000), (10, 90_250), (20, 110_000), (30, 80_500), (40, 79_000)], Some(Duration::from_millis(29_500)); "maximum consecutive jump")]
+#[test_case(&[(20, 110_000), (10, 80_000), (30, 79_000)], Some(Duration::from_secs(1)); "backward seek resets previous parse")]
+#[test_case(&[(10, 110_000), (10, 80_000), (20, 79_000)], Some(Duration::from_secs(1)); "equal offset ignored")]
+#[test_case(&[(30, 110_000), (20, 80_000), (10, 79_000)], None; "backward offsets only")]
+#[test_case(&[(0, 79_000), (10, 80_000), (20, 80_000)], None; "ordered and equal datetimes")]
+#[test_case(&[(0, 1), (10, 0)], Some(Duration::from_millis(1)); "millisecond")]
+#[test_case(&[], None; "empty")]
+fn test_syslinereader_out_of_order_max(parses: &[(FileOffset, u32)], expected: Option<Duration>) {
+    summary_stats_enable();
+    let mut reader = new_SyslineReader(&NTF_LOG_EMPTY_FPATH, 1024, FO_0);
+    assert_eq!(reader.summary().syslinereader_out_of_order_max, None);
+    for &(offset, millis) in parses {
+        let dt = ymdhmsn(&FO_0, 2020, 1, 1, 0, millis / 60_000, millis / 1000 % 60, i64::from(millis % 1000) * 1_000_000);
+        reader.dt_first_last_update(&dt, offset);
+    }
+    assert_eq!(reader.summary().syslinereader_out_of_order_max, expected);
+    reader.clear_syslines();
+    assert_eq!(reader.summary().syslinereader_out_of_order_max, None);
+    let dt = ymdhms(&FO_0, 2020, 1, 1, 0, 0, 0);
+    reader.dt_first_last_update(&dt, 1000);
+    assert_eq!(reader.summary().syslinereader_out_of_order_max, None, "previous parse reset");
 }
 
 #[test]

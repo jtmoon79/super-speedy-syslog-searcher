@@ -259,9 +259,12 @@ Helpful `git log` command for generating changelog entries:
 
 ## Unreleased
 
-- Report the largest backward timestamp jump between consecutive processed EVTX
+- Report the largest backward timestamp jump between consecutive processed EVTX, ASL, ETL, ODL, journal, and fixed-struct
   events in the summary when out-of-order events are found, formatted as nonzero
   hours, minutes, seconds, and milliseconds (including fractional milliseconds).
+
+- Report the largest backward timestamp jump between consecutive forward-offset
+  datetime parses in text logs; equal-offset and backward-offset parses are ignored.
 
 - Accept quoted `archive.zip|member` and `archive.tar|member` paths, including
   recursive directory selection and an empty selector for the whole archive.
