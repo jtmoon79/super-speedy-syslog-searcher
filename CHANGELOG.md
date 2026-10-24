@@ -259,6 +259,17 @@ Helpful `git log` command for generating changelog entries:
 
 ## Unreleased
 
+- Accept quoted `archive.zip|member` and `archive.tar|member` paths, including
+  recursive directory selection and an empty selector for the whole archive.
+  Existing filesystem paths take precedence. Exact member selections retain
+  the direct-file text-parser override; directory selections retain discovery
+  exclusions. Additional `|` characters in member names are literal.
+
+- Apply directory-discovery non-log extension exclusions to ZIP and TAR members,
+  whether the archive is passed directly or found in a directory. Excluded members
+  are reported as unsupported instead of being parsed as text logs; directly
+  supplied ordinary files retain the text-parser override.
+
 - Bound Unix accounting string-field reads to their declared widths, fixing
   out-of-bounds reads and intermittent format-detection failures on malformed
   records. Fixed-struct character accessors now return `&[u8]` instead of

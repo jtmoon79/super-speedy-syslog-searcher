@@ -10994,6 +10994,50 @@ File: ./logs/other/tests/empty.log.bz2
   About:
       Processing Err: file empty
 
+File: ./logs/other/tests/gen-100-10.tar|gen-100-10-skullcrossbones.log
+  About:
+      Subpath     : gen-100-10-skullcrossbones.log
+      FileType      : TEXT UTF8/ASCII (TAR) (text log)
+      LogMessageType: text log lines
+  Printed:
+      bytes         : 322049
+      flushes       : 1000
+      Lines         : 1000
+      Syslines      : 1000
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:01:39 +08:00 (1999-12-31 16:01:39.000000 +00:00)
+  Processed:
+      file size archive   : 491520 (0x78000) (bytes)
+      file size unarchived: 94049 (0x16F61) (bytes)
+      bytes         : 94049 (0x16F61)
+      bytes total   : 94049 (0x16F61)
+      Block size    : 256 (0x100)
+      Blocks        : 368
+      Blocks total  : 368 (94208 bytes)
+      Lines         : 1000
+      Line longest  : 184 (bytes)
+      Line parts    : 1361
+      Syslines      : 1000
+      Sysline longest: 184 (bytes)
+      Syslines high : 37
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:01:39 +08:00 (1999-12-31 16:01:39.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing stores:
+      storage: LineReader::find_line() lines                       : hit    0, miss 1999,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 1000, miss 1000, 50.0%, put 1000
+      copying: SyslineReader::get_boxptrs()                        : sgl  903, dbl   175, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss 1000,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    1,  0.0%, put    1
+      caching: SyslineReader::find_sysline() LRU cache             : hit    1, miss 1000,  0.1%, put 1000
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  999, miss 1000, 50.0%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit    0, miss    5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss 1073,  0.0%, largest skipped 0
+      process: regex captures                                      : hit 1000, miss   78
+  Processing Drops:
+
 File: ./logs/other/tests/invalid.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
@@ -12543,6 +12587,28 @@ File: ./logs/programs/flask/server.log
       process: regex captures                                      : hit  4, miss 49
   Processing Drops:
 
+File: ./logs/programs/journal/all.zip|logs/programs/journal/Ubuntu22-user-1000.journal
+  About:
+      Subpath     : logs/programs/journal/Ubuntu22-user-1000.journal
+      FileType      : JOURNAL (ZIP) (systemd Journal)
+      LogMessageType: systemd journal entry
+  Printed:
+      bytes         : 3901854
+      flushes       : 2178
+      Journal events: 422
+      Journal event largest processed: 1321 (bytes)
+      Journal event largest accepted : 1321 (bytes)
+      Datetime first: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+      Datetime last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+  Processed:
+      File size     : 8388608 (0x800000) (bytes)
+      Journal events: 422
+      lib. API calls: 29533
+      API errors    : 0
+      Datetime first: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+      Datetime last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+      Out of order  : 0
+
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
   About:
       FileType      : JOURNAL (systemd Journal)
@@ -12712,48 +12778,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|FeedbackHub/Sub
       process: regex captures                                      : hit   0, miss 106
   Processing Drops:
 
-File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|general.keystore
-  About:
-      Subpath     : general.keystore
-      FileType      : TEXT UTF8/ASCII (ZIP) (text log)
-      LogMessageType: text log lines
-      Processing Err: no syslog lines found in file
-  Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-      Datetime first: None Found
-      Datetime last : None Found
-  Processed:
-      file size archive   : 278634 (0x4406A) (bytes)
-      file size unarchived: 112 (0x70) (bytes)
-      bytes         : 112 (0x70)
-      bytes total   : 112 (0x70)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 1 (256 bytes)
-      Lines         : 1
-      Line longest  : 112 (bytes)
-      Line parts    : 1
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
-      out of order  : 0
-  Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   1, 50.0%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 188, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   1, miss  20,  4.8%, largest skipped 18
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 167,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   0, miss 187
-  Processing Drops:
-
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc
   About:
       Subpath     : microsoftNucleusTelemetryCache.otc
@@ -12773,86 +12797,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleu
       Block size    : 256 (0x100)
       Blocks        : 1
       Blocks total  : 16 (4096 bytes)
-      Lines         : 0
-      Line longest  : 0 (bytes)
-      Line parts    : 2
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
-      out of order  : 0
-  Processing stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 0, miss 0
-  Processing Drops:
-
-File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc-shm
-  About:
-      Subpath     : microsoftNucleusTelemetryCache.otc-shm
-      FileType      : TEXT UTF8/ASCII (ZIP) (text log)
-      LogMessageType: text log lines
-      Processing Err: no syslog lines found in file
-  Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-  Processed:
-      file size archive   : 278634 (0x4406A) (bytes)
-      file size unarchived: 32768 (0x8000) (bytes)
-      bytes         : 256 (0x100)
-      bytes total   : 32768 (0x8000)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 128 (32768 bytes)
-      Lines         : 0
-      Line longest  : 0 (bytes)
-      Line parts    : 2
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
-      out of order  : 0
-  Processing stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 0, miss 0
-  Processing Drops:
-
-File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc-wal
-  About:
-      Subpath     : microsoftNucleusTelemetryCache.otc-wal
-      FileType      : TEXT UTF8/ASCII (ZIP) (text log)
-      LogMessageType: text log lines
-      Processing Err: no syslog lines found in file
-  Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-  Processed:
-      file size archive   : 278634 (0x4406A) (bytes)
-      file size unarchived: 280192 (0x44680) (bytes)
-      bytes         : 256 (0x100)
-      bytes total   : 280192 (0x44680)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 1095 (280320 bytes)
       Lines         : 0
       Line longest  : 0 (bytes)
       Line parts    : 2
@@ -26747,6 +26691,9 @@ File: ./logs/other/tests/simple-2.log (too small) (2 bytes) TEXT
 File: ./logs/other/tests/simple-3.log (too small) (3 bytes) TEXT
 File: ./logs/other/tests/simple-4.log (too small) (4 bytes) TEXT
 File: ./logs/other/tests/simple-5.log (too small) (5 bytes) TEXT
+File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|general.keystore (not supported)
+File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc-shm (not supported)
+File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc-wal (not supported)
 File: ./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar (does not exist)
 File: ./logs/programs/utmp/host-entry6_(pax_b1).wtmp.tar (does not exist)
 File: ./logs/programs/utmp/host-entry6_(tarv7_b1).wtmp.tar (does not exist)
@@ -26754,19 +26701,19 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program summary:
 
-Paths considered       : 709
-Paths not processed    : 37
-Files processed        : 672
-Files printed          : 581
-Printed bytes          : 13041017
-Printed flushes        : 35109
-Printed Lines          : 17087
-Printed Syslines       : 12942
+Paths considered       : 711
+Paths not processed    : 40
+Files processed        : 671
+Files printed          : 583
+Printed bytes          : 17270609
+Printed flushes        : 39710
+Printed Lines          : 18087
+Printed Syslines       : 13942
 Printed ASL events     : 10
 Printed ETL events     : 105
 Printed EVTX events    : 681
 Printed FixedStruct    : 433
-Printed Journal events : 18
+Printed Journal events : 440
 Printed ODL events     : 1510
 Line Maximum                   : 393209
 Line longest                   : 6021
@@ -26775,17 +26722,17 @@ ETL event largest processed    : 742
 ETL event largest accepted     : 742
 EVTX event largest processed   : 1778
 EVTX event largest accepted    : 1778
-Journal event largest processed: 932
-Journal event largest accepted : 932
+Journal event largest processed: 1321
+Journal event largest accepted : 1321
 ODL event largest processed    : 0
 ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
-Managed request open   : 885
+Managed request open   : 884
 Managed request read   : 0
-Managed write calls    : 1007
-Managed seek calls     : 28115
-Managed metadata calls : 686
+Managed write calls    : 2042
+Managed seek calls     : 27717
+Managed metadata calls : 685
 Managed open errors    : 14
 Managed evict fails    : 0
 Regex patterns known   : 188
@@ -26794,11 +26741,11 @@ Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 
 Datetime printed first : 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
 Datetime printed last  : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel receive ok     : 17045
+Channel receive ok     : 18465
 Channel receive err    : 0
-Threads spawned        : 673
+Threads spawned        : 672
 Thread spawn errors    : 0
-Temporary files created: 28
+Temporary files created: 29
 Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system
