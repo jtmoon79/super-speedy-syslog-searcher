@@ -28,6 +28,7 @@ File: ./logs/CentOS7/yum.log
       Datetime first: 2019-04-12 14:00:30 +08:00 (2019-04-12 06:00:30.000000 +00:00)
       Datetime last : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
       out of order  : 1
+      out of order max: 6047h 33m 14s
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:

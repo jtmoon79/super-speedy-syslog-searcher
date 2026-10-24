@@ -57,6 +57,7 @@ File: ./logs/CentOS7/x86_64/lastlog
       Datetime first: 2023-12-15 16:10:21 +08:00 (2023-12-15 08:10:21.000000 +00:00)
       Datetime last : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.000000 +00:00)
       out of order  : 1
+      out of order max: 1894h 53m 37s
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
   Processing Drops:
@@ -87,6 +88,7 @@ File: ./logs/CentOS7/x86_64/utmp
       Datetime first: 2024-03-03 15:02:08 +08:00 (2024-03-03 07:02:08.517000 +00:00)
       Datetime last : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.068556 +00:00)
       out of order  : 1
+      out of order max: 37s 2.377ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  0, 100.0%
   Processing Drops:
@@ -148,6 +150,7 @@ File: ./logs/CentOS7/yum.log
       Datetime first: 2019-04-12 14:00:30 +08:00 (2019-04-12 06:00:30.000000 +00:00)
       Datetime last : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
       out of order  : 1
+      out of order max: 6047h 33m 14s
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -220,6 +223,7 @@ File: ./logs/CentOS9/x86_64/wtmp
       Datetime first: 2023-04-23 05:55:14 +08:00 (2023-04-22 21:55:14.144000 +00:00)
       Datetime last : 2023-12-15 13:17:13 +08:00 (2023-12-15 05:17:13.613264 +00:00)
       out of order  : 3
+      out of order max: 4m 15s 236ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit   5, miss  49,  9.3%
   Processing Drops:
@@ -364,6 +368,7 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
       Datetime first: 2023-12-11 06:45:53 +08:00 (2023-12-10 22:45:53.034179 +00:00)
       Datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
       out of order  : 3
+      out of order max: 1654h 9m 57s 294.708ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
@@ -454,6 +459,7 @@ File: ./logs/Debian11/aarch64_ARMv6/utmp
       Datetime first: 2023-11-27 13:07:44 +08:00 (2023-11-27 05:07:44.534149 +00:00)
       Datetime last : 2024-02-18 05:19:07 +08:00 (2024-02-17 21:19:07.971570 +00:00)
       out of order  : 2
+      out of order max: 1169h 56m 8s 385.986ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  4, 50.0%
   Processing Drops:
@@ -760,6 +766,7 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
       Datetime first: 2023-11-27 12:17:48 +08:00 (2023-11-27 04:17:48.994767 +00:00)
       Datetime last : 2024-02-18 12:56:44 +08:00 (2024-02-18 04:56:44.731607 +00:00)
       out of order  : 1
+      out of order max: 1663h 12m 51s 139.72ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  1, 80.0%
   Processing Drops:
@@ -1063,6 +1070,7 @@ File: ./logs/Debian13/RISC-V/lastlog
       Datetime first: 2024-02-25 04:56:51 +08:00 (2024-02-24 20:56:51.000000 +00:00)
       Datetime last : 2024-02-25 04:58:10 +08:00 (2024-02-24 20:58:10.000000 +00:00)
       out of order  : 1
+      out of order max: 1m 19s
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
   Processing Drops:
@@ -1093,6 +1101,7 @@ File: ./logs/Debian13/RISC-V/utmp
       Datetime first: 2024-02-25 03:27:57 +08:00 (2024-02-24 19:27:57.450673 +00:00)
       Datetime last : 2024-02-25 05:01:04 +08:00 (2024-02-24 21:01:04.022818 +00:00)
       out of order  : 1
+      out of order max: 22m 55s 238.932ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
@@ -3587,6 +3596,7 @@ File: ./logs/OpenSUSE15/zypp/history
       Datetime first: 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
       Datetime last : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
       out of order  : 14
+      out of order max: 2m 35s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  79,  0.0%
@@ -3671,6 +3681,7 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       Datetime first: 2022-04-04 16:37:20 +08:00 (2022-04-04 08:37:20.000000 +00:00)
       Datetime last : 2022-04-04 23:37:16 +08:00 (2022-04-04 15:37:16.000000 +00:00)
       out of order  : 4
+      out of order max: 6h 59m 56s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  16,  5.9%
@@ -4773,6 +4784,7 @@ File: ./logs/other/tests/dtf10-10a.log
       Datetime first: 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
       Datetime last : 2022-06-28 01:51:11 +00:30 (2022-06-28 01:21:11.000000 +00:00)
       out of order  : 7
+      out of order max: 59m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 15,  0.0%
@@ -4815,6 +4827,7 @@ File: ./logs/other/tests/dtf10-10b.log
       Datetime first: 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
       Datetime last : 2022-06-28 01:51:11 +00:30 (2022-06-28 01:21:11.000000 +00:00)
       out of order  : 7
+      out of order max: 59m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  25,  0.0%
@@ -4899,6 +4912,7 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       Datetime first: 2022-01-31 00:00:02 +08:00 (2022-01-30 16:00:02.000000 +00:00)
       Datetime last : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
       out of order  : 4
+      out of order max: 7h 29m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
@@ -4941,6 +4955,7 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
       Datetime first: 2022-01-31 00:00:01 +08:00 (2022-01-30 16:00:01.000000 +00:00)
       Datetime last : 2022-01-31 00:00:08 +00:30 (2022-01-30 23:30:08.000000 +00:00)
       out of order  : 3
+      out of order max: 7h 29m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
@@ -6127,6 +6142,7 @@ File: ./logs/other/tests/dtf2-20-out-of-order.log
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:19 +08:00 (1999-12-31 16:00:19.000000 +00:00)
       out of order  : 2
+      out of order max: 1s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 39,  0.0%
@@ -10175,6 +10191,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS-outoforder.log
       Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
       out of order  : 2
+      out of order max: 1s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
@@ -10556,6 +10573,7 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
       Datetime first: 2000-01-01 00:00:20 -02:00 (2000-01-01 02:00:20.000000 +00:00)
       Datetime last : 2000-01-01 00:00:01 -12:00 (2000-01-01 12:00:01.000000 +00:00)
       out of order  : 19
+      out of order max: 59m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
@@ -10719,6 +10737,7 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       Datetime first: 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
       Datetime last : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)
       out of order  : 1
+      out of order max: 8291h
   Parsers:
                    datetime format missing year; estimated year of last sysline 2011
   Processing stores:
@@ -10762,6 +10781,7 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       Datetime first: 2017-01-01 01:00:00 +08:00 (2016-12-31 17:00:00.000000 +00:00)
       Datetime last : 2018-12-12 12:00:00 +08:00 (2018-12-12 04:00:00.000000 +00:00)
       out of order  : 1
+      out of order max: 8291h
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018
   Processing stores:
@@ -10805,6 +10825,7 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       Datetime first: 2000-01-01 01:00:00 -09:00 (2000-01-01 10:00:00.000000 +00:00)
       Datetime last : 2004-01-01 01:00:00 -09:00 (2004-01-01 10:00:00.000000 +00:00)
       out of order  : 1
+      out of order max: 8782h
   Parsers:
                    datetime format missing year; estimated year of last sysline 2004
   Processing stores:
@@ -10848,6 +10869,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       Datetime first: 2001-11-11 11:00:00 -09:00 (2001-11-11 20:00:00.000000 +00:00)
       Datetime last : 2022-01-01 01:00:00 -09:00 (2022-01-01 10:00:00.000000 +00:00)
       out of order  : 1
+      out of order max: 1466h
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -10891,6 +10913,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       Datetime first: 2021-01-01 01:00:00 -09:00 (2021-01-01 10:00:00.000000 +00:00)
       Datetime last : 2022-12-12 12:00:00 -09:00 (2022-12-12 21:00:00.000000 +00:00)
       out of order  : 1
+      out of order max: 8291h
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -10934,6 +10957,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       Datetime first: 1972-01-01 00:00:00 -02:00 (1972-01-01 02:00:00.000000 +00:00)
       Datetime last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
       out of order  : 1
+      out of order max: 8783h 59m 59s
   Parsers:
                    datetime format missing year; estimated year of last sysline 2000
   Processing stores:
@@ -12298,6 +12322,7 @@ File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
       Datetime first     : 2026-07-15 09:44:35 +08:00 (2026-07-15 01:44:35.869889 +00:00)
       Datetime last      : 2026-09-25 02:36:59 +08:00 (2026-09-24 18:36:59.288322 +00:00)
       Out of order       : 21
+      Out of order max   : 967.8103ms
 
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
   About:
@@ -12503,6 +12528,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
       Datetime first     : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime last      : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
       Out of order       : 1
+      Out of order max   : 59m 59s 8.9551ms
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
   About:
@@ -12523,6 +12549,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
       Datetime first     : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime last      : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
       Out of order       : 1
+      Out of order max   : 59m 59s 8.9551ms
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
@@ -12544,6 +12571,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Micro
       Datetime first     : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime last      : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
       Out of order       : 1
+      Out of order max   : 59m 59s 8.9551ms
 
 File: ./logs/programs/flask/server.log
   About:
@@ -13455,6 +13483,7 @@ File: ./logs/programs/proftpd/controls.log
       Datetime first: 2020-10-03 11:24:11 +08:00 (2020-10-03 03:24:11.475000 +00:00)
       Datetime last : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.137000 +00:00)
       out of order  : 1
+      out of order max: 2s 120ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 11,  0.0%
@@ -14001,6 +14030,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       Datetime first: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
       Datetime last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
       out of order  : 2
+      out of order max: 14688h 56m 22s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
@@ -16487,6 +16517,7 @@ File: ./logs/synology-DS6/smart_extend_log
       Datetime first: 2019-12-20 00:00:03 +08:00 (2019-12-19 16:00:03.000000 +00:00)
       Datetime last : 2019-12-20 00:00:04 +08:00 (2019-12-19 16:00:04.000000 +00:00)
       out of order  : 1
+      out of order max: 1s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
@@ -16571,6 +16602,7 @@ File: ./logs/synology-DS6/space_operation_error.log
       Datetime first: 2017-01-03 01:38:36 +08:00 (2017-01-02 17:38:36.000000 +00:00)
       Datetime last : 2018-01-24 23:24:08 +08:00 (2018-01-24 15:24:08.000000 +00:00)
       out of order  : 1
+      out of order max: 8084h 1m 2s
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018
   Processing stores:
@@ -23103,6 +23135,7 @@ File: ./logs/Ubuntu16/x86_32/wtmp
       Datetime first: 2023-12-15 16:40:54 +08:00 (2023-12-15 08:40:54.500000 +00:00)
       Datetime last : 2023-12-15 16:55:48 +08:00 (2023-12-15 08:55:48.887567 +00:00)
       out of order  : 3
+      out of order max: 10s
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss 15, 21.1%
   Processing Drops:
@@ -24335,6 +24368,7 @@ File: ./logs/Ubuntu18/vmware/hostd-62.log
       Datetime first: 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)
       Datetime last : 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.682000 +00:00)
       out of order  : 2
+      out of order max: 3ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
@@ -24377,6 +24411,7 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       Datetime first: 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)
       Datetime last : 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.682000 +00:00)
       out of order  : 2
+      out of order max: 3ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
@@ -25375,6 +25410,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       Datetime first: 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)
       Datetime last : 2022-09-02 23:13:55 +08:00 (2022-09-02 15:13:55.641000 +00:00)
       out of order  : 1
+      out of order max: 32m 59s 996ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 27,  0.0%
@@ -25530,6 +25566,7 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       Datetime first: 2023-03-16 05:42:15 +08:00 (2023-03-15 21:42:15.412000 +00:00)
       Datetime last : 2023-12-03 03:42:11 +08:00 (2023-12-02 19:42:11.638162 +00:00)
       out of order  : 3
+      out of order max: 16m 53s 576.316ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit   5, miss  88,  5.4%
   Processing Drops:
@@ -25685,6 +25722,7 @@ File: ./logs/Windows10Pro/DirectX.log
       Datetime first: 2020-01-19 20:03:29 +08:00 (2020-01-19 12:03:29.000000 +00:00)
       Datetime last : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
       out of order  : 1
+      out of order max: 8039h 14m 3s
   Parsers:
                    datetime format missing year; estimated year of last sysline 2021
   Processing stores:
@@ -26560,6 +26598,7 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       Datetime first: 2019-01-29 02:07:21 +08:00 (2019-01-28 18:07:21.228000 +00:00)
       Datetime last : 2021-05-01 21:39:34 +08:00 (2021-05-01 13:39:34.643000 +00:00)
       out of order  : 20
+      out of order max: 11s 39ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit    0, miss 2467,  0.0%

@@ -28,6 +28,7 @@ File: ./logs/synology-DS6/space_operation_error.log
       Datetime first: 2017-01-03 01:38:36 +08:00 (2017-01-02 17:38:36.000000 +00:00)
       Datetime last : 2018-01-24 23:24:08 +08:00 (2018-01-24 15:24:08.000000 +00:00)
       out of order  : 1
+      out of order max: 8084h 1m 2s
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018
   Processing stores:

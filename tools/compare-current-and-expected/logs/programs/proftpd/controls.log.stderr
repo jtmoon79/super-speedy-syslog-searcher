@@ -28,6 +28,7 @@ File: ./logs/programs/proftpd/controls.log
       Datetime first: 2020-10-03 11:24:11 +08:00 (2020-10-03 03:24:11.475000 +00:00)
       Datetime last : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.137000 +00:00)
       out of order  : 1
+      out of order max: 2s 120ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 11,  0.0%

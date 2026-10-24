@@ -28,6 +28,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       Datetime first: 1972-01-01 00:00:00 -02:00 (1972-01-01 02:00:00.000000 +00:00)
       Datetime last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
       out of order  : 1
+      out of order max: 8783h 59m 59s
   Parsers:
                    datetime format missing year; estimated year of last sysline 2000
   Processing stores:
