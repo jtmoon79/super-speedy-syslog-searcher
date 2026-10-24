@@ -7,6 +7,7 @@
 #![allow(clippy::too_many_arguments)]
 
 use std::fs::copy;
+use std::io::Write;
 
 #[allow(unused_imports)]
 use ::filepath::FilePath; // provide `path` function on `File`
@@ -31,6 +32,7 @@ use crate::common::{
     FileTypeFixedStruct,
     FileTypeTextEncoding,
     OdlSubType,
+    SUBPATH_SEP,
 };
 use crate::debug::helpers::{
     NamedTempFile,
@@ -42,6 +44,7 @@ use crate::readers::filepreprocessor::{
     FileTypeArchiveMultiple,
     PathToFiletypeResult,
     ProcessPathResult,
+    ProcessPathResults,
     copy_process_path_result_canonicalize_path,
     detect_filetype_text_encoding,
     fpath_to_filetype,
@@ -1186,7 +1189,7 @@ fn test_process_path_fpath(
     //           !=
     //           `"C:\\Users\\runneradmin\\AppData\\Local\\Temp\\.tmp6TC2W5\\file1"`
     //      So try harder to make sure the comparison succeeds.
-    let mut results_can: Vec<ProcessPathResult> = vec![];
+    let mut results_can: ProcessPathResults = vec![];
     for result in results.into_iter() {
         let result_can = copy_process_path_result_canonicalize_path(result);
         results_can.push(result_can);
@@ -1195,7 +1198,7 @@ fn test_process_path_fpath(
         defo!("result_can[{}] = {:?}", i, result_can);
     }
     // create copy of `checks` for the same reason as `results_can` above
-    let mut checks_can: Vec<ProcessPathResult> = vec![];
+    let mut checks_can: ProcessPathResults = vec![];
     for check in checks.iter() {
         let check_can = copy_process_path_result_canonicalize_path(check.clone());
         checks_can.push(check_can);
@@ -1244,9 +1247,241 @@ fn test_process_path_ntf(
 
 // test individual files
 
+fn write_selection_archive(path: &std::path::Path, extension: &str, names: &[&str]) {
+    let file = std::fs::File::create(path).unwrap();
+    let data = b"2000-01-01T00:00:00 log message\n";
+    if extension == "zip" {
+        let mut builder = ::zip::ZipWriter::new(file);
+        for name in names {
+            if name.ends_with('/') {
+                builder.add_directory(*name, ::zip::write::SimpleFileOptions::default()).unwrap();
+                continue;
+            }
+            builder.start_file(*name, ::zip::write::SimpleFileOptions::default()).unwrap();
+            if *name != "empty.log" {
+                builder.write_all(data).unwrap();
+            }
+        }
+        builder.finish().unwrap();
+    } else {
+        let mut builder = ::tar::Builder::new(file);
+        for name in names {
+            let mut header = ::tar::Header::new_gnu();
+            let empty = name.ends_with('/') || *name == "empty.log";
+            header.set_size(if empty { 0 } else { data.len() as u64 });
+            header.set_mode(0o644);
+            if name.ends_with('/') {
+                header.set_entry_type(::tar::EntryType::Directory);
+            }
+            header.set_cksum();
+            builder.append_data(&mut header, *name, if empty { &[][..] } else { &data[..] }).unwrap();
+        }
+        builder.finish().unwrap();
+    }
+}
+
+#[test_case("zip", FileTypeArchive::Zip)]
+#[test_case("tar", FileTypeArchive::Tar)]
+fn test_process_path_archive_selection(extension: &str, archival_type: FileTypeArchive) {
+    let dir = create_temp_dir();
+    let archive_path = dir.path().join(format!("logs.{extension}"));
+    let names = [
+        "root.log", "nested/app/child.log", "nested/app/deep/child.log",
+        "nested/app.log", "nested/general.keystore", "nested/log|part.log",
+        "exact/child.log", "exact", "empty.log", "empty-dir/",
+        "unsupported.gz", "nested.zip", "nested/event.odl",
+    ];
+    write_selection_archive(&archive_path, extension, &names);
+    let path = path_to_fpath(&archive_path);
+    let text_type = FileType::Text { archival_type, encoding_type: FileTypeTextEncoding::Utf8Ascii };
+    for (selector, selected) in [
+        ("root.log", vec!["root.log"]),
+        ("nested/app/child.log", vec!["nested/app/child.log"]),
+        ("nested/app", vec!["nested/app/child.log", "nested/app/deep/child.log"]),
+        ("nested/app/", vec!["nested/app/child.log", "nested/app/deep/child.log"]),
+        ("nested/log|part.log", vec!["nested/log|part.log"]),
+        ("exact", vec!["exact"]),
+        ("nested/general.keystore", vec!["nested/general.keystore"]),
+    ] {
+        for flag in [true, false] {
+            let results = process_path(&format!("{path}|{selector}"), flag);
+            assert_eq!(results.len(), selected.len(), "{selector}: {results:?}");
+            for name in &selected {
+                assert!(results.contains(&ProcessPathResult::FileValid(
+                    format!("{path}{SUBPATH_SEP}{name}"), text_type,
+                )), "{selector}: {results:?}");
+            }
+        }
+    }
+    let results = process_path(&format!("{path}|nested"), true);
+    assert_eq!(results.len(), 6, "{results:?}");
+    assert!(results.contains(&ProcessPathResult::FileErrNotSupported(
+        format!("{path}{SUBPATH_SEP}nested/general.keystore"), None,
+    )));
+    assert!(results.contains(&ProcessPathResult::FileValid(
+        format!("{path}{SUBPATH_SEP}nested/event.odl"),
+        FileType::Odl { archival_type, odl_sub_type: OdlSubType::Odl },
+    )));
+    let results = process_path(&format!("{path}|nested/event.odl"), true);
+    assert_eq!(results.len(), 1);
+    assert!(matches!(&results[0], ProcessPathResult::FileValid(_, FileType::Odl { .. })));
+    assert_eq!(
+        format!("{:?}", process_path(&format!("{path}|"), true)),
+        format!("{:?}", process_path(&path, true)),
+    );
+    for selector in ["missing", "empty-dir/", "*.log"] {
+        assert_eq!(process_path(&format!("{path}|{selector}"), true), vec![
+            ProcessPathResult::FileErrNotExist(format!("{path}|{selector}")),
+        ]);
+    }
+    let results = process_path(&format!("{path}|empty.log"), true);
+    assert_eq!(results.len(), 1);
+    assert!(matches!(&results[0], ProcessPathResult::FileErrEmpty(_, _)));
+    for selector in ["unsupported.gz", "nested.zip"] {
+        let results = process_path(&format!("{path}|{selector}"), true);
+        assert_eq!(results.len(), 1);
+        assert!(matches!(&results[0], ProcessPathResult::FileErrNotSupported(_, _)));
+    }
+    let corrupt = dir.path().join(format!("corrupt.{extension}"));
+    std::fs::write(&corrupt, b"not an archive").unwrap();
+    let results = process_path(&format!("{}|root.log", path_to_fpath(&corrupt)), true);
+    assert!(!results.is_empty());
+    assert!(results.iter().all(|result| matches!(result, ProcessPathResult::FileErr(_, _))));
+}
+
+#[test]
+fn test_process_path_archive_selection_outer_paths() {
+    let dir = create_temp_dir();
+    let missing = path_to_fpath(&dir.path().join("missing.zip"));
+    let input = format!("{missing}|root.log");
+    assert_eq!(process_path(&input, true), vec![ProcessPathResult::FileErrNotExist(input)]);
+    let ordinary = dir.path().join("ordinary.log");
+    std::fs::write(&ordinary, b"2000-01-01T00:00:00 log message\n").unwrap();
+    let input = format!("{}|root.log", path_to_fpath(&ordinary));
+    assert!(matches!(&process_path(&input, true)[..], [ProcessPathResult::FileErrNotSupported(_, _)]));
+    let input = format!("{}|root.log", path_to_fpath(dir.path()));
+    assert!(matches!(&process_path(&input, true)[..], [ProcessPathResult::FileErrNotAFile(_)]));
+}
+
+#[cfg(not(windows))]
+#[test]
+fn test_process_path_archive_selection_filesystem_precedence() {
+    let dir = create_temp_dir();
+    let archive = dir.path().join("logs.zip");
+    write_selection_archive(&archive, "zip", &["root.log"]);
+    let literal = dir.path().join("logs.zip|root.log");
+    std::fs::write(&literal, b"2000-01-01T00:00:00 literal file\n").unwrap();
+    let input = path_to_fpath(&literal);
+    assert_eq!(process_path(&input, true), vec![ProcessPathResult::FileValid(input, FILETYPE_UTF8)]);
+    let literal_dir = dir.path().join("logs.zip|nested");
+    std::fs::create_dir(&literal_dir).unwrap();
+    let child = literal_dir.join("child.log");
+    std::fs::write(&child, b"2000-01-01T00:00:00 literal child\n").unwrap();
+    assert_eq!(process_path(&path_to_fpath(&literal_dir), true), vec![
+        ProcessPathResult::FileValid(path_to_fpath(&child), FILETYPE_UTF8),
+    ]);
+}
+
+#[test]
+fn test_process_path_archive_selection_encrypted_zip() {
+    let path = "logs/other/test_cases/dtf2-2.log.Deflate.encrypted.zip";
+    let results = process_path(&format!("{path}|dtf2-2.log"), true);
+    assert!(matches!(&results[..], [ProcessPathResult::FileErrNotSupported(_, Some(message))]
+        if message.contains("encrypted")));
+    assert_eq!(process_path(&format!("{path}|missing"), true), vec![
+        ProcessPathResult::FileErrNotExist(format!("{path}|missing")),
+    ]);
+}
+
+#[test_case("zip", FileTypeArchive::Zip)]
+#[test_case("tar", FileTypeArchive::Tar)]
+fn test_process_path_archive_discovery_excludes_non_logs(
+    extension: &str,
+    archival_type: FileTypeArchive,
+) {
+    let dir = create_temp_dir();
+    let archive_path = dir.path().join(format!("logs.{extension}"));
+    let path = path_to_fpath(&archive_path);
+    let excluded = [
+        "general.keystore",
+        "microsoftNucleusTelemetryCache.otc-shm",
+        "microsoftNucleusTelemetryCache.otc-wal",
+        "nested/music.mp3",
+    ];
+    let text = ["nested/messages.log", "unknown.mystery", "messages"];
+    let odl = "nested/messages.odl";
+    let data = b"2000-01-01T00:00:00 log message\n";
+    let file = std::fs::File::create(&archive_path).unwrap();
+    let names = excluded.iter().chain(text.iter()).chain(std::iter::once(&odl));
+    if archival_type == FileTypeArchive::Zip {
+        let mut builder = ::zip::ZipWriter::new(file);
+        for name in names {
+            builder.start_file(
+                *name,
+                ::zip::write::SimpleFileOptions::default()
+                    .compression_method(::zip::CompressionMethod::Stored),
+            ).unwrap();
+            builder.write_all(data).unwrap();
+        }
+        builder.finish().unwrap();
+    } else {
+        let mut builder = ::tar::Builder::new(file);
+        for name in names {
+            let mut header = ::tar::Header::new_gnu();
+            header.set_size(data.len() as u64);
+            header.set_mode(0o644);
+            header.set_cksum();
+            builder.append_data(&mut header, *name, &data[..]).unwrap();
+        }
+        builder.finish().unwrap();
+    }
+    let mut checks: ProcessPathResults = excluded.iter().map(|name| {
+        ProcessPathResult::FileErrNotSupported(format!("{path}{SUBPATH_SEP}{name}"), None)
+    }).collect();
+    for name in text {
+        checks.push(ProcessPathResult::FileValid(
+            format!("{path}{SUBPATH_SEP}{name}"),
+            FileType::Text { archival_type, encoding_type: FileTypeTextEncoding::Utf8Ascii },
+        ));
+    }
+    checks.push(ProcessPathResult::FileValid(
+        format!("{path}{SUBPATH_SEP}{odl}"),
+        FileType::Odl { archival_type, odl_sub_type: OdlSubType::Odl },
+    ));
+    for unparseable_are_text in [true, false] {
+        test_process_path_fpath(&path, &checks, unparseable_are_text);
+        test_process_path_fpath(&path_to_fpath(dir.path()), &checks, unparseable_are_text);
+    }
+}
+
+#[test]
+fn test_process_path_non_logs_direct_override() {
+    let names = [
+        FPath::from("general.keystore"),
+        FPath::from("microsoftNucleusTelemetryCache.otc-shm"),
+        FPath::from("microsoftNucleusTelemetryCache.otc-wal"),
+        FPath::from("music.mp3"),
+    ];
+    let (dir, paths) = create_files_and_tmpdir(&names);
+    assert_eq!(paths.len(), names.len());
+    let checks: ProcessPathResults = paths.iter().map(|path| {
+        ProcessPathResult::FileErrNotSupported(path.clone(), None)
+    }).collect();
+    for unparseable_are_text in [true, false] {
+        test_process_path_fpath(&path_to_fpath(dir.path()), &checks, unparseable_are_text);
+        for path in paths.iter() {
+            test_process_path_fpath(
+                path,
+                &[ProcessPathResult::FileValid(path.clone(), FILETYPE_UTF8)],
+                unparseable_are_text,
+            );
+        }
+    }
+}
+
 #[test]
 fn test_process_path_files_log() {
-    let checks: Vec<ProcessPathResult> =
+    let checks: ProcessPathResults =
         vec![ProcessPathResult::FileValid(NTF_LOG_EMPTY_FPATH.clone(), NTF_LOG_EMPTY_FILETYPE)];
     test_process_path_ntf(&NTF_LOG_EMPTY, &checks, true);
     test_process_path_ntf(&NTF_LOG_EMPTY, &checks, false);
@@ -1254,7 +1489,7 @@ fn test_process_path_files_log() {
 
 #[test]
 fn test_process_path_files_gz() {
-    let checks: Vec<ProcessPathResult> =
+    let checks: ProcessPathResults =
         vec![ProcessPathResult::FileValid(NTF_GZ_EMPTY_FPATH.clone(), FILETYPE_UTF8_GZ)];
     test_process_path_ntf(&NTF_GZ_EMPTY, &checks, true);
     test_process_path_ntf(&NTF_GZ_EMPTY, &checks, false);
@@ -1262,7 +1497,7 @@ fn test_process_path_files_gz() {
 
 #[test]
 fn test_process_path_files_tar() {
-    let checks: Vec<ProcessPathResult> =
+    let checks: ProcessPathResults =
         vec![ProcessPathResult::FileValid(NTF_TAR_1BYTE_FILEA_FPATH.clone(), NTF_TAR_1BYTE_FILEA_FILETYPE)];
     test_process_path_ntf(&NTF_TAR_1BYTE, &checks, true);
     test_process_path_ntf(&NTF_TAR_1BYTE, &checks, false);
@@ -1270,21 +1505,21 @@ fn test_process_path_files_tar() {
 
 #[test]
 fn test_process_path_files_tgz_true() {
-    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
+    let checks: ProcessPathResults = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
     test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, true);
 }
 
 #[test]
 fn test_process_path_file_nonparseable() {
     // TODO: pass in `file.dll`
-    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
+    let checks: ProcessPathResults = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
     test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, true);
 }
 
 #[test]
 fn test_process_path_files_not_exist_file() {
     let path: FPath = FPath::from("/THIS/FILE/DOES/NOT/EXIST!");
-    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotExist(path.clone())];
+    let checks: ProcessPathResults = vec![ProcessPathResult::FileErrNotExist(path.clone())];
     test_process_path_fpath(&path, &checks, true);
     test_process_path_fpath(&path, &checks, false);
 }
@@ -1292,7 +1527,7 @@ fn test_process_path_files_not_exist_file() {
 #[test]
 fn test_process_path_files_not_exist_dir() {
     let path: FPath = FPath::from("/THIS/DIRECTORY/DOES/NOT/EXIST/");
-    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotExist(path.clone())];
+    let checks: ProcessPathResults = vec![ProcessPathResult::FileErrNotExist(path.clone())];
     test_process_path_fpath(&path, &checks, true);
     test_process_path_fpath(&path, &checks, false);
 }
@@ -1305,7 +1540,7 @@ fn test_process_path_files_devnull() {
         defo!("Path '{:?}' does not exist, pass test", fpath);
         return;
     }
-    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotAFile(fpath.clone())];
+    let checks: ProcessPathResults = vec![ProcessPathResult::FileErrNotAFile(fpath.clone())];
     test_process_path_fpath(&fpath, &checks, true);
     test_process_path_fpath(&fpath, &checks, false);
 }
@@ -1318,20 +1553,20 @@ fn test_process_path_files_devzero() {
         defo!("Path '{:?}' does not exist, pass test", fpath);
         return;
     }
-    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotAFile(fpath.clone())];
+    let checks: ProcessPathResults = vec![ProcessPathResult::FileErrNotAFile(fpath.clone())];
     test_process_path_fpath(&fpath, &checks, true);
     test_process_path_fpath(&fpath, &checks, false);
 }
 
 #[test]
 fn test_process_path_files_tgz_false() {
-    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
+    let checks: ProcessPathResults = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
     test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, false);
 }
 
 #[test]
 fn test_process_path_files_dll_false() {
-    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
+    let checks: ProcessPathResults = vec![ProcessPathResult::FileValid(NTF_TGZ_8BYTE_FPATH.clone(), FILETYPE_UTF8)];
     test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, false);
 }
 
@@ -1343,7 +1578,7 @@ fn test_process_path_dirs_file1() {
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     #[allow(clippy::get_first)]
-    let checks: Vec<ProcessPathResult> =
+    let checks: ProcessPathResults =
         vec![ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8)];
 
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
@@ -1391,7 +1626,7 @@ fn test_process_path_dirs_file1_txt1_evtx1_journal1() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let checks: Vec<ProcessPathResult> = vec![
+    let checks: ProcessPathResults = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8),
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8),
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_EVTX),
@@ -1414,7 +1649,7 @@ fn test_process_path_dirs_gz1_tar1_txt1_journal1() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let checks: Vec<ProcessPathResult> = vec![
+    let checks: ProcessPathResults = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8_GZ),
         // no .tar file in results
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8),
@@ -1433,7 +1668,7 @@ fn test_process_path_dirs_dirA_fileA1() {
     )];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let checks: Vec<ProcessPathResult> =
+    let checks: ProcessPathResults =
         vec![ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8)];
 
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
@@ -1452,7 +1687,7 @@ fn test_process_path_dirs_dirABC_files3() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let checks: Vec<ProcessPathResult> = vec![
+    let checks: ProcessPathResults = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8),
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8),
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8_GZ),
@@ -1475,7 +1710,7 @@ fn test_process_path_dirs_dirABC_files6() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let checks: Vec<ProcessPathResult> = vec![
+    let checks: ProcessPathResults = vec![
         // fileA12.tar will not be in results
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8_GZ),
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8_XZ),
@@ -1501,7 +1736,7 @@ fn test_process_path_dirs_dirAB_files4() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let checks: Vec<ProcessPathResult> = vec![
+    let checks: ProcessPathResults = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL),
         ProcessPathResult::FileErrNotSupported(fpaths.get(1).unwrap().clone(), None),
         ProcessPathResult::FileErrNotSupported(fpaths.get(2).unwrap().clone(), None),
@@ -1523,7 +1758,7 @@ fn test_process_path_dirs_dirAB_files4_false() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let checks: Vec<ProcessPathResult> = vec![
+    let checks: ProcessPathResults = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL),
         ProcessPathResult::FileErrNotSupported(fpaths.get(1).unwrap().clone(), None),
         ProcessPathResult::FileErrNotSupported(fpaths.get(2).unwrap().clone(), None),
@@ -1544,7 +1779,7 @@ fn test_process_path_evtx_gz_lz4_xz() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let checks: Vec<ProcessPathResult> = vec![
+    let checks: ProcessPathResults = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_EVTX),
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_EVTX_GZ),
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_EVTX_LZ4),
@@ -1565,7 +1800,7 @@ fn test_process_path_journal_gz_lz4_xz() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let checks: Vec<ProcessPathResult> = vec![
+    let checks: ProcessPathResults = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL),
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_JOURNAL_GZ),
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_JOURNAL_LZ4),
@@ -1618,7 +1853,7 @@ fn test_process_path_tar(
 
 #[test]
 fn test_process_path_tar_tar1_file_a() {
-    let check: Vec<ProcessPathResult> =
+    let check: ProcessPathResults =
         vec![ProcessPathResult::FileValid(NTF_TAR_8BYTE_FILEA_FPATH.clone(), NTF_TAR_8BYTE_FILEA_FILETYPE)];
     defñ!();
     test_process_path_tar(&NTF_TAR_8BYTE_FPATH, &check, true);
@@ -1627,7 +1862,7 @@ fn test_process_path_tar_tar1_file_a() {
 
 #[test]
 fn test_process_path_tar_tar1_file_ab() {
-    let check: Vec<ProcessPathResult> = vec![
+    let check: ProcessPathResults = vec![
         ProcessPathResult::FileValid(NTF_TAR_AB_FILEA_FPATH.clone(), NTF_TAR_AB_FILEA_FILETYPE),
         ProcessPathResult::FileValid(NTF_TAR_AB_FILEB_FPATH.clone(), NTF_TAR_AB_FILEB_FILETYPE),
     ];
@@ -1638,7 +1873,7 @@ fn test_process_path_tar_tar1_file_ab() {
 
 #[test]
 fn test_process_path_tar_tar1_file_abcdefghi() {
-    let check: Vec<ProcessPathResult> = vec![
+    let check: ProcessPathResults = vec![
         // fileABCDEFGHI.tar|fileA.evtx
         ProcessPathResult::FileValid(NTF_TAR_ABCDEFGHI_FILEA_FPATH.clone(), NTF_TAR_ABCDEFGHI_FILEA_FILETYPE),
         // fileABCDEFGHI.tar|fileB.journal
@@ -1698,7 +1933,7 @@ fn test_process_path_tar_dir_tar1_file_abcdefghi() {
         panic!("Failed to copy {:?} to {:?}: {}", NTF_TAR_ABCDEFGHI.path(), tmpdir.path(), err);
     }
 
-    let check: Vec<ProcessPathResult> = vec![
+    let check: ProcessPathResults = vec![
         // fileABCDEFGHI.tar|fileA.evtx
         ProcessPathResult::FileValid(
             NTF_TAR_ABCDEFGHI_FILEA_FPATH
