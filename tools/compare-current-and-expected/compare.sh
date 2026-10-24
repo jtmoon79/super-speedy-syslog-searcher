@@ -171,13 +171,13 @@ if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
 else
     echo
     echo "Output of total stdout are the same. (ʘ‿ʘ)"
-    echo
 fi
 
 # compare total stderr
 total_diff_stderr=true
 if ! "${DIFF}" --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
     ret=1
+    echo
     echo -e "\e[31mOutput of total stderr is not the same. (ಠ_ಠ)\e[0m"
     echo
     echo "Difference Preview of total stderr:"

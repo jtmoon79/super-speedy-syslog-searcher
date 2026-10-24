@@ -20,6 +20,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
       Datetime first     : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime last      : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
       Out of order       : 1
+      Out of order max   : 59m 59s 8.9551ms
 
 Program summary:
 

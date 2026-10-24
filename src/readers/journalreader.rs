@@ -153,6 +153,7 @@ use std::io::{
 #[cfg(test)]
 use std::ops::Range;
 use std::path::Path;
+use std::time::Duration;
 use std::slice::Iter;
 use std::str::FromStr;
 use std::string::ToString;
@@ -969,6 +970,9 @@ pub struct JournalReader {
     /// Summary statistic.
     /// Out of chronological order.
     out_of_order: Count,
+    /// Largest backward timestamp jump between consecutive processed entries.
+    out_of_order_max: Option<Duration>,
+    ts_previous_processed: EpochMicrosecondsOpt,
     /// The last [`Error`], if any, as a `String`
     ///
     /// Annoyingly, cannot [Clone or Copy `Error`].
@@ -1034,6 +1038,8 @@ pub struct SummaryJournalReader {
     pub journalreader_api_calls: Count,
     pub journalreader_api_call_errors: Count,
     pub journalreader_out_of_order: Count,
+    /// Largest backward timestamp jump, or `None` if none was observed.
+    pub journalreader_out_of_order_max: Option<Duration>,
 }
 
 /// Implement the JournalReader.
@@ -1196,6 +1202,8 @@ impl<'a> JournalReader {
             api_calls: 1,
             api_call_errors: 0,
             out_of_order: 0,
+            out_of_order_max: None,
+            ts_previous_processed: None,
             error: None,
             #[cfg(test)]
             force_error_range_opt: None,
@@ -2924,7 +2932,7 @@ impl<'a> JournalReader {
     /// Similar to [`dt_first_last_update`].
     ///
     /// [`dt_first_last_update`]: crate::readers::syslinereader::SyslineReader#method.dt_first_last_update
-    fn em_first_last_update_processed(
+    pub(crate) fn em_first_last_update_processed(
         &mut self,
         em: &EpochMicroseconds,
     ) {
@@ -2932,6 +2940,14 @@ impl<'a> JournalReader {
             return;
         }
         defñ!("({:?})", em);
+        if let Some(previous) = self.ts_previous_processed {
+            if previous > *em {
+                let duration = Duration::from_micros(previous - *em);
+                self.out_of_order_max = Some(
+                    self.out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)));
+            }
+        }
+        self.ts_previous_processed = Some(*em);
         // TODO: the `em_first` and `em_last` are only for `--summary`,
         //       no need to always copy datetimes.
         //       Would be good to only run this when `if self.do_summary {...}`
@@ -3026,6 +3042,7 @@ impl<'a> JournalReader {
         let journalreader_api_calls: Count = self.api_calls;
         let journalreader_api_call_errors: Count = self.api_call_errors;
         let journalreader_out_of_order: Count = self.out_of_order;
+        let journalreader_out_of_order_max = self.out_of_order_max;
 
         SummaryJournalReader {
             journalreader_events_processed,
@@ -3040,6 +3057,7 @@ impl<'a> JournalReader {
             journalreader_api_calls,
             journalreader_api_call_errors,
             journalreader_out_of_order,
+            journalreader_out_of_order_max,
         }
     }
 

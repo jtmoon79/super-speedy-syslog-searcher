@@ -27,6 +27,7 @@ File: ./logs/CentOS7/x86_64/lastlog
       Datetime first: 2023-12-15 16:10:21 +08:00 (2023-12-15 08:10:21.000000 +00:00)
       Datetime last : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.000000 +00:00)
       out of order  : 1
+      out of order max: 1894h 53m 37s
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
   Processing Drops:

@@ -730,6 +730,7 @@ impl SyslogProcessor {
             }
             syslinep_prev_opt = Some(SyslineP::clone(&syslinep));
         } // end loop
+        self.syslinereader.out_of_order_recompute();
         defx!("return FileOk");
 
         FileProcessingResultBlockZero::FileOk

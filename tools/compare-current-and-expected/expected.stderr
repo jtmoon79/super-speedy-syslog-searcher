@@ -57,6 +57,7 @@ File: ./logs/CentOS7/x86_64/lastlog
       Datetime first: 2023-12-15 16:10:21 +08:00 (2023-12-15 08:10:21.000000 +00:00)
       Datetime last : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.000000 +00:00)
       out of order  : 1
+      out of order max: 1894h 53m 37s
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
   Processing Drops:
@@ -87,6 +88,7 @@ File: ./logs/CentOS7/x86_64/utmp
       Datetime first: 2024-03-03 15:02:08 +08:00 (2024-03-03 07:02:08.517000 +00:00)
       Datetime last : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.068556 +00:00)
       out of order  : 1
+      out of order max: 37s 2.377ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  0, 100.0%
   Processing Drops:
@@ -147,7 +149,7 @@ File: ./logs/CentOS7/yum.log
       Syslines high : 142
       Datetime first: 2019-04-12 14:00:30 +08:00 (2019-04-12 06:00:30.000000 +00:00)
       Datetime last : 2022-01-21 13:29:39 +08:00 (2022-01-21 05:29:39.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -220,6 +222,7 @@ File: ./logs/CentOS9/x86_64/wtmp
       Datetime first: 2023-04-23 05:55:14 +08:00 (2023-04-22 21:55:14.144000 +00:00)
       Datetime last : 2023-12-15 13:17:13 +08:00 (2023-12-15 05:17:13.613264 +00:00)
       out of order  : 3
+      out of order max: 4m 15s 236ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit   5, miss  49,  9.3%
   Processing Drops:
@@ -364,6 +367,7 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
       Datetime first: 2023-12-11 06:45:53 +08:00 (2023-12-10 22:45:53.034179 +00:00)
       Datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
       out of order  : 3
+      out of order max: 1654h 9m 57s 294.708ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
@@ -454,6 +458,7 @@ File: ./logs/Debian11/aarch64_ARMv6/utmp
       Datetime first: 2023-11-27 13:07:44 +08:00 (2023-11-27 05:07:44.534149 +00:00)
       Datetime last : 2024-02-18 05:19:07 +08:00 (2024-02-17 21:19:07.971570 +00:00)
       out of order  : 2
+      out of order max: 1169h 56m 8s 385.986ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  4, 50.0%
   Processing Drops:
@@ -760,6 +765,7 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
       Datetime first: 2023-11-27 12:17:48 +08:00 (2023-11-27 04:17:48.994767 +00:00)
       Datetime last : 2024-02-18 12:56:44 +08:00 (2024-02-18 04:56:44.731607 +00:00)
       out of order  : 1
+      out of order max: 1663h 12m 51s 139.72ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  1, 80.0%
   Processing Drops:
@@ -892,7 +898,7 @@ File: ./logs/Debian11/kern.log
       Syslines high : 20
       Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
       Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
-      out of order  : 9
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -935,7 +941,7 @@ File: ./logs/Debian11/messages
       Syslines high : 20
       Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
       Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
-      out of order  : 9
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -1020,7 +1026,7 @@ File: ./logs/Debian11/user.log
       Syslines high : 25
       Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
       Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -1063,6 +1069,7 @@ File: ./logs/Debian13/RISC-V/lastlog
       Datetime first: 2024-02-25 04:56:51 +08:00 (2024-02-24 20:56:51.000000 +00:00)
       Datetime last : 2024-02-25 04:58:10 +08:00 (2024-02-24 20:58:10.000000 +00:00)
       out of order  : 1
+      out of order max: 1m 19s
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
   Processing Drops:
@@ -1093,6 +1100,7 @@ File: ./logs/Debian13/RISC-V/utmp
       Datetime first: 2024-02-25 03:27:57 +08:00 (2024-02-24 19:27:57.450673 +00:00)
       Datetime last : 2024-02-25 05:01:04 +08:00 (2024-02-24 21:01:04.022818 +00:00)
       out of order  : 1
+      out of order max: 22m 55s 238.932ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
@@ -2130,7 +2138,7 @@ File: ./logs/Debian9/syslog
       Syslines high : 19
       Datetime first: 2022-03-06 06:25:04 +08:00 (2022-03-05 22:25:04.000000 +00:00)
       Datetime last : 2022-03-06 06:37:37 +08:00 (2022-03-05 22:37:37.000000 +00:00)
-      out of order  : 11
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -2770,7 +2778,7 @@ File: ./logs/FedoraRemix29/hawkeye.log
       Syslines high : 36
       Datetime first: 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
       Datetime last : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
-      out of order  : 3
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2021
   Processing stores:
@@ -3587,6 +3595,7 @@ File: ./logs/OpenSUSE15/zypp/history
       Datetime first: 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
       Datetime last : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
       out of order  : 14
+      out of order max: 2m 35s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  79,  0.0%
@@ -3671,6 +3680,7 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       Datetime first: 2022-04-04 16:37:20 +08:00 (2022-04-04 08:37:20.000000 +00:00)
       Datetime last : 2022-04-04 23:37:16 +08:00 (2022-04-04 15:37:16.000000 +00:00)
       out of order  : 4
+      out of order max: 6h 59m 56s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  16,  5.9%
@@ -4773,6 +4783,7 @@ File: ./logs/other/tests/dtf10-10a.log
       Datetime first: 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
       Datetime last : 2022-06-28 01:51:11 +00:30 (2022-06-28 01:21:11.000000 +00:00)
       out of order  : 7
+      out of order max: 59m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 15,  0.0%
@@ -4815,6 +4826,7 @@ File: ./logs/other/tests/dtf10-10b.log
       Datetime first: 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
       Datetime last : 2022-06-28 01:51:11 +00:30 (2022-06-28 01:21:11.000000 +00:00)
       out of order  : 7
+      out of order max: 59m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  25,  0.0%
@@ -4899,6 +4911,7 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       Datetime first: 2022-01-31 00:00:02 +08:00 (2022-01-30 16:00:02.000000 +00:00)
       Datetime last : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
       out of order  : 4
+      out of order max: 7h 29m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
@@ -4941,6 +4954,7 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
       Datetime first: 2022-01-31 00:00:01 +08:00 (2022-01-30 16:00:01.000000 +00:00)
       Datetime last : 2022-01-31 00:00:08 +00:30 (2022-01-30 23:30:08.000000 +00:00)
       out of order  : 3
+      out of order max: 7h 29m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
@@ -6127,6 +6141,7 @@ File: ./logs/other/tests/dtf2-20-out-of-order.log
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:19 +08:00 (1999-12-31 16:00:19.000000 +00:00)
       out of order  : 2
+      out of order max: 1s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 39,  0.0%
@@ -10175,6 +10190,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS-outoforder.log
       Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
       out of order  : 2
+      out of order max: 1s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
@@ -10556,6 +10572,7 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
       Datetime first: 2000-01-01 00:00:20 -02:00 (2000-01-01 02:00:20.000000 +00:00)
       Datetime last : 2000-01-01 00:00:01 -12:00 (2000-01-01 12:00:01.000000 +00:00)
       out of order  : 19
+      out of order max: 59m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
@@ -10718,7 +10735,7 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       Syslines high : 23
       Datetime first: 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
       Datetime last : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2011
   Processing stores:
@@ -10761,7 +10778,7 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       Syslines high : 23
       Datetime first: 2017-01-01 01:00:00 +08:00 (2016-12-31 17:00:00.000000 +00:00)
       Datetime last : 2018-12-12 12:00:00 +08:00 (2018-12-12 04:00:00.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018
   Processing stores:
@@ -10804,7 +10821,7 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       Syslines high : 37
       Datetime first: 2000-01-01 01:00:00 -09:00 (2000-01-01 10:00:00.000000 +00:00)
       Datetime last : 2004-01-01 01:00:00 -09:00 (2004-01-01 10:00:00.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2004
   Processing stores:
@@ -10847,7 +10864,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       Syslines high : 23
       Datetime first: 2001-11-11 11:00:00 -09:00 (2001-11-11 20:00:00.000000 +00:00)
       Datetime last : 2022-01-01 01:00:00 -09:00 (2022-01-01 10:00:00.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -10890,7 +10907,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       Syslines high : 23
       Datetime first: 2021-01-01 01:00:00 -09:00 (2021-01-01 10:00:00.000000 +00:00)
       Datetime last : 2022-12-12 12:00:00 -09:00 (2022-12-12 21:00:00.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -10933,7 +10950,8 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       Syslines high : 20
       Datetime first: 1972-01-01 00:00:00 -02:00 (1972-01-01 02:00:00.000000 +00:00)
       Datetime last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
+      out of order max: 8783h 59m 59s
   Parsers:
                    datetime format missing year; estimated year of last sysline 2000
   Processing stores:
@@ -10993,6 +11011,50 @@ File: ./logs/other/tests/empty.7z
 File: ./logs/other/tests/empty.log.bz2
   About:
       Processing Err: file empty
+
+File: ./logs/other/tests/gen-100-10.tar|gen-100-10-skullcrossbones.log
+  About:
+      Subpath     : gen-100-10-skullcrossbones.log
+      FileType      : TEXT UTF8/ASCII (TAR) (text log)
+      LogMessageType: text log lines
+  Printed:
+      bytes         : 322049
+      flushes       : 1000
+      Lines         : 1000
+      Syslines      : 1000
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:01:39 +08:00 (1999-12-31 16:01:39.000000 +00:00)
+  Processed:
+      file size archive   : 491520 (0x78000) (bytes)
+      file size unarchived: 94049 (0x16F61) (bytes)
+      bytes         : 94049 (0x16F61)
+      bytes total   : 94049 (0x16F61)
+      Block size    : 256 (0x100)
+      Blocks        : 368
+      Blocks total  : 368 (94208 bytes)
+      Lines         : 1000
+      Line longest  : 184 (bytes)
+      Line parts    : 1361
+      Syslines      : 1000
+      Sysline longest: 184 (bytes)
+      Syslines high : 37
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:01:39 +08:00 (1999-12-31 16:01:39.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing stores:
+      storage: LineReader::find_line() lines                       : hit    0, miss 1999,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 1000, miss 1000, 50.0%, put 1000
+      copying: SyslineReader::get_boxptrs()                        : sgl  903, dbl   175, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss 1000,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    1,  0.0%, put    1
+      caching: SyslineReader::find_sysline() LRU cache             : hit    1, miss 1000,  0.1%, put 1000
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  999, miss 1000, 50.0%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit    0, miss    5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss 1073,  0.0%, largest skipped 0
+      process: regex captures                                      : hit 1000, miss   78
+  Processing Drops:
 
 File: ./logs/other/tests/invalid.gz
   About:
@@ -12254,6 +12316,7 @@ File: ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
       Datetime first     : 2026-07-15 09:44:35 +08:00 (2026-07-15 01:44:35.869889 +00:00)
       Datetime last      : 2026-09-25 02:36:59 +08:00 (2026-09-24 18:36:59.288322 +00:00)
       Out of order       : 21
+      Out of order max   : 967.8103ms
 
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
   About:
@@ -12459,6 +12522,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
       Datetime first     : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime last      : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
       Out of order       : 1
+      Out of order max   : 59m 59s 8.9551ms
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
   About:
@@ -12479,6 +12543,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
       Datetime first     : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime last      : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
       Out of order       : 1
+      Out of order max   : 59m 59s 8.9551ms
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
@@ -12500,6 +12565,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Micro
       Datetime first     : 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime last      : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
       Out of order       : 1
+      Out of order max   : 59m 59s 8.9551ms
 
 File: ./logs/programs/flask/server.log
   About:
@@ -12542,6 +12608,28 @@ File: ./logs/programs/flask/server.log
       optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 48,  0.0%, largest skipped 0
       process: regex captures                                      : hit  4, miss 49
   Processing Drops:
+
+File: ./logs/programs/journal/all.zip|logs/programs/journal/Ubuntu22-user-1000.journal
+  About:
+      Subpath     : logs/programs/journal/Ubuntu22-user-1000.journal
+      FileType      : JOURNAL (ZIP) (systemd Journal)
+      LogMessageType: systemd journal entry
+  Printed:
+      bytes         : 3901854
+      flushes       : 2178
+      Journal events: 422
+      Journal event largest processed: 1321 (bytes)
+      Journal event largest accepted : 1321 (bytes)
+      Datetime first: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+      Datetime last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+  Processed:
+      File size     : 8388608 (0x800000) (bytes)
+      Journal events: 422
+      lib. API calls: 29533
+      API errors    : 0
+      Datetime first: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+      Datetime last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+      Out of order  : 0
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
   About:
@@ -12712,48 +12800,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|FeedbackHub/Sub
       process: regex captures                                      : hit   0, miss 106
   Processing Drops:
 
-File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|general.keystore
-  About:
-      Subpath     : general.keystore
-      FileType      : TEXT UTF8/ASCII (ZIP) (text log)
-      LogMessageType: text log lines
-      Processing Err: no syslog lines found in file
-  Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-      Datetime first: None Found
-      Datetime last : None Found
-  Processed:
-      file size archive   : 278634 (0x4406A) (bytes)
-      file size unarchived: 112 (0x70) (bytes)
-      bytes         : 112 (0x70)
-      bytes total   : 112 (0x70)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 1 (256 bytes)
-      Lines         : 1
-      Line longest  : 112 (bytes)
-      Line parts    : 1
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
-      out of order  : 0
-  Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   1, 50.0%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 188, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   1, miss  20,  4.8%, largest skipped 18
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 167,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   0, miss 187
-  Processing Drops:
-
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc
   About:
       Subpath     : microsoftNucleusTelemetryCache.otc
@@ -12773,86 +12819,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleu
       Block size    : 256 (0x100)
       Blocks        : 1
       Blocks total  : 16 (4096 bytes)
-      Lines         : 0
-      Line longest  : 0 (bytes)
-      Line parts    : 2
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
-      out of order  : 0
-  Processing stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 0, miss 0
-  Processing Drops:
-
-File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc-shm
-  About:
-      Subpath     : microsoftNucleusTelemetryCache.otc-shm
-      FileType      : TEXT UTF8/ASCII (ZIP) (text log)
-      LogMessageType: text log lines
-      Processing Err: no syslog lines found in file
-  Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-  Processed:
-      file size archive   : 278634 (0x4406A) (bytes)
-      file size unarchived: 32768 (0x8000) (bytes)
-      bytes         : 256 (0x100)
-      bytes total   : 32768 (0x8000)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 128 (32768 bytes)
-      Lines         : 0
-      Line longest  : 0 (bytes)
-      Line parts    : 2
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
-      out of order  : 0
-  Processing stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 0, miss 0
-  Processing Drops:
-
-File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc-wal
-  About:
-      Subpath     : microsoftNucleusTelemetryCache.otc-wal
-      FileType      : TEXT UTF8/ASCII (ZIP) (text log)
-      LogMessageType: text log lines
-      Processing Err: no syslog lines found in file
-  Printed:
-      bytes         : 0
-      flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-  Processed:
-      file size archive   : 278634 (0x4406A) (bytes)
-      file size unarchived: 280192 (0x44680) (bytes)
-      bytes         : 256 (0x100)
-      bytes total   : 280192 (0x44680)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 1095 (280320 bytes)
       Lines         : 0
       Line longest  : 0 (bytes)
       Line parts    : 2
@@ -13511,6 +13477,7 @@ File: ./logs/programs/proftpd/controls.log
       Datetime first: 2020-10-03 11:24:11 +08:00 (2020-10-03 03:24:11.475000 +00:00)
       Datetime last : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.137000 +00:00)
       out of order  : 1
+      out of order max: 2s 120ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 11,  0.0%
@@ -14057,6 +14024,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       Datetime first: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
       Datetime last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
       out of order  : 2
+      out of order max: 14688h 56m 22s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
@@ -14266,7 +14234,7 @@ File: ./logs/RancherOS-1.5.8/messages
       Syslines high : 231
       Datetime first: 2022-10-09 21:31:38 +08:00 (2022-10-09 13:31:38.000000 +00:00)
       Datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
-      out of order  : 5
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -14309,7 +14277,7 @@ File: ./logs/RancherOS-1.5.8/syslog
       Syslines high : 10
       Datetime first: 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
       Datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
-      out of order  : 5
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -14394,7 +14362,8 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       Syslines high : 19
       Datetime first: 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
       Datetime last : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)
-      out of order  : 1
+      out of order  : 5
+      out of order max: 30s 482ms
   Parsers:
                    datetime format missing year; estimated year of last sysline 2023
   Processing stores:
@@ -14437,7 +14406,7 @@ File: ./logs/RockyLinux9/cron
       Syslines high : 116
       Datetime first: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
       Datetime last : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -14648,7 +14617,7 @@ File: ./logs/RockyLinux9/messages
       Syslines high : 2432
       Datetime first: 2022-10-08 06:18:20 +08:00 (2022-10-07 22:18:20.000000 +00:00)
       Datetime last : 2022-10-08 22:26:52 +08:00 (2022-10-08 14:26:52.000000 +00:00)
-      out of order  : 4
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -14691,7 +14660,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       Syslines high : 37
       Datetime first: 2022-10-08 06:18:58 +08:00 (2022-10-07 22:18:58.000000 +00:00)
       Datetime last : 2022-10-08 06:22:55 +08:00 (2022-10-07 22:22:55.000000 +00:00)
-      out of order  : 8
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -14818,7 +14787,7 @@ File: ./logs/RockyLinux9/secure
       Syslines high : 545
       Datetime first: 2022-10-08 06:18:38 +08:00 (2022-10-07 22:18:38.000000 +00:00)
       Datetime last : 2022-10-08 22:31:17 +08:00 (2022-10-08 14:31:17.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -15029,7 +14998,7 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       Syslines high : 7
       Datetime first: 2018-02-09 21:25:05 +08:00 (2018-02-09 13:25:05.000000 +00:00)
       Datetime last : 2018-02-09 21:25:06 +08:00 (2018-02-09 13:25:06.000000 +00:00)
-      out of order  : 4
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018
   Processing stores:
@@ -16543,6 +16512,7 @@ File: ./logs/synology-DS6/smart_extend_log
       Datetime first: 2019-12-20 00:00:03 +08:00 (2019-12-19 16:00:03.000000 +00:00)
       Datetime last : 2019-12-20 00:00:04 +08:00 (2019-12-19 16:00:04.000000 +00:00)
       out of order  : 1
+      out of order max: 1s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
@@ -16626,7 +16596,7 @@ File: ./logs/synology-DS6/space_operation_error.log
       Syslines high : 19
       Datetime first: 2017-01-03 01:38:36 +08:00 (2017-01-02 17:38:36.000000 +00:00)
       Datetime last : 2018-01-24 23:24:08 +08:00 (2018-01-24 15:24:08.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018
   Processing stores:
@@ -16755,7 +16725,7 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
       Syslines high : 19
       Datetime first: 2020-02-09 19:00:11 +08:00 (2020-02-09 11:00:11.000000 +00:00)
       Datetime last : 2020-02-09 19:00:15 +08:00 (2020-02-09 11:00:15.000000 +00:00)
-      out of order  : 2
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2020
   Processing stores:
@@ -23159,6 +23129,7 @@ File: ./logs/Ubuntu16/x86_32/wtmp
       Datetime first: 2023-12-15 16:40:54 +08:00 (2023-12-15 08:40:54.500000 +00:00)
       Datetime last : 2023-12-15 16:55:48 +08:00 (2023-12-15 08:55:48.887567 +00:00)
       out of order  : 3
+      out of order max: 10s
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss 15, 21.1%
   Processing Drops:
@@ -23637,7 +23608,7 @@ File: ./logs/Ubuntu18/kern.log.1
       Syslines high : 19
       Datetime first: 2019-03-09 08:10:29 +08:00 (2019-03-09 00:10:29.000000 +00:00)
       Datetime last : 2019-03-09 17:47:07 +08:00 (2019-03-09 09:47:07.000000 +00:00)
-      out of order  : 2
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2019
   Processing stores:
@@ -24391,6 +24362,7 @@ File: ./logs/Ubuntu18/vmware/hostd-62.log
       Datetime first: 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)
       Datetime last : 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.682000 +00:00)
       out of order  : 2
+      out of order max: 3ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
@@ -24433,6 +24405,7 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       Datetime first: 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)
       Datetime last : 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.682000 +00:00)
       out of order  : 2
+      out of order max: 3ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
@@ -24754,7 +24727,7 @@ File: ./logs/Ubuntu22/auth.log
       Syslines high : 14
       Datetime first: 2022-10-03 21:52:12 +08:00 (2022-10-03 13:52:12.000000 +00:00)
       Datetime last : 2022-10-03 22:15:45 +08:00 (2022-10-03 14:15:45.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -24797,7 +24770,7 @@ File: ./logs/Ubuntu22/auth.log.1
       Syslines high : 14
       Datetime first: 2022-09-18 07:00:12 +08:00 (2022-09-17 23:00:12.000000 +00:00)
       Datetime last : 2022-09-18 07:00:35 +08:00 (2022-09-17 23:00:35.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -25302,7 +25275,7 @@ File: ./logs/Ubuntu22/syslog
       Syslines high : 14
       Datetime first: 2022-10-03 21:48:21 +08:00 (2022-10-03 13:48:21.000000 +00:00)
       Datetime last : 2022-10-03 21:48:26 +08:00 (2022-10-03 13:48:26.000000 +00:00)
-      out of order  : 5
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -25345,7 +25318,7 @@ File: ./logs/Ubuntu22/syslog.1
       Syslines high : 14
       Datetime first: 2022-09-18 07:00:10 +08:00 (2022-09-17 23:00:10.000000 +00:00)
       Datetime last : 2022-09-18 10:11:55 +08:00 (2022-09-18 02:11:55.000000 +00:00)
-      out of order  : 2
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:
@@ -25431,6 +25404,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       Datetime first: 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)
       Datetime last : 2022-09-02 23:13:55 +08:00 (2022-09-02 15:13:55.641000 +00:00)
       out of order  : 1
+      out of order max: 32m 59s 996ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 27,  0.0%
@@ -25586,6 +25560,7 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       Datetime first: 2023-03-16 05:42:15 +08:00 (2023-03-15 21:42:15.412000 +00:00)
       Datetime last : 2023-12-03 03:42:11 +08:00 (2023-12-02 19:42:11.638162 +00:00)
       out of order  : 3
+      out of order max: 16m 53s 576.316ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit   5, miss  88,  5.4%
   Processing Drops:
@@ -25740,7 +25715,7 @@ File: ./logs/Windows10Pro/DirectX.log
       Syslines high : 15
       Datetime first: 2020-01-19 20:03:29 +08:00 (2020-01-19 12:03:29.000000 +00:00)
       Datetime last : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2021
   Processing stores:
@@ -26616,6 +26591,7 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       Datetime first: 2019-01-29 02:07:21 +08:00 (2019-01-28 18:07:21.228000 +00:00)
       Datetime last : 2021-05-01 21:39:34 +08:00 (2021-05-01 13:39:34.643000 +00:00)
       out of order  : 20
+      out of order max: 11s 39ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit    0, miss 2467,  0.0%
@@ -26697,7 +26673,7 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       Syslines high : 96
       Datetime first: 2024-02-26 05:27:26 +08:00 (2024-02-25 21:27:26.000000 +00:00)
       Datetime last : 2024-03-22 21:45:54 +08:00 (2024-03-22 13:45:54.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2024
   Processing stores:
@@ -26747,6 +26723,9 @@ File: ./logs/other/tests/simple-2.log (too small) (2 bytes) TEXT
 File: ./logs/other/tests/simple-3.log (too small) (3 bytes) TEXT
 File: ./logs/other/tests/simple-4.log (too small) (4 bytes) TEXT
 File: ./logs/other/tests/simple-5.log (too small) (5 bytes) TEXT
+File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|general.keystore (not supported)
+File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc-shm (not supported)
+File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc-wal (not supported)
 File: ./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar (does not exist)
 File: ./logs/programs/utmp/host-entry6_(pax_b1).wtmp.tar (does not exist)
 File: ./logs/programs/utmp/host-entry6_(tarv7_b1).wtmp.tar (does not exist)
@@ -26754,19 +26733,19 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program summary:
 
-Paths considered       : 709
-Paths not processed    : 37
-Files processed        : 672
-Files printed          : 581
-Printed bytes          : 13041017
-Printed flushes        : 35109
-Printed Lines          : 17087
-Printed Syslines       : 12942
+Paths considered       : 711
+Paths not processed    : 40
+Files processed        : 671
+Files printed          : 583
+Printed bytes          : 17270609
+Printed flushes        : 39710
+Printed Lines          : 18087
+Printed Syslines       : 13942
 Printed ASL events     : 10
 Printed ETL events     : 105
 Printed EVTX events    : 681
 Printed FixedStruct    : 433
-Printed Journal events : 18
+Printed Journal events : 440
 Printed ODL events     : 1510
 Line Maximum                   : 393209
 Line longest                   : 6021
@@ -26775,17 +26754,17 @@ ETL event largest processed    : 742
 ETL event largest accepted     : 742
 EVTX event largest processed   : 1778
 EVTX event largest accepted    : 1778
-Journal event largest processed: 932
-Journal event largest accepted : 932
+Journal event largest processed: 1321
+Journal event largest accepted : 1321
 ODL event largest processed    : 0
 ODL event largest accepted     : 0
 Managed files max deflt: 980
 Managed files max adjus: 200
-Managed request open   : 885
+Managed request open   : 884
 Managed request read   : 0
-Managed write calls    : 1007
-Managed seek calls     : 28115
-Managed metadata calls : 686
+Managed write calls    : 2042
+Managed seek calls     : 27717
+Managed metadata calls : 685
 Managed open errors    : 14
 Managed evict fails    : 0
 Regex patterns known   : 188
@@ -26794,11 +26773,11 @@ Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 
 Datetime printed first : 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
 Datetime printed last  : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel receive ok     : 17045
+Channel receive ok     : 18465
 Channel receive err    : 0
-Threads spawned        : 673
+Threads spawned        : 672
 Thread spawn errors    : 0
-Temporary files created: 28
+Temporary files created: 29
 Temporary directory    : /tmp
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

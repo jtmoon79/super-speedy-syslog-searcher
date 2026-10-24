@@ -1,6 +1,7 @@
 // src/readers/filedecompressor.rs
 
 //! The `filedecompressor` module is for decompressing files to temporary files.
+//! Useful for Readers that cannot read compressed files (e.g. `JournalReader`).
 
 use std::borrow::{
     BorrowMut,

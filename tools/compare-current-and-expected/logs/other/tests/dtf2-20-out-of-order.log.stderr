@@ -28,6 +28,7 @@ File: ./logs/other/tests/dtf2-20-out-of-order.log
       Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:19 +08:00 (1999-12-31 16:00:19.000000 +00:00)
       out of order  : 2
+      out of order max: 1s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 39,  0.0%

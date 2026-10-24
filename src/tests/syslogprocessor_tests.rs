@@ -45,6 +45,7 @@ use crate::debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_data,
+    create_temp_file_with_suffix,
     ntf_fpath,
 };
 use crate::readers::blockreader::{
@@ -627,6 +628,72 @@ fn test_process_missing_year_1972() {
     slp.process_missing_year(*SYSTEMTIME_1972_06_01, &None);
 }
 
+#[test_case("Dec 31 23:59:59 before\nJan 1 00:00:01 after\n", 0, None; "ordered rollover")]
+#[test_case("Dec 31 23:59:59 before\nJan 1 00:00:02 after\nJan 1 00:00:01 backwards\n", 1, Some(std::time::Duration::from_secs(1)); "real backward jump after rollover")]
+fn test_process_missing_year_out_of_order_max_uses_final_syslines(
+    data: &str,
+    expected_count: Count,
+    expected_max: Option<std::time::Duration>,
+) {
+    summary_stats_enable();
+    let suffix = String::from(".log");
+    let ntf = create_temp_file_with_suffix(data, &suffix);
+    let mtime = filetime::FileTime::from_unix_time(1_609_459_200, 0);
+    filetime::set_file_mtime(ntf.path(), mtime).unwrap();
+    let fpath = ntf_fpath(&ntf);
+    let mut slp = new_SyslogProcessor(&fpath, SZ);
+
+    assert_eq!(
+        slp.process_missing_year(seconds_to_systemtime(&1_609_459_200), &None),
+        FileProcessingResultBlockZero::FileOk,
+    );
+    let summary = slp.summary_complete();
+    match summary.readerdata {
+        SummaryReaderData::Syslog((_, _, summarysyslinereader, _)) => {
+            assert_eq!(summarysyslinereader.syslinereader_datetime_out_of_order, expected_count);
+            assert_eq!(summarysyslinereader.syslinereader_out_of_order_max, expected_max);
+        }
+        _ => panic!("expected syslog summary"),
+    }
+}
+
+#[test_case(0x100)]
+#[test_case(65532)]
+fn test_process_missing_year_out_of_order_multi_year(blocksz: BlockSz) {
+    summary_stats_enable();
+    let fpath = FPath::from("./logs/other/tests/dtf9d-12x3-37.log");
+    let mut slp = new_SyslogProcessor(&fpath, blocksz);
+    assert_eq!(
+        slp.process_missing_year(seconds_to_systemtime(&1_041_379_200), &None),
+        FileProcessingResultBlockZero::FileOk,
+    );
+    let mut offset = 0;
+    let mut previous = None;
+    let mut count = 0;
+    loop {
+        match slp.find_sysline(offset) {
+            ResultFindSysline::Found((next_offset, syslinep)) => {
+                if let Some(previous) = previous {
+                    assert!(previous <= *syslinep.dt(), "retained timestamps must be ordered");
+                }
+                previous = Some(*syslinep.dt());
+                count += 1;
+                offset = next_offset;
+            }
+            ResultFindSysline::Done => break,
+            ResultFindSysline::Err(err) => panic!("Error {err}"),
+        }
+    }
+    assert_eq!(count, 38);
+    match slp.summary_complete().readerdata {
+        SummaryReaderData::Syslog((_, _, summarysyslinereader, _)) => {
+            assert_eq!(summarysyslinereader.syslinereader_datetime_out_of_order, 0);
+            assert_eq!(summarysyslinereader.syslinereader_out_of_order_max, None);
+        }
+        _ => panic!("expected syslog summary"),
+    }
+}
+
 // -------------------------------------------------------------------------------------------------
 
 #[test]
@@ -1143,6 +1210,7 @@ fn test_SyslogProcessor_summary_empty(
         syslinereader_datetime_first: Some(ymdhms0(1972, 1, 1, 1, 0, 11)),
         syslinereader_datetime_last: Some(ymdhms0(2000, 5, 15, 5, 0, 55)),
         syslinereader_datetime_out_of_order: 0,
+        syslinereader_out_of_order_max: None,
         syslinereader_find_sysline_lru_cache_hit: 0,
         syslinereader_find_sysline_lru_cache_miss: 6,
         syslinereader_find_sysline_lru_cache_put: 6,

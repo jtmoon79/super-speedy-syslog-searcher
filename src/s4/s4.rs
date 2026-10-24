@@ -5806,7 +5806,7 @@ fn processing_loop(
             crossbeam_channel::bounded(CHANNEL_CAPACITY);
         defo!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
         map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
-        let basename_: FPath = basename(path).replace(SUBPATH_SEP, SUBPATH_SEP_DISPLAY_STR);
+        let basename_: FPath = basename(path).replacen(SUBPATH_SEP, SUBPATH_SEP_DISPLAY_STR, 1);
         match thread::Builder::new()
             .name(basename_.clone())
             .stack_size(stack_size)
