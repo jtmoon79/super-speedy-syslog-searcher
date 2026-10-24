@@ -522,6 +522,7 @@ Arguments:
               Directories will be recursed. Symlinks will be followed.
               Paths may also be passed via STDIN, one per line. The user must
               supply argument "-" to signify PATHS are available from STDIN.
+              Select a ZIP/TAR member or directory with "archive.zip|member".
 
 Options:
 
