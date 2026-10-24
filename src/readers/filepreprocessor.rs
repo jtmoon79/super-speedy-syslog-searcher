@@ -47,6 +47,7 @@ use crate::common::{
     OdlSubType,
     SUBPATH_SEP,
     SUBPATH_SEP_DISPLAY,
+    SUBPATH_SEP_DISPLAY_ALT,
 };
 use crate::debug_panic;
 use crate::debug::printers::de_err;
@@ -1780,6 +1781,8 @@ pub fn process_path(
                 || (cfg!(windows) && err.kind() == std::io::ErrorKind::InvalidFilename)
             {
                 if let Some((archive_path, selector)) = path.split_once(SUBPATH_SEP_DISPLAY) {
+                    return process_archive_selector(path, archive_path, selector);
+                } else if let Some((archive_path, selector)) = path.split_once(SUBPATH_SEP_DISPLAY_ALT) {
                     return process_archive_selector(path, archive_path, selector);
                 }
             }

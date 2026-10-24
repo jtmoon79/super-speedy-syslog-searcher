@@ -24,6 +24,7 @@ use std::io::{
     Result,
 };
 use std::path::Path;
+use std::time::Duration;
 
 use ::evtx::{
     EvtxParser,
@@ -236,6 +237,9 @@ pub struct EvtxReader {
     /// Summary statistic.
     /// Count of EVTX entries found to be out of order.
     out_of_order: Count,
+    /// Summary statistic.
+    /// Largest backward timestamp jump between consecutive processed entries.
+    out_of_order_max: Option<Duration>,
     /// has `self.analyze()` been called?
     analyzed: bool,
     /// The last [`Error`], if any, as a `String`
@@ -281,6 +285,8 @@ pub struct SummaryEvtxReader {
     pub evtxreader_datetime_last_accepted: DateTimeLOpt,
     pub evtxreader_filesz: FileSz,
     pub evtxreader_out_of_order: Count,
+    /// Largest backward timestamp jump, or `None` if none was observed.
+    pub evtxreader_out_of_order_max: Option<Duration>,
 }
 
 /// Implement the EvtxReader.
@@ -389,6 +395,7 @@ impl EvtxReader {
             filesz,
             mtime,
             out_of_order: 0,
+            out_of_order_max: None,
             analyzed: false,
             error: None,
         })
@@ -460,6 +467,9 @@ impl EvtxReader {
                         summary_stat!(
                             if ts_last_ > &timestamp {
                                 self.out_of_order += 1;
+                                let duration = ts_last_.duration_since(timestamp).unsigned_abs();
+                                self.out_of_order_max = Some(
+                                    self.out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)));
                             }
                         );
                     }
@@ -608,6 +618,7 @@ impl EvtxReader {
         let evtxreader_datetime_last_accepted = self.dt_last_accepted();
         let evtxreader_filesz = self.filesz();
         let evtxreader_out_of_order = self.out_of_order;
+        let evtxreader_out_of_order_max = self.out_of_order_max;
 
         SummaryEvtxReader {
             evtxreader_events_processed,
@@ -620,6 +631,7 @@ impl EvtxReader {
             evtxreader_datetime_last_accepted,
             evtxreader_filesz,
             evtxreader_out_of_order,
+            evtxreader_out_of_order_max,
         }
     }
 

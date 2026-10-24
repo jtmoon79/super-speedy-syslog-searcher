@@ -8,6 +8,7 @@ use std::collections::BTreeMap;
 use std::io::{self, Error, ErrorKind, Read, Seek};
 use std::path::Path;
 use std::sync::atomic::{AtomicBool, Ordering};
+use std::time::Duration;
 
 use tempfile::TempPath;
 
@@ -34,6 +35,8 @@ pub struct SummaryAslReader {
     pub aslreader_datetime_last_accepted: DateTimeLOpt,
     pub aslreader_filesz: FileSz,
     pub aslreader_out_of_order: Count,
+    /// Largest backward timestamp jump, or `None` if none was observed.
+    pub aslreader_out_of_order_max: Option<Duration>,
 }
 
 pub struct AslSource {
@@ -154,7 +157,7 @@ impl<R: Read + Seek> AslReader<R> {
             .take()
             .ok_or_else(|| Error::new(ErrorKind::InvalidInput, "ASL reader has no input"))?;
         let mut parser = AslParser::new(reader).map_err(|error| self.record_error(error))?;
-        let mut previous = None;
+        let mut previous: DateTimeLOpt = None;
         loop {
             if cancel.load(Ordering::Relaxed) {
                 return Err(self.record_error(Error::new(ErrorKind::Interrupted, "ASL analysis cancelled")));
@@ -187,8 +190,12 @@ impl<R: Read + Seek> AslReader<R> {
                 {
                     stats.aslreader_datetime_last_processed = Some(dt);
                 }
-                if previous.is_some_and(|time| time > dt) {
+                if let Some(time) = previous.filter(|time| *time > dt) {
                     stats.aslreader_out_of_order += 1;
+                    let duration = (time - dt).to_std().expect("backward timestamp jump is positive");
+                    stats.aslreader_out_of_order_max = Some(
+                        stats.aslreader_out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)),
+                    );
                 }
                 previous = Some(dt);
             });

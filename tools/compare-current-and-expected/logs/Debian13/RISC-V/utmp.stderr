@@ -27,6 +27,7 @@ File: ./logs/Debian13/RISC-V/utmp
       Datetime first: 2024-02-25 03:27:57 +08:00 (2024-02-24 19:27:57.450673 +00:00)
       Datetime last : 2024-02-25 05:01:04 +08:00 (2024-02-24 21:01:04.022818 +00:00)
       out of order  : 1
+      out of order max: 22m 55s 238.932ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:

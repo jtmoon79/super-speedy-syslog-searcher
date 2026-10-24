@@ -27,7 +27,7 @@ File: ./logs/RockyLinux9/cron
       Syslines high : 116
       Datetime first: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
       Datetime last : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
-      out of order  : 1
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing stores:

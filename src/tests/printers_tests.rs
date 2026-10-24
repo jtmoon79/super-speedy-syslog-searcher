@@ -9,6 +9,7 @@
 #![allow(clippy::too_many_arguments)]
 
 use std::path::PathBuf;
+use std::time::Duration;
 
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
@@ -69,6 +70,7 @@ use crate::printer::summary::{
     MapPathIdToStackSize,
     SummaryPrinted,
     print_summary,
+    seconds_to_hmsm,
     summary_largest_evtx_event,
     summary_largest_journal_event,
     summary_longest_line_sysline,
@@ -130,6 +132,17 @@ use crate::tests::common::{
     REGEX_ID_DTF56B,
     path_id_generator,
 };
+
+#[test_case(Duration::from_secs(60), String::from("1m"); "minute")]
+#[test_case(Duration::from_secs(61), String::from("1m 1s"); "minute and second")]
+#[test_case(Duration::from_secs(3605), String::from("1h 5s"); "hour and seconds")]
+#[test_case(Duration::new(3605, 450_000_000), String::from("1h 5s 450ms"); "milliseconds")]
+#[test_case(Duration::new(3999, 8_955_100), String::from("1h 6m 39s 8.9551ms"); "fractional milliseconds")]
+#[test_case(Duration::from_nanos(1), String::from("0.000001ms"); "nanosecond")]
+#[test_case(Duration::ZERO, String::new(); "zero")]
+fn test_seconds_to_hmsm(input: Duration, expect: String) {
+    assert_eq!(seconds_to_hmsm(input), expect, "input {:?}", input);
+}
 
 // XXX: copied from `syslinereader_tests.rs`
 const NTF5_DATA_LINE0: &str = "[20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 0.0.0.0 port 3389.\n";

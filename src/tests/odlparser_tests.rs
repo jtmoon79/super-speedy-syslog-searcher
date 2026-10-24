@@ -228,7 +228,7 @@ fn test_odl_render_rejects_unrepresentable_timestamp() {
     assert_eq!(unrepresentable.to_string(), "unrepresentable ODL timestamp");
 }
 
-fn odl_file(
+pub(crate) fn odl_file(
     version: u32,
     records: &[&[u8]],
 ) -> Vec<u8> {
@@ -252,7 +252,7 @@ fn push_string(
     out.extend_from_slice(text);
 }
 
-fn v3_record(
+pub(crate) fn v3_record(
     timestamp_ms: u64,
     source: &[u8],
     function: &[u8],

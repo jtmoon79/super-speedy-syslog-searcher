@@ -13,6 +13,7 @@ use std::fmt;
 use std::path::PathBuf;
 use std::str;
 use std::time::{
+    Duration,
     Instant,
 };
 
@@ -118,6 +119,34 @@ const OPT_SUMMARY_PRINT_INDENT3: &str = "                   ";
 const DATETIMEFMT: &str = "%Y-%m-%d %H:%M:%S %:z";
 /// datetime format for secondary printing of datetime
 const DATETIMEFMT_SEC: &str = "%Y-%m-%d %H:%M:%S.%6f %:z";
+
+/// Format nonzero duration components, preserving fractional milliseconds.
+pub(crate) fn seconds_to_hmsm(duration: Duration) -> String {
+    let seconds = duration.as_secs();
+    let mut parts = Vec::new();
+    for (value, unit) in [
+        (seconds / 3600, "h"),
+        (seconds / 60 % 60, "m"),
+        (seconds % 60, "s"),
+    ] {
+        if value != 0 {
+            parts.push(format!("{}{}", value, unit));
+        }
+    }
+    let nanos = duration.subsec_nanos();
+    if nanos != 0 {
+        let millis = nanos / 1_000_000;
+        let fraction = nanos % 1_000_000;
+        if fraction == 0 {
+            parts.push(format!("{}ms", millis));
+        } else {
+            let fraction = format!("{:06}", fraction);
+            parts.push(format!("{}.{}ms", millis, fraction.trim_end_matches('0')));
+        }
+    }
+
+    parts.join(" ")
+}
 
 fn print_dimmed(
     s: &String,
@@ -1486,6 +1515,9 @@ fn print_summary_opt_processed(
             eprintln!("{}Events processed   : {}", indent2, summaryaslreader.aslreader_events_processed);
             eprintln!("{}Events accepted    : {}", indent2, summaryaslreader.aslreader_events_accepted);
             eprintln!("{}Out of order       : {}", indent2, summaryaslreader.aslreader_out_of_order);
+            if let Some(duration) = summaryaslreader.aslreader_out_of_order_max {
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+            }
         }
         SummaryReaderData::Etl(summaryetlreader) => {
             eprintln!(
@@ -1522,6 +1554,9 @@ fn print_summary_opt_processed(
                 |n| *n != 0,
                 color_choice,
             );
+            if let Some(duration) = summaryetlreader.etlreader_out_of_order_max {
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+            }
             return;
         }
         SummaryReaderData::Odl(stats) => {
@@ -1540,6 +1575,9 @@ fn print_summary_opt_processed(
             eprintln!("{}Decoding failures  : {}", indent2, stats.odlreader_decoding_failures);
             eprintln!("{}Records skipped    : {}", indent2, stats.odlreader_records_skipped);
             eprintln!("{}Out of order       : {}", indent2, stats.odlreader_out_of_order);
+            if let Some(duration) = stats.odlreader_out_of_order_max {
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+            }
             if let Some(dt) = stats.odlreader_datetime_first_processed {
                 eprintln!("{}Datetime first     : {}", indent2, dt);
             }
@@ -1574,6 +1612,9 @@ fn print_summary_opt_processed(
                 |n| *n != 0,
                 color_choice,
             );
+            if let Some(duration) = summaryevtxreader.evtxreader_out_of_order_max {
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+            }
             // for evtx files, nothing left to print about it so return
             return;
         }
@@ -1614,6 +1655,9 @@ fn print_summary_opt_processed(
                 |n| *n != 0,
                 color_choice,
             );
+            if let Some(duration) = summaryjournalreader.journalreader_out_of_order_max {
+                eprintln!("{}Out of order max: {}", indent2, seconds_to_hmsm(duration));
+            }
             return;
         }
     }
@@ -1641,6 +1685,14 @@ fn print_summary_opt_processed(
     let dt_out_of_order = summary.datetime_out_of_order();
     eprint!("{}out of order  : ", indent2);
     eprintln_display_color_error(&dt_out_of_order, |n| *n != 0, color_choice);
+    let out_of_order_max: Option<Duration> = match &summary.readerdata {
+        SummaryReaderData::FixedStruct((_, stats)) => stats.fixedstructreader_out_of_order_max,
+        SummaryReaderData::Syslog((_, _, stats, _)) => stats.syslinereader_out_of_order_max,
+        _ => None,
+    };
+    if let Some(duration) = out_of_order_max {
+        eprintln!("{}out of order max: {}", indent2, seconds_to_hmsm(duration));
+    }
 
     // print datetime regex patterns
     match &summary.readerdata {

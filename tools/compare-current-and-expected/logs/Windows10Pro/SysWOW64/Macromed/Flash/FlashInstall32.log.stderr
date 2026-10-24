@@ -28,6 +28,7 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       Datetime first: 2019-01-29 02:07:21 +08:00 (2019-01-28 18:07:21.228000 +00:00)
       Datetime last : 2021-05-01 21:39:34 +08:00 (2021-05-01 13:39:34.643000 +00:00)
       out of order  : 20
+      out of order max: 11s 39ms
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit    0, miss 2467,  0.0%

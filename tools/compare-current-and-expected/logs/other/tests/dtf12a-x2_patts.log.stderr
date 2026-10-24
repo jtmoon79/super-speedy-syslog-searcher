@@ -28,6 +28,7 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       Datetime first: 2022-01-31 00:00:02 +08:00 (2022-01-30 16:00:02.000000 +00:00)
       Datetime last : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
       out of order  : 4
+      out of order max: 7h 29m 59s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%

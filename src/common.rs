@@ -1393,7 +1393,7 @@ pub type FileOffset = u64;
 /// A `Vec` of `u8`.
 pub type Bytes = Vec<u8>;
 
-/// Separator `char` symbol for a filesystem path and subpath within a
+/// Internal separator `char` symbol for a filesystem path and subpath within a
 /// compressed file or an archive file. Used by an [`FPath`].
 ///
 /// e.g. `path/logs.tar|logs/syslog`<br/>
@@ -1401,10 +1401,14 @@ pub type Bytes = Vec<u8>;
 ///
 /// [`FPath`]: crate::common::FPath
 pub const SUBPATH_SEP: char = '\0';
-/// when printing a subpath separator, use this character
+/// User-facing subpath separator `char`.
 pub const SUBPATH_SEP_DISPLAY: char = '|';
-/// `SUBPATH_SEP_DISPLAY` as a `str`
+/// User-facing subpath separator `str`.
 pub const SUBPATH_SEP_DISPLAY_STR: &str = "|";
+/// Allowable alternate subpath separator `char` from user input.
+/// Useful in test situations where a file cannot be created with embedded
+/// `|` character.
+pub const SUBPATH_SEP_DISPLAY_ALT: char = '║';
 
 // --------------------
 // Lines and LineReader

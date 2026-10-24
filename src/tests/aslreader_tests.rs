@@ -8,12 +8,13 @@ use std::io::{
     Read,
 };
 use std::sync::atomic::AtomicBool;
-use std::time::SystemTime;
+use std::time::{Duration, SystemTime};
 
 use crate::common::{
     FileType,
     FileTypeArchive,
     LogMessageType,
+    summary_stats_enable,
     summary_stats_enabled,
 };
 use crate::data::asl::Asl;
@@ -44,6 +45,47 @@ fn reader_from_bytes(bytes: Vec<u8>) -> AslReader<Cursor<Vec<u8>>> {
         fixed_offset: FO_0,
     };
     AslReader::from_reader(Cursor::new(bytes), source).unwrap()
+}
+
+#[test]
+fn aslreader_out_of_order_max() {
+    summary_stats_enable();
+    for (timestamps, count, maximum) in [
+        ([(100u64, 0u32), (90, 250_000_000), (110, 0), (80, 500_000_000), (79, 0)], 3, Some(Duration::new(29, 500_000_000))),
+        ([(79, 0), (80, 500_000_000), (90, 250_000_000), (100, 0), (110, 0)], 0, None),
+    ] {
+        let mut bytes = vec![0; 80 + timestamps.len() * 122];
+        bytes[..12].copy_from_slice(b"ASL DB\0\0\0\0\0\0");
+        bytes[12..16].copy_from_slice(&2u32.to_be_bytes());
+        bytes[16..24].copy_from_slice(&80u64.to_be_bytes());
+        let last = 80 + (timestamps.len() - 1) * 122;
+        bytes[37..45].copy_from_slice(&(last as u64).to_be_bytes());
+        for (index, (seconds, nanos)) in timestamps.iter().enumerate() {
+            let offset = 80 + index * 122;
+            bytes[offset + 2..offset + 6].copy_from_slice(&116u32.to_be_bytes());
+            let data = &mut bytes[offset + 6..offset + 122];
+            if offset != last {
+                data[..8].copy_from_slice(&((offset + 122) as u64).to_be_bytes());
+            }
+            data[16..24].copy_from_slice(&seconds.to_be_bytes());
+            data[24..28].copy_from_slice(&nanos.to_be_bytes());
+        }
+        for after in [None, Some(ymdhmsl(&FO_0, 1970, 1, 1, 0, 1, 45, 0))] {
+            let mut reader = reader_from_bytes(bytes.clone());
+            let SummaryReaderData::Asl(stats) = reader.summary_complete().readerdata else {
+                panic!("expected ASL summary")
+            };
+            assert_eq!(stats.aslreader_out_of_order_max, None);
+            reader.analyze(&after, &None, &AtomicBool::new(false)).unwrap();
+            let SummaryReaderData::Asl(stats) = reader.summary_complete().readerdata else {
+                panic!("expected ASL summary")
+            };
+            assert_eq!(stats.aslreader_events_processed, 5);
+            assert_eq!(stats.aslreader_events_accepted, if after.is_some() { 1 } else { 5 });
+            assert_eq!(stats.aslreader_out_of_order, count);
+            assert_eq!(stats.aslreader_out_of_order_max, maximum);
+        }
+    }
 }
 
 #[test]
@@ -265,6 +307,7 @@ fn aslreader_empty_database_and_cancellation() {
         panic!("expected ASL summary")
     };
     assert_eq!(stats.aslreader_events_processed, 0);
+    assert_eq!(stats.aslreader_out_of_order_max, None);
 
     let mut reader = reader_from_bytes(std::fs::read(ASL_FIXTURES[0].0).unwrap());
     let error = reader
