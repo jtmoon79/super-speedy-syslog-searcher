@@ -2953,9 +2953,9 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
 struct CLI_Args {
     /// Path(s) of log files or directories.
     /// Directories will be recursed. Symlinks will be followed.
-    /// Select a ZIP/TAR member or directory with "archive.zip|member".
     /// Paths may also be passed via STDIN, one per line. The user must
     /// supply argument "-" to signify PATHS are available from STDIN.
+    /// Select a ZIP/TAR member or directory with "archive.zip|member".
     #[clap(
         required = true,
         verbatim_doc_comment,
