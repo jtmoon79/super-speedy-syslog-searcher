@@ -259,6 +259,10 @@ Helpful `git log` command for generating changelog entries:
 
 ## Unreleased
 
+- Report the largest backward timestamp jump between consecutive processed EVTX
+  events in the summary when out-of-order events are found, formatted as nonzero
+  hours, minutes, seconds, and milliseconds (including fractional milliseconds).
+
 - Accept quoted `archive.zip|member` and `archive.tar|member` paths, including
   recursive directory selection and an empty selector for the whole archive.
   Existing filesystem paths take precedence. Exact member selections retain

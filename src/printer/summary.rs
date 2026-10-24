@@ -13,6 +13,7 @@ use std::fmt;
 use std::path::PathBuf;
 use std::str;
 use std::time::{
+    Duration,
     Instant,
 };
 
@@ -118,6 +119,34 @@ const OPT_SUMMARY_PRINT_INDENT3: &str = "                   ";
 const DATETIMEFMT: &str = "%Y-%m-%d %H:%M:%S %:z";
 /// datetime format for secondary printing of datetime
 const DATETIMEFMT_SEC: &str = "%Y-%m-%d %H:%M:%S.%6f %:z";
+
+/// Format nonzero duration components, preserving fractional milliseconds.
+pub(crate) fn seconds_to_hmsm(duration: Duration) -> String {
+    let seconds = duration.as_secs();
+    let mut parts = Vec::new();
+    for (value, unit) in [
+        (seconds / 3600, "h"),
+        (seconds / 60 % 60, "m"),
+        (seconds % 60, "s"),
+    ] {
+        if value != 0 {
+            parts.push(format!("{}{}", value, unit));
+        }
+    }
+    let nanos = duration.subsec_nanos();
+    if nanos != 0 {
+        let millis = nanos / 1_000_000;
+        let fraction = nanos % 1_000_000;
+        if fraction == 0 {
+            parts.push(format!("{}ms", millis));
+        } else {
+            let fraction = format!("{:06}", fraction);
+            parts.push(format!("{}.{}ms", millis, fraction.trim_end_matches('0')));
+        }
+    }
+
+    parts.join(" ")
+}
 
 fn print_dimmed(
     s: &String,
@@ -1574,6 +1603,9 @@ fn print_summary_opt_processed(
                 |n| *n != 0,
                 color_choice,
             );
+            if let Some(duration) = summaryevtxreader.evtxreader_out_of_order_max {
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+            }
             // for evtx files, nothing left to print about it so return
             return;
         }
