@@ -1363,6 +1363,29 @@ fn test_process_path_archive_selection_outer_paths() {
     assert!(matches!(&process_path(&input, true)[..], [ProcessPathResult::FileErrNotAFile(_)]));
 }
 
+#[cfg(unix)]
+#[test]
+fn test_process_path_archive_selection_long_component() {
+    let dir = create_temp_dir();
+    let archive_name = format!("{}.zip", "a".repeat(100));
+    let archive_path = dir.path().join(archive_name);
+    let member_name = format!("{}.log", "b".repeat(180));
+    write_selection_archive(&archive_path, "zip", &[member_name.as_str()]);
+
+    let path = path_to_fpath(&archive_path);
+    let results = process_path(&format!("{path}|{member_name}"), true);
+    assert_eq!(
+        results,
+        vec![ProcessPathResult::FileValid(
+            format!("{path}{SUBPATH_SEP}{member_name}"),
+            FileType::Text {
+                archival_type: FileTypeArchive::Zip,
+                encoding_type: FileTypeTextEncoding::Utf8Ascii,
+            },
+        )],
+    );
+}
+
 #[cfg(not(windows))]
 #[test]
 fn test_process_path_archive_selection_filesystem_precedence() {

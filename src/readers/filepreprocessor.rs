@@ -1777,14 +1777,15 @@ pub fn process_path(
         Ok(val) => val,
         Err(err) => {
             // Windows rejects the display separator before checking path existence.
-            if err.kind() == std::io::ErrorKind::NotFound
-                || (cfg!(windows) && err.kind() == std::io::ErrorKind::InvalidFilename)
-            {
-                if let Some((archive_path, selector)) = path.split_once(SUBPATH_SEP_DISPLAY) {
-                    return process_archive_selector(path, archive_path, selector);
-                } else if let Some((archive_path, selector)) = path.split_once(SUBPATH_SEP_DISPLAY_ALT) {
-                    return process_archive_selector(path, archive_path, selector);
-                }
+            if matches!(
+                err.kind(),
+                std::io::ErrorKind::NotFound | std::io::ErrorKind::InvalidFilename
+            ) {
+                if let Some((archive_path, selector)) = path.split_once(
+                    [SUBPATH_SEP_DISPLAY, SUBPATH_SEP_DISPLAY_ALT]
+                ) {
+                     return process_archive_selector(path, archive_path, selector);
+                 }
             }
             match err.kind() {
                 std::io::ErrorKind::NotFound => {
