@@ -1,0 +1,97 @@
+
+Files:
+
+File: ./logs/other/tests/gen-100-10.tar|gen-100-10-skullcrossbones.log
+  About:
+      Subpath     : gen-100-10-skullcrossbones.log
+      FileType      : TEXT UTF8/ASCII (TAR) (text log)
+      LogMessageType: text log lines
+  Printed:
+      bytes         : 189049
+      flushes       : 1000
+      Lines         : 1000
+      Syslines      : 1000
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:01:39 +08:00 (1999-12-31 16:01:39.000000 +00:00)
+  Processed:
+      file size archive   : 491520 (0x78000) (bytes)
+      file size unarchived: 94049 (0x16F61) (bytes)
+      bytes         : 94049 (0x16F61)
+      bytes total   : 94049 (0x16F61)
+      Block size    : 256 (0x100)
+      Blocks        : 368
+      Blocks total  : 368 (94208 bytes)
+      Lines         : 1000
+      Line longest  : 184 (bytes)
+      Line parts    : 1361
+      Syslines      : 1000
+      Sysline longest: 184 (bytes)
+      Syslines high : 37
+      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime last : 2000-01-01 00:01:39 +08:00 (1999-12-31 16:01:39.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing stores:
+      storage: LineReader::find_line() lines                       : hit    0, miss 1999,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 1000, miss 1000, 50.0%, put 1000
+      copying: SyslineReader::get_boxptrs()                        : sgl  903, dbl   175, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss 1000,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    1,  0.0%, put    1
+      caching: SyslineReader::find_sysline() LRU cache             : hit    1, miss 1000,  0.1%, put 1000
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  999, miss 1000, 50.0%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit    0, miss    5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss 1073,  0.0%, largest skipped 0
+      process: regex captures                                      : hit 1000, miss   78
+  Processing Drops:
+
+Program summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 193050
+Printed flushes        : 2001
+Printed Lines          : 1000
+Printed Syslines       : 1000
+Printed ASL events     : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
+Printed FixedStruct    : 0
+Printed Journal events : 0
+Printed ODL events     : 0
+Line Maximum                   : 393209
+Line longest                   : 184
+Sysline longest                : 184
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 0
+Journal event largest accepted : 0
+ODL event largest processed    : 0
+ODL event largest accepted     : 0
+Managed files max deflt: 980
+Managed files max adjus: 200
+Managed request open   : 2
+Managed request read   : 0
+Managed write calls    : 0
+Managed seek calls     : 11
+Managed metadata calls : 1
+Managed open errors    : 0
+Managed evict fails    : 0
+Regex patterns known   : 188
+Regex patterns compiled: 188
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+Datetime printed last  : 2000-01-01 00:01:39 +08:00 (1999-12-31 16:01:39.000000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel receive ok     : 1002
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
+Temporary files created: 0
+Temporary directory    : /tmp
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system

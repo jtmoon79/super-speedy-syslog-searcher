@@ -39,14 +39,12 @@ jobs:
           cd /tmp
           HYPERFINE_VERSION=v2.0.0
           HYPERFINE_ARCHIVE="hyperfine-${HYPERFINE_VERSION}-x86_64-unknown-linux-musl.tar.gz"
-          HYPERFINE_BIN="hyperfine-${HYPERFINE_VERSION}-x86_64-unknown-linux-musl"
+          HYPERFINE_DIR="hyperfine-${HYPERFINE_VERSION}-x86_64-unknown-linux-musl"
           wget --no-verbose --tries=3 "https://github.com/sharkdp/hyperfine/releases/download/${HYPERFINE_VERSION}/${HYPERFINE_ARCHIVE}"
           tar -xzvf "${HYPERFINE_ARCHIVE}"
           mkdir -vp "$HOME/.local/bin"
-          mv -v "${HYPERFINE_BIN}" "$HOME/.local/bin/hyperfine"
+          mv -v "${HYPERFINE_DIR}/hyperfine" "$HOME/.local/bin/hyperfine"
           chmod -v +x "$HOME/.local/bin/hyperfine"
-          echo "$PATH"
-          which -a which
           which -a hyperfine
           hv=$(hyperfine --version)
           echo "${hv}"
@@ -63,14 +61,17 @@ jobs:
         run: |
           SWAPFILE=/swapfile_16GB
           set -euxo pipefail
+          # show memory and disk usage before
           df -h /
           swapon --show
+          # create the swap file
           sudo install -m 0600 /dev/null ${SWAPFILE}
           sudo dd if=/dev/zero of=${SWAPFILE} bs=1M count=16384 status=progress
           sudo mkswap ${SWAPFILE}
           sudo swapon ${SWAPFILE}
+          # show memory and disk usage after
           swapon --show
-          free -h
+          free -htvw
           df -h /
       - name: Build release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         timeout-minutes: 120
@@ -83,6 +84,9 @@ jobs:
           cp -av ./target/release/s4 "${S4R}"
           chmod -v 0555 "${S4R}"
           "${S4R}" --version
+          # just curious current memory looks like after the build
+          swapon --show
+          free -htvw
       - uses: bencherdev/bencher@v0.6.13
       - name: Benchmark each log file
         shell: bash

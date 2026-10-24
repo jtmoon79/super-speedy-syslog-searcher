@@ -937,17 +937,18 @@ struct ZipData {
 
 impl ZipData {
     fn start(&mut self, blocksz: BlockSz, filesz: FileSz, path: &FPath) -> Result<()> {
+        def1n!("start zip reader for {path:?} filesz {filesz}");
         if self.finished || self.producer.is_some() {
             return Ok(());
         }
         let mut archive = self.archive.take().ok_or_else(|| Error::new(
             ErrorKind::InvalidData, format!("ZIP archive not initialized for {path:?}"),
         ))?;
-        let entry_index = self.entry_index;
+        let entry_index: usize = self.entry_index;
         let (sender, receiver) = bounded::<ArchiveMessage>(1);
-        let path = path.clone();
-        let thread_name = format!("{}-zip-reader", thread::current().name().unwrap_or("s4"));
-        let producer = thread::Builder::new()
+        let path: FPath = path.clone();
+        let thread_name: String = format!("{}-zip-reader", thread::current().name().unwrap_or("s4"));
+        let producer: JoinHandle<()> = thread::Builder::new()
             .name(thread_name)
             .spawn(move || {
                 let result = (|| -> Result<()> {
@@ -977,6 +978,8 @@ impl ZipData {
             })?;
         self.receiver = Some(receiver);
         self.producer = Some(producer);
+        def1x!();
+
         Ok(())
     }
 
@@ -1348,7 +1351,7 @@ impl BlockReader {
         }
         // shadow mutable variable with immutable
         // XXX: does the compiler optimize this extra `clone` alloc?
-        let path = path.clone();
+        let path: FPath = path.clone();
         let path_std: &Path = Path::new(&path);
 
         def1o!("FILE_HANDLE_MANAGER.request_open_managed({:?})", path);

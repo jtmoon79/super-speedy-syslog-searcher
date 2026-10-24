@@ -29,6 +29,7 @@ use std::io::{
     Result,
 };
 use std::sync::Arc;
+use std::time::Duration;
 
 use ::itertools::Itertools; // brings in `sorted_by`
 use ::lru::LruCache;
@@ -654,6 +655,9 @@ pub struct SyslineReader {
     /// Summary statistic.
     /// Count of syslinereader entries found to be not in chronological order.
     pub(super) out_of_order: Count,
+    /// Largest backward timestamp jump between consecutive forward-offset parses.
+    pub(super) out_of_order_max: Option<Duration>,
+    dt_previous_processed: Option<(DateTimeL, FileOffset)>,
     /// `Count`s found patterns stored in `dt_patterns`.
     /// "mirrors" the global [`DATETIME_PARSE_DATAS`].
     /// Keys are indexes into `DATETIME_PARSE_DATAS`,
@@ -871,6 +875,8 @@ pub struct SummarySyslineReader {
     pub syslinereader_datetime_last: DateTimeLOpt,
     /// `SyslineReader::out_of_order`
     pub syslinereader_datetime_out_of_order: Count,
+    /// Largest backward jump between forward-offset parses, or `None`.
+    pub syslinereader_out_of_order_max: Option<Duration>,
     /// `SyslineReader::find_sysline`
     pub syslinereader_find_sysline_lru_cache_hit: Count,
     /// `SyslineReader::find_sysline`
@@ -987,6 +993,8 @@ impl SyslineReader {
             dt_last_prev: None,
             dt_last_prev_offset: 0,
             out_of_order: 0,
+            out_of_order_max: None,
+            dt_previous_processed: None,
             dt_patterns_counts,
             dt_patterns_indexes,
             tz_offset,
@@ -1391,6 +1399,8 @@ impl SyslineReader {
         summary_stat!(self.dt_last_prev = None);
         summary_stat!(self.dt_last_prev_offset = 0);
         summary_stat!(self.out_of_order = 0);
+        summary_stat!(self.out_of_order_max = None);
+        summary_stat!(self.dt_previous_processed = None);
         if cache_enable {
             self.LRU_cache_enable();
         }
@@ -1431,6 +1441,7 @@ impl SyslineReader {
                 summary_stat!(self.dt_first = self.dt_first_prev);
                 summary_stat!(self.dt_last = self.dt_last_prev);
                 summary_stat!(self.dt_last_offset = self.dt_last_prev_offset);
+                summary_stat!(self.dt_previous_processed = None);
             }
             None => {
                 defo!("syslines failed to remove {}", fileoffset);
@@ -1961,7 +1972,7 @@ impl SyslineReader {
 
     /// Update the two statistic `DateTimeL` of
     /// `self.dt_first` and `self.dt_last`.
-    fn dt_first_last_update(
+    pub(crate) fn dt_first_last_update(
         &mut self,
         datetime: &DateTimeL,
         offset: FileOffset,
@@ -1970,6 +1981,13 @@ impl SyslineReader {
             return;
         }
         defñ!("({:?})", datetime);
+        if let Some((previous, previous_offset)) = self.dt_previous_processed {
+            if previous_offset < offset && previous > *datetime {
+                let duration = (previous - *datetime).to_std().expect("backward timestamp jump is positive");
+                self.out_of_order_max = Some(self.out_of_order_max.map_or(duration, |max| max.max(duration)));
+            }
+        }
+        self.dt_previous_processed = Some((*datetime, offset));
         match self.dt_first {
             Some(dt_first_) => {
                 if &dt_first_ > datetime {
@@ -3667,6 +3685,7 @@ impl SyslineReader {
         let syslinereader_datetime_first = self.dt_first;
         let syslinereader_datetime_last = self.dt_last;
         let syslinereader_datetime_out_of_order = self.out_of_order;
+        let syslinereader_out_of_order_max = self.out_of_order_max;
 
         SummarySyslineReader {
             syslinereader_sysline_longest,
@@ -3703,6 +3722,7 @@ impl SyslineReader {
             syslinereader_datetime_first,
             syslinereader_datetime_last,
             syslinereader_datetime_out_of_order,
+            syslinereader_out_of_order_max,
         }
     }
 }

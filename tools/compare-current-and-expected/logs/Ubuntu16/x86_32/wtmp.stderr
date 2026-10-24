@@ -27,6 +27,7 @@ File: ./logs/Ubuntu16/x86_32/wtmp
       Datetime first: 2023-12-15 16:40:54 +08:00 (2023-12-15 08:40:54.500000 +00:00)
       Datetime last : 2023-12-15 16:55:48 +08:00 (2023-12-15 08:55:48.887567 +00:00)
       out of order  : 3
+      out of order max: 10s
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss 15, 21.1%
   Processing Drops:

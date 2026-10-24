@@ -22,6 +22,7 @@
 # PROGRAM_LNAV to override the lnav found in PATH.
 # PROGRAM_LM to override the logmerger found in PATH.
 # PROGRAM_TL to override the toolong (tl) found in PATH.
+# HRUNS: number of hyperfine runs to perform (default: 30)
 
 set -eu
 
@@ -98,7 +99,7 @@ readonly PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
 
 echo
 
-declare -ir HRUNS=30
+declare -ir HRUNS=${HRUNS-30}
 
 # make sure Python packages are installed to expected versions
 (
@@ -148,17 +149,23 @@ function json_file_new() {
 }
 
 function write_metadata() {
-    printf '%s|%s|%s|%s|%s|%s\n' "$@" > "${json_file}.metadata"
+    local json_file_="${1}"
+    shift
+    printf '%s|%s|%s|%s|%s|%s|%s\n' "$@" > "${json_file_}.metadata"
 }
 
+# Pass a Hyperfine JSON file to validate its structure and required metrics.
+#
 # JSON always exports seconds, bytes, and raw counts, regardless of --metrics units.
 # Schema 2: {schema_version: 2, results: [{name: "...", command: "...",
 #   measurements: [{time_wall_clock: {value: 1, unit: "second"}, ...}],
 #   summary: {time_wall_clock: {mean: 1, stddev: null, min: 1, max: 1,
 #                             count: 1, unit: "second"}, ...}}]}
 function validate_json() {
+    local json_file_="${1}"
+    shift
     # shellcheck disable=SC2016
-    "${JQ}" -e '
+    if ! "${JQ}" -e '
         def require($ok; $message):
             if $ok then . else error($message) end;
         require(.schema_version == 2; "expected hyperfine JSON schema_version 2")
@@ -192,10 +199,10 @@ function validate_json() {
                    else true end);
                   "\($name): unexpected unit for \($metric)")
         | true
-    ' "${1}" > /dev/null || {
-        echo "ERROR: invalid hyperfine measurements in ${1}; all requested metrics are required (check hardware counter permissions)" >&2
+    ' "${json_file_}" > /dev/null; then
+        echo "ERROR: invalid hyperfine measurements in ${json_file_}; all requested metrics are required (check hardware counter permissions)" >&2
         return 1
-    }
+    fi
 }
 
 function metrics_row() {
@@ -216,7 +223,7 @@ function metrics_row() {
              ($s.branch_misses.mean / 1000000)] | @tsv
         ' "${1}"
     )
-    if [[ "${stddev}" != 'N/A' ]]; then
+    if [[ "${stddev}" != 'N/A' && "${stddev}" != '' ]]; then
         printf -v stddev '%.1f' "${stddev}"
     fi
     printf '%.1f ± %s|%.1f|%.1f|%.1f|%.3f|%.3f|%.3f|%.3f|\n' \
@@ -231,6 +238,7 @@ trap exit_ EXIT
 
 
 if [[ ! "${PROGRAMS_S4_LISTING-}" ]]; then
+    # empty `PROGRAMS_S4_LISTING`
     echo "Environment variable PROGRAMS_S4_LISTING not set to a TSV file" >&2
     echo "Use found values:" >&2
     readonly PROGRAMS_S4_LISTING=${TEMPD}/programs-s4-listing.tsv
@@ -261,14 +269,32 @@ if [[ ! "${PROGRAMS_S4_LISTING-}" ]]; then
             echo "${p}"
         fi
     done > "${PROGRAMS_S4_LISTING}"
+    echo >&2
+    echo "PROGRAMS_S4_LISTING:" >&2
     cat "${PROGRAMS_S4_LISTING}" >&2
     echo >&2
+    echo >&2
     sleep 1
-fi
-
-if [[ ! -f "${PROGRAMS_S4_LISTING}" ]]; then
-    echo "ERROR: PROGRAMS_S4_LISTING must point to a TSV file: ${PROGRAMS_S4_LISTING}" >&2
-    exit 1
+elif [[ ! -f "${PROGRAMS_S4_LISTING}" ]]; then
+    # `PROGRAMS_S4_LISTING` is not a file
+    # check that each line refers to a program
+    while read pline; do
+        p=$(echo -n "${pline}" | cut -f1 -d$'\t')
+        if [[ ! -f "${p}" ]]; then
+            echo "ERROR: PROGRAMS_S4_LISTING not found: ${p}" >&2
+            exit 1
+        fi
+    done <<< "${PROGRAMS_S4_LISTING}"
+    # write contents to temporary TSV file
+    readonly ptmp=${TEMPD}/programs-s4-listing.tsv
+    echo -n "${PROGRAMS_S4_LISTING}" > "${ptmp}"
+    readonly PROGRAMS_S4_LISTING="${ptmp}"
+    echo >&2
+    echo "PROGRAMS_S4_LISTING:" >&2
+    cat "${PROGRAMS_S4_LISTING}" >&2
+    echo >&2
+    echo >&2
+    sleep 1
 fi
 
 # datetime range for s4, lnav
@@ -309,7 +335,30 @@ function echo_command() {
 
 # print the s4 version string from the --version string
 #
-# s4 newer --version format <=0.10
+# s4 version format >=0.11
+#    s4 (Super Speedy Syslog Searcher)
+#    Version: 0.10.83
+#    MSRV: 1.99.1
+#    Profile: build
+#    Allocator: system
+#    Features:
+#    Platform: x86_64-unknown-linux-gnu
+#    Target OS: linux
+#    Target OS Family: unix
+#    Arch: x86_64
+#    CPU Target: default
+#    CPU Features: fxsr,sse,sse2,x87
+#    Compiled Regular Expressions: 188
+#    Compiler Version: 1.101.0-nightly
+#    Rust Build Flags:
+#    Optimization Level: 3
+#    Git Commit: 85c5a23fb320e0220769151e374cf73a9a47be26
+#    Build Date: 2026-10-21T02:38:48
+#    License: MIT
+#    Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+#    Author: James Thomas Moon
+#
+# s4 version format >=0.10
 #    s4 (Super Speedy Syslog Searcher)
 #    Version: 0.10.83
 #    MSRV: 1.88.0
@@ -339,7 +388,7 @@ function echo_command() {
 #    MSRV: 1.88.0
 #    Allocator: system
 #
-# s4 older --version formats <0.8.80
+# s4 older version format <0.8.80
 #    $ s4 --version
 #    s4 (Super Speedy Syslog Searcher), Version 0.7.79, Allocator system
 #
@@ -412,6 +461,20 @@ function s4_cpu_target() {
     else
         # old version format
         echo_warn "no CPU Target found for s4 program ${prog}" >&2
+    fi
+}
+
+function s4_cpu_features() {
+    declare -r prog=$1
+    declare out=
+    out=$("${prog}" --version)
+    # check if new version
+    if echo -n "${out}" | grep -qE '^CPU Features: ' &> /dev/null; then
+        # new version format
+        echo -n "${out}" | grep -Ee '^CPU Features: ' | sed -E 's/^CPU Features: (.+)$/\1/'
+    else
+        # old version format
+        echo_warn "no CPU Features found for s4 program ${prog}" >&2
     fi
 }
 
@@ -490,8 +553,17 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra || [[ -n "${s4_prog_path}" ]]
         allocator=$(s4_allocator "${s4_full_path}")
         platform=$(s4_platform "${s4_full_path}")
         cpu_target=$(s4_cpu_target "${s4_full_path}")
+        cpu_features=$(s4_cpu_features "${s4_full_path}")
         opt_lvl=$(s4_opt_lvl "${s4_full_path}")
-        write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
+        write_metadata \
+            "${json_file}" \
+            "${version}" \
+            "${profile}" \
+            "${allocator}" \
+            "${platform}" \
+            "${cpu_target}" \
+            "${cpu_features}" \
+            "${opt_lvl}"
     )
 done < "${PROGRAMS_S4_LISTING}"
 
@@ -535,8 +607,17 @@ validate_json "${json_file}"
     allocator=' '
     platform=$(arch)
     cpu_target=' '
+    cpu_features=' '
     opt_lvl=' '
-    write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
+    write_metadata \
+        "${json_file}" \
+        "${version}" \
+        "${profile}" \
+        "${allocator}" \
+        "${platform}" \
+        "${cpu_target}" \
+        "${cpu_features}" \
+        "${opt_lvl}"
     "${GREP}" -hEe "${regex_dt}" -- "${files[@]}" | "${SORT}" -t ' ' -k 1 -s > "${tmpOut}"
 )
 
@@ -591,8 +672,17 @@ validate_json "${json_file}"
     allocator=' '
     platform=$(arch)
     cpu_target=' '
+    cpu_features=' '
     opt_lvl=' '
-    write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
+    write_metadata \
+        "${json_file}" \
+        "${version}" \
+        "${profile}" \
+        "${allocator}" \
+        "${platform}" \
+        "${cpu_target}" \
+        "${cpu_features}" \
+        "${opt_lvl}"
     "${lnav_args[@]}" > "${tmpOut}"
 )
 
@@ -646,8 +736,17 @@ validate_json "${json_file}"
     allocator=' '
     platform=$("${PYTHON}" --version)
     cpu_target=' '
+    cpu_features=' '
     opt_lvl='2'
-    write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
+    write_metadata \
+        "${json_file}" \
+        "${version}" \
+        "${profile}" \
+        "${allocator}" \
+        "${platform}" \
+        "${cpu_target}" \
+        "${cpu_features}" \
+        "${opt_lvl}"
 )
 
 echo_line
@@ -683,9 +782,18 @@ if ! ${skip_tl}; then
         profile=' '
         platform=$("${PYTHON}" --version)
         cpu_target=' '
+        cpu_features=' '
         opt_lvl='2'
         echo_command "${PROGRAM_TL}" --merge --output-merge "${tmpOut}" "${files[@]}"
-        write_metadata "${version}" "${profile}" "${allocator}" "${platform}" "${cpu_target}" "${opt_lvl}"
+        write_metadata \
+            "${json_file}" \
+            "${version}" \
+            "${profile}" \
+            "${allocator}" \
+            "${platform}" \
+            "${cpu_target}" \
+            "${cpu_features}" \
+            "${opt_lvl}"
         set -x
         "${HYPERFINE}" \
             --metrics "${METRICS}" \
@@ -714,29 +822,28 @@ echo
 echo_line
 
 # markdown table header
-echo '|Program|Version|Profile|Allocator|Platform|CPU Target|Opt Level|Mean (ms)|Min (ms)|Max (ms)|Mean peak RSS (kB)|Mean CPU cycles (M)|Mean cache references (M)|Mean cache misses (M)|Mean branch misses (M)|' > "${tmpOut}"
-echo '|:---|:---|:---|:---|:---|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|' >> "${tmpOut}"
+echo '|Program|Version|Profile|Allocator|Platform|CPU Target|CPU Features|Opt Level|Wall Clock ̅𝓍 (ms)|Min (ms)|Max (ms)|̅𝓍 peak RSS (kB)|̅𝓍 CPU cycles (M)|̅𝓍 cache refs (M)|̅𝓍 cache miss (M)|̅𝓍 branch miss (M)|' > "${tmpOut}"
+echo '|:---   |:---   |:---   |:---     |:---    |:---      |:---        |:---     |---:             |---:    |---:    |---:           |---:            |---:            |---:            |---:             |' >> "${tmpOut}"
 
 json_count=$(wc -l < "${json_files}")
 echo "Processing ${json_count} JSON files to generate markdown table..." >&2
 
 # markdown table rows
-exec 3< "${json_files}"
-while IFS= read -r json <&3; do
-    validate_json "${json}"
-    if [[ ! -s "${json}.metadata" ]]; then
-        echo "ERROR: missing benchmark metadata for ${json}" >&2
+while read -r json_file1; do
+    validate_json "${json_file1}"
+    if [[ ! -s "${json_file1}.metadata" ]]; then
+        echo "ERROR: missing benchmark metadata for ${json_file1}" >&2
         exit 1
     fi
-    echo "Processing file: ${json}" >&2
+    echo "Processing file: ${json_file1}" >&2
     (
-        command=$("${JQ}" -r '.results[0].name // .results[0].command' "${json}")
-        printf "|\`%s\`|%s|" "${command}" "$(cat "${json}.metadata")"
-        metrics_row "${json}"
+        command=$("${JQ}" -r '.results[0].name // .results[0].command' "${json_file1}")
+        printf "|\`%s\`|%s|" "${command}" "$(cat "${json_file1}.metadata")"
+        metrics_row "${json_file1}"
     ) >> "${tmpOut}"
-done
-exec 3<&-
+done < "${json_files}"
 
+# create nicely spaced markdown table
 cat "${tmpOut}" | column -t -s '|' -o '|' > "${mdfinal}"
 
 mdFinalFinal=${mdfinal}
@@ -750,17 +857,8 @@ echo
 cat "${mdFinalFinal}"
 echo
 
+# create HTML of .md file
 (set -x; ./tools/mdtohtml.sh "${mdFinalFinal}")
 
-export PATH="${PATH}:${HOME}/go/bin"  # for glow
-if which glow &>/dev/null; then
-    declare -i col=180
-    if [[ $COLUMNS -lt $col ]]; then
-        col=${COLUMNS}
-    fi
-    glow "${mdFinalFinal}" --width ${col}
-    echo
-else
-    echo "install 'glow' for pretty markdown viewing" >&2
-    echo "    go install github.com/charmbracelet/glow/v2@latest" >&2
-fi
+# print markdown nicely using glow
+./tools/glow.sh --preserve-new-lines "${mdFinalFinal}"

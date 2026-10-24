@@ -1,0 +1,75 @@
+
+Files:
+
+File: ./logs/programs/journal/all.zip|logs/programs/journal/Ubuntu22-user-1000.journal
+  About:
+      Subpath     : logs/programs/journal/Ubuntu22-user-1000.journal
+      FileType      : JOURNAL (ZIP) (systemd Journal)
+      LogMessageType: systemd journal entry
+  Printed:
+      bytes         : 2149545
+      flushes       : 1264
+      Journal events: 422
+      Journal event largest processed: 1321 (bytes)
+      Journal event largest accepted : 1321 (bytes)
+      Datetime first: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+      Datetime last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+  Processed:
+      File size     : 8388608 (0x800000) (bytes)
+      Journal events: 422
+      lib. API calls: 29533
+      API errors    : 0
+      Datetime first: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+      Datetime last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+      Out of order  : 0
+
+Program summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 2151233
+Printed flushes        : 1686
+Printed Lines          : 0
+Printed Syslines       : 0
+Printed ASL events     : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
+Printed FixedStruct    : 0
+Printed Journal events : 422
+Printed ODL events     : 0
+Line Maximum                   : 393209
+Line longest                   : 0
+Sysline longest                : 0
+ETL event largest processed    : 0
+ETL event largest accepted     : 0
+EVTX event largest processed   : 0
+EVTX event largest accepted    : 0
+Journal event largest processed: 1321
+Journal event largest accepted : 1321
+ODL event largest processed    : 0
+ODL event largest accepted     : 0
+Managed files max deflt: 980
+Managed files max adjus: 200
+Managed request open   : 3
+Managed request read   : 0
+Managed write calls    : 1035
+Managed seek calls     : 635
+Managed metadata calls : 1
+Managed open errors    : 0
+Managed evict fails    : 0
+Regex patterns known   : 188
+Regex patterns compiled: 188
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+Datetime printed last  : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel receive ok     : 424
+Channel receive err    : 0
+Threads spawned        : 1
+Thread spawn errors    : 0
+Temporary files created: 1
+Temporary directory    : /tmp
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system

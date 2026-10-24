@@ -78,13 +78,7 @@ for LOGFILE in "${FILES[@]}"; do
         exit 1
     }
     echo -en "\e[93m" >&2  # light yellow
-    if which glow &>/dev/null; then
-        glow --width=${COLUMNS} --preserve-new-lines "${OUT}" >&2
-    else
-        (
-            cat "${OUT}"
-        ) >&2
-    fi
+    ./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${OUT}" >&2
     echo -en "\e[39m" >&2  # default
     echo >&2
     echo "Output written to '${OUT}'" >&2

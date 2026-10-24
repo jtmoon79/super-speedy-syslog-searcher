@@ -20,7 +20,7 @@ File: ./logs/Debian11/aarch64_ARMv6/wtmp
       Blocks total  : 5 (1280 bytes)
       Entries       : 3
       Entry size    : 384 (bytes)
-      Entry hi-score: 141
+      Entry hi-score: 129
       first Entry   : @0
       Entry high    : 3
       peak map size : 3

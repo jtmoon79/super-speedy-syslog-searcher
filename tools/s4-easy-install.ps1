@@ -21,6 +21,8 @@
     Optional override of install directory; must be a writable directory in the user's PATH.
 .PARAMETER Test
     Test the download and run, do not install.
+.PARAMETER DryRun
+    Do everything up to downloading the files. Useful for testing within CI.
 .PARAMETER trace
     Turn on debug tracing.
 .PARAMETER Help
@@ -35,7 +37,7 @@
 [CmdletBinding()]
 param(
     [Parameter()]
-    [string] $Version = '0.10.83',  # PROJECT VERSION LAST PUBLISHED
+    [string] $Version = '0.11.84',  # PROJECT VERSION LAST PUBLISHED
     [Parameter()]
     [string] $Triple,
     [Parameter()]
@@ -44,6 +46,8 @@ param(
     [string] $InstallDir,
     [Parameter()]
     [switch] $Test,
+    [Parameter()]
+    [switch] $DryRun,
     [Parameter()]
     [switch] $trace,
     [Parameter()]
@@ -122,7 +126,7 @@ if ([string]::IsNullOrWhiteSpace($Version)) {
         $Version = $env:VER
     }
     else {
-        $Version = '0.10.83' # PROJECT VERSION LAST PUBLISHED
+        $Version = '0.11.84' # PROJECT VERSION LAST PUBLISHED
     }
 }
 
@@ -335,6 +339,10 @@ function Main {
             $urlChecksum = [Uri]($urlZip.ToString() + '.sha256')
 
             try {
+                if ($DryRun) {
+                    Write-Info "-DryRun enabled; skipping download and extraction for target $targetTriple"
+                    continue
+                }
                 Write-Info "download release $Version for target $targetTriple ..."
                 Download-File -Uri $urlZip -OutFile $zipPath
 
@@ -392,6 +400,11 @@ function Main {
                 Write-Warning "candidate $targetTriple failed: $($_.Exception.Message)"
                 continue
             }
+        }
+
+        if ($DryRun) {
+            Write-Info "-DryRun enabled; skipping installation"
+            return
         }
 
         if ([string]::IsNullOrWhiteSpace($selectedBinaryPath)) {

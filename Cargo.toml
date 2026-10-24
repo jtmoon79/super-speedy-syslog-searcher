@@ -29,7 +29,7 @@ utf8-ranges = "1.0.5"  # TODO: utf8-ranges is deprecated
 [workspace.package]
 license = "MIT"
 repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
-version = "0.10.83"  # PROJECT VERSION WIP
+version = "0.11.84"  # PROJECT VERSION WIP
 
 [package]
 name = "super_speedy_syslog_searcher"
@@ -45,7 +45,7 @@ categories = [
     "date-and-time",
     "filesystem",
 ]
-version = "0.10.83"  # PROJECT VERSION WIP
+version = "0.11.84"  # PROJECT VERSION WIP
 edition = "2024"
 # MSRV: `rust-version` should match ./github/workflows/rust.yml:rust_msrv:msrv
 rust-version = "1.99.1"
@@ -193,7 +193,7 @@ bench = false
 [package.metadata.binstall]
 bin = "s4"
 # PROJECT VERSION LAST PUBLISHED
-pkg-url = "{ repo }/releases/download/0.10.83/s4_{ target }_v0.10.83{ archive-suffix }"
+pkg-url = "{ repo }/releases/download/0.11.84/s4_{ target }_v0.11.84{ archive-suffix }"
 bin-dir = "s4{ binary-ext }"
 pkg-fmt = "zip"
 

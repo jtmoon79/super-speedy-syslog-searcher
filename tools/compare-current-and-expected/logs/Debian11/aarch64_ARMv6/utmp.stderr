@@ -20,13 +20,14 @@ File: ./logs/Debian11/aarch64_ARMv6/utmp
       Blocks total  : 14 (3584 bytes)
       Entries       : 8
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @384
       Entry high    : 4
       peak map size : 8
       Datetime first: 2023-11-27 13:07:44 +08:00 (2023-11-27 05:07:44.534149 +00:00)
       Datetime last : 2024-02-18 05:19:07 +08:00 (2024-02-17 21:19:07.971570 +00:00)
       out of order  : 2
+      out of order max: 1169h 56m 8s 385.986ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  4, 50.0%
   Processing Drops:

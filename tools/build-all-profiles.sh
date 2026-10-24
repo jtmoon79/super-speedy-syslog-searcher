@@ -74,7 +74,7 @@ wait ${PIDs[@]}
 ./target/alloc_tracker/s4 --version
 ./target/flamegraph/s4 --version
 
-# valgrind, check
+# valgrind, check, build-x86_64-v4
 
 PIDs=()
 
@@ -82,10 +82,13 @@ RUSTFLAGS=-g cargo build --locked --profile valgrind &
 PIDs+=($!)
 cargo check --locked &
 PIDs+=($!)
+cargo build-x86_64-v4 --release &
+PIDs+=($!)
 
 wait ${PIDs[@]}
 
 ./target/valgrind/s4 --version
+./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4 --version
 
 # release_Opt0, clippy, docs
 

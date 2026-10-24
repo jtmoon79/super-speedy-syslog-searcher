@@ -90,7 +90,6 @@ const DATA_XML_U8: &[u8] = DATA_XML.as_bytes();
 
 /// various byte range iteration strategies
 /// for `s4lib::printer::printers::print_evtx_prepend`
-
 #[inline(never)]
 fn get_byteslice_find_byte_and_repeatlast() {
     let data = DATA_XML_U8;

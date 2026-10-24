@@ -454,11 +454,12 @@ fn test_process_dt_other(
 fn test_cli_filter_patterns_print_indexes() {
     stack_offset_set(None);
     defn!();
-    for i in 0..CLI_FILTER_PATTERNS_COUNT {
-        let dtf_pattern = &CLI_FILTER_PATTERNS[i];
-        defo!(
-            "CLI_FILTER_PATTERNS[{i}] pattern: {:?}", dtf_pattern.pattern,
-        );
+    for (i, dtf_pattern) in CLI_FILTER_PATTERNS
+        .iter()
+        .enumerate()
+        .take(CLI_FILTER_PATTERNS_COUNT)
+    {
+        defo!("CLI_FILTER_PATTERNS[{i}] pattern: {:?}", dtf_pattern.pattern);
     }
     defx!();
 }
@@ -722,8 +723,8 @@ fn test_string_wdhms_to_duration(
 #[test_case(r"\x00\", None)]
 #[test_case(r"\x0Z", None)]
 #[test_case(r"\xZ0", None)]
-#[test_case(r"\x00", Some("\0"); "hex escape 00")]
-#[test_case(r"\x000", Some("\00"); "hex escape 00 0")]
+#[test_case(r"\x00", Some("\x00"); "hex escape 00")]
+#[test_case(r"\x000", Some("\x000"); "hex escape 000")]
 #[test_case(r"\x3B", Some(";"); "hex escape 3B semicolon")]
 #[test_case(r"\x3BZ", Some(";Z"); "hex escape 3B semicolon Z")]
 #[test_case(r"A\x3B", Some("A;"); "A hex escape 3B semicolon")]

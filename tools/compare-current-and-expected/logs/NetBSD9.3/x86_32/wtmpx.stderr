@@ -20,7 +20,7 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx
       Blocks total  : 25 (6400 bytes)
       Entries       : 12
       Entry size    : 516 (bytes)
-      Entry hi-score: 150
+      Entry hi-score: 140
       first Entry   : @0
       Entry high    : 5
       peak map size : 12

@@ -547,6 +547,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 2,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 0,
@@ -569,6 +570,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 2,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 0,
@@ -591,6 +593,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 2,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 0,
@@ -613,6 +616,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 2,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 0,
@@ -635,6 +639,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 2,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 0,
@@ -657,6 +662,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 2,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 0,
@@ -680,6 +686,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -702,6 +709,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -724,6 +732,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -746,6 +755,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -768,6 +778,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -790,6 +801,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -813,6 +825,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
+        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -835,6 +848,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
+        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -857,6 +871,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
+        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -879,6 +894,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
+        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -901,6 +917,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
+        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -923,6 +940,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
+        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -946,6 +964,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 1,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 1,
         fixedstructreader_utmp_entries_hit: 1,
         fixedstructreader_utmp_entries_miss: 0,
@@ -968,6 +987,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 1,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 1,
         fixedstructreader_utmp_entries_hit: 1,
         fixedstructreader_utmp_entries_miss: 0,
@@ -990,6 +1010,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 1,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 1,
         fixedstructreader_utmp_entries_hit: 1,
         fixedstructreader_utmp_entries_miss: 0,
@@ -1012,6 +1033,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 1,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 0,
+        fixedstructreader_out_of_order_max: None,
         fixedstructreader_utmp_entries_max: 1,
         fixedstructreader_utmp_entries_hit: 1,
         fixedstructreader_utmp_entries_miss: 0,
@@ -1120,6 +1142,16 @@ fn test_FixedStructReader_summary(
         summaryfixedstructreader.fixedstructreader_entries_out_of_order,
         expect_fixedstructreadersummary.fixedstructreader_entries_out_of_order,
         "fixedstructreader_entries_out_of_order differs",
+    );
+    assert_eq!(
+        summaryfixedstructreader.fixedstructreader_out_of_order_max,
+        expect_fixedstructreadersummary.fixedstructreader_out_of_order_max,
+        "fixedstructreader_out_of_order_max differs",
+    );
+    assert_eq!(
+        fixedstructreader.out_of_order_max,
+        expect_fixedstructreadersummary.fixedstructreader_out_of_order_max,
+        "reader.out_of_order_max differs",
     );
     assert_eq!(
         summaryfixedstructreader.fixedstructreader_utmp_entries_max,
@@ -1297,6 +1329,14 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
         }
     };
 
+    if path == &*NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH {
+        assert_eq!(fixedstructreader.entries_out_of_order, 2);
+        assert_eq!(
+            fixedstructreader.summary().fixedstructreader_out_of_order_max,
+            Some(std::time::Duration::new(2, 123_636_000)),
+            "maximum includes entries excluded by datetime filters",
+        );
+    }
     let result: ResultFindFixedStruct = fixedstructreader.process_entry_at(fo, &mut buffer);
     let expect = expect_opt.unwrap();
 

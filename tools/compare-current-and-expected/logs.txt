@@ -257,6 +257,7 @@
 ./logs/other/tests/empty.tar
 ./logs/other/tests/empty.tar
 ./logs/other/tests/empty.zip
+./logs/other/tests/gen-100-10.tar|gen-100-10-skullcrossbones.log
 ./logs/other/tests/invalid.gz
 ./logs/other/tests/invalid.journal
 ./logs/other/tests/invalid.tar
@@ -308,6 +309,7 @@
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar
 ./logs/programs/flask/server.log
+./logs/programs/journal/all.zip|logs/programs/journal/Ubuntu22-user-1000.journal
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz

@@ -20,13 +20,14 @@ File: ./logs/Debian13/RISC-V/utmp
       Blocks total  : 9 (2304 bytes)
       Entries       : 6
       Entry size    : 384 (bytes)
-      Entry hi-score: 133
+      Entry hi-score: 125
       first Entry   : @0
       Entry high    : 5
       peak map size : 6
       Datetime first: 2024-02-25 03:27:57 +08:00 (2024-02-24 19:27:57.450673 +00:00)
       Datetime last : 2024-02-25 05:01:04 +08:00 (2024-02-24 21:01:04.022818 +00:00)
       out of order  : 1
+      out of order max: 22m 55s 238.932ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
