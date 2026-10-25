@@ -1,6 +1,6 @@
 # bencher.yml
 #
-# benchmark an optimized `s4` and report to Bencher
+# benchmark `s4` and report to Bencher
 #
 # yamllint disable-line rule:line-length
 # yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
@@ -15,8 +15,13 @@ on:  # yamllint disable-line rule:truthy
 permissions:
   contents: read
 env:
+  BENCHER_PROJECT: super-speedy-syslog-searcher
+  BENCHER_TESTBED: ubuntu-latest_profile-release
   CARGO_TERM_COLOR: always
   CARGO_BUILD_WARNINGS: warn
+  HYPERFINE_INSTALL: "$HOME/.local/bin/hyperfine"
+  HYPERFINE_RESULTS: ./hyperfine-results.json
+  HYPERFINE_VERSION: v2.0.0
   S4_BUILD_PRINT: 1
   S4_BUILD_REGEX_PRINT: 1
   RUST_BACKTRACE: 1
@@ -32,30 +37,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 65
     steps:
+      - uses: actions/checkout@v7
       - name: Install Hyperfine
         shell: bash
         run: |
-          set -euxo pipefail
-          cd /tmp
-          HYPERFINE_VERSION=v2.0.0
-          HYPERFINE_ARCHIVE="hyperfine-${HYPERFINE_VERSION}-x86_64-unknown-linux-musl.tar.gz"
-          HYPERFINE_DIR="hyperfine-${HYPERFINE_VERSION}-x86_64-unknown-linux-musl"
-          wget --no-verbose --tries=3 "https://github.com/sharkdp/hyperfine/releases/download/${HYPERFINE_VERSION}/${HYPERFINE_ARCHIVE}"
-          tar -xzvf "${HYPERFINE_ARCHIVE}"
-          mkdir -vp "$HOME/.local/bin"
-          mv -v "${HYPERFINE_DIR}/hyperfine" "$HOME/.local/bin/hyperfine"
-          chmod -v +x "$HOME/.local/bin/hyperfine"
-          which -a hyperfine
-          hv=$(hyperfine --version)
-          echo "${hv}"
-          if [[ "${hv}" != 'hyperfine 2.'* ]]; then
-              echo "ERROR: hyperfine 2.x required, found ${hv}" >&2
-              exit 1
-          fi
-      - uses: actions/checkout@v7
-      - uses: actions-rust-lang/setup-rust-toolchain@v2
-        with:
-          toolchain: ${{ env.MSRV_UPLOAD }}
+          set -eux pipefail
+          chmod -v +x ./.github/tools/hyperfine-install.sh
+          ./.github/tools/hyperfine-install.sh
+      - name: Install libsystemd
+        shell: bash
+        run: |
+          set -eux
+          chmod -v +x ./.github/tools/libsystemd-install.sh
+          ./.github/tools/libsystemd-install.sh
       - name: Add swap file for memory-intensive build
         shell: bash
         run: |
@@ -73,6 +67,9 @@ jobs:
           swapon --show
           free -htvw
           df -h /
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
       - name: Build release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         timeout-minutes: 120
         shell: bash
@@ -92,7 +89,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          which -a hyperfine
           declare -ar files=(
             ./logs/other/tests/gen-99999-1-Motley_Crue.log
             ./logs/other/tests/gen-99999-1-Motley_Crue.log.bz2
@@ -115,12 +111,12 @@ jobs:
             args+=(--command-name "$(basename "${file}")" "'${S4R}' -cn '${file}' > /dev/null")
           done
           set -x
-          hyperfine \
+          "${HYPERFINE_INSTALL}" \
+            --export-json "${HYPERFINE_RESULTS}" \
             --shell=sh \
             --show-output \
             --warmup 2 \
             --runs 10 \
-            --export-json hyperfine-results.json \
             "${args[@]}"
       - name: Report benchmarks to Bencher
         shell: bash
@@ -134,10 +130,10 @@ jobs:
           fi
           set -x
           bencher run \
-            --project super-speedy-syslog-searcher \
+            --project "${BENCHER_PROJECT}" \
             --branch "${GITHUB_REF_NAME}" \
             --hash "${GITHUB_SHA}" \
-            --testbed ubuntu-latest_profile-release \
+            --testbed "${BENCHER_TESTBED}" \
             --adapter shell_hyperfine \
-            --file hyperfine-results.json
+            --file "${HYPERFINE_RESULTS}"
 ...
