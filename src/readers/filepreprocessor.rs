@@ -1271,7 +1271,7 @@ fn archive_selection(
             format!("{path}{SUBPATH_SEP_DISPLAY}{selector}"),
         ));
     }
-    defx!();
+    defx!("results={results:?}");
 
     results
 }
@@ -1602,31 +1602,32 @@ fn process_path_zip_impl(
     };
     let mut results: ProcessPathResults = ProcessPathResults::new();
     for index in 0..archive.len() {
-        defo!("processing ZIP entry at index {}", index);
+        defo!("processing ZIP entry {index}");
         let entry = match archive.by_index_data(index) {
             Ok(entry) => entry,
             Err(error) => {
                 let zip_err = zip_error(error, path);
-                let s = format!("error reading ZIP entry at index {}: {}", index, zip_err);
+                let s = format!("error reading ZIP entry at index {index}: {zip_err}");
                 defo!("skip entry; {s}");
                 results.push(ProcessPathResult::FileErr(path.clone(), s));
                 continue;
             }
         };
         if !entry.is_file() {
+            defo!("skip entry {index}; not a file");
             continue;
         }
         let name = match entry.name() {
             Ok(name) => name,
             Err(error) => {
                 let zip_err = zip_error(error, path);
-                let s = format!("error getting ZIP entry name: {}", zip_err);
+                let s = format!("error getting ZIP entry name: {zip_err}");
                 defo!("skip entry; {s}");
                 results.push(ProcessPathResult::FileErr(path.clone(), s));
                 continue;
             }
         };
-        defo!("ZIP entry name for index {}: {:?}", index, name);
+        defo!("ZIP entry[{index}] name: {name:?}");
         if !archive_member_matches(name.as_ref(), selector) {
             defo!("skip entry; archive member does not match selector: {name:?}");
             continue;
@@ -1639,7 +1640,7 @@ fn process_path_zip_impl(
         }
         let fullpath = format!("{path}{SUBPATH_SEP}{name}");
         if entry.encrypted() {
-            let s: String = format!("skip entry; ZIP entry is encrypted: {path:?}:{name:?}");
+            let s: String = format!("skip entry; ZIP entry {index} is encrypted: {path:?}:{name:?}");
             defo!("{s}");
             results.push(ProcessPathResult::FileErrNotSupported(
                 if selector.is_some() { fullpath } else { path.clone() }, Some(s),
@@ -1655,22 +1656,22 @@ fn process_path_zip_impl(
                 | zip::CompressionMethod::Lzma
                 | zip::CompressionMethod::Ppmd
         ) {
-            defo!("skip entry; unsupported ZIP compression method: {:?}", entry.compression());
+            defo!("skip entry {index}; unsupported ZIP compression method: {:?}", entry.compression());
             results.push(ProcessPathResult::FileErrNotSupported(
-                fullpath, Some(format!("unsupported ZIP compression method {}", entry.compression())),
+                fullpath, Some(format!("unsupported ZIP compression method for entry {index}: {}", entry.compression())),
             ));
             continue;
         }
         let result = match path_to_filetype(Path::new(name.as_ref()), unparseable_are_text) {
             PathToFiletypeResult::Archive(..) => ProcessPathResult::FileErrNotSupported(
-                fullpath, Some(String::from("nested archives are not supported")),
+                fullpath, Some(format!("nested archives are not supported, found at entry {index}")),
             ),
             PathToFiletypeResult::Filetype(FileType::Unparsable) => {
                 ProcessPathResult::FileErrNotSupported(fullpath, None)
             }
             PathToFiletypeResult::Filetype(filetype) if filetype.to_filetypearchive() != FileTypeArchive::Normal => {
                 ProcessPathResult::FileErrNotSupported(
-                    fullpath, Some(String::from("compressed files within ZIP archives are not supported")),
+                    fullpath, Some(format!("compressed files within ZIP archives are not supported, found at entry {index}")),
                 )
             }
             PathToFiletypeResult::Filetype(mut filetype) => {
@@ -1692,7 +1693,7 @@ fn process_path_zip_impl(
                 }
             }
         };
-        defo!("result for entry: {:?}", result);
+        defo!("result for entry {index}: {:?}", result);
         results.push(result);
     }
     if results.is_empty() && selector.is_none_or(|selector| selector.is_empty()) {
@@ -1700,7 +1701,7 @@ fn process_path_zip_impl(
         results.push(ProcessPathResult::FileErrEmpty(path.clone(), FileType::Unparsable));
     }
     let results_: ProcessPathResults = archive_selection(results, path, selector);
-    defx!("process_path_zip({path:?}) {} results: {results_:?}", results_.len());
+    defx!("for {path:?}: {} results: {results_:?}", results_.len());
 
     results_
 }
