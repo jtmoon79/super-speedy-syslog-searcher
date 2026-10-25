@@ -16,11 +16,11 @@ permissions:
   contents: read
 env:
   BENCHER_PROJECT: super-speedy-syslog-searcher
-  BENCHER_TESTBED: ubuntu-latest_profile-release
   CARGO_TERM_COLOR: always
   CARGO_BUILD_WARNINGS: warn
-  HYPERFINE_INSTALL: "$HOME/.local/bin/hyperfine"
+  HYPERFINE_INSTALL: "/home/runner/.local/bin/hyperfine"
   HYPERFINE_RESULTS: ./hyperfine-results.json
+  BENCHER_RESULTS: ./bencher-results.json
   HYPERFINE_VERSION: v2.0.0
   S4_BUILD_PRINT: 1
   S4_BUILD_REGEX_PRINT: 1
@@ -38,7 +38,7 @@ jobs:
     timeout-minutes: 65
     steps:
       - uses: actions/checkout@v7
-      - name: Install Hyperfine
+      - name: Install Hyperfine ${{ env.HYPERFINE_VERSION }}
         shell: bash
         run: |
           set -eux pipefail
@@ -84,12 +84,12 @@ jobs:
           # just curious current memory looks like after the build
           swapon --show
           free -htvw
-      - uses: bencherdev/bencher@v0.6.13
-      - name: Benchmark each log file
+      - name: Hyperfine benchmark each log file at each block size
         shell: bash
         run: |
           set -euo pipefail
-          declare -ar files=(
+          echo "BENCHER_START_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> "${GITHUB_ENV}"
+          declare -ar FILES=(
             ./logs/Darwin25/var-log/powermanagement/2026.05.30.asl
             ./logs/NetBSD9.3/Xorg.0.log.old
             ./logs/OpenBSD7.4/x86_64/utmp
@@ -107,38 +107,81 @@ jobs:
             ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1217.7692.2.odlgz
             ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/SyncEngine-2025-12-21.1217.11144.2.odl
           )
+          declare -ar BLOCK_SIZES=(4096 8192 65535 131071)
+          declare -ir HRUNS=10
           declare -a args=()
-          for file in "${files[@]}"; do
+          declare -a names=()
+          declare -a results=()
+          for file in "${FILES[@]}"; do
             if [[ ! -s "${file}" ]]; then
-              echo "::error::Missing or empty benchmark input: ${file}" >&2
+              echo "::error::Missing or empty benchmark input: '${file}'" >&2
               exit 1
             fi
-            args+=(--command-name "$(basename "${file}")" "'${S4R}' -cn '${file}' > /dev/null")
+            names+=("$(basename "${file}")")
+            args+=(--command-name "${names[-1]}" "'${S4R}' -cn '${file}' > /dev/null")
           done
           set -x
-          "${HYPERFINE_INSTALL}" \
-            --export-json "${HYPERFINE_RESULTS}" \
-            --shell=sh \
-            --show-output \
-            --warmup 2 \
-            --runs 10 \
-            "${args[@]}"
-      - name: Report benchmarks to Bencher
+          for block_size in "${BLOCK_SIZES[@]}"; do
+            result="${HYPERFINE_RESULTS%.json}-${block_size}.json"
+            S4_BLOCKSZ="${block_size}" "${HYPERFINE_INSTALL}" \
+              --export-json "${result}" \
+              --shell=sh \
+              --show-output \
+              --warmup 2 \
+              --runs "${HRUNS}" \
+              "${args[@]}"
+            results+=("${result}")
+          done
+          jq -es \
+            --argjson block_sizes "$(printf '%s\n' "${BLOCK_SIZES[@]}" | jq -s .)" \
+            --argjson names "$(printf '%s\n' "${names[@]}" | jq -Rn '[inputs]')" \
+            --argjson runs "${HRUNS}" \
+            -f ./.github/tools/hyperfine-to-bmf.jq \
+            "${results[@]}" > "${BENCHER_RESULTS}"
+      - name: Upload hyperfine results
+        uses: actions/upload-artifact@v7
+        with:
+          name: hyperfine-results
+          path: ./hyperfine-results-*.json
+      - name: Upload Bencher report
+        uses: actions/upload-artifact@v7
+        with:
+          name: bencher-report.json
+          path: ./bencher-report.json
+      - name: Report Hyperfine benchmarks to Bencher
         shell: bash
         env:
           BENCHER_API_KEY: ${{ secrets.BENCHER_RUN_KEY }}
         run: |
-          set -euo pipefail
+          set -euxo pipefail
           if [[ -z "${BENCHER_API_KEY}" ]]; then
             echo "::error::BENCHER_RUN_KEY repository secret is required" >&2
             exit 1
           fi
-          set -x
-          bencher run \
-            --project "${BENCHER_PROJECT}" \
-            --branch "${GITHUB_REF_NAME}" \
-            --hash "${GITHUB_SHA}" \
-            --testbed "${BENCHER_TESTBED}" \
-            --adapter shell_hyperfine \
-            --file "${HYPERFINE_RESULTS}"
+          lscpu
+          BENCHER_TESTBED=$(
+            source /etc/os-release
+            CPU_MODELNAME=$(lscpu -p='MODELNAME' | grep -v '^#' | sort -u | head -n1)
+            CPU_CORES=$(nproc)
+            echo -n "${NAME} ${VERSION_ID}, ${CPU_MODELNAME}, ${CPU_CORES} cores"
+          )
+          # Bencher CLI 0.6.13 cannot declare BMF v1; use the report API explicitly.
+          jq -n \
+            --arg branch "${GITHUB_REF_NAME}" \
+            --arg hash "${GITHUB_SHA}" \
+            --arg testbed "${BENCHER_TESTBED}" \
+            --arg start_time "${BENCHER_START_TIME}" \
+            --arg end_time "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" \
+            --rawfile results "${BENCHER_RESULTS}" \
+            '{
+              branch: $branch, hash: $hash, testbed: $testbed,
+              start_time: $start_time, end_time: $end_time,
+              bmf_version: 1, settings: {adapter: "json"}, results: [$results]
+            }' > ./bencher-report.json
+          curl \
+            -LsSf \
+            --header "Authorization: Bearer ${BENCHER_API_KEY}" \
+            --header 'Content-Type: application/json' \
+            --data-binary @./bencher-report.json \
+            "https://api.bencher.dev/v0/projects/${BENCHER_PROJECT}/reports"
 ...
