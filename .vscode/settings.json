@@ -26,5 +26,13 @@
     "python.analysis.typeCheckingMode": "basic",
     "flake8.args": [
         "--max-line-length=120"
+    ],
+    "rust-analyzer.check.extraArgs": [
+        "--target-dir",
+        "./target/rust-analyzer_check"
+    ],
+    "rust-analyzer.cargo.extraArgs": [
+        "--target-dir",
+        "./target/rust-analyzer_cargo"
     ]
 }
