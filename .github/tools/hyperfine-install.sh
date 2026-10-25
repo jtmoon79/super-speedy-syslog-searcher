@@ -32,7 +32,7 @@ tar -xzvf "${HYPERFINE_ARCHIVE}"
 mkdir -vp "${HYPERFINE_INSTALL_DIR}"
 mv -v "${HYPERFINE_DIR}/hyperfine" "${HYPERFINE_INSTALL}"
 chmod -v +x "${HYPERFINE_INSTALL}"
-which -a hyperfine
+
 hv=$("${HYPERFINE_INSTALL}" --version)
 echo "${hv}"
 if [[ "${hv}" != 'hyperfine 2.'* ]]; then
