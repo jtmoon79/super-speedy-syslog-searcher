@@ -90,6 +90,9 @@ jobs:
         run: |
           set -euo pipefail
           declare -ar files=(
+            ./logs/Darwin25/var-log/powermanagement/2026.05.30.asl
+            ./logs/NetBSD9.3/Xorg.0.log.old
+            ./logs/OpenBSD7.4/x86_64/utmp
             ./logs/other/tests/gen-99999-1-Motley_Crue.log
             ./logs/other/tests/gen-99999-1-Motley_Crue.log.bz2
             ./logs/other/tests/gen-99999-1-Motley_Crue.log.gz
@@ -97,10 +100,12 @@ jobs:
             ./logs/other/tests/gen-99999-1-Motley_Crue.log.xz
             ./logs/other/tests/gen-99999-1-Motley_Crue.tar
             ./logs/other/tests/gen-99999-1-Motley_Crue.zip
-            ./logs/NetBSD9.3/Xorg.0.log.old
             ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
+            ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
+            ./logs/programs/journal/RHE_91_system.journal
+            ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
+            ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1217.7692.2.odlgz
             ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/SyncEngine-2025-12-21.1217.11144.2.odl
-            ./logs/OpenBSD7.4/x86_64/utmp
           )
           declare -a args=()
           for file in "${files[@]}"; do
