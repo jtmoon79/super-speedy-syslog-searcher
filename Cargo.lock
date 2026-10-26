@@ -933,9 +933,9 @@ dependencies = [
 
 [[package]]
 name = "cargo-msrv"
-version = "0.19.3"
+version = "0.19.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57d6a205f8122553f4919b67809a2bf55bdf69dd1cb25090eca67ef58f91a2d8"
+checksum = "4c35a7708dc5b023681de3d229a875e48939af667d4082499e015eaa78033099"
 dependencies = [
  "bisector",
  "camino",
