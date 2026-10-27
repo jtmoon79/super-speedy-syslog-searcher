@@ -557,7 +557,6 @@ jobs:
         run: |
           set -euxo pipefail
           curl \
-            --retry=2 \
             -LsSf \
             "https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/${{ github.sha }}/tools/s4-easy-install.sh" \
             | env DRY_RUN=1 sh -x
