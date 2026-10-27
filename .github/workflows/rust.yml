@@ -556,8 +556,11 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          curl -LsSf "https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/${{ github.sha }}/tools/s4-easy-install.sh" | \
-            env DRY_RUN=1 sh -x
+          curl \
+            --retry=2 \
+            -LsSf \
+            "https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/${{ github.sha }}/tools/s4-easy-install.sh" \
+            | env DRY_RUN=1 sh -x
       - name: s4-easy-install.ps1
         if: ${{matrix.os == 'windows-latest'}}
         shell: pwsh

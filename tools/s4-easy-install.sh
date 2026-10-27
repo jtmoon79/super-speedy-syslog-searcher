@@ -200,7 +200,7 @@ main() {
         target_triple=$(
             export RUSTUP_INIT_SH_PRINT=arch
             set -x
-            curl --silent --show-error --fail  --location --retry 2 'https://sh.rustup.rs' | sh
+            curl -LsSf --retry 2 'https://sh.rustup.rs' | sh
         )
     fi
     # manually adjust to 'musl' build for some Operating Systems
@@ -251,7 +251,7 @@ main() {
     (set -x; curl --silent --show-error --fail --location --retry 2 ${head} --output "${zip_path}" "${url_zip}")
 
     if [ "${has_sha256sum}" -eq 0 ] \
-       && curl --head --fail --location --retry 2 --silent --fail --output /dev/null "${url_checksum}"; then
+       && curl --head --fail --location --retry 2 --silent --output /dev/null "${url_checksum}"; then
         info "download checksum file ..."
         (set -x; curl --silent --show-error --fail --location --retry 2 --output "${checksum_path}" "${url_checksum}")
         info "verify SHA-256 checksum of zip file ..."
