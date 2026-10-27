@@ -92,6 +92,7 @@ lazy_static! {
             event_record_id: EVTX_KPNP_DATA1_ID,
             timestamp: *EVTX_KPNP_DATA1_TIMESTAMP,
             data: String::from(EVTX_KPNP_DATA1_S),
+            recovered: false
         }
     );
 }
