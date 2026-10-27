@@ -6,11 +6,11 @@ File: ./logs/Debian9/alternatives.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3941
-      flushes       : 14
+      Bytes         : 3941
+      Flushes       : 14
       Lines         : 19
       Syslines      : 14
-      Datetime first: 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)
+      Datetime First: 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)
       Datetime last : 2020-02-03 13:57:14 +08:00 (2020-02-03 05:57:14.000000 +00:00)
   Processed:
       File size     : 2763 (0xACB) (bytes)

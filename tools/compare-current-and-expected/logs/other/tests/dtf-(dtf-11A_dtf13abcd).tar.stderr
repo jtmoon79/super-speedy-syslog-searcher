@@ -7,11 +7,11 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1884
-      flushes       : 13
+      Bytes         : 1884
+      Flushes       : 13
       Lines         : 13
       Syslines      : 13
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-12-31 00:00:00 +08:00 (2000-12-30 16:00:00.000000 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)
@@ -51,11 +51,11 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 555
-      flushes       : 3
+      Bytes         : 555
+      Flushes       : 3
       Lines         : 3
       Syslines      : 3
-      Datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
+      Datetime First: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
       Datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.628322 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)
@@ -95,11 +95,11 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 552
-      flushes       : 3
+      Bytes         : 552
+      Flushes       : 3
       Lines         : 3
       Syslines      : 3
-      Datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
+      Datetime First: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
       Datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638300 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)
@@ -139,11 +139,11 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 555
-      flushes       : 3
+      Bytes         : 555
+      Flushes       : 3
       Lines         : 3
       Syslines      : 3
-      Datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
+      Datetime First: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
       Datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)
@@ -183,11 +183,11 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 546
-      flushes       : 3
+      Bytes         : 546
+      Flushes       : 3
       Lines         : 3
       Syslines      : 3
-      Datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
+      Datetime First: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
       Datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)

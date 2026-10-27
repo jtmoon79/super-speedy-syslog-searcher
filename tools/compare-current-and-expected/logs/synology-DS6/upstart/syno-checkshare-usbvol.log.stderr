@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3648
-      flushes       : 19
+      Bytes         : 3648
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2016-12-05 20:31:49 -08:00 (2016-12-06 04:31:49.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:49 -08:00 (2016-12-06 04:31:49.000000 +00:00)
       Datetime last : 2017-02-23 14:52:26 -08:00 (2017-02-23 22:52:26.000000 +00:00)
   Processed:
       File size     : 2033 (0x7F1) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/RockyLinux9/dnf.librepo.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 22911
-      flushes       : 104
+      Bytes         : 22911
+      Flushes       : 104
       Lines         : 104
       Syslines      : 104
-      Datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
+      Datetime First: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
       Datetime last : 2022-10-08 22:26:51 +00:00 (2022-10-08 22:26:51.000000 +00:00)
   Processed:
       File size     : 16151 (0x3F17) (bytes)

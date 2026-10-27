@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 176
-      flushes       : 1
+      Bytes         : 176
+      Flushes       : 1
       Lines         : 1
       Syslines      : 1
-      Datetime first: 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
+      Datetime First: 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
       Datetime last : 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
   Processed:
       File size     : 97 (0x61) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2338
-      flushes       : 7
+      Bytes         : 2338
+      Flushes       : 7
       Lines         : 19
       Syslines      : 7
-      Datetime first: 2020-03-05 11:57:04 +08:00 (2020-03-05 03:57:04.343000 +00:00)
+      Datetime First: 2020-03-05 11:57:04 +08:00 (2020-03-05 03:57:04.343000 +00:00)
       Datetime last : 2020-03-05 12:16:44 +08:00 (2020-03-05 04:16:44.343000 +00:00)
   Processed:
       File size     : 1141 (0x475) (bytes)

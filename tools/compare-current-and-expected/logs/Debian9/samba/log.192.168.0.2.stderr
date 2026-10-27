@@ -6,11 +6,11 @@ File: ./logs/Debian9/samba/log.192.168.0.2
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 293
-      flushes       : 1
+      Bytes         : 293
+      Flushes       : 1
       Lines         : 2
       Syslines      : 1
-      Datetime first: 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.944900 +00:00)
+      Datetime First: 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.944900 +00:00)
       Datetime last : 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.944900 +00:00)
   Processed:
       File size     : 159 (0x9F) (bytes)

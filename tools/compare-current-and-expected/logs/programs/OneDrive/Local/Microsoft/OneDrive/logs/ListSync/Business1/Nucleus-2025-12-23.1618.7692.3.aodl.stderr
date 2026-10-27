@@ -9,8 +9,8 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
       Events        : 829
       Bytes         : 209309
       Flushes       : 829
-      Event largest processed: 302
-      Event largest accepted : 302
+      Event Largest Processed: 302
+      Event Largest Accepted : 302
       Datetime First: 2025-12-24 00:18:40.364 +08:00
       Datetime Last : 2025-12-24 07:18:57.170 +08:00
   Processed:

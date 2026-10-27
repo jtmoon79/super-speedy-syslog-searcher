@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2398
-      flushes       : 18
+      Bytes         : 2398
+      Flushes       : 18
       Lines         : 19
       Syslines      : 18
-      Datetime first: 2016-12-05 20:31:35 -08:00 (2016-12-06 04:31:35.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:35 -08:00 (2016-12-06 04:31:35.000000 +00:00)
       Datetime last : 2016-12-05 20:36:47 -08:00 (2016-12-06 04:36:47.000000 +00:00)
   Processed:
       File size     : 1030 (0x406) (bytes)

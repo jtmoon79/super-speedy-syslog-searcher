@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/findhostd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2659
-      flushes       : 18
+      Bytes         : 2659
+      Flushes       : 18
       Lines         : 19
       Syslines      : 18
-      Datetime first: 2016-12-05 20:31:35 -08:00 (2016-12-06 04:31:35.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:35 -08:00 (2016-12-06 04:31:35.000000 +00:00)
       Datetime last : 2017-01-03 01:40:57 -08:00 (2017-01-03 09:40:57.000000 +00:00)
   Processed:
       File size     : 1291 (0x50B) (bytes)

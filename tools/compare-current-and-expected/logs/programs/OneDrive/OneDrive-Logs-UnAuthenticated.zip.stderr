@@ -8,12 +8,12 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|FeedbackHub/Sub
       LogMessageType: text log lines
       Processing Err: no syslog lines found in file
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime first: None Found
-      Datetime last : None Found
+      Datetime First: None Found
+      Datetime Last : None Found
   Processed:
       file size archive   : 278634 (0x4406A) (bytes)
       file size unarchived: 87 (0x57) (bytes)
@@ -50,8 +50,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleu
       LogMessageType: text log lines
       Processing Err: no syslog lines found in file
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
   Processed:
@@ -92,8 +92,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 93175
       ODL version        : 3
@@ -120,8 +120,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 67209
       ODL version        : 3
@@ -148,8 +148,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 108444
       ODL version        : 3
@@ -176,8 +176,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 289379
       ODL version        : 3
@@ -204,8 +204,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 295
-      Event largest accepted : 0
+      Event Largest Processed: 295
+      Event Largest Accepted : 0
   Processed:
       File size          : 32479
       ODL version        : 3
@@ -232,8 +232,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 295
-      Event largest accepted : 0
+      Event Largest Processed: 295
+      Event Largest Accepted : 0
   Processed:
       File size          : 31951
       ODL version        : 3
@@ -260,8 +260,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 127745
       ODL version        : 3
@@ -288,8 +288,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 74194
       ODL version        : 3
@@ -316,8 +316,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 221180
       ODL version        : 3
@@ -344,8 +344,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 1000499
       ODL version        : 3
@@ -372,8 +372,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 559574
       ODL version        : 3
@@ -400,8 +400,8 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Events        : 0
       Bytes         : 0
       Flushes       : 0
-      Event largest processed: 391
-      Event largest accepted : 0
+      Event Largest Processed: 391
+      Event Largest Accepted : 0
   Processed:
       File size          : 815918
       ODL version        : 3
@@ -455,7 +455,7 @@ Managed files max adjus: 200
 Managed request open   : 52
 Managed request read   : 0
 Managed write calls    : 451
-Managed seek calls     : 9024
+Managed seek calls     : 184
 Managed metadata calls : 14
 Managed open errors    : 0
 Managed evict fails    : 0

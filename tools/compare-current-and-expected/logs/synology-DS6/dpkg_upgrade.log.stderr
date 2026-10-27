@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/dpkg_upgrade.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2684
-      flushes       : 5
+      Bytes         : 2684
+      Flushes       : 5
       Lines         : 19
       Syslines      : 5
-      Datetime first: 2016-12-05 21:34:43 +08:00 (2016-12-05 13:34:43.000000 +00:00)
+      Datetime First: 2016-12-05 21:34:43 +08:00 (2016-12-05 13:34:43.000000 +00:00)
       Datetime last : 2016-12-05 21:38:47 +08:00 (2016-12-05 13:38:47.000000 +00:00)
   Processed:
       File size     : 1411 (0x583) (bytes)

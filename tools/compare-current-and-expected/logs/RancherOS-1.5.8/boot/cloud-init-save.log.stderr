@@ -6,11 +6,11 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1732
-      flushes       : 8
+      Bytes         : 1732
+      Flushes       : 8
       Lines         : 10
       Syslines      : 8
-      Datetime first: 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
+      Datetime First: 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
       Datetime last : 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
   Processed:
       File size     : 952 (0x3B8) (bytes)

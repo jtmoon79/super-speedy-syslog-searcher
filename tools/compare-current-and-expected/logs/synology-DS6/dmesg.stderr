@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/dmesg
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2772
-      flushes       : 19
+      Bytes         : 2772
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2019-02-11 19:22:56 +08:00 (2019-02-11 11:22:56.000000 +00:00)
+      Datetime First: 2019-02-11 19:22:56 +08:00 (2019-02-11 11:22:56.000000 +00:00)
       Datetime last : 2019-02-11 19:22:56 +08:00 (2019-02-11 11:22:56.000000 +00:00)
   Processed:
       File size     : 1708 (0x6AC) (bytes)

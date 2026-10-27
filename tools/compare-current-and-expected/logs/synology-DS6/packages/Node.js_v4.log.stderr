@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/packages/Node.js_v4.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3145
-      flushes       : 19
+      Bytes         : 3145
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
+      Datetime First: 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
       Datetime last : 2019-11-16 14:19:43 +08:00 (2019-11-16 06:19:43.000000 +00:00)
   Processed:
       File size     : 1739 (0x6CB) (bytes)

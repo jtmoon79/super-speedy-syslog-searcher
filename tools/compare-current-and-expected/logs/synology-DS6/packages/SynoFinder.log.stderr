@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/packages/SynoFinder.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3242
-      flushes       : 19
+      Bytes         : 3242
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2019-06-23 21:12:28 +08:00 (2019-06-23 13:12:28.000000 +00:00)
+      Datetime First: 2019-06-23 21:12:28 +08:00 (2019-06-23 13:12:28.000000 +00:00)
       Datetime last : 2019-06-23 21:12:29 +08:00 (2019-06-23 13:12:29.000000 +00:00)
   Processed:
       File size     : 1836 (0x72C) (bytes)

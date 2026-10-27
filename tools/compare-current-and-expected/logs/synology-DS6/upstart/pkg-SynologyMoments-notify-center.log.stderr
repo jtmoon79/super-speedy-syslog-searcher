@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3449
-      flushes       : 19
+      Bytes         : 3449
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2019-01-30 13:11:39 -08:00 (2019-01-30 21:11:39.000000 +00:00)
+      Datetime First: 2019-01-30 13:11:39 -08:00 (2019-01-30 21:11:39.000000 +00:00)
       Datetime last : 2019-02-08 01:43:49 -08:00 (2019-02-08 09:43:49.000000 +00:00)
   Processed:
       File size     : 1625 (0x659) (bytes)

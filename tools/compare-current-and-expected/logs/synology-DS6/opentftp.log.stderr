@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/opentftp.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2497
-      flushes       : 21
+      Bytes         : 2497
+      Flushes       : 21
       Lines         : 21
       Syslines      : 21
-      Datetime first: 2017-01-31 11:25:20 +08:00 (2017-01-31 03:25:20.000000 +00:00)
+      Datetime First: 2017-01-31 11:25:20 +08:00 (2017-01-31 03:25:20.000000 +00:00)
       Datetime last : 2017-02-22 21:46:30 +08:00 (2017-02-22 13:46:30.000000 +00:00)
   Processed:
       File size     : 1174 (0x496) (bytes)

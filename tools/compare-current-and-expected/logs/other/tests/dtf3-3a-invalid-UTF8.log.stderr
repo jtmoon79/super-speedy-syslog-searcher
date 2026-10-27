@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf3-3a-invalid-UTF8.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 718
-      flushes       : 5
+      Bytes         : 718
+      Flushes       : 5
       Lines         : 5
       Syslines      : 5
-      Datetime first: 2000-01-01 00:00:03 +08:00 (1999-12-31 16:00:03.003000 +00:00)
+      Datetime First: 2000-01-01 00:00:03 +08:00 (1999-12-31 16:00:03.003000 +00:00)
       Datetime last : 2000-01-01 00:00:07 +08:00 (1999-12-31 16:00:07.007000 +00:00)
   Processed:
       File size     : 348 (0x15C) (bytes)

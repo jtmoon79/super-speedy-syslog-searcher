@@ -6,10 +6,10 @@ File: ./logs/NetBSD9.3/x86_64/lastlog
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      specific type : Fs_Netbsd_x8664_Lastlog
+      Layout Type   : Fs_Netbsd_x8664_Lastlog
   Printed:
-      bytes         : 124
-      flushes       : 1
+      Bytes         : 124
+      Flushes       : 1
       Entries       : 1
   Processed:
       File size     : 32 (0x20) (bytes)

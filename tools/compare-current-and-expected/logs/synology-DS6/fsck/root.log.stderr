@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/fsck/root.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 6191
-      flushes       : 6
+      Bytes         : 6191
+      Flushes       : 6
       Lines         : 66
       Syslines      : 3
-      Datetime first: 2020-03-07 03:19:50 +08:00 (2020-03-06 19:19:50.000000 +00:00)
+      Datetime First: 2020-03-07 03:19:50 +08:00 (2020-03-06 19:19:50.000000 +00:00)
       Datetime last : 2020-03-07 20:25:30 +08:00 (2020-03-07 12:25:30.000000 +00:00)
   Processed:
       File size     : 1967 (0x7AF) (bytes)

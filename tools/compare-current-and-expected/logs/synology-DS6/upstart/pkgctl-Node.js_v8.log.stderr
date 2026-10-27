@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3343
-      flushes       : 19
+      Bytes         : 3343
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2019-08-31 23:52:25 -07:00 (2019-09-01 06:52:25.000000 +00:00)
+      Datetime First: 2019-08-31 23:52:25 -07:00 (2019-09-01 06:52:25.000000 +00:00)
       Datetime last : 2019-11-16 14:56:41 -08:00 (2019-11-16 22:56:41.000000 +00:00)
   Processed:
       File size     : 1823 (0x71F) (bytes)

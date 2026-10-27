@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/netatalk.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2199
-      flushes       : 17
+      Bytes         : 2199
+      Flushes       : 17
       Lines         : 19
       Syslines      : 17
-      Datetime first: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
       Datetime last : 2016-12-08 18:55:31 -08:00 (2016-12-09 02:55:31.000000 +00:00)
   Processed:
       File size     : 850 (0x352) (bytes)

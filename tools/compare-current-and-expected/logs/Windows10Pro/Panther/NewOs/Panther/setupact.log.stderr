@@ -6,11 +6,11 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 9931
-      flushes       : 36
+      Bytes         : 9931
+      Flushes       : 36
       Lines         : 55
       Syslines      : 35
-      Datetime first: 2022-10-14 05:56:46 +08:00 (2022-10-13 21:56:46.000000 +00:00)
+      Datetime First: 2022-10-14 05:56:46 +08:00 (2022-10-13 21:56:46.000000 +00:00)
       Datetime last : 2022-10-14 07:42:33 +08:00 (2022-10-13 23:42:33.000000 +00:00)
   Processed:
       File size     : 5256 (0x1488) (bytes)

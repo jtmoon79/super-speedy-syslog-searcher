@@ -6,11 +6,11 @@ File: ./logs/Debian9/apt/history.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 846
-      flushes       : 4
+      Bytes         : 846
+      Flushes       : 4
       Lines         : 9
       Syslines      : 4
-      Datetime first: 2019-09-13 19:20:11 +08:00 (2019-09-13 11:20:11.000000 +00:00)
+      Datetime First: 2019-09-13 19:20:11 +08:00 (2019-09-13 11:20:11.000000 +00:00)
       Datetime last : 2020-02-18 16:36:26 +08:00 (2020-02-18 08:36:26.000000 +00:00)
   Processed:
       File size     : 298 (0x12A) (bytes)

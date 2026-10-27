@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/samba/log.smbd
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2326
-      flushes       : 8
+      Bytes         : 2326
+      Flushes       : 8
       Lines         : 19
       Syslines      : 8
-      Datetime first: 2016-12-05 20:31:45 +08:00 (2016-12-05 12:31:45.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:45 +08:00 (2016-12-05 12:31:45.000000 +00:00)
       Datetime last : 2016-12-05 21:16:10 +08:00 (2016-12-05 13:16:10.000000 +00:00)
   Processed:
       File size     : 1091 (0x443) (bytes)

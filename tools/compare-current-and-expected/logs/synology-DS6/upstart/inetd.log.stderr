@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/inetd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2007
-      flushes       : 11
+      Bytes         : 2007
+      Flushes       : 11
       Lines         : 19
       Syslines      : 11
-      Datetime first: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
+      Datetime First: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
       Datetime last : 2019-11-14 21:05:42 -08:00 (2019-11-15 05:05:42.000000 +00:00)
   Processed:
       File size     : 715 (0x2CB) (bytes)

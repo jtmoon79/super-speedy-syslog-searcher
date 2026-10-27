@@ -89,8 +89,6 @@ use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::FileProcessingResultBlockZero;
 use crate::data::odl::Odl;
 
-
-
 pub type MapPathIdSummaryPrint = BTreeMap<PathId, SummaryPrinted>;
 pub type MapPathIdSummary = HashMap<PathId, Summary>;
 pub type MapPathIdToProcessPathResult = HashMap<PathId, ProcessPathResult>;
@@ -310,8 +308,8 @@ impl SummaryPrinted {
                 eprintln!("{}Events        : {}", indent2, self.odlentries);
                 eprintln!("{}Bytes         : {}", indent2, self.bytes);
                 eprintln!("{}Flushes       : {}", indent2, self.flushed);
-                eprintln!("{}Event largest processed: {}", indent2, statistics.odlreader_event_largest_processed);
-                eprintln!("{}Event largest accepted : {}", indent2, statistics.odlreader_event_largest_accepted);
+                eprintln!("{}Event Largest Processed: {}", indent2, statistics.odlreader_event_largest_processed);
+                eprintln!("{}Event Largest Accepted : {}", indent2, statistics.odlreader_event_largest_accepted);
                 if let Some(dt) = self.dt_first {
                     eprintln!("{}Datetime First: {}", indent2, dt);
                 }
@@ -414,7 +412,7 @@ impl SummaryPrinted {
         eprintln!("{}Printed:", indent1);
 
         if let Some(summaryblockreader) = summaryblockreader_opt {
-            eprint!("{}bytes         : ", indent2);
+            eprint!("{}Bytes         : ", indent2);
             let is_err: bool = self.bytes == 0 && summaryblockreader.blockreader_bytes != 0;
             eprintln_display_color_error(
                 &self.bytes,
@@ -422,7 +420,7 @@ impl SummaryPrinted {
                 &color_choice_opt.unwrap_or_default(),
             );
 
-            eprintln!("{}flushes       : {}", indent2, self.flushed);
+            eprintln!("{}Flushes       : {}", indent2, self.flushed);
 
             if summarylinereader_opt.is_some() {
                 eprint!("{}Lines         : ", indent2);
@@ -461,7 +459,7 @@ impl SummaryPrinted {
             if self.dt_first.is_none() && summarylinereader.linereader_lines != 0 {
                 // if no datetime_first was processed but lines were processed
                 // then hint at an error with colored text
-                eprint!("{}Datetime first: ", indent2);
+                eprint!("{}Datetime First: ", indent2);
                 print_colored_stderr(
                     COLOR_ERROR,
                     color_choice_opt,
@@ -469,14 +467,14 @@ impl SummaryPrinted {
                 );
                 eprintln!();
             } else if let Some(dt) = self.dt_first {
-                eprint!("{}Datetime first: ", indent2);
+                eprint!("{}Datetime First: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
             if self.dt_last.is_none() && summarylinereader.linereader_lines != 0 {
                 // if no datetime_last was processed but lines were processed
                 // then hint at an error with colored text
-                eprint!("{}Datetime last : ", indent2);
+                eprint!("{}Datetime Last : ", indent2);
                 print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes());
                 eprintln!();
             } else if let Some(dt) = self.dt_last {
@@ -487,17 +485,17 @@ impl SummaryPrinted {
         }
 
         if let Some(summaryaslreader) = summaryaslreader_opt {
-            eprintln!("{}bytes         : {}", indent2, self.bytes);
-            eprintln!("{}flushes       : {}", indent2, self.flushed);
+            eprintln!("{}Bytes         : {}", indent2, self.bytes);
+            eprintln!("{}Flushes       : {}", indent2, self.flushed);
             eprintln!("{}Events        : {}", indent2, summaryaslreader.aslreader_events_accepted);
             if let Some(dt) = summaryaslreader.aslreader_datetime_first_accepted {
-                eprint!("{}Datetime first: ", indent2);
+                eprint!("{}Datetime First: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
             match summaryaslreader.aslreader_datetime_last_accepted {
                 Some(dt) => {
-                    eprint!("{}Datetime last : ", indent2);
+                    eprint!("{}Datetime Last : ", indent2);
                     print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                     eprintln!();
                     debug_assert!(summaryaslreader.aslreader_datetime_first_accepted.is_some());
@@ -509,8 +507,8 @@ impl SummaryPrinted {
         }
 
         if let Some(summaryetlreader) = summaryetlreader_opt {
-            eprintln!("{}bytes         : {}", indent2, self.bytes);
-            eprintln!("{}flushes       : {}", indent2, self.flushed);
+            eprintln!("{}Bytes         : {}", indent2, self.bytes);
+            eprintln!("{}Flushes       : {}", indent2, self.flushed);
             eprintln!("{}Events        : {}", indent2, self.etlentries);
             eprintln!(
                 "{}Event largest processed: {} (bytes)",
@@ -521,60 +519,60 @@ impl SummaryPrinted {
                 indent2, summaryetlreader.etlreader_event_largest_accepted
             );
             if let Some(dt) = summaryetlreader.etlreader_datetime_first_accepted {
-                eprint!("{}Datetime first: ", indent2);
+                eprint!("{}Datetime First: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
             if let Some(dt) = summaryetlreader.etlreader_datetime_last_accepted {
-                eprint!("{}Datetime last : ", indent2);
+                eprint!("{}Datetime Last : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
         }
 
         if let Some(summaryevtxreader) = summaryevtxreader_opt {
-            eprintln!("{}bytes         : {}", indent2, self.bytes);
-            eprintln!("{}flushes       : {}", indent2, self.flushed);
+            eprintln!("{}Bytes         : {}", indent2, self.bytes);
+            eprintln!("{}Flushes       : {}", indent2, self.flushed);
             eprintln!("{}Events        : {}", indent2, self.evtxentries);
             eprintln!(
-                "{}Event largest processed: {} (bytes)",
+                "{}Event Largest Processed: {} (bytes)",
                 indent2, summaryevtxreader.evtxreader_event_largest_processed
             );
             eprintln!(
-                "{}Event largest accepted : {} (bytes)",
+                "{}Event Largest Accepted : {} (bytes)",
                 indent2, summaryevtxreader.evtxreader_event_largest_accepted
             );
             if let Some(dt) = summaryevtxreader.evtxreader_datetime_first_accepted {
-                eprint!("{}Datetime first: ", indent2);
+                eprint!("{}Datetime First: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
             if let Some(dt) = summaryevtxreader.evtxreader_datetime_last_accepted {
-                eprint!("{}Datetime last : ", indent2);
+                eprint!("{}Datetime Last : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
         }
 
         if let Some(summaryjournalreader) = summaryjournalreader_opt {
-            eprintln!("{}bytes         : {}", indent2, self.bytes);
-            eprintln!("{}flushes       : {}", indent2, self.flushed);
-            eprintln!("{}Journal events: {}", indent2, self.journalentries);
+            eprintln!("{}Bytes         : {}", indent2, self.bytes);
+            eprintln!("{}Flushes       : {}", indent2, self.flushed);
+            eprintln!("{}Journal Events: {}", indent2, self.journalentries);
             eprintln!(
-                "{}Journal event largest processed: {} (bytes)",
+                "{}Journal Event Largest Processed: {} (bytes)",
                 indent2, summaryjournalreader.journalreader_journal_event_largest_processed,
             );
             eprintln!(
-                "{}Journal event largest accepted : {} (bytes)",
+                "{}Journal Event Largest Accepted : {} (bytes)",
                 indent2, summaryjournalreader.journalreader_journal_event_largest_accepted,
             );
             if let Some(dt) = summaryjournalreader.journalreader_datetime_first_accepted {
-                eprint!("{}Datetime first: ", indent2);
+                eprint!("{}Datetime First: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
             if let Some(dt) = summaryjournalreader.journalreader_datetime_last_accepted {
-                eprint!("{}Datetime last : ", indent2);
+                eprint!("{}Datetime Last : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
@@ -1351,7 +1349,7 @@ fn print_file_about(
             SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => {
                 if let Some(fst) = summaryfixedstructreader.fixedstructreader_fixedstructtype_opt {
                     eprintln!(
-                        "{}specific type : {:?}",
+                        "{}Layout Type   : {:?}",
                         OPT_SUMMARY_PRINT_INDENT2,
                         fst,
                     );

@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/synomount.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2187
-      flushes       : 18
+      Bytes         : 2187
+      Flushes       : 18
       Lines         : 19
       Syslines      : 18
-      Datetime first: 2016-12-05 20:31:46 -08:00 (2016-12-06 04:31:46.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:46 -08:00 (2016-12-06 04:31:46.000000 +00:00)
       Datetime last : 2016-12-05 21:39:50 -08:00 (2016-12-06 05:39:50.000000 +00:00)
   Processed:
       File size     : 819 (0x333) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/Orbi/tmp/xagent.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2678
-      flushes       : 19
+      Bytes         : 2678
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2022-04-04 23:36:06 +08:00 (2022-04-04 15:36:06.000000 +00:00)
+      Datetime First: 2022-04-04 23:36:06 +08:00 (2022-04-04 15:36:06.000000 +00:00)
       Datetime last : 2022-04-04 23:36:08 +08:00 (2022-04-04 15:36:08.000000 +00:00)
   Processed:
       File size     : 1595 (0x63B) (bytes)

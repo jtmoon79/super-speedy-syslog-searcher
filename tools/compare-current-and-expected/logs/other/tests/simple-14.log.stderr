@@ -6,11 +6,11 @@ File: ./logs/other/tests/simple-14.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 77
-      flushes       : 1
+      Bytes         : 77
+      Flushes       : 1
       Lines         : 1
       Syslines      : 1
-      Datetime first: 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
+      Datetime First: 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
       Datetime last : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
   Processed:
       File size     : 14 (0xE) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 4779
-      flushes       : 36
+      Bytes         : 4779
+      Flushes       : 36
       Lines         : 39
       Syslines      : 36
-      Datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
+      Datetime First: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
       Datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
   Processed:
       File size     : 2400 (0x960) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/Debian11/kern.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 4585
-      flushes       : 20
+      Bytes         : 4585
+      Flushes       : 20
       Lines         : 21
       Syslines      : 20
-      Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
+      Datetime First: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
       Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
   Processed:
       File size     : 3430 (0xD66) (bytes)

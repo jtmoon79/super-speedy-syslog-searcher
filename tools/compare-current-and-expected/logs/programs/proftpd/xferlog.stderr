@@ -6,11 +6,11 @@ File: ./logs/programs/proftpd/xferlog
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 465
-      flushes       : 3
+      Bytes         : 465
+      Flushes       : 3
       Lines         : 3
       Syslines      : 3
-      Datetime first: 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.000000 +00:00)
+      Datetime First: 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.000000 +00:00)
       Datetime last : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.000000 +00:00)
   Processed:
       File size     : 279 (0x117) (bytes)

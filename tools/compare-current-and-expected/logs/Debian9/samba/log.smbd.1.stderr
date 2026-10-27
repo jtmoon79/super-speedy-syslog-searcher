@@ -6,11 +6,11 @@ File: ./logs/Debian9/samba/log.smbd.1
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 277
-      flushes       : 1
+      Bytes         : 277
+      Flushes       : 1
       Lines         : 2
       Syslines      : 1
-      Datetime first: 2020-02-06 03:17:33 +08:00 (2020-02-05 19:17:33.158300 +00:00)
+      Datetime First: 2020-02-06 03:17:33 +08:00 (2020-02-05 19:17:33.158300 +00:00)
       Datetime last : 2020-02-06 03:17:33 +08:00 (2020-02-05 19:17:33.158300 +00:00)
   Processed:
       File size     : 153 (0x99) (bytes)

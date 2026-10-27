@@ -7,11 +7,11 @@ File: ./logs/other/tests/gen-100-10.tar|gen-100-10-skullcrossbones.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 189049
-      flushes       : 1000
+      Bytes         : 189049
+      Flushes       : 1000
       Lines         : 1000
       Syslines      : 1000
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:01:39 +08:00 (1999-12-31 16:01:39.000000 +00:00)
   Processed:
       file size archive   : 491520 (0x78000) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/smart_quick_log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 794
-      flushes       : 4
+      Bytes         : 794
+      Flushes       : 4
       Lines         : 8
       Syslines      : 4
-      Datetime first: 2020-03-05 00:00:03 +08:00 (2020-03-04 16:00:03.000000 +00:00)
+      Datetime First: 2020-03-05 00:00:03 +08:00 (2020-03-04 16:00:03.000000 +00:00)
       Datetime last : 2020-03-05 00:00:04 +08:00 (2020-03-04 16:00:04.000000 +00:00)
   Processed:
       File size     : 266 (0x10A) (bytes)

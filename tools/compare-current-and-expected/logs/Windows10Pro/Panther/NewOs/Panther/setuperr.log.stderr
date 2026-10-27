@@ -6,11 +6,11 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 5521
-      flushes       : 16
+      Bytes         : 5521
+      Flushes       : 16
       Lines         : 33
       Syslines      : 15
-      Datetime first: 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
+      Datetime First: 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
       Datetime last : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
   Processed:
       File size     : 2716 (0xA9C) (bytes)

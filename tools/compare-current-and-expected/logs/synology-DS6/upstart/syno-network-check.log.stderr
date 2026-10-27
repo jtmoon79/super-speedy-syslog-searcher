@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3088
-      flushes       : 15
+      Bytes         : 3088
+      Flushes       : 15
       Lines         : 19
       Syslines      : 15
-      Datetime first: 2016-12-05 20:31:34 -08:00 (2016-12-06 04:31:34.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:34 -08:00 (2016-12-06 04:31:34.000000 +00:00)
       Datetime last : 2016-12-05 21:11:46 -08:00 (2016-12-06 05:11:46.000000 +00:00)
   Processed:
       File size     : 1549 (0x60D) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf9a-2.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 600
-      flushes       : 2
+      Bytes         : 600
+      Flushes       : 2
       Lines         : 2
       Syslines      : 2
-      Datetime first: 2022-07-17 00:00:11 +08:00 (2022-07-16 16:00:11.000000 +00:00)
+      Datetime First: 2022-07-17 00:00:11 +08:00 (2022-07-16 16:00:11.000000 +00:00)
       Datetime last : 2022-07-17 00:00:12 +08:00 (2022-07-16 16:00:12.000000 +00:00)
   Processed:
       File size     : 478 (0x1DE) (bytes)

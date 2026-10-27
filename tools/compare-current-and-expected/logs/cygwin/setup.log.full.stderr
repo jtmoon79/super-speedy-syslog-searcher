@@ -6,11 +6,11 @@ File: ./logs/cygwin/setup.log.full
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 8618
-      flushes       : 14
+      Bytes         : 8618
+      Flushes       : 14
       Lines         : 77
       Syslines      : 12
-      Datetime first: 2022-03-23 14:00:20 +08:00 (2022-03-23 06:00:20.000000 +00:00)
+      Datetime First: 2022-03-23 14:00:20 +08:00 (2022-03-23 06:00:20.000000 +00:00)
       Datetime last : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
   Processed:
       File size     : 4075 (0xFEB) (bytes)

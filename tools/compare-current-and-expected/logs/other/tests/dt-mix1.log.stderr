@@ -6,11 +6,11 @@ File: ./logs/other/tests/dt-mix1.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1701
-      flushes       : 10
+      Bytes         : 1701
+      Flushes       : 10
       Lines         : 21
       Syslines      : 10
-      Datetime first: 2020-01-01 00:00:01 +08:00 (2019-12-31 16:00:01.000000 +00:00)
+      Datetime First: 2020-01-01 00:00:01 +08:00 (2019-12-31 16:00:01.000000 +00:00)
       Datetime last : 2020-01-01 00:00:10 +08:00 (2019-12-31 16:00:10.000000 +00:00)
   Processed:
       File size     : 420 (0x1A4) (bytes)

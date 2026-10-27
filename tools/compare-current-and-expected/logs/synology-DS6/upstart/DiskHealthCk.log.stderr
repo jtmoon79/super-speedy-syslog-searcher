@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/DiskHealthCk.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 342
-      flushes       : 2
+      Bytes         : 342
+      Flushes       : 2
       Lines         : 2
       Syslines      : 2
-      Datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
       Datetime last : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
   Processed:
       File size     : 192 (0xC0) (bytes)

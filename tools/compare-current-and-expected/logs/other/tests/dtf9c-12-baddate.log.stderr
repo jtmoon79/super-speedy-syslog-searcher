@@ -7,8 +7,8 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
       LogMessageType: text log lines
       Processing Err: no syslog lines found in file
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
   Processed:

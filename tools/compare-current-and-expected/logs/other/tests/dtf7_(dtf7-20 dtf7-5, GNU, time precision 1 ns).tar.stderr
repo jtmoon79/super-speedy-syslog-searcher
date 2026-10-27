@@ -7,11 +7,11 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3660
-      flushes       : 20
+      Bytes         : 3660
+      Flushes       : 20
       Lines         : 20
       Syslines      : 20
-      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
   Processed:
       file size archive   : 4096 (0x1000) (bytes)
@@ -51,11 +51,11 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 872
-      flushes       : 5
+      Bytes         : 872
+      Flushes       : 5
       Lines         : 5
       Syslines      : 5
-      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 -04:00 (2000-01-01 04:00:05.000000 +00:00)
   Processed:
       file size archive   : 4096 (0x1000) (bytes)

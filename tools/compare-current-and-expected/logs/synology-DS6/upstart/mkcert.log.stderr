@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/mkcert.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2723
-      flushes       : 15
+      Bytes         : 2723
+      Flushes       : 15
       Lines         : 19
       Syslines      : 15
-      Datetime first: 2016-12-05 20:31:15 -08:00 (2016-12-06 04:31:15.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:15 -08:00 (2016-12-06 04:31:15.000000 +00:00)
       Datetime last : 2016-12-05 20:31:19 -08:00 (2016-12-06 04:31:19.000000 +00:00)
   Processed:
       File size     : 1412 (0x584) (bytes)

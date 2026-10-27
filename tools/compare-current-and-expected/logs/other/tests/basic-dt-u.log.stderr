@@ -6,11 +6,11 @@ File: ./logs/other/tests/basic-dt-u.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 4724
-      flushes       : 27
+      Bytes         : 4724
+      Flushes       : 27
       Lines         : 54
       Syslines      : 27
-      Datetime first: 2020-01-01 00:00:00 +08:00 (2019-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2020-01-01 00:00:00 +08:00 (2019-12-31 16:00:00.000000 +00:00)
       Datetime last : 2020-01-01 00:00:26 +08:00 (2019-12-31 16:00:26.000000 +00:00)
   Processed:
       File size     : 1268 (0x4F4) (bytes)

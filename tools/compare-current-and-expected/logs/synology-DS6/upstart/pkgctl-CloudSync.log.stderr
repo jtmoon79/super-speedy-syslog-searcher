@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2997
-      flushes       : 19
+      Bytes         : 2997
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2017-05-24 19:15:29 -07:00 (2017-05-25 02:15:29.000000 +00:00)
+      Datetime First: 2017-05-24 19:15:29 -07:00 (2017-05-25 02:15:29.000000 +00:00)
       Datetime last : 2019-02-11 19:25:11 -08:00 (2019-02-12 03:25:11.000000 +00:00)
   Processed:
       File size     : 1496 (0x5D8) (bytes)

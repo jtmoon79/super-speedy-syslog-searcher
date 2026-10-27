@@ -6,11 +6,11 @@ File: ./logs/Ubuntu22/auth.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2253
-      flushes       : 14
+      Bytes         : 2253
+      Flushes       : 14
       Lines         : 14
       Syslines      : 14
-      Datetime first: 2022-10-03 21:52:12 +08:00 (2022-10-03 13:52:12.000000 +00:00)
+      Datetime First: 2022-10-03 21:52:12 +08:00 (2022-10-03 13:52:12.000000 +00:00)
       Datetime last : 2022-10-03 22:15:45 +08:00 (2022-10-03 14:15:45.000000 +00:00)
   Processed:
       File size     : 1483 (0x5CB) (bytes)

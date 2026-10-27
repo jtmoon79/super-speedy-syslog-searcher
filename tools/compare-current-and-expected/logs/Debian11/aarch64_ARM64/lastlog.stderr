@@ -6,10 +6,10 @@ File: ./logs/Debian11/aarch64_ARM64/lastlog
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      specific type : Fs_Linux_Arm64Aarch64_Lastlog
+      Layout Type   : Fs_Linux_Arm64Aarch64_Lastlog
   Printed:
-      bytes         : 127
-      flushes       : 1
+      Bytes         : 127
+      Flushes       : 1
       Entries       : 1
   Processed:
       File size     : 296296 (0x48568) (bytes)

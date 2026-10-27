@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2774
-      flushes       : 19
+      Bytes         : 2774
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2017-02-23 14:52:13 -08:00 (2017-02-23 22:52:13.000000 +00:00)
+      Datetime First: 2017-02-23 14:52:13 -08:00 (2017-02-23 22:52:13.000000 +00:00)
       Datetime last : 2018-10-25 12:26:20 -07:00 (2018-10-25 19:26:20.000000 +00:00)
   Processed:
       File size     : 1159 (0x487) (bytes)

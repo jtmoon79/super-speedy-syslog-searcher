@@ -6,11 +6,11 @@ File: ./logs/Debian11/alternatives.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 5167
-      flushes       : 15
+      Bytes         : 5167
+      Flushes       : 15
       Lines         : 15
       Syslines      : 15
-      Datetime first: 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
+      Datetime First: 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
       Datetime last : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
   Processed:
       File size     : 4222 (0x107E) (bytes)

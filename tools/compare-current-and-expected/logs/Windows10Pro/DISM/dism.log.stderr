@@ -6,11 +6,11 @@ File: ./logs/Windows10Pro/DISM/dism.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 22536
-      flushes       : 94
+      Bytes         : 22536
+      Flushes       : 94
       Lines         : 111
       Syslines      : 94
-      Datetime first: 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)
+      Datetime First: 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)
       Datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
   Processed:
       File size     : 15435 (0x3C4B) (bytes)

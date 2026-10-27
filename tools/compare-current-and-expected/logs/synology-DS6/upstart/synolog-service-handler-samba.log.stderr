@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1298
-      flushes       : 9
+      Bytes         : 1298
+      Flushes       : 9
       Lines         : 9
       Syslines      : 9
-      Datetime first: 2016-12-05 21:16:10 -08:00 (2016-12-06 05:16:10.000000 +00:00)
+      Datetime First: 2016-12-05 21:16:10 -08:00 (2016-12-06 05:16:10.000000 +00:00)
       Datetime last : 2016-12-05 21:16:10 -08:00 (2016-12-06 05:16:10.000000 +00:00)
   Processed:
       File size     : 470 (0x1D6) (bytes)

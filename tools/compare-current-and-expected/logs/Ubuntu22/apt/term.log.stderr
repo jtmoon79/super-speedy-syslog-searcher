@@ -6,11 +6,11 @@ File: ./logs/Ubuntu22/apt/term.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2147
-      flushes       : 2
+      Bytes         : 2147
+      Flushes       : 2
       Lines         : 13
       Syslines      : 1
-      Datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
+      Datetime First: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       Datetime last : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
   Processed:
       File size     : 1381 (0x565) (bytes)

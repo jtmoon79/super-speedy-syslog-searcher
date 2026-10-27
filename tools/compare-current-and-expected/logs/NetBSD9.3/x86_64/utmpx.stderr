@@ -6,10 +6,10 @@ File: ./logs/NetBSD9.3/x86_64/utmpx
       FileType      : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmpx
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      specific type : Fs_Netbsd_x8664_Utmpx
+      Layout Type   : Fs_Netbsd_x8664_Utmpx
   Printed:
-      bytes         : 1970
-      flushes       : 9
+      Bytes         : 1970
+      Flushes       : 9
       Entries       : 9
   Processed:
       File size     : 5200 (0x1450) (bytes)

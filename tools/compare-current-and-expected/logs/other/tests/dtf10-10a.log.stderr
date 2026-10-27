@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf10-10a.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 802
-      flushes       : 8
+      Bytes         : 802
+      Flushes       : 8
       Lines         : 8
       Syslines      : 8
-      Datetime first: 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
+      Datetime First: 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
       Datetime last : 2022-06-28 01:51:11 +00:30 (2022-06-28 01:21:11.000000 +00:00)
   Processed:
       File size     : 298 (0x12A) (bytes)

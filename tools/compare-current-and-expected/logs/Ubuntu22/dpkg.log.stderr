@@ -6,11 +6,11 @@ File: ./logs/Ubuntu22/dpkg.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1794
-      flushes       : 14
+      Bytes         : 1794
+      Flushes       : 14
       Lines         : 14
       Syslines      : 14
-      Datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
+      Datetime First: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       Datetime last : 2022-10-04 06:22:30 +08:00 (2022-10-03 22:22:30.000000 +00:00)
   Processed:
       File size     : 1024 (0x400) (bytes)

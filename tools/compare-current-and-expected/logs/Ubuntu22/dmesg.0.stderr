@@ -7,12 +7,12 @@ File: ./logs/Ubuntu22/dmesg.0
       LogMessageType: text log lines
       Processing Err: failed to calculate systemtime at uptime zero
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime first: None Found
-      Datetime last : None Found
+      Datetime First: None Found
+      Datetime Last : None Found
   Processed:
       File size     : 1161 (0x489) (bytes)
       bytes         : 393 (0x189)

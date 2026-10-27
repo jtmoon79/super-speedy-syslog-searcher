@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/messages
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 4712
-      flushes       : 19
+      Bytes         : 4712
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2020-03-08 14:25:30 -07:00 (2020-03-08 21:25:30.000000 +00:00)
+      Datetime First: 2020-03-08 14:25:30 -07:00 (2020-03-08 21:25:30.000000 +00:00)
       Datetime last : 2020-03-08 14:25:59 -07:00 (2020-03-08 21:25:59.000000 +00:00)
   Processed:
       File size     : 3591 (0xE07) (bytes)

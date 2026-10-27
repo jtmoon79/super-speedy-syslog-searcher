@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/synocmsclient.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1900
-      flushes       : 11
+      Bytes         : 1900
+      Flushes       : 11
       Lines         : 19
       Syslines      : 11
-      Datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
       Datetime last : 2016-12-05 21:34:33 -08:00 (2016-12-06 05:34:33.000000 +00:00)
   Processed:
       File size     : 608 (0x260) (bytes)

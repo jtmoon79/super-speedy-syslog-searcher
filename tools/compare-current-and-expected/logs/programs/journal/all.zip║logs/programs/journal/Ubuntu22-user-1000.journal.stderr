@@ -7,13 +7,13 @@ File: ./logs/programs/journal/all.zip|logs/programs/journal/Ubuntu22-user-1000.j
       FileType      : JOURNAL (ZIP) (systemd Journal)
       LogMessageType: systemd journal entry
   Printed:
-      bytes         : 2149545
-      flushes       : 1264
-      Journal events: 422
-      Journal event largest processed: 1321 (bytes)
-      Journal event largest accepted : 1321 (bytes)
-      Datetime first: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
-      Datetime last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+      Bytes         : 2149545
+      Flushes       : 1264
+      Journal Events: 422
+      Journal Event Largest Processed: 1321 (bytes)
+      Journal Event Largest Accepted : 1321 (bytes)
+      Datetime First: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+      Datetime Last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
   Processed:
       File size     : 8388608 (0x800000) (bytes)
       Journal events: 422
@@ -55,7 +55,7 @@ Managed files max adjus: 200
 Managed request open   : 3
 Managed request read   : 0
 Managed write calls    : 1035
-Managed seek calls     : 635
+Managed seek calls     : 7
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0

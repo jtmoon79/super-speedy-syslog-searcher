@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2900
-      flushes       : 19
+      Bytes         : 2900
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2018-11-29 23:50:14 -08:00 (2018-11-30 07:50:14.000000 +00:00)
+      Datetime First: 2018-11-29 23:50:14 -08:00 (2018-11-30 07:50:14.000000 +00:00)
       Datetime last : 2019-09-08 19:25:25 -07:00 (2019-09-09 02:25:25.000000 +00:00)
   Processed:
       File size     : 1266 (0x4F2) (bytes)

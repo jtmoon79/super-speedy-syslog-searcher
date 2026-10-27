@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1040
-      flushes       : 8
+      Bytes         : 1040
+      Flushes       : 8
       Lines         : 8
       Syslines      : 8
-      Datetime first: 2018-10-15 14:09:31 -07:00 (2018-10-15 21:09:31.000000 +00:00)
+      Datetime First: 2018-10-15 14:09:31 -07:00 (2018-10-15 21:09:31.000000 +00:00)
       Datetime last : 2019-06-23 21:11:15 -07:00 (2019-06-24 04:11:15.000000 +00:00)
   Processed:
       File size     : 408 (0x198) (bytes)

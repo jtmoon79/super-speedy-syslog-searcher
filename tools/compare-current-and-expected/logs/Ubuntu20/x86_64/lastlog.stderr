@@ -6,10 +6,10 @@ File: ./logs/Ubuntu20/x86_64/lastlog
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      specific type : Fs_Linux_x86_Lastlog
+      Layout Type   : Fs_Linux_x86_Lastlog
   Printed:
-      bytes         : 240
-      flushes       : 2
+      Bytes         : 240
+      Flushes       : 2
       Entries       : 2
   Processed:
       File size     : 292292 (0x475C4) (bytes)

@@ -7,8 +7,8 @@ File: ./logs/other/tests/invalid.gz
       LogMessageType: text log lines
       Processing Err: unexpected end of file (GzDecoder.read(…) failed) file "./logs/other/tests/invalid.gz"
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
   Processed:

@@ -6,11 +6,11 @@ File: ./logs/Debian9/clamav/clamd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1066
-      flushes       : 8
+      Bytes         : 1066
+      Flushes       : 8
       Lines         : 8
       Syslines      : 8
-      Datetime first: 2019-10-04 13:21:36 +08:00 (2019-10-04 05:21:36.000000 +00:00)
+      Datetime First: 2019-10-04 13:21:36 +08:00 (2019-10-04 05:21:36.000000 +00:00)
       Datetime last : 2019-10-04 13:21:37 +08:00 (2019-10-04 05:21:37.000000 +00:00)
   Processed:
       File size     : 570 (0x23A) (bytes)

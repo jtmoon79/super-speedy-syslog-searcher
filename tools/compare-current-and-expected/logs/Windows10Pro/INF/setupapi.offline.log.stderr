@@ -6,11 +6,11 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3826
-      flushes       : 6
+      Bytes         : 3826
+      Flushes       : 6
       Lines         : 26
       Syslines      : 6
-      Datetime first: 2020-05-27 11:29:27 +08:00 (2020-05-27 03:29:27.787000 +00:00)
+      Datetime First: 2020-05-27 11:29:27 +08:00 (2020-05-27 03:29:27.787000 +00:00)
       Datetime last : 2020-05-27 12:07:06 +08:00 (2020-05-27 04:07:06.604000 +00:00)
   Processed:
       File size     : 1919 (0x77F) (bytes)

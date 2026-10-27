@@ -6,11 +6,11 @@ File: ./logs/Ubuntu18/cups/error_log.1
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 183
-      flushes       : 1
+      Bytes         : 183
+      Flushes       : 1
       Lines         : 1
       Syslines      : 1
-      Datetime first: 2019-08-09 00:09:01 -07:00 (2019-08-09 07:09:01.000000 +00:00)
+      Datetime First: 2019-08-09 00:09:01 -07:00 (2019-08-09 07:09:01.000000 +00:00)
       Datetime last : 2019-08-09 00:09:01 -07:00 (2019-08-09 07:09:01.000000 +00:00)
   Processed:
       File size     : 120 (0x78) (bytes)

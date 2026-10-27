@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3385
-      flushes       : 37
+      Bytes         : 3385
+      Flushes       : 37
       Lines         : 38
       Syslines      : 37
-      Datetime first: 2000-12-31 23:00:00 -09:00 (2001-01-01 08:00:00.000000 +00:00)
+      Datetime First: 2000-12-31 23:00:00 -09:00 (2001-01-01 08:00:00.000000 +00:00)
       Datetime last : 2004-01-01 01:00:00 -09:00 (2004-01-01 10:00:00.000000 +00:00)
   Processed:
       File size     : 839 (0x347) (bytes)

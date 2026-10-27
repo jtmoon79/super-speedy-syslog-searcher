@@ -6,11 +6,11 @@ File: ./logs/RockyLinux9/cron
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 18796
-      flushes       : 116
+      Bytes         : 18796
+      Flushes       : 116
       Lines         : 116
       Syslines      : 116
-      Datetime first: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
+      Datetime First: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
       Datetime last : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
   Processed:
       File size     : 12532 (0x30F4) (bytes)

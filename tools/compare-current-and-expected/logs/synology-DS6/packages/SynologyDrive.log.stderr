@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2967
-      flushes       : 13
+      Bytes         : 2967
+      Flushes       : 13
       Lines         : 19
       Syslines      : 13
-      Datetime first: 2019-06-23 21:14:45 +08:00 (2019-06-23 13:14:45.000000 +00:00)
+      Datetime First: 2019-06-23 21:14:45 +08:00 (2019-06-23 13:14:45.000000 +00:00)
       Datetime last : 2019-08-31 23:53:59 +08:00 (2019-08-31 15:53:59.000000 +00:00)
   Processed:
       File size     : 1504 (0x5E0) (bytes)

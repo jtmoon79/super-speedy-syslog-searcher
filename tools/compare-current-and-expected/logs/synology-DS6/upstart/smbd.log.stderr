@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/smbd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2658
-      flushes       : 16
+      Bytes         : 2658
+      Flushes       : 16
       Lines         : 19
       Syslines      : 16
-      Datetime first: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
       Datetime last : 2016-12-05 21:11:47 -08:00 (2016-12-06 05:11:47.000000 +00:00)
   Processed:
       File size     : 1385 (0x569) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf13b.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 408
-      flushes       : 3
+      Bytes         : 408
+      Flushes       : 3
       Lines         : 3
       Syslines      : 3
-      Datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
+      Datetime First: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
       Datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638300 +00:00)
   Processed:
       File size     : 228 (0xE4) (bytes)
