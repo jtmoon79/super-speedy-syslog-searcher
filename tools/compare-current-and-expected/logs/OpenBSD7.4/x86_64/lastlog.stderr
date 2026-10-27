@@ -6,10 +6,10 @@ File: ./logs/OpenBSD7.4/x86_64/lastlog
       FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Lastlog
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      specific type : Fs_Openbsd_x86_Lastlog
+      Layout Type   : Fs_Openbsd_x86_Lastlog
   Printed:
-      bytes         : 125
-      flushes       : 1
+      Bytes         : 125
+      Flushes       : 1
       Entries       : 1
   Processed:
       File size     : 272 (0x110) (bytes)

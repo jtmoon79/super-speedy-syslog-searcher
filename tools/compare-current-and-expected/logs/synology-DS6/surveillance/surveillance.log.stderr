@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3585
-      flushes       : 19
+      Bytes         : 3585
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2020-02-09 19:00:11 +08:00 (2020-02-09 11:00:11.000000 +00:00)
+      Datetime First: 2020-02-09 19:00:11 +08:00 (2020-02-09 11:00:11.000000 +00:00)
       Datetime last : 2020-02-09 19:00:15 +08:00 (2020-02-09 11:00:15.000000 +00:00)
   Processed:
       File size     : 2065 (0x811) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2969
-      flushes       : 19
+      Bytes         : 2969
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
+      Datetime First: 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
       Datetime last : 2017-06-19 01:18:48 -07:00 (2017-06-19 08:18:48.000000 +00:00)
   Processed:
       File size     : 1278 (0x4FE) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/packages/USBCopy.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2935
-      flushes       : 19
+      Bytes         : 2935
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2019-06-23 21:13:36 +08:00 (2019-06-23 13:13:36.000000 +00:00)
+      Datetime First: 2019-06-23 21:13:36 +08:00 (2019-06-23 13:13:36.000000 +00:00)
       Datetime last : 2019-08-31 23:18:14 +08:00 (2019-08-31 15:18:14.000000 +00:00)
   Processed:
       File size     : 1586 (0x632) (bytes)

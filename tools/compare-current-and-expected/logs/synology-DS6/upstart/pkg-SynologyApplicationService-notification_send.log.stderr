@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3185
-      flushes       : 19
+      Bytes         : 3185
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2018-12-06 02:26:02 -08:00 (2018-12-06 10:26:02.000000 +00:00)
+      Datetime First: 2018-12-06 02:26:02 -08:00 (2018-12-06 10:26:02.000000 +00:00)
       Datetime last : 2019-10-19 19:04:09 -07:00 (2019-10-20 02:04:09.000000 +00:00)
   Processed:
       File size     : 1076 (0x434) (bytes)

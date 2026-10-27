@@ -6,11 +6,11 @@ File: ./logs/Ubuntu22/alternatives.log.1
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 7521
-      flushes       : 13
+      Bytes         : 7521
+      Flushes       : 13
       Lines         : 13
       Syslines      : 13
-      Datetime first: 2022-10-04 06:22:31 +08:00 (2022-10-03 22:22:31.000000 +00:00)
+      Datetime First: 2022-10-04 06:22:31 +08:00 (2022-10-03 22:22:31.000000 +00:00)
       Datetime last : 2022-10-04 06:22:31 +08:00 (2022-10-03 22:22:31.000000 +00:00)
   Processed:
       File size     : 6676 (0x1A14) (bytes)

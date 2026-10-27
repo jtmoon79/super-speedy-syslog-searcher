@@ -7,11 +7,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -51,11 +51,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6a.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 692
-      flushes       : 6
+      Bytes         : 692
+      Flushes       : 6
       Lines         : 6
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -95,11 +95,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-2a.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 226
-      flushes       : 2
+      Bytes         : 226
+      Flushes       : 2
       Lines         : 2
       Syslines      : 2
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -139,11 +139,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6c.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3485
-      flushes       : 11
+      Bytes         : 3485
+      Flushes       : 11
       Lines         : 32
       Syslines      : 11
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -183,11 +183,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -227,11 +227,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -271,11 +271,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -315,11 +315,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -359,11 +359,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -403,11 +403,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -447,11 +447,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -491,11 +491,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -535,11 +535,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -579,11 +579,11 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1245
-      flushes       : 6
+      Bytes         : 1245
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size archive   : 3672 (0xE58) (bytes)
@@ -649,7 +649,7 @@ Managed files max adjus: 200
 Managed request open   : 28
 Managed request read   : 0
 Managed write calls    : 0
-Managed seek calls     : 938
+Managed seek calls     : 112
 Managed metadata calls : 14
 Managed open errors    : 0
 Managed evict fails    : 0

@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/synonetd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2243
-      flushes       : 18
+      Bytes         : 2243
+      Flushes       : 18
       Lines         : 19
       Syslines      : 18
-      Datetime first: 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
       Datetime last : 2017-02-23 14:51:59 -08:00 (2017-02-23 22:51:59.000000 +00:00)
   Processed:
       File size     : 894 (0x37E) (bytes)

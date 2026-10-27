@@ -6,11 +6,11 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 4980
-      flushes       : 27
+      Bytes         : 4980
+      Flushes       : 27
       Lines         : 27
       Syslines      : 27
-      Datetime first: 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
+      Datetime First: 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
       Datetime last : 2019-06-16 14:09:37 +00:00 (2019-06-16 14:09:37.000000 +00:00)
   Processed:
       File size     : 3171 (0xC63) (bytes)

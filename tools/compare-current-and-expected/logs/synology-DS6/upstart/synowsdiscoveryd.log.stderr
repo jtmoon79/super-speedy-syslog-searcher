@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2449
-      flushes       : 2
+      Bytes         : 2449
+      Flushes       : 2
       Lines         : 19
       Syslines      : 2
-      Datetime first: 2019-06-28 21:14:49 -07:00 (2019-06-29 04:14:49.000000 +00:00)
+      Datetime First: 2019-06-28 21:14:49 -07:00 (2019-06-29 04:14:49.000000 +00:00)
       Datetime last : 2019-09-04 18:38:13 -07:00 (2019-09-05 01:38:13.000000 +00:00)
   Processed:
       File size     : 948 (0x3B4) (bytes)

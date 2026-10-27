@@ -6,11 +6,11 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 6379
-      flushes       : 55
+      Bytes         : 6379
+      Flushes       : 55
       Lines         : 55
       Syslines      : 55
-      Datetime first: 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
   Processed:
       File size     : 1539 (0x603) (bytes)

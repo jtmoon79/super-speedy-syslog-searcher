@@ -6,11 +6,11 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 319
-      flushes       : 2
+      Bytes         : 319
+      Flushes       : 2
       Lines         : 2
       Syslines      : 2
-      Datetime first: 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
+      Datetime First: 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
       Datetime last : 2022-10-10 20:23:36 +00:00 (2022-10-10 20:23:36.000000 +00:00)
   Processed:
       File size     : 183 (0xB7) (bytes)

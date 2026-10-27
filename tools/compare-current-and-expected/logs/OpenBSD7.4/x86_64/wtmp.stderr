@@ -6,10 +6,10 @@ File: ./logs/OpenBSD7.4/x86_64/wtmp
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      specific type : Fs_Openbsd_x86_Utmp
+      Layout Type   : Fs_Openbsd_x86_Utmp
   Printed:
-      bytes         : 619
-      flushes       : 5
+      Bytes         : 619
+      Flushes       : 5
       Entries       : 5
   Processed:
       File size     : 1520 (0x5F0) (bytes)

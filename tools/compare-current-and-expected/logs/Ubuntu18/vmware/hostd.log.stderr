@@ -6,11 +6,11 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3878
-      flushes       : 19
+      Bytes         : 3878
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)
+      Datetime First: 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)
       Datetime last : 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.682000 +00:00)
   Processed:
       File size     : 2681 (0xA79) (bytes)

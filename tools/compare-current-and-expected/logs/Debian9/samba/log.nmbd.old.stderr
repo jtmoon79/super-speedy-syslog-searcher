@@ -6,11 +6,11 @@ File: ./logs/Debian9/samba/log.nmbd.old
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2850
-      flushes       : 6
+      Bytes         : 2850
+      Flushes       : 6
       Lines         : 18
       Syslines      : 6
-      Datetime first: 2020-03-06 17:17:14 +08:00 (2020-03-06 09:17:14.296200 +00:00)
+      Datetime First: 2020-03-06 17:17:14 +08:00 (2020-03-06 09:17:14.296200 +00:00)
       Datetime last : 2020-03-06 17:42:25 +08:00 (2020-03-06 09:42:25.296200 +00:00)
   Processed:
       File size     : 1783 (0x6F7) (bytes)

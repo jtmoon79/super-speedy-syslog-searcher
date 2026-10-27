@@ -6,11 +6,11 @@ File: ./logs/Ubuntu18/xrdp.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2380
-      flushes       : 19
+      Bytes         : 2380
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2020-01-13 11:03:06 +08:00 (2020-01-13 03:03:06.000000 +00:00)
+      Datetime First: 2020-01-13 11:03:06 +08:00 (2020-01-13 03:03:06.000000 +00:00)
       Datetime last : 2020-01-13 12:19:09 +08:00 (2020-01-13 04:19:09.000000 +00:00)
   Processed:
       File size     : 1335 (0x537) (bytes)

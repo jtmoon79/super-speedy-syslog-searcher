@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2499
-      flushes       : 19
+      Bytes         : 2499
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2016-12-05 21:01:12 -08:00 (2016-12-06 05:01:12.000000 +00:00)
+      Datetime First: 2016-12-05 21:01:12 -08:00 (2016-12-06 05:01:12.000000 +00:00)
       Datetime last : 2018-08-01 14:14:13 -07:00 (2018-08-01 21:14:13.000000 +00:00)
   Processed:
       File size     : 1036 (0x40C) (bytes)

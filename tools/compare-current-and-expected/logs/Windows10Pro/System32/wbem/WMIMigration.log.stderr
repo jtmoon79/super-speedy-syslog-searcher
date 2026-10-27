@@ -6,11 +6,11 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 8399
-      flushes       : 40
+      Bytes         : 8399
+      Flushes       : 40
       Lines         : 42
       Syslines      : 40
-      Datetime first: 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)
+      Datetime First: 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)
       Datetime last : 2020-05-27 12:25:43 +08:00 (2020-05-27 04:25:43.087700 +00:00)
   Processed:
       File size     : 4997 (0x1385) (bytes)

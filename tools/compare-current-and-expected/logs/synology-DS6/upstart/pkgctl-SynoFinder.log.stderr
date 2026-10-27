@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2752
-      flushes       : 19
+      Bytes         : 2752
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2017-02-23 14:52:49 -08:00 (2017-02-23 22:52:49.000000 +00:00)
+      Datetime First: 2017-02-23 14:52:49 -08:00 (2017-02-23 22:52:49.000000 +00:00)
       Datetime last : 2017-09-17 10:05:04 -07:00 (2017-09-17 17:05:04.000000 +00:00)
   Processed:
       File size     : 1232 (0x4D0) (bytes)

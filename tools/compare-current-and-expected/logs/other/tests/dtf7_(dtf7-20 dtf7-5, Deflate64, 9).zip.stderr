@@ -7,11 +7,11 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3420
-      flushes       : 20
+      Bytes         : 3420
+      Flushes       : 20
       Lines         : 20
       Syslines      : 20
-      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
   Processed:
       file size archive   : 636 (0x27C) (bytes)
@@ -51,11 +51,11 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-5-LEVELS.l
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 812
-      flushes       : 5
+      Bytes         : 812
+      Flushes       : 5
       Lines         : 5
       Syslines      : 5
-      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 -04:00 (2000-01-01 04:00:05.000000 +00:00)
   Processed:
       file size archive   : 636 (0x27C) (bytes)
@@ -121,7 +121,7 @@ Managed files max adjus: 200
 Managed request open   : 4
 Managed request read   : 0
 Managed write calls    : 0
-Managed seek calls     : 32
+Managed seek calls     : 16
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0

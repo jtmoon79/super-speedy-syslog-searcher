@@ -6,11 +6,11 @@ File: ./logs/RancherOS-1.5.8/messages
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 41754
-      flushes       : 231
+      Bytes         : 41754
+      Flushes       : 231
       Lines         : 234
       Syslines      : 231
-      Datetime first: 2022-10-09 21:31:38 +08:00 (2022-10-09 13:31:38.000000 +00:00)
+      Datetime First: 2022-10-09 21:31:38 +08:00 (2022-10-09 13:31:38.000000 +00:00)
       Datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
   Processed:
       File size     : 27246 (0x6A6E) (bytes)

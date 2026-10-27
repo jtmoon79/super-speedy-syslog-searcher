@@ -6,11 +6,11 @@ File: ./logs/RockyLinux9/messages
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 397192
-      flushes       : 2432
+      Bytes         : 397192
+      Flushes       : 2432
       Lines         : 2432
       Syslines      : 2432
-      Datetime first: 2022-10-08 06:18:20 +08:00 (2022-10-07 22:18:20.000000 +00:00)
+      Datetime First: 2022-10-08 06:18:20 +08:00 (2022-10-07 22:18:20.000000 +00:00)
       Datetime last : 2022-10-08 22:26:52 +08:00 (2022-10-08 14:26:52.000000 +00:00)
   Processed:
       File size     : 256136 (0x3E888) (bytes)

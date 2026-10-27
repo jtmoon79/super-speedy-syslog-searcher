@@ -7,8 +7,8 @@ File: ./logs/other/tests/dtf9b-12-leapday.log
       LogMessageType: text log lines
       Processing Err: no syslog lines found in file
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
   Processed:

@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/sysnotify.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 4211
-      flushes       : 19
+      Bytes         : 4211
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2018-08-03 04:02:47 -07:00 (2018-08-03 11:02:47.000000 +00:00)
+      Datetime First: 2018-08-03 04:02:47 -07:00 (2018-08-03 11:02:47.000000 +00:00)
       Datetime last : 2018-12-14 04:03:05 -08:00 (2018-12-14 12:03:05.000000 +00:00)
   Processed:
       File size     : 2995 (0xBB3) (bytes)

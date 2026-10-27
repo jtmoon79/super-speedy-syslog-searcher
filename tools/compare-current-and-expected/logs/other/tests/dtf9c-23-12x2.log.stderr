@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2106
-      flushes       : 23
+      Bytes         : 2106
+      Flushes       : 23
       Lines         : 25
       Syslines      : 23
-      Datetime first: 2017-01-01 01:00:00 +08:00 (2016-12-31 17:00:00.000000 +00:00)
+      Datetime First: 2017-01-01 01:00:00 +08:00 (2016-12-31 17:00:00.000000 +00:00)
       Datetime last : 2018-12-12 12:00:00 +08:00 (2018-12-12 04:00:00.000000 +00:00)
   Processed:
       File size     : 431 (0x1AF) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/other/tests/unknown
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 420
-      flushes       : 4
+      Bytes         : 420
+      Flushes       : 4
       Lines         : 4
       Syslines      : 4
-      Datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626000 +00:00)
+      Datetime First: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626000 +00:00)
       Datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.648000 +00:00)
   Processed:
       File size     : 192 (0xC0) (bytes)

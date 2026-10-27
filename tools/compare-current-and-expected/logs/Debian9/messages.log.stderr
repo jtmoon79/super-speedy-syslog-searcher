@@ -6,11 +6,11 @@ File: ./logs/Debian9/messages.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 211
-      flushes       : 1
+      Bytes         : 211
+      Flushes       : 1
       Lines         : 1
       Syslines      : 1
-      Datetime first: 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
+      Datetime First: 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
       Datetime last : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
   Processed:
       File size     : 153 (0x99) (bytes)

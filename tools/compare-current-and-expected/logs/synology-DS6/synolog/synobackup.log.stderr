@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/synolog/synobackup.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2872
-      flushes       : 15
+      Bytes         : 2872
+      Flushes       : 15
       Lines         : 16
       Syslines      : 15
-      Datetime first: 2017-02-21 21:36:10 +08:00 (2017-02-21 13:36:10.000000 +00:00)
+      Datetime First: 2017-02-21 21:36:10 +08:00 (2017-02-21 13:36:10.000000 +00:00)
       Datetime last : 2017-02-24 03:43:57 +08:00 (2017-02-23 19:43:57.000000 +00:00)
   Processed:
       File size     : 1704 (0x6A8) (bytes)

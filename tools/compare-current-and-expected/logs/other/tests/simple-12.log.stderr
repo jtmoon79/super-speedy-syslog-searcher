@@ -6,11 +6,11 @@ File: ./logs/other/tests/simple-12.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 75
-      flushes       : 1
+      Bytes         : 75
+      Flushes       : 1
       Lines         : 1
       Syslines      : 1
-      Datetime first: 2001-01-03 01:09:24 +08:00 (2001-01-02 17:09:24.000000 +00:00)
+      Datetime First: 2001-01-03 01:09:24 +08:00 (2001-01-02 17:09:24.000000 +00:00)
       Datetime last : 2001-01-03 01:09:24 +08:00 (2001-01-02 17:09:24.000000 +00:00)
   Processed:
       File size     : 12 (0xC) (bytes)

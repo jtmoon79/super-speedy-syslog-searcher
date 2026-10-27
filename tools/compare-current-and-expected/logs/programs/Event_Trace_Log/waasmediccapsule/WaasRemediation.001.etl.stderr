@@ -6,8 +6,8 @@ File: ./logs/programs/Event_Trace_Log/waasmediccapsule/WaasRemediation.001.etl
       FileType      : ETL (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Events        : 0
       Event largest processed: 715 (bytes)
       Event largest accepted : 0 (bytes)

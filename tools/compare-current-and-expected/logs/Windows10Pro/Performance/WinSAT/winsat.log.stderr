@@ -6,11 +6,11 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 12069
-      flushes       : 6
+      Bytes         : 12069
+      Flushes       : 6
       Lines         : 74
       Syslines      : 3
-      Datetime first: 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
+      Datetime First: 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
       Datetime last : 2022-09-14 12:38:46 +08:00 (2022-09-14 04:38:46.000000 +00:00)
   Processed:
       File size     : 6149 (0x1805) (bytes)

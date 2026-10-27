@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 847
-      flushes       : 8
+      Bytes         : 847
+      Flushes       : 8
       Lines         : 8
       Syslines      : 8
-      Datetime first: 2022-01-31 00:00:02 +08:00 (2022-01-30 16:00:02.000000 +00:00)
+      Datetime First: 2022-01-31 00:00:02 +08:00 (2022-01-30 16:00:02.000000 +00:00)
       Datetime last : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
   Processed:
       File size     : 295 (0x127) (bytes)

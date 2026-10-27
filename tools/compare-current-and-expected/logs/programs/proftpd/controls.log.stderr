@@ -6,11 +6,11 @@ File: ./logs/programs/proftpd/controls.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1072
-      flushes       : 6
+      Bytes         : 1072
+      Flushes       : 6
       Lines         : 6
       Syslines      : 6
-      Datetime first: 2020-10-03 11:24:11 +08:00 (2020-10-03 03:24:11.475000 +00:00)
+      Datetime First: 2020-10-03 11:24:11 +08:00 (2020-10-03 03:24:11.475000 +00:00)
       Datetime last : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.137000 +00:00)
   Processed:
       File size     : 670 (0x29E) (bytes)

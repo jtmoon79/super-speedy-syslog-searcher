@@ -10,8 +10,8 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       Events        : 11
       Bytes         : 3778
       Flushes       : 11
-      Event largest processed: 224
-      Event largest accepted : 224
+      Event Largest Processed: 224
+      Event Largest Accepted : 224
       Datetime First: 2025-12-21 20:14:05.875 +08:00
       Datetime Last : 2025-12-21 20:14:05.897 +08:00
   Processed:
@@ -62,7 +62,7 @@ Managed files max adjus: 200
 Managed request open   : 4
 Managed request read   : 0
 Managed write calls    : 1
-Managed seek calls     : 22
+Managed seek calls     : 12
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0

@@ -6,13 +6,13 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
       FileType      : EVTX (GZIP) (Windows XML EventLog)
       LogMessageType: EVTX entry (Windows XML EventLog)
   Printed:
-      bytes         : 1184407
-      flushes       : 678
+      Bytes         : 1184407
+      Flushes       : 678
       Events        : 227
-      Event largest processed: 1778 (bytes)
-      Event largest accepted : 1778 (bytes)
-      Datetime first: 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
-      Datetime last : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
+      Event Largest Processed: 1778 (bytes)
+      Event Largest Accepted : 1778 (bytes)
+      Datetime First: 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
+      Datetime Last : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
   Processed:
       File size          : 1052672 (0x101000) (bytes)
       Events processed   : 227

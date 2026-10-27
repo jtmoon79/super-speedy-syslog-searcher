@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 965
-      flushes       : 7
+      Bytes         : 965
+      Flushes       : 7
       Lines         : 7
       Syslines      : 7
-      Datetime first: 2016-12-08 18:56:19 -08:00 (2016-12-09 02:56:19.000000 +00:00)
+      Datetime First: 2016-12-08 18:56:19 -08:00 (2016-12-09 02:56:19.000000 +00:00)
       Datetime last : 2016-12-08 18:56:19 -08:00 (2016-12-09 02:56:19.000000 +00:00)
   Processed:
       File size     : 328 (0x148) (bytes)

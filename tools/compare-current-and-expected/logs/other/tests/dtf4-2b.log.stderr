@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf4-2b.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 267
-      flushes       : 2
+      Bytes         : 267
+      Flushes       : 2
       Lines         : 3
       Syslines      : 2
-      Datetime first: 2000-01-01 00:00:02 +08:00 (1999-12-31 16:00:02.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:02 +08:00 (1999-12-31 16:00:02.000000 +00:00)
       Datetime last : 2000-01-01 00:00:03 +08:00 (1999-12-31 16:00:03.000000 +00:00)
   Processed:
       File size     : 84 (0x54) (bytes)

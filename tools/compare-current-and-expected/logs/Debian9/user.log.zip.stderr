@@ -7,11 +7,11 @@ File: ./logs/Debian9/user.log.zip|logs/Debian9/user.log.1
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 610
-      flushes       : 3
+      Bytes         : 610
+      Flushes       : 3
       Lines         : 3
       Syslines      : 3
-      Datetime first: 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
+      Datetime First: 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
       Datetime last : 2022-02-06 03:17:39 +08:00 (2022-02-05 19:17:39.000000 +00:00)
   Processed:
       file size archive   : 427 (0x1AB) (bytes)
@@ -78,7 +78,7 @@ Managed files max adjus: 200
 Managed request open   : 2
 Managed request read   : 0
 Managed write calls    : 0
-Managed seek calls     : 12
+Managed seek calls     : 8
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0

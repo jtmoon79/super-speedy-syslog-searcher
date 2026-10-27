@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 931
-      flushes       : 5
+      Bytes         : 931
+      Flushes       : 5
       Lines         : 6
       Syslines      : 5
-      Datetime first: 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
       Datetime last : 2016-12-05 20:32:15 -08:00 (2016-12-06 04:32:15.000000 +00:00)
   Processed:
       File size     : 493 (0x1ED) (bytes)

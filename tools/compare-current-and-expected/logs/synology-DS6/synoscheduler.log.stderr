@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/synoscheduler.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3162
-      flushes       : 18
+      Bytes         : 3162
+      Flushes       : 18
       Lines         : 18
       Syslines      : 18
-      Datetime first: 2016-12-05 20:37:01 -08:00 (2016-12-06 04:37:01.000000 +00:00)
+      Datetime First: 2016-12-05 20:37:01 -08:00 (2016-12-06 04:37:01.000000 +00:00)
       Datetime last : 2017-05-15 04:00:05 -07:00 (2017-05-15 11:00:05.000000 +00:00)
   Processed:
       File size     : 1938 (0x792) (bytes)

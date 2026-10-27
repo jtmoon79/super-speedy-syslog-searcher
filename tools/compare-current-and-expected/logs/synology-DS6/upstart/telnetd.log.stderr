@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/telnetd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2213
-      flushes       : 15
+      Bytes         : 2213
+      Flushes       : 15
       Lines         : 19
       Syslines      : 15
-      Datetime first: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
+      Datetime First: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
       Datetime last : 2019-09-08 19:24:51 -07:00 (2019-09-09 02:24:51.000000 +00:00)
   Processed:
       File size     : 883 (0x373) (bytes)

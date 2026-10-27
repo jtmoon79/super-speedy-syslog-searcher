@@ -6,11 +6,11 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 18586
-      flushes       : 10
+      Bytes         : 18586
+      Flushes       : 10
       Lines         : 154
       Syslines      : 2
-      Datetime first: 2020-05-27 12:21:10 +08:00 (2020-05-27 04:21:10.000000 +00:00)
+      Datetime First: 2020-05-27 12:21:10 +08:00 (2020-05-27 04:21:10.000000 +00:00)
       Datetime last : 2020-05-27 12:21:11 +08:00 (2020-05-27 04:21:11.000000 +00:00)
   Processed:
       File size     : 12932 (0x3284) (bytes)

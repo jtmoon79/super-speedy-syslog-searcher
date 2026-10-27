@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2489
-      flushes       : 19
+      Bytes         : 2489
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2018-08-01 14:16:24 -07:00 (2018-08-01 21:16:24.000000 +00:00)
+      Datetime First: 2018-08-01 14:16:24 -07:00 (2018-08-01 21:16:24.000000 +00:00)
       Datetime last : 2018-10-25 12:23:47 -07:00 (2018-10-25 19:23:47.000000 +00:00)
   Processed:
       File size     : 893 (0x37D) (bytes)

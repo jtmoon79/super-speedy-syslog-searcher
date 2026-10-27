@@ -6,11 +6,11 @@ File: ./logs/FreeBSD13.1/devd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1714
-      flushes       : 9
+      Bytes         : 1714
+      Flushes       : 9
       Lines         : 19
       Syslines      : 9
-      Datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
+      Datetime First: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
       Datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
   Processed:
       File size     : 612 (0x264) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3422
-      flushes       : 17
+      Bytes         : 3422
+      Flushes       : 17
       Lines         : 19
       Syslines      : 17
-      Datetime first: 2022-05-10 16:19:12 +08:00 (2022-05-10 08:19:12.000000 +00:00)
+      Datetime First: 2022-05-10 16:19:12 +08:00 (2022-05-10 08:19:12.000000 +00:00)
       Datetime last : 2022-05-10 16:19:13 +08:00 (2022-05-10 08:19:13.000000 +00:00)
   Processed:
       File size     : 1864 (0x748) (bytes)

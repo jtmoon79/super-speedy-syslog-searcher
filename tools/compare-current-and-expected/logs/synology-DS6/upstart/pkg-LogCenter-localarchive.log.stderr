@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3833
-      flushes       : 18
+      Bytes         : 3833
+      Flushes       : 18
       Lines         : 19
       Syslines      : 18
-      Datetime first: 2018-09-04 15:01:08 -07:00 (2018-09-04 22:01:08.000000 +00:00)
+      Datetime First: 2018-09-04 15:01:08 -07:00 (2018-09-04 22:01:08.000000 +00:00)
       Datetime last : 2018-09-04 15:01:09 -07:00 (2018-09-04 22:01:09.000000 +00:00)
   Processed:
       File size     : 2142 (0x85E) (bytes)

@@ -6,13 +6,13 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
       FileType      : ETL (LZMA4) (Windows Event Trace Log)
       LogMessageType: ETL event (Windows Event Trace Log)
   Printed:
-      bytes         : 8508
-      flushes       : 21
+      Bytes         : 8508
+      Flushes       : 21
       Events        : 21
       Event largest processed: 742 (bytes)
       Event largest accepted : 742 (bytes)
-      Datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201590 +00:00)
-      Datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384883 +00:00)
+      Datetime First: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201590 +00:00)
+      Datetime Last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384883 +00:00)
   Processed:
       File size          : 16384 (0x4000) (bytes)
       Session name       : "ECCB175F-1EB2-43DA-BFB5-A8D58A40A4D7"

@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2040
-      flushes       : 15
+      Bytes         : 2040
+      Flushes       : 15
       Lines         : 15
       Syslines      : 15
-      Datetime first: 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
+      Datetime First: 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
       Datetime last : 2020-03-07 12:23:02 -08:00 (2020-03-07 20:23:02.000000 +00:00)
   Processed:
       File size     : 945 (0x3B1) (bytes)

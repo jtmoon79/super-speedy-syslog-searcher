@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkg-synoreport.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3585
-      flushes       : 19
+      Bytes         : 3585
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2017-01-03 01:40:55 -08:00 (2017-01-03 09:40:55.000000 +00:00)
+      Datetime First: 2017-01-03 01:40:55 -08:00 (2017-01-03 09:40:55.000000 +00:00)
       Datetime last : 2018-08-01 14:01:48 -07:00 (2018-08-01 21:01:48.000000 +00:00)
   Processed:
       File size     : 2122 (0x84A) (bytes)

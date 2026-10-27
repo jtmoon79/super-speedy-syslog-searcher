@@ -7,12 +7,12 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
       LogMessageType: text log lines
       Processing Err: no syslog lines found in file
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime first: None Found
-      Datetime last : None Found
+      Datetime First: None Found
+      Datetime Last : None Found
   Processed:
       File size     : 448 (0x1C0) (bytes)
       bytes         : 256 (0x100)

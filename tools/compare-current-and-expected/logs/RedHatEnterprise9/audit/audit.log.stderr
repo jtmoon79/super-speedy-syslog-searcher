@@ -6,11 +6,11 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 6271
-      flushes       : 19
+      Bytes         : 6271
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
+      Datetime First: 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
       Datetime last : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)
   Processed:
       File size     : 4922 (0x133A) (bytes)

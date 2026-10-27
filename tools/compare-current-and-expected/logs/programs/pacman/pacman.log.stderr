@@ -6,11 +6,11 @@ File: ./logs/programs/pacman/pacman.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 24563
-      flushes       : 195
+      Bytes         : 24563
+      Flushes       : 195
       Lines         : 195
       Syslines      : 195
-      Datetime first: 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
+      Datetime First: 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
       Datetime last : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)
   Processed:
       File size     : 12083 (0x2F33) (bytes)

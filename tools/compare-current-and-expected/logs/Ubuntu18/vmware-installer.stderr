@@ -6,11 +6,11 @@ File: ./logs/Ubuntu18/vmware-installer
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2678
-      flushes       : 18
+      Bytes         : 2678
+      Flushes       : 18
       Lines         : 18
       Syslines      : 18
-      Datetime first: 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.032000 +00:00)
+      Datetime First: 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.032000 +00:00)
       Datetime last : 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.712000 +00:00)
   Processed:
       File size     : 1544 (0x608) (bytes)

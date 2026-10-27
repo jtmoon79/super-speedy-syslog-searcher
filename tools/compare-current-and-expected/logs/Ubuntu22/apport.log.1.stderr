@@ -6,11 +6,11 @@ File: ./logs/Ubuntu22/apport.log.1
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 819
-      flushes       : 5
+      Bytes         : 819
+      Flushes       : 5
       Lines         : 5
       Syslines      : 5
-      Datetime first: 2022-09-20 23:15:39 +08:00 (2022-09-20 15:15:39.000000 +00:00)
+      Datetime First: 2022-09-20 23:15:39 +08:00 (2022-09-20 15:15:39.000000 +00:00)
       Datetime last : 2022-09-20 23:24:43 +08:00 (2022-09-20 15:24:43.000000 +00:00)
   Processed:
       File size     : 524 (0x20C) (bytes)

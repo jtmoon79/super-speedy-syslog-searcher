@@ -7,8 +7,8 @@ File: ./logs/other/tests/simple-1.log.lz4
       LogMessageType: text log lines
       Processing Err: file too small
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
   Processed:

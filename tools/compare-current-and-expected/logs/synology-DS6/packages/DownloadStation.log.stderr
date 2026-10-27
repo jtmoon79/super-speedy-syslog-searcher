@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2457
-      flushes       : 2
+      Bytes         : 2457
+      Flushes       : 2
       Lines         : 19
       Syslines      : 1
-      Datetime first: 2019-06-23 21:13:34 +08:00 (2019-06-23 13:13:34.000000 +00:00)
+      Datetime First: 2019-06-23 21:13:34 +08:00 (2019-06-23 13:13:34.000000 +00:00)
       Datetime last : 2019-06-23 21:13:34 +08:00 (2019-06-23 13:13:34.000000 +00:00)
   Processed:
       File size     : 956 (0x3BC) (bytes)

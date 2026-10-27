@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/syno-move-coredump.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2831
-      flushes       : 19
+      Bytes         : 2831
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2018-10-15 14:09:07 -07:00 (2018-10-15 21:09:07.000000 +00:00)
+      Datetime First: 2018-10-15 14:09:07 -07:00 (2018-10-15 21:09:07.000000 +00:00)
       Datetime last : 2019-03-11 18:02:40 -07:00 (2019-03-12 01:02:40.000000 +00:00)
   Processed:
       File size     : 1292 (0x50C) (bytes)

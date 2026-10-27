@@ -6,11 +6,11 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 4480
-      flushes       : 18
+      Bytes         : 4480
+      Flushes       : 18
       Lines         : 21
       Syslines      : 18
-      Datetime first: 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
+      Datetime First: 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
       Datetime last : 2022-10-10 20:23:33 +00:00 (2022-10-10 20:23:33.000000 +00:00)
   Processed:
       File size     : 3010 (0xBC2) (bytes)

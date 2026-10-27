@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2576
-      flushes       : 18
+      Bytes         : 2576
+      Flushes       : 18
       Lines         : 19
       Syslines      : 18
-      Datetime first: 2016-12-05 21:00:55 -08:00 (2016-12-06 05:00:55.000000 +00:00)
+      Datetime First: 2016-12-05 21:00:55 -08:00 (2016-12-06 05:00:55.000000 +00:00)
       Datetime last : 2017-02-23 14:49:29 -08:00 (2017-02-23 22:49:29.000000 +00:00)
   Processed:
       File size     : 1189 (0x4A5) (bytes)

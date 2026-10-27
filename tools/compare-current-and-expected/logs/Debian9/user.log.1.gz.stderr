@@ -6,11 +6,11 @@ File: ./logs/Debian9/user.log.1.gz
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 541
-      flushes       : 3
+      Bytes         : 541
+      Flushes       : 3
       Lines         : 3
       Syslines      : 3
-      Datetime first: 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
+      Datetime First: 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
       Datetime last : 2022-02-06 03:17:39 +08:00 (2022-02-05 19:17:39.000000 +00:00)
   Processed:
       file size compressed  : 260 (0x104) (bytes)

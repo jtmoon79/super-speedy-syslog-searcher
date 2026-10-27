@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/synocgid.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2254
-      flushes       : 19
+      Bytes         : 2254
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
       Datetime last : 2017-03-09 20:15:33 -08:00 (2017-03-10 04:15:33.000000 +00:00)
   Processed:
       File size     : 905 (0x389) (bytes)

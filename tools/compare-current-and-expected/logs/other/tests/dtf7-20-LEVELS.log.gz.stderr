@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2680
-      flushes       : 20
+      Bytes         : 2680
+      Flushes       : 20
       Lines         : 20
       Syslines      : 20
-      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
   Processed:
       file size compressed  : 253 (0xFD) (bytes)

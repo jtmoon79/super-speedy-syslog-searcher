@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/avahi.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2869
-      flushes       : 19
+      Bytes         : 2869
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2016-12-05 20:31:30 -08:00 (2016-12-06 04:31:30.000000 +00:00)
+      Datetime First: 2016-12-05 20:31:30 -08:00 (2016-12-06 04:31:30.000000 +00:00)
       Datetime last : 2016-12-05 21:39:57 -08:00 (2016-12-06 05:39:57.000000 +00:00)
   Processed:
       File size     : 1577 (0x629) (bytes)

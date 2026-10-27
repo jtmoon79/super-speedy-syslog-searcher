@@ -6,11 +6,11 @@ File: ./logs/Ubuntu22/apt/history.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2202
-      flushes       : 5
+      Bytes         : 2202
+      Flushes       : 5
       Lines         : 13
       Syslines      : 5
-      Datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
+      Datetime First: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       Datetime last : 2022-10-04 06:22:44 +08:00 (2022-10-03 22:22:44.000000 +00:00)
   Processed:
       File size     : 1397 (0x575) (bytes)

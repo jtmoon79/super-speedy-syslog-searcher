@@ -6,11 +6,11 @@ File: ./logs/RockyLinux9/nginx/error.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 591
-      flushes       : 2
+      Bytes         : 591
+      Flushes       : 2
       Lines         : 2
       Syslines      : 2
-      Datetime first: 2022-10-08 22:27:40 +08:00 (2022-10-08 14:27:40.000000 +00:00)
+      Datetime First: 2022-10-08 22:27:40 +08:00 (2022-10-08 14:27:40.000000 +00:00)
       Datetime last : 2022-10-08 22:27:55 +08:00 (2022-10-08 14:27:55.000000 +00:00)
   Processed:
       File size     : 461 (0x1CD) (bytes)

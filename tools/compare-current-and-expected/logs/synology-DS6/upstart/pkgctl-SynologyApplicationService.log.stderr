@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3196
-      flushes       : 19
+      Bytes         : 3196
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2018-12-06 02:25:59 -08:00 (2018-12-06 10:25:59.000000 +00:00)
+      Datetime First: 2018-12-06 02:25:59 -08:00 (2018-12-06 10:25:59.000000 +00:00)
       Datetime last : 2019-10-19 19:03:44 -07:00 (2019-10-20 02:03:44.000000 +00:00)
   Processed:
       File size     : 1372 (0x55C) (bytes)

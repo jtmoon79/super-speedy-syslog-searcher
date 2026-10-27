@@ -6,11 +6,11 @@ File: ./logs/other/tests/dtf5-6b.UTF-32BE.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 1089
-      flushes       : 6
+      Bytes         : 1089
+      Flushes       : 6
       Lines         : 12
       Syslines      : 6
-      Datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      Datetime First: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
       Datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       File size     : 996 (0x3E4) (bytes)

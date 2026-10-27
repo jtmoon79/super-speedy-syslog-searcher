@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 106
-      flushes       : 1
+      Bytes         : 106
+      Flushes       : 1
       Lines         : 1
       Syslines      : 1
-      Datetime first: 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
+      Datetime First: 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
       Datetime last : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
   Processed:
       File size     : 25 (0x19) (bytes)

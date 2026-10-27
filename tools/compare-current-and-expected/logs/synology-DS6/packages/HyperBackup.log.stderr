@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 3025
-      flushes       : 16
+      Bytes         : 3025
+      Flushes       : 16
       Lines         : 19
       Syslines      : 16
-      Datetime first: 2019-06-23 21:13:21 +08:00 (2019-06-23 13:13:21.000000 +00:00)
+      Datetime First: 2019-06-23 21:13:21 +08:00 (2019-06-23 13:13:21.000000 +00:00)
       Datetime last : 2019-08-31 15:06:05 +08:00 (2019-08-31 07:06:05.000000 +00:00)
   Processed:
       File size     : 1600 (0x640) (bytes)

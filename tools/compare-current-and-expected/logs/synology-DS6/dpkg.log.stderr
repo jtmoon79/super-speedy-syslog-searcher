@@ -6,11 +6,11 @@ File: ./logs/synology-DS6/dpkg.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2577
-      flushes       : 19
+      Bytes         : 2577
+      Flushes       : 19
       Lines         : 19
       Syslines      : 19
-      Datetime first: 2016-12-05 21:38:43 +08:00 (2016-12-05 13:38:43.000000 +00:00)
+      Datetime First: 2016-12-05 21:38:43 +08:00 (2016-12-05 13:38:43.000000 +00:00)
       Datetime last : 2016-12-05 21:38:48 +08:00 (2016-12-05 13:38:48.000000 +00:00)
   Processed:
       File size     : 1456 (0x5B0) (bytes)

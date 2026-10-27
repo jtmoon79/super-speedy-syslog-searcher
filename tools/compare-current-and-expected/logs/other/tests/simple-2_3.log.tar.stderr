@@ -8,8 +8,8 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       LogMessageType: text log lines
       Processing Err: file too small
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
   Processed:
@@ -48,8 +48,8 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       LogMessageType: text log lines
       Processing Err: file too small
   Printed:
-      bytes         : 0
-      flushes       : 0
+      Bytes         : 0
+      Flushes       : 0
       Lines         : 0
       Syslines      : 0
   Processed:

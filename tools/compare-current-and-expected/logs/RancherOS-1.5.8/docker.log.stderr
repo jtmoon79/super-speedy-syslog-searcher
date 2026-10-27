@@ -6,11 +6,11 @@ File: ./logs/RancherOS-1.5.8/docker.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 13400
-      flushes       : 66
+      Bytes         : 13400
+      Flushes       : 66
       Lines         : 66
       Syslines      : 66
-      Datetime first: 2022-10-09 21:33:15 +00:00 (2022-10-09 21:33:15.541012 +00:00)
+      Datetime First: 2022-10-09 21:33:15 +00:00 (2022-10-09 21:33:15.541012 +00:00)
       Datetime last : 2022-10-09 21:33:16 +00:00 (2022-10-09 21:33:16.162883 +00:00)
   Processed:
       File size     : 9256 (0x2428) (bytes)

@@ -6,11 +6,11 @@ File: ./logs/Ubuntu22/cloud-init.log
       FileType      : TEXT UTF8/ASCII (text log)
       LogMessageType: text log lines
   Printed:
-      bytes         : 2310
-      flushes       : 14
+      Bytes         : 2310
+      Flushes       : 14
       Lines         : 14
       Syslines      : 14
-      Datetime first: 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.002000 +00:00)
+      Datetime First: 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.002000 +00:00)
       Datetime last : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.017000 +00:00)
   Processed:
       File size     : 1456 (0x5B0) (bytes)

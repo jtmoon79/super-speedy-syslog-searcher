@@ -6,10 +6,10 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
       FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      specific type : Fs_Linux_Arm64Aarch64_Utmpx
+      Layout Type   : Fs_Linux_Arm64Aarch64_Utmpx
   Printed:
-      bytes         : 1370
-      flushes       : 6
+      Bytes         : 1370
+      Flushes       : 6
       Entries       : 6
   Processed:
       File size     : 2400 (0x960) (bytes)
