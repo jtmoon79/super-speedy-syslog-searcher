@@ -64,9 +64,9 @@ trap 'rm -rf -- "${workdir}"' EXIT
 zip_path="${workdir}/${ZIP_NAME}"
 sha_path="${workdir}/${SHA_NAME}"
 
-(set -x; curl --fail --location --retry 2 --output "${zip_path}" "${ZIP_URL}")
+(set -x; curl -LsSf --retry 2 --output "${zip_path}" "${ZIP_URL}")
 
-(set -x; curl --fail --location --retry 2 --output "${sha_path}" "${SHA_URL}")
+(set -x; curl -LsSf --retry 2 --output "${sha_path}" "${SHA_URL}")
 
 (
     cd -- "${workdir}"

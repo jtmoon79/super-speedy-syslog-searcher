@@ -34,7 +34,7 @@ fi
     set -eo pipefail
     cd ~
     set -x
-    curl --silent 'https://raw.githubusercontent.com/jtmoon79/dotfiles/master/install.sh' | bash --norc --noprofile
+    curl --retry=2 -LsSf 'https://raw.githubusercontent.com/jtmoon79/dotfiles/master/install.sh' | bash --norc --noprofile
 )
 echo '
 bash_paths_add ~/.local/bin /opt/homebrew/bin
@@ -58,7 +58,7 @@ if ! command -v cargo &> /dev/null; then
     (
         set -eo pipefail
         set -x
-        curl --silent https://sh.rustup.rs -sSf | sh -s -- -y
+        curl --retry=2 -LsSf https://sh.rustup.rs | sh -s -- -y
     )
 else
     echo "Rust is already installed."
