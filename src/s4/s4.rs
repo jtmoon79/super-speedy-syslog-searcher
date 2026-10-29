@@ -5717,32 +5717,40 @@ fn processing_loop(
             {
                 12 * 1024 * 1024
             } // 12 MB
-            (false, FileType::Asl {..})
-            | (false, FileType::Etl {..}) =>
-                // experiments showed 114Ki, not compressed
+            (false, FileType::Asl {..}) =>
+                // experiments showed 124 KiB, not compressed
             {
-                1024 * 134
+                1024 * 154
+            }
+            (false, FileType::Etl {..}) =>
+                // experiments showed 124Ki, not compressed
+            {
+                1024 * 154
             }
             (false, FileType::Evtx {..}) =>
-                // experiments showed 108 KiB, not compressed
+                // experiments showed 124 KiB, not compressed
             {
-                1024 * 128
+                1024 * 154
             }
-            (false, FileType::Odl { .. }) => 1024 * 512,
-            (false, FileType::FixedStruct {..}) =>
-                // experiments showed 82Ki, not compressed
+            (false, FileType::Odl { .. }) =>
+                // experiments showed 124 KiB, not compressed
             {
-                1024 * 102
+                1024 * 154
+            }
+            (false, FileType::FixedStruct {..}) =>
+                // experiments showed 99Ki, not compressed
+            {
+                1024 * 129
             }
             (false, FileType::Journal {..}) =>
-                // experiments showed 108 KiB, not compressed
+                // experiments showed 124 KiB, not compressed
             {
-                1024 * 128
+                1024 * 154
             }
             (false, FileType::Text {..}) =>
-                // experiments showed 78 KiB, not compressed
+                // experiments showed 94 KiB, not compressed
             {
-                1024 * 98
+                1024 * 124
             }
             (_, FileType::Unparsable) => {
                 debug_panic!("Unhandled file_type {filetype} for stack_size setting");
@@ -5759,7 +5767,7 @@ fn processing_loop(
             stack_size += 1024 * 2000;
         }
         // compressed/archived files add between 0 to 50KB stack, depending
-        // upon the type. This did not vary due to log file size.
+        // upon the type. This did not vary due to compressed file size.
         match filetype.to_filetypearchive() {
             FileTypeArchive::Normal => {}
             FileTypeArchive::Bz2 => {
@@ -5778,7 +5786,7 @@ fn processing_loop(
                 stack_size += 1024 * 10;
             }
             FileTypeArchive::Zip => {
-                stack_size += 1024 * 55;
+                stack_size += 1024 * 75;
             }
         }
         // ETL files may need extra stack for excessive nested structures
