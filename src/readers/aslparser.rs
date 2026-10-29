@@ -5,7 +5,14 @@
 //! references separately and excluding external string terminators.
 
 use std::collections::HashSet;
-use std::io::{self, Error, ErrorKind, Read, Seek, SeekFrom};
+use std::io::{
+    self,
+    Error,
+    ErrorKind,
+    Read,
+    Seek,
+    SeekFrom,
+};
 
 use compact_str::CompactString;
 

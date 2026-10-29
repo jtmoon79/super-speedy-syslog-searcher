@@ -5,21 +5,47 @@
 //!      See [Issue #559](https://github.com/ulug/super-speedy-syslog-searcher/issues/559).
 
 use std::collections::BTreeMap;
-use std::io::{self, Error, ErrorKind, Read, Seek};
+use std::io::{self,
+    Error,
+    ErrorKind,
+    Read,
+    Seek,
+};
 use std::path::Path;
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::atomic::{
+    AtomicBool,
+    Ordering,
+};
 use std::time::Duration;
 
 use tempfile::TempPath;
 
-use crate::common::{Count, FPath, FileSz, FileType, LogMessageType, PathId, summary_stat};
+use crate::common::{
+    Count,
+    FPath,
+    FileSz,
+    FileType,
+    LogMessageType,
+    PathId,
+    summary_stat,
+};
 use crate::data::asl::Asl;
 use crate::data::datetime::{
-    DateTimeL, DateTimeLOpt, FixedOffset, Result_Filter_DateTime2, SystemTime, dt_pass_filters,
+    DateTimeL,
+    DateTimeLOpt,
+    FixedOffset,
+    Result_Filter_DateTime2,
+    SystemTime,
+    dt_pass_filters,
 };
 use crate::readers::aslparser::AslParser;
 use crate::readers::filedecompressor::decompress_to_ntf;
-use crate::readers::filehandlemanager::{FILE_HANDLE_MANAGER, FileHandleManaged, FileHandleRole, OpenOptionsManaged};
+use crate::readers::filehandlemanager::{
+    FILE_HANDLE_MANAGER,
+    FileHandleManaged,
+    FileHandleRole,
+    OpenOptionsManaged,
+};
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::Summary;
 
