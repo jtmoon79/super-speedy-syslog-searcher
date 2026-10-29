@@ -54,8 +54,7 @@ GIT_CURRENT=$(git rev-parse HEAD)
 
 function echo_line() {
     # print a horizontal line across the terminal
-    python -Bc "print('─' * ${COLUMNS:-100})"
-    echo
+    python3 -Bc "print('─' * ${COLUMNS:-100}, end='\n\n')"
 }
 
 function grep_rust_version() {

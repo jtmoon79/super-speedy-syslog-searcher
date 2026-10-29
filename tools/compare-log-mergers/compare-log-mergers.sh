@@ -311,8 +311,7 @@ function files_caching() {
 }
 
 function echo_line() {
-    python -Bc "print('─' * ${COLUMNS:-100})"
-    echo
+    python3 -Bc "print('─' * ${COLUMNS:-100}, end='\n\n')"
 }
 
 function echo_warn() {

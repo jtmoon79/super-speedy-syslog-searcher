@@ -33,8 +33,7 @@ tmpf=$(mktemp /tmp/tmp-s4-test-cargo-test-each-list-XXXXXX.txt)
 #
 
 function echo_line() {
-    python -Bc "print('─' * ${COLUMNS:-100})"
-    echo
+    python3 -Bc "print('─' * ${COLUMNS:-100}, end='\n\n')"
 }
 
 filter=${1-}
