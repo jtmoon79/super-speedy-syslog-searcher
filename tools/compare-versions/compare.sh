@@ -78,8 +78,7 @@ if [[ ${#files[@]} -lt 1 ]]; then
 fi
 
 function echo_line() {
-    python -Bc "print('─' * ${COLUMNS:-100})"
-    echo
+    python3 -Bc "print('─' * ${COLUMNS:-100}, end='\n\n')"
 }
 
 function file_size() {
