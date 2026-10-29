@@ -34,5 +34,11 @@
     "rust-analyzer.cargo.extraArgs": [
         "--target-dir",
         "./target/rust-analyzer_cargo"
-    ]
+    ],
+    "chat.tools.terminal.autoApprove": {
+        "/^bash --norc --noprofile -c 'git --no-pager status --short'$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
 }
