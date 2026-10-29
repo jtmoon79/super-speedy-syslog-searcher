@@ -44,7 +44,7 @@ env:
   S4_ARGSD: -s
   # run options for release
   S4_ARGSR: -s
-  S4R: ./s4_release_Opt0
+  S4R: ./s4_release
   S4D: ./s4_debug
 
 jobs:
@@ -148,9 +148,9 @@ jobs:
           RUSTFLAGS=-g cargo build --profile flamegraph
           ./target/flamegraph/s4 --version
 
-  job_build_debug_release:
+  job_build_release:
     # this job downloads and builds dependency crates
-    name: build debug and release, upload
+    name: build release, upload
     needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
@@ -179,6 +179,39 @@ jobs:
           swapon --show
           free -htvw
           df -h /
+      # build & upload release
+      - name: Build release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
+        timeout-minutes: 55
+        shell: bash
+        run: |
+          set -eux
+          cargo --version
+          # build the non-optimized release because the optimize step during the
+          # --release build is too long for GitHub Actions; the Github Runner
+          # times out
+          /usr/bin/time --verbose -- cargo build --locked --release
+          cp -av ./target/release/s4 ${S4R}
+          chmod -v 0555 ${S4R}
+          ${S4R} --version
+      - name: Upload release binary for test
+        uses: actions/upload-artifact@v7
+        with:
+          name: s4_release
+          path: ./s4_release
+
+  job_build_debug:
+    # this job downloads and builds dependency crates
+    name: build debug, upload
+    needs: [job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      # build & upload debug
+      - name: git checkout
+        uses: actions/checkout@v7
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          toolchain: ${{ matrix.msrv }}
+      - run: rustup default ${{ env.MSRV_UPLOAD }}
       - name: Build Debug using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         timeout-minutes: 35
         shell: bash
@@ -195,24 +228,6 @@ jobs:
           name: s4_debug
           path: ./s4_debug
       # build & upload release
-      - name: Build release_Opt0 using toolchain ${{ env.MSRV_UPLOAD }}, all regex
-        timeout-minutes: 35
-        shell: bash
-        run: |
-          set -eux
-          cargo --version
-          # build the non-optimized release because the optimize step during the
-          # --release build is too long for GitHub Actions; the Github Runner
-          # times out
-          /usr/bin/time --verbose -- cargo build --locked --profile release_Opt0
-          cp -av ./target/release_Opt0/s4 ${S4R}
-          chmod -v 0555 ${S4R}
-          ${S4R} --version
-      - name: Upload release binary for test
-        uses: actions/upload-artifact@v7
-        with:
-          name: s4_release_Opt0
-          path: ./s4_release_Opt0
 
   job_bencher:
     name: Bencher
@@ -594,7 +609,7 @@ jobs:
     # all of these steps need the s4 binary and the git-committed logs
     # with modified filesystem datetime
     name: run s4
-    needs: job_build_debug_release
+    needs: [job_build_release, job_build_debug]
     runs-on: ubuntu-latest
   # run files
     env:
@@ -644,6 +659,7 @@ jobs:
         ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log.lz4
         ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log.xz
         ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.tar
+        ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.zip
         ./logs/other/tests/dtf5-6b.UTF-32LE.log
         ./logs/other/tests/dtf5-6b.UTF-32LE.log.bz2
         ./logs/other/tests/dtf5-6b.UTF-32LE.log.gz
@@ -672,6 +688,9 @@ jobs:
         ./logs/programs/journal/RHE_91_system.journal
         ./logs/programs/journal/RHE_91_system.journal.gz
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1217.7692.2.odlgz
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/SyncEngine-2025-12-21.1217.11144.2.odl
         ./logs/programs/strace/strace-unix,us_ls.out
         ./logs/programs/utmp/host-entry6.wtmp
         ./logs/programs/utmp/host-entry6.wtmp.bz2
@@ -679,6 +698,7 @@ jobs:
         ./logs/programs/utmp/host-entry6.wtmp.lz4
         ./logs/programs/utmp/host-entry6.wtmp.tar
         ./logs/programs/utmp/host-entry6.wtmp.xz
+        ./logs/programs/utmp/host-entry6.wtmp.zip
         ./logs/standards/ctime.log
         ./logs/standards/ISO8601-Date-Extend.log
         ./logs/standards/ISO8601-Date-Ordinal.log
@@ -727,9 +747,9 @@ jobs:
       - name: Download release binary
         uses: actions/download-artifact@v8
         with:
-          name: s4_release_Opt0
+          name: s4_release
       # set mode
-      - name: chmod +x s4_debug s4_release_Opt0
+      - name: chmod +x s4_debug s4_release
         shell: bash
         run: |
           set -eux
