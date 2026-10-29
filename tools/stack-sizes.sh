@@ -59,4 +59,6 @@ export OUT_MD=${DIROUT}/stack-sizes.md
     ./logs/programs/journal/RHE_91_system.tar \
     ./logs/programs/journal/RHE_91_system.zip \
     ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1216.11020.2.odl \
+    ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl \
+    ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1217.7692.2.odlgz \
     ./logs/Windows10Pro/comsetup.log \
