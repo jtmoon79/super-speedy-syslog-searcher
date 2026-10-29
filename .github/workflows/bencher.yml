@@ -19,8 +19,8 @@ env:
   CARGO_TERM_COLOR: always
   CARGO_BUILD_WARNINGS: warn
   HYPERFINE_INSTALL: "/home/runner/.local/bin/hyperfine"
-  HYPERFINE_RESULTS: ./hyperfine-results.json
-  BENCHER_RESULTS: ./bencher-results.json
+  DIROUT: /tmp/bencher-out
+  BENCHER_REPORT: ./bencher-report.json
   HYPERFINE_VERSION: v2.0.0
   S4_BUILD_PRINT: 1
   S4_BUILD_REGEX_PRINT: 1
@@ -84,104 +84,29 @@ jobs:
           # just curious current memory looks like after the build
           swapon --show
           free -htvw
-      - name: Hyperfine benchmark each log file at each block size
+      - name: Hyperfine benchmarks and create Bencher report
         shell: bash
-        run: |
-          set -euo pipefail
-          echo "BENCHER_START_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> "${GITHUB_ENV}"
-          declare -ar FILES=(
-            ./logs/Darwin25/var-log/powermanagement/2026.05.30.asl
-            ./logs/NetBSD9.3/Xorg.0.log.old
-            ./logs/OpenBSD7.4/x86_64/utmp
-            ./logs/other/tests/gen-99999-1-Motley_Crue.log
-            ./logs/other/tests/gen-99999-1-Motley_Crue.log.bz2
-            ./logs/other/tests/gen-99999-1-Motley_Crue.log.gz
-            ./logs/other/tests/gen-99999-1-Motley_Crue.log.lz4
-            ./logs/other/tests/gen-99999-1-Motley_Crue.log.xz
-            ./logs/other/tests/gen-99999-1-Motley_Crue.tar
-            ./logs/other/tests/gen-99999-1-Motley_Crue.zip
-            ./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl
-            ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
-            ./logs/programs/journal/RHE_91_system.journal
-            ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
-            ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1217.7692.2.odlgz
-            ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/SyncEngine-2025-12-21.1217.11144.2.odl
-          )
-          declare -ar BLOCK_SIZES=(4096 8192 65535 131071)
-          declare -ir HRUNS=10
-          declare -a args=()
-          declare -a names=()
-          declare -a results=()
-          for file in "${FILES[@]}"; do
-            if [[ ! -s "${file}" ]]; then
-              echo "::error::Missing or empty benchmark input: '${file}'" >&2
-              exit 1
-            fi
-            names+=("$(basename "${file}")")
-            args+=(--command-name "${names[-1]}" "'${S4R}' -cn '${file}' > /dev/null")
-          done
-          set -x
-          for block_size in "${BLOCK_SIZES[@]}"; do
-            result="${HYPERFINE_RESULTS%.json}-${block_size}.json"
-            S4_BLOCKSZ="${block_size}" "${HYPERFINE_INSTALL}" \
-              --export-json "${result}" \
-              --shell=sh \
-              --show-output \
-              --warmup 2 \
-              --runs "${HRUNS}" \
-              "${args[@]}"
-            results+=("${result}")
-          done
-          jq -es \
-            --argjson block_sizes "$(printf '%s\n' "${BLOCK_SIZES[@]}" | jq -s .)" \
-            --argjson names "$(printf '%s\n' "${names[@]}" | jq -Rn '[inputs]')" \
-            --argjson runs "${HRUNS}" \
-            -f ./.github/tools/hyperfine-to-bmf.jq \
-            "${results[@]}" > "${BENCHER_RESULTS}"
-      - name: Upload hyperfine results
-        uses: actions/upload-artifact@v7
-        with:
-          name: hyperfine-results
-          path: ./hyperfine-results-*.json
-      - name: Upload Bencher report
-        uses: actions/upload-artifact@v7
-        with:
-          name: bencher-report.json
-          path: ./bencher-report.json
-      - name: Report Hyperfine benchmarks to Bencher
-        shell: bash
-        env:
-          BENCHER_API_KEY: ${{ secrets.BENCHER_RUN_KEY }}
         run: |
           set -euxo pipefail
-          if [[ -z "${BENCHER_API_KEY}" ]]; then
+          chmod -v +x ./tools/bencher-hyperfine-runs.sh
+          PROGRAM="${S4R}" DIROUT="${{ env.DIROUT }}" ./tools/bencher-hyperfine-runs.sh
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: benchmark-results
+          path: |
+            ${{ env.DIROUT }}/*
+            ${{ env.BENCHER_REPORT }}
+      - name: Send Bencher Report to Bencher API
+        shell: bash
+        env:
+          BENCHER_RUN_KEY: ${{ secrets.BENCHER_RUN_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${BENCHER_RUN_KEY}" ]]; then
             echo "::error::BENCHER_RUN_KEY repository secret is required" >&2
             exit 1
           fi
-          lscpu
-          BENCHER_TESTBED=$(
-            source /etc/os-release
-            CPU_MODELNAME=$(lscpu -p='MODELNAME' | grep -v '^#' | sort -u | head -n1)
-            CPU_CORES=$(nproc)
-            echo -n "${NAME} ${VERSION_ID}, ${CPU_MODELNAME}, ${CPU_CORES} cores"
-          )
-          # Bencher CLI 0.6.13 cannot declare BMF v1; use the report API explicitly.
-          jq -n \
-            --arg branch "${GITHUB_REF_NAME}" \
-            --arg hash "${GITHUB_SHA}" \
-            --arg testbed "${BENCHER_TESTBED}" \
-            --arg start_time "${BENCHER_START_TIME}" \
-            --arg end_time "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" \
-            --rawfile results "${BENCHER_RESULTS}" \
-            '{
-              branch: $branch, hash: $hash, testbed: $testbed,
-              start_time: $start_time, end_time: $end_time,
-              bmf_version: 1, settings: {adapter: "json"}, results: [$results]
-            }' > ./bencher-report.json
-          curl \
-            -LsSf \
-            --header "Authorization: Bearer ${BENCHER_API_KEY}" \
-            --header 'Content-Type: application/json' \
-            --data-binary @./bencher-report.json \
-            "https://api.bencher.dev/v0/projects/${BENCHER_PROJECT}/reports"
+          bash ./tools/bencher-report-upload.sh "${BENCHER_REPORT}"
 ...
