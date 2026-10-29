@@ -142,7 +142,7 @@ utf8_iter = "1.0.4"
 version-compare = "0.2.1"
 walkdir = "2.5.0"
 zeroize = "1.9.1"
-zip = { version = "9.1.2", default-features = false, features = ["bzip2", "chrono", "deflate-flate2", "deflate64", "lzma", "ppmd"] }
+zip = { version = "9.1.3", default-features = false, features = ["bzip2", "chrono", "deflate-flate2", "deflate64", "lzma", "ppmd"] }
 # allocators
 mimalloc = { version = "0.1.52", optional = true }
 rpmalloc = { version = "0.2.2", optional = true }
