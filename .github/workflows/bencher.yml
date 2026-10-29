@@ -35,7 +35,7 @@ jobs:
   job_bencher:
     name: Bencher
     runs-on: ubuntu-latest
-    timeout-minutes: 65
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v7
       - name: Install Hyperfine ${{ env.HYPERFINE_VERSION }}
