@@ -123,12 +123,7 @@ function write_rows_markdown () {
     echo "Markdown table written to ${OUT_MD}"
 
     ./tools/mdtohtml.sh "${OUT_MD}"
-
-    if which glow &> /dev/null; then
-        glow "${OUT_MD}"
-    else
-        cat "${OUT_MD}"
-    fi
+    ./tools/glow.sh "${OUT_MD}"
 }
 
 function exit_print_rows() {
