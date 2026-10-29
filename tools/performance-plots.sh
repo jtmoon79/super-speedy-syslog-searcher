@@ -46,6 +46,7 @@ else
         ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
         ./logs/programs/journal/RHE_91_system.journal
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1216.11020.2.odl
+        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1217.7692.2.odlgz
         ./logs/RedHatEnterprise9/audit/audit.log
     )
 fi
