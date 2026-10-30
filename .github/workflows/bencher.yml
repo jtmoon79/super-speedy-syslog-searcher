@@ -8,6 +8,11 @@
 name: Bencher
 on:  # yamllint disable-line rule:truthy
   workflow_call:
+    inputs:
+      s4_release_artifact:
+        required: true
+        description: artifact holding the s4 release binary
+        type: string
     secrets:
       BENCHER_RUN_KEY:
         required: true
@@ -50,7 +55,14 @@ jobs:
           set -eux
           chmod -v +x ./.github/tools/libsystemd-install.sh
           ./.github/tools/libsystemd-install.sh
+      - name: Download s4 release binary
+        # workflow handoff must pass a s4 release binary
+        if: ${{ inputs.s4_release_artifact != '' }}
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ inputs.s4_release_artifact }}
       - name: Add swap file for memory-intensive build
+        if: ${{ inputs.s4_release_artifact == '' }}
         shell: bash
         run: |
           SWAPFILE=/swapfile_16GB
@@ -68,9 +80,11 @@ jobs:
           free -htvw
           df -h /
       - uses: actions-rust-lang/setup-rust-toolchain@v2
+        if: ${{ inputs.s4_release_artifact == '' }}
         with:
           toolchain: ${{ env.MSRV_UPLOAD }}
       - name: Build release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
+        if: ${{ inputs.s4_release_artifact == '' }}
         timeout-minutes: 120
         shell: bash
         run: |
@@ -81,13 +95,11 @@ jobs:
           cp -av ./target/release/s4 "${S4R}"
           chmod -v 0555 "${S4R}"
           "${S4R}" --version
-          # just curious current memory looks like after the build
-          swapon --show
-          free -htvw
       - name: Hyperfine benchmarks and create Bencher report
         shell: bash
         run: |
           set -euxo pipefail
+          chmod -v 0555 "${S4R}"
           chmod -v +x ./tools/bencher-hyperfine-runs.sh
           PROGRAM="${S4R}" DIROUT="${{ env.DIROUT }}" ./tools/bencher-hyperfine-runs.sh
       - name: Upload benchmark results
