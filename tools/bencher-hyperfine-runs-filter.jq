@@ -4,7 +4,7 @@
 # benchmarks: [{name: "a.log", block_sizes: [4096,8192]}, {name: "b.evtx", block_sizes: []}]
 #
 # One Hyperfine 2 input per benchmark, in manifest order.
-# Reports time_wall_clock in ms and memory_peak_resident in decimal kB (1000 bytes).
+# Reports time_wall_clock in nanoseconds and memory_peak_resident in bytes.
 #
 
 def require($ok; $message):
@@ -86,10 +86,10 @@ require(($benchmarks | type) == "array" and ($benchmarks | length) > 0
         | .[$name] += [({
             measures: {
                 "time_wall_clock": {
-                    average: ($summary.mean * 1000)
+                    average: ($summary.mean * 1000000000)
                 },
                 "memory_peak_resident": {
-                    average: ($memory.mean / 1000)
+                    average: $memory.mean
                 }
             }
           } + if $block_size == null then {} else {parameters: {S4_BLOCKSZ: $block_size}} end)]

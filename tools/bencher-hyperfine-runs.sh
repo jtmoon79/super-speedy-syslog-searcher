@@ -16,7 +16,7 @@
 #
 # Writes Hyperfine JSON/Markdown pairs, bencher-results.json (BMF metrics), and
 # bencher-report.json (the report envelope required by POST /reports).
-# Reports time_wall_clock in ms and memory_peak_resident in kB.
+# Reports time_wall_clock in nanoseconds and memory_peak_resident in bytes.
 # Report hash comes from PROGRAM --version; both report times use that commit's
 # author date, not benchmark runtime.
 # Manually upload with `tools/bencher-report-upload.sh` to configure Bencher
