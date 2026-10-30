@@ -41,3 +41,8 @@
 - To build a _release_ build faster, build profile `release_Opt0` which inherits from `release` but drops optimizations
 - Do not make changes to files using `cargo fmt` or `rustfmt`. The format changes will obscure the intention of the important code change.
 - A Python Virtual Environment is available at project path `./venv`.
+- If there is a tool that would help that is not available, for example `yq`(_A lightweight and portable command-line YAML, JSON, INI and XML processor_), then stop and ask me to install that tool.
+  - A list of especially useful tools that are installed:
+    - Python programs `tools/requirements.txt`
+    - apt packages `tools/dependencies.apt`
+  - On Ubuntu, other non-standard tools are in `~/.local/bin`, `~/.cargo/bin`, `~/bin/`, `~/.npm/bin`, and `~/go/bin`.
