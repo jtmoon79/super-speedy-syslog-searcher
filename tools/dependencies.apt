@@ -48,7 +48,8 @@ jq
 libgoogle-perftools4t64
 libgoogle-perftools-dev
 
-# used by Copilot
+# sometimes used by Copilot AI
 shellcheck
 gh
 jq
+ripgrep-all

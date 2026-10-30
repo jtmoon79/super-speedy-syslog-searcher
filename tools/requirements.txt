@@ -11,3 +11,6 @@ systemd-python==235
 
 # yamllint.sh
 yamllint==1.35.1
+
+# used by Github Copilot AI
+yq==4.5
