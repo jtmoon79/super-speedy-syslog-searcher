@@ -13,10 +13,20 @@ on:  # yamllint disable-line rule:truthy
         required: true
         description: artifact holding the s4 release binary
         type: string
+      checkout_target:
+        required: false
+        description: branch, tag, or commit to checkout
+        type: string
     secrets:
       BENCHER_RUN_KEY:
         required: true
   workflow_dispatch:  # yamllint disable-line rule:empty-values
+    inputs:
+      checkout_target:
+        required: false
+        description: branch, tag, or commit to checkout
+        type: string
+        default:
 permissions:
   contents: read
 env:
@@ -43,6 +53,8 @@ jobs:
     timeout-minutes: 55
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.checkout_target }}
       - name: Install Hyperfine ${{ env.HYPERFINE_VERSION }}
         shell: bash
         run: |
