@@ -61,15 +61,23 @@ declare -rg SEP_MD='|'  # markdown table separator
 declare -rg SEP_OUT='┊'  # separator for printed table
 declare -i failed=0
 
+# table column names
 declare -rg COLUMNS_N="\
 FILE,\
 STACK MIN,\
-(B)"
-declare -rg COLUMNS_RA="STACK MIN,(B)"
+(B),\
+ACTUAL,\
+DIFF"
+# table columns right align
+declare -rg COLUMNS_RA="STACK MIN,(B),ACTUAL,DIFF"
+# table column index of stack
 declare -rg COL_STACK=5
+# table column index of elapsed time
 declare -rg COL_ELAPSED=8
 
+# color on
 declare C_ON='\e[93m'
+# color off
 declare C_OFF='\e[39m'
 declare -g SORTED=false
 
@@ -109,8 +117,8 @@ function write_rows_markdown () {
     echo
     declare -ar rows2=("${@}")
     printf "${SEP_MD}%s\n" \
-        "FILE${SEP_IN}RUST_MIN_STACK${SEP_IN}(B)" \
-        ":---${SEP_IN}---:${SEP_IN}---:" \
+        "FILE${SEP_IN}RUST_MIN_STACK${SEP_IN}(B)${SEP_IN}ACTUAL${SEP_IN}DIFF" \
+        ":---${SEP_IN}---:${SEP_IN}---:${SEP_IN}---:${SEP_IN}---:" \
         "${rows2[@]}" \
         | column \
             --table \
@@ -126,8 +134,11 @@ function write_rows_markdown () {
     ./tools/glow.sh "${OUT_MD}"
 }
 
+TMPOUT=$(mktemp)
+
 function exit_print_rows() {
     set +e
+    rm -f "$TMPOUT"
     echo
     echo "PROGRAM='$PROGRAM'"
     echo "STACK_SIZE_START=$STACK_SIZE_START"
@@ -215,11 +226,35 @@ for file in "$@"; do
         failed=$((failed + 1))
     fi
 
+    # get the current actual stack size, sample output:
+    #
+    # File: ./logs/other/tests/dtf5-6b.tar|./logs/other/tests/dtf5-6b.log
+    #   About:
+    #       real path     : /home/ulug/Projects/super-speedy-syslog-searcher/logs/other/tests/dtf5-6b.tar
+    #       Subpath     : ./logs/other/tests/dtf5-6b.log
+    #       Modified time : 2000-01-01 00:00:05 -07:00 (2000-01-01 07:00:05.000000 +00:00)
+    #       FileType      : TEXT UTF8/ASCII (TAR) (text log)
+    #       LogMessageType: text log lines
+    #       Thread stack  : 162816 (bytes)
+    #
+    declare -i stack_size_actual=0
+    stack_size_actual=$(
+        set -euo pipefail
+        if ! "$PROGRAM" --summary -- "$file" 1>/dev/null 2>"${TMPOUT}"; then
+            echo -n 0
+            exit
+        fi
+        grep -m1 -Fe "Thread stack" "${TMPOUT}" | grep -oE '[0-9]+'
+    )
+    declare -i stack_size_diff=$((stack_size_actual - stack_size))
+
     cmd="RUST_MIN_STACK=<step loop from ${STACK_SIZE_START}> ${PROGRAM} -- ${file}"
     row="\
 ${file}${SEP_IN}\
 ${stack_size_hr}${SEP_IN}\
 ${stack_size}${SEP_IN}\
+${stack_size_actual}${SEP_IN}\
+${stack_size_diff}${SEP_IN}\
 "
     rows+=("$row")
 
