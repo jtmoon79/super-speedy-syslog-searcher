@@ -136,12 +136,22 @@ if [[ "${version}" != 'hyperfine 2.'* ]]; then
     exit 1
 fi
 
+# allow `failed` files to be skipped in the benchmark runs
+# instead of exiting. useful for running benchmarks with older `s4`
+# that cannot process some of these input files
+declare -A failed=()
 declare -a manifest_entries=()
 for file_block in "${FILES_BLOCKS[@]}"; do
     IFS='|' read -r file blocks <<< "${file_block}"
     if [[ ! -s "${file}" || ! -r "${file}" || ! -f "${file}" ]]; then
         echo "ERROR: missing, empty, or unreadable benchmark input: ${file}" >&2
         exit 1
+    fi
+    if ! "${PROGRAM}" "${file}" &>/dev/null; then
+        echo "WARNING: failed ${PROGRAM} ${file}" >&2
+        echo "         the file will not be part of reported results" >&2
+        failed["${file}"]=true
+        continue
     fi
     name="${file##*/}"
     manifest_entries+=("$(
@@ -192,6 +202,10 @@ for file_block in "${FILES_BLOCKS[@]}"; do
     echo_line
     file=$(echo -n "${file_block}" | cut -f1 -d'|')
     blocks=$(echo -n "${file_block}" | cut -s -f2 -d'|')
+    if [[ -n "${failed["${file}"]-}" ]]; then
+        echo "Skipping failed file: ${file}" >&2
+        continue
+    fi
     name="${file##*/}"
     index=$((index + 1))
     result="${output_dir}/hyperfine-results-${index}.json"
