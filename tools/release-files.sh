@@ -36,7 +36,7 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 mkdir -vp "${DIROUT}"
 
 ./tools/build-all-profiles.sh
-./tools/cargo-deb.sh
+./tools/packaging/cargo-debs.sh
 
 # run compare-log-mergers.sh first so interactive tools (toolong) can be manually bypassed
 (
