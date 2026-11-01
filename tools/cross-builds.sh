@@ -399,8 +399,8 @@ RUST_VER_PRIOR=
 function exit_ () {
     set +e
     if [[ "${RUST_VER_PRIOR-}" ]]; then
-        echo -e "\e[92mRestoring previous rustup toolchain ${RUST_VER_PRIOR}...\e[39m" >&2
-        (set -x; rustup override set "${RUST_VER_PRIOR}")
+        echo -e "\e[92mRestoring previous rustup toolchain ${RUST_VER_PRIOR-}...\e[39m" >&2
+        (set -x; rustup override set "${RUST_VER_PRIOR-}")
         echo
     fi
     rm -rf "${TMPDIR}"
@@ -463,7 +463,7 @@ readonly BIN="s4"
 VERSION=$(print_version)
 readonly VERSION
 
-RUST_VER_PRIOR=$(set -euo pipefail; rustup toolchain list | grep -m1 'active' | cut -d ' ' -f 1)
+RUST_VER_PRIOR=$(set -euo pipefail; rustup toolchain list | grep -m1 -Ee 'active|default' | cut -d ' ' -f 1)
 (
     set -x
     rustup override set "${MSRV}"
