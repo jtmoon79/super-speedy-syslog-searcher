@@ -31,6 +31,9 @@ heaptrack
 valgrind
 g++
 
+# xmllint
+libxml2-utils
+
 # s4 + journal files
 libsystemd0
 libsystemd-dev
