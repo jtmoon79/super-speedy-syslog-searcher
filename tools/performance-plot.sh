@@ -86,6 +86,14 @@ HYPERFINE=$(which hyperfine) || {
 }
 readonly HYPERFINE
 (set -x; "$HYPERFINE" --version)
+HYPERFINE_VER_MAJOR=$("$HYPERFINE" --version | cut -f2 -d' ' | cut -f1 -d'.')
+if [[ ! "${HYPERFINE_VER_MAJOR}" =~ ^[0-9]+$ ]] || [[ ${HYPERFINE_VER_MAJOR} -lt 2 ]]; then
+    echo "ERROR: hyperfine 2.x or later is required" >&2
+    echo "install:" >&2
+    echo "    cargo install --locked hyperfine" >&2
+    exit 1
+fi
+readonly HYPERFINE_VER_MAJOR
 
 # check for jq
 JQ=$(which jq) || {
@@ -105,6 +113,15 @@ if ! which "${PYTHON}" &>/dev/null; then
 fi
 readonly PYTHON
 (set -x; "${PYTHON}" --version)
+
+# disk I/O measurements require kernel CONFIG_TASK_IO_ACCOUNTING
+# (not enabled in some kernels, e.g. some WSL2 kernels)
+DISKIO_AVAILABLE=true
+if [[ ! -r /proc/self/io ]]; then
+    echo "WARNING: /proc/self/io not available; kernel lacks CONFIG_TASK_IO_ACCOUNTING; skipping disk I/O measurements" >&2
+    DISKIO_AVAILABLE=false
+fi
+readonly DISKIO_AVAILABLE
 
 # check for gnuplot
 GNUPLOT=$(which gnuplot) || {
@@ -333,51 +350,32 @@ function drop_caches_try() {
     return 0
 }
 
-# Atomically copy /proc/<pid>/io into $2 if readable.
-# Important: never `cat ... > iofile` on failure — the shell truncates the
-# destination before cat runs, which would wipe a good earlier snapshot.
-# usage: copy_proc_io <pid> <io_file>
-function copy_proc_io() {
-    declare -ir pid=${1}
-    declare -r iofile=${2}
-    declare -r tmp="${iofile}.tmp.$$"
-    declare -r src="/proc/${pid}/io"
-    if [[ ! -r "${src}" ]]; then
-        return 1
-    fi
-    if cat "${src}" > "${tmp}" 2>/dev/null; then
-        mv -f "${tmp}" "${iofile}"
-        return 0
-    fi
-    rm -f "${tmp}"
-    return 1
-}
-
-# Run a shell-escaped command in the background and copy /proc/<pid>/io into
-# $1 until exit.
+# Run a shell-escaped command and copy its final /proc/<pid>/io into $1.
 # Copies cumulative kernel counters (not rate estimates).
-# Last successful copy is the lifetime total.
+# Use python waits with WNOWAIT to avoid data loss from zombie processes.
+#
 # usage: cmd_io <io_file> <command_string>
 function cmd_io() {
     declare -r iofile=${1}
     declare -r cmd=${2}
-    declare -i pid
-    declare -i status=0
     : > "${iofile}"
     echo "${PS4-}${cmd}" >&2
-    # `exec` so pid is s4, not a wrapper shell
-    # shellcheck disable=SC2086
-    eval "exec ${cmd}" 1>/dev/null &
-    pid=$!
-    # poll until the process exits
-    while kill -0 "${pid}" 2>/dev/null; do
-        copy_proc_io "${pid}" "${iofile}" || true
-        sleep 0.010
-    done
-    # /proc may remain until wait reaps; try one last copy
-    copy_proc_io "${pid}" "${iofile}" || true
-    status=0
-    wait "${pid}" || status=$?
+    declare -i status=0
+    "${PYTHON}" -c '
+import os, subprocess, sys
+iofile, cmd = sys.argv[1], sys.argv[2]
+# `exec` so pid is s4, not a wrapper shell
+p = subprocess.Popen(["sh", "-c", "exec " + cmd], stdout=subprocess.DEVNULL)
+os.waitid(os.P_PID, p.pid, os.WEXITED | os.WNOWAIT)
+try:
+    with open(f"/proc/{p.pid}/io") as f:
+        data = f.read()
+    with open(iofile, "w") as f:
+        f.write(data)
+except OSError as e:
+    print(f"ERROR: reading /proc/{p.pid}/io: {e}", file=sys.stderr)
+sys.exit(p.wait())
+' "${iofile}" "${cmd}" || status=$?
     if [[ ! -s "${iofile}" ]]; then
         echo "ERROR: empty I/O snapshot '${iofile}' for command: ${cmd}" >&2
         return 1
@@ -552,32 +550,34 @@ for fnum in $(seq 1 ${FILE_NUM}); do
         current_files+=("${FILE}")
     done
 
-    #
-    # run s4 to capture disk I/O from /proc/<pid>/io
-    #
-    echo -e "${CLR_INFO}Measuring disk I/O for ${fnum} files via /proc/<pid>/io${CLR_RESET}" >&2
-    drop_caches_try
-    if ${CACHES_DROPPED}; then
-        CACHES_DROPPED_ANY=true
+    if ${DISKIO_AVAILABLE}; then
+        #
+        # run s4 to capture disk I/O from /proc/<pid>/io
+        #
+        echo -e "${CLR_INFO}Measuring disk I/O for ${fnum} files via /proc/<pid>/io${CLR_RESET}" >&2
+        drop_caches_try
+        if ${CACHES_DROPPED}; then
+            CACHES_DROPPED_ANY=true
+        fi
+        cmd_io "${IO_TXT}" "${s4_command} ${current_files[*]}"
+        declare -i diskio_syscr
+        declare -i diskio_rchar
+        declare -i diskio_syscw
+        declare -i diskio_write_bytes
+        diskio_syscr=$(io_field "${IO_TXT}" syscr)
+        diskio_rchar=$(io_field "${IO_TXT}" rchar)
+        diskio_syscw=$(io_field "${IO_TXT}" syscw)
+        diskio_write_bytes=$(io_field "${IO_TXT}" write_bytes)
+        echo -e "${CLR_INFO}disk I/O: syscr=${diskio_syscr} rchar=${diskio_rchar} syscw=${diskio_syscw} write_bytes=${diskio_write_bytes} (caches_dropped=${CACHES_DROPPED})${CLR_RESET}" >&2
+        echo >&2
+
+        # disk I/O markdown / CSV rows
+        echo "|${fnum}|${BUILD_PROFILE}|${diskio_syscr}|${diskio_rchar}|${diskio_syscw}|${diskio_write_bytes}|" >> "${MD_DRAFT_DISKIO}"
+        echo "${FILE_NAME_NOC},${fnum},${BUILD_PROFILE},${diskio_syscr},${diskio_rchar},${diskio_syscw},${diskio_write_bytes}" >> "${CSV_DRAFT_DISKIO}"
+
+        diskio_syscr_values+=("${diskio_syscr}")
+        diskio_rchar_values+=("${diskio_rchar}")
     fi
-    cmd_io "${IO_TXT}" "${s4_command} ${current_files[*]}"
-    declare -i diskio_syscr
-    declare -i diskio_rchar
-    declare -i diskio_syscw
-    declare -i diskio_write_bytes
-    diskio_syscr=$(io_field "${IO_TXT}" syscr)
-    diskio_rchar=$(io_field "${IO_TXT}" rchar)
-    diskio_syscw=$(io_field "${IO_TXT}" syscw)
-    diskio_write_bytes=$(io_field "${IO_TXT}" write_bytes)
-    echo -e "${CLR_INFO}disk I/O: syscr=${diskio_syscr} rchar=${diskio_rchar} syscw=${diskio_syscw} write_bytes=${diskio_write_bytes} (caches_dropped=${CACHES_DROPPED})${CLR_RESET}" >&2
-    echo >&2
-
-    # disk I/O markdown / CSV rows
-    echo "|${fnum}|${BUILD_PROFILE}|${diskio_syscr}|${diskio_rchar}|${diskio_syscw}|${diskio_write_bytes}|" >> "${MD_DRAFT_DISKIO}"
-    echo "${FILE_NAME_NOC},${fnum},${BUILD_PROFILE},${diskio_syscr},${diskio_rchar},${diskio_syscw},${diskio_write_bytes}" >> "${CSV_DRAFT_DISKIO}"
-
-    diskio_syscr_values+=("${diskio_syscr}")
-    diskio_rchar_values+=("${diskio_rchar}")
 
     # here is the hyperfine run
     declare -i proc_time_beg=$(print_time_now_ms)
@@ -586,7 +586,7 @@ for fnum in $(seq 1 ${FILE_NUM}); do
         ${HYPERFINE} \
             --warmup=0 \
             --style=color \
-            --time-unit=millisecond \
+            --metrics=time_wall_clock:ms,time_user,time_system,memory_peak_resident \
             --runs=${HYPERFINE_RUNS} \
             --export-json "${json}" \
             -N \
@@ -598,49 +598,44 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     declare -i proc_time_diff=$((proc_time_end - proc_time_beg))
     echo >&2
 
-    # example hyperfine JSON output:
+    # example hyperfine 2.x JSON output (abbreviated):
     #
     # {
+    #   "schema_version": ...,
+    #   "primary_metric": "time_wall_clock",
     #   "results": [
     #     {
-    #       "command": "s4_0.7.77",
-    #       "mean": 0.34721515733333336,
-    #       "stddev": 0.0022061126997868254,
-    #       "median": 0.34669891150000004,
-    #       "user": 0.29701803333333326,
-    #       "system": 0.44120176666666666,
-    #       "min": 0.34394707700000005,
-    #       "max": 0.35471939,
-    #       "times": [
-    #         0.35471939,
-    #         ...,
-    #         0.346103957
+    #       "command": "s4 1 files",
+    #       "measurements": [
+    #         {
+    #           "time_wall_clock": { "value": 0.0347, "unit": "second" },
+    #           "memory_peak_resident": { "value": 138768384.0, "unit": "byte" },
+    #           ...,
+    #           "exit_code": 0
+    #         },
+    #         ...
     #       ],
-    #       "memory_usage_byte": [
-    #         138768384,
-    #         ...,
-    #         138899456
-    #       ],
-    #       "exit_codes": [
-    #         0,
-    #         ...,
-    #         0
-    #       ]
+    #       "summary": {
+    #         "time_wall_clock": { "unit": "second", "count": 5, "mean": 0.0347, "stddev": 0.0022, "median": 0.0346, "min": 0.0343, "max": 0.0354 },
+    #         "time_user": { "unit": "second", ... },
+    #         "time_system": { "unit": "second", ... },
+    #         "memory_peak_resident": { "unit": "byte", ... }
+    #       }
     #     }
     #   ]
     # }
     cat "${json}" | "${JQ}" .
 
-    # memory_usage_byte is in bytes, explained at https://github.com/sharkdp/hyperfine/discussions/846
+    # JSON values are always in base units (seconds, bytes)
 
     time_last=${mean-0}
-    mean=$($JQ '.results[0].mean' < "${json}" | to_milliseconds)
-    stddev=$($JQ '.results[0].stddev' < "${json}" | to_milliseconds)
-    min=$($JQ '.results[0].min' < "${json}" | to_milliseconds)
-    max=$($JQ '.results[0].max' < "${json}" | to_milliseconds)
+    mean=$($JQ '.results[0].summary.time_wall_clock.mean' < "${json}" | to_milliseconds)
+    stddev=$($JQ '.results[0].summary.time_wall_clock.stddev' < "${json}" | to_milliseconds)
+    min=$($JQ '.results[0].summary.time_wall_clock.min' < "${json}" | to_milliseconds)
+    max=$($JQ '.results[0].summary.time_wall_clock.max' < "${json}" | to_milliseconds)
     mss_last=${mss_KB-0}
     # convert to KiB
-    mss_KB=$($JQ '.results[0].memory_usage_byte | max / 1024' < "${json}")
+    mss_KB=$($JQ '.results[0].summary.memory_peak_resident.max / 1024' < "${json}")
 
     if ${first}; then
         mss_diff='-'
@@ -658,7 +653,7 @@ for fnum in $(seq 1 ${FILE_NUM}); do
             time_diff="+${time_diff}"
         fi
     fi
-    cpup=$($JQ '.results[0].user + .results[0].system' < "${json}" | to_3f)
+    cpup=$($JQ '.results[0].summary.time_user.mean + .results[0].summary.time_system.mean' < "${json}" | to_3f)
     # markdown table row
     echo "|${fnum}|${BUILD_PROFILE}|${mean} ± ${stddev}|${min}|${max}|${time_diff}|${mss_KB}|${mss_diff}|${cpup}|" >> "${MD_DRAFT}"
     # CSV row
@@ -671,7 +666,11 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     declare -i time_since_start=$((${SECONDS} - TIME_START))
     time_since_start_hms=$(seconds_to_hms "${time_since_start}")
     echo >&2
-    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB, syscr ${diskio_syscr}, rchar ${diskio_rchar}, syscw ${diskio_syscw}, write_bytes ${diskio_write_bytes} (script running for ${time_since_start_hms})${CLR_RESET}" >&2
+    diskio_mesg=''
+    if ${DISKIO_AVAILABLE}; then
+        diskio_mesg=", syscr ${diskio_syscr}, rchar ${diskio_rchar}, syscw ${diskio_syscw}, write_bytes ${diskio_write_bytes}"
+    fi
+    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB${diskio_mesg} (script running for ${time_since_start_hms})${CLR_RESET}" >&2
 
     first=false
 done
@@ -688,14 +687,17 @@ cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
 cp -av "${CSV_DRAFT}" "${CSV_FINAL}"
 
 # disk I/O finals
-cat "${MD_DRAFT_DISKIO}" | column -t -s '|' -o '|' > "${MD_FINAL_DISKIO}"
-cp -av "${CSV_DRAFT_DISKIO}" "${CSV_FINAL_DISKIO}"
-
+if ${DISKIO_AVAILABLE}; then
+    cat "${MD_DRAFT_DISKIO}" | column -t -s '|' -o '|' > "${MD_FINAL_DISKIO}"
+    cp -av "${CSV_DRAFT_DISKIO}" "${CSV_FINAL_DISKIO}"
+fi
 
 ./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${MD_FINAL}"
 echo >&2
-./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${MD_FINAL_DISKIO}"
-echo >&2
+if ${DISKIO_AVAILABLE}; then
+    ./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${MD_FINAL_DISKIO}"
+    echo >&2
+fi
 
 #
 # gnuplot an ASCII graph for file count (Y) vs max RSS (X)
@@ -974,117 +976,118 @@ xml_format "${OUT_SVG_TIME}"
 #
 
 readonly OUT_SVG_DISKIO_READ="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__diskio.svg"
+if ${DISKIO_AVAILABLE}; then
 
-# sanity check disk I/O series length matches file counts
-if [[ ${#diskio_syscr_values[@]} -ne ${#fnum_values[@]} ]]; then
-    echo "Mismatched diskio_syscr_values fnum_values; ${#diskio_syscr_values[@]} ${#fnum_values[@]}" >&2
-    exit 1
-fi
-if [[ ${#diskio_rchar_values[@]} -ne ${#fnum_values[@]} ]]; then
-    echo "Mismatched diskio_rchar_values fnum_values; ${#diskio_rchar_values[@]} ${#fnum_values[@]}" >&2
-    exit 1
-fi
-
-DataDiskReadCount=$(for i in "${!diskio_syscr_values[@]}"; do echo "${diskio_syscr_values[$i]} ${fnum_values[$i]}"; done)
-DataDiskReadBytes=$(for i in "${!diskio_rchar_values[@]}"; do echo "${diskio_rchar_values[$i]} ${fnum_values[$i]}"; done)
-
-# per-file rates for each run: total / file count (integer division)
-declare -a diskio_syscr_per_file_values=()
-declare -a diskio_rchar_per_file_values=()
-for i in "${!diskio_syscr_values[@]}"; do
-    declare -i fnum_i=${fnum_values[$i]}
-    if [[ ${fnum_i} -lt 1 ]]; then
-        echo "ERROR: invalid file count '${fnum_i}' at index ${i}" >&2
+    # sanity check disk I/O series length matches file counts
+    if [[ ${#diskio_syscr_values[@]} -ne ${#fnum_values[@]} ]]; then
+        echo "Mismatched diskio_syscr_values fnum_values; ${#diskio_syscr_values[@]} ${#fnum_values[@]}" >&2
         exit 1
     fi
-    diskio_syscr_per_file_values+=("$((${diskio_syscr_values[$i]} / fnum_i))")
-    diskio_rchar_per_file_values+=("$((${diskio_rchar_values[$i]} / fnum_i))")
-done
+    if [[ ${#diskio_rchar_values[@]} -ne ${#fnum_values[@]} ]]; then
+        echo "Mismatched diskio_rchar_values fnum_values; ${#diskio_rchar_values[@]} ${#fnum_values[@]}" >&2
+        exit 1
+    fi
 
-diskio_syscr_per_file_max=$(max "${diskio_syscr_per_file_values[@]}")
-diskio_syscr_per_file_min=$(min "${diskio_syscr_per_file_values[@]}")
-diskio_syscr_per_file_avg=$(avg "${diskio_syscr_per_file_values[@]}")
-diskio_rchar_per_file_max=$(max "${diskio_rchar_per_file_values[@]}")
-diskio_rchar_per_file_min=$(min "${diskio_rchar_per_file_values[@]}")
-diskio_rchar_per_file_avg=$(avg "${diskio_rchar_per_file_values[@]}")
+    DataDiskReadCount=$(for i in "${!diskio_syscr_values[@]}"; do echo "${diskio_syscr_values[$i]} ${fnum_values[$i]}"; done)
+    DataDiskReadBytes=$(for i in "${!diskio_rchar_values[@]}"; do echo "${diskio_rchar_values[$i]} ${fnum_values[$i]}"; done)
 
-# ratios vs file size and S4 block size — same style as RSS SVG
-# for compressed inputs, prefer uncompressed size as the logical file size
-declare -i DISKIO_FILE_SZ_BYTES=${FILE_SZ}
-declare -i DISKIO_FILE_SZ_BLOCKS=${FILE_SZ_BLOCKS}
-if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
-    DISKIO_FILE_SZ_BYTES=${FILE_SZ_UNCOMPRESSED}
-    DISKIO_FILE_SZ_BLOCKS=${FILE_SZ_UNCOMPRESSED_BLOCKS}
-fi
+    # per-file rates for each run: total / file count (integer division)
+    declare -a diskio_syscr_per_file_values=()
+    declare -a diskio_rchar_per_file_values=()
+    for i in "${!diskio_syscr_values[@]}"; do
+        declare -i fnum_i=${fnum_values[$i]}
+        if [[ ${fnum_i} -lt 1 ]]; then
+            echo "ERROR: invalid file count '${fnum_i}' at index ${i}" >&2
+            exit 1
+        fi
+        diskio_syscr_per_file_values+=("$((${diskio_syscr_values[$i]} / fnum_i))")
+        diskio_rchar_per_file_values+=("$((${diskio_rchar_values[$i]} / fnum_i))")
+    done
 
-# rchar is bytes: × file size, × Blocks (bytes / BLOCKSZ) — mirrors RSS KB ratios
-diskio_rchar_per_file_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_max} / max(${DISKIO_FILE_SZ_BYTES}, 1)))")
-diskio_rchar_per_file_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_min} / max(${DISKIO_FILE_SZ_BYTES}, 1)))")
-diskio_rchar_per_file_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_avg} / max(${DISKIO_FILE_SZ_BYTES}, 1)))")
-diskio_rchar_per_file_blocksz_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_max} / max(${S4_BLOCKSZ}, 1)))")
-diskio_rchar_per_file_blocksz_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_min} / max(${S4_BLOCKSZ}, 1)))")
-diskio_rchar_per_file_blocksz_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_avg} / max(${S4_BLOCKSZ}, 1)))")
+    diskio_syscr_per_file_max=$(max "${diskio_syscr_per_file_values[@]}")
+    diskio_syscr_per_file_min=$(min "${diskio_syscr_per_file_values[@]}")
+    diskio_syscr_per_file_avg=$(avg "${diskio_syscr_per_file_values[@]}")
+    diskio_rchar_per_file_max=$(max "${diskio_rchar_per_file_values[@]}")
+    diskio_rchar_per_file_min=$(min "${diskio_rchar_per_file_values[@]}")
+    diskio_rchar_per_file_avg=$(avg "${diskio_rchar_per_file_values[@]}")
 
-# syscr is a call count: × file-size-in-blocks (calls per logical file block)
-diskio_syscr_per_file_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_max} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
-diskio_syscr_per_file_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_min} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
-diskio_syscr_per_file_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_avg} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
+    # ratios vs file size and S4 block size — same style as RSS SVG
+    # for compressed inputs, prefer uncompressed size as the logical file size
+    declare -i DISKIO_FILE_SZ_BYTES=${FILE_SZ}
+    declare -i DISKIO_FILE_SZ_BLOCKS=${FILE_SZ_BLOCKS}
+    if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
+        DISKIO_FILE_SZ_BYTES=${FILE_SZ_UNCOMPRESSED}
+        DISKIO_FILE_SZ_BLOCKS=${FILE_SZ_UNCOMPRESSED_BLOCKS}
+    fi
 
-declare -i diskio_syscr_max
-diskio_syscr_max=$(max "${diskio_syscr_values[@]}")
-declare -i diskio_rchar_max
-diskio_rchar_max=$(max "${diskio_rchar_values[@]}")
+    # rchar is bytes: × file size, × Blocks (bytes / BLOCKSZ) — mirrors RSS KB ratios
+    diskio_rchar_per_file_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_max} / max(${DISKIO_FILE_SZ_BYTES}, 1)))")
+    diskio_rchar_per_file_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_min} / max(${DISKIO_FILE_SZ_BYTES}, 1)))")
+    diskio_rchar_per_file_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_avg} / max(${DISKIO_FILE_SZ_BYTES}, 1)))")
+    diskio_rchar_per_file_blocksz_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_max} / max(${S4_BLOCKSZ}, 1)))")
+    diskio_rchar_per_file_blocksz_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_min} / max(${S4_BLOCKSZ}, 1)))")
+    diskio_rchar_per_file_blocksz_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_avg} / max(${S4_BLOCKSZ}, 1)))")
 
-declare -i x_range_max_syscr=$((diskio_syscr_max + (diskio_syscr_max / 10) + 1))
-declare -i x_range_max_rchar=$((diskio_rchar_max + (diskio_rchar_max / 10) + 1))
+    # syscr is a call count: × file-size-in-blocks (calls per logical file block)
+    diskio_syscr_per_file_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_max} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
+    diskio_syscr_per_file_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_min} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
+    diskio_syscr_per_file_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_avg} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
 
-declare -i xtics_step_syscr=0
-if [[ ${x_range_max_syscr} -lt 100 ]]; then
-    xtics_step_syscr=1
-elif [[ ${x_range_max_syscr} -lt 1000 ]]; then
-    xtics_step_syscr=10
-elif [[ ${x_range_max_syscr} -lt 10000 ]]; then
-    xtics_step_syscr=100
-elif [[ ${x_range_max_syscr} -lt 100000 ]]; then
-    xtics_step_syscr=1000
-else
-    xtics_step_syscr=10000
-fi
+    declare -i diskio_syscr_max
+    diskio_syscr_max=$(max "${diskio_syscr_values[@]}")
+    declare -i diskio_rchar_max
+    diskio_rchar_max=$(max "${diskio_rchar_values[@]}")
 
-declare -i xtics_step_rchar=0
-if [[ ${x_range_max_rchar} -lt 1000 ]]; then
-    xtics_step_rchar=100
-elif [[ ${x_range_max_rchar} -lt 100000 ]]; then
-    xtics_step_rchar=10000
-elif [[ ${x_range_max_rchar} -lt 1000000 ]]; then
-    xtics_step_rchar=100000
-elif [[ ${x_range_max_rchar} -lt 10000000 ]]; then
-    xtics_step_rchar=1000000
-else
-    xtics_step_rchar=10000000
-fi
+    declare -i x_range_max_syscr=$((diskio_syscr_max + (diskio_syscr_max / 10) + 1))
+    declare -i x_range_max_rchar=$((diskio_rchar_max + (diskio_rchar_max / 10) + 1))
 
-declare -i ytics_step_diskio=0
-if [[ $FILE_NUM -le 50 ]]; then
-    ytics_step_diskio=1
-elif [[ $FILE_NUM -le 100 ]]; then
-    ytics_step_diskio=2
-elif [[ $FILE_NUM -le 200 ]]; then
-    ytics_step_diskio=4
-else
-    ytics_step_diskio=10
-fi
+    declare -i xtics_step_syscr=0
+    if [[ ${x_range_max_syscr} -lt 100 ]]; then
+        xtics_step_syscr=1
+    elif [[ ${x_range_max_syscr} -lt 1000 ]]; then
+        xtics_step_syscr=10
+    elif [[ ${x_range_max_syscr} -lt 10000 ]]; then
+        xtics_step_syscr=100
+    elif [[ ${x_range_max_syscr} -lt 100000 ]]; then
+        xtics_step_syscr=1000
+    else
+        xtics_step_syscr=10000
+    fi
 
-declare -i SVG_HEIGHT_DISKIO=$((SVG_HEIGHT + SVG_HEIGHT / 2))
-declare -i SVG_WIDTH_DISKIO=${SVG_WIDTH}
+    declare -i xtics_step_rchar=0
+    if [[ ${x_range_max_rchar} -lt 1000 ]]; then
+        xtics_step_rchar=100
+    elif [[ ${x_range_max_rchar} -lt 100000 ]]; then
+        xtics_step_rchar=10000
+    elif [[ ${x_range_max_rchar} -lt 1000000 ]]; then
+        xtics_step_rchar=100000
+    elif [[ ${x_range_max_rchar} -lt 10000000 ]]; then
+        xtics_step_rchar=1000000
+    else
+        xtics_step_rchar=10000000
+    fi
 
-if ${CACHES_DROPPED_ANY}; then
-    CACHES_DROP_MESG="Page cache: dropped when permitted (at least one fnum)"
-else
-    CACHES_DROP_MESG="Page cache: not dropped (I/O may include cache hits)"
-fi
+    declare -i ytics_step_diskio=0
+    if [[ $FILE_NUM -le 50 ]]; then
+        ytics_step_diskio=1
+    elif [[ $FILE_NUM -le 100 ]]; then
+        ytics_step_diskio=2
+    elif [[ $FILE_NUM -le 200 ]]; then
+        ytics_step_diskio=4
+    else
+        ytics_step_diskio=10
+    fi
 
-GNUPLOT_SVG=$(cat <<EOF
+    declare -i SVG_HEIGHT_DISKIO=$((SVG_HEIGHT + SVG_HEIGHT / 2))
+    declare -i SVG_WIDTH_DISKIO=${SVG_WIDTH}
+
+    if ${CACHES_DROPPED_ANY}; then
+        CACHES_DROP_MESG="Page cache: dropped when permitted (at least one fnum)"
+    else
+        CACHES_DROP_MESG="Page cache: not dropped (I/O may include cache hits)"
+    fi
+
+    GNUPLOT_SVG=$(cat <<EOF
 set terminal svg size ${SVG_WIDTH_DISKIO}, ${SVG_HEIGHT_DISKIO} fname "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}"
 set encoding utf8
 set color
@@ -1123,15 +1126,16 @@ plot \$DataDiskReadBytes with lines linecolor rgbcolor "${COLOR_2}" title "rchar
 
 unset multiplot
 EOF
-)
+    )
 
-(
-    set -x
-    echo "$GNUPLOT_SVG" | "$GNUPLOT"
-)
+    (
+        set -x
+        echo "$GNUPLOT_SVG" | "$GNUPLOT"
+    )
 
-gnuplot_svg_title_replace "${OUT_SVG_DISKIO_READ}" "Disk reads (syscr, rchar) per N file for '${FILE_NAME}'"
-xml_format "${OUT_SVG_DISKIO_READ}"
+    gnuplot_svg_title_replace "${OUT_SVG_DISKIO_READ}" "Disk reads (syscr, rchar) per N file for '${FILE_NAME}'"
+    xml_format "${OUT_SVG_DISKIO_READ}"
+fi
 
 echo >&2
 
@@ -1202,7 +1206,7 @@ for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
         ${HYPERFINE} \
             --warmup=0 \
             --style=color \
-            --time-unit=millisecond \
+            --metrics=time_wall_clock:ms,time_user,time_system,memory_peak_resident \
             --runs=${HYPERFINE_RUNS} \
             --export-json "${json}" \
             -N \
@@ -1216,16 +1220,16 @@ for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
 
     cat "${json}" | "${JQ}" .
 
-    # memory_usage_byte is in bytes, explained at https://github.com/sharkdp/hyperfine/discussions/846
+    # JSON values are always in base units (seconds, bytes)
 
     time_last=${mean-0}
-    mean=$($JQ '.results[0].mean' < "${json}" | to_milliseconds)
-    stddev=$($JQ '.results[0].stddev' < "${json}" | to_milliseconds)
-    min=$($JQ '.results[0].min' < "${json}" | to_milliseconds)
-    max=$($JQ '.results[0].max' < "${json}" | to_milliseconds)
+    mean=$($JQ '.results[0].summary.time_wall_clock.mean' < "${json}" | to_milliseconds)
+    stddev=$($JQ '.results[0].summary.time_wall_clock.stddev' < "${json}" | to_milliseconds)
+    min=$($JQ '.results[0].summary.time_wall_clock.min' < "${json}" | to_milliseconds)
+    max=$($JQ '.results[0].summary.time_wall_clock.max' < "${json}" | to_milliseconds)
     mss_last=${mss_KB-0}
     # convert to KiB
-    mss_KB=$($JQ '.results[0].memory_usage_byte | max / 1024' < "${json}")
+    mss_KB=$($JQ '.results[0].summary.memory_peak_resident.max / 1024' < "${json}")
 
     if ${first}; then
         unset mss_diff time_diff
@@ -1244,7 +1248,7 @@ for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
             time_diff="+${time_diff}"
         fi
     fi
-    cpup=$($JQ '.results[0].user + .results[0].system' < "${json}" | to_3f)
+    cpup=$($JQ '.results[0].summary.time_user.mean + .results[0].summary.time_system.mean' < "${json}" | to_3f)
     # markdown table row
     echo "|${blocksz}|${BUILD_PROFILE}|${mean} ± ${stddev}|${min}|${max}|${time_diff}|${mss_KB}|${mss_diff}|${cpup}|" >> "${MD_DRAFT_BSZ}"
     # CSV row
@@ -1378,14 +1382,21 @@ echo >&2
 echo -e "
 SVG RSS output written to: ${CLR_INFO}${OUT_SVG_RSS}${CLR_RESET}
 SVG TIME output written to: ${CLR_INFO}${OUT_SVG_TIME}${CLR_RESET}
-SVG DISK READS output written to: ${CLR_INFO}${OUT_SVG_DISKIO_READ}${CLR_RESET}
 Markdown written to: ${CLR_INFO}${MD_FINAL}${CLR_RESET}
 CSV written to: ${CLR_INFO}${CSV_FINAL}${CLR_RESET}
+" >&2
 
+if ${DISKIO_AVAILABLE}; then
+    echo -e "SVG DISK READS output written to: ${CLR_INFO}${OUT_SVG_DISKIO_READ}${CLR_RESET}
 Disk I/O markdown written to: ${CLR_INFO}${MD_FINAL_DISKIO}${CLR_RESET}
 Disk I/O CSV written to: ${CLR_INFO}${CSV_FINAL_DISKIO}${CLR_RESET}
+" >&2
+else
+    echo -e "Disk I/O not measured; /proc/<pid>/io not available
+" >&2
+fi
 
-SVG BLOCKSZ output written to: ${CLR_INFO}${OUT_SVG_BLOCKSZ}${CLR_RESET}
+echo -e "SVG BLOCKSZ output written to: ${CLR_INFO}${OUT_SVG_BLOCKSZ}${CLR_RESET}
 Markdown written to: ${CLR_INFO}${MD_FINAL_BSZ}${CLR_RESET}
 CSV written to: ${CLR_INFO}${CSV_FINAL_BSZ}${CLR_RESET}
 " >&2
