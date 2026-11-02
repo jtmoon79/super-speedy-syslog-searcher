@@ -62,15 +62,15 @@ readonly PYTHON
 (set -x; "${PYTHON}" --version) | head -n1
 
 # check for hyperfine
-readonly HYPERFINE=/home/ulug/.cargo/bin/hyperfine
+readonly HYPERFINE=$(which hyperfine)
 if [[ ! -x "${HYPERFINE}" ]]; then
-    echo "ERROR: hyperfine 2 required at ${HYPERFINE}" >&2
+    echo "ERROR: hyperfine 2 required" >&2
     echo "install:" >&2
     echo "    cargo install --locked hyperfine" >&2
     exit 1
 fi
 if [[ "$("${HYPERFINE}" --version)" != 'hyperfine 2.'* ]]; then
-    echo "ERROR: hyperfine 2.x required at ${HYPERFINE}" >&2
+    echo "ERROR: hyperfine 2.x required, have $("${HYPERFINE}" --version)" >&2
     exit 1
 fi
 (set -x; "${HYPERFINE}" --version)
@@ -96,6 +96,9 @@ if [[ "${PROGRAM_LNAV-}" = '' ]] && ! which lnav &>/dev/null; then
     exit 1
 fi
 readonly PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
+
+# pre-cache sudo password
+sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
 echo
 
@@ -534,7 +537,9 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra || [[ -n "${s4_prog_path}" ]]
         fi
         echo_command "${s4_full_path} -a='${after_dt}' -b='${befor_dt}' -cn ${files[*]}"
         set -x
-        "${HYPERFINE}" \
+        # run with sudo for more likely chance to access CPU metrics
+        sudo -- \
+            "${HYPERFINE}" \
             --metrics "${METRICS}" \
             --warmup=2 \
             --style=basic \
@@ -587,7 +592,8 @@ json_file=$(json_file_new)
     pipeline="'${GREP}' -hEe '${regex_dt}' -- ${files[*]} | '${SORT}' -t ' ' -k 1 -s"
     # Hardware counters require --shell=none; execute the pipeline shell directly.
     set -x
-    "${HYPERFINE}" \
+    sudo -- \
+        "${HYPERFINE}" \
         --metrics "${METRICS}" \
         --warmup=2 \
         --style=basic \
@@ -627,11 +633,14 @@ echo_title "lnav"
 readonly lnav_expected="${TEMPD}/lnav-expected.out"
 LC_ALL=C "${SORT}" "${tmpOut}" > "${lnav_expected}"
 
-mkdir -p "${TEMPD}/lnav-home" "${TEMPD}/lnav-config"
+LNAV_HOME="${TEMPD}/lnav-home"
+LNAV_CONFIG="${TEMPD}/lnav-config"
+mkdir -p "${LNAV_HOME}" "${LNAV_CONFIG}"
 # show-file restores identical input files that lnav otherwise hides.
 # Numeric datetime comparison includes the upper endpoint with either precision.
 declare -ar lnav_args=(
-    env "HOME=${TEMPD}/lnav-home" "XDG_CONFIG_HOME=${TEMPD}/lnav-config"
+    env "HOME=${LNAV_HOME}" "XDG_CONFIG_HOME=${LNAV_CONFIG}"
+    sudo -u "$(id -un)" --preserve-env="HOME,XDG_CONFIG_HOME" --
     "${PROGRAM_LNAV}" -I "${PROJ_DIR}/tools/compare-log-mergers/config" -N -n
     -c ':show-file *'
     -c ";SELECT log_raw_text FROM lnav1 WHERE julianday(log_time) BETWEEN julianday('${after_dt}') AND julianday('${befor_dt}') ORDER BY log_time, log_raw_text"
@@ -651,7 +660,10 @@ json_file=$(json_file_new)
     echo_command "${lnav_command}"
     set -x
     "${PROGRAM_LNAV}" --version
-    "${HYPERFINE}" \
+    chmod -R 0777 "${LNAV_HOME}" "${LNAV_CONFIG}"
+    env HOME=${LNAV_HOME} XDG_CONFIG_HOME=${LNAV_CONFIG} \
+    sudo --preserve-env="HOME,XDG_CONFIG_HOME" -- \
+        "${HYPERFINE}" \
         --metrics "${METRICS}" \
         --warmup=2 \
         --style=basic \
@@ -715,8 +727,10 @@ json_file=$(json_file_new)
 (
     files_caching
     echo_command "${PROGRAM_LM} --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]}"
+    PROGRAM_LM_FULL_PATH=$(which "${PROGRAM_LM}")
     set -x
-    "${HYPERFINE}" \
+    sudo -- \
+        "${HYPERFINE}" \
         --metrics "${METRICS}" \
         -i \
         --warmup=2 \
@@ -726,7 +740,7 @@ json_file=$(json_file_new)
         -N -n "${PROGRAM_LM}" \
         --env PYTHONOPTIMIZE=2 \
         -- \
-        "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]}"
+        "'${PROGRAM_LM_FULL_PATH}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]}"
 )
 validate_json "${json_file}"
 (
@@ -794,7 +808,8 @@ if ! ${skip_tl}; then
             "${cpu_features}" \
             "${opt_lvl}"
         set -x
-        "${HYPERFINE}" \
+        sudo -- \
+            "${HYPERFINE}" \
             --metrics "${METRICS}" \
             --warmup=0 \
             --runs=1 \
