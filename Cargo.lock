@@ -2052,9 +2052,9 @@ checksum = "d9435d864e017c3c6afeac1654189b06cdb491cf2ff73dbf0d73b0f292f42ff8"
 
 [[package]]
 name = "evtx"
-version = "0.13.0"
+version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03f34464e87db66ddffc0c0f2d3d9e8e971e2abbdde705739e16ad9286a4da23"
+checksum = "2e9491e77ab6afaef64a591f19ad3701098b3f938aaeffefb3c36559411dd219"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2069,6 +2069,7 @@ dependencies = [
  "indoc",
  "jiff",
  "log",
+ "memchr",
  "rayon",
  "serde",
  "serde_json",
