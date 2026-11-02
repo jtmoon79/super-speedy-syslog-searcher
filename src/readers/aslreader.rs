@@ -2,7 +2,7 @@
 //!
 //! XXX: inserts entries into the `events` BTreeMap without an upper limit,
 //!      which may lead to Out Of Memory errors.
-//!      See [Issue #559](https://github.com/ulug/super-speedy-syslog-searcher/issues/559).
+//!      See [Issue #559](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/559).
 
 use std::collections::BTreeMap;
 use std::io::{self,
