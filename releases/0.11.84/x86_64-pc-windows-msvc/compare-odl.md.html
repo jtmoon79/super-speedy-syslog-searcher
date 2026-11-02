@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta name="GENERATOR" content="github.com/gomarkdown/markdown markdown processor for Go" />
+  <meta charset="utf-8" />
+<style>
+table {  border-collapse: collapse; width: 100%;}
+
+th,
+td {
+  border: 1px solid #666;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: 700;
+  border-bottom: 2px solid #333;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var columnTypes = ['alpha', 'numeric', 'alpha', 'numeric', 'numeric', 'numeric'];
+
+  function numericValue(text) {
+    var match = String(text).replace(/,/g, '').match(/-?[0-9]+(?:[.][0-9]+)?/);
+    return match ? Number(match[0]) : NaN;
+  }
+
+  function compareCells(aText, bText, type, asc) {
+    if (type === 'numeric') {
+      var aNum = numericValue(aText);
+      var bNum = numericValue(bText);
+      var aNaN = Number.isNaN(aNum);
+      var bNaN = Number.isNaN(bNum);
+
+      if (aNaN && bNaN) {
+        return 0;
+      }
+      if (aNaN) {
+        return 1;
+      }
+      if (bNaN) {
+        return -1;
+      }
+      return asc ? aNum - bNum : bNum - aNum;
+    }
+
+    var cmp = String(aText).localeCompare(String(bText), undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    return asc ? cmp : -cmp;
+  }
+
+  function getRowsForSort(table) {
+    if (table.tBodies && table.tBodies.length > 0) {
+      return {
+        container: table.tBodies[0],
+        rows: Array.from(table.tBodies[0].rows)
+      };
+    }
+
+    var allRows = Array.from(table.rows);
+    return {
+      container: table,
+      rows: allRows.slice(1)
+    };
+  }
+
+  Array.from(document.querySelectorAll('table')).forEach(function (table) {
+    var headerRow = table.tHead && table.tHead.rows.length > 0
+      ? table.tHead.rows[0]
+      : table.rows[0];
+
+    if (!headerRow) {
+      return;
+    }
+
+    Array.from(headerRow.cells).forEach(function (th, colIndex) {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', function () {
+        var rowsInfo = getRowsForSort(table);
+        var rows = rowsInfo.rows;
+        var sortType = columnTypes[colIndex] || 'alpha';
+        var currentlyAsc = th.getAttribute('data-sort-dir') === 'asc';
+        var asc = !currentlyAsc;
+
+        Array.from(headerRow.cells).forEach(function (cell) {
+          if (cell !== th) {
+            cell.removeAttribute('data-sort-dir');
+          }
+        });
+
+        rows.sort(function (aRow, bRow) {
+          var aCell = aRow.cells[colIndex];
+          var bCell = bRow.cells[colIndex];
+          var aText = aCell ? aCell.textContent.trim() : '';
+          var bText = bCell ? bCell.textContent.trim() : '';
+          return compareCells(aText, bText, sortType, asc);
+        });
+
+        rows.forEach(function (row) {
+          rowsInfo.container.appendChild(row);
+        });
+
+        th.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
+      });
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<h2>ODL</h2>
+
+<p>Input: <code>C:\Users\jtmmo\Projects\super-speedy-syslog-searcher\logs\programs\OneDrive\Local\Microsoft\OneDrive\logs\Personal\SyncEngine-2025-12-21.1217.11144.2.odl</code></p>
+
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Version</th>
+<th>Allocator</th>
+<th>Platform</th>
+<th>CPU Features</th>
+<th>Opt Level</th>
+<th align="right">Wall Clock (ms)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>s4 [mimalloc]</td>
+<td>0.11.84</td>
+<td>mimalloc</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>3</td>
+<td align="right">31.86 ± 11.33</td>
+</tr>
+
+<tr>
+<td>s4 [release]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>3</td>
+<td align="right">27.47 ± 2.61</td>
+</tr>
+
+<tr>
+<td>s4 [release_O0_cgu1]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>0</td>
+<td align="right">53.00 ± 2.36</td>
+</tr>
+
+<tr>
+<td>s4 [release_O0_cgu512_pa]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>0</td>
+<td align="right">70.76 ± 21.32</td>
+</tr>
+
+<tr>
+<td>s4 [release_O1_cgu1]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>1</td>
+<td align="right">34.04 ± 10.05</td>
+</tr>
+
+<tr>
+<td>s4 [release_O1_cgu256_pa]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>1</td>
+<td align="right">28.75 ± 0.88</td>
+</tr>
+
+<tr>
+<td>s4 [release_O1_cgu512_pa]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>1</td>
+<td align="right">30.76 ± 2.95</td>
+</tr>
+
+<tr>
+<td>s4 [release_O2_cgu1]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>2</td>
+<td align="right">26.82 ± 0.80</td>
+</tr>
+
+<tr>
+<td>s4 [release_O2_cgu256_pa]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>2</td>
+<td align="right">26.98 ± 0.81</td>
+</tr>
+
+<tr>
+<td>s4 [release_O2_cgu512_pa]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>2</td>
+<td align="right">33.24 ± 13.91</td>
+</tr>
+
+<tr>
+<td>s4 [release_O3_cgu1_pa]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>3</td>
+<td align="right">26.37 ± 1.14</td>
+</tr>
+
+<tr>
+<td>s4 [release_O3_cgu256_pa]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>3</td>
+<td align="right">28.97 ± 8.18</td>
+</tr>
+
+<tr>
+<td>s4 [release_O3_cgu512_pa]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>3</td>
+<td align="right">27.26 ± 1.59</td>
+</tr>
+
+<tr>
+<td>s4 [release_Opt0]</td>
+<td>0.11.84</td>
+<td>system</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>0</td>
+<td align="right">50.43 ± 2.33</td>
+</tr>
+
+<tr>
+<td>s4 [rpmalloc]</td>
+<td>0.11.84</td>
+<td>rpmalloc</td>
+<td>x86_64-pc-windows-msvc</td>
+<td>cmpxchg16b,fxsr,sse,sse2,sse3</td>
+<td>3</td>
+<td align="right">31.29 ± 11.84</td>
+</tr>
+
+<tr>
+<td>odl.py</td>
+<td>2.0</td>
+<td></td>
+<td>Python 3.13.14</td>
+<td></td>
+<td>2</td>
+<td align="right">243.82 ± 11.71</td>
+</tr>
+
+<tr>
+<td>OneDriveExplorer (parser API)</td>
+<td>2026.09.15</td>
+<td></td>
+<td>Python 3.13.14</td>
+<td></td>
+<td>1</td>
+<td align="right">756.27 ± 42.62</td>
+</tr>
+</tbody>
+</table>
+<p>OneDriveExplorer uses its parser API at Python optimization level 1; the readers may decode different numbers of messages. OneDriveExplorer ran without cstructs.</p>
+
+</body>
+</html>
