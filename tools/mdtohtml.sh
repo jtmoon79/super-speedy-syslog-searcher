@@ -7,8 +7,6 @@
 
 set -eu
 
-cd "$(dirname -- "${0}")/.."
-
 # in case `mdtohtml` is not in the PATH, add the default Go bin directory to the PATH
 export PATH="${PATH}:${HOME}/go/bin"
 
