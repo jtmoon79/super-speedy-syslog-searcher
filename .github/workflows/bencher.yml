@@ -26,7 +26,6 @@ on:  # yamllint disable-line rule:truthy
         required: false
         description: branch, tag, or commit to checkout
         type: string
-        default:
 permissions:
   contents: read
 env:
