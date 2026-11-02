@@ -134,6 +134,11 @@ try {
 
     Set-Location (Join-Path $PSScriptRoot '..')
 
+    if (-not (Get-Command 'dlltool.exe' -ErrorAction SilentlyContinue)) {
+        Write-Error "dlltool.exe not found in PATH; is C:\\msys64\\ucrt64\\bin in your PATH?  See https://stackoverflow.com/a/79640980/471376"
+        exit 1
+    }
+
     $buildProfile = Get-BuildProfile -ArgsList $CrossArgs
 
     $outputDir = $null
