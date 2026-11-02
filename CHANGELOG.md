@@ -13,6 +13,7 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 
 - [Unreleased](#unreleased)
 - [0.11.84](#01184)
+  - [Overview](#overview)
   - [New](#new)
   - [Changed](#changed)
   - [Fixed](#fixed)
@@ -278,6 +279,8 @@ _Released 2026-11-01_
 _MSRV 1.99.1_
 
 [0.10.83..0.11.84]
+
+### Overview
 
 - Remove all dependence on Python-based tools
   - implement Rust-based parsers and readers for
