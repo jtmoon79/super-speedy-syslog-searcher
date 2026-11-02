@@ -146,7 +146,6 @@ use ::clap::{
     Parser,
     ValueEnum,
 };
-use ::const_env;
 use ::const_format::concatcp;
 use ::crossbeam_channel;
 use ::current_platform::CURRENT_PLATFORM;
@@ -2736,7 +2735,10 @@ pub(crate) const CLI_PREPEND_SEP: &str = ":";
 /// default CLI datetime format printed for CLI options `-u` or `-l`.
 pub(crate) const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z";
 
-const RUSTFLAGS: &str = const_env::env_lit!("RUSTFLAGS", "");
+const RUSTFLAGS: &str = match option_env!("RUSTFLAGS") {
+    Some(s) => s,
+    None => "",
+};
 
 #[cfg(debug_assertions)]
 const CLI_HELP_AFTER_NOTE_DEBUG: &str = "\nDEBUG BUILD";

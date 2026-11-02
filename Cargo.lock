@@ -1330,26 +1330,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "18f12cc9948ed9604230cdddc7c86e270f9401ccbe3c2e98a4378c5e7632212f"
 
 [[package]]
-name = "const_env"
-version = "0.1.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "103172f14a86f2e45b8eecae496605e58b347839c739e869ab918154ad7c312e"
-dependencies = [
- "const_env_impl",
-]
-
-[[package]]
-name = "const_env_impl"
-version = "0.1.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ff249495e37c4ae62e9cf56ec642f1a011804500cc1ab6f81268dc5bf907cfe"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.119",
-]
-
-[[package]]
 name = "const_format"
 version = "0.2.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5217,7 +5197,6 @@ dependencies = [
  "clap 4.6.7",
  "compact_str",
  "const-str",
- "const_env",
  "const_format",
  "crc",
  "criterion 0.8.2",
