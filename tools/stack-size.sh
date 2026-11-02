@@ -230,7 +230,7 @@ for file in "$@"; do
     #
     # File: ./logs/other/tests/dtf5-6b.tar|./logs/other/tests/dtf5-6b.log
     #   About:
-    #       real path     : /home/ulug/Projects/super-speedy-syslog-searcher/logs/other/tests/dtf5-6b.tar
+    #       real path     : /home/user/super-speedy-syslog-searcher/logs/other/tests/dtf5-6b.tar
     #       Subpath     : ./logs/other/tests/dtf5-6b.log
     #       Modified time : 2000-01-01 00:00:05 -07:00 (2000-01-01 07:00:05.000000 +00:00)
     #       FileType      : TEXT UTF8/ASCII (TAR) (text log)
