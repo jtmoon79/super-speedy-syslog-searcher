@@ -1142,31 +1142,134 @@ Here are two typical log messages from a contrived log file:
 2000-01-01T00:00:02 0002 A 😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀😁😂😃
 ```
 
-#### Table of performance comparison results<!-- omit in toc -->
+#### Text log performance comparison<!-- omit in toc -->
 
 <!--
 Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 -->
 
-|Program    |Version|Allocator|Platform                 |Mean (ms)   |Max RSS (KB)|
-|:---       |:---   |:---     |:---                     |---:        |---:        |
-|`s4`       |0.7.79 |system   |x86_64-unknown-linux-gnu |167.4 ± 3.1 |136968      |
-|`s4`       |0.8.80 |system   |x86_64-unknown-linux-gnu |165.5 ± 2.9 |136672      |
-|`s4`       |0.9.81 |system   |x86_64-unknown-linux-gnu |123.8 ± 1.1 |19032       |
-|`s4`       |0.9.82 |jemalloc |x86_64-unknown-linux-gnu |126.7 ± 1.4 |24980       |
-|`s4`       |0.9.82 |mimalloc |x86_64-unknown-linux-gnu |127.8 ± 1.7 |61964       |
-|`s4`       |0.9.82 |rpmalloc |x86_64-unknown-linux-gnu |129.7 ± 1.0 |33228       |
-|`s4`       |0.9.82 |tcmalloc |x86_64-unknown-linux-gnu |128.0 ± 1.0 |29696       |
-|`s4`       |0.9.82 |system   |x86_64-unknown-linux-gnu |124.9 ± 1.1 |20504       |
-|`grep+sort`|3.11   |         |                         |**48.6 ± 0.5**|**19680** |
-|`lnav`     |0.11.2 |         |                         |245.2 ± 1.9 |57316       |
-|`logmerger`|0.12.0 |         |Python 3.12.3            |286.8 ± 4.3 |78736       |
-|`toolong`  |1.5.0  |         |Python 3.12.3            |1960.0 ± 0.0|60832       |
+|Program    |Version|Profile             |Allocator|Platform                 |CPU Target|CPU Features                                                                                                                                                 |Opt Level|Wall Clock 𝓍 (ms)|Min (ms)|Max (ms)|̅𝓍 peak RSS (kB)|̅𝓍 CPU cycles (M)|̅𝓍 cache refs (M)|̅𝓍 cache miss (M)|̅𝓍 branch miss (M)|
+|:---       |:---   |:---                |:---     |:---                     |:---      |:---                                                                                                                                                         |:---     |---:             |---:    |---:    |---:           |---:            |---:            |---:            |---:             |
+|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        |18.9 ± 2.5       |13.6    |23.6    |22004.4        |567.259         |26.614          |1.339           |1.168            |
+|`s4`       |0.11.84|release_O0_cgu1     |system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |0        |79.6 ± 4.7       |71.9    |86.6    |42738.1        |3114.898        |143.778         |2.222           |2.319            |
+|`s4`       |0.11.84|release_O0_cgu512_pa|system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |0        |82.1 ± 4.2       |73.9    |89.6    |42413.8        |3223.835        |162.840         |2.507           |2.306            |
+|`s4`       |0.11.84|release_O1_cgu1     |system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |1        |20.0 ± 3.1       |14.9    |25.7    |21284.5        |660.282         |32.296          |1.388           |1.178            |
+|`s4`       |0.11.84|release_O1_cgu256_pa|system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |1        |25.5 ± 2.2       |20.8    |28.3    |22009.7        |752.476         |43.025          |1.475           |1.305            |
+|`s4`       |0.11.84|release_O1_cgu512_pa|system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |1        |26.2 ± 2.2       |20.4    |28.8    |21838.9        |764.360         |44.327          |1.435           |1.284            |
+|`s4`       |0.11.84|release_O2_cgu1     |system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |2        |18.1 ± 2.4       |13.2    |21.1    |22060.8        |564.243         |25.354          |1.287           |1.158            |
+|`s4`       |0.11.84|release_O2_cgu256_pa|system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |2        |20.0 ± 3.1       |13.9    |25.1    |22167.1        |592.164         |27.736          |1.333           |1.218            |
+|`s4`       |0.11.84|release_O2_cgu512_pa|system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |2        |20.7 ± 2.6       |15.4    |25.8    |21869.4        |597.197         |27.900          |1.348           |1.227            |
+|`s4`       |0.11.84|release_O3_cgu1_pa  |system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        |19.0 ± 2.6       |13.0    |21.9    |22084.5        |561.471         |26.491          |1.305           |1.155            |
+|`s4`       |0.11.84|release_O3_cgu256_pa|system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        |19.7 ± 2.6       |14.4    |23.5    |22385.5        |570.865         |27.982          |1.323           |1.239            |
+|`s4`       |0.11.84|release_O3_cgu512_pa|system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        |20.2 ± 2.4       |14.8    |23.4    |21977.2        |570.695         |28.833          |1.325           |1.236            |
+|`s4`       |0.11.84|release_Opt0        |system   |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |0        |88.2 ± 4.0       |78.4    |96.4    |43625.9        |3514.055        |188.509         |3.392           |3.018            |
+|`s4`       |0.11.84|jemalloc            |jemalloc |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        |17.5 ± 2.4       |13.1    |22.4    |27132.9        |545.685         |25.201          |1.319           |0.994            |
+|`s4`       |0.11.84|mimalloc            |mimalloc |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        |20.3 ± 3.8       |14.6    |34.8    |70040.0        |560.523         |26.122          |1.370           |0.988            |
+|`s4`       |0.11.84|rpmalloc            |rpmalloc |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        |20.1 ± 2.2       |15.8    |22.6    |35914.5        |555.271         |24.218          |1.311           |1.006            |
+|`s4`       |0.11.84|tcmalloc            |tcmalloc |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        |18.1 ± 2.4       |13.8    |22.6    |30191.6        |548.675         |23.100          |1.806           |0.999            |
+|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|default   |fxsr,sse,sse2                                                                                                                                                |3        |81.9 ± 12.8      |51.4    |97.5    |20255.9        |891.347         |46.071          |5.577           |2.855            |
+|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|x86-64-v2 |cmpxchg16b,crt-static,fxsr,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3                                                                                          |3        |84.7 ± 8.6       |63.5    |93.0    |21323.5        |883.615         |47.085          |5.622           |2.841            |
+|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|x86-64-v3 |avx,avx2,bmi1,bmi2,cmpxchg16b,crt-static,f16c,fma,fxsr,lzcnt,movbe,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3,xsave                                            |3        |84.5 ± 11.2      |62.8    |106.2   |21791.5        |884.505         |46.195          |5.652           |2.905            |
+|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|x86-64-v4 |avx,avx2,avx512bw,avx512cd,avx512dq,avx512f,avx512vl,bmi1,bmi2,cmpxchg16b,crt-static,f16c,fma,fxsr,lzcnt,movbe,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3,xsave|3        |82.7 ± 10.6      |62.3    |93.5    |21914.1        |876.547         |45.923          |5.611           |2.854            |
+|`grep+sort`|3.12   |                    |         |x86_64                   |          |                                                                                                                                                             |         |112.6 ± 2.9      |110.7   |126.7   |24111.5        |609.479         |3.512           |0.293           |0.439            |
+|`lnav`     |0.13.2 |                    |         |x86_64                   |          |                                                                                                                                                             |         |177.6 ± 2.2      |174.6   |184.7   |7949.5         |1081.096        |29.860          |1.270           |2.451            |
+|`logmerger`|0.13.0 |                    |         |Python 3.14.4            |          |                                                                                                                                                             |2        |220.8 ± 3.2      |216.8   |229.9   |84567.5        |1102.493        |144.317         |8.928           |7.605            |
 
 <sup style="font-size: xxx-small">• _Mean_ is mean runtime in milliseconds</sup>
 <sup style="font-size: xxx-small">• _Max RSS_ is maximum Resident Set Size in Kilobytes</sup>
 
-Using `hyperfine` for measurements. Run on Ubuntu 26 on WSL.
+Using `hyperfine` for measurements.
+Run on Ubuntu 26 on WSL.
+Run on AMD Ryzen 7 9700X 8-Core Processor with 16 cores.
+
+##### ETL performance comparison<!-- omit in toc -->
+
+Input: `.\logs\programs\Event_Trace_Log\PITR\PointInTimeRestore.etl`
+
+| Program                   | Version         | Allocator | Platform               | CPU Features                  | Opt Level | Wall Clock (ms) |
+| ------------------------- | --------------- | --------- | ---------------------- | ----------------------------- | --------- | --------------: |
+| s4 [mimalloc]             | 0.11.84         | mimalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    13.68 ± 0.94 |
+| s4 [release]              | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    13.57 ± 0.55 |
+| s4 [release_O0_cgu1]      | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 0         |    18.55 ± 2.12 |
+| s4 [release_O0_cgu512_pa] | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 0         |    18.32 ± 0.85 |
+| s4 [release_O1_cgu1]      | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 1         |    14.07 ± 0.67 |
+| s4 [release_O1_cgu256_pa] | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 1         |    15.09 ± 3.04 |
+| s4 [release_O1_cgu512_pa] | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 1         |    13.62 ± 0.45 |
+| s4 [release_O2_cgu1]      | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 2         |    13.48 ± 0.60 |
+| s4 [release_O2_cgu256_pa] | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 2         |    14.34 ± 1.12 |
+| s4 [release_O2_cgu512_pa] | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 2         |    13.80 ± 0.68 |
+| s4 [release_O3_cgu1_pa]   | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    13.82 ± 1.06 |
+| s4 [release_O3_cgu256_pa] | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    13.45 ± 0.87 |
+| s4 [release_O3_cgu512_pa] | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    13.53 ± 0.64 |
+| s4 [release_Opt0]         | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 0         |    18.96 ± 1.37 |
+| s4 [rpmalloc]             | 0.11.84         | rpmalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    14.52 ± 1.77 |
+| tracerpt.exe              | 10.0.26100.1    |           | Windows                |                               |           |  120.84 ± 25.55 |
+| `Get-WinEvent`            | 7.6.0           |           | pwsh                   |                               |           |  454.66 ± 17.71 |
+
+`Get-WinEvent` timings include PowerShell startup.
+
+Using `hyperfine` for measurements.
+Run on Windows 11 Pro.
+Run on AMD Ryzen 7 7700X 8-Core Processor.
+
+##### EVTX performance comparison<!-- omit in toc -->
+
+Input: `.\logs\programs\evtx\Microsoft-Windows-Kernel-PnP__Configuration.evtx`
+
+| Program                   | Version   | Allocator | Platform               | CPU Features                  | Opt Level | Wall Clock (ms) |
+| ------------------------- | --------- | --------- | ---------------------- | ----------------------------- | --------- | --------------: |
+| s4 [mimalloc]             | 0.11.84   | mimalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    11.48 ± 0.61 |
+| s4 [release]              | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    10.25 ± 0.48 |
+| s4 [release_O0_cgu1]      | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 0         |    15.41 ± 1.30 |
+| s4 [release_O0_cgu512_pa] | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 0         |    15.02 ± 0.85 |
+| s4 [release_O1_cgu1]      | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 1         |    10.77 ± 0.45 |
+| s4 [release_O1_cgu256_pa] | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 1         |    10.95 ± 0.44 |
+| s4 [release_O1_cgu512_pa] | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 1         |    10.85 ± 0.49 |
+| s4 [release_O2_cgu1]      | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 2         |    10.65 ± 0.42 |
+| s4 [release_O2_cgu256_pa] | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 2         |    11.46 ± 0.75 |
+| s4 [release_O2_cgu512_pa] | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 2         |    10.72 ± 0.58 |
+| s4 [release_O3_cgu1_pa]   | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    10.56 ± 0.65 |
+| s4 [release_O3_cgu256_pa] | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    11.14 ± 3.51 |
+| s4 [release_O3_cgu512_pa] | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    10.76 ± 0.57 |
+| s4 [release_Opt0]         | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 0         |    14.92 ± 0.41 |
+| s4 [rpmalloc]             | 0.11.84   | rpmalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    13.26 ± 0.92 |
+| evtx_dump.py              | 0.7.4     |           | Python 3.13.14         |                               | 2         |  549.29 ± 28.78 |
+| evtx_dump (Rust)          | 0.15.1    |           | Windows                |                               |           |     6.97 ± 0.48 |
+| EvtxECmd                  | 2026.10.2 |           | .NET                   |                               |           |  478.86 ± 15.48 |
+
+Using `hyperfine` for measurements.
+Run on Windows 11 Pro.
+Run on AMD Ryzen 7 7700X 8-Core Processor.
+
+##### OneDrive Log performance comparison<!-- omit in toc -->
+
+Input: `.\logs\programs\OneDrive\Local\Microsoft\OneDrive\logs\Personal\SyncEngine-2025-12-21.1217.11144.2.odl`
+
+| Program                       | Version    | Allocator | Platform               | CPU Features                  | Opt Level | Wall Clock (ms) |
+| ----------------------------- | ---------- | --------- | ---------------------- | ----------------------------- | --------- | --------------: |
+| s4 [mimalloc]                 | 0.11.84    | mimalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |   31.86 ± 11.33 |
+| s4 [release]                  | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    27.47 ± 2.61 |
+| s4 [release_O0_cgu1]          | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 0         |    53.00 ± 2.36 |
+| s4 [release_O0_cgu512_pa]     | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 0         |   70.76 ± 21.32 |
+| s4 [release_O1_cgu1]          | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 1         |   34.04 ± 10.05 |
+| s4 [release_O1_cgu256_pa]     | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 1         |    28.75 ± 0.88 |
+| s4 [release_O1_cgu512_pa]     | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 1         |    30.76 ± 2.95 |
+| s4 [release_O2_cgu1]          | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 2         |    26.82 ± 0.80 |
+| s4 [release_O2_cgu256_pa]     | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 2         |    26.98 ± 0.81 |
+| s4 [release_O2_cgu512_pa]     | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 2         |   33.24 ± 13.91 |
+| s4 [release_O3_cgu1_pa]       | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    26.37 ± 1.14 |
+| s4 [release_O3_cgu256_pa]     | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    28.97 ± 8.18 |
+| s4 [release_O3_cgu512_pa]     | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    27.26 ± 1.59 |
+| s4 [release_Opt0]             | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 0         |    50.43 ± 2.33 |
+| s4 [rpmalloc]                 | 0.11.84    | rpmalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |   31.29 ± 11.84 |
+| odl.py                        | 2.0        |           | Python 3.13.14         |                               | 2         |  243.82 ± 11.71 |
+| OneDriveExplorer (parser API) | 2026.09.15 |           | Python 3.13.14         |                               | 1         |  756.27 ± 42.62 |
+
+Using `hyperfine` for measurements.
+Run on Windows 11 Pro.
+Run on AMD Ryzen 7 7700X 8-Core Processor.
+
+##### more performance measurements<!-- omit in toc -->
 
 See further performance measurements in the [`releases`] directory.
 
