@@ -39,6 +39,7 @@
         "/^bash --norc --noprofile -c 'git --no-pager status --short'$/": {
             "approve": true,
             "matchCommandLine": true
-        }
+        },
+        "command": true
     }
 }
