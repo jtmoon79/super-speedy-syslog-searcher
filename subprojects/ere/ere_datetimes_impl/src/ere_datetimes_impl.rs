@@ -3434,12 +3434,12 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     /*
-    add bracketed datetime offset fro beginning
-    /mnt/c/Users/jtmmo/AppData/Local/Temp/dd_BackgroundDownload_20260617093422.log: Unicode text, UTF-8 text, with very long lines (1604), with CRLF line terminators
+    add bracketed datetime offset, e.g.:
+        file ${env:APPDATA}/Local/Temp/dd_BackgroundDownload_20260617093422.log: Unicode text, UTF-8 text, with very long lines (1604), with CRLF line terminators
 
-    [6aa0:0001][2026-06-17T09:34:22] Creating new ExperimentationService
-    [6aa0:0001][2026-06-17T09:34:22] Telemetry property VS.ABExp.Flights : lazytoolboxinit;fwlargebuffer;refactoring;spmoretempsbtn1;asloff;keybindgoldbarext;asynccsproj;vsfricheditor;completionapi;4f604693:30775293
-    [6aa0:0001][2026-06-17T09:34:22] UserActivityMonitor started.
+        [6aa0:0001][2026-06-17T09:34:22] Creating new ExperimentationService
+        [6aa0:0001][2026-06-17T09:34:22] Telemetry property VS.ABExp.Flights : lazytoolboxinit;fwlargebuffer;refactoring;spmoretempsbtn1;asloff;keybindgoldbarext;asynccsproj;vsfricheditor;completionapi;4f604693:30775293
+        [6aa0:0001][2026-06-17T09:34:22] UserActivityMonitor started.
 
     */
     // ---------------------------------------------------------------------------------------------
