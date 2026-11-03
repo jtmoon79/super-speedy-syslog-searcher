@@ -13,5 +13,6 @@
         "tamasfe.even-better-toml",
         "yzhang.markdown-all-in-one",
         "davidanson.vscode-markdownlint",
+        "ms-vscode.powershell",
     ]
 }
