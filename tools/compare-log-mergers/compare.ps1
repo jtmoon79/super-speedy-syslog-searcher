@@ -221,6 +221,7 @@ function ConvertFrom-S4Version {
 
     return [pscustomobject]@{
         Version = $version
+        Profile = (Get-VersionField $Text 'Profile')
         Allocator = $allocator
         Platform = $platform
         CpuFeatures = (Get-VersionField $Text 'CPU Features')
@@ -336,6 +337,7 @@ function New-Row {
     param(
         [string] $Program,
         [string] $Version,
+        [string] $Profile,
         [string] $Allocator,
         [string] $Platform,
         [string] $CpuFeatures,
@@ -346,6 +348,7 @@ function New-Row {
     return [pscustomobject][ordered]@{
         'Program' = $Program
         'Version' = $Version
+        'Profile' = $Profile
         'Allocator' = $Allocator
         'Platform' = $Platform
         'CPU Features' = $CpuFeatures
@@ -358,7 +361,7 @@ function Format-MarkdownTable {
     [OutputType([string])]
     param([object[]] $Rows)
 
-    $columns = @('Program', 'Version', 'Allocator', 'Platform', 'CPU Features', 'Opt Level', 'Wall Clock (ms)')
+    $columns = @('Program', 'Version', 'Profile', 'Allocator', 'Platform', 'CPU Features', 'Opt Level', 'Wall Clock (ms)')
     $cells = [System.Collections.Generic.List[object]]::new()
     foreach ($row in $Rows) {
         $values = @(
@@ -405,6 +408,27 @@ function Format-MarkdownTable {
     return $lines -join "`n"
 }
 
+function Get-TestBed {
+    [OutputType([pscustomobject])]
+    param()
+
+    $processors = @(Get-CimInstance -ClassName Win32_Processor)
+    if ($processors.Count -eq 0 -or
+        @($processors | Where-Object { [string]::IsNullOrWhiteSpace($_.Name) -or -not $_.NumberOfLogicalProcessors }).Count -gt 0) {
+        throw 'Cannot determine CPU model or logical processor count from Win32_Processor.'
+    }
+    $operatingSystems = @(Get-CimInstance -ClassName Win32_OperatingSystem)
+    if ($operatingSystems.Count -ne 1 -or [string]::IsNullOrWhiteSpace($operatingSystems[0].Caption)) {
+        throw 'Cannot determine operating system from Win32_OperatingSystem.'
+    }
+
+    return [pscustomobject]@{
+        CpuModel = (($processors | ForEach-Object { ($_.Name -replace '[\r\n]+', ' ').Trim() } | Select-Object -Unique) -join ', ')
+        CpuCores = ($processors | Measure-Object -Property NumberOfLogicalProcessors -Sum).Sum
+        OperatingSystem = (($operatingSystems[0].Caption -replace '[\r\n]+', ' ').Trim() -replace '^Microsoft\s+', '')
+    }
+}
+
 function Write-Section {
     [OutputType([string])]
     param(
@@ -413,7 +437,8 @@ function Write-Section {
         [object[]] $Rows,
         [string] $Note,
         [string] $OutputDirectory,
-        [string] $CopyDirectory
+        [string] $CopyDirectory,
+        [pscustomobject] $TestBed
     )
 
     $inputText = if ($Inputs.Count -eq 1) {
@@ -426,6 +451,9 @@ function Write-Section {
         "Inputs:`n" + ($entries -join "`n")
     }
     $markdown = "## $($Name.ToUpperInvariant())`n`n$inputText`n`n$(Format-MarkdownTable $Rows)"
+    $markdown += "`n`nCPU Model: $($TestBed.CpuModel)"
+    $markdown += "`n`nCPU Cores: $($TestBed.CpuCores)"
+    $markdown += "`n`nOperating System: $($TestBed.OperatingSystem)"
     if ($Note) {
         $markdown += "`n`n$Note"
     }
@@ -454,6 +482,7 @@ function Invoke-Comparison {
     if ($PSVersionTable.PSVersion.Major -lt 7 -or -not $IsWindows) {
         throw 'This comparison requires Windows and PowerShell 7.'
     }
+    $testBed = Get-TestBed
     $projectRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).ProviderPath
     $outputDirectory = (Get-Location).ProviderPath
     $copyDirectory = if ($env:DIROUT) {
@@ -502,7 +531,7 @@ function Invoke-Comparison {
                 }
                 $path = Join-Path $directory.FullName 's4.exe'
                 if (Test-Path -LiteralPath $path -PathType Leaf) {
-                    $entries.Add([pscustomobject]@{ Path = $path; Extra = "[$($directory.Name)]" })
+                    $entries.Add([pscustomobject]@{ Path = $path; Extra = '' })
                 }
             }
         }
@@ -610,6 +639,9 @@ function Invoke-Comparison {
             $info = ConvertFrom-S4Version $check.Output $entry.Path
             if (-not $info.Version) {
                 Write-Notice "Could not determine the s4 version: $($entry.Path)"
+            }
+            if (-not $info.Profile) {
+                Write-Notice "No Profile in s4 --version: $($entry.Path)"
             }
             if (-not $info.CpuFeatures) {
                 Write-Notice "No CPU Features in s4 --version: $($entry.Path)"
@@ -751,48 +783,48 @@ function Invoke-Comparison {
                 $suffix = if ($evtxPaths.Count -gt 1) { " [$($i + 1)]" } else { '' }
                 foreach ($program in $s4Programs) {
                     $time = Invoke-Hyperfine $hyperfine $jsonPath $runs @($program.Path, $evtxPath) ''
-                    $rows.Add((New-Row ($program.Label + $suffix) $program.Info.Version $program.Info.Allocator $program.Info.Platform $program.Info.CpuFeatures $program.Info.OptLevel $time))
+                    $rows.Add((New-Row ($program.Label + $suffix) $program.Info.Version $program.Info.Profile $program.Info.Allocator $program.Info.Platform $program.Info.CpuFeatures $program.Info.OptLevel $time))
                 }
                 $time = Invoke-Hyperfine $hyperfine $jsonPath $runs @($python, $evtxPy, $evtxPath) $pythonEnv2
-                $rows.Add((New-Row ("evtx_dump.py" + $suffix) $evtxVersion '' $pythonPlatform '' '2' $time))
+                $rows.Add((New-Row ("evtx_dump.py" + $suffix) $evtxVersion '' '' $pythonPlatform '' '2' $time))
                 $time = Invoke-Hyperfine $hyperfine $jsonPath $runs @($rustEvtx, $evtxPath) ''
-                $rows.Add((New-Row ("evtx_dump (Rust)" + $suffix) $rustVersion '' $rustPlatform '' '' $time))
+                $rows.Add((New-Row ("evtx_dump (Rust)" + $suffix) $rustVersion '' '' $rustPlatform '' '' $time))
                 $evtxECmdArgs = @($evtxECmd, '-f', $evtxPath, '--csv', $evtxOutput, '--csvf', 'evtxecmd.csv')
                 if (Test-Path -LiteralPath $maps -PathType Container) { $evtxECmdArgs += @('--maps', $maps) }
                 $time = Invoke-Hyperfine $hyperfine $jsonPath $runs $evtxECmdArgs ''
-                $rows.Add((New-Row ("EvtxECmd" + $suffix) $evtxECmdVersion '' '.NET' '' '' $time))
+                $rows.Add((New-Row ("EvtxECmd" + $suffix) $evtxECmdVersion '' '' '.NET' '' '' $time))
             }
-            Write-Section 'evtx' $evtxReportInputs $rows.ToArray() '' $outputDirectory $copyDirectory
+            Write-Section 'evtx' $evtxReportInputs $rows.ToArray() '' $outputDirectory $copyDirectory $testBed
         }
 
         if ('odl' -in $SelectedSections) {
             $rows = [System.Collections.Generic.List[object]]::new()
             foreach ($program in $s4Programs) {
                 $time = Invoke-Hyperfine $hyperfine $jsonPath $runs @($program.Path, $odlPath) ''
-                $rows.Add((New-Row $program.Label $program.Info.Version $program.Info.Allocator $program.Info.Platform $program.Info.CpuFeatures $program.Info.OptLevel $time))
+                $rows.Add((New-Row $program.Label $program.Info.Version $program.Info.Profile $program.Info.Allocator $program.Info.Platform $program.Info.CpuFeatures $program.Info.OptLevel $time))
             }
             $odlOutput = Join-Path $temp 'odl.csv'
             $time = Invoke-Hyperfine $hyperfine $jsonPath $runs @($python, $odlPy, $odlDirectory, '-o', $odlOutput) $pythonEnv2
-            $rows.Add((New-Row 'odl.py' $odlVersion '' $pythonPlatform '' '2' $time))
+            $rows.Add((New-Row 'odl.py' $odlVersion '' '' $pythonPlatform '' '2' $time))
             $time = Invoke-Hyperfine $hyperfine $jsonPath $runs (@($python) + $odeArgs) $pythonEnv1
-            $rows.Add((New-Row 'OneDriveExplorer (parser API)' $odeVersion '' $pythonPlatform '' '1' $time))
+            $rows.Add((New-Row 'OneDriveExplorer (parser API)' $odeVersion '' '' $pythonPlatform '' '1' $time))
             $note = 'OneDriveExplorer uses its parser API at Python optimization level 1; the readers may decode different numbers of messages.'
             if (-not $cstructs) { $note += ' OneDriveExplorer ran without cstructs.' }
-            Write-Section 'odl' @($odlReportInput) $rows.ToArray() $note $outputDirectory $copyDirectory
+            Write-Section 'odl' @($odlReportInput) $rows.ToArray() $note $outputDirectory $copyDirectory $testBed
         }
 
         if ('etl' -in $SelectedSections) {
             $rows = [System.Collections.Generic.List[object]]::new()
             foreach ($program in $s4Programs) {
                 $time = Invoke-Hyperfine $hyperfine $jsonPath $runs @($program.Path, $etlPath) ''
-                $rows.Add((New-Row $program.Label $program.Info.Version $program.Info.Allocator $program.Info.Platform $program.Info.CpuFeatures $program.Info.OptLevel $time))
+                $rows.Add((New-Row $program.Label $program.Info.Version $program.Info.Profile $program.Info.Allocator $program.Info.Platform $program.Info.CpuFeatures $program.Info.OptLevel $time))
             }
             $traceOutput = Join-Path $temp 'tracerpt.csv'
             $time = Invoke-Hyperfine $hyperfine $jsonPath $runs @($tracerpt, $etlPath, '-y', '-of', 'CSV', '-o', $traceOutput) ''
-            $rows.Add((New-Row 'tracerpt.exe' $tracerptVersion '' 'Windows' '' '' $time))
+            $rows.Add((New-Row 'tracerpt.exe' $tracerptVersion '' '' 'Windows' '' '' $time))
             $time = Invoke-Hyperfine $hyperfine $jsonPath $runs @($pwsh, '-NoLogo', '-NoProfile', '-NonInteractive', '-Command', $winCode) ''
-            $rows.Add((New-Row 'Get-WinEvent' $winVersion '' 'pwsh' '' '' $time))
-            Write-Section 'etl' @($etlReportInput) $rows.ToArray() 'Get-WinEvent timings include PowerShell startup.' $outputDirectory $copyDirectory
+            $rows.Add((New-Row 'Get-WinEvent' $winVersion '' '' 'pwsh' '' '' $time))
+            Write-Section 'etl' @($etlReportInput) $rows.ToArray() 'Get-WinEvent timings include PowerShell startup.' $outputDirectory $copyDirectory $testBed
         }
     }
     finally {
