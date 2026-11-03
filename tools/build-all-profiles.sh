@@ -82,12 +82,26 @@ RUSTFLAGS=-g cargo build --locked --profile valgrind &
 PIDs+=($!)
 cargo check --locked &
 PIDs+=($!)
+
+wait ${PIDs[@]}
+
+./target/valgrind/s4 --version
+
+# build-x86_64-v2, build-x86_64-v3, build-x86_64-v4
+
+PIDs=()
+
+cargo build-x86_64-v2 --release &
+PIDs+=($!)
+cargo build-x86_64-v3 --release &
+PIDs+=($!)
 cargo build-x86_64-v4 --release &
 PIDs+=($!)
 
 wait ${PIDs[@]}
 
-./target/valgrind/s4 --version
+./target/x86_64-v2/x86_64-unknown-linux-musl/release/s4 --version
+./target/x86_64-v3/x86_64-unknown-linux-musl/release/s4 --version
 ./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4 --version
 
 # release_Opt0, clippy, docs
