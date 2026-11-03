@@ -1,6 +1,6 @@
 #!/usr/bin/env pwsh
 #
-# Compare Windows EVTX, ODL, and ETL readers with hyperfine 2.
+# Compare Windows EVTX, ODL, and ETL readers using hyperfine 2.
 #
 # Usage:
 #   .\.venv\Scripts\Activate.ps1
@@ -22,6 +22,9 @@
 # through its parser API with Python optimization level 1; its CLI can exit
 # without parsing --LOGS, and Cerberus cannot run at optimization level 2.
 # Each compare-<section>.md is written in the caller's current directory.
+# Reports use project-relative input paths, including ../ for files outside
+# the project. Inputs must be on the project's volume. Multiple EVTX inputs
+# are listed with numbers matching the result-row suffixes.
 
 [CmdletBinding()]
 param(
@@ -37,6 +40,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 function Quote-CommandArgument {
+    [OutputType([string])]
     param([AllowEmptyString()][string] $Value)
 
     $quote = "'"
@@ -45,6 +49,7 @@ function Quote-CommandArgument {
 }
 
 function Write-Cmd {
+    [OutputType([System.Void])]
     param([string] $Program, [string[]] $CommandArgs)
 
     $parts = @($Program) + $CommandArgs
@@ -53,12 +58,14 @@ function Write-Cmd {
 }
 
 function Write-Notice {
+    [OutputType([System.Void])]
     param([string] $Message)
 
     [Console]::Error.WriteLine("WARNING: $Message")
 }
 
 function Invoke-Checked {
+    [OutputType([pscustomobject])]
     param(
         [string] $Program,
         [string[]] $CommandArgs = @(),
@@ -88,6 +95,7 @@ function Invoke-Checked {
 }
 
 function Require-File {
+    [OutputType([string])]
     param([string] $Path, [string] $Hint)
 
     if ([string]::IsNullOrWhiteSpace($Path) -or
@@ -97,7 +105,19 @@ function Require-File {
     return (Resolve-Path -LiteralPath $Path).ProviderPath
 }
 
+function ConvertTo-ReportInputPath {
+    [OutputType([string])]
+    param([string] $ProjectRoot, [string] $Path)
+
+    $relative = [IO.Path]::GetRelativePath($ProjectRoot, $Path)
+    if ([IO.Path]::IsPathRooted($relative)) {
+        throw "Input cannot be reported relative to the project directory (different volume): $Path"
+    }
+    return $relative.Replace('\', '/')
+}
+
 function Find-Application {
+    [OutputType([string])]
     param([string] $Name, [string] $Hint)
 
     $command = Get-Command -Name $Name -CommandType Application -ErrorAction SilentlyContinue |
@@ -109,6 +129,9 @@ function Find-Application {
 }
 
 function Get-TracerptPath {
+    [OutputType([string])]
+    param()
+
     if ([Environment]::Is64BitOperatingSystem -and -not [Environment]::Is64BitProcess) {
         $sysnative = Join-Path $env:SystemRoot 'Sysnative\tracerpt.exe'
         if (Test-Path -LiteralPath $sysnative -PathType Leaf) {
@@ -124,6 +147,7 @@ function Get-TracerptPath {
 }
 
 function Get-MatchedValue {
+    [OutputType([string])]
     param([string] $Text, [string] $Pattern)
 
     $match = [regex]::Match($Text, $Pattern)
@@ -134,18 +158,21 @@ function Get-MatchedValue {
 }
 
 function Get-VersionField {
+    [OutputType([string])]
     param([string] $Text, [string] $Name)
 
     return Get-MatchedValue $Text ("(?m)^" + [regex]::Escape($Name) + ':[ \t]*([^\r\n]*)')
 }
 
 function Get-FirstVersion {
+    [OutputType([string])]
     param([string] $Text)
 
     return Get-MatchedValue $Text '(?<!\d)(\d+(?:\.\d+)+)'
 }
 
 function Get-RustPlatform {
+    [OutputType([string])]
     param([string] $Text)
 
     $platform = Get-MatchedValue $Text '(?i)\b([a-z0-9_]+-[a-z0-9_]+-(?:windows|linux|darwin|freebsd)(?:-[a-z0-9_]+)?)\b'
@@ -156,6 +183,7 @@ function Get-RustPlatform {
 }
 
 function Get-FileVersion {
+    [OutputType([string])]
     param([string] $Path, [switch] $ProductFirst)
 
     $info = (Get-Item -LiteralPath $Path).VersionInfo
@@ -175,6 +203,7 @@ function Get-FileVersion {
 }
 
 function ConvertFrom-S4Version {
+    [OutputType([pscustomobject])]
     param([string] $Text, [string] $Path)
 
     $version = Get-VersionField $Text 'Version'
@@ -200,6 +229,7 @@ function ConvertFrom-S4Version {
 }
 
 function Get-OdlVersion {
+    [OutputType([string])]
     param([string] $Source, [string] $ImportedVersion)
 
     # A wildcard import can expose a dependency's __version__ as odl.__version__.
@@ -213,6 +243,7 @@ function Get-OdlVersion {
 }
 
 function Test-FiniteNumber {
+    [OutputType([bool])]
     param($Value)
 
     return (($Value -is [int] -or $Value -is [long] -or
@@ -221,6 +252,7 @@ function Test-FiniteNumber {
 }
 
 function ConvertFrom-HyperfineDocument {
+    [OutputType([string])]
     param($Document, [int] $Runs)
 
     try {
@@ -271,6 +303,7 @@ function ConvertFrom-HyperfineDocument {
 }
 
 function Invoke-Hyperfine {
+    [OutputType([string])]
     param(
         [string] $Hyperfine,
         [string] $JsonPath,
@@ -281,9 +314,13 @@ function Invoke-Hyperfine {
 
     $commandLine = ($Command | ForEach-Object { Quote-CommandArgument $_ }) -join ' '
     $hyperfineArgs = @(
-        '-N', '--warmup', '2', '--runs', [string] $Runs,
-        '--metrics', 'time_wall_clock:ms', '--style', 'basic',
-        '--output', 'null', '--export-json', $JsonPath
+        '-N',
+        '--warmup', '2',
+        '--runs', [string] $Runs,
+        '--metrics', 'time_wall_clock:ms',
+        '--style', 'basic',
+        '--output', 'null',
+        '--export-json', $JsonPath
     )
     if ($Environment) {
         $hyperfineArgs += @('--env', $Environment)
@@ -295,6 +332,7 @@ function Invoke-Hyperfine {
 }
 
 function New-Row {
+    [OutputType([pscustomobject])]
     param(
         [string] $Program,
         [string] $Version,
@@ -317,6 +355,7 @@ function New-Row {
 }
 
 function Format-MarkdownTable {
+    [OutputType([string])]
     param([object[]] $Rows)
 
     $columns = @('Program', 'Version', 'Allocator', 'Platform', 'CPU Features', 'Opt Level', 'Wall Clock (ms)')
@@ -367,6 +406,7 @@ function Format-MarkdownTable {
 }
 
 function Write-Section {
+    [OutputType([string])]
     param(
         [string] $Name,
         [string[]] $Inputs,
@@ -408,6 +448,7 @@ function Write-Section {
 }
 
 function Invoke-Comparison {
+    [OutputType([string])]
     param([string[]] $EvtxInputs, [string] $OdlInput, [string] $EtlInput, [string[]] $SelectedSections)
 
     if ($PSVersionTable.PSVersion.Major -lt 7 -or -not $IsWindows) {
@@ -479,6 +520,7 @@ function Invoke-Comparison {
             $EvtxInputs = @(Join-Path $projectRoot 'logs\programs\evtx\Microsoft-Windows-Kernel-PnP__Configuration.evtx')
         }
         $evtxPaths = @(foreach ($path in $EvtxInputs) { Require-File $path 'EVTX input is missing.' })
+        $evtxReportInputs = @(foreach ($path in $evtxPaths) { ConvertTo-ReportInputPath $projectRoot $path })
         $rustEvtx = $env:PROGRAM_EVTX_DUMP
         if (-not $rustEvtx) {
             $cargoEvtx = Join-Path $HOME '.cargo\bin\evtx_dump.exe'
@@ -501,6 +543,7 @@ function Invoke-Comparison {
             $OdlInput = Join-Path $projectRoot 'logs\programs\OneDrive\Local\Microsoft\OneDrive\logs\Personal\SyncEngine-2025-12-21.1217.11144.2.odl'
         }
         $odlPath = Require-File $OdlInput 'ODL input is missing.'
+        $odlReportInput = ConvertTo-ReportInputPath $projectRoot $odlPath
         $keyPath = Require-File (Join-Path (Split-Path -Parent $odlPath) 'general.keystore') 'The ODL input needs its adjacent general.keystore.'
     }
     if ('etl' -in $SelectedSections) {
@@ -508,6 +551,7 @@ function Invoke-Comparison {
             $EtlInput = Join-Path $projectRoot 'logs\programs\Event_Trace_Log\PITR\PointInTimeRestore.etl'
         }
         $etlPath = Require-File $EtlInput 'ETL input is missing.'
+        $etlReportInput = ConvertTo-ReportInputPath $projectRoot $etlPath
         $tracerpt = Get-TracerptPath
         $pwsh = (Get-Process -Id $PID).Path
         if ([IO.Path]::GetFileName($pwsh) -ine 'pwsh.exe') {
@@ -718,7 +762,7 @@ function Invoke-Comparison {
                 $time = Invoke-Hyperfine $hyperfine $jsonPath $runs $evtxECmdArgs ''
                 $rows.Add((New-Row ("EvtxECmd" + $suffix) $evtxECmdVersion '' '.NET' '' '' $time))
             }
-            Write-Section 'evtx' $evtxPaths $rows.ToArray() '' $outputDirectory $copyDirectory
+            Write-Section 'evtx' $evtxReportInputs $rows.ToArray() '' $outputDirectory $copyDirectory
         }
 
         if ('odl' -in $SelectedSections) {
@@ -734,7 +778,7 @@ function Invoke-Comparison {
             $rows.Add((New-Row 'OneDriveExplorer (parser API)' $odeVersion '' $pythonPlatform '' '1' $time))
             $note = 'OneDriveExplorer uses its parser API at Python optimization level 1; the readers may decode different numbers of messages.'
             if (-not $cstructs) { $note += ' OneDriveExplorer ran without cstructs.' }
-            Write-Section 'odl' @($odlPath) $rows.ToArray() $note $outputDirectory $copyDirectory
+            Write-Section 'odl' @($odlReportInput) $rows.ToArray() $note $outputDirectory $copyDirectory
         }
 
         if ('etl' -in $SelectedSections) {
@@ -748,7 +792,7 @@ function Invoke-Comparison {
             $rows.Add((New-Row 'tracerpt.exe' $tracerptVersion '' 'Windows' '' '' $time))
             $time = Invoke-Hyperfine $hyperfine $jsonPath $runs @($pwsh, '-NoLogo', '-NoProfile', '-NonInteractive', '-Command', $winCode) ''
             $rows.Add((New-Row 'Get-WinEvent' $winVersion '' 'pwsh' '' '' $time))
-            Write-Section 'etl' @($etlPath) $rows.ToArray() 'Get-WinEvent timings include PowerShell startup.' $outputDirectory $copyDirectory
+            Write-Section 'etl' @($etlReportInput) $rows.ToArray() 'Get-WinEvent timings include PowerShell startup.' $outputDirectory $copyDirectory
         }
     }
     finally {
