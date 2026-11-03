@@ -1528,6 +1528,9 @@
 ./logs/programs/utmp/host-entry6.wtmp.xz|Feb 24 08:53:06 2023
 ./logs/programs/utmp/host-entry6.wtmp.zip|Feb 24 08:53:16 2023
 ./logs/programs/utmp/host-entry6.wtmp|Feb 24 08:52:26 2023
+./logs/programs/WindowsCabinet/CbsPersist_20260818213237.cab|2026-08-18 14:21:53.183533700 -0700
+./logs/programs/WindowsCabinet/DesktopTargetCompDB_BaseBuild.xml.cab|2026-09-12 19:55:42 -0700
+./logs/programs/WindowsCabinet/f7b25543b47329ef932ad391c72c4ab7.cab|2026-06-26 14:17:02.137638400 -0700
 ./logs/RancherOS-1.5.8/boot/autologin|2022-10-10T20:23:36 -00:00
 ./logs/RancherOS-1.5.8/boot/cloud-init-save.log|2022-10-10T20:23:26 -00:00
 ./logs/RancherOS-1.5.8/boot/cloud-init.save.log|2022-10-10T20:23:34Z
