@@ -2,7 +2,7 @@
 
 use std::env;
 use std::fs;
-use std::io::Write;
+use std::io::ErrorKind;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -30,6 +30,7 @@ const CONFIG_REGEX: &str = "regex";
 pub const DATETIME_PARSE_DATAS_LEN: usize = 188;
 
 pub const PATH_FILE_TIMESTAMP: &str = "timestamp.txt";
+const PATH_FILE_BUILD_TIME: &str = "build_time.rs";
 /// set this env. var. to override the timestamp value; allows for idempotent builds
 pub const ENV_BUILD_TIMESTAMP: &str = "S4_BUILD_TIMESTAMP";
 pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";
@@ -182,51 +183,64 @@ fn out_path() -> PathBuf {
     out_path_
 }
 
-/// Write current datetime to a file as a string for `include!`.
-/// Ripped from <https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html>
-fn write_timestamp_file() {
-    let mut out_path = out_path();
-    out_path.push(PATH_FILE_TIMESTAMP);
-    let mut fhandle = fs::File::create(&out_path)
-        .unwrap_or_else(|e| panic!("write_timestamp_file failed to create file {out_path:?}: {e:?}"));
-    if let Ok(val) = std::env::var(ENV_BUILD_TIMESTAMP) {
-        info!("Environment variable {ENV_BUILD_TIMESTAMP}={val:?}; write to file {out_path:?}");
-        write!(fhandle, "{val:?}").expect("write failed for timestamp file");
-        return;
+/// Preserve mtimes when generated metadata has not changed.
+fn write_metadata_file(filename: &str, contents: &str) {
+    let path = out_path().join(filename);
+    match fs::read_to_string(&path) {
+        Ok(previous) if previous == contents => return,
+        Ok(_) => {},
+        Err(e) if e.kind() == ErrorKind::NotFound => {},
+        Err(e) => panic!("Failed to read build metadata file {path:?}: {e:?}"),
     }
-    let local_now = chrono::Local::now();
-    let now_s: String = local_now.format("%Y-%m-%dT%H:%M:%S").to_string();
-    write!(fhandle, "{now_s:?}").expect("write failed for timestamp file");
-    info!("Wrote timestamp {now_s:?} to file {out_path:?}");
+    fs::write(&path, contents)
+        .unwrap_or_else(|e| panic!("Failed to write build metadata file {path:?}: {e:?}"));
+    info!("Wrote metadata {contents} to file {path:?}");
+}
+
+/// Keep the embedded snapshot separate from the untracked timestamp file.
+fn write_timestamp_file() {
+    let timestamp = env::var(ENV_BUILD_TIMESTAMP)
+        .unwrap_or_else(|_| chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string());
+    let contents = format!("{timestamp:?}");
+    write_metadata_file(PATH_FILE_TIMESTAMP, &contents);
+    write_metadata_file(PATH_FILE_BUILD_TIME, &contents);
+    build_println!("cargo::rerun-if-env-changed={ENV_BUILD_TIMESTAMP}");
 }
 
 /// Write rustc version to a file as a string for `include!`.
 fn write_rustc_version_file() {
-    let mut out_path = out_path();
-    out_path.push(PATH_FILE_RUSTC_VERSION);
-    let mut fhandle = fs::File::create(&out_path)
-        .unwrap_or_else(|e| panic!("write_rustc_version_file failed to create file {out_path:?}: {e:?}"));
     let rustc_version_str: String = rustc_version_runtime::version().to_string();
-    write!(fhandle, r#""{rustc_version_str}""#).expect("write failed for rustc_version file");
-    info!("Wrote rustc version {rustc_version_str:?} to file {out_path:?}");
+    write_metadata_file(PATH_FILE_RUSTC_VERSION, &format!("{rustc_version_str:?}"));
 }
 
 fn write_opt_level() {
-    let mut out_path = out_path();
-    out_path.push(PATH_FILE_OPT_LEVEL);
-    let mut fhandle = fs::File::create(&out_path)
-        .unwrap_or_else(|e| panic!("write_opt_level failed to create file {out_path:?}: {e:?}"));
     let opt_level: String = env::var("OPT_LEVEL").expect("OPT_LEVEL not set; this should be set by cargo. Something is very wrong");
-    write!(fhandle, "{opt_level:?}").expect("write failed for opt_level file");
-    info!("Wrote opt level {opt_level:?} to file {out_path:?}");
+    write_metadata_file(PATH_FILE_OPT_LEVEL, &format!("{opt_level:?}"));
+}
+
+/// Git resolves these paths for both normal repositories and linked worktrees.
+fn track_git_metadata() {
+    match Command::new("git")
+        .args(["rev-parse", "--git-path", "HEAD", "--git-path", "refs", "--git-path", "packed-refs"])
+        .output()
+    {
+        Ok(output) if output.status.success() => {
+            let paths = String::from_utf8(output.stdout).expect("Git metadata paths are not valid UTF-8");
+            for path in paths.lines() {
+                // Missing watched paths would make Cargo rebuild on every invocation.
+                if PathBuf::from(path).exists() {
+                    build_println!("cargo::rerun-if-changed={path}");
+                }
+            }
+        }
+        Ok(output) => warn!("command 'git rev-parse --git-path' exited with {:?};\n{}",
+            output.status, String::from_utf8_lossy(&output.stderr)),
+        Err(err) => warn!("command 'git rev-parse --git-path' failed: {err:?}"),
+    }
 }
 
 /// Write git commit hash to a file as a string for `include!`.
 fn write_git_commit_file() {
-    let mut out_path = out_path();
-    out_path.push(PATH_FILE_GIT_COMMIT);
-    let mut fhandle = fs::File::create(&out_path)
-        .unwrap_or_else(|e| panic!("write_git_commit_file failed to create file {out_path:?}: {e:?}"));
     let not_available: String = "Not Available".to_string();
 
     // Save the full commit hash when available, otherwise a sentinel value.
@@ -234,9 +248,10 @@ fn write_git_commit_file() {
         .args(["rev-parse", "HEAD"])
         .output()
     {
-        Ok(output) if output.status.success() => String::from_utf8_lossy(&output.stdout)
-            .trim()
-            .to_string(),
+        Ok(output) if output.status.success() => {
+            track_git_metadata();
+            String::from_utf8_lossy(&output.stdout).trim().to_string()
+        },
         Ok(output) => {
             warn!("command 'git rev-parse HEAD' exited with {:?};\n{}",
                 output.status, String::from_utf8_lossy(&output.stderr));
@@ -250,13 +265,12 @@ fn write_git_commit_file() {
         }
     };
 
-    if git_commit_str.is_empty() {
-        write!(fhandle, r#""{not_available}""#).expect("write failed for git_commit file");
-        info!("Git commit hash not available; wrote sentinel value to file {out_path:?}");
+    let git_commit = if git_commit_str.is_empty() {
+        not_available
     } else {
-        write!(fhandle, r#""{git_commit_str}""#).expect("write failed for git_commit file");
-        info!("Wrote git commit hash {git_commit_str:?} to file {out_path:?}");
-    }
+        git_commit_str
+    };
+    write_metadata_file(PATH_FILE_GIT_COMMIT, &format!("{git_commit:?}"));
 }
 
 /// Write build `--features` to a file as a string for `include!`.
@@ -264,19 +278,12 @@ fn write_features_file() {
     let features: Vec<String> = list_features::list_enabled();
     let features_str = format!("\"{}\"", features.join(", "));
 
-    let list_features_txt = out_path().join("list_features.txt");
-    std::fs::write(&list_features_txt, &features_str).unwrap();
-    info!("Wrote enabled features {features_str} to file {list_features_txt:?}");
+    write_metadata_file("list_features.txt", &features_str);
 }
 
 fn write_cpu_features_file() {
-    let mut out_path = out_path();
-    out_path.push("list_cpu_features.txt");
-    let mut fhandle = fs::File::create(&out_path)
-        .unwrap_or_else(|e| panic!("write_cpu_features_file failed to create file {out_path:?}: {e:?}"));
     let cpu_features: String = std::env::var("CARGO_CFG_TARGET_FEATURE").unwrap_or_default();
-    write!(fhandle, "{cpu_features:?}").expect("write failed for cpu_features file");
-    info!("Wrote CPU features {cpu_features:?} to file {out_path:?}");
+    write_metadata_file("list_cpu_features.txt", &format!("{cpu_features:?}"));
 }
 
 /// Return the *specific* target CPU as indicated by the
@@ -315,13 +322,10 @@ fn cpu_target_from_rustflags(encoded_flags: &str) -> &str {
 
 /// Record the requested CPU name, not an inferred instruction-set compatibility level.
 fn write_cpu_target_file() {
-    let out_path = out_path().join(PATH_FILE_CPU_TARGET);
     let encoded_flags = env::var("CARGO_ENCODED_RUSTFLAGS")
         .expect("CARGO_ENCODED_RUSTFLAGS not set or not valid Unicode");
     let cpu_target = cpu_target_from_rustflags(&encoded_flags);
-    fs::write(&out_path, format!("{cpu_target:?}"))
-        .unwrap_or_else(|e| panic!("write_cpu_target_file failed to write file {out_path:?}: {e:?}"));
-    info!("Wrote CPU target {cpu_target:?} to file {out_path:?}");
+    write_metadata_file(PATH_FILE_CPU_TARGET, &format!("{cpu_target:?}"));
 }
 
 /// Write build profile name to a file as a string for `include!`.
@@ -338,12 +342,7 @@ fn write_profile_file() {
             .to_string()
     }
     let profile_name = get_build_profile_name();
-    let mut out_path = out_path();
-    out_path.push(PATH_FILE_PROFILE_NAME);
-    let mut fhandle = fs::File::create(&out_path)
-        .unwrap_or_else(|e| panic!("write_profile_file failed to create file {out_path:?}: {e:?}"));
-    write!(fhandle, r#"r"{profile_name}""#).expect("write failed for profile_name file");
-    info!("Wrote build profile \"{profile_name}\" to file {out_path:?}");
+    write_metadata_file(PATH_FILE_PROFILE_NAME, &format!("{profile_name:?}"));
 }
 
 /// Set the Windows file properties for the exectuable.
@@ -417,6 +416,7 @@ fn windows_exe_info_create() {
 /// Check for a `.env` file and load it if found; print loaded values if `info_enabled()`.
 fn dotenv_load() {
     if let Ok(path) = dotenvy::dotenv() {
+        build_println!("cargo::rerun-if-changed={}", path.display());
         info!("dotenv found .env {path:?}");
         // print what was loaded
         for item in dotenvy::dotenv_iter().unwrap() {

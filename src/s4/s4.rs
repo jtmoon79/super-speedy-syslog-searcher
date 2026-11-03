@@ -305,10 +305,9 @@ use crate::alloc_tracker;
 
 // build.rs generated data
 
-/// File with the build time.
+/// Snapshot of the build time.
 /// Created by `build.rs`. Path must match that in `build.rs`.
-/// ripped from <https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html>
-const BUILD_TIME: &str = include!(concat!(env!("OUT_DIR"), "/", "timestamp.txt"));
+const BUILD_TIME: &str = include!(concat!(env!("OUT_DIR"), "/", "build_time.rs"));
 /// File with the Rust compiler version.
 /// Created by `build.rs`. Path must match that in `build.rs`.
 const RUSTC_VERSION: &str = include!(concat!(env!("OUT_DIR"), "/", "rustc_version.txt"));
