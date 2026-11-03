@@ -74,28 +74,17 @@ wait ${PIDs[@]}
 ./target/alloc_tracker/s4 --version
 ./target/flamegraph/s4 --version
 
-# valgrind, check, build-x86_64-v4
+# x86_64 x86_64-v2, x86_64-v3, x86_64-v4 *-unknown-linux-musl
 
 PIDs=()
 
-RUSTFLAGS=-g cargo build --locked --profile valgrind &
+cargo build-x86_64-v2 --locked --release &
 PIDs+=($!)
-cargo check --locked &
+cargo build-x86_64-v3 --locked --release &
 PIDs+=($!)
-
-wait ${PIDs[@]}
-
-./target/valgrind/s4 --version
-
-# build-x86_64-v2, build-x86_64-v3, build-x86_64-v4
-
-PIDs=()
-
-cargo build-x86_64-v2 --release &
+cargo build-x86_64-v4 --locked --release &
 PIDs+=($!)
-cargo build-x86_64-v3 --release &
-PIDs+=($!)
-cargo build-x86_64-v4 --release &
+cargo build --locked --release --target x86_64-unknown-linux-musl &
 PIDs+=($!)
 
 wait ${PIDs[@]}
@@ -103,6 +92,7 @@ wait ${PIDs[@]}
 ./target/x86_64-v2/x86_64-unknown-linux-musl/release/s4 --version
 ./target/x86_64-v3/x86_64-unknown-linux-musl/release/s4 --version
 ./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4 --version
+./target/x86_64-unknown-linux-musl/release/s4 --version
 
 # release_Opt0, clippy, docs
 
@@ -118,6 +108,19 @@ PIDs+=($!)
 wait ${PIDs[@]}
 
 ./target/release_Opt0/s4 --version
+
+# valgrind, check
+
+PIDs=()
+
+RUSTFLAGS=-g cargo build --locked --profile valgrind &
+PIDs+=($!)
+cargo check --locked &
+PIDs+=($!)
+
+wait ${PIDs[@]}
+
+./target/valgrind/s4 --version
 
 # release_O0_cgu1, release_O0_cgu512_pa
 
