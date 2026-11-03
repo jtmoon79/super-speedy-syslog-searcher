@@ -36,6 +36,25 @@ if ! [[ "${VIRTUAL_ENV-}" ]]; then
     exit 1
 fi
 
+# print CPU model name
+function print_cpu_model () {
+    grep -m1 -Fe 'model name' /proc/cpuinfo | cut -f2 -d':' | sed -Ee 's/^[[:space:]]+//'
+}
+
+# print CPU core count
+function print_cpu_cores() {
+    grep -c -Fe 'processor' /proc/cpuinfo
+}
+
+# print RAM total size in GB
+function print_ram_total() {
+    grep -m1 -Fe 'MemTotal' /proc/meminfo \
+    | cut -f2 -d':' \
+    | sed -Ee 's/^[[:space:]]+//' \
+    | cut -f1 -d' ' \
+    | awk '{print int($1 / 1024 / 1024)}'
+}
+
 skip_tl=false
 if [[ ${#} -ge 1 ]]; then
     if [[ "${1-}" = '--skip-tl' ]]; then
@@ -861,6 +880,18 @@ done < "${json_files}"
 
 # create nicely spaced markdown table
 cat "${tmpOut}" | column -t -s '|' -o '|' > "${mdfinal}"
+
+CpuModel=$(print_cpu_model)
+CpuCores=$(print_cpu_cores)
+RamTotal=$(print_ram_total)
+echo "
+
+CPU Model: ${CpuModel}
+
+CPU Cores: ${CpuCores}
+
+RAM Total (GB): ${RamTotal}
+" >> "${mdfinal}"
 
 mdFinalFinal=${mdfinal}
 if [[ "${DIROUT-}" ]]; then
