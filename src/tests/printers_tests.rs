@@ -627,15 +627,15 @@ fn test_PrinterLogMessage_print_fixedstruct(
     assert_eq!(printed_flushed, expected_flushed, "Expected {} flushed, got {}", expected_flushed, printed_flushed,);
 }
 
-#[test_case(CCA, CLR, None, None, None, 321782, 1589; "a")]
-#[test_case(CCU, CLR, None, None, None, 321782, 1589; "b")]
-#[test_case(CCN, CLR, None, None, None, 321782, 227; "c")]
-#[test_case(CCA, CLR, Some(FILEU), None, None, 388782, 34409; "d")]
-#[test_case(CCU, CLR, None, Some(DATE), None, 447407, 34409; "e")]
-#[test_case(CCN, CLR, None, None, Some(FO_P8), 321782, 227; "f")]
-#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None, 514407, 34409; "g")]
-#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(FO_P8), 514407, 34409; "h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(FO_P8), 447407, 339; "i")]
+#[test_case(CCA, CLR, None, None, None, 304297, 1589; "a")]
+#[test_case(CCU, CLR, None, None, None, 304297, 1589; "b")]
+#[test_case(CCN, CLR, None, None, None, 304297, 227; "c")]
+#[test_case(CCA, CLR, Some(FILEU), None, None, 362217, 29869; "d")]
+#[test_case(CCU, CLR, None, Some(DATE), None, 412897, 29869; "e")]
+#[test_case(CCN, CLR, None, None, Some(FO_P8), 304297, 227; "f")]
+#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None, 470817, 29869; "g")]
+#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(FO_P8), 470817, 29869; "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(FO_P8), 412897, 305; "i")]
 fn test_PrinterLogMessage_print_evtx(
     colorchoice: ColorChoice,
     color: Color,
