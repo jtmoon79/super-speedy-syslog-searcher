@@ -19,7 +19,7 @@
 set -eu
 
 # enable tracing
-if [ -z "${S4_EASY_INSTALL_DEBUG-}" ]; then
+if [ ! -z "${S4_EASY_INSTALL_DEBUG-}" ]; then
     set -x
 fi
 
