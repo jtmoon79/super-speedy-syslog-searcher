@@ -1262,14 +1262,14 @@ fn print_file_about(
     if let Ok(pathb) = std::fs::canonicalize(path1) {
         if let Some(s) = pathb.to_str() {
             if s != path.as_str() {
-                eprintln!("{}real path     : {}", OPT_SUMMARY_PRINT_INDENT2, s);
+                eprintln!("{}Resolved Path : {}", OPT_SUMMARY_PRINT_INDENT2, s);
             }
         }
     } else {
         de_err!("Unable to canonicalize path {:?}", path1);
     }
     if !subpath.is_empty() {
-        eprintln!("{}Subpath     : {}", OPT_SUMMARY_PRINT_INDENT2, subpath);
+        eprintln!("{}Subpath       : {}", OPT_SUMMARY_PRINT_INDENT2, subpath);
     }
     if let Some(summary) = summary_opt {
         if let Some(path_ntf) = &summary.path_ntf {

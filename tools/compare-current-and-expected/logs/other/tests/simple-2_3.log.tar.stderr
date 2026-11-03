@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
   About:
-      Subpath     : simple-2.log
+      Subpath       : simple-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
       Processing Err: file too small
@@ -43,7 +43,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
 
 File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
   About:
-      Subpath     : simple-3.log
+      Subpath       : simple-3.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
       Processing Err: file too small

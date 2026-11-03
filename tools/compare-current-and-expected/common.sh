@@ -88,6 +88,7 @@ function stderr_clean () {
         -e '/^[ ]+Python script arguments[ ]*:.*$/d' \
         -e '/^[ ]+realpath .*$/d' \
         -e '/^[ ]+real path .*$/d' \
+        -e '/^[ ]+Resolved Path .*$/d' \
         -e '/^[ ]+[Tt]emporary path[ ]*:.*$/d' \
         -e '/^[ ]+streaming: .*$/d' \
         -e '/^[ ]+caching: BlockReader::read_block.*$/d' \

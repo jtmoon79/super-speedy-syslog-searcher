@@ -2494,7 +2494,7 @@ File: ./logs/Debian9/user.log.1.zst
 
 File: ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1
   About:
-      Subpath     : ./logs/Debian9/user.log.1
+      Subpath       : ./logs/Debian9/user.log.1
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -2539,7 +2539,7 @@ File: ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1
 
 File: ./logs/Debian9/user.log.zip|logs/Debian9/user.log.1
   About:
-      Subpath     : logs/Debian9/user.log.1
+      Subpath       : logs/Debian9/user.log.1
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -4496,7 +4496,7 @@ File: ./logs/other/tests/dt-mix1.log
 
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log
   About:
-      Subpath     : ./logs/other/tests/dtf11-A.log
+      Subpath       : ./logs/other/tests/dtf11-A.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -4540,7 +4540,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
 
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.log
   About:
-      Subpath     : ./logs/other/tests/dtf13a.log
+      Subpath       : ./logs/other/tests/dtf13a.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -4584,7 +4584,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
 
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.log
   About:
-      Subpath     : ./logs/other/tests/dtf13b.log
+      Subpath       : ./logs/other/tests/dtf13b.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -4628,7 +4628,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
 
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.log
   About:
-      Subpath     : ./logs/other/tests/dtf13c.log
+      Subpath       : ./logs/other/tests/dtf13c.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -4672,7 +4672,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
 
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.log
   About:
-      Subpath     : ./logs/other/tests/dtf13d.log
+      Subpath       : ./logs/other/tests/dtf13d.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -5518,7 +5518,7 @@ File: ./logs/other/tests/dtf16e.log
 
 File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
   About:
-      Subpath     : dtf2-2.log
+      Subpath       : dtf2-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -5859,7 +5859,7 @@ File: ./logs/other/tests/dtf2-2.log.lz4
 
 File: ./logs/other/tests/dtf2-2.log.tar|dtf2-2.log
   About:
-      Subpath     : dtf2-2.log
+      Subpath       : dtf2-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -6029,7 +6029,7 @@ File: ./logs/other/tests/dtf2-2.lz4
 
 File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
   About:
-      Subpath     : dtf2-2.log
+      Subpath       : dtf2-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -6663,7 +6663,7 @@ File: ./logs/other/tests/dtf5-3-r-n.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-16BE_BOM.log
+      Subpath       : dtf5-6b.UTF-16BE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -6707,7 +6707,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log
   About:
-      Subpath     : dtf5-6b.UTF-16BE.log
+      Subpath       : dtf5-6b.UTF-16BE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -6751,7 +6751,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16BE.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-16LE_BOM.log
+      Subpath       : dtf5-6b.UTF-16LE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -6795,7 +6795,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log
   About:
-      Subpath     : dtf5-6b.UTF-16LE.log
+      Subpath       : dtf5-6b.UTF-16LE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -6839,7 +6839,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-16LE.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-32BE_BOM.log
+      Subpath       : dtf5-6b.UTF-32BE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -6883,7 +6883,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log
   About:
-      Subpath     : dtf5-6b.UTF-32BE.log
+      Subpath       : dtf5-6b.UTF-32BE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -6927,7 +6927,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32BE.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-32LE_BOM.log
+      Subpath       : dtf5-6b.UTF-32LE_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -6971,7 +6971,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log
   About:
-      Subpath     : dtf5-6b.UTF-32LE.log
+      Subpath       : dtf5-6b.UTF-32LE.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7015,7 +7015,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-32LE.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-8_BOM.log
+      Subpath       : dtf5-6b.UTF-8_BOM.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7059,7 +7059,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8_BOM.log
 
 File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log
   About:
-      Subpath     : dtf5-6b.UTF-8.log
+      Subpath       : dtf5-6b.UTF-8.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7103,7 +7103,7 @@ File: ./logs/other/tests/dtf5.tar|dtf5-6b.UTF-8.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.log
   About:
-      Subpath     : dtf5-6b.log
+      Subpath       : dtf5-6b.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7147,7 +7147,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6a.log
   About:
-      Subpath     : dtf5-6a.log
+      Subpath       : dtf5-6a.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7191,7 +7191,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6a.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-2a.log
   About:
-      Subpath     : dtf5-2a.log
+      Subpath       : dtf5-2a.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7235,7 +7235,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-2a.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6c.log
   About:
-      Subpath     : dtf5-6c.log
+      Subpath       : dtf5-6c.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7279,7 +7279,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6c.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-16BE_BOM.log
+      Subpath       : dtf5-6b.UTF-16BE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7323,7 +7323,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE_BOM.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log
   About:
-      Subpath     : dtf5-6b.UTF-16BE.log
+      Subpath       : dtf5-6b.UTF-16BE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7367,7 +7367,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16BE.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-16LE_BOM.log
+      Subpath       : dtf5-6b.UTF-16LE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7411,7 +7411,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE_BOM.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log
   About:
-      Subpath     : dtf5-6b.UTF-16LE.log
+      Subpath       : dtf5-6b.UTF-16LE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7455,7 +7455,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-16LE.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-32BE_BOM.log
+      Subpath       : dtf5-6b.UTF-32BE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7499,7 +7499,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE_BOM.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log
   About:
-      Subpath     : dtf5-6b.UTF-32BE.log
+      Subpath       : dtf5-6b.UTF-32BE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7543,7 +7543,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32BE.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-32LE_BOM.log
+      Subpath       : dtf5-6b.UTF-32LE_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7587,7 +7587,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE_BOM.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log
   About:
-      Subpath     : dtf5-6b.UTF-32LE.log
+      Subpath       : dtf5-6b.UTF-32LE.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7631,7 +7631,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-32LE.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log
   About:
-      Subpath     : dtf5-6b.UTF-8_BOM.log
+      Subpath       : dtf5-6b.UTF-8_BOM.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -7675,7 +7675,7 @@ File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8_BOM.log
 
 File: ./logs/other/tests/dtf5.zip|dtf5-6b.UTF-8.log
   About:
-      Subpath     : dtf5-6b.UTF-8.log
+      Subpath       : dtf5-6b.UTF-8.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -8861,7 +8861,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).7z
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -8905,7 +8905,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -8949,7 +8949,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-5-LEVELS.log
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -8993,7 +8993,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns)
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9037,7 +9037,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns)
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9081,7 +9081,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zi
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9125,7 +9125,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zi
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9169,7 +9169,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-20-LEVELS.lo
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9213,7 +9213,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|dtf7-5-LEVELS.log
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9257,7 +9257,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-20-LEVELS.
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9301,7 +9301,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|dtf7-5-LEVELS.l
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9345,7 +9345,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9389,7 +9389,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9433,7 +9433,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9477,7 +9477,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9521,7 +9521,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9605,7 +9605,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9649,7 +9649,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-20-LEVELS.log
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9773,7 +9773,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9).7z
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9817,7 +9817,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9861,7 +9861,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9905,7 +9905,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9949,7 +9949,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -9993,7 +9993,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -10077,7 +10077,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -10121,7 +10121,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-20-LEVELS.log
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -10418,7 +10418,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVELS.log
   About:
-      Subpath     : ./logs/other/tests/dtf7-20-LEVELS.log
+      Subpath       : ./logs/other/tests/dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -10709,7 +10709,7 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
 
 File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
   About:
-      Subpath     : dtf9c-12x2.log
+      Subpath       : dtf9c-12x2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -11014,7 +11014,7 @@ File: ./logs/other/tests/empty.log.bz2
 
 File: ./logs/other/tests/gen-100-10.tar|gen-100-10-skullcrossbones.log
   About:
-      Subpath     : gen-100-10-skullcrossbones.log
+      Subpath       : gen-100-10-skullcrossbones.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
@@ -11849,7 +11849,7 @@ File: ./logs/other/tests/simple-16.log
 
 File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
   About:
-      Subpath     : simple-2.log
+      Subpath       : simple-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
       Processing Err: file too small
@@ -11889,7 +11889,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
 
 File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
   About:
-      Subpath     : simple-3.log
+      Subpath       : simple-3.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
       Processing Err: file too small
@@ -12508,11 +12508,11 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
       FileType      : EVTX (Windows XML EventLog)
       LogMessageType: EVTX entry (Windows XML EventLog)
   Printed:
-      Bytes         : 2231282
-      Flushes       : 1245
+      Bytes         : 1955017
+      Flushes       : 1018
       Events        : 227
-      Event Largest Processed: 1778 (bytes)
-      Event Largest Accepted : 1778 (bytes)
+      Event Largest Processed: 1701 (bytes)
+      Event Largest Accepted : 1701 (bytes)
       Datetime First: 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime Last : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
   Processed:
@@ -12529,11 +12529,11 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
       FileType      : EVTX (GZIP) (Windows XML EventLog)
       LogMessageType: EVTX entry (Windows XML EventLog)
   Printed:
-      Bytes         : 2231282
-      Flushes       : 1245
+      Bytes         : 1955017
+      Flushes       : 1018
       Events        : 227
-      Event Largest Processed: 1778 (bytes)
-      Event Largest Accepted : 1778 (bytes)
+      Event Largest Processed: 1701 (bytes)
+      Event Largest Accepted : 1701 (bytes)
       Datetime First: 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime Last : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
   Processed:
@@ -12547,15 +12547,15 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
-      Subpath     : Microsoft-Windows-Kernel-PnP__Configuration.evtx
+      Subpath       : Microsoft-Windows-Kernel-PnP__Configuration.evtx
       FileType      : EVTX (TAR) (Windows XML EventLog)
       LogMessageType: EVTX entry (Windows XML EventLog)
   Printed:
-      Bytes         : 2231282
-      Flushes       : 1245
+      Bytes         : 1955017
+      Flushes       : 1018
       Events        : 227
-      Event Largest Processed: 1778 (bytes)
-      Event Largest Accepted : 1778 (bytes)
+      Event Largest Processed: 1701 (bytes)
+      Event Largest Accepted : 1701 (bytes)
       Datetime First: 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime Last : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
   Processed:
@@ -12611,7 +12611,7 @@ File: ./logs/programs/flask/server.log
 
 File: ./logs/programs/journal/all.zip|logs/programs/journal/Ubuntu22-user-1000.journal
   About:
-      Subpath     : logs/programs/journal/Ubuntu22-user-1000.journal
+      Subpath       : logs/programs/journal/Ubuntu22-user-1000.journal
       FileType      : JOURNAL (ZIP) (systemd Journal)
       LogMessageType: systemd journal entry
   Printed:
@@ -12738,7 +12738,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.journal
   About:
-      Subpath     : Ubuntu22-user-1000x3.journal
+      Subpath       : Ubuntu22-user-1000x3.journal
       FileType      : JOURNAL (TAR) (systemd Journal)
       LogMessageType: systemd journal entry
   Printed:
@@ -12760,7 +12760,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.jour
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|FeedbackHub/SubmissionPayload.json
   About:
-      Subpath     : FeedbackHub/SubmissionPayload.json
+      Subpath       : FeedbackHub/SubmissionPayload.json
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
       Processing Err: no syslog lines found in file
@@ -12802,7 +12802,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|FeedbackHub/Sub
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleusTelemetryCache.otc
   About:
-      Subpath     : microsoftNucleusTelemetryCache.otc
+      Subpath       : microsoftNucleusTelemetryCache.otc
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
       Processing Err: no syslog lines found in file
@@ -12842,7 +12842,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|microsoftNucleu
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-09-15.2333.24940.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-09-15.2333.24940.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-09-15.2333.24940.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -12870,7 +12870,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-09-24.0253.5716.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-09-24.0253.5716.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-09-24.0253.5716.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -12898,7 +12898,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-09-24.0347.38964.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-09-24.0347.38964.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-09-24.0347.38964.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -12926,7 +12926,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-09-24.1754.26324.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-09-24.1754.26324.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-09-24.1754.26324.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -12954,7 +12954,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-09-29.1702.24824.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-09-29.1702.24824.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-09-29.1702.24824.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -12982,7 +12982,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-09-29.1711.19032.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-09-29.1711.19032.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-09-29.1711.19032.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -13010,7 +13010,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-09-29.1716.24660.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-09-29.1716.24660.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-09-29.1716.24660.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -13038,7 +13038,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-09-30.2012.26512.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-09-30.2012.26512.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-09-30.2012.26512.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -13066,7 +13066,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-09-30.2356.5684.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-09-30.2356.5684.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-09-30.2356.5684.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -13094,7 +13094,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-10-04.0014.22988.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-10-04.0014.22988.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-10-04.0014.22988.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -13122,7 +13122,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-10-08.1128.35340.1.odl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-10-08.1128.35340.1.odl
+      Subpath       : NucleusUnAuthenticated-2026-10-08.1128.35340.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -13150,7 +13150,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
 
 File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthenticated-2026-10-10.1343.8720.1.aodl
   About:
-      Subpath     : NucleusUnAuthenticated-2026-10-10.1343.8720.1.aodl
+      Subpath       : NucleusUnAuthenticated-2026-10-10.1343.8720.1.aodl
       FileType      : AODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -13323,7 +13323,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.zip|logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
   About:
-      Subpath     : logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
+      Subpath       : logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
   Printed:
@@ -13670,7 +13670,7 @@ File: ./logs/programs/utmp/host-entry1.wtmp
 
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
   About:
-      Subpath     : host-entry6.wtmp
+      Subpath       : host-entry6.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
@@ -13679,7 +13679,7 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
 
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
   About:
-      Subpath     : host-entry1.wtmp
+      Subpath       : host-entry1.wtmp
       FileType      : UTMP/WTMP (TAR) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
@@ -13757,7 +13757,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
 
 File: ./logs/programs/utmp/host-entry6.wtmp.zip|host-entry6.wtmp
   About:
-      Subpath     : host-entry6.wtmp
+      Subpath       : host-entry6.wtmp
       FileType      : UTMP/WTMP (ZIP) (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       FixedStructTyp: Utmp
       LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
@@ -26737,8 +26737,8 @@ Paths considered       : 711
 Paths not processed    : 40
 Files processed        : 671
 Files printed          : 583
-Printed bytes          : 17270609
-Printed flushes        : 39710
+Printed bytes          : 16441814
+Printed flushes        : 39029
 Printed Lines          : 18087
 Printed Syslines       : 13942
 Printed ASL events     : 10
@@ -26752,8 +26752,8 @@ Line longest                   : 6021
 Sysline longest                : 14453
 ETL event largest processed    : 742
 ETL event largest accepted     : 742
-EVTX event largest processed   : 1778
-EVTX event largest accepted    : 1778
+EVTX event largest processed   : 1701
+EVTX event largest accepted    : 1701
 Journal event largest processed: 1321
 Journal event largest accepted : 1321
 ODL event largest processed    : 0
@@ -26763,7 +26763,7 @@ Managed files max adjus: 200
 Managed request open   : 884
 Managed request read   : 0
 Managed write calls    : 2042
-Managed seek calls     : 17293
+Managed seek calls     : 17341
 Managed metadata calls : 685
 Managed open errors    : 14
 Managed evict fails    : 0

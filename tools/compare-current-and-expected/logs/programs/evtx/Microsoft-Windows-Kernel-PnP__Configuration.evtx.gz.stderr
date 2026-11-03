@@ -6,11 +6,11 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
       FileType      : EVTX (GZIP) (Windows XML EventLog)
       LogMessageType: EVTX entry (Windows XML EventLog)
   Printed:
-      Bytes         : 1184407
-      Flushes       : 678
+      Bytes         : 1050017
+      Flushes       : 672
       Events        : 227
-      Event Largest Processed: 1778 (bytes)
-      Event Largest Accepted : 1778 (bytes)
+      Event Largest Processed: 1701 (bytes)
+      Event Largest Accepted : 1701 (bytes)
       Datetime First: 2023-03-10 11:49:43 +08:00 (2023-03-10 03:49:43.558721 +00:00)
       Datetime Last : 2023-03-18 05:21:46 +08:00 (2023-03-17 21:21:46.786681 +00:00)
   Processed:
@@ -28,8 +28,8 @@ Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
-Printed bytes          : 1185315
-Printed flushes        : 905
+Printed bytes          : 1050925
+Printed flushes        : 899
 Printed Lines          : 0
 Printed Syslines       : 0
 Printed ASL events     : 0
@@ -43,8 +43,8 @@ Line longest                   : 0
 Sysline longest                : 0
 ETL event largest processed    : 0
 ETL event largest accepted     : 0
-EVTX event largest processed   : 1778
-EVTX event largest accepted    : 1778
+EVTX event largest processed   : 1701
+EVTX event largest accepted    : 1701
 Journal event largest processed: 0
 Journal event largest accepted : 0
 ODL event largest processed    : 0
@@ -54,7 +54,7 @@ Managed files max adjus: 200
 Managed request open   : 3
 Managed request read   : 0
 Managed write calls    : 17
-Managed seek calls     : 20
+Managed seek calls     : 36
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0

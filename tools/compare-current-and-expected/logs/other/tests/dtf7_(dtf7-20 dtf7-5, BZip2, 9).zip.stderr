@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log
   About:
-      Subpath     : dtf7-20-LEVELS.log
+      Subpath       : dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:
@@ -47,7 +47,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-20-LEVELS.log
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|dtf7-5-LEVELS.log
   About:
-      Subpath     : dtf7-5-LEVELS.log
+      Subpath       : dtf7-5-LEVELS.log
       FileType      : TEXT UTF8/ASCII (ZIP) (text log)
       LogMessageType: text log lines
   Printed:

@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/gen-100-10.tar|gen-100-10-skullcrossbones.log
   About:
-      Subpath     : gen-100-10-skullcrossbones.log
+      Subpath       : gen-100-10-skullcrossbones.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:

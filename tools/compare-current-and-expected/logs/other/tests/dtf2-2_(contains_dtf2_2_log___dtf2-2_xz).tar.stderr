@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
   About:
-      Subpath     : dtf2-2.log
+      Subpath       : dtf2-2.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:

@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVELS.log
   About:
-      Subpath     : ./logs/other/tests/dtf7-20-LEVELS.log
+      Subpath       : ./logs/other/tests/dtf7-20-LEVELS.log
       FileType      : TEXT UTF8/ASCII (TAR) (text log)
       LogMessageType: text log lines
   Printed:
