@@ -287,8 +287,11 @@ if [[ ! "${PROGRAMS_S4_LISTING-}" ]]; then
             ./target/x86_64-unknown-linux-ohos/release/s4 \
             ./target/x86_64-v2/x86_64-unknown-linux-musl/release/s4 \
             ./target/x86_64-v3/x86_64-unknown-linux-musl/release/s4 \
-            ./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4
-    do
+            ./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4 \
+            ./target/x86_64-gnu-v2/x86_64-unknown-linux-gnu/release/s4 \
+            ./target/x86_64-gnu-v3/x86_64-unknown-linux-gnu/release/s4 \
+            ./target/x86_64-gnu-v4/x86_64-unknown-linux-gnu/release/s4 \
+    ; do
         if [[ -e "${p}" ]]; then
             echo "${p}"
         fi

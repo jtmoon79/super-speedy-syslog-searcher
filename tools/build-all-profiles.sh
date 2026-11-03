@@ -94,6 +94,23 @@ wait ${PIDs[@]}
 ./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4 --version
 ./target/x86_64-unknown-linux-musl/release/s4 --version
 
+# x86_64-v2, x86_64-v3, x86_64-v4 x86_64-unknown-linux-gnu
+
+PIDs=()
+
+cargo build-x86_64-gnu-v2 --locked --release &
+PIDs+=($!)
+cargo build-x86_64-gnu-v3 --locked --release &
+PIDs+=($!)
+cargo build-x86_64-gnu-v4 --locked --release &
+PIDs+=($!)
+
+wait ${PIDs[@]}
+
+./target/x86_64-gnu-v2/x86_64-unknown-linux-gnu/release/s4 --version
+./target/x86_64-gnu-v3/x86_64-unknown-linux-gnu/release/s4 --version
+./target/x86_64-gnu-v4/x86_64-unknown-linux-gnu/release/s4 --version
+
 # release_Opt0, clippy, docs
 
 declare -a PIDs=()
