@@ -1,6 +1,6 @@
 ## ETL
 
-Input: `C:\Users\jtmmo\Projects\super-speedy-syslog-searcher\logs\programs\Event_Trace_Log\PITR\PointInTimeRestore.etl`
+Input: `.\logs\programs\Event_Trace_Log\PITR\PointInTimeRestore.etl`
 
 | Program                   | Version         | Allocator | Platform               | CPU Features                  | Opt Level | Wall Clock (ms) |
 | ------------------------- | --------------- | --------- | ---------------------- | ----------------------------- | --------- | --------------: |

@@ -1,6 +1,6 @@
 ## ODL
 
-Input: `C:\Users\jtmmo\Projects\super-speedy-syslog-searcher\logs\programs\OneDrive\Local\Microsoft\OneDrive\logs\Personal\SyncEngine-2025-12-21.1217.11144.2.odl`
+Input: `.\logs\programs\OneDrive\Local\Microsoft\OneDrive\logs\Personal\SyncEngine-2025-12-21.1217.11144.2.odl`
 
 | Program                       | Version    | Allocator | Platform               | CPU Features                  | Opt Level | Wall Clock (ms) |
 | ----------------------------- | ---------- | --------- | ---------------------- | ----------------------------- | --------- | --------------: |

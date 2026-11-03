@@ -1,6 +1,6 @@
 ## EVTX
 
-Input: `C:\Users\jtmmo\Projects\super-speedy-syslog-searcher\logs\programs\evtx\Microsoft-Windows-Kernel-PnP__Configuration.evtx`
+Input: `.\logs\programs\evtx\Microsoft-Windows-Kernel-PnP__Configuration.evtx`
 
 | Program                   | Version   | Allocator | Platform               | CPU Features                  | Opt Level | Wall Clock (ms) |
 | ------------------------- | --------- | --------- | ---------------------- | ----------------------------- | --------- | --------------: |

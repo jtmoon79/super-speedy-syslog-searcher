@@ -5,7 +5,7 @@
 time (GNU Time) UNKNOWN
 + python --version
 Python 3.12.3
-+ /home/ulug/.cargo/bin/hyperfine --version
++ /home/user/.cargo/bin/hyperfine --version
 hyperfine 1.20.0
 + /usr/bin/jq --version
 jq-1.7
