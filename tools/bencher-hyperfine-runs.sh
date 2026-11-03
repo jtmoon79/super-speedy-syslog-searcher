@@ -240,15 +240,32 @@ if [[ -z "${branch}" ]]; then
 fi
 BENCHER_TESTBED="${BENCHER_TESTBED-}"
 if [[ -z "${BENCHER_TESTBED}" ]]; then
-    cpu_model=$(lscpu -p='MODELNAME' | grep -v '^#' | sort -u | paste -sd ',' -)
+    # drop CPU model noise, e.g.
+    # "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz" becomes
+    # "Intel Xeon Platinum 8370C 2.80GHz"
+    cpu_model=$(
+        lscpu -p='MODELNAME' | grep -v '^#' | sort -u | paste -sd ',' - \
+        | sed -E -e 's/\((R|TM|tm)\)//g' -e 's/ CPU( |$)/\1/g' -e 's/ @ / /g' -e 's/ +/ /g' -e 's/^ +| +$//g'
+    )
     cpu_cores=$(nproc)
     BENCHER_TESTBED=$(
         source /etc/os-release
         printf '%s %s, %s, %s cores' "${NAME}" "${VERSION_ID}" "${cpu_model}" "${cpu_cores}"
     )
+    # Bencher testbed names must be at most 64 bytes
+    BENCHER_TESTBED=$(LC_ALL=C; t="${BENCHER_TESTBED:0:64}"; echo -n "${t%"${t##*[! ]}"}")
 fi
 readonly branch
 readonly BENCHER_TESTBED
+# Bencher name rules: non-empty, no leading/trailing whitespace, at most 64 bytes
+if [[ -z "${BENCHER_TESTBED}" \
+    || "${BENCHER_TESTBED}" != "${BENCHER_TESTBED#[[:space:]]}" \
+    || "${BENCHER_TESTBED}" != "${BENCHER_TESTBED%[[:space:]]}" \
+    || $(LC_ALL=C; echo -n "${#BENCHER_TESTBED}") -gt 64 ]]; then
+    echo "ERROR: BENCHER_TESTBED must be 1 to 64 bytes without leading or trailing whitespace: '${BENCHER_TESTBED}'" >&2
+    exit 1
+fi
+echo "Bencher testbed: ${BENCHER_TESTBED}" >&2
 
 if [[ -z "${BENCHER_REPORT-}" ]]; then
     BENCHER_REPORT="${output_dir}/bencher-report.json"
