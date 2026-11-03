@@ -269,6 +269,7 @@ use ::s4lib::readers::filehandlemanager::{
 };
 use ::s4lib::readers::filepreprocessor::{
     FileTypeArchiveMultiple,
+    NAME_EXT_UNPARSEABLE_STR,
     PathToFiletypeResult,
     path_to_filetype,
     process_path,
@@ -2756,8 +2757,18 @@ const CLI_HELP_AFTER: &str = concatcp!(
 Given a file path, the file format will be processed based on a best guess of
 the file name.
 If the file format is not guessed then it will be treated as a text file.
+
 Given a directory path, found file names that have well-known non-log file name
-extensions will be skipped.
+extensions will be skipped, e.g. `s4 /tmp` will not process file `/tmp/song.mp3`
+but `s4 /tmp/song.mp3` will always attempt to process the file (the file will likely
+not be readable).
+Same applies to member file of archives: given argument `archive.tar` then member file
+`song.mp3` will be skipped whereas `archive.tar|song.mp3` will attempt to process it.
+Some effort is made to determine unusual extensions, e.g. `system.log.1` is recognized
+as a `.log` file name extension.
+
+File name extensions that are skipped unless passed directly are:
+"#, NAME_EXT_UNPARSEABLE_STR, r#"
 
 
 DateTime Filters may be strftime specifier patterns:

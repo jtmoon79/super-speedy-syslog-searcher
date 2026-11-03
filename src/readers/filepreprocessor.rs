@@ -17,6 +17,7 @@ use std::path::{
 use std::str::FromStr; // for `String::from_str`
 
 use ::chardet::detect;
+use ::const_format::concatcp;
 use ::jwalk;
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -69,6 +70,146 @@ const SCORE_BOM_ONLY: u8 = 240;
 const SCORE_UTF8_BOM: u8 = 250;
 const SCORE_VALID_UTF8: u8 = 220;
 const SCORE_UTF8_FAST_PATH_MIN: u8 = 1;
+
+pub const NAME_EXT_UNPARSEABLE: [&str; 67] = [
+    "7z",
+    "a",
+    "aac",
+    "aux",
+    "avi",
+    "bat",
+    "bin",
+    "bmp",
+    "bz",
+    "c",
+    "cat",
+    "class",
+    "cpp",
+    "cmd",
+    "diagpkg",
+    "dll",
+    "ear",
+    "exe",
+    "flac",
+    "flv",
+    "gif",
+    "h",
+    "hpp",
+    "htm",
+    "html",
+    "ico",
+    "jar",
+    "java",
+    "jpeg",
+    "jpg",
+    "keystore",
+    "lib",
+    "m4b",
+    "m4p",
+    "m4r",
+    "m4v",
+    "mkv",
+    "mov",
+    "mp3",
+    "mp4",
+    "msi",
+    "mui",
+    "o",
+    "ogg",
+    "opus",
+    "otc-shm",
+    "otc-wal",
+    "pl",
+    "png",
+    "ps1",
+    "psd1",
+    "py",
+    "rb",
+    "sh",
+    "so",
+    "svg",
+    "sys",
+    "tif",
+    "tiff",
+    "ttf",
+    "tgz",
+    "war",
+    "wav",
+    "webm",
+    "webp",
+    "wma",
+    "wmv",
+];
+// TODO: nice rust feature would be compile-time join over const array
+pub const NAME_EXT_UNPARSEABLE_STR: &str = concatcp!(
+    NAME_EXT_UNPARSEABLE[0], ", ",
+    NAME_EXT_UNPARSEABLE[1], ", ",
+    NAME_EXT_UNPARSEABLE[2], ", ",
+    NAME_EXT_UNPARSEABLE[3], ", ",
+    NAME_EXT_UNPARSEABLE[4], ", ",
+    NAME_EXT_UNPARSEABLE[5], ", ",
+    NAME_EXT_UNPARSEABLE[6], ", ",
+    NAME_EXT_UNPARSEABLE[7], ", ",
+    NAME_EXT_UNPARSEABLE[8], ", ",
+    NAME_EXT_UNPARSEABLE[9], ",\n",
+    NAME_EXT_UNPARSEABLE[10], ", ",
+    NAME_EXT_UNPARSEABLE[11], ", ",
+    NAME_EXT_UNPARSEABLE[12], ", ",
+    NAME_EXT_UNPARSEABLE[13], ", ",
+    NAME_EXT_UNPARSEABLE[14], ", ",
+    NAME_EXT_UNPARSEABLE[15], ", ",
+    NAME_EXT_UNPARSEABLE[16], ", ",
+    NAME_EXT_UNPARSEABLE[17], ", ",
+    NAME_EXT_UNPARSEABLE[18], ", ",
+    NAME_EXT_UNPARSEABLE[19], ",\n",
+    NAME_EXT_UNPARSEABLE[20], ", ",
+    NAME_EXT_UNPARSEABLE[21], ", ",
+    NAME_EXT_UNPARSEABLE[22], ", ",
+    NAME_EXT_UNPARSEABLE[23], ", ",
+    NAME_EXT_UNPARSEABLE[24], ", ",
+    NAME_EXT_UNPARSEABLE[25], ", ",
+    NAME_EXT_UNPARSEABLE[26], ", ",
+    NAME_EXT_UNPARSEABLE[27], ", ",
+    NAME_EXT_UNPARSEABLE[28], ", ",
+    NAME_EXT_UNPARSEABLE[29], ",\n",
+    NAME_EXT_UNPARSEABLE[30], ", ",
+    NAME_EXT_UNPARSEABLE[31], ", ",
+    NAME_EXT_UNPARSEABLE[32], ", ",
+    NAME_EXT_UNPARSEABLE[33], ", ",
+    NAME_EXT_UNPARSEABLE[34], ", ",
+    NAME_EXT_UNPARSEABLE[35], ", ",
+    NAME_EXT_UNPARSEABLE[36], ", ",
+    NAME_EXT_UNPARSEABLE[37], ", ",
+    NAME_EXT_UNPARSEABLE[38], ", ",
+    NAME_EXT_UNPARSEABLE[39], ",\n",
+    NAME_EXT_UNPARSEABLE[40], ", ",
+    NAME_EXT_UNPARSEABLE[41], ", ",
+    NAME_EXT_UNPARSEABLE[42], ", ",
+    NAME_EXT_UNPARSEABLE[43], ", ",
+    NAME_EXT_UNPARSEABLE[44], ", ",
+    NAME_EXT_UNPARSEABLE[45], ", ",
+    NAME_EXT_UNPARSEABLE[46], ", ",
+    NAME_EXT_UNPARSEABLE[47], ", ",
+    NAME_EXT_UNPARSEABLE[48], ", ",
+    NAME_EXT_UNPARSEABLE[49], ",\n",
+    NAME_EXT_UNPARSEABLE[50], ", ",
+    NAME_EXT_UNPARSEABLE[51], ", ",
+    NAME_EXT_UNPARSEABLE[52], ", ",
+    NAME_EXT_UNPARSEABLE[53], ", ",
+    NAME_EXT_UNPARSEABLE[54], ", ",
+    NAME_EXT_UNPARSEABLE[55], ", ",
+    NAME_EXT_UNPARSEABLE[56], ", ",
+    NAME_EXT_UNPARSEABLE[57], ", ",
+    NAME_EXT_UNPARSEABLE[58], ", ",
+    NAME_EXT_UNPARSEABLE[59], ",\n",
+    NAME_EXT_UNPARSEABLE[60], ", ",
+    NAME_EXT_UNPARSEABLE[61], ", ",
+    NAME_EXT_UNPARSEABLE[62], ", ",
+    NAME_EXT_UNPARSEABLE[63], ", ",
+    NAME_EXT_UNPARSEABLE[64], ", ",
+    NAME_EXT_UNPARSEABLE[65], ", ",
+    NAME_EXT_UNPARSEABLE[66],
+);
 
 #[inline(always)]
 fn ratio_to_score(
@@ -912,73 +1053,7 @@ fn pathbuf_to_filetype_impl(
         }
         // known unparseable file extensions/suffixes
         // covers some common extensions. not at all exhaustive but still helpful
-        "7z"
-        | "a"
-        | "aac"
-        | "aux"
-        | "avi"
-        | "bat"
-        | "bin"
-        | "bmp"
-        | "bz"
-        | "c"
-        | "cat"
-        | "class"
-        | "cpp"
-        | "cmd"
-        | "diagpkg"
-        | "dll"
-        | "ear"
-        | "exe"
-        | "flac"
-        | "flv"
-        | "gif"
-        | "h"
-        | "hpp"
-        | "htm"
-        | "html"
-        | "ico"
-        | "jar"
-        | "java"
-        | "jpeg"
-        | "jpg"
-        | "keystore"
-        | "lib"
-        | "m4b"
-        | "m4p"
-        | "m4r"
-        | "m4v"
-        | "mkv"
-        | "mov"
-        | "mp3"
-        | "mp4"
-        | "msi"
-        | "mui"
-        | "o"
-        | "ogg"
-        | "opus"
-        | "otc-shm"
-        | "otc-wal"
-        | "pl"
-        | "png"
-        | "ps1"
-        | "psd1"
-        | "py"
-        | "rb"
-        | "sh"
-        | "so"
-        | "svg"
-        | "sys"
-        | "tif"
-        | "tiff"
-        | "ttf"
-        | "tgz"
-        | "war"
-        | "wav"
-        | "webm"
-        | "webp"
-        | "wma"
-        | "wmv"
+        suffix if NAME_EXT_UNPARSEABLE.contains(&suffix)
         => {
             match unparseable_are_text {
                 true => {

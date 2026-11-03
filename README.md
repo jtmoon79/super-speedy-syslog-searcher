@@ -639,22 +639,39 @@ Options:
   -V, --version
           Print version
 
+
 Given a file path, the file format will be processed based on a best guess of
 the file name.
 If the file format is not guessed then it will be treated as a text file.
+
 Given a directory path, found file names that have well-known non-log file name
-extensions will be skipped.
+extensions will be skipped, e.g. `s4 /tmp` will not process file `/tmp/song.mp3`
+but `s4 /tmp/song.mp3` will always attempt to process the file (the file will likely
+not be readable).
+Same applies to member file of archives: given argument `archive.tar` then member file
+`song.mp3` will be skipped whereas `archive.tar|song.mp3` will attempt to process it.
+Some effort is made to determine unusual extensions, e.g. `system.log.1` is recognized
+as a `.log` file name extension.
+
+File name extensions that are skipped unless passed directly are:
+7z, a, aac, aux, avi, bat, bin, bmp, bz, c,
+cat, class, cpp, cmd, diagpkg, dll, ear, exe, flac, flv,
+gif, h, hpp, htm, html, ico, jar, java, jpeg, jpg,
+keystore, lib, m4b, m4p, m4r, m4v, mkv, mov, mp3, mp4,
+msi, mui, o, ogg, opus, otc-shm, otc-wal, pl, png, ps1,
+psd1, py, rb, sh, so, svg, sys, tif, tiff, ttf,
+tgz, war, wav, webm, webp, wma, wmv
+
 
 DateTime Filters may be strftime specifier patterns:
     "%Y%m%dT%H%M%S*"
-    "%Y-%m-%d %H:%M:%S*"
     "%Y-%m-%dT%H:%M:%S*"
-    "%Y/%m/%d %H:%M:%S*"
+    "%Y-%m-%dT%H:%M:%S*"
+    "%Y/%m/%dT%H:%M:%S*"
     "%Y%m%d"
     "%Y-%m-%d"
     "%Y/%m/%d"
     "%m-%d"
-    "%m/%d"
     "%H:%M:%S"
     "%H:%M"
     "+%s"
@@ -662,16 +679,21 @@ DateTime Filters may be strftime specifier patterns:
 Each trailing * is an optional trailing 3-digit fractional sub-seconds
 (milliseconds, ".%3f"), or 6-digit fractional sub-seconds (microseconds, ".%6f"),
 and/or timezone ("%z", "%:z", "%::z", or "%Z").
+
 Patterns "%Y" is a 4-digit year, "%m" is a 2-digit month, "%d" is a 2-digit day of month,
 "%H" is a 2-digit hour, "%M" is a 2-digit minute, "%S" is a 2-digit second,
 ".%3f" is a 3-digit fractional sub-second (milliseconds),
 ".%6f" is a 6-digit fractional sub-second (microseconds),
+
 "%z" is a timezone offset in format "+0900" or "-0900",
 "%:z" is a timezone offset in format "+09:00" or "-09:00",
 "%::z" is a timezone offset in format "+09:00:00" or "-09:00:00",
 "%Z" is a named timezone, e.g. "UTC", "JST", etc.
+
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 For example, value "+946684800" is January 1, 2000 at 00:00, GMT.
+
+The date and time separator 'T' may instead be ' '.
 
 DateTime Filters may be custom relative offset patterns:
     "+DwDdDhDmDs!HH:MM:SS" or "-DwDdDhDmDs!HH:MM:SS"
@@ -713,41 +735,60 @@ Command-line passed timezones may be numeric timezone offsets,
 e.g. "+09:00", "+0900", or "+09", or named timezone offsets, e.g. "JST".
 Ambiguous named timezones will be rejected, e.g. "SST".
 
+Resolved values of "--after" and "--before" can be reviewed in
+the "--summary" output.
+
+
 --prepend-tz and --dt-offset function independently:
 --dt-offset is used to interpret processed log message datetime stamps that
 do not have a timezone offset.
 --prepend-tz affects what is pre-printed before each printed log message line.
 
+
 --separator and --prepend-separator accepts backslash escape sequences:
     "\0", "\a", "\b", "\e", "\f", "\n", "\r", "\\", "\t", "\v",
  and "\xhh" where "hh" is a 2-digit hexadecimal value.
 
-Resolved values of "--after" and "--before" can be reviewed in
-the "--summary" output.
 
 s4 uses file naming to determine the file type.
+
 
 s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
 archived within a .tar or .zip file.
 
+
 Log messages from different files with the same datetime are printed in order
 of the arguments from the command-line.
+
 
 Datetimes printed for .journal file log messages may differ from datetimes
 printed by program journalctl.
 See Issue #101
 
+
 DateTime strftime specifiers are described at
 https://docs.rs/chrono/latest/chrono/format/strftime/
 
+
 DateTimes supported are only of the Gregorian calendar.
 
+
 DateTimes supported language is English.
+
 
 The user may specify the path to the systemd shared library by setting
 environment variable S4_LIBSYSTEMD. This library is used to read
 .journal files. Otherwise, s4 will attempt to locate and load
 the systemd shared library automatically.
+
+
+Environment variable S4_BLOCKSZ can be used to set the block size
+though it is not recommended.
+
+
+Environment variable S4_FILE_HANDLE_OPEN_MAX can be used to set the
+maximum number of simultaneously open file handles. Defaults to 980.
+
 
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
