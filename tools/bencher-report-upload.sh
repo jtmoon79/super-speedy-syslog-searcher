@@ -81,4 +81,42 @@ done
 echo "Uploading report: ${BENCHER_REPORT}" >&2
 echo >&2
 request --data-binary @"${BENCHER_REPORT}" "${api}/reports"
-jq '.' "${out}"
+echo >&2
+
+# print summary information about the uploaded report
+jq -er '
+    def nonempty_string: type == "string" and length > 0;
+    . as $report
+    | if ([
+        $report.uuid,
+        $report.project.slug,
+        $report.branch.head.version.hash,
+        $report.created,
+        $report.start_time,
+        $report.end_time,
+        $report.testbed.name,
+        $report.branch.name
+    ] | all(.[]; nonempty_string))
+        and ($report.results | type == "array")
+        and all($report.results[]; type == "array" and all(.[]; (.benchmark.name | nonempty_string)))
+    then
+        [
+            "URL: https://bencher.dev/console/projects/\($report.project.slug)/reports/\($report.uuid)",
+            "UUID: \($report.uuid)",
+            "Git commit: \($report.branch.head.version.hash)",
+            "Created: \($report.created)",
+            "Run: \($report.start_time) to \($report.end_time)",
+            "Testbed: \($report.testbed.name)",
+            "Branch: \($report.branch.name)",
+            "Benchmarks:"
+        ] + ([$report.results[][] | .benchmark.name] | unique)
+        | .[]
+    else
+        error("unexpected report upload response")
+    end
+' "${out}"
+
+declare -r upload_result="$(dirname "${BENCHER_REPORT}")/report-upload-result.json"
+cp -a "${out}" "${upload_result}"
+echo
+echo "Upload result saved to: ${upload_result}"
