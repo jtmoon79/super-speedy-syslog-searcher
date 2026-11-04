@@ -1082,8 +1082,13 @@ pub fn datetime_parse_from_str_w_tz(
 ///
 /// [`Line`]: crate::data::line::Line
 /// [`regex::Captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html
-// TODO: change to a typed `struct CapturedDtData(...)`
-pub type CapturedDtData = (LineIndex, LineIndex, DateTimeL);
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct CapturedDtData{
+    pub beg: LineIndex,
+    pub end: LineIndex,
+    pub dt: DateTimeL,
+}
+pub type CapturedDtDataOpt = Option<CapturedDtData>;
 
 /// Macro helper to [`captures_to_buffer_bytes`].
 /// - `$cgi_index` is the `GroupsIndex` index into `GROUP_NAMES` for the capture group name.
@@ -1977,9 +1982,9 @@ pub fn bytes_to_regex_to_datetime(
         None => 0,
     };
     debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}, index {}", dt_beg, dt_end, index);
-
     defx!("return Some({:?}, {:?}, {:?})", dt_beg, dt_end, dt);
-    Some((dt_beg, dt_end, dt))
+
+    Some(CapturedDtData{ beg: dt_beg, end: dt_end, dt })
 }
 
 // --------------------

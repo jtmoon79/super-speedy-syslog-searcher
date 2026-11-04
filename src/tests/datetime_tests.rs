@@ -835,8 +835,8 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
                     "Passed regex #{} dtpd declared at line {} result {:?}, test data {:?}",
                     dtpd.regex_id, dtpd._line_num, capdata, s
                 );
-                let a: LineIndex = capdata.0;
-                let b: LineIndex = capdata.1;
+                let a: LineIndex = capdata.beg;
+                let b: LineIndex = capdata.end;
                 assert_lt!(a, b, "regex #{} bad a {} b {}", dtpd.regex_id, a, b);
                 // verify indexes returned by the regex
                 let s_a_b = buffer_to_string_noraw(data[a..b].as_bstr());
@@ -873,9 +873,9 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
                         ymdhmsn_args_.7,
                     );
                     assert_eq!(
-                        dt, capdata.2,
+                        dt, capdata.dt,
                         "For regex #{} dtpd at line {:?} unexpected datetime returned\n  test data {:?}\n  expect {:?}\n  actual {:?}\n",
-                        dtpd.regex_id, dtpd._line_num, s, dt, capdata.2,
+                        dtpd.regex_id, dtpd._line_num, s, dt, capdata.dt,
                     );
                 }
             }

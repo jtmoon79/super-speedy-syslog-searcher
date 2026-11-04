@@ -79,6 +79,8 @@ use crate::common::{
 };
 use crate::data::datetime::{
     bytes_to_regex_to_datetime,
+    CapturedDtData,
+    CapturedDtDataOpt,
     dt_after_or_before,
     dt_pass_filters,
     DateTimeL,
@@ -551,10 +553,10 @@ fn process_bytes_to_regex_to_datetime(
         #[cfg(any(debug_assertions, test))]
         path,
     ) {
-        Some((dt_beg_utf8, dt_end_utf8, dt)) if encoding_type.basic_encoding() == FileTypeBasicEncoding::Utf8 => {
+        CapturedDtDataOpt::Some(CapturedDtData { beg: dt_beg_utf8, end: dt_end_utf8, dt }) if encoding_type.basic_encoding() == FileTypeBasicEncoding::Utf8 => {
             Some((dt_beg_utf8, dt_end_utf8, dt_beg_utf8, dt_end_utf8, dt))
         }
-        Some((dt_beg_utf8, dt_end_utf8, dt)) => {
+        CapturedDtDataOpt::Some(CapturedDtData { beg: dt_beg_utf8, end: dt_end_utf8, dt }) => {
             let (dt_beg_actual, dt_end_actual) = match utf8_offsets_to_actual_offsets_second_pass(
                 data_no_bom,
                 encoding_type,
