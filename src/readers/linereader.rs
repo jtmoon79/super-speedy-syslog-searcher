@@ -644,6 +644,11 @@ impl LineReader {
             .collect()
     }
 
+    #[cfg(test)]
+    pub(crate) fn count_line_offsets_stored(&self) -> usize {
+        self.foend_to_fobeg.len()
+    }
+
     /// Store information about a single line in a file.
     /// Returns a `Line` pointer `LineP`.
     ///
@@ -744,6 +749,7 @@ impl LineReader {
         self.find_line_lru_cache
             .pop(&fo_key);
         self.lines.remove(&fo_key);
+        self.foend_to_fobeg.remove(&(*linep).fileoffset_end());
         match Arc::try_unwrap(linep) {
             Ok(line) => {
                 defo!(
