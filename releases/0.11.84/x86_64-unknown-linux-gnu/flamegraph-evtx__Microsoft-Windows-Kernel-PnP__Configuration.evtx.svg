@@ -1,0 +1,1497 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:fg="http://github.com/jonhoo/inferno" version="1.1" width="1200" height="390" onload="init(evt)" viewBox="0 0 1200 390">
+  <!--Flame graph stack visualization. See https://github.com/brendangregg/FlameGraph for latest version, and http://www.brendangregg.com/flamegraphs.html for examples.-->
+  <!--NOTES: foo&lt;br/&gt;bar&lt;br/&gt;Version: 0.11.84; Allocator: system; Platform: x86_64-unknown-linux-gnu; ; git: 69b737ce; -freq 8000; created 20261031T202242-0700; flamegraph-flamegraph 0.6.14; rust 1.99.1 x86_64-unknown-linux-gnu-->
+  <defs>
+    <linearGradient id="background" y1="0" y2="1" x1="0" x2="0">
+      <stop stop-color="#eeeeee" offset="5%"/>
+      <stop stop-color="#eeeeb0" offset="95%"/>
+    </linearGradient>
+  </defs>
+  <style type="text/css">
+text { font-family:monospace; font-size:12px }
+#title { text-anchor:middle; font-size:17px; }
+#matched { text-anchor:end; }
+#search { text-anchor:end; opacity:0.1; cursor:pointer; }
+#search:hover, #search.show { opacity:1; }
+#subtitle { text-anchor:middle; font-color:rgb(160,160,160); }
+#unzoom { cursor:pointer; }
+#frames &gt; *:hover { stroke:black; stroke-width:0.5; cursor:pointer; }
+.hide { display:none; }
+.parent { opacity:0.5; }
+</style>
+  <script type="text/ecmascript"><![CDATA[
+        var nametype = 'Function:';
+        var fontsize = 12;
+        var fontwidth = 0.59;
+        var xpad = 10;
+        var inverted = false;
+        var searchcolor = 'rgb(230,0,230)';
+        var fluiddrawing = true;
+        var truncate_text_right = false;
+    ]]><![CDATA["use strict";
+var details, searchbtn, unzoombtn, matchedtxt, svg, searching, frames, known_font_width;
+function init(evt) {
+    details = document.getElementById("details").firstChild;
+    searchbtn = document.getElementById("search");
+    unzoombtn = document.getElementById("unzoom");
+    matchedtxt = document.getElementById("matched");
+    svg = document.getElementsByTagName("svg")[0];
+    frames = document.getElementById("frames");
+    known_font_width = get_monospace_width(frames);
+    total_samples = parseInt(frames.attributes.total_samples.value);
+    searching = 0;
+
+    // Use GET parameters to restore a flamegraph's state.
+    var restore_state = function() {
+        var params = get_params();
+        if (params.x && params.y)
+            zoom(find_group(document.querySelector('[*|x="' + params.x + '"][y="' + params.y + '"]')));
+        if (params.s)
+            search(params.s);
+    };
+
+    if (fluiddrawing) {
+        // Make width dynamic so the SVG fits its parent's width.
+        svg.removeAttribute("width");
+        // Edge requires us to have a viewBox that gets updated with size changes.
+        var isEdge = /Edge\/\d./i.test(navigator.userAgent);
+        if (!isEdge) {
+            svg.removeAttribute("viewBox");
+        }
+        var update_for_width_change = function() {
+            if (isEdge) {
+                svg.attributes.viewBox.value = "0 0 " + svg.width.baseVal.value + " " + svg.height.baseVal.value;
+            }
+
+            // Keep consistent padding on left and right of frames container.
+            frames.attributes.width.value = svg.width.baseVal.value - xpad * 2;
+
+            // Text truncation needs to be adjusted for the current width.
+            update_text_for_elements(frames.children);
+
+            // Keep search elements at a fixed distance from right edge.
+            var svgWidth = svg.width.baseVal.value;
+            searchbtn.attributes.x.value = svgWidth - xpad;
+            matchedtxt.attributes.x.value = svgWidth - xpad;
+        };
+        window.addEventListener('resize', function() {
+            update_for_width_change();
+        });
+        // This needs to be done asynchronously for Safari to work.
+        setTimeout(function() {
+            unzoom();
+            update_for_width_change();
+            restore_state();
+        }, 0);
+    } else {
+        restore_state();
+    }
+}
+// event listeners
+window.addEventListener("click", function(e) {
+    var target = find_group(e.target);
+    if (target) {
+        if (target.nodeName == "a") {
+            if (e.ctrlKey === false) return;
+            e.preventDefault();
+        }
+        if (target.classList.contains("parent")) unzoom();
+        zoom(target);
+
+        // set parameters for zoom state
+        var el = target.querySelector("rect");
+        if (el && el.attributes && el.attributes.y && el.attributes["fg:x"]) {
+            var params = get_params()
+            params.x = el.attributes["fg:x"].value;
+            params.y = el.attributes.y.value;
+            history.replaceState(null, null, parse_params(params));
+        }
+    }
+    else if (e.target.id == "unzoom") {
+        unzoom();
+
+        // remove zoom state
+        var params = get_params();
+        if (params.x) delete params.x;
+        if (params.y) delete params.y;
+        history.replaceState(null, null, parse_params(params));
+    }
+    else if (e.target.id == "search") search_prompt();
+}, false)
+// mouse-over for info
+// show
+window.addEventListener("mouseover", function(e) {
+    var target = find_group(e.target);
+    if (target) details.nodeValue = nametype + " " + g_to_text(target);
+}, false)
+// clear
+window.addEventListener("mouseout", function(e) {
+    var target = find_group(e.target);
+    if (target) details.nodeValue = ' ';
+}, false)
+// ctrl-F for search
+window.addEventListener("keydown",function (e) {
+    if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+        e.preventDefault();
+        search_prompt();
+    }
+}, false)
+// functions
+function get_params() {
+    var params = {};
+    var paramsarr = window.location.search.substr(1).split('&');
+    for (var i = 0; i < paramsarr.length; ++i) {
+        var tmp = paramsarr[i].split("=");
+        if (!tmp[0] || !tmp[1]) continue;
+        params[tmp[0]]  = decodeURIComponent(tmp[1]);
+    }
+    return params;
+}
+function parse_params(params) {
+    var uri = "?";
+    for (var key in params) {
+        uri += key + '=' + encodeURIComponent(params[key]) + '&';
+    }
+    if (uri.slice(-1) == "&")
+        uri = uri.substring(0, uri.length - 1);
+    if (uri == '?')
+        uri = window.location.href.split('?')[0];
+    return uri;
+}
+function find_child(node, selector) {
+    var children = node.querySelectorAll(selector);
+    if (children.length) return children[0];
+    return;
+}
+function find_group(node) {
+    var parent = node.parentElement;
+    if (!parent) return;
+    if (parent.id == "frames") return node;
+    return find_group(parent);
+}
+function orig_save(e, attr, val) {
+    if (e.attributes["fg:orig_" + attr] != undefined) return;
+    if (e.attributes[attr] == undefined) return;
+    if (val == undefined) val = e.attributes[attr].value;
+    e.setAttribute("fg:orig_" + attr, val);
+}
+function orig_load(e, attr) {
+    if (e.attributes["fg:orig_"+attr] == undefined) return;
+    e.attributes[attr].value = e.attributes["fg:orig_" + attr].value;
+    e.removeAttribute("fg:orig_" + attr);
+}
+function g_to_text(e) {
+    var text = find_child(e, "title").firstChild.nodeValue;
+    return (text)
+}
+function g_to_func(e) {
+    var func = g_to_text(e);
+    // if there's any manipulation we want to do to the function
+    // name before it's searched, do it here before returning.
+    return (func);
+}
+function get_monospace_width(frames) {
+    // Given the id="frames" element, return the width of text characters if
+    // this is a monospace font, otherwise return 0.
+    text = find_child(frames.children[0], "text");
+    originalContent = text.textContent;
+    text.textContent = "!";
+    bangWidth = text.getComputedTextLength();
+    text.textContent = "W";
+    wWidth = text.getComputedTextLength();
+    text.textContent = originalContent;
+    if (bangWidth === wWidth) {
+        return bangWidth;
+    } else {
+        return 0;
+    }
+}
+function update_text_for_elements(elements) {
+    // In order to render quickly in the browser, you want to do one pass of
+    // reading attributes, and one pass of mutating attributes. See
+    // https://web.dev/avoid-large-complex-layouts-and-layout-thrashing/ for details.
+
+    // Fall back to inefficient calculation, if we're variable-width font.
+    // TODO This should be optimized somehow too.
+    if (known_font_width === 0) {
+        for (var i = 0; i < elements.length; i++) {
+            update_text(elements[i]);
+        }
+        return;
+    }
+
+    var textElemNewAttributes = [];
+    for (var i = 0; i < elements.length; i++) {
+        var e = elements[i];
+        var r = find_child(e, "rect");
+        var t = find_child(e, "text");
+        var w = parseFloat(r.attributes.width.value) * frames.attributes.width.value / 100 - 3;
+        var txt = find_child(e, "title").textContent.replace(/\([^(]*\)$/,"");
+        var newX = format_percent((parseFloat(r.attributes.x.value) + (100 * 3 / frames.attributes.width.value)));
+
+        // Smaller than this size won't fit anything
+        if (w < 2 * known_font_width) {
+            textElemNewAttributes.push([newX, ""]);
+            continue;
+        }
+
+        // Fit in full text width
+        if (txt.length * known_font_width < w) {
+            textElemNewAttributes.push([newX, txt]);
+            continue;
+        }
+
+        var substringLength = Math.floor(w / known_font_width) - 2;
+        if (truncate_text_right) {
+            // Truncate the right side of the text.
+            textElemNewAttributes.push([newX, txt.substring(0, substringLength) + ".."]);
+            continue;
+        } else {
+            // Truncate the left side of the text.
+            textElemNewAttributes.push([newX, ".." + txt.substring(txt.length - substringLength, txt.length)]);
+            continue;
+        }
+    }
+
+    console.assert(textElemNewAttributes.length === elements.length, "Resize failed, please file a bug at https://github.com/jonhoo/inferno/");
+
+    // Now that we know new textContent, set it all in one go so we don't refresh a bazillion times.
+    for (var i = 0; i < elements.length; i++) {
+        var e = elements[i];
+        var values = textElemNewAttributes[i];
+        var t = find_child(e, "text");
+        t.attributes.x.value = values[0];
+        t.textContent = values[1];
+    }
+}
+
+function update_text(e) {
+    var r = find_child(e, "rect");
+    var t = find_child(e, "text");
+    var w = parseFloat(r.attributes.width.value) * frames.attributes.width.value / 100 - 3;
+    var txt = find_child(e, "title").textContent.replace(/\([^(]*\)$/,"");
+    t.attributes.x.value = format_percent((parseFloat(r.attributes.x.value) + (100 * 3 / frames.attributes.width.value)));
+
+    // Smaller than this size won't fit anything
+    if (w < 2 * fontsize * fontwidth) {
+        t.textContent = "";
+        return;
+    }
+    t.textContent = txt;
+    // Fit in full text width
+    if (t.getComputedTextLength() < w)
+        return;
+    if (truncate_text_right) {
+        // Truncate the right side of the text.
+        for (var x = txt.length - 2; x > 0; x--) {
+            if (t.getSubStringLength(0, x + 2) <= w) {
+                t.textContent = txt.substring(0, x) + "..";
+                return;
+            }
+        }
+    } else {
+        // Truncate the left side of the text.
+        for (var x = 2; x < txt.length; x++) {
+            if (t.getSubStringLength(x - 2, txt.length) <= w) {
+                t.textContent = ".." + txt.substring(x, txt.length);
+                return;
+            }
+        }
+    }
+    t.textContent = "";
+}
+// zoom
+function zoom_reset(e) {
+    if (e.tagName == "rect") {
+        e.attributes.x.value = format_percent(100 * parseInt(e.attributes["fg:x"].value) / total_samples);
+        e.attributes.width.value = format_percent(100 * parseInt(e.attributes["fg:w"].value) / total_samples);
+    }
+    if (e.childNodes == undefined) return;
+    for(var i = 0, c = e.childNodes; i < c.length; i++) {
+        zoom_reset(c[i]);
+    }
+}
+function zoom_child(e, x, zoomed_width_samples) {
+    if (e.tagName == "text") {
+        var parent_x = parseFloat(find_child(e.parentNode, "rect[x]").attributes.x.value);
+        e.attributes.x.value = format_percent(parent_x + (100 * 3 / frames.attributes.width.value));
+    } else if (e.tagName == "rect") {
+        e.attributes.x.value = format_percent(100 * (parseInt(e.attributes["fg:x"].value) - x) / zoomed_width_samples);
+        e.attributes.width.value = format_percent(100 * parseInt(e.attributes["fg:w"].value) / zoomed_width_samples);
+    }
+    if (e.childNodes == undefined) return;
+    for(var i = 0, c = e.childNodes; i < c.length; i++) {
+        zoom_child(c[i], x, zoomed_width_samples);
+    }
+}
+function zoom_parent(e) {
+    if (e.attributes) {
+        if (e.attributes.x != undefined) {
+            e.attributes.x.value = "0.0%";
+        }
+        if (e.attributes.width != undefined) {
+            e.attributes.width.value = "100.0%";
+        }
+    }
+    if (e.childNodes == undefined) return;
+    for(var i = 0, c = e.childNodes; i < c.length; i++) {
+        zoom_parent(c[i]);
+    }
+}
+function zoom(node) {
+    var attr = find_child(node, "rect").attributes;
+    var width = parseInt(attr["fg:w"].value);
+    var xmin = parseInt(attr["fg:x"].value);
+    var xmax = xmin + width;
+    var ymin = parseFloat(attr.y.value);
+    unzoombtn.classList.remove("hide");
+    var el = frames.children;
+    var to_update_text = [];
+    for (var i = 0; i < el.length; i++) {
+        var e = el[i];
+        var a = find_child(e, "rect").attributes;
+        var ex = parseInt(a["fg:x"].value);
+        var ew = parseInt(a["fg:w"].value);
+        // Is it an ancestor
+        if (!inverted) {
+            var upstack = parseFloat(a.y.value) > ymin;
+        } else {
+            var upstack = parseFloat(a.y.value) < ymin;
+        }
+        if (upstack) {
+            // Direct ancestor
+            if (ex <= xmin && (ex+ew) >= xmax) {
+                e.classList.add("parent");
+                zoom_parent(e);
+                to_update_text.push(e);
+            }
+            // not in current path
+            else
+                e.classList.add("hide");
+        }
+        // Children maybe
+        else {
+            // no common path
+            if (ex < xmin || ex >= xmax) {
+                e.classList.add("hide");
+            }
+            else {
+                zoom_child(e, xmin, width);
+                to_update_text.push(e);
+            }
+        }
+    }
+    update_text_for_elements(to_update_text);
+}
+function unzoom() {
+    unzoombtn.classList.add("hide");
+    var el = frames.children;
+    for(var i = 0; i < el.length; i++) {
+        el[i].classList.remove("parent");
+        el[i].classList.remove("hide");
+        zoom_reset(el[i]);
+    }
+    update_text_for_elements(el);
+}
+// search
+function reset_search() {
+    var el = document.querySelectorAll("#frames rect");
+    for (var i = 0; i < el.length; i++) {
+        orig_load(el[i], "fill")
+    }
+    var params = get_params();
+    delete params.s;
+    history.replaceState(null, null, parse_params(params));
+}
+function search_prompt() {
+    if (!searching) {
+        var term = prompt("Enter a search term (regexp " +
+            "allowed, eg: ^ext4_)", "");
+        if (term != null) {
+            search(term)
+        }
+    } else {
+        reset_search();
+        searching = 0;
+        searchbtn.classList.remove("show");
+        searchbtn.firstChild.nodeValue = "Search"
+        matchedtxt.classList.add("hide");
+        matchedtxt.firstChild.nodeValue = ""
+    }
+}
+function search(term) {
+    var re = new RegExp(term);
+    var el = frames.children;
+    var matches = new Object();
+    var maxwidth = 0;
+    for (var i = 0; i < el.length; i++) {
+        var e = el[i];
+        // Skip over frames which are either not visible, or below the zoomed-to frame
+        if (e.classList.contains("hide") || e.classList.contains("parent")) {
+            continue;
+        }
+        var func = g_to_func(e);
+        var rect = find_child(e, "rect");
+        if (func == null || rect == null)
+            continue;
+        // Save max width. Only works as we have a root frame
+        var w = parseInt(rect.attributes["fg:w"].value);
+        if (w > maxwidth)
+            maxwidth = w;
+        if (func.match(re)) {
+            // highlight
+            var x = parseInt(rect.attributes["fg:x"].value);
+            orig_save(rect, "fill");
+            rect.attributes.fill.value = searchcolor;
+            // remember matches
+            if (matches[x] == undefined) {
+                matches[x] = w;
+            } else {
+                if (w > matches[x]) {
+                    // overwrite with parent
+                    matches[x] = w;
+                }
+            }
+            searching = 1;
+        }
+    }
+    if (!searching)
+        return;
+    var params = get_params();
+    params.s = term;
+    history.replaceState(null, null, parse_params(params));
+
+    searchbtn.classList.add("show");
+    searchbtn.firstChild.nodeValue = "Reset Search";
+    // calculate percent matched, excluding vertical overlap
+    var count = 0;
+    var lastx = -1;
+    var lastw = 0;
+    var keys = Array();
+    for (k in matches) {
+        if (matches.hasOwnProperty(k))
+            keys.push(k);
+    }
+    // sort the matched frames by their x location
+    // ascending, then width descending
+    keys.sort(function(a, b){
+        return a - b;
+    });
+    // Step through frames saving only the biggest bottom-up frames
+    // thanks to the sort order. This relies on the tree property
+    // where children are always smaller than their parents.
+    for (var k in keys) {
+        var x = parseInt(keys[k]);
+        var w = matches[keys[k]];
+        if (x >= lastx + lastw) {
+            count += w;
+            lastx = x;
+            lastw = w;
+        }
+    }
+    // display matched percent
+    matchedtxt.classList.remove("hide");
+    var pct = 100 * count / maxwidth;
+    if (pct != 100) pct = pct.toFixed(1);
+    matchedtxt.firstChild.nodeValue = "Matched: " + pct + "%";
+}
+function format_percent(n) {
+    return n.toFixed(4) + "%";
+}
+]]></script>
+  <rect x="0" y="0" width="100%" height="390" fill="url(#background)"/>
+  <text id="title" style="font-size:xx-small" fill="rgb(0,0,0)" x="50.0000%" y="24.00">Flame Graph: Version: 0.11.84; Allocator: system; Platform: x86_64-unknown-linux-gnu; ; git: 69b737ce; -freq 8000; created 20261031T202242-0700; flamegraph-flamegraph 0.6.14; rust 1.99.1 x86_64-unknown-linux-gnu<br/>; command: s4 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx</text>
+  <text id="details" fill="rgb(0,0,0)" x="10" y="373.00"> </text>
+  <text id="unzoom" class="hide" fill="rgb(0,0,0)" x="10" y="24.00">Reset Zoom</text>
+  <text id="search" fill="rgb(0,0,0)" x="1190" y="24.00">Search</text>
+  <text id="matched" fill="rgb(0,0,0)" x="1190" y="373.00"> </text>
+  <svg id="frames" x="10" width="1180" total_samples="18269879">
+    <g>
+      <title>ret_from_fork_asm (20,644 samples, 0.11%)</title>
+      <rect x="0.0000%" y="309" width="0.1130%" height="15" fill="rgb(241,196,20)" fg:x="0" fg:w="20644"/>
+      <text x="0.2500%" y="319.50"/>
+    </g>
+    <g>
+      <title>ret_from_fork (20,644 samples, 0.11%)</title>
+      <rect x="0.0000%" y="293" width="0.1130%" height="15" fill="rgb(249,149,44)" fg:x="0" fg:w="20644"/>
+      <text x="0.2500%" y="303.50"/>
+    </g>
+    <g>
+      <title>schedule_tail (20,644 samples, 0.11%)</title>
+      <rect x="0.0000%" y="277" width="0.1130%" height="15" fill="rgb(215,144,34)" fg:x="0" fg:w="20644"/>
+      <text x="0.2500%" y="287.50"/>
+    </g>
+    <g>
+      <title>finish_task_switch.isra.0 (20,644 samples, 0.11%)</title>
+      <rect x="0.0000%" y="261" width="0.1130%" height="15" fill="rgb(249,184,27)" fg:x="0" fg:w="20644"/>
+      <text x="0.2500%" y="271.50"/>
+    </g>
+    <g>
+      <title>__perf_event_task_sched_in (20,644 samples, 0.11%)</title>
+      <rect x="0.0000%" y="245" width="0.1130%" height="15" fill="rgb(253,170,3)" fg:x="0" fg:w="20644"/>
+      <text x="0.2500%" y="255.50"/>
+    </g>
+    <g>
+      <title>perf_ctx_enable (20,644 samples, 0.11%)</title>
+      <rect x="0.0000%" y="229" width="0.1130%" height="15" fill="rgb(241,216,19)" fg:x="0" fg:w="20644"/>
+      <text x="0.2500%" y="239.50"/>
+    </g>
+    <g>
+      <title>x86_pmu_enable (20,644 samples, 0.11%)</title>
+      <rect x="0.0000%" y="213" width="0.1130%" height="15" fill="rgb(226,160,26)" fg:x="0" fg:w="20644"/>
+      <text x="0.2500%" y="223.50"/>
+    </g>
+    <g>
+      <title>error_entry (327,364 samples, 1.79%)</title>
+      <rect x="0.1130%" y="309" width="1.7918%" height="15" fill="rgb(220,135,2)" fg:x="20644" fg:w="327364"/>
+      <text x="0.3630%" y="319.50">e..</text>
+    </g>
+    <g>
+      <title>rw_verify_area (452,745 samples, 2.48%)</title>
+      <rect x="1.9048%" y="213" width="2.4781%" height="15" fill="rgb(249,222,17)" fg:x="348008" fg:w="452745"/>
+      <text x="2.1548%" y="223.50">rw..</text>
+    </g>
+    <g>
+      <title>bpf_lsm_file_permission (452,745 samples, 2.48%)</title>
+      <rect x="1.9048%" y="197" width="2.4781%" height="15" fill="rgb(223,101,46)" fg:x="348008" fg:w="452745"/>
+      <text x="2.1548%" y="207.50">bp..</text>
+    </g>
+    <g>
+      <title>vfs_write (963,820 samples, 5.28%)</title>
+      <rect x="1.9048%" y="229" width="5.2755%" height="15" fill="rgb(216,184,13)" fg:x="348008" fg:w="963820"/>
+      <text x="2.1548%" y="239.50">vfs_wr..</text>
+    </g>
+    <g>
+      <title>__x86_indirect_thunk_rax (506,442 samples, 2.77%)</title>
+      <rect x="7.1803%" y="229" width="2.7720%" height="15" fill="rgb(231,153,3)" fg:x="1311828" fg:w="506442"/>
+      <text x="7.4303%" y="239.50">__..</text>
+    </g>
+    <g>
+      <title>__x64_sys_write (2,466,228 samples, 13.50%)</title>
+      <rect x="1.9048%" y="261" width="13.4989%" height="15" fill="rgb(242,206,33)" fg:x="348008" fg:w="2466228"/>
+      <text x="2.1548%" y="271.50">__x64_sys_write</text>
+    </g>
+    <g>
+      <title>ksys_write (2,466,228 samples, 13.50%)</title>
+      <rect x="1.9048%" y="245" width="13.4989%" height="15" fill="rgb(223,155,43)" fg:x="348008" fg:w="2466228"/>
+      <text x="2.1548%" y="255.50">ksys_write</text>
+    </g>
+    <g>
+      <title>__x64_sys_read (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="261" width="2.1105%" height="15" fill="rgb(250,107,45)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="271.50">_..</text>
+    </g>
+    <g>
+      <title>ksys_read (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="245" width="2.1105%" height="15" fill="rgb(233,96,2)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="255.50">k..</text>
+    </g>
+    <g>
+      <title>vfs_read (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="229" width="2.1105%" height="15" fill="rgb(232,76,33)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="239.50">v..</text>
+    </g>
+    <g>
+      <title>seq_read (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="213" width="2.1105%" height="15" fill="rgb(230,146,54)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="223.50">s..</text>
+    </g>
+    <g>
+      <title>seq_read_iter (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="197" width="2.1105%" height="15" fill="rgb(230,110,51)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="207.50">s..</text>
+    </g>
+    <g>
+      <title>show_map (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="181" width="2.1105%" height="15" fill="rgb(234,116,41)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="191.50">s..</text>
+    </g>
+    <g>
+      <title>show_map_vma (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="165" width="2.1105%" height="15" fill="rgb(237,17,11)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="175.50">s..</text>
+    </g>
+    <g>
+      <title>seq_path (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="149" width="2.1105%" height="15" fill="rgb(212,173,8)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="159.50">s..</text>
+    </g>
+    <g>
+      <title>d_path (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="133" width="2.1105%" height="15" fill="rgb(228,93,10)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="143.50">d..</text>
+    </g>
+    <g>
+      <title>prepend_path (385,580 samples, 2.11%)</title>
+      <rect x="15.4037%" y="117" width="2.1105%" height="15" fill="rgb(227,144,38)" fg:x="2814236" fg:w="385580"/>
+      <text x="15.6537%" y="127.50">p..</text>
+    </g>
+    <g>
+      <title>__x64_sys_mmap (345,383 samples, 1.89%)</title>
+      <rect x="17.5142%" y="261" width="1.8905%" height="15" fill="rgb(213,64,0)" fg:x="3199816" fg:w="345383"/>
+      <text x="17.7642%" y="271.50">_..</text>
+    </g>
+    <g>
+      <title>ksys_mmap_pgoff (345,383 samples, 1.89%)</title>
+      <rect x="17.5142%" y="245" width="1.8905%" height="15" fill="rgb(248,1,16)" fg:x="3199816" fg:w="345383"/>
+      <text x="17.7642%" y="255.50">k..</text>
+    </g>
+    <g>
+      <title>vm_mmap_pgoff (345,383 samples, 1.89%)</title>
+      <rect x="17.5142%" y="229" width="1.8905%" height="15" fill="rgb(226,196,1)" fg:x="3199816" fg:w="345383"/>
+      <text x="17.7642%" y="239.50">v..</text>
+    </g>
+    <g>
+      <title>do_mmap (345,383 samples, 1.89%)</title>
+      <rect x="17.5142%" y="213" width="1.8905%" height="15" fill="rgb(228,25,27)" fg:x="3199816" fg:w="345383"/>
+      <text x="17.7642%" y="223.50">d..</text>
+    </g>
+    <g>
+      <title>mmap_region (345,383 samples, 1.89%)</title>
+      <rect x="17.5142%" y="197" width="1.8905%" height="15" fill="rgb(233,57,38)" fg:x="3199816" fg:w="345383"/>
+      <text x="17.7642%" y="207.50">m..</text>
+    </g>
+    <g>
+      <title>__mmap_region (345,383 samples, 1.89%)</title>
+      <rect x="17.5142%" y="181" width="1.8905%" height="15" fill="rgb(208,205,53)" fg:x="3199816" fg:w="345383"/>
+      <text x="17.7642%" y="191.50">_..</text>
+    </g>
+    <g>
+      <title>perf_event_mmap (345,383 samples, 1.89%)</title>
+      <rect x="17.5142%" y="165" width="1.8905%" height="15" fill="rgb(252,32,1)" fg:x="3199816" fg:w="345383"/>
+      <text x="17.7642%" y="175.50">p..</text>
+    </g>
+    <g>
+      <title>build_id_parse_nofault (345,383 samples, 1.89%)</title>
+      <rect x="17.5142%" y="149" width="1.8905%" height="15" fill="rgb(254,137,39)" fg:x="3199816" fg:w="345383"/>
+      <text x="17.7642%" y="159.50">b..</text>
+    </g>
+    <g>
+      <title>__build_id_parse (345,383 samples, 1.89%)</title>
+      <rect x="17.5142%" y="133" width="1.8905%" height="15" fill="rgb(205,7,30)" fg:x="3199816" fg:w="345383"/>
+      <text x="17.7642%" y="143.50">_..</text>
+    </g>
+    <g>
+      <title>__x64_sys_exit_group (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="261" width="2.9111%" height="15" fill="rgb(219,187,49)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="271.50">__..</text>
+    </g>
+    <g>
+      <title>do_group_exit (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="245" width="2.9111%" height="15" fill="rgb(241,5,8)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="255.50">do..</text>
+    </g>
+    <g>
+      <title>zap_other_threads (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="229" width="2.9111%" height="15" fill="rgb(220,97,50)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="239.50">za..</text>
+    </g>
+    <g>
+      <title>wake_up_state (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="213" width="2.9111%" height="15" fill="rgb(217,68,1)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="223.50">wa..</text>
+    </g>
+    <g>
+      <title>try_to_wake_up (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="197" width="2.9111%" height="15" fill="rgb(251,124,39)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="207.50">tr..</text>
+    </g>
+    <g>
+      <title>ttwu_do_activate (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="181" width="2.9111%" height="15" fill="rgb(244,166,49)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="191.50">tt..</text>
+    </g>
+    <g>
+      <title>enqueue_task (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="165" width="2.9111%" height="15" fill="rgb(207,72,24)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="175.50">en..</text>
+    </g>
+    <g>
+      <title>enqueue_task_fair (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="149" width="2.9111%" height="15" fill="rgb(252,79,15)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="159.50">en..</text>
+    </g>
+    <g>
+      <title>update_load_avg (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="133" width="2.9111%" height="15" fill="rgb(222,111,24)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="143.50">up..</text>
+    </g>
+    <g>
+      <title>__update_load_avg_cfs_rq (531,856 samples, 2.91%)</title>
+      <rect x="19.4046%" y="117" width="2.9111%" height="15" fill="rgb(206,162,20)" fg:x="3545199" fg:w="531856"/>
+      <text x="19.6546%" y="127.50">__..</text>
+    </g>
+    <g>
+      <title>x64_sys_call (4,211,785 samples, 23.05%)</title>
+      <rect x="1.9048%" y="277" width="23.0532%" height="15" fill="rgb(249,126,47)" fg:x="348008" fg:w="4211785"/>
+      <text x="2.1548%" y="287.50">x64_sys_call</text>
+    </g>
+    <g>
+      <title>__x64_sys_clone3 (482,738 samples, 2.64%)</title>
+      <rect x="22.3157%" y="261" width="2.6423%" height="15" fill="rgb(243,90,30)" fg:x="4077055" fg:w="482738"/>
+      <text x="22.5657%" y="271.50">__..</text>
+    </g>
+    <g>
+      <title>__do_sys_clone3 (482,738 samples, 2.64%)</title>
+      <rect x="22.3157%" y="245" width="2.6423%" height="15" fill="rgb(226,75,10)" fg:x="4077055" fg:w="482738"/>
+      <text x="22.5657%" y="255.50">__..</text>
+    </g>
+    <g>
+      <title>kernel_clone (482,738 samples, 2.64%)</title>
+      <rect x="22.3157%" y="229" width="2.6423%" height="15" fill="rgb(225,70,27)" fg:x="4077055" fg:w="482738"/>
+      <text x="22.5657%" y="239.50">ke..</text>
+    </g>
+    <g>
+      <title>copy_process (482,738 samples, 2.64%)</title>
+      <rect x="22.3157%" y="213" width="2.6423%" height="15" fill="rgb(210,101,2)" fg:x="4077055" fg:w="482738"/>
+      <text x="22.5657%" y="223.50">co..</text>
+    </g>
+    <g>
+      <title>proc_fork_connector (482,738 samples, 2.64%)</title>
+      <rect x="22.3157%" y="197" width="2.6423%" height="15" fill="rgb(234,229,35)" fg:x="4077055" fg:w="482738"/>
+      <text x="22.5657%" y="207.50">pr..</text>
+    </g>
+    <g>
+      <title>cn_netlink_send_mult (482,738 samples, 2.64%)</title>
+      <rect x="22.3157%" y="181" width="2.6423%" height="15" fill="rgb(215,169,47)" fg:x="4077055" fg:w="482738"/>
+      <text x="22.5657%" y="191.50">cn..</text>
+    </g>
+    <g>
+      <title>netlink_broadcast_filtered (482,738 samples, 2.64%)</title>
+      <rect x="22.3157%" y="165" width="2.6423%" height="15" fill="rgb(241,77,14)" fg:x="4077055" fg:w="482738"/>
+      <text x="22.5657%" y="175.50">ne..</text>
+    </g>
+    <g>
+      <title>sk_filter_trim_cap (482,738 samples, 2.64%)</title>
+      <rect x="22.3157%" y="149" width="2.6423%" height="15" fill="rgb(247,83,44)" fg:x="4077055" fg:w="482738"/>
+      <text x="22.5657%" y="159.50">sk..</text>
+    </g>
+    <g>
+      <title>bpf_lsm_socket_sock_rcv_skb (482,738 samples, 2.64%)</title>
+      <rect x="22.3157%" y="133" width="2.6423%" height="15" fill="rgb(213,98,32)" fg:x="4077055" fg:w="482738"/>
+      <text x="22.5657%" y="143.50">bp..</text>
+    </g>
+    <g>
+      <title>entry_SYSCALL_64_after_hwframe (4,661,354 samples, 25.51%)</title>
+      <rect x="1.9048%" y="309" width="25.5139%" height="15" fill="rgb(205,226,15)" fg:x="348008" fg:w="4661354"/>
+      <text x="2.1548%" y="319.50">entry_SYSCALL_64_after_hwframe</text>
+    </g>
+    <g>
+      <title>do_syscall_64 (4,661,354 samples, 25.51%)</title>
+      <rect x="1.9048%" y="293" width="25.5139%" height="15" fill="rgb(220,74,14)" fg:x="348008" fg:w="4661354"/>
+      <text x="2.1548%" y="303.50">do_syscall_64</text>
+    </g>
+    <g>
+      <title>do_wp_page (476,254 samples, 2.61%)</title>
+      <rect x="27.4187%" y="229" width="2.6068%" height="15" fill="rgb(243,223,7)" fg:x="5009362" fg:w="476254"/>
+      <text x="27.6687%" y="239.50">do..</text>
+    </g>
+    <g>
+      <title>__vmf_anon_prepare (476,254 samples, 2.61%)</title>
+      <rect x="27.4187%" y="213" width="2.6068%" height="15" fill="rgb(220,190,45)" fg:x="5009362" fg:w="476254"/>
+      <text x="27.6687%" y="223.50">__..</text>
+    </g>
+    <g>
+      <title>__anon_vma_prepare (476,254 samples, 2.61%)</title>
+      <rect x="27.4187%" y="197" width="2.6068%" height="15" fill="rgb(233,216,34)" fg:x="5009362" fg:w="476254"/>
+      <text x="27.6687%" y="207.50">__..</text>
+    </g>
+    <g>
+      <title>kmem_cache_alloc_noprof (476,254 samples, 2.61%)</title>
+      <rect x="27.4187%" y="181" width="2.6068%" height="15" fill="rgb(214,81,26)" fg:x="5009362" fg:w="476254"/>
+      <text x="27.6687%" y="191.50">km..</text>
+    </g>
+    <g>
+      <title>vma_alloc_folio_noprof (675,323 samples, 3.70%)</title>
+      <rect x="30.0255%" y="213" width="3.6964%" height="15" fill="rgb(236,67,6)" fg:x="5485616" fg:w="675323"/>
+      <text x="30.2755%" y="223.50">vma_..</text>
+    </g>
+    <g>
+      <title>alloc_pages_mpol (675,323 samples, 3.70%)</title>
+      <rect x="30.0255%" y="197" width="3.6964%" height="15" fill="rgb(229,124,16)" fg:x="5485616" fg:w="675323"/>
+      <text x="30.2755%" y="207.50">allo..</text>
+    </g>
+    <g>
+      <title>__alloc_frozen_pages_noprof (675,323 samples, 3.70%)</title>
+      <rect x="30.0255%" y="181" width="3.6964%" height="15" fill="rgb(252,169,49)" fg:x="5485616" fg:w="675323"/>
+      <text x="30.2755%" y="191.50">__al..</text>
+    </g>
+    <g>
+      <title>clear_page_erms (675,323 samples, 3.70%)</title>
+      <rect x="30.0255%" y="165" width="3.6964%" height="15" fill="rgb(253,135,51)" fg:x="5485616" fg:w="675323"/>
+      <text x="30.2755%" y="175.50">clea..</text>
+    </g>
+    <g>
+      <title>finish_fault (347,755 samples, 1.90%)</title>
+      <rect x="33.7218%" y="213" width="1.9034%" height="15" fill="rgb(219,25,1)" fg:x="6160939" fg:w="347755"/>
+      <text x="33.9718%" y="223.50">f..</text>
+    </g>
+    <g>
+      <title>set_pte_range (768,891 samples, 4.21%)</title>
+      <rect x="35.6253%" y="197" width="4.2085%" height="15" fill="rgb(221,12,2)" fg:x="6508694" fg:w="768891"/>
+      <text x="35.8753%" y="207.50">set_p..</text>
+    </g>
+    <g>
+      <title>filemap_map_pages (1,215,184 samples, 6.65%)</title>
+      <rect x="35.6253%" y="213" width="6.6513%" height="15" fill="rgb(240,96,12)" fg:x="6508694" fg:w="1215184"/>
+      <text x="35.8753%" y="223.50">filemap_m..</text>
+    </g>
+    <g>
+      <title>next_uptodate_folio (446,293 samples, 2.44%)</title>
+      <rect x="39.8338%" y="197" width="2.4428%" height="15" fill="rgb(216,189,42)" fg:x="7277585" fg:w="446293"/>
+      <text x="40.0838%" y="207.50">ne..</text>
+    </g>
+    <g>
+      <title>do_fault (2,581,797 samples, 14.13%)</title>
+      <rect x="30.0255%" y="229" width="14.1314%" height="15" fill="rgb(236,204,42)" fg:x="5485616" fg:w="2581797"/>
+      <text x="30.2755%" y="239.50">do_fault</text>
+    </g>
+    <g>
+      <title>__do_fault (343,535 samples, 1.88%)</title>
+      <rect x="42.2766%" y="213" width="1.8803%" height="15" fill="rgb(232,18,38)" fg:x="7723878" fg:w="343535"/>
+      <text x="42.5266%" y="223.50">_..</text>
+    </g>
+    <g>
+      <title>filemap_fault (343,535 samples, 1.88%)</title>
+      <rect x="42.2766%" y="197" width="1.8803%" height="15" fill="rgb(254,137,16)" fg:x="7723878" fg:w="343535"/>
+      <text x="42.5266%" y="207.50">f..</text>
+    </g>
+    <g>
+      <title>s4 (8,118,317 samples, 44.44%)</title>
+      <rect x="0.0000%" y="325" width="44.4355%" height="15" fill="rgb(230,7,27)" fg:x="0" fg:w="8118317"/>
+      <text x="0.2500%" y="335.50">s4</text>
+    </g>
+    <g>
+      <title>asm_exc_page_fault (3,108,955 samples, 17.02%)</title>
+      <rect x="27.4187%" y="309" width="17.0168%" height="15" fill="rgb(208,26,13)" fg:x="5009362" fg:w="3108955"/>
+      <text x="27.6687%" y="319.50">asm_exc_page_fault</text>
+    </g>
+    <g>
+      <title>exc_page_fault (3,108,955 samples, 17.02%)</title>
+      <rect x="27.4187%" y="293" width="17.0168%" height="15" fill="rgb(216,51,29)" fg:x="5009362" fg:w="3108955"/>
+      <text x="27.6687%" y="303.50">exc_page_fault</text>
+    </g>
+    <g>
+      <title>do_user_addr_fault (3,108,955 samples, 17.02%)</title>
+      <rect x="27.4187%" y="277" width="17.0168%" height="15" fill="rgb(253,37,52)" fg:x="5009362" fg:w="3108955"/>
+      <text x="27.6687%" y="287.50">do_user_addr_fault</text>
+    </g>
+    <g>
+      <title>handle_mm_fault (3,108,955 samples, 17.02%)</title>
+      <rect x="27.4187%" y="261" width="17.0168%" height="15" fill="rgb(247,31,49)" fg:x="5009362" fg:w="3108955"/>
+      <text x="27.6687%" y="271.50">handle_mm_fault</text>
+    </g>
+    <g>
+      <title>__handle_mm_fault (3,108,955 samples, 17.02%)</title>
+      <rect x="27.4187%" y="245" width="17.0168%" height="15" fill="rgb(254,123,40)" fg:x="5009362" fg:w="3108955"/>
+      <text x="27.6687%" y="255.50">__handle_mm_fault</text>
+    </g>
+    <g>
+      <title>do_anonymous_page (50,904 samples, 0.28%)</title>
+      <rect x="44.1569%" y="229" width="0.2786%" height="15" fill="rgb(242,227,11)" fg:x="8067413" fg:w="50904"/>
+      <text x="44.4069%" y="239.50"/>
+    </g>
+    <g>
+      <title>vma_alloc_folio_noprof (50,904 samples, 0.28%)</title>
+      <rect x="44.1569%" y="213" width="0.2786%" height="15" fill="rgb(236,67,6)" fg:x="8067413" fg:w="50904"/>
+      <text x="44.4069%" y="223.50"/>
+    </g>
+    <g>
+      <title>alloc_pages_mpol (50,904 samples, 0.28%)</title>
+      <rect x="44.1569%" y="197" width="0.2786%" height="15" fill="rgb(229,124,16)" fg:x="8067413" fg:w="50904"/>
+      <text x="44.4069%" y="207.50"/>
+    </g>
+    <g>
+      <title>policy_nodemask (50,904 samples, 0.28%)</title>
+      <rect x="44.1569%" y="181" width="0.2786%" height="15" fill="rgb(228,158,5)" fg:x="8067413" fg:w="50904"/>
+      <text x="44.4069%" y="191.50"/>
+    </g>
+    <g>
+      <title>ctrl-c (311,623 samples, 1.71%)</title>
+      <rect x="44.4374%" y="325" width="1.7057%" height="15" fill="rgb(217,0,15)" fg:x="8118664" fg:w="311623"/>
+      <text x="44.6874%" y="335.50"/>
+    </g>
+    <g>
+      <title>entry_SYSCALL_64_after_hwframe (311,623 samples, 1.71%)</title>
+      <rect x="44.4374%" y="309" width="1.7057%" height="15" fill="rgb(205,226,15)" fg:x="8118664" fg:w="311623"/>
+      <text x="44.6874%" y="319.50"/>
+    </g>
+    <g>
+      <title>do_syscall_64 (311,623 samples, 1.71%)</title>
+      <rect x="44.4374%" y="293" width="1.7057%" height="15" fill="rgb(220,74,14)" fg:x="8118664" fg:w="311623"/>
+      <text x="44.6874%" y="303.50"/>
+    </g>
+    <g>
+      <title>exit_to_user_mode_loop (311,623 samples, 1.71%)</title>
+      <rect x="44.4374%" y="277" width="1.7057%" height="15" fill="rgb(224,108,39)" fg:x="8118664" fg:w="311623"/>
+      <text x="44.6874%" y="287.50"/>
+    </g>
+    <g>
+      <title>arch_do_signal_or_restart (311,623 samples, 1.71%)</title>
+      <rect x="44.4374%" y="261" width="1.7057%" height="15" fill="rgb(236,153,36)" fg:x="8118664" fg:w="311623"/>
+      <text x="44.6874%" y="271.50"/>
+    </g>
+    <g>
+      <title>get_signal (311,623 samples, 1.71%)</title>
+      <rect x="44.4374%" y="245" width="1.7057%" height="15" fill="rgb(219,222,19)" fg:x="8118664" fg:w="311623"/>
+      <text x="44.6874%" y="255.50"/>
+    </g>
+    <g>
+      <title>_raw_spin_lock_irq (311,623 samples, 1.71%)</title>
+      <rect x="44.4374%" y="229" width="1.7057%" height="15" fill="rgb(250,79,18)" fg:x="8118664" fg:w="311623"/>
+      <text x="44.6874%" y="239.50"/>
+    </g>
+    <g>
+      <title>__pv_queued_spin_lock_slowpath (311,623 samples, 1.71%)</title>
+      <rect x="44.4374%" y="213" width="1.7057%" height="15" fill="rgb(215,118,40)" fg:x="8118664" fg:w="311623"/>
+      <text x="44.6874%" y="223.50"/>
+    </g>
+    <g>
+      <title>perf_ctx_enable (2,931 samples, 0.02%)</title>
+      <rect x="46.1431%" y="229" width="0.0160%" height="15" fill="rgb(241,216,19)" fg:x="8430287" fg:w="2931"/>
+      <text x="46.3931%" y="239.50"/>
+    </g>
+    <g>
+      <title>ret_from_fork_asm (4,201 samples, 0.02%)</title>
+      <rect x="46.1431%" y="309" width="0.0230%" height="15" fill="rgb(241,196,20)" fg:x="8430287" fg:w="4201"/>
+      <text x="46.3931%" y="319.50"/>
+    </g>
+    <g>
+      <title>ret_from_fork (4,201 samples, 0.02%)</title>
+      <rect x="46.1431%" y="293" width="0.0230%" height="15" fill="rgb(249,149,44)" fg:x="8430287" fg:w="4201"/>
+      <text x="46.3931%" y="303.50"/>
+    </g>
+    <g>
+      <title>schedule_tail (4,201 samples, 0.02%)</title>
+      <rect x="46.1431%" y="277" width="0.0230%" height="15" fill="rgb(215,144,34)" fg:x="8430287" fg:w="4201"/>
+      <text x="46.3931%" y="287.50"/>
+    </g>
+    <g>
+      <title>finish_task_switch.isra.0 (4,201 samples, 0.02%)</title>
+      <rect x="46.1431%" y="261" width="0.0230%" height="15" fill="rgb(249,184,27)" fg:x="8430287" fg:w="4201"/>
+      <text x="46.3931%" y="271.50"/>
+    </g>
+    <g>
+      <title>__perf_event_task_sched_in (4,201 samples, 0.02%)</title>
+      <rect x="46.1431%" y="245" width="0.0230%" height="15" fill="rgb(253,170,3)" fg:x="8430287" fg:w="4201"/>
+      <text x="46.3931%" y="255.50"/>
+    </g>
+    <g>
+      <title>yield_task_fair (484,313 samples, 2.65%)</title>
+      <rect x="46.1661%" y="245" width="2.6509%" height="15" fill="rgb(234,42,44)" fg:x="8434488" fg:w="484313"/>
+      <text x="46.4161%" y="255.50">yi..</text>
+    </g>
+    <g>
+      <title>__x64_sys_sched_yield (990,526 samples, 5.42%)</title>
+      <rect x="46.1661%" y="261" width="5.4216%" height="15" fill="rgb(235,109,42)" fg:x="8434488" fg:w="990526"/>
+      <text x="46.4161%" y="271.50">__x64_s..</text>
+    </g>
+    <g>
+      <title>do_sched_yield (506,213 samples, 2.77%)</title>
+      <rect x="48.8170%" y="245" width="2.7708%" height="15" fill="rgb(223,83,33)" fg:x="8918801" fg:w="506213"/>
+      <text x="49.0670%" y="255.50">do..</text>
+    </g>
+    <g>
+      <title>schedule (506,213 samples, 2.77%)</title>
+      <rect x="48.8170%" y="229" width="2.7708%" height="15" fill="rgb(213,215,35)" fg:x="8918801" fg:w="506213"/>
+      <text x="49.0670%" y="239.50">sc..</text>
+    </g>
+    <g>
+      <title>__schedule (506,213 samples, 2.77%)</title>
+      <rect x="48.8170%" y="213" width="2.7708%" height="15" fill="rgb(207,40,26)" fg:x="8918801" fg:w="506213"/>
+      <text x="49.0670%" y="223.50">__..</text>
+    </g>
+    <g>
+      <title>_raw_spin_unlock (506,213 samples, 2.77%)</title>
+      <rect x="48.8170%" y="197" width="2.7708%" height="15" fill="rgb(237,171,51)" fg:x="8918801" fg:w="506213"/>
+      <text x="49.0670%" y="207.50">_r..</text>
+    </g>
+    <g>
+      <title>__raw_callee_save___pv_queued_spin_unlock (506,213 samples, 2.77%)</title>
+      <rect x="48.8170%" y="181" width="2.7708%" height="15" fill="rgb(236,100,45)" fg:x="8918801" fg:w="506213"/>
+      <text x="49.0670%" y="191.50">__..</text>
+    </g>
+    <g>
+      <title>ext4_file_read_iter (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="213" width="3.7823%" height="15" fill="rgb(246,166,2)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="223.50">ext4..</text>
+    </g>
+    <g>
+      <title>generic_file_read_iter (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="197" width="3.7823%" height="15" fill="rgb(221,63,36)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="207.50">gene..</text>
+    </g>
+    <g>
+      <title>filemap_read (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="181" width="3.7823%" height="15" fill="rgb(214,68,38)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="191.50">file..</text>
+    </g>
+    <g>
+      <title>filemap_get_pages (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="165" width="3.7823%" height="15" fill="rgb(242,84,29)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="175.50">file..</text>
+    </g>
+    <g>
+      <title>filemap_readahead.isra.0 (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="149" width="3.7823%" height="15" fill="rgb(236,32,7)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="159.50">file..</text>
+    </g>
+    <g>
+      <title>page_cache_async_ra (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="133" width="3.7823%" height="15" fill="rgb(245,185,44)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="143.50">page..</text>
+    </g>
+    <g>
+      <title>page_cache_ra_order (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="117" width="3.7823%" height="15" fill="rgb(226,23,38)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="127.50">page..</text>
+    </g>
+    <g>
+      <title>filemap_alloc_folio_noprof (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="101" width="3.7823%" height="15" fill="rgb(219,56,11)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="111.50">file..</text>
+    </g>
+    <g>
+      <title>folio_alloc_noprof (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="85" width="3.7823%" height="15" fill="rgb(209,75,42)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="95.50">foli..</text>
+    </g>
+    <g>
+      <title>alloc_pages_mpol (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="69" width="3.7823%" height="15" fill="rgb(229,124,16)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="79.50">allo..</text>
+    </g>
+    <g>
+      <title>__alloc_frozen_pages_noprof (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="53" width="3.7823%" height="15" fill="rgb(252,169,49)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="63.50">__al..</text>
+    </g>
+    <g>
+      <title>clear_page_erms (691,022 samples, 3.78%)</title>
+      <rect x="51.5877%" y="37" width="3.7823%" height="15" fill="rgb(253,135,51)" fg:x="9425014" fg:w="691022"/>
+      <text x="51.8377%" y="47.50">clea..</text>
+    </g>
+    <g>
+      <title>__x64_sys_read (980,993 samples, 5.37%)</title>
+      <rect x="51.5877%" y="261" width="5.3695%" height="15" fill="rgb(250,107,45)" fg:x="9425014" fg:w="980993"/>
+      <text x="51.8377%" y="271.50">__x64_s..</text>
+    </g>
+    <g>
+      <title>ksys_read (980,993 samples, 5.37%)</title>
+      <rect x="51.5877%" y="245" width="5.3695%" height="15" fill="rgb(233,96,2)" fg:x="9425014" fg:w="980993"/>
+      <text x="51.8377%" y="255.50">ksys_re..</text>
+    </g>
+    <g>
+      <title>vfs_read (980,993 samples, 5.37%)</title>
+      <rect x="51.5877%" y="229" width="5.3695%" height="15" fill="rgb(232,76,33)" fg:x="9425014" fg:w="980993"/>
+      <text x="51.8377%" y="239.50">vfs_read</text>
+    </g>
+    <g>
+      <title>vma_modify_flags (440,942 samples, 2.41%)</title>
+      <rect x="56.9572%" y="213" width="2.4135%" height="15" fill="rgb(209,136,5)" fg:x="10406007" fg:w="440942"/>
+      <text x="57.2072%" y="223.50">vm..</text>
+    </g>
+    <g>
+      <title>vma_modify (440,942 samples, 2.41%)</title>
+      <rect x="56.9572%" y="197" width="2.4135%" height="15" fill="rgb(208,203,43)" fg:x="10406007" fg:w="440942"/>
+      <text x="57.2072%" y="207.50">vm..</text>
+    </g>
+    <g>
+      <title>can_vma_merge_left.constprop.0 (440,942 samples, 2.41%)</title>
+      <rect x="56.9572%" y="181" width="2.4135%" height="15" fill="rgb(250,42,53)" fg:x="10406007" fg:w="440942"/>
+      <text x="57.2072%" y="191.50">ca..</text>
+    </g>
+    <g>
+      <title>is_mergeable_anon_vma (440,942 samples, 2.41%)</title>
+      <rect x="56.9572%" y="165" width="2.4135%" height="15" fill="rgb(245,183,41)" fg:x="10406007" fg:w="440942"/>
+      <text x="57.2072%" y="175.50">is..</text>
+    </g>
+    <g>
+      <title>__x64_sys_mprotect (542,886 samples, 2.97%)</title>
+      <rect x="56.9572%" y="261" width="2.9715%" height="15" fill="rgb(254,23,50)" fg:x="10406007" fg:w="542886"/>
+      <text x="57.2072%" y="271.50">__x..</text>
+    </g>
+    <g>
+      <title>do_mprotect_pkey (542,886 samples, 2.97%)</title>
+      <rect x="56.9572%" y="245" width="2.9715%" height="15" fill="rgb(224,41,39)" fg:x="10406007" fg:w="542886"/>
+      <text x="57.2072%" y="255.50">do_..</text>
+    </g>
+    <g>
+      <title>mprotect_fixup (542,886 samples, 2.97%)</title>
+      <rect x="56.9572%" y="229" width="2.9715%" height="15" fill="rgb(232,46,46)" fg:x="10406007" fg:w="542886"/>
+      <text x="57.2072%" y="239.50">mpr..</text>
+    </g>
+    <g>
+      <title>security_vm_enough_memory_mm (101,944 samples, 0.56%)</title>
+      <rect x="59.3707%" y="213" width="0.5580%" height="15" fill="rgb(234,218,45)" fg:x="10846949" fg:w="101944"/>
+      <text x="59.6207%" y="223.50"/>
+    </g>
+    <g>
+      <title>selinux_vm_enough_memory (101,944 samples, 0.56%)</title>
+      <rect x="59.3707%" y="197" width="0.5580%" height="15" fill="rgb(208,158,1)" fg:x="10846949" fg:w="101944"/>
+      <text x="59.6207%" y="207.50"/>
+    </g>
+    <g>
+      <title>avc_has_perm_noaudit (101,944 samples, 0.56%)</title>
+      <rect x="59.3707%" y="181" width="0.5580%" height="15" fill="rgb(220,33,0)" fg:x="10846949" fg:w="101944"/>
+      <text x="59.6207%" y="191.50"/>
+    </g>
+    <g>
+      <title>avc_lookup (101,944 samples, 0.56%)</title>
+      <rect x="59.3707%" y="165" width="0.5580%" height="15" fill="rgb(223,23,32)" fg:x="10846949" fg:w="101944"/>
+      <text x="59.6207%" y="175.50"/>
+    </g>
+    <g>
+      <title>down_write_killable (363,907 samples, 1.99%)</title>
+      <rect x="59.9287%" y="213" width="1.9918%" height="15" fill="rgb(229,142,1)" fg:x="10948893" fg:w="363907"/>
+      <text x="60.1787%" y="223.50">d..</text>
+    </g>
+    <g>
+      <title>rwsem_down_write_slowpath (363,907 samples, 1.99%)</title>
+      <rect x="59.9287%" y="197" width="1.9918%" height="15" fill="rgb(250,77,51)" fg:x="10948893" fg:w="363907"/>
+      <text x="60.1787%" y="207.50">r..</text>
+    </g>
+    <g>
+      <title>__x64_sys_mmap (747,947 samples, 4.09%)</title>
+      <rect x="59.9287%" y="261" width="4.0939%" height="15" fill="rgb(213,64,0)" fg:x="10948893" fg:w="747947"/>
+      <text x="60.1787%" y="271.50">__x6..</text>
+    </g>
+    <g>
+      <title>ksys_mmap_pgoff (747,947 samples, 4.09%)</title>
+      <rect x="59.9287%" y="245" width="4.0939%" height="15" fill="rgb(248,1,16)" fg:x="10948893" fg:w="747947"/>
+      <text x="60.1787%" y="255.50">ksys..</text>
+    </g>
+    <g>
+      <title>vm_mmap_pgoff (747,947 samples, 4.09%)</title>
+      <rect x="59.9287%" y="229" width="4.0939%" height="15" fill="rgb(226,196,1)" fg:x="10948893" fg:w="747947"/>
+      <text x="60.1787%" y="239.50">vm_m..</text>
+    </g>
+    <g>
+      <title>do_mmap (384,040 samples, 2.10%)</title>
+      <rect x="61.9205%" y="213" width="2.1020%" height="15" fill="rgb(228,25,27)" fg:x="11312800" fg:w="384040"/>
+      <text x="62.1705%" y="223.50">d..</text>
+    </g>
+    <g>
+      <title>mmap_region (384,040 samples, 2.10%)</title>
+      <rect x="61.9205%" y="197" width="2.1020%" height="15" fill="rgb(233,57,38)" fg:x="11312800" fg:w="384040"/>
+      <text x="62.1705%" y="207.50">m..</text>
+    </g>
+    <g>
+      <title>__mmap_region (384,040 samples, 2.10%)</title>
+      <rect x="61.9205%" y="181" width="2.1020%" height="15" fill="rgb(208,205,53)" fg:x="11312800" fg:w="384040"/>
+      <text x="62.1705%" y="191.50">_..</text>
+    </g>
+    <g>
+      <title>perf_event_mmap (384,040 samples, 2.10%)</title>
+      <rect x="61.9205%" y="165" width="2.1020%" height="15" fill="rgb(252,32,1)" fg:x="11312800" fg:w="384040"/>
+      <text x="62.1705%" y="175.50">p..</text>
+    </g>
+    <g>
+      <title>perf_iterate_sb.constprop.0 (384,040 samples, 2.10%)</title>
+      <rect x="61.9205%" y="149" width="2.1020%" height="15" fill="rgb(217,177,19)" fg:x="11312800" fg:w="384040"/>
+      <text x="62.1705%" y="159.50">p..</text>
+    </g>
+    <g>
+      <title>perf_iterate_ctx (384,040 samples, 2.10%)</title>
+      <rect x="61.9205%" y="133" width="2.1020%" height="15" fill="rgb(227,133,21)" fg:x="11312800" fg:w="384040"/>
+      <text x="62.1705%" y="143.50">p..</text>
+    </g>
+    <g>
+      <title>perf_event_mmap_output (384,040 samples, 2.10%)</title>
+      <rect x="61.9205%" y="117" width="2.1020%" height="15" fill="rgb(225,127,18)" fg:x="11312800" fg:w="384040"/>
+      <text x="62.1705%" y="127.50">p..</text>
+    </g>
+    <g>
+      <title>__x64_sys_lseek (297,930 samples, 1.63%)</title>
+      <rect x="64.0225%" y="261" width="1.6307%" height="15" fill="rgb(239,96,40)" fg:x="11696840" fg:w="297930"/>
+      <text x="64.2725%" y="271.50"/>
+    </g>
+    <g>
+      <title>fput (297,930 samples, 1.63%)</title>
+      <rect x="64.0225%" y="245" width="1.6307%" height="15" fill="rgb(248,98,6)" fg:x="11696840" fg:w="297930"/>
+      <text x="64.2725%" y="255.50"/>
+    </g>
+    <g>
+      <title>pick_next_task_fair (458,101 samples, 2.51%)</title>
+      <rect x="65.6533%" y="149" width="2.5074%" height="15" fill="rgb(247,213,54)" fg:x="11994770" fg:w="458101"/>
+      <text x="65.9033%" y="159.50">pi..</text>
+    </g>
+    <g>
+      <title>sched_balance_newidle (458,101 samples, 2.51%)</title>
+      <rect x="65.6533%" y="133" width="2.5074%" height="15" fill="rgb(218,118,18)" fg:x="11994770" fg:w="458101"/>
+      <text x="65.9033%" y="143.50">sc..</text>
+    </g>
+    <g>
+      <title>__x64_sys_futex (930,428 samples, 5.09%)</title>
+      <rect x="65.6533%" y="261" width="5.0927%" height="15" fill="rgb(238,204,33)" fg:x="11994770" fg:w="930428"/>
+      <text x="65.9033%" y="271.50">__x64_..</text>
+    </g>
+    <g>
+      <title>do_futex (930,428 samples, 5.09%)</title>
+      <rect x="65.6533%" y="245" width="5.0927%" height="15" fill="rgb(249,126,29)" fg:x="11994770" fg:w="930428"/>
+      <text x="65.9033%" y="255.50">do_fut..</text>
+    </g>
+    <g>
+      <title>futex_wait (930,428 samples, 5.09%)</title>
+      <rect x="65.6533%" y="229" width="5.0927%" height="15" fill="rgb(242,80,18)" fg:x="11994770" fg:w="930428"/>
+      <text x="65.9033%" y="239.50">futex_..</text>
+    </g>
+    <g>
+      <title>__futex_wait (930,428 samples, 5.09%)</title>
+      <rect x="65.6533%" y="213" width="5.0927%" height="15" fill="rgb(249,104,20)" fg:x="11994770" fg:w="930428"/>
+      <text x="65.9033%" y="223.50">__fute..</text>
+    </g>
+    <g>
+      <title>futex_do_wait (930,428 samples, 5.09%)</title>
+      <rect x="65.6533%" y="197" width="5.0927%" height="15" fill="rgb(247,178,16)" fg:x="11994770" fg:w="930428"/>
+      <text x="65.9033%" y="207.50">futex_..</text>
+    </g>
+    <g>
+      <title>schedule (930,428 samples, 5.09%)</title>
+      <rect x="65.6533%" y="181" width="5.0927%" height="15" fill="rgb(213,215,35)" fg:x="11994770" fg:w="930428"/>
+      <text x="65.9033%" y="191.50">schedu..</text>
+    </g>
+    <g>
+      <title>__schedule (930,428 samples, 5.09%)</title>
+      <rect x="65.6533%" y="165" width="5.0927%" height="15" fill="rgb(207,40,26)" fg:x="11994770" fg:w="930428"/>
+      <text x="65.9033%" y="175.50">__sche..</text>
+    </g>
+    <g>
+      <title>dequeue_task_fair (470,777 samples, 2.58%)</title>
+      <rect x="68.1691%" y="149" width="2.5768%" height="15" fill="rgb(221,4,41)" fg:x="12454421" fg:w="470777"/>
+      <text x="68.4191%" y="159.50">de..</text>
+    </g>
+    <g>
+      <title>dequeue_entities (470,777 samples, 2.58%)</title>
+      <rect x="68.1691%" y="133" width="2.5768%" height="15" fill="rgb(210,164,28)" fg:x="12454421" fg:w="470777"/>
+      <text x="68.4191%" y="143.50">de..</text>
+    </g>
+    <g>
+      <title>update_load_avg (470,777 samples, 2.58%)</title>
+      <rect x="68.1691%" y="117" width="2.5768%" height="15" fill="rgb(222,111,24)" fg:x="12454421" fg:w="470777"/>
+      <text x="68.4191%" y="127.50">up..</text>
+    </g>
+    <g>
+      <title>proc_fork_connector (373,725 samples, 2.05%)</title>
+      <rect x="70.7459%" y="197" width="2.0456%" height="15" fill="rgb(234,229,35)" fg:x="12925198" fg:w="373725"/>
+      <text x="70.9959%" y="207.50">p..</text>
+    </g>
+    <g>
+      <title>cn_netlink_send_mult (373,725 samples, 2.05%)</title>
+      <rect x="70.7459%" y="181" width="2.0456%" height="15" fill="rgb(215,169,47)" fg:x="12925198" fg:w="373725"/>
+      <text x="70.9959%" y="191.50">c..</text>
+    </g>
+    <g>
+      <title>perf_event__header_size (371,281 samples, 2.03%)</title>
+      <rect x="72.7915%" y="165" width="2.0322%" height="15" fill="rgb(223,74,31)" fg:x="13298923" fg:w="371281"/>
+      <text x="73.0415%" y="175.50">p..</text>
+    </g>
+    <g>
+      <title>perf_event_alloc (364,455 samples, 1.99%)</title>
+      <rect x="74.8237%" y="149" width="1.9948%" height="15" fill="rgb(220,100,26)" fg:x="13670204" fg:w="364455"/>
+      <text x="75.0737%" y="159.50">p..</text>
+    </g>
+    <g>
+      <title>perf_try_init_event (364,455 samples, 1.99%)</title>
+      <rect x="74.8237%" y="133" width="1.9948%" height="15" fill="rgb(233,128,48)" fg:x="13670204" fg:w="364455"/>
+      <text x="75.0737%" y="143.50">p..</text>
+    </g>
+    <g>
+      <title>perf_event_init_task (1,085,897 samples, 5.94%)</title>
+      <rect x="72.7915%" y="197" width="5.9436%" height="15" fill="rgb(215,189,39)" fg:x="13298923" fg:w="1085897"/>
+      <text x="73.0415%" y="207.50">perf_eve..</text>
+    </g>
+    <g>
+      <title>inherit_task_group.isra.0 (1,085,897 samples, 5.94%)</title>
+      <rect x="72.7915%" y="181" width="5.9436%" height="15" fill="rgb(234,227,7)" fg:x="13298923" fg:w="1085897"/>
+      <text x="73.0415%" y="191.50">inherit_..</text>
+    </g>
+    <g>
+      <title>inherit_event.isra.0 (714,616 samples, 3.91%)</title>
+      <rect x="74.8237%" y="165" width="3.9114%" height="15" fill="rgb(234,220,9)" fg:x="13670204" fg:w="714616"/>
+      <text x="75.0737%" y="175.50">inhe..</text>
+    </g>
+    <g>
+      <title>__srcu_read_unlock (350,161 samples, 1.92%)</title>
+      <rect x="76.8186%" y="149" width="1.9166%" height="15" fill="rgb(226,187,51)" fg:x="14034659" fg:w="350161"/>
+      <text x="77.0686%" y="159.50">_..</text>
+    </g>
+    <g>
+      <title>alloc_pid (322,877 samples, 1.77%)</title>
+      <rect x="78.7352%" y="197" width="1.7673%" height="15" fill="rgb(239,90,16)" fg:x="14384820" fg:w="322877"/>
+      <text x="78.9852%" y="207.50"/>
+    </g>
+    <g>
+      <title>idr_alloc_cyclic (322,877 samples, 1.77%)</title>
+      <rect x="78.7352%" y="181" width="1.7673%" height="15" fill="rgb(247,42,5)" fg:x="14384820" fg:w="322877"/>
+      <text x="78.9852%" y="191.50"/>
+    </g>
+    <g>
+      <title>idr_alloc_u32 (322,877 samples, 1.77%)</title>
+      <rect x="78.7352%" y="165" width="1.7673%" height="15" fill="rgb(252,87,1)" fg:x="14384820" fg:w="322877"/>
+      <text x="78.9852%" y="175.50"/>
+    </g>
+    <g>
+      <title>radix_tree_iter_replace (322,877 samples, 1.77%)</title>
+      <rect x="78.7352%" y="149" width="1.7673%" height="15" fill="rgb(216,58,37)" fg:x="14384820" fg:w="322877"/>
+      <text x="78.9852%" y="159.50"/>
+    </g>
+    <g>
+      <title>__radix_tree_replace (322,877 samples, 1.77%)</title>
+      <rect x="78.7352%" y="133" width="1.7673%" height="15" fill="rgb(248,162,25)" fg:x="14384820" fg:w="322877"/>
+      <text x="78.9852%" y="143.50"/>
+    </g>
+    <g>
+      <title>__rmqueue_pcplist (350,804 samples, 1.92%)</title>
+      <rect x="80.5024%" y="133" width="1.9201%" height="15" fill="rgb(213,72,31)" fg:x="14707697" fg:w="350804"/>
+      <text x="80.7524%" y="143.50">_..</text>
+    </g>
+    <g>
+      <title>x64_sys_call (7,003,000 samples, 38.33%)</title>
+      <rect x="46.1661%" y="277" width="38.3309%" height="15" fill="rgb(249,126,47)" fg:x="8434488" fg:w="7003000"/>
+      <text x="46.4161%" y="287.50">x64_sys_call</text>
+    </g>
+    <g>
+      <title>__x64_sys_clone3 (2,512,290 samples, 13.75%)</title>
+      <rect x="70.7459%" y="261" width="13.7510%" height="15" fill="rgb(243,90,30)" fg:x="12925198" fg:w="2512290"/>
+      <text x="70.9959%" y="271.50">__x64_sys_clone3</text>
+    </g>
+    <g>
+      <title>__do_sys_clone3 (2,512,290 samples, 13.75%)</title>
+      <rect x="70.7459%" y="245" width="13.7510%" height="15" fill="rgb(226,75,10)" fg:x="12925198" fg:w="2512290"/>
+      <text x="70.9959%" y="255.50">__do_sys_clone3</text>
+    </g>
+    <g>
+      <title>kernel_clone (2,512,290 samples, 13.75%)</title>
+      <rect x="70.7459%" y="229" width="13.7510%" height="15" fill="rgb(225,70,27)" fg:x="12925198" fg:w="2512290"/>
+      <text x="70.9959%" y="239.50">kernel_clone</text>
+    </g>
+    <g>
+      <title>copy_process (2,512,290 samples, 13.75%)</title>
+      <rect x="70.7459%" y="213" width="13.7510%" height="15" fill="rgb(210,101,2)" fg:x="12925198" fg:w="2512290"/>
+      <text x="70.9959%" y="223.50">copy_process</text>
+    </g>
+    <g>
+      <title>__vmalloc_node_noprof (729,791 samples, 3.99%)</title>
+      <rect x="80.5024%" y="197" width="3.9945%" height="15" fill="rgb(254,197,32)" fg:x="14707697" fg:w="729791"/>
+      <text x="80.7524%" y="207.50">__vm..</text>
+    </g>
+    <g>
+      <title>__vmalloc_node_range_noprof (729,791 samples, 3.99%)</title>
+      <rect x="80.5024%" y="181" width="3.9945%" height="15" fill="rgb(206,16,1)" fg:x="14707697" fg:w="729791"/>
+      <text x="80.7524%" y="191.50">__vm..</text>
+    </g>
+    <g>
+      <title>alloc_pages_bulk_mempolicy_noprof (729,791 samples, 3.99%)</title>
+      <rect x="80.5024%" y="165" width="3.9945%" height="15" fill="rgb(207,188,28)" fg:x="14707697" fg:w="729791"/>
+      <text x="80.7524%" y="175.50">allo..</text>
+    </g>
+    <g>
+      <title>alloc_pages_bulk_noprof (729,791 samples, 3.99%)</title>
+      <rect x="80.5024%" y="149" width="3.9945%" height="15" fill="rgb(246,136,16)" fg:x="14707697" fg:w="729791"/>
+      <text x="80.7524%" y="159.50">allo..</text>
+    </g>
+    <g>
+      <title>exit_to_user_mode_loop (1,589,436 samples, 8.70%)</title>
+      <rect x="84.4969%" y="277" width="8.6998%" height="15" fill="rgb(224,108,39)" fg:x="15437488" fg:w="1589436"/>
+      <text x="84.7469%" y="287.50">exit_to_user..</text>
+    </g>
+    <g>
+      <title>arch_do_signal_or_restart (1,589,436 samples, 8.70%)</title>
+      <rect x="84.4969%" y="261" width="8.6998%" height="15" fill="rgb(236,153,36)" fg:x="15437488" fg:w="1589436"/>
+      <text x="84.7469%" y="271.50">arch_do_sign..</text>
+    </g>
+    <g>
+      <title>get_signal (1,589,436 samples, 8.70%)</title>
+      <rect x="84.4969%" y="245" width="8.6998%" height="15" fill="rgb(219,222,19)" fg:x="15437488" fg:w="1589436"/>
+      <text x="84.7469%" y="255.50">get_signal</text>
+    </g>
+    <g>
+      <title>_raw_spin_lock_irq (1,589,436 samples, 8.70%)</title>
+      <rect x="84.4969%" y="229" width="8.6998%" height="15" fill="rgb(250,79,18)" fg:x="15437488" fg:w="1589436"/>
+      <text x="84.7469%" y="239.50">_raw_spin_lo..</text>
+    </g>
+    <g>
+      <title>__pv_queued_spin_lock_slowpath (1,589,436 samples, 8.70%)</title>
+      <rect x="84.4969%" y="213" width="8.6998%" height="15" fill="rgb(215,118,40)" fg:x="15437488" fg:w="1589436"/>
+      <text x="84.7469%" y="223.50">__pv_queued_..</text>
+    </g>
+    <g>
+      <title>entry_SYSCALL_64_after_hwframe (8,934,858 samples, 48.90%)</title>
+      <rect x="46.1661%" y="309" width="48.9049%" height="15" fill="rgb(205,226,15)" fg:x="8434488" fg:w="8934858"/>
+      <text x="46.4161%" y="319.50">entry_SYSCALL_64_after_hwframe</text>
+    </g>
+    <g>
+      <title>do_syscall_64 (8,934,858 samples, 48.90%)</title>
+      <rect x="46.1661%" y="293" width="48.9049%" height="15" fill="rgb(220,74,14)" fg:x="8434488" fg:w="8934858"/>
+      <text x="46.4161%" y="303.50">do_syscall_64</text>
+    </g>
+    <g>
+      <title>__x64_sys_futex (342,422 samples, 1.87%)</title>
+      <rect x="93.1967%" y="277" width="1.8742%" height="15" fill="rgb(238,204,33)" fg:x="17026924" fg:w="342422"/>
+      <text x="93.4467%" y="287.50">_..</text>
+    </g>
+    <g>
+      <title>entry_SYSCALL_64 (422,836 samples, 2.31%)</title>
+      <rect x="95.0709%" y="309" width="2.3144%" height="15" fill="rgb(234,224,53)" fg:x="17369346" fg:w="422836"/>
+      <text x="95.3209%" y="319.50">e..</text>
+    </g>
+    <g>
+      <title>irqentry_exit (303,338 samples, 1.66%)</title>
+      <rect x="97.3853%" y="277" width="1.6603%" height="15" fill="rgb(235,213,50)" fg:x="17792182" fg:w="303338"/>
+      <text x="97.6353%" y="287.50"/>
+    </g>
+    <g>
+      <title>irqentry_exit_to_user_mode (303,338 samples, 1.66%)</title>
+      <rect x="97.3853%" y="261" width="1.6603%" height="15" fill="rgb(229,166,35)" fg:x="17792182" fg:w="303338"/>
+      <text x="97.6353%" y="271.50"/>
+    </g>
+    <g>
+      <title>all (18,269,879 samples, 100%)</title>
+      <rect x="0.0000%" y="341" width="100.0000%" height="15" fill="rgb(206,183,37)" fg:x="0" fg:w="18269879"/>
+      <text x="0.2500%" y="351.50"/>
+    </g>
+    <g>
+      <title>Microsoft-Windo (9,839,592 samples, 53.86%)</title>
+      <rect x="46.1431%" y="325" width="53.8569%" height="15" fill="rgb(206,94,23)" fg:x="8430287" fg:w="9839592"/>
+      <text x="46.3931%" y="335.50">Microsoft-Windo</text>
+    </g>
+    <g>
+      <title>asm_exc_page_fault (477,697 samples, 2.61%)</title>
+      <rect x="97.3853%" y="309" width="2.6147%" height="15" fill="rgb(208,26,13)" fg:x="17792182" fg:w="477697"/>
+      <text x="97.6353%" y="319.50">as..</text>
+    </g>
+    <g>
+      <title>exc_page_fault (477,697 samples, 2.61%)</title>
+      <rect x="97.3853%" y="293" width="2.6147%" height="15" fill="rgb(216,51,29)" fg:x="17792182" fg:w="477697"/>
+      <text x="97.6353%" y="303.50">ex..</text>
+    </g>
+    <g>
+      <title>do_user_addr_fault (174,359 samples, 0.95%)</title>
+      <rect x="99.0456%" y="277" width="0.9544%" height="15" fill="rgb(253,37,52)" fg:x="18095520" fg:w="174359"/>
+      <text x="99.2956%" y="287.50"/>
+    </g>
+    <g>
+      <title>handle_mm_fault (174,359 samples, 0.95%)</title>
+      <rect x="99.0456%" y="261" width="0.9544%" height="15" fill="rgb(247,31,49)" fg:x="18095520" fg:w="174359"/>
+      <text x="99.2956%" y="271.50"/>
+    </g>
+    <g>
+      <title>__handle_mm_fault (174,359 samples, 0.95%)</title>
+      <rect x="99.0456%" y="245" width="0.9544%" height="15" fill="rgb(254,123,40)" fg:x="18095520" fg:w="174359"/>
+      <text x="99.2956%" y="255.50"/>
+    </g>
+    <g>
+      <title>do_anonymous_page (174,359 samples, 0.95%)</title>
+      <rect x="99.0456%" y="229" width="0.9544%" height="15" fill="rgb(242,227,11)" fg:x="18095520" fg:w="174359"/>
+      <text x="99.2956%" y="239.50"/>
+    </g>
+    <g>
+      <title>_raw_spin_unlock (174,359 samples, 0.95%)</title>
+      <rect x="99.0456%" y="213" width="0.9544%" height="15" fill="rgb(237,171,51)" fg:x="18095520" fg:w="174359"/>
+      <text x="99.2956%" y="223.50"/>
+    </g>
+  </svg>
+</svg>

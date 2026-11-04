@@ -1,0 +1,50 @@
++ uname -a
+Linux uboo 6.18.54.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct  6 19:13:07 UTC 2026 x86_64 GNU/Linux
++ git log -n1 '--format=%h %D'
+69b737ce HEAD -> main, origin/main, origin/HEAD
++ ./target/release/s4 --version
+s4 (Super Speedy Syslog Searcher)
+Version: 0.11.84
+MSRV: 1.99.1
+Profile: release
+Allocator: system
+Features: bench_jetscii, bench_memchr, bench_stringzilla
+Platform: x86_64-unknown-linux-gnu
+Target OS: linux
+Target OS Family: unix
+Arch: x86_64
+CPU Target: default
+CPU Features: fxsr,sse,sse2
+Compiled Regular Expressions: 188
+Compiler Version: 1.99.1
+Rust Build Flags: 
+Optimization Level: 3
+Git Commit: 69b737cec3b304f16ed036b0c29c1f683b560353
+Build Date: 2026-10-31T16:30:39
+License: MIT
+Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+Author: James Thomas Moon
+
++ /usr/bin/grep --version
+grep (GNU grep) 3.12
++ /usr/bin/sort --version
+sort (uutils coreutils) 0.10.0
+
++ ./target/release/s4 -a 20000101T080000 -b 20000101T085959.999999 --color=never ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log
+
++ /usr/bin/grep --color=never --text -hEe '^20000101T08[[:digit:]]{4}' -- ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log
++ /usr/bin/sort -t ' ' -k 1 -s
+
+The output files will differ due to sorting method differences.
+However Line Count and Byte Count should be the same.
+
+super_speedy_syslog_searcher output file
+  Line Count 10800
+  Byte Count 3552746
+'grep | sort' output file
+  Line Count 10800
+  Byte Count 3552746
+Files /tmp/s4-tmp-compare-s4_s4_2LLVx and /tmp/s4-tmp-compare-s4_grep_8D0C0 differ
+
+Line Count and Byte Count are the same. (ʘ‿ʘ)
+

@@ -1,0 +1,24 @@
+Linux host 6.18.54.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct  6 19:13:07 UTC 2026 x86_64 GNU/Linux
+69b737ce HEAD -> main, origin/main, origin/HEAD
+s4 (Super Speedy Syslog Searcher)
+Version: 0.11.84
+MSRV: 1.99.1
+Profile: valgrind
+Allocator: system
+Features: 
+Platform: x86_64-unknown-linux-gnu
+Target OS: linux
+Target OS Family: unix
+Arch: x86_64
+CPU Target: default
+CPU Features: fxsr,sse,sse2
+Compiled Regular Expressions: 188
+Compiler Version: 1.99.1
+Rust Build Flags: -g
+Optimization Level: 3
+Git Commit: b9b26d4e301a24a2aff825657f9f114fef4a9035
+Build Date: 2026-10-27T01:05:28
+License: MIT
+Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+Author: James Thomas Moon
+

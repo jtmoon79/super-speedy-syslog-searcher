@@ -1,0 +1,22 @@
+
+crate super_speedy_syslog_searcher_ere_automator_procmacro
+├── struct EreRegexFieldsStruct: pub(crate)
+│   └── fn parse: pub(crate)
+├── fn bytes_contains: pub(crate)
+├── fn collect_const_exprs_from_caller_crate: pub(crate)
+├── fn collect_const_exprs_from_file: pub(crate)
+├── fn collect_rust_files_recursive: pub(crate)
+├── fn counter: pub
+├── fn counter_key_from_input: pub(crate)
+├── fn counter_last: pub
+├── fn counter_map: pub(crate)
+├── fn eval_expr_to_bytes: pub(crate)
+├── fn eval_expr_to_file_name: pub(crate)
+├── fn eval_expr_to_line_num: pub(crate)
+├── fn eval_expr_to_string: pub(crate)
+├── fn eval_expr_to_usize: pub(crate)
+├── fn flush_stderr: pub(crate)
+├── fn is_concat_bytes_path: pub(crate)
+├── fn is_concat_like_path: pub(crate)
+├── fn new_ere_regex: pub
+└── fn path_last_ident_is: pub(crate)

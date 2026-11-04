@@ -1,0 +1,2918 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="1280" viewBox="0 0 1280 1280">
+  <title>Time (ms) mean per N file for 'gen-1000-3-foobar.UTF-32LE.log'</title>
+  <desc>Produced by GNUPLOT 6.0 patchlevel 2 </desc>
+  <g id="gnuplot_canvas">
+    <rect x="0" y="0" width="1280" height="1280" fill="none"/>
+    <defs>
+      <circle id="gpDot" r="0.5" stroke-width="0.5" stroke="currentColor"/>
+      <path id="gpPt0" stroke-width="0.222" stroke="currentColor" d="M-1,0 h2 M0,-1 v2"/>
+      <path id="gpPt1" stroke-width="0.222" stroke="currentColor" d="M-1,-1 L1,1 M1,-1 L-1,1"/>
+      <path id="gpPt2" stroke-width="0.222" stroke="currentColor" d="M-1,0 L1,0 M0,-1 L0,1 M-1,-1 L1,1 M-1,1 L1,-1"/>
+      <rect id="gpPt3" stroke-width="0.222" stroke="currentColor" x="-1" y="-1" width="2" height="2"/>
+      <rect id="gpPt4" stroke-width="0.222" stroke="currentColor" fill="currentColor" x="-1" y="-1" width="2" height="2"/>
+      <circle id="gpPt5" stroke-width="0.222" stroke="currentColor" cx="0" cy="0" r="1"/>
+      <use xlink:href="#gpPt5" id="gpPt6" fill="currentColor" stroke="none"/>
+      <path id="gpPt7" stroke-width="0.222" stroke="currentColor" d="M0,-1.33 L-1.33,0.67 L1.33,0.67 z"/>
+      <use xlink:href="#gpPt7" id="gpPt8" fill="currentColor" stroke="none"/>
+      <use xlink:href="#gpPt7" id="gpPt9" stroke="currentColor" transform="rotate(180)"/>
+      <use xlink:href="#gpPt9" id="gpPt10" fill="currentColor" stroke="none"/>
+      <use xlink:href="#gpPt3" id="gpPt11" stroke="currentColor" transform="rotate(45)"/>
+      <use xlink:href="#gpPt11" id="gpPt12" fill="currentColor" stroke="none"/>
+      <path id="gpPt13" stroke-width="0.222" stroke="currentColor" d="M0,1.330 L1.265,0.411 L0.782,-1.067 L-0.782,-1.076 L-1.265,0.411 z"/>
+      <use xlink:href="#gpPt13" id="gpPt14" fill="currentColor" stroke="none"/>
+      <filter id="textbox" filterUnits="objectBoundingBox" x="0" y="0" height="1" width="1">
+        <feFlood flood-color="white" flood-opacity="1" result="bgnd"/>
+        <feComposite in="SourceGraphic" in2="bgnd" operator="atop"/>
+      </filter>
+      <filter id="greybox" filterUnits="objectBoundingBox" x="0" y="0" height="1" width="1">
+        <feFlood flood-color="lightgrey" flood-opacity="1" result="grey"/>
+        <feComposite in="SourceGraphic" in2="grey" operator="atop"/>
+      </filter>
+    </defs>
+    <g fill="none" color="white" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1222.40 L1254.82,1222.40  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1222.40 L91.14,1222.40 M1254.82,1222.40 L1245.82,1222.40  "/>
+      <g transform="translate(73.75,1225.00)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>0</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1202.47 L1254.82,1202.47  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1202.47 L91.14,1202.47 M1254.82,1202.47 L1245.82,1202.47  "/>
+      <g transform="translate(73.75,1205.07)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>2</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1182.54 L1254.82,1182.54  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1182.54 L91.14,1182.54 M1254.82,1182.54 L1245.82,1182.54  "/>
+      <g transform="translate(73.75,1185.14)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>4</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1162.61 L1254.82,1162.61  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1162.61 L91.14,1162.61 M1254.82,1162.61 L1245.82,1162.61  "/>
+      <g transform="translate(73.75,1165.21)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>6</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1142.69 L1254.82,1142.69  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1142.69 L91.14,1142.69 M1254.82,1142.69 L1245.82,1142.69  "/>
+      <g transform="translate(73.75,1145.29)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>8</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1122.76 L1254.82,1122.76  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1122.76 L91.14,1122.76 M1254.82,1122.76 L1245.82,1122.76  "/>
+      <g transform="translate(73.75,1125.36)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>10</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1102.83 L1254.82,1102.83  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1102.83 L91.14,1102.83 M1254.82,1102.83 L1245.82,1102.83  "/>
+      <g transform="translate(73.75,1105.43)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>12</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1082.90 L1254.82,1082.90  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1082.90 L91.14,1082.90 M1254.82,1082.90 L1245.82,1082.90  "/>
+      <g transform="translate(73.75,1085.50)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>14</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1062.97 L1254.82,1062.97  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1062.97 L91.14,1062.97 M1254.82,1062.97 L1245.82,1062.97  "/>
+      <g transform="translate(73.75,1065.57)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>16</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1043.04 L1254.82,1043.04  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1043.04 L91.14,1043.04 M1254.82,1043.04 L1245.82,1043.04  "/>
+      <g transform="translate(73.75,1045.64)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>18</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1023.11 L1254.82,1023.11  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1023.11 L91.14,1023.11 M1254.82,1023.11 L1245.82,1023.11  "/>
+      <g transform="translate(73.75,1025.71)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>20</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1003.19 L1254.82,1003.19  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1003.19 L91.14,1003.19 M1254.82,1003.19 L1245.82,1003.19  "/>
+      <g transform="translate(73.75,1005.79)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>22</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,983.26 L1254.82,983.26  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,983.26 L91.14,983.26 M1254.82,983.26 L1245.82,983.26  "/>
+      <g transform="translate(73.75,985.86)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>24</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,963.33 L1254.82,963.33  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,963.33 L91.14,963.33 M1254.82,963.33 L1245.82,963.33  "/>
+      <g transform="translate(73.75,965.93)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>26</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,943.40 L1254.82,943.40  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,943.40 L91.14,943.40 M1254.82,943.40 L1245.82,943.40  "/>
+      <g transform="translate(73.75,946.00)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>28</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,923.47 L1254.82,923.47  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,923.47 L91.14,923.47 M1254.82,923.47 L1245.82,923.47  "/>
+      <g transform="translate(73.75,926.07)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>30</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,903.54 L1254.82,903.54  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,903.54 L91.14,903.54 M1254.82,903.54 L1245.82,903.54  "/>
+      <g transform="translate(73.75,906.14)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>32</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,883.62 L1254.82,883.62  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,883.62 L91.14,883.62 M1254.82,883.62 L1245.82,883.62  "/>
+      <g transform="translate(73.75,886.22)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>34</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,863.69 L1254.82,863.69  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,863.69 L91.14,863.69 M1254.82,863.69 L1245.82,863.69  "/>
+      <g transform="translate(73.75,866.29)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>36</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,843.76 L1254.82,843.76  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,843.76 L91.14,843.76 M1254.82,843.76 L1245.82,843.76  "/>
+      <g transform="translate(73.75,846.36)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>38</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,823.83 L1254.82,823.83  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,823.83 L91.14,823.83 M1254.82,823.83 L1245.82,823.83  "/>
+      <g transform="translate(73.75,826.43)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>40</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,803.90 L1254.82,803.90  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,803.90 L91.14,803.90 M1254.82,803.90 L1245.82,803.90  "/>
+      <g transform="translate(73.75,806.50)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>42</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,783.97 L1254.82,783.97  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,783.97 L91.14,783.97 M1254.82,783.97 L1245.82,783.97  "/>
+      <g transform="translate(73.75,786.57)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>44</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,764.04 L1254.82,764.04  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,764.04 L91.14,764.04 M1254.82,764.04 L1245.82,764.04  "/>
+      <g transform="translate(73.75,766.64)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>46</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,744.12 L1254.82,744.12  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,744.12 L91.14,744.12 M1254.82,744.12 L1245.82,744.12  "/>
+      <g transform="translate(73.75,746.72)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>48</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,724.19 L1254.82,724.19  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,724.19 L91.14,724.19 M1254.82,724.19 L1245.82,724.19  "/>
+      <g transform="translate(73.75,726.79)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>50</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,704.26 L1254.82,704.26  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,704.26 L91.14,704.26 M1254.82,704.26 L1245.82,704.26  "/>
+      <g transform="translate(73.75,706.86)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>52</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,684.33 L1254.82,684.33  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,684.33 L91.14,684.33 M1254.82,684.33 L1245.82,684.33  "/>
+      <g transform="translate(73.75,686.93)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>54</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,664.40 L1254.82,664.40  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,664.40 L91.14,664.40 M1254.82,664.40 L1245.82,664.40  "/>
+      <g transform="translate(73.75,667.00)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>56</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,644.47 L1254.82,644.47  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,644.47 L91.14,644.47 M1254.82,644.47 L1245.82,644.47  "/>
+      <g transform="translate(73.75,647.07)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>58</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,624.54 L1254.82,624.54  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,624.54 L91.14,624.54 M1254.82,624.54 L1245.82,624.54  "/>
+      <g transform="translate(73.75,627.14)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>60</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,604.62 L1254.82,604.62  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,604.62 L91.14,604.62 M1254.82,604.62 L1245.82,604.62  "/>
+      <g transform="translate(73.75,607.22)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>62</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,584.69 L1254.82,584.69  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,584.69 L91.14,584.69 M1254.82,584.69 L1245.82,584.69  "/>
+      <g transform="translate(73.75,587.29)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>64</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,564.76 L1254.82,564.76  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,564.76 L91.14,564.76 M1254.82,564.76 L1245.82,564.76  "/>
+      <g transform="translate(73.75,567.36)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>66</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,544.83 L1254.82,544.83  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,544.83 L91.14,544.83 M1254.82,544.83 L1245.82,544.83  "/>
+      <g transform="translate(73.75,547.43)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>68</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,524.90 L1254.82,524.90  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,524.90 L91.14,524.90 M1254.82,524.90 L1245.82,524.90  "/>
+      <g transform="translate(73.75,527.50)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>70</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,504.97 L1254.82,504.97  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,504.97 L91.14,504.97 M1254.82,504.97 L1245.82,504.97  "/>
+      <g transform="translate(73.75,507.57)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>72</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,485.04 L1254.82,485.04  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,485.04 L91.14,485.04 M1254.82,485.04 L1245.82,485.04  "/>
+      <g transform="translate(73.75,487.64)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>74</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,465.12 L1254.82,465.12  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,465.12 L91.14,465.12 M1254.82,465.12 L1245.82,465.12  "/>
+      <g transform="translate(73.75,467.72)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>76</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,445.19 L1254.82,445.19  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,445.19 L91.14,445.19 M1254.82,445.19 L1245.82,445.19  "/>
+      <g transform="translate(73.75,447.79)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>78</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,425.26 L1254.82,425.26  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,425.26 L91.14,425.26 M1254.82,425.26 L1245.82,425.26  "/>
+      <g transform="translate(73.75,427.86)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>80</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,405.33 L1254.82,405.33  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,405.33 L91.14,405.33 M1254.82,405.33 L1245.82,405.33  "/>
+      <g transform="translate(73.75,407.93)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>82</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,385.40 L1254.82,385.40  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,385.40 L91.14,385.40 M1254.82,385.40 L1245.82,385.40  "/>
+      <g transform="translate(73.75,388.00)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>84</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,365.47 L1254.82,365.47  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,365.47 L91.14,365.47 M1254.82,365.47 L1245.82,365.47  "/>
+      <g transform="translate(73.75,368.07)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>86</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,345.55 L1254.82,345.55  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,345.55 L91.14,345.55 M1254.82,345.55 L1245.82,345.55  "/>
+      <g transform="translate(73.75,348.15)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>88</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,325.62 L1254.82,325.62  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,325.62 L91.14,325.62 M1254.82,325.62 L1245.82,325.62  "/>
+      <g transform="translate(73.75,328.22)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>90</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,305.69 L1254.82,305.69  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,305.69 L91.14,305.69 M1254.82,305.69 L1245.82,305.69  "/>
+      <g transform="translate(73.75,308.29)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>92</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,285.76 L1254.82,285.76  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,285.76 L91.14,285.76 M1254.82,285.76 L1245.82,285.76  "/>
+      <g transform="translate(73.75,288.36)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>94</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,265.83 L1254.82,265.83  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,265.83 L91.14,265.83 M1254.82,265.83 L1245.82,265.83  "/>
+      <g transform="translate(73.75,268.43)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>96</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,245.90 L1254.82,245.90  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,245.90 L91.14,245.90 M1254.82,245.90 L1245.82,245.90  "/>
+      <g transform="translate(73.75,248.50)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>98</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,225.97 L1254.82,225.97  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,225.97 L91.14,225.97 M1254.82,225.97 L1245.82,225.97  "/>
+      <g transform="translate(73.75,228.57)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="end">
+        <text>100</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M82.14,1222.40 L82.14,216.01  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,1222.40 L82.14,1213.40 M82.14,216.01 L82.14,225.01  "/>
+      <g transform="translate(82.14,1243.00)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="middle">
+        <text>0</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M654.18,1222.40 L654.18,216.01  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M654.18,1222.40 L654.18,1213.40 M654.18,216.01 L654.18,225.01  "/>
+      <g transform="translate(654.18,1243.00)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="middle">
+        <text>1000</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="gray" stroke-dasharray="2,4" class="gridline" d="M1226.22,1222.40 L1226.22,216.01  "/>
+    </g>
+    <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M1226.22,1222.40 L1226.22,1213.40 M1226.22,216.01 L1226.22,225.01  "/>
+      <g transform="translate(1226.22,1243.00)" stroke="none" fill="black" font-family="Monospace" font-size="8.00" text-anchor="middle">
+        <text>2000</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,216.01 L82.14,1222.40 L1254.82,1222.40 L1254.82,216.01 L82.14,216.01 Z  "/>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g id="gnuplot_plot_1">
+      <title>Time (ms) mean among 5 runs</title>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <path stroke="rgb(192,   0, 255)" d="M92.44,1212.44 L99.30,1202.47 L110.74,1192.51 L123.33,1182.54 L134.20,1172.58 L144.49,1162.61 L154.79,1152.65 L165.09,1142.69   L175.95,1132.72 L185.68,1122.76 L195.98,1112.79 L208.56,1102.83 L217.14,1092.86 L228.01,1082.90 L238.31,1072.94 L249.75,1062.97   L259.47,1053.01 L270.91,1043.04 L282.35,1033.08 L292.08,1023.11 L302.95,1013.15 L313.82,1003.19 L325.26,993.22 L339.56,983.26   L346.99,973.29 L357.29,963.33 L369.30,953.37 L380.17,943.40 L391.04,933.44 L401.91,923.47 L413.35,913.51 L424.79,903.54   L435.66,893.58 L447.10,883.62 L456.83,873.65 L468.27,863.69 L479.71,853.72 L491.15,843.76 L503.73,833.79 L512.89,823.83   L526.61,813.87 L536.91,803.90 L548.35,793.94 L559.79,783.97 L572.38,774.01 L582.10,764.04 L592.40,754.08 L605.56,744.12   L617.57,734.15 L629.01,724.19 L639.31,714.22 L650.17,704.26 L663.33,694.29 L675.34,684.33 L685.64,674.37 L697.08,664.40   L709.67,654.44 L720.54,644.47 L733.69,634.51 L744.56,624.54 L756.00,614.58 L783.46,604.62 L792.61,594.65 L804.05,584.69   L817.78,574.72 L825.22,564.76 L835.52,554.79 L852.10,544.83 L863.55,534.87 L868.69,524.90 L884.71,514.94 L900.73,504.97   L911.02,495.01 L919.03,485.04 L937.34,475.08 L945.92,465.12 L961.94,455.15 L970.52,445.19 L981.96,435.22 L996.26,425.26   L1008.84,415.30 L1018.00,405.33 L1031.72,395.37 L1045.45,385.40 L1059.18,375.44 L1073.48,365.47 L1084.35,355.51 L1096.37,345.55   L1112.95,335.58 L1119.25,325.62 L1135.84,315.65 L1148.42,305.69 L1161.58,295.72 L1174.73,285.76 L1187.89,275.80 L1202.76,265.83   L1215.35,255.87 L1222.79,245.90 L1242.81,235.94 L1254.25,225.97  "/>
+      </g>
+    </g>
+    <g id="gnuplot_plot_2">
+      <title>File Count, Time (ms) mean</title>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,1218.89)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,1212.44) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(128.97,1208.92)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">30 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(99.30,1202.47) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(140.41,1198.96)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">50 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(110.74,1192.51) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(153.00,1188.99)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">72 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(123.33,1182.54) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(163.87,1179.03)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">91 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(134.20,1172.58) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(174.16,1169.06)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">109 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(144.49,1162.61) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(184.46,1159.10)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">127 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(154.79,1152.65) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(194.76,1149.14)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">145 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(165.09,1142.69) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(205.62,1139.17)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">164 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(175.95,1132.72) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(215.35,1129.21)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">181 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(185.68,1122.76) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(225.65,1119.24)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">199 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(195.98,1112.79) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(238.23,1109.28)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">221 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(208.56,1102.83) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(246.81,1099.31)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">236 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(217.14,1092.86) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(257.68,1089.35)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">255 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(228.01,1082.90) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(267.98,1079.39)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">273 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(238.31,1072.94) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(279.42,1069.42)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">293 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(249.75,1062.97) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(289.14,1059.46)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">310 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(259.47,1053.01) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(300.58,1049.49)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">330 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(270.91,1043.04) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(312.02,1039.53)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">350 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(282.35,1033.08) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(321.75,1029.56)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">367 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(292.08,1023.11) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(332.62,1019.60)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">386 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(302.95,1013.15) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(343.49,1009.64)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">405 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(313.82,1003.19) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(354.93,999.67)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">425 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(325.26,993.22) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(369.23,989.71)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">450 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(339.56,983.26) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(376.66,979.74)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">463 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(346.99,973.29) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(386.96,969.78)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">481 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(357.29,963.33) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(398.97,959.82)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">502 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(369.30,953.37) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(409.84,949.85)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">521 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(380.17,943.40) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(420.71,939.89)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">540 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(391.04,933.44) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(431.58,929.92)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">559 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(401.91,923.47) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(443.02,919.96)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">579 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(413.35,913.51) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(454.46,909.99)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">599 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(424.79,903.54) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(465.33,900.03)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">618 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(435.66,893.58) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(476.77,890.07)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">638 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(447.10,883.62) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(486.50,880.10)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">655 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(456.83,873.65) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(497.94,870.14)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">675 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(468.27,863.69) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(509.38,860.17)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">695 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(479.71,853.72) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(520.82,850.21)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">715 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(491.15,843.76) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(533.40,840.24)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">737 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(503.73,833.79) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(542.56,830.28)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">753 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(512.89,823.83) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(556.28,820.32)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">777 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(526.61,813.87) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(566.58,810.35)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">795 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(536.91,803.90) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(578.02,800.39)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">815 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(548.35,793.94) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(589.46,790.42)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">835 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(559.79,783.97) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(602.05,780.46)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">857 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(572.38,774.01) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(611.77,770.49)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">874 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(582.10,764.04) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(622.07,760.53)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">892 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(592.40,754.08) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(635.23,750.57)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">915 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(605.56,744.12) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(647.24,740.60)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">936 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(617.57,734.15) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(658.68,730.64)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">956 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(629.01,724.19) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(668.98,720.67)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">974 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(639.31,714.22) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(679.84,710.71)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">993 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(650.17,704.26) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(693.00,700.74)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1016 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(663.33,694.29) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(705.01,690.78)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1037 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(675.34,684.33) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(715.31,680.82)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1055 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(685.64,674.37) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(726.75,670.85)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1075 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(697.08,664.40) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(739.34,660.89)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1097 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(709.67,654.44) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(750.21,650.92)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1116 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(720.54,644.47) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(763.36,640.96)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1139 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(733.69,634.51) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(774.23,630.99)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1158 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(744.56,624.54) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(785.67,621.03)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1178 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(756.00,614.58) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(813.13,611.07)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1226 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(783.46,604.62) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(822.28,601.10)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1242 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(792.61,594.65) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(833.72,591.14)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1262 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(804.05,584.69) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(847.45,581.17)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1286 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(817.78,574.72) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(854.89,571.21)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1299 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(825.22,564.76) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(865.19,561.24)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1317 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(835.52,554.79) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(881.77,551.28)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1346 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(852.10,544.83) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(893.22,541.32)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1366 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(863.55,534.87) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(898.36,531.35)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1375 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(868.69,524.90) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(914.38,521.39)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1403 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(884.71,514.94) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(930.40,511.42)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1431 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(900.73,504.97) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(940.69,501.46)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1449 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(911.02,495.01) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(948.70,491.49)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1463 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(919.03,485.04) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(967.01,481.53)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1495 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(937.34,475.08) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(975.59,471.57)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1510 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(945.92,465.12) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(991.61,461.60)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1538 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(961.94,455.15) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1000.19,451.64)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1553 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(970.52,445.19) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1011.63,441.67)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1573 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(981.96,435.22) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1025.93,431.71)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1598 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(996.26,425.26) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1038.51,421.75)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1620 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1008.84,415.30) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1047.67,411.78)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1636 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1018.00,405.33) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1061.39,401.82)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1660 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1031.72,395.37) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1075.12,391.85)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1684 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1045.45,385.40) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1088.85,381.89)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1708 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1059.18,375.44) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1103.15,371.92)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1733 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1073.48,365.47) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1114.02,361.96)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1752 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1084.35,355.51) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1126.04,352.00)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1773 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1096.37,345.55) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1142.62,342.03)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1802 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1112.95,335.58) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1148.92,332.07)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1813 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1119.25,325.62) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1165.51,322.10)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1842 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1135.84,315.65) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1178.09,312.14)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1864 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1148.42,305.69) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1191.25,302.17)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1887 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1161.58,295.72) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1204.40,292.21)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1910 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1174.73,285.76) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1217.56,282.25)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1933 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1187.89,275.80) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1232.43,272.28)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1959 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1202.76,265.83) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1245.02,262.32)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1981 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1215.35,255.87) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1252.46,252.35)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">1994 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1222.79,245.90) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(1272.48,242.39)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">2029 ms</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1242.81,235.94) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(1254.25,225.97) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    </g>
+    <g id="gnuplot_plot_3">
+      <title>Time (ms) Diff from processing N files to processing N+1 files</title>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <path stroke="rgb(  0,   0, 255)" d="M89.00,1202.47 L93.58,1192.51 L94.72,1182.54 L93.01,1172.58 L92.44,1162.61 L92.44,1152.65 L92.44,1142.69 L93.01,1132.72   L91.86,1122.76 L92.44,1112.79 L94.72,1102.83 L90.72,1092.86 L93.01,1082.90 L92.44,1072.94 L93.58,1062.97 L91.86,1053.01   L93.58,1043.04 L93.58,1033.08 L91.86,1023.11 L93.01,1013.15 L93.01,1003.19 L93.58,993.22 L96.44,983.26 L89.58,973.29   L92.44,963.33 L94.15,953.37 L93.01,943.40 L93.01,933.44 L93.01,923.47 L93.58,913.51 L93.58,903.54 L93.01,893.58   L93.58,883.62 L91.86,873.65 L93.58,863.69 L93.58,853.72 L93.58,843.76 L94.72,833.79 L91.29,823.83 L95.87,813.87   L92.44,803.90 L93.58,793.94 L93.58,783.97 L94.72,774.01 L91.86,764.04 L92.44,754.08 L95.30,744.12 L94.15,734.15   L93.58,724.19 L92.44,714.22 L93.01,704.26 L95.30,694.29 L94.15,684.33 L92.44,674.37 L93.58,664.40 L94.72,654.44   L93.01,644.47 L95.30,634.51 L93.01,624.54 L93.58,614.58 L109.60,604.62 L91.29,594.65 L93.58,584.69 L95.87,574.72   L89.58,564.76 L92.44,554.79 L98.73,544.83 L93.58,534.87 L87.29,524.90 L98.16,514.94 L98.16,504.97 L92.44,495.01   L90.15,485.04 L100.45,475.08 L90.72,465.12 L98.16,455.15 L90.72,445.19 L93.58,435.22 L96.44,425.26 L94.72,415.30   L91.29,405.33 L95.87,395.37 L95.87,385.40 L95.87,375.44 L96.44,365.47 L93.01,355.51 L94.15,345.55 L98.73,335.58   L88.43,325.62 L98.73,315.65 L94.72,305.69 L95.30,295.72 L95.30,285.76 L95.30,275.80 L97.01,265.83 L94.72,255.87   L89.58,245.90 L102.16,235.94 L93.58,225.97  "/>
+      </g>
+    </g>
+    <g id="gnuplot_plot_4">
+      <title>File Count, Time (ms) Diff from processing N files to processing N+1 files</title>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(118.67,1208.92)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">12 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(89.00,1202.47) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,1198.96)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,1192.51) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.39,1188.99)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">22 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.72,1182.54) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,1179.03)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,1172.58) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,1169.06)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,1162.61) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,1159.10)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,1152.65) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,1149.14)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,1142.69) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,1139.17)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,1132.72) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(121.53,1129.21)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">17 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(91.86,1122.76) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,1119.24)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,1112.79) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.39,1109.28)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">22 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.72,1102.83) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(120.39,1099.31)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">15 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(90.72,1092.86) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,1089.35)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,1082.90) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,1079.39)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,1072.94) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,1069.42)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,1062.97) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(121.53,1059.46)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">17 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(91.86,1053.01) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,1049.49)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,1043.04) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,1039.53)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,1033.08) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(121.53,1029.56)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">17 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(91.86,1023.11) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,1019.60)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,1013.15) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,1009.64)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,1003.19) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,999.67)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,993.22) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(126.11,989.71)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">25 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(96.44,983.26) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(119.25,979.74)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">13 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(89.58,973.29) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,969.78)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,963.33) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.82,959.82)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">21 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.15,953.37) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,949.85)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,943.40) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,939.89)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,933.44) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,929.92)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,923.47) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,919.96)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,913.51) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,909.99)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,903.54) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,900.03)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,893.58) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,890.07)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,883.62) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(121.53,880.10)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">17 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(91.86,873.65) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,870.14)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,863.69) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,860.17)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,853.72) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,850.21)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,843.76) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.39,840.24)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">22 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.72,833.79) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(120.96,830.28)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">16 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(91.29,823.83) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(125.54,820.32)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">24 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.87,813.87) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,810.35)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,803.90) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,800.39)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,793.94) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,790.42)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,783.97) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.39,780.46)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">22 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.72,774.01) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(121.53,770.49)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">17 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(91.86,764.04) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,760.53)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,754.08) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.97,750.57)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">23 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.30,744.12) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.82,740.60)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">21 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.15,734.15) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,730.64)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,724.19) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,720.67)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,714.22) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,710.71)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,704.26) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.97,700.74)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">23 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.30,694.29) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.82,690.78)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">21 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.15,684.33) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,680.82)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,674.37) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,670.85)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,664.40) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.39,660.89)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">22 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.72,654.44) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,650.92)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,644.47) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.97,640.96)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">23 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.30,634.51) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,630.99)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,624.54) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,621.03)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,614.58) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(139.27,611.07)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">48 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(109.60,604.62) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(120.96,601.10)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">16 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(91.29,594.65) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,591.14)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,584.69) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(125.54,581.17)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">24 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.87,574.72) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(119.25,571.21)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">13 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(89.58,564.76) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,561.24)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,554.79) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(128.40,551.28)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">29 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(98.73,544.83) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,541.32)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,534.87) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(116.96,531.35)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">9 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(87.29,524.90) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(127.83,521.39)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">28 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(98.16,514.94) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(127.83,511.42)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">28 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(98.16,504.97) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.11,501.46)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">18 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(92.44,495.01) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(119.82,491.49)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">14 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(90.15,485.04) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(130.12,481.53)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">32 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(100.45,475.08) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(120.39,471.57)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">15 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(90.72,465.12) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(127.83,461.60)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">28 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(98.16,455.15) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(120.39,451.64)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">15 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(90.72,445.19) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,441.67)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,435.22) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(126.11,431.71)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">25 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(96.44,425.26) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.39,421.75)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">22 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.72,415.30) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(120.96,411.78)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">16 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(91.29,405.33) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(125.54,401.82)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">24 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.87,395.37) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(125.54,391.85)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">24 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.87,385.40) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(125.54,381.89)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">24 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.87,375.44) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(126.11,371.92)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">25 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(96.44,365.47) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(122.68,361.96)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">19 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.01,355.51) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.82,352.00)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">21 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.15,345.55) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(128.40,342.03)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">29 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(98.73,335.58) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(118.10,332.07)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">11 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(88.43,325.62) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(128.40,322.10)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">29 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(98.73,315.65) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.39,312.14)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">22 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.72,305.69) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.97,302.17)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">23 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.30,295.72) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.97,292.21)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">23 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.30,285.76) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.97,282.25)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">23 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(95.30,275.80) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(126.68,272.28)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">26 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(97.01,265.83) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(124.39,262.32)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">22 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(94.72,255.87) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(119.25,252.35)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">13 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(89.58,245.90) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(131.83,242.39)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">35 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(102.16,235.94) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <g transform="translate(123.25,232.42)" stroke="none" fill="black" font-family="Monospace" font-size="6.00" text-anchor="middle">
+          <text>
+            <tspan font-family="Monospace">20 ms (diff)</tspan>
+          </text>
+        </g>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+        <use xlink:href="#gpPt6" transform="translate(93.58,225.97) scale(2.25)" color="black"/>
+      </g>
+      <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    </g>
+    <g fill="none" color="white" stroke="black" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="black" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <path stroke="black" d="M82.14,216.01 L82.14,1222.40 L1254.82,1222.40 L1254.82,216.01 L82.14,216.01 Z  "/>
+      <g transform="translate(28.18,719.21) rotate(270.00)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>File count 100</text>
+      </g>
+      <g transform="translate(46.18,719.21) rotate(270.00)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text/>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <g transform="translate(668.48,1271.30)" stroke="none" fill="rgb(192,0,255)" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>
+          <tspan font-family="Arial">Time (ms)</tspan>
+        </text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+      <g transform="translate(668.48,30.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>Command: ./target/release/s4 gen-1000-3-foobar.UTF-32LE.log …</text>
+      </g>
+      <g transform="translate(668.48,48.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>Build profile: release, Version: 0.11.84 (git tag 0.11.84), MSRV: 1.99.1</text>
+      </g>
+      <g transform="translate(668.48,66.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>Allocator: system, Platform: x86_64-unknown-linux-gnu, Optimization Level: 3</text>
+      </g>
+      <g transform="translate(668.48,84.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>Run on: Ubuntu 26.04, CPU: AMD Ryzen 7 7700X 8-Core Processor (16 cores), RAM: 63873 MB</text>
+      </g>
+      <g transform="translate(668.48,102.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text/>
+      </g>
+      <g transform="translate(668.48,120.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>Hyperfine runs per data point: 5</text>
+      </g>
+      <g transform="translate(668.48,138.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text/>
+      </g>
+      <g transform="translate(668.48,156.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>Time Difference per 1 File Max 48 ms</text>
+      </g>
+      <g transform="translate(668.48,174.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>Time Difference per 1 File Avg 20 ms</text>
+      </g>
+      <g transform="translate(668.48,192.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00" text-anchor="middle">
+        <text>Time Difference per 1 File Min 9 ms</text>
+      </g>
+    </g>
+    <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+  </g>
+</svg>

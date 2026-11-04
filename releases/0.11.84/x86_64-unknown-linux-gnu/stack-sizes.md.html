@@ -1,0 +1,525 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta name="GENERATOR" content="github.com/gomarkdown/markdown markdown processor for Go" />
+  <meta charset="utf-8" />
+<style>
+table {  border-collapse: collapse; width: 100%;}
+
+th,
+td {
+  border: 1px solid #666;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: 700;
+  border-bottom: 2px solid #333;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var columnTypes = ['alpha', 'numeric', 'alpha', 'numeric', 'numeric', 'numeric'];
+
+  function numericValue(text) {
+    var match = String(text).replace(/,/g, '').match(/-?[0-9]+(?:[.][0-9]+)?/);
+    return match ? Number(match[0]) : NaN;
+  }
+
+  function compareCells(aText, bText, type, asc) {
+    if (type === 'numeric') {
+      var aNum = numericValue(aText);
+      var bNum = numericValue(bText);
+      var aNaN = Number.isNaN(aNum);
+      var bNaN = Number.isNaN(bNum);
+
+      if (aNaN && bNaN) {
+        return 0;
+      }
+      if (aNaN) {
+        return 1;
+      }
+      if (bNaN) {
+        return -1;
+      }
+      return asc ? aNum - bNum : bNum - aNum;
+    }
+
+    var cmp = String(aText).localeCompare(String(bText), undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    return asc ? cmp : -cmp;
+  }
+
+  function getRowsForSort(table) {
+    if (table.tBodies && table.tBodies.length > 0) {
+      return {
+        container: table.tBodies[0],
+        rows: Array.from(table.tBodies[0].rows)
+      };
+    }
+
+    var allRows = Array.from(table.rows);
+    return {
+      container: table,
+      rows: allRows.slice(1)
+    };
+  }
+
+  Array.from(document.querySelectorAll('table')).forEach(function (table) {
+    var headerRow = table.tHead && table.tHead.rows.length > 0
+      ? table.tHead.rows[0]
+      : table.rows[0];
+
+    if (!headerRow) {
+      return;
+    }
+
+    Array.from(headerRow.cells).forEach(function (th, colIndex) {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', function () {
+        var rowsInfo = getRowsForSort(table);
+        var rows = rowsInfo.rows;
+        var sortType = columnTypes[colIndex] || 'alpha';
+        var currentlyAsc = th.getAttribute('data-sort-dir') === 'asc';
+        var asc = !currentlyAsc;
+
+        Array.from(headerRow.cells).forEach(function (cell) {
+          if (cell !== th) {
+            cell.removeAttribute('data-sort-dir');
+          }
+        });
+
+        rows.sort(function (aRow, bRow) {
+          var aCell = aRow.cells[colIndex];
+          var bCell = bRow.cells[colIndex];
+          var aText = aCell ? aCell.textContent.trim() : '';
+          var bText = bCell ? bCell.textContent.trim() : '';
+          return compareCells(aText, bText, sortType, asc);
+        });
+
+        rows.forEach(function (row) {
+          rowsInfo.container.appendChild(row);
+        });
+
+        th.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
+      });
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<table>
+<thead>
+<tr>
+<th align="left">FILE</th>
+<th align="right">RUST_MIN_STACK</th>
+<th align="right">(B)</th>
+<th align="right">ACTUAL</th>
+<th align="right">DIFF</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">./logs/CentOS7/x86_64/wtmp</td>
+<td align="right">99Ki</td>
+<td align="right">101376</td>
+<td align="right">132096</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/CentOS7/x86_64/wtmp.bz2</td>
+<td align="right">133Ki</td>
+<td align="right">136192</td>
+<td align="right">162816</td>
+<td align="right">26624</td>
+</tr>
+
+<tr>
+<td align="left">./logs/CentOS7/x86_64/wtmp.gz</td>
+<td align="right">151Ki</td>
+<td align="right">154624</td>
+<td align="right">183296</td>
+<td align="right">28672</td>
+</tr>
+
+<tr>
+<td align="left">./logs/CentOS7/x86_64/wtmp.tar</td>
+<td align="right">134Ki</td>
+<td align="right">137216</td>
+<td align="right">167936</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/CentOS7/x86_64/wtmp.xz</td>
+<td align="right">101Ki</td>
+<td align="right">103424</td>
+<td align="right">142336</td>
+<td align="right">38912</td>
+</tr>
+
+<tr>
+<td align="left">./logs/CentOS7/x86_64/wtmp.zip</td>
+<td align="right">106Ki</td>
+<td align="right">108544</td>
+<td align="right">208896</td>
+<td align="right">100352</td>
+</tr>
+
+<tr>
+<td align="left">./logs/MacOS11/DiagnosticMessages/2023.10.31.asl</td>
+<td align="right">124Ki</td>
+<td align="right">126976</td>
+<td align="right">157696</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/MacOS11/powermanagement/2023.10.26.asl</td>
+<td align="right">124Ki</td>
+<td align="right">126976</td>
+<td align="right">157696</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/MacOS11/powermanagement/2023.10.26.asl.bz2</td>
+<td align="right">159Ki</td>
+<td align="right">162816</td>
+<td align="right">188416</td>
+<td align="right">25600</td>
+</tr>
+
+<tr>
+<td align="left">./logs/MacOS11/powermanagement/2023.10.26.asl.gz</td>
+<td align="right">177Ki</td>
+<td align="right">181248</td>
+<td align="right">208896</td>
+<td align="right">27648</td>
+</tr>
+
+<tr>
+<td align="left">./logs/MacOS11/powermanagement/2023.10.26.asl.lz4</td>
+<td align="right">125Ki</td>
+<td align="right">128000</td>
+<td align="right">162816</td>
+<td align="right">34816</td>
+</tr>
+
+<tr>
+<td align="left">./logs/MacOS11/powermanagement/2023.10.26.asl.xz</td>
+<td align="right">129Ki</td>
+<td align="right">132096</td>
+<td align="right">167936</td>
+<td align="right">35840</td>
+</tr>
+
+<tr>
+<td align="left">./logs/MacOS11/powermanagement/2023.10.26.tar</td>
+<td align="right">161Ki</td>
+<td align="right">164864</td>
+<td align="right">193536</td>
+<td align="right">28672</td>
+</tr>
+
+<tr>
+<td align="left">./logs/MacOS11/powermanagement/2023.10.26.zip</td>
+<td align="right">197Ki</td>
+<td align="right">201728</td>
+<td align="right">234496</td>
+<td align="right">32768</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-16BE.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-16LE.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-32BE.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-32LE.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-8_BOM.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-8.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/dtf5-6b.UTF-8.zip</td>
+<td align="right">101Ki</td>
+<td align="right">103424</td>
+<td align="right">203776</td>
+<td align="right">100352</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-1000-3-foobar-noyear.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-1000-3-foobar.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-1000-3-foobar.log.bz2</td>
+<td align="right">128Ki</td>
+<td align="right">131072</td>
+<td align="right">157696</td>
+<td align="right">26624</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-1000-3-foobar.log.gz</td>
+<td align="right">146Ki</td>
+<td align="right">149504</td>
+<td align="right">178176</td>
+<td align="right">28672</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-1000-3-foobar.log.lz4</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">132096</td>
+<td align="right">35840</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-1000-3-foobar.log.tar</td>
+<td align="right">129Ki</td>
+<td align="right">132096</td>
+<td align="right">162816</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-1000-3-foobar.log.xz</td>
+<td align="right">96Ki</td>
+<td align="right">98304</td>
+<td align="right">137216</td>
+<td align="right">38912</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-1000-3-foobar.log.zip</td>
+<td align="right">101Ki</td>
+<td align="right">103424</td>
+<td align="right">203776</td>
+<td align="right">100352</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-99999-1-Motley_Crue.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/gen-99999-1-Motley_Crue.tar</td>
+<td align="right">129Ki</td>
+<td align="right">132096</td>
+<td align="right">162816</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/other/tests/numbers3.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/Event_Trace_Log/WindowsUpdate.20251008.140245.443.8.etl</td>
+<td align="right">124Ki</td>
+<td align="right">126976</td>
+<td align="right">208896</td>
+<td align="right">81920</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx</td>
+<td align="right">124Ki</td>
+<td align="right">126976</td>
+<td align="right">157696</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/journal/RHE_91_system.journal</td>
+<td align="right">124Ki</td>
+<td align="right">126976</td>
+<td align="right">157696</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/journal/RHE_91_system.journal.bz2</td>
+<td align="right">160Ki</td>
+<td align="right">163840</td>
+<td align="right">188416</td>
+<td align="right">24576</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/journal/RHE_91_system.journal.gz</td>
+<td align="right">177Ki</td>
+<td align="right">181248</td>
+<td align="right">208896</td>
+<td align="right">27648</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/journal/RHE_91_system.journal.lz4</td>
+<td align="right">125Ki</td>
+<td align="right">128000</td>
+<td align="right">162816</td>
+<td align="right">34816</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/journal/RHE_91_system.journal.xz</td>
+<td align="right">129Ki</td>
+<td align="right">132096</td>
+<td align="right">167936</td>
+<td align="right">35840</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/journal/RHE_91_system.tar</td>
+<td align="right">161Ki</td>
+<td align="right">164864</td>
+<td align="right">193536</td>
+<td align="right">28672</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/journal/RHE_91_system.zip</td>
+<td align="right">197Ki</td>
+<td align="right">201728</td>
+<td align="right">234496</td>
+<td align="right">32768</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1216.11020.2.odl</td>
+<td align="right">124Ki</td>
+<td align="right">126976</td>
+<td align="right">157696</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl</td>
+<td align="right">124Ki</td>
+<td align="right">126976</td>
+<td align="right">157696</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1217.7692.2.odlgz</td>
+<td align="right">124Ki</td>
+<td align="right">126976</td>
+<td align="right">157696</td>
+<td align="right">30720</td>
+</tr>
+
+<tr>
+<td align="left">./logs/Windows10Pro/comsetup.log</td>
+<td align="right">94Ki</td>
+<td align="right">96256</td>
+<td align="right">126976</td>
+<td align="right">30720</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

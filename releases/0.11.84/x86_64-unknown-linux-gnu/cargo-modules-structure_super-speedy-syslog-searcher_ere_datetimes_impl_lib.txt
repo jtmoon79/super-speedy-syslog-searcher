@@ -1,0 +1,61 @@
+
+crate super_speedy_syslog_searcher_ere_datetimes_impl
+├── type CaptureGroupIndex: pub
+├── type CaptureGroupName: pub
+├── type CaptureGroupPattern: pub
+├── struct DTFSSet: pub
+│   ├── const fn has_d2: pub
+│   ├── const fn has_day: pub
+│   ├── const fn has_hour: pub
+│   ├── const fn has_minute: pub
+│   ├── const fn has_month: pub
+│   ├── const fn has_tz: pub
+│   ├── const fn has_uptime: pub
+│   ├── const fn has_year: pub
+│   └── const fn has_year4: pub
+├── enum DTFS_Day: pub
+├── enum DTFS_Epoch: pub
+├── enum DTFS_Fractional: pub
+├── enum DTFS_Hour: pub
+├── enum DTFS_Minute: pub
+├── enum DTFS_Month: pub
+├── enum DTFS_Second: pub
+├── enum DTFS_Tz: pub
+├── enum DTFS_Uptime: pub
+├── enum DTFS_Year: pub
+├── struct DateTimeParseInstr: pub
+│   ├── const fn has_d2: pub
+│   ├── const fn has_tz: pub
+│   ├── const fn has_year: pub
+│   └── const fn has_year4: pub
+├── type DateTimePattern_str: pub
+├── type DateTimePattern_string: pub
+├── type DateTimeRegex_str: pub
+├── struct GROUP_NAMES_MAP: pub
+│   └── fn initialize: pub(crate)
+├── struct GROUP_NAMES_MAP_STR: pub
+│   └── fn initialize: pub(crate)
+├── struct GROUP_NAMES_SET: pub
+│   └── fn initialize: pub(crate)
+├── type GroupsIndex: pub
+├── type HaystackType: pub
+├── type LineIndex: pub
+├── struct MatchType: pub
+│   ├── const fn end: pub
+│   ├── const fn group_index: pub
+│   ├── const fn new: pub
+│   ├── const fn span: pub
+│   └── const fn start: pub
+├── type MatchesType: pub
+├── type MatchesTypeOpt: pub
+├── type RangeLineIndex: pub
+├── type RegexFn: pub
+├── type RegexId: pub
+├── type RegexPattern: pub
+├── struct SpanS4: pub
+│   ├── const fn as_range: pub
+│   └── const fn new: pub
+├── type Uptime: pub
+├── type fos: pub
+├── fn regex_id_compiled: pub
+└── type ymdhmsn_args: pub

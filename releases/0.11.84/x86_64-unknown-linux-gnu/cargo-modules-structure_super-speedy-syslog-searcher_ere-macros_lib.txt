@@ -1,0 +1,9 @@
+
+crate super_speedy_syslog_searcher_ere_macros
+├── fn compile_regex: pub
+├── fn compile_regex_dfa_u8: pub
+├── fn compile_regex_fixed_offset: pub
+├── fn compile_regex_flat_lockstep_nfa: pub
+├── fn compile_regex_flat_lockstep_nfa_u8: pub
+├── fn compile_regex_u8onepass: pub
+└── fn regex: pub #[cfg(feature = "unstable-attr-regex")]

@@ -1,0 +1,394 @@
+
+crate super_speedy_syslog_searcher_ere_core
+├── enum Engine: pub #[cfg(feature = "unstable-attr-regex")]
+├── enum GroupBind: pub #[cfg(feature = "unstable-attr-regex")]
+├── struct Regex: pub
+│   ├── fn exec: pub
+│   ├── fn exec_bytes: pub
+│   ├── fn test: pub
+│   └── fn test_bytes: pub
+├── struct RegexAttr: pub(crate) #[cfg(feature = "unstable-attr-regex")]
+│   └── fn parse: pub(crate)
+├── fn __compile_regex: pub
+├── fn __compile_regex_attr: pub #[cfg(feature = "unstable-attr-regex")]
+├── fn __compile_regex_engine_dfa_u8: pub
+├── fn __compile_regex_engine_fixed_offset: pub
+├── fn __compile_regex_engine_flat_lockstep_nfa: pub
+├── fn __compile_regex_engine_flat_lockstep_nfa_u8: pub
+├── fn __compile_regex_engine_one_pass_u8: pub
+├── const fn __construct_regex: pub
+├── const fn __construct_regex_u8: pub
+├── const fn __construct_regex_with_bytes: pub
+├── fn build_u8_search_nfa: pub(crate)
+├── mod config: pub
+│   ├── enum AmbiguousSubmatchMode: pub
+│   ├── struct Config: pub
+│   │   ├── const fn builder: pub
+│   │   ├── const fn const_default: pub
+│   │   └── const fn quantifiers_prefer_longest: pub
+│   └── struct ConfigBuilder: pub
+│       ├── const fn build: pub
+│       ├── const fn greedy: pub
+│       └── const fn new: pub
+├── mod engines: pub(crate)
+│   ├── mod dfa_u8: pub
+│   │   ├── enum VMStateLabel: pub(self)
+│   │   │   └── fn to_tokens: pub(self)
+│   │   ├── mod impl_exec: pub(self)
+│   │   │   ├── struct ExecFn: pub
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── enum NormalStateSymbolMatchStatements: pub(self)
+│   │   │   │   ├── fn from_pair: pub(self)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   └── struct NormalTransitionMatchStatement: pub(self)
+│   │   │       └── fn to_tokens: pub(self)
+│   │   ├── mod impl_test: pub(self)
+│   │   │   ├── enum NormalStateSymbolMatchStatements: pub(self)
+│   │   │   │   ├── fn from_pair: pub(self)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   └── struct TestFn: pub
+│   │   │       └── fn to_tokens: pub(self)
+│   │   └── fn serialize_u8_dfa_token_stream: pub(crate)
+│   ├── mod fixed_offset: pub
+│   │   ├── fn get_fixed_offsets: pub(crate)
+│   │   └── fn serialize_fixed_offset_token_stream: pub(crate)
+│   ├── mod flat_lockstep_nfa: pub
+│   │   ├── struct CachedNFA: pub(self)
+│   │   │   └── fn new: pub(self)
+│   │   ├── struct ImplVMStateLabel: pub(self)
+│   │   │   └── fn to_tokens: pub(self)
+│   │   ├── struct Thread: pub
+│   │   ├── struct ThreadUpdates: pub(self)
+│   │   │   ├── fn serialize_thread_update_exec: pub
+│   │   │   └── fn serialize_thread_update_test: pub
+│   │   ├── fn calculate_epsilon_propogations: pub(self)
+│   │   ├── fn compute_excluded_states: pub(self)
+│   │   ├── mod impl_exec: pub(self)
+│   │   │   ├── struct ExecFn: pub(crate)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct ImplTransition: pub(self)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct ImplTransitionStateEpsilon: pub(super)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct TransitionEpsilons: pub(super)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   └── struct TransitionSymbols: pub(super)
+│   │   │       └── fn to_tokens: pub(self)
+│   │   ├── mod impl_test: pub(self)
+│   │   │   ├── struct ImplTransitionStateEpsilon: pub(super)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct ImplTransitionStateSymbol: pub(self)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct TestFn: pub(crate)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct TransitionEpsilons: pub(super)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   └── struct TransitionSymbols: pub(super)
+│   │   │       └── fn to_tokens: pub(self)
+│   │   └── fn serialize_flat_lockstep_nfa_token_stream: pub(crate)
+│   ├── mod flat_lockstep_nfa_u8: pub
+│   │   ├── struct CachedNFA: pub(self)
+│   │   │   └── fn new: pub(self)
+│   │   ├── struct ImplVMStateLabel: pub(self)
+│   │   │   └── fn to_tokens: pub(self)
+│   │   ├── struct Thread: pub
+│   │   ├── struct ThreadUpdates: pub(self)
+│   │   │   ├── fn serialize_thread_update_exec: pub
+│   │   │   └── fn serialize_thread_update_test: pub
+│   │   ├── fn calculate_epsilon_propogations: pub(self)
+│   │   ├── fn compute_excluded_states: pub(self)
+│   │   ├── mod impl_exec: pub(self)
+│   │   │   ├── struct ExecFn: pub(crate)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct ImplTransition: pub(self)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct ImplTransitionStateEpsilon: pub(super)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct TransitionEpsilons: pub(super)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   └── struct TransitionSymbols: pub(super)
+│   │   │       └── fn to_tokens: pub(self)
+│   │   ├── mod impl_test: pub(self)
+│   │   │   ├── struct ImplTransitionStateEpsilon: pub(super)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct ImplTransitionStateSymbol: pub(self)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct TestFn: pub(crate)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   ├── struct TransitionEpsilons: pub(super)
+│   │   │   │   └── fn to_tokens: pub(self)
+│   │   │   └── struct TransitionSymbols: pub(super)
+│   │   │       └── fn to_tokens: pub(self)
+│   │   └── fn serialize_flat_lockstep_nfa_u8_token_stream: pub(crate)
+│   ├── mod nfa_static: pub
+│   │   ├── enum AtomStatic: pub
+│   │   │   ├── fn check: pub
+│   │   │   └── fn serialize_as_token_stream: pub(crate)
+│   │   ├── struct NFAStateStatic: pub
+│   │   │   └── const fn __load: pub
+│   │   ├── struct NFAStatic: pub
+│   │   │   ├── const fn __load: pub
+│   │   │   └── fn test: pub
+│   │   └── struct NFATransitionStatic: pub
+│   │       └── const fn __load: pub
+│   └── mod one_pass_u8: pub
+│       ├── struct ImplFunctionalFnIdent: pub(self)
+│       │   ├── fn new: pub(self)
+│       │   └── fn to_tokens: pub(self)
+│       ├── struct ImplVMStateLabel: pub(self)
+│       │   ├── fn new: pub(self)
+│       │   └── fn to_tokens: pub(self)
+│       ├── struct Run: pub(self)
+│       ├── enum StateRunInclusion: pub(self)
+│       ├── enum Tag: pub(self)
+│       ├── struct ThreadUpdates: pub(self)
+│       │   └── fn new: pub
+│       ├── fn codegen_functional: pub(self)
+│       ├── fn codegen_vmlike: pub(self)
+│       ├── fn compute_excluded_states: pub(self)
+│       ├── fn compute_runs: pub(self)
+│       ├── mod functional_exec: pub(self)
+│       │   ├── enum StateFn: pub(super)
+│       │   │   ├── fn new_normal: pub(super)
+│       │   │   ├── fn new_run: pub(super)
+│       │   │   └── fn to_tokens: pub(self)
+│       │   ├── struct StateFnNormal: pub(super)
+│       │   │   └── fn to_tokens: pub(self)
+│       │   └── struct StateFnWithRun: pub(super)
+│       │       └── fn to_tokens: pub(self)
+│       ├── mod functional_test: pub(self)
+│       │   ├── enum StateFn: pub(super)
+│       │   │   ├── fn new_normal: pub(super)
+│       │   │   ├── fn new_run: pub(super)
+│       │   │   └── fn to_tokens: pub(self)
+│       │   ├── struct StateFnNormal: pub(super)
+│       │   │   └── fn to_tokens: pub(self)
+│       │   └── struct StateFnWithRun: pub(super)
+│       │       └── fn to_tokens: pub(self)
+│       ├── fn serialize_one_pass_token_stream: pub(crate)
+│       ├── mod vmlike_exec: pub(self)
+│       │   ├── struct ExecFn: pub(super)
+│       │   │   └── fn to_tokens: pub(self)
+│       │   ├── struct MatchStatement: pub(self)
+│       │   │   └── fn to_tokens: pub(self)
+│       │   └── struct MatchStatementFinal: pub(self)
+│       │       └── fn to_tokens: pub(self)
+│       └── mod vmlike_test: pub(self)
+│           ├── struct MatchStatement: pub(self)
+│           │   └── fn to_tokens: pub(self)
+│           ├── struct MatchStatementFinal: pub(self)
+│           │   └── fn to_tokens: pub(self)
+│           └── struct TestFn: pub(super)
+│               └── fn to_tokens: pub(self)
+├── mod epsilon_propogation: pub(crate)
+│   ├── struct EpsilonPropogation: pub
+│   │   ├── fn calculate_epsilon_propogations_char: pub
+│   │   └── fn calculate_epsilon_propogations_u8: pub
+│   └── enum Tag: pub
+│       └── fn capture_group: pub
+├── mod parse_tree: pub
+│   ├── enum Atom: pub
+│   │   ├── fn check: pub
+│   │   ├── fn max_bytes: pub
+│   │   ├── fn min_bytes: pub
+│   │   ├── fn take: pub(self)
+│   │   └── fn to_ranges: pub
+│   ├── enum BracketCharClass: pub
+│   │   ├── const fn check_ascii: pub
+│   │   ├── const fn is_negated: pub(self)
+│   │   ├── const fn positive_ranges: pub(self)
+│   │   ├── fn take: pub(self)
+│   │   ├── fn to_ranges: pub
+│   │   └── fn to_tokens: pub(self)
+│   ├── enum BracketExpressionTerm: pub
+│   │   ├── const fn check: pub
+│   │   ├── fn to_ranges: pub(crate)
+│   │   └── fn to_tokens: pub(self)
+│   ├── enum CharClass: pub
+│   │   ├── const fn check: pub
+│   │   └── fn to_tokens: pub(self)
+│   ├── struct ERE: pub
+│   │   ├── fn collect_group_names: pub(self) #[cfg(feature = "unstable-attr-regex")]
+│   │   ├── fn group_names: pub(crate) #[cfg(feature = "unstable-attr-regex")]
+│   │   ├── fn parse: pub(self)
+│   │   ├── fn parse_str: pub
+│   │   ├── fn parse_str_syn: pub(crate)
+│   │   └── fn take: pub(self)
+│   ├── struct EREBranch: pub(crate)
+│   │   └── fn take: pub(self)
+│   ├── enum EREExpression: pub(crate)
+│   │   └── fn collect_group_names: pub(self) #[cfg(feature = "unstable-attr-regex")]
+│   ├── enum EREPart: pub(crate)
+│   │   └── fn take: pub(self)
+│   ├── struct Quantifier: pub(crate)
+│   │   └── fn take: pub(self)
+│   ├── enum QuantifierType: pub(crate)
+│   │   ├── const fn max: pub(self)
+│   │   └── const fn min: pub(self)
+│   ├── enum RegexParseError: pub
+│   ├── const fn is_escapable_character: pub(crate)
+│   └── const fn is_special_character: pub(self)
+├── fn pick_base_engine: pub(crate)
+├── fn pick_engine: pub(crate)
+├── fn serialize_u8_engine_as_str: pub(crate)
+├── mod simplified_tree: pub
+│   └── enum SimplifiedTreeNode: pub
+│       ├── fn capture: pub
+│       ├── fn concat: pub
+│       ├── fn from_ere: pub
+│       ├── fn from_ere_branch: pub(self)
+│       ├── fn from_ere_expression: pub(self)
+│       ├── fn from_ere_part: pub(self)
+│       ├── fn from_sub_ere: pub(self)
+│       ├── fn max_bytes: pub
+│       ├── fn min_bytes: pub
+│       ├── fn optional: pub
+│       ├── fn repeat: pub
+│       ├── fn star: pub
+│       ├── fn union: pub
+│       └── fn upto: pub
+├── mod visualization: pub
+│   ├── mod latex_graph: pub(self)
+│   │   ├── struct LatexGraph: pub
+│   │   │   ├── fn pick_layout: pub(self)
+│   │   │   └── fn to_tikz: pub
+│   │   ├── struct LatexGraphState: pub
+│   │   │   ├── fn display_at: pub
+│   │   │   └── fn display_in_line: pub
+│   │   ├── struct LatexGraphTransition: pub
+│   │   │   ├── fn display_in_line: pub
+│   │   │   └── fn display_straight: pub
+│   │   └── fn escape_latex: pub
+│   └── mod layout: pub(self)
+│       ├── trait BuildLayout: pub
+│       └── struct DAGLayout: pub
+│           ├── fn check_dag: pub(self)
+│           ├── fn layout: pub(self)
+│           └── fn new: pub
+├── mod working_nfa: pub
+│   ├── struct EpsilonTransition: pub
+│   │   ├── const fn __load: pub
+│   │   ├── const fn add_offset: pub(crate)
+│   │   ├── fn inplace_offset: pub(crate)
+│   │   ├── const fn new: pub(crate)
+│   │   ├── fn to_tokens: pub(self)
+│   │   └── const fn with_offset: pub(crate)
+│   ├── enum EpsilonType: pub
+│   │   └── fn to_tokens: pub(self)
+│   ├── struct WorkingNFA: pub
+│   │   ├── fn build: pub
+│   │   ├── fn build_capture: pub(self)
+│   │   ├── fn build_concat: pub(self)
+│   │   ├── fn build_repeat: pub(self)
+│   │   ├── fn build_star: pub(self)
+│   │   ├── fn build_union: pub(self)
+│   │   ├── fn build_upto: pub(self)
+│   │   ├── fn capture_group_is_optional: pub
+│   │   ├── fn clean_end_anchors: pub(self)
+│   │   ├── fn clean_start_anchors: pub(self)
+│   │   ├── fn dedupe_transitions: pub(self)
+│   │   ├── fn new: pub
+│   │   ├── fn new_loop_opt: pub
+│   │   ├── fn nfa_capture: pub(self)
+│   │   ├── fn nfa_concat: pub(self)
+│   │   ├── fn nfa_empty: pub(self)
+│   │   ├── fn nfa_end: pub(self)
+│   │   ├── fn nfa_never: pub(self)
+│   │   ├── fn nfa_repeat: pub(self)
+│   │   ├── fn nfa_star: pub(self)
+│   │   ├── fn nfa_start: pub(self)
+│   │   ├── fn nfa_symbol: pub(self)
+│   │   ├── fn nfa_union: pub(self)
+│   │   ├── fn nfa_upto: pub(self)
+│   │   ├── fn nodes_after_end: pub(self)
+│   │   ├── fn nodes_before_start: pub(self)
+│   │   ├── fn num_capture_groups: pub
+│   │   ├── fn optimize_pass: pub(self)
+│   │   ├── fn remove_dead_states: pub(self)
+│   │   ├── fn remove_unreachable: pub(self)
+│   │   ├── fn states_reachable_end: pub(self)
+│   │   ├── fn states_reachable_start: pub(self)
+│   │   ├── fn test: pub
+│   │   └── fn to_tikz: pub
+│   ├── struct WorkingState: pub
+│   │   ├── fn add_offset: pub
+│   │   ├── fn inplace_offset: pub
+│   │   ├── const fn new: pub
+│   │   ├── fn with_epsilon: pub
+│   │   ├── fn with_epsilon_special: pub
+│   │   ├── fn with_offset: pub
+│   │   └── fn with_transition: pub
+│   └── struct WorkingTransition: pub(crate)
+│       ├── fn add_offset: pub
+│       ├── fn inplace_offset: pub
+│       ├── fn new: pub
+│       └── fn with_offset: pub
+├── mod working_u8_dfa: pub
+│   ├── struct DisplayByteChar: pub(self)
+│   ├── struct DisplayRange: pub(self)
+│   ├── struct SubNFAStateID: pub
+│   ├── struct U8DFA: pub
+│   │   ├── fn from_tagged: pub
+│   │   ├── fn merge_states: pub(self)
+│   │   ├── fn to_tikz: pub
+│   │   └── fn validate: pub
+│   ├── enum U8DFAAccept: pub
+│   ├── struct U8DFAState: pub
+│   │   └── fn from_tagged: pub(self)
+│   ├── struct U8DFATransition: pub
+│   ├── struct U8TDFA: pub
+│   │   ├── fn default_bound: pub
+│   │   ├── fn from_nfa: pub
+│   │   ├── fn num_capture_groups: pub
+│   │   └── fn to_tikz: pub
+│   ├── enum U8TDFAAccept: pub
+│   │   ├── fn from_epsilon_prop: pub
+│   │   └── fn update_with_lower_priority: pub
+│   ├── struct U8TDFAAcceptTransition: pub
+│   │   ├── fn from_epsilon_prop: pub
+│   │   └── fn max_capture_group: pub
+│   ├── struct U8TDFAState: pub
+│   │   ├── fn expand: pub(self)
+│   │   ├── fn new_start_state: pub
+│   │   └── fn test_immediate_accept: pub
+│   ├── struct U8TDFATransition: pub
+│   ├── trait VecExt: pub(self)
+│   └── fn split_ranges_u8: pub(self)
+└── mod working_u8_nfa: pub
+    ├── struct U8Atom: pub
+    │   ├── fn check: pub
+    │   ├── const fn end: pub
+    │   └── const fn start: pub
+    ├── struct U8NFA: pub
+    │   ├── fn build: pub(self)
+    │   ├── fn dedupe_transitions: pub(self)
+    │   ├── fn new: pub
+    │   ├── fn new_loop_opt: pub
+    │   ├── fn nfa_byte: pub(self)
+    │   ├── fn nfa_concat: pub(self)
+    │   ├── fn nfa_star: pub(self)
+    │   ├── fn nfa_symbol: pub(self)
+    │   ├── fn nodes_after_end: pub(self)
+    │   ├── fn nodes_before_start: pub(self)
+    │   ├── fn num_capture_groups: pub
+    │   ├── fn optimize_pass: pub(self)
+    │   ├── fn remove_dead_states: pub(self)
+    │   ├── fn remove_unreachable: pub(self)
+    │   ├── fn states_reachable_end: pub(self)
+    │   ├── fn states_reachable_start: pub(self)
+    │   ├── fn test: pub
+    │   ├── fn to_tikz: pub
+    │   └── fn topological_ordering: pub
+    ├── struct U8State: pub
+    │   ├── fn add_offset: pub
+    │   ├── fn inplace_offset: pub
+    │   ├── const fn new: pub
+    │   ├── fn with_epsilon: pub
+    │   ├── fn with_epsilon_special: pub
+    │   ├── fn with_offset: pub
+    │   └── fn with_transition: pub
+    └── struct U8Transition: pub(crate)
+        ├── fn add_offset: pub
+        ├── fn inplace_offset: pub
+        ├── fn new: pub
+        └── fn with_offset: pub

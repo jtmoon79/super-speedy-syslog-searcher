@@ -1,0 +1,2198 @@
+
+crate s4lib
+├── mod bindings: pub
+│   └── mod sd_journal_h: pub
+│       ├── type _Float32: pub
+│       ├── type _Float32x: pub
+│       ├── type _Float64: pub
+│       ├── type _Float64x: pub
+│       ├── union __atomic_wide_counter: pub
+│       ├── struct __atomic_wide_counter__bindgen_ty_1: pub
+│       ├── type __blkcnt64_t: pub
+│       ├── type __blkcnt_t: pub
+│       ├── type __blksize_t: pub
+│       ├── type __builtin_va_list: pub
+│       ├── type __caddr_t: pub
+│       ├── type __clock_t: pub
+│       ├── type __clockid_t: pub
+│       ├── type __daddr_t: pub
+│       ├── type __dev_t: pub
+│       ├── type __fd_mask: pub
+│       ├── type __fsblkcnt64_t: pub
+│       ├── type __fsblkcnt_t: pub
+│       ├── type __fsfilcnt64_t: pub
+│       ├── type __fsfilcnt_t: pub
+│       ├── struct __fsid_t: pub
+│       ├── type __fsword_t: pub
+│       ├── type __gid_t: pub
+│       ├── type __gnuc_va_list: pub
+│       ├── type __gwchar_t: pub
+│       ├── type __id_t: pub
+│       ├── type __ino64_t: pub
+│       ├── type __ino_t: pub
+│       ├── type __int16_t: pub
+│       ├── type __int32_t: pub
+│       ├── type __int64_t: pub
+│       ├── type __int8_t: pub
+│       ├── type __int_least16_t: pub
+│       ├── type __int_least32_t: pub
+│       ├── type __int_least64_t: pub
+│       ├── type __int_least8_t: pub
+│       ├── type __intmax_t: pub
+│       ├── type __intptr_t: pub
+│       ├── type __key_t: pub
+│       ├── struct __locale_data: pub
+│       ├── struct __locale_struct: pub
+│       ├── type __locale_t: pub
+│       ├── type __loff_t: pub
+│       ├── unsafe fn __memcmpeq: pub
+│       ├── type __mode_t: pub
+│       ├── type __nlink_t: pub
+│       ├── type __off64_t: pub
+│       ├── type __off_t: pub
+│       ├── struct __once_flag: pub
+│       ├── type __pid_t: pub
+│       ├── struct __pthread_cond_s: pub
+│       ├── struct __pthread_internal_list: pub
+│       ├── struct __pthread_internal_slist: pub
+│       ├── type __pthread_list_t: pub
+│       ├── struct __pthread_mutex_s: pub
+│       ├── struct __pthread_rwlock_arch_t: pub
+│       ├── type __pthread_slist_t: pub
+│       ├── type __quad_t: pub
+│       ├── type __rlim64_t: pub
+│       ├── type __rlim_t: pub
+│       ├── type __sig_atomic_t: pub
+│       ├── struct __sigset_t: pub
+│       ├── type __socklen_t: pub
+│       ├── type __ssize_t: pub
+│       ├── unsafe fn __stpcpy: pub
+│       ├── unsafe fn __stpncpy: pub
+│       ├── unsafe fn __strtok_r: pub
+│       ├── type __suseconds64_t: pub
+│       ├── type __suseconds_t: pub
+│       ├── type __syscall_slong_t: pub
+│       ├── type __syscall_ulong_t: pub
+│       ├── type __thrd_t: pub
+│       ├── type __time_t: pub
+│       ├── type __timer_t: pub
+│       ├── type __tss_t: pub
+│       ├── type __u_char: pub
+│       ├── type __u_int: pub
+│       ├── type __u_long: pub
+│       ├── type __u_quad_t: pub
+│       ├── type __u_short: pub
+│       ├── type __uid_t: pub
+│       ├── type __uint16_t: pub
+│       ├── type __uint32_t: pub
+│       ├── type __uint64_t: pub
+│       ├── type __uint8_t: pub
+│       ├── type __uint_least16_t: pub
+│       ├── type __uint_least32_t: pub
+│       ├── type __uint_least64_t: pub
+│       ├── type __uint_least8_t: pub
+│       ├── type __uintmax_t: pub
+│       ├── type __useconds_t: pub
+│       ├── struct __va_list_tag: pub
+│       ├── type _bindgen_ty_1: pub
+│       ├── type _bindgen_ty_2: pub
+│       ├── type _sd_destroy_t: pub
+│       ├── struct _sd_useless_struct_to_allow_trailing_semicolon_: pub
+│       ├── unsafe fn bcmp: pub
+│       ├── unsafe fn bcopy: pub
+│       ├── type blkcnt_t: pub
+│       ├── type blksize_t: pub
+│       ├── unsafe fn bzero: pub
+│       ├── type caddr_t: pub
+│       ├── type clock_t: pub
+│       ├── type clockid_t: pub
+│       ├── unsafe fn closelog: pub
+│       ├── type daddr_t: pub
+│       ├── type dev_t: pub
+│       ├── unsafe fn explicit_bzero: pub
+│       ├── type fd_mask: pub
+│       ├── struct fd_set: pub
+│       ├── unsafe fn ffs: pub
+│       ├── unsafe fn ffsl: pub
+│       ├── unsafe fn ffsll: pub
+│       ├── type fsblkcnt_t: pub
+│       ├── type fsfilcnt_t: pub
+│       ├── type fsid_t: pub
+│       ├── type gid_t: pub
+│       ├── type id_t: pub
+│       ├── unsafe fn imaxabs: pub
+│       ├── unsafe fn imaxdiv: pub
+│       ├── struct imaxdiv_t: pub
+│       ├── unsafe fn index: pub
+│       ├── type ino_t: pub
+│       ├── type int_fast16_t: pub
+│       ├── type int_fast32_t: pub
+│       ├── type int_fast64_t: pub
+│       ├── type int_fast8_t: pub
+│       ├── type int_least16_t: pub
+│       ├── type int_least32_t: pub
+│       ├── type int_least64_t: pub
+│       ├── type int_least8_t: pub
+│       ├── type intmax_t: pub
+│       ├── struct iovec: pub
+│       ├── type key_t: pub
+│       ├── type locale_t: pub
+│       ├── type loff_t: pub
+│       ├── unsafe fn memccpy: pub
+│       ├── unsafe fn memchr: pub
+│       ├── unsafe fn memcmp: pub
+│       ├── unsafe fn memcpy: pub
+│       ├── unsafe fn memmove: pub
+│       ├── unsafe fn memset: pub
+│       ├── type mode_t: pub
+│       ├── type nlink_t: pub
+│       ├── type off_t: pub
+│       ├── unsafe fn openlog: pub
+│       ├── type pid_t: pub
+│       ├── unsafe fn preadv: pub
+│       ├── unsafe fn pselect: pub
+│       ├── union pthread_attr_t: pub
+│       ├── union pthread_barrier_t: pub
+│       ├── union pthread_barrierattr_t: pub
+│       ├── union pthread_cond_t: pub
+│       ├── union pthread_condattr_t: pub
+│       ├── type pthread_key_t: pub
+│       ├── union pthread_mutex_t: pub
+│       ├── union pthread_mutexattr_t: pub
+│       ├── type pthread_once_t: pub
+│       ├── union pthread_rwlock_t: pub
+│       ├── union pthread_rwlockattr_t: pub
+│       ├── type pthread_spinlock_t: pub
+│       ├── type pthread_t: pub
+│       ├── unsafe fn pwritev: pub
+│       ├── type quad_t: pub
+│       ├── unsafe fn readv: pub
+│       ├── type register_t: pub
+│       ├── unsafe fn rindex: pub
+│       ├── union sd_id128: pub
+│       ├── unsafe fn sd_id128_from_string: pub
+│       ├── unsafe fn sd_id128_get_boot: pub
+│       ├── unsafe fn sd_id128_get_boot_app_specific: pub
+│       ├── unsafe fn sd_id128_get_invocation: pub
+│       ├── unsafe fn sd_id128_get_machine: pub
+│       ├── unsafe fn sd_id128_get_machine_app_specific: pub
+│       ├── unsafe fn sd_id128_randomize: pub
+│       ├── type sd_id128_t: pub
+│       ├── unsafe fn sd_id128_to_string: pub
+│       ├── struct sd_journal: pub
+│       ├── unsafe fn sd_journal_add_conjunction: pub
+│       ├── unsafe fn sd_journal_add_disjunction: pub
+│       ├── unsafe fn sd_journal_add_match: pub
+│       ├── unsafe fn sd_journal_close: pub
+│       ├── unsafe fn sd_journal_enumerate_available_data: pub
+│       ├── unsafe fn sd_journal_enumerate_available_unique: pub
+│       ├── unsafe fn sd_journal_enumerate_data: pub
+│       ├── unsafe fn sd_journal_enumerate_fields: pub
+│       ├── unsafe fn sd_journal_enumerate_unique: pub
+│       ├── unsafe fn sd_journal_flush_matches: pub
+│       ├── unsafe fn sd_journal_get_catalog: pub
+│       ├── unsafe fn sd_journal_get_catalog_for_message_id: pub
+│       ├── unsafe fn sd_journal_get_cursor: pub
+│       ├── unsafe fn sd_journal_get_cutoff_monotonic_usec: pub
+│       ├── unsafe fn sd_journal_get_cutoff_realtime_usec: pub
+│       ├── unsafe fn sd_journal_get_data: pub
+│       ├── unsafe fn sd_journal_get_data_threshold: pub
+│       ├── unsafe fn sd_journal_get_events: pub
+│       ├── unsafe fn sd_journal_get_fd: pub
+│       ├── unsafe fn sd_journal_get_monotonic_usec: pub
+│       ├── unsafe fn sd_journal_get_realtime_usec: pub
+│       ├── unsafe fn sd_journal_get_timeout: pub
+│       ├── unsafe fn sd_journal_get_usage: pub
+│       ├── unsafe fn sd_journal_has_persistent_files: pub
+│       ├── unsafe fn sd_journal_has_runtime_files: pub
+│       ├── unsafe fn sd_journal_next: pub
+│       ├── unsafe fn sd_journal_next_skip: pub
+│       ├── unsafe fn sd_journal_open: pub
+│       ├── unsafe fn sd_journal_open_container: pub
+│       ├── unsafe fn sd_journal_open_directory: pub
+│       ├── unsafe fn sd_journal_open_directory_fd: pub
+│       ├── unsafe fn sd_journal_open_files: pub
+│       ├── unsafe fn sd_journal_open_files_fd: pub
+│       ├── unsafe fn sd_journal_open_namespace: pub
+│       ├── unsafe fn sd_journal_perror: pub
+│       ├── unsafe fn sd_journal_perror_with_location: pub
+│       ├── unsafe fn sd_journal_previous: pub
+│       ├── unsafe fn sd_journal_previous_skip: pub
+│       ├── unsafe fn sd_journal_print: pub
+│       ├── unsafe fn sd_journal_print_with_location: pub
+│       ├── unsafe fn sd_journal_printv: pub
+│       ├── unsafe fn sd_journal_printv_with_location: pub
+│       ├── unsafe fn sd_journal_process: pub
+│       ├── unsafe fn sd_journal_query_unique: pub
+│       ├── unsafe fn sd_journal_reliable_fd: pub
+│       ├── unsafe fn sd_journal_restart_data: pub
+│       ├── unsafe fn sd_journal_restart_fields: pub
+│       ├── unsafe fn sd_journal_restart_unique: pub
+│       ├── unsafe fn sd_journal_seek_cursor: pub
+│       ├── unsafe fn sd_journal_seek_head: pub
+│       ├── unsafe fn sd_journal_seek_monotonic_usec: pub
+│       ├── unsafe fn sd_journal_seek_realtime_usec: pub
+│       ├── unsafe fn sd_journal_seek_tail: pub
+│       ├── unsafe fn sd_journal_send: pub
+│       ├── unsafe fn sd_journal_send_with_location: pub
+│       ├── unsafe fn sd_journal_sendv: pub
+│       ├── unsafe fn sd_journal_sendv_with_location: pub
+│       ├── unsafe fn sd_journal_set_data_threshold: pub
+│       ├── unsafe fn sd_journal_stream_fd: pub
+│       ├── unsafe fn sd_journal_test_cursor: pub
+│       ├── unsafe fn sd_journal_wait: pub
+│       ├── unsafe fn select: pub
+│       ├── unsafe fn setlogmask: pub
+│       ├── type sigset_t: pub
+│       ├── unsafe fn stpcpy: pub
+│       ├── unsafe fn stpncpy: pub
+│       ├── unsafe fn strcasecmp: pub
+│       ├── unsafe fn strcasecmp_l: pub
+│       ├── unsafe fn strcat: pub
+│       ├── unsafe fn strchr: pub
+│       ├── unsafe fn strcmp: pub
+│       ├── unsafe fn strcoll: pub
+│       ├── unsafe fn strcoll_l: pub
+│       ├── unsafe fn strcpy: pub
+│       ├── unsafe fn strcspn: pub
+│       ├── unsafe fn strdup: pub
+│       ├── unsafe fn strerror: pub
+│       ├── unsafe fn strerror_l: pub
+│       ├── unsafe fn strerror_r: pub
+│       ├── unsafe fn strlen: pub
+│       ├── unsafe fn strncasecmp: pub
+│       ├── unsafe fn strncasecmp_l: pub
+│       ├── unsafe fn strncat: pub
+│       ├── unsafe fn strncmp: pub
+│       ├── unsafe fn strncpy: pub
+│       ├── unsafe fn strndup: pub
+│       ├── unsafe fn strnlen: pub
+│       ├── unsafe fn strpbrk: pub
+│       ├── unsafe fn strrchr: pub
+│       ├── unsafe fn strsep: pub
+│       ├── unsafe fn strsignal: pub
+│       ├── unsafe fn strspn: pub
+│       ├── unsafe fn strstr: pub
+│       ├── unsafe fn strtoimax: pub
+│       ├── unsafe fn strtok: pub
+│       ├── unsafe fn strtok_r: pub
+│       ├── unsafe fn strtoumax: pub
+│       ├── unsafe fn strxfrm: pub
+│       ├── unsafe fn strxfrm_l: pub
+│       ├── type suseconds_t: pub
+│       ├── unsafe fn syslog: pub
+│       ├── type time_t: pub
+│       ├── type timer_t: pub
+│       ├── struct timespec: pub
+│       ├── struct timeval: pub
+│       ├── type u_char: pub
+│       ├── type u_int: pub
+│       ├── type u_int16_t: pub
+│       ├── type u_int32_t: pub
+│       ├── type u_int64_t: pub
+│       ├── type u_int8_t: pub
+│       ├── type u_long: pub
+│       ├── type u_quad_t: pub
+│       ├── type u_short: pub
+│       ├── type uid_t: pub
+│       ├── type uint: pub
+│       ├── type uint_fast16_t: pub
+│       ├── type uint_fast32_t: pub
+│       ├── type uint_fast64_t: pub
+│       ├── type uint_fast8_t: pub
+│       ├── type uint_least16_t: pub
+│       ├── type uint_least32_t: pub
+│       ├── type uint_least64_t: pub
+│       ├── type uint_least8_t: pub
+│       ├── type uintmax_t: pub
+│       ├── type ulong: pub
+│       ├── type ushort: pub
+│       ├── type va_list: pub
+│       ├── unsafe fn vsyslog: pub
+│       ├── unsafe fn wcstoimax: pub
+│       ├── unsafe fn wcstoumax: pub
+│       └── unsafe fn writev: pub
+├── mod common: pub
+│   ├── enum AllocatorChosen: pub
+│   ├── type Bytes: pub
+│   ├── type CharSz: pub
+│   ├── type Count: pub
+│   ├── type FPath: pub
+│   ├── type FPaths: pub
+│   ├── type FileMetadata: pub
+│   ├── type FileOffset: pub
+│   ├── type FileOpenOptions: pub
+│   ├── enum FileProcessingResult: pub
+│   │   ├── const fn has_err: pub
+│   │   ├── const fn is_ok: pub
+│   │   └── const fn is_stub: pub
+│   ├── type FileSz: pub
+│   ├── enum FileType: pub
+│   │   ├── const fn archival_type: pub
+│   │   ├── const fn encoding_type: pub
+│   │   ├── const fn is_archived: pub
+│   │   ├── const fn is_asl: pub
+│   │   ├── const fn is_compressed: pub
+│   │   ├── const fn is_etl: pub
+│   │   ├── const fn is_evtx: pub
+│   │   ├── const fn is_fixedstruct: pub
+│   │   ├── const fn is_journal: pub
+│   │   ├── const fn is_odl: pub
+│   │   ├── const fn is_supported: pub
+│   │   ├── const fn is_text: pub
+│   │   ├── const fn is_unparsable: pub
+│   │   ├── const fn pretty_name: pub
+│   │   ├── const fn to_filetypearchive: pub
+│   │   └── const fn to_logmessagetype: pub
+│   ├── enum FileTypeArchive: pub
+│   │   └── const fn is_tar: pub
+│   ├── enum FileTypeBasicEncoding: pub
+│   ├── enum FileTypeFixedStruct: pub
+│   ├── enum FileTypeTextEncoding: pub
+│   │   ├── const fn basic_encoding: pub
+│   │   ├── const fn bom: pub
+│   │   ├── const fn bomsz: pub
+│   │   ├── const fn charsz: pub
+│   │   ├── const fn has_bom: pub
+│   │   ├── const fn is_utf8: pub
+│   │   └── const fn little_endian: pub
+│   ├── enum LogMessageType: pub
+│   ├── enum OdlSubType: pub
+│   ├── type PathId: pub
+│   ├── type RegexId: pub
+│   ├── enum Result3: pub
+│   │   ├── const fn is_err: pub
+│   │   └── const fn is_ok: pub
+│   ├── type Result3E: pub
+│   ├── enum ResultFind: pub
+│   │   ├── fn contains: pub
+│   │   ├── fn contains_err: pub
+│   │   ├── fn err: pub
+│   │   ├── const fn is_done: pub
+│   │   ├── const fn is_err: pub
+│   │   ├── const fn is_found: pub
+│   │   ├── const fn is_ok: pub
+│   │   └── fn ok: pub
+│   ├── enum ResultFind4: pub
+│   │   ├── fn contains: pub
+│   │   ├── fn contains_err: pub
+│   │   ├── fn err: pub
+│   │   ├── const fn is_done: pub
+│   │   ├── const fn is_err: pub
+│   │   ├── const fn is_found: pub
+│   │   ├── const fn is_ok: pub
+│   │   └── fn ok: pub
+│   ├── type SetPathId: pub
+│   ├── fn err_from_err_path: pub
+│   ├── fn err_from_err_path_result: pub
+│   ├── const fn max10: pub
+│   ├── const fn max11: pub
+│   ├── const fn max12: pub
+│   ├── const fn max13: pub
+│   ├── const fn max14: pub
+│   ├── const fn max15: pub
+│   ├── const fn max16: pub
+│   ├── const fn max2: pub
+│   ├── const fn max3: pub
+│   ├── const fn max4: pub
+│   ├── const fn max5: pub
+│   ├── const fn max6: pub
+│   ├── const fn max7: pub
+│   ├── const fn max8: pub
+│   ├── const fn max9: pub
+│   ├── const fn min10: pub
+│   ├── const fn min11: pub
+│   ├── const fn min12: pub
+│   ├── const fn min13: pub
+│   ├── const fn min14: pub
+│   ├── const fn min15: pub
+│   ├── const fn min16: pub
+│   ├── const fn min2: pub
+│   ├── const fn min3: pub
+│   ├── const fn min4: pub
+│   ├── const fn min5: pub
+│   ├── const fn min6: pub
+│   ├── const fn min7: pub
+│   ├── const fn min8: pub
+│   ├── const fn min9: pub
+│   ├── fn parse_string_to_number: pub(crate)
+│   ├── const fn summary_stats_enable: pub
+│   ├── const fn summary_stats_enabled: pub
+│   └── fn threadid_to_u64: pub
+├── mod data: pub
+│   ├── mod asl: pub
+│   │   ├── struct Asl: pub
+│   │   │   ├── fn as_bytes: pub
+│   │   │   ├── fn as_bytes: pub(self)
+│   │   │   ├── const fn dt: pub
+│   │   │   ├── fn dt: pub(self)
+│   │   │   ├── const fn dt_beg_end: pub
+│   │   │   ├── fn dt_beg_end: pub(self)
+│   │   │   ├── const fn is_empty: pub
+│   │   │   └── const fn len: pub
+│   │   ├── struct AslRecord: pub
+│   │   │   └── fn render: pub
+│   │   ├── struct RenderBuffer: pub(self)
+│   │   │   ├── fn into_string: pub(self)
+│   │   │   ├── fn len: pub(self)
+│   │   │   └── fn new: pub(self)
+│   │   └── struct SingleLine: pub(self)
+│   ├── mod common: pub
+│   │   ├── type DtBegEndPair: pub
+│   │   ├── type DtBegEndPairOpt: pub
+│   │   ├── enum LogMessage: pub
+│   │   │   └── fn dt: pub
+│   │   ├── type LogMessageOpt: pub
+│   │   ├── trait PrintableEvent: pub
+│   │   └── fn replace_control_chars: pub(crate)
+│   ├── mod datetime: pub
+│   │   ├── type CapturedDtData: pub
+│   │   ├── type DateTimeL: pub
+│   │   ├── type DateTimeLOpt: pub
+│   │   ├── type DateTimeParseInstrsIndex: pub
+│   │   ├── enum Result_Filter_DateTime1: pub
+│   │   │   ├── const fn is_after: pub
+│   │   │   └── const fn is_before: pub
+│   │   ├── enum Result_Filter_DateTime2: pub
+│   │   │   ├── const fn is_fail: pub
+│   │   │   └── const fn is_pass: pub
+│   │   ├── type Year: pub
+│   │   ├── fn bytes_to_regex_to_datetime: pub
+│   │   ├── fn captures_to_buffer_bytes: pub(crate)
+│   │   ├── fn convert_to_systemtime: pub
+│   │   ├── fn datetime_from_str_workaround_Issue660: pub
+│   │   ├── fn datetime_minus_systemtime: pub
+│   │   ├── fn datetime_parse_from_str: pub
+│   │   ├── fn datetime_parse_from_str_w_tz: pub
+│   │   ├── fn datetime_with_year: pub
+│   │   ├── fn dt_after_or_before: pub
+│   │   ├── fn dt_pass_filters: pub
+│   │   ├── fn month_bB_to_month_m_bytes: pub(self)
+│   │   ├── fn seconds_to_systemtime: pub
+│   │   ├── fn systemtime_to_datetime: pub
+│   │   ├── fn systemtime_year: pub
+│   │   ├── fn u8_to_str: pub
+│   │   ├── fn ymdhms: pub
+│   │   ├── fn ymdhms0: pub
+│   │   ├── fn ymdhmsl: pub
+│   │   ├── fn ymdhmsm: pub
+│   │   └── fn ymdhmsn: pub
+│   ├── mod etl: pub
+│   │   ├── struct Etl: pub
+│   │   │   ├── fn as_bytes: pub
+│   │   │   ├── fn as_bytes: pub(self)
+│   │   │   ├── const fn dt: pub
+│   │   │   ├── fn dt: pub(self)
+│   │   │   ├── const fn dt_beg_end: pub
+│   │   │   ├── fn dt_beg_end: pub(self)
+│   │   │   ├── fn is_empty: pub
+│   │   │   ├── fn len: pub
+│   │   │   └── const fn new: pub
+│   │   ├── enum EtlDecoder: pub
+│   │   ├── struct EtlEnvelope: pub
+│   │   ├── struct EtlEvent: pub
+│   │   │   ├── fn render: pub
+│   │   │   └── fn render_capacity: pub(self)
+│   │   ├── type EtlFields: pub
+│   │   ├── enum EtlHeaderKind: pub
+│   │   │   └── const fn as_str: pub
+│   │   ├── enum EtlName: pub
+│   │   ├── enum EtlPayload: pub
+│   │   ├── enum EtlValue: pub
+│   │   ├── type FileTime: pub
+│   │   ├── struct Guid: pub
+│   │   │   ├── const fn as_bytes: pub
+│   │   │   ├── const fn from_le_bytes: pub
+│   │   │   ├── fn from_le_slice: pub
+│   │   │   └── const fn is_nil: pub
+│   │   ├── struct Prefix: pub(self)
+│   │   ├── struct Sid: pub
+│   │   │   ├── fn authority: pub
+│   │   │   ├── const fn size_for: pub
+│   │   │   └── fn sub_authorities: pub
+│   │   ├── fn fields_capacity: pub(self)
+│   │   ├── fn filetime_to_datetimel: pub
+│   │   ├── fn format_datetime_etl: pub
+│   │   ├── fn push_datetime_etl: pub(self)
+│   │   ├── fn push_fields: pub(self)
+│   │   ├── fn push_hex: pub(self)
+│   │   ├── fn push_i64: pub(self)
+│   │   ├── fn push_prefix: pub(self)
+│   │   ├── fn push_quoted: pub(self)
+│   │   ├── fn push_sid: pub(self)
+│   │   ├── fn push_systemtime: pub(self)
+│   │   ├── fn push_u64: pub(self)
+│   │   └── fn push_value: pub(self)
+│   ├── mod evtx: pub
+│   │   ├── struct Evtx: pub
+│   │   │   ├── const fn as_bytes: pub
+│   │   │   ├── const fn dt: pub
+│   │   │   ├── const fn dt_beg_end: pub
+│   │   │   ├── fn ends_with_newline: pub
+│   │   │   ├── fn from_evtxrs: pub
+│   │   │   ├── fn from_resultserializedrecord: pub
+│   │   │   ├── fn get_dt_beg_end: pub(crate)
+│   │   │   ├── const fn id: pub
+│   │   │   ├── const fn is_empty: pub
+│   │   │   └── const fn len: pub
+│   │   ├── type EvtxRS: pub
+│   │   ├── type RecordId: pub
+│   │   ├── type ResultEvtxRS: pub
+│   │   ├── type TimestampOpt: pub
+│   │   ├── fn datetimelopt_to_timestampopt: pub
+│   │   └── fn timestamp_to_datetimelopt: pub
+│   ├── mod fixedstruct: pub
+│   │   ├── type BufIndex: pub
+│   │   ├── struct FixedStruct: pub
+│   │   │   ├── fn as_bytes: pub
+│   │   │   ├── const fn blockoffset_begin: pub
+│   │   │   ├── fn blockoffset_end: pub
+│   │   │   ├── const fn dt: pub
+│   │   │   ├── const fn fileoffset_begin: pub
+│   │   │   ├── fn fileoffset_end: pub
+│   │   │   ├── fn from_fixedstructptr: pub
+│   │   │   ├── fn is_empty: pub
+│   │   │   ├── fn len: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn score_fixedstruct: pub
+│   │   │   └── const fn tv_pair: pub
+│   │   ├── type FixedStructDynPtr: pub
+│   │   ├── trait FixedStructTrait: pub
+│   │   ├── enum FixedStructType: pub
+│   │   │   ├── const fn offset_tv: pub
+│   │   │   ├── const fn size: pub
+│   │   │   ├── const fn size_tv: pub
+│   │   │   └── fn tv_pair_from_buffer: pub
+│   │   ├── type FixedStructTypeSet: pub(crate)
+│   │   ├── enum InfoAsBytes: pub
+│   │   ├── type Score: pub
+│   │   ├── fn buffer_to_fixedstructptr: pub
+│   │   ├── fn convert_datetime_tvpair: pub
+│   │   ├── fn convert_tvpair_to_datetime: pub
+│   │   ├── fn copy_fixedstructptr: pub
+│   │   ├── fn filesz_to_types: pub(crate)
+│   │   ├── const fn fixed_field_bytes: pub(self)
+│   │   ├── mod freebsd_x8664: pub
+│   │   │   ├── type c_char: pub
+│   │   │   ├── type c_short: pub
+│   │   │   ├── type c_ushort: pub
+│   │   │   ├── type pid_t: pub
+│   │   │   ├── type subseconds_t: pub
+│   │   │   ├── type time_t: pub
+│   │   │   ├── struct timeval: pub
+│   │   │   └── struct utmpx: pub
+│   │   │       ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │       ├── fn as_linux_x86_acct: pub(self)
+│   │   │       ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │       ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │       ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │       ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │       ├── fn fixedstruct_type: pub(self)
+│   │   │       ├── fn size: pub(self)
+│   │   │       ├── fn ut_host: pub
+│   │   │       ├── fn ut_id: pub
+│   │   │       ├── fn ut_line: pub
+│   │   │       └── fn ut_user: pub
+│   │   ├── mod linux_arm64aarch64: pub
+│   │   │   ├── type c_char: pub
+│   │   │   ├── type c_short: pub
+│   │   │   ├── struct lastlog: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   ├── const fn ll_host: pub
+│   │   │   │   ├── const fn ll_line: pub
+│   │   │   │   └── fn size: pub(self)
+│   │   │   ├── type ll_time_t: pub
+│   │   │   ├── type pid_t: pub
+│   │   │   ├── type suseconds_t: pub
+│   │   │   ├── struct timeval: pub
+│   │   │   └── struct utmpx: pub
+│   │   │       ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │       ├── fn as_linux_x86_acct: pub(self)
+│   │   │       ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │       ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │       ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │       ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │       ├── fn fixedstruct_type: pub(self)
+│   │   │       ├── fn size: pub(self)
+│   │   │       ├── fn ut_host: pub
+│   │   │       ├── fn ut_id: pub
+│   │   │       ├── fn ut_line: pub
+│   │   │       └── fn ut_user: pub
+│   │   ├── mod linux_x86: pub
+│   │   │   ├── struct __exit_status: pub
+│   │   │   ├── struct __timeval: pub
+│   │   │   ├── struct acct: pub
+│   │   │   │   ├── fn ac_comm: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   └── fn size: pub(self)
+│   │   │   ├── struct acct_v3: pub
+│   │   │   │   ├── fn ac_comm: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   └── fn size: pub(self)
+│   │   │   ├── type b_time_t: pub
+│   │   │   ├── type c_char: pub
+│   │   │   ├── type c_short: pub
+│   │   │   ├── type comp_t: pub
+│   │   │   ├── struct lastlog: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   ├── const fn ll_host: pub
+│   │   │   │   ├── const fn ll_line: pub
+│   │   │   │   └── fn size: pub(self)
+│   │   │   ├── type ll_time_t: pub
+│   │   │   ├── type pid_t: pub
+│   │   │   ├── type suseconds_t: pub
+│   │   │   ├── type uint16_t: pub
+│   │   │   └── struct utmpx: pub
+│   │   │       ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │       ├── fn as_linux_x86_acct: pub(self)
+│   │   │       ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │       ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │       ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │       ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │       ├── fn fixedstruct_type: pub(self)
+│   │   │       ├── fn size: pub(self)
+│   │   │       ├── fn ut_host: pub
+│   │   │       ├── fn ut_id: pub
+│   │   │       ├── fn ut_line: pub
+│   │   │       └── fn ut_user: pub
+│   │   ├── mod netbsd_x8632: pub
+│   │   │   ├── struct acct: pub
+│   │   │   │   ├── fn ac_comm: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   └── fn size: pub(self)
+│   │   │   ├── type c_char: pub
+│   │   │   ├── type comp_t: pub
+│   │   │   ├── type dev_t: pub
+│   │   │   ├── type gid_t: pub
+│   │   │   ├── struct lastlogx: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   ├── const fn ll_host: pub
+│   │   │   │   ├── const fn ll_line: pub
+│   │   │   │   └── fn size: pub(self)
+│   │   │   ├── type pid_t: pub
+│   │   │   ├── type time_t: pub
+│   │   │   ├── struct timeval: pub
+│   │   │   ├── type uid_t: pub
+│   │   │   ├── type uint16_t: pub
+│   │   │   ├── type uint8_t: pub
+│   │   │   ├── struct ut_exit: pub
+│   │   │   └── struct utmpx: pub
+│   │   │       ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │       ├── fn as_linux_x86_acct: pub(self)
+│   │   │       ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │       ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │       ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │       ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │       ├── fn fixedstruct_type: pub(self)
+│   │   │       ├── fn size: pub(self)
+│   │   │       ├── fn ut_host: pub
+│   │   │       ├── fn ut_id: pub
+│   │   │       ├── fn ut_line: pub
+│   │   │       └── fn ut_name: pub
+│   │   ├── mod netbsd_x8664: pub
+│   │   │   ├── type c_char: pub
+│   │   │   ├── struct lastlog: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   ├── const fn ll_host: pub
+│   │   │   │   ├── const fn ll_line: pub
+│   │   │   │   └── fn size: pub(self)
+│   │   │   ├── struct lastlogx: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   ├── const fn ll_host: pub
+│   │   │   │   ├── const fn ll_line: pub
+│   │   │   │   └── fn size: pub(self)
+│   │   │   ├── type pid_t: pub
+│   │   │   ├── type time_t: pub
+│   │   │   ├── struct timeval: pub
+│   │   │   ├── type uint16_t: pub
+│   │   │   ├── struct ut_exit: pub
+│   │   │   ├── struct utmp: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   ├── fn size: pub(self)
+│   │   │   │   ├── fn ut_host: pub
+│   │   │   │   ├── fn ut_line: pub
+│   │   │   │   └── fn ut_name: pub
+│   │   │   └── struct utmpx: pub
+│   │   │       ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │       ├── fn as_linux_x86_acct: pub(self)
+│   │   │       ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │       ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │       ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │       ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │       ├── fn fixedstruct_type: pub(self)
+│   │   │       ├── fn size: pub(self)
+│   │   │       ├── fn ut_host: pub
+│   │   │       ├── fn ut_id: pub
+│   │   │       ├── fn ut_line: pub
+│   │   │       └── fn ut_user: pub
+│   │   ├── type nsecs_type: pub
+│   │   ├── mod openbsd_x86: pub
+│   │   │   ├── type c_char: pub
+│   │   │   ├── struct lastlog: pub
+│   │   │   │   ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct: pub(self)
+│   │   │   │   ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │   │   ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │   │   ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │   │   ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │   │   ├── fn fixedstruct_type: pub(self)
+│   │   │   │   ├── const fn ll_host: pub
+│   │   │   │   ├── const fn ll_line: pub
+│   │   │   │   └── fn size: pub(self)
+│   │   │   ├── type time_t: pub
+│   │   │   └── struct utmp: pub
+│   │   │       ├── fn as_freebsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_lastlog: pub(self)
+│   │   │       ├── fn as_linux_arm64aarch64_utmpx: pub(self)
+│   │   │       ├── fn as_linux_x86_acct: pub(self)
+│   │   │       ├── fn as_linux_x86_acct_v3: pub(self)
+│   │   │       ├── fn as_linux_x86_lastlog: pub(self)
+│   │   │       ├── fn as_linux_x86_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_acct: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8632_utmpx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlog: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_lastlogx: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmp: pub(self)
+│   │   │       ├── fn as_netbsd_x8664_utmpx: pub(self)
+│   │   │       ├── fn as_openbsd_x86_lastlog: pub(self)
+│   │   │       ├── fn as_openbsd_x86_utmp: pub(self)
+│   │   │       ├── fn fixedstruct_type: pub(self)
+│   │   │       ├── fn size: pub(self)
+│   │   │       ├── fn ut_host: pub
+│   │   │       ├── fn ut_line: pub
+│   │   │       └── fn ut_name: pub
+│   │   ├── struct tv_pair_type: pub
+│   │   ├── type tv_sec_type: pub
+│   │   └── type tv_usec_type: pub
+│   ├── mod journal: pub
+│   │   ├── enum DtUsesSource: pub
+│   │   ├── type EpochMicroseconds: pub
+│   │   ├── type EpochMicrosecondsOpt: pub
+│   │   ├── struct JournalEntry: pub
+│   │   │   ├── fn as_bytes: pub
+│   │   │   ├── const fn dt: pub
+│   │   │   ├── const fn dt_beg_end: pub
+│   │   │   ├── fn find_timestamp_in_buffer: pub(crate)
+│   │   │   ├── fn from_buffer: pub
+│   │   │   ├── fn from_vec: pub
+│   │   │   ├── fn from_vec_nodt: pub
+│   │   │   ├── fn new: pub
+│   │   │   └── fn new_with_date: pub
+│   │   ├── type MonotonicMicroseconds: pub
+│   │   ├── type MonotonicMicrosecondsOpt: pub
+│   │   ├── fn datetimel_to_realtime_timestamp: pub
+│   │   ├── fn datetimelopt_to_realtime_timestamp_opt: pub
+│   │   ├── fn realtime_or_source_realtime_timestamp_to_datetimel: pub
+│   │   └── fn realtime_timestamp_to_datetimel: pub
+│   ├── mod line: pub
+│   │   ├── struct Line: pub
+│   │   │   ├── fn append: pub
+│   │   │   ├── fn blockoffset_first: pub
+│   │   │   ├── fn blockoffset_last: pub
+│   │   │   ├── fn count_bytes: pub
+│   │   │   ├── fn count_lineparts: pub
+│   │   │   ├── fn count_slices: pub
+│   │   │   ├── fn fileoffset_begin: pub
+│   │   │   ├── fn fileoffset_end: pub
+│   │   │   ├── fn get_boxptrs: pub
+│   │   │   ├── const fn is_empty: pub
+│   │   │   ├── fn len: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn new_from_linepart: pub
+│   │   │   ├── fn occupies_one_block: pub
+│   │   │   ├── fn prepend: pub
+│   │   │   └── fn stores_blockoffset: pub
+│   │   ├── type LineIndex: pub
+│   │   ├── type LineP: pub
+│   │   ├── struct LinePart: pub
+│   │   │   ├── fn as_slice: pub
+│   │   │   ├── fn as_utf8_bytes: pub
+│   │   │   ├── fn block_boxptr: pub
+│   │   │   ├── fn block_boxptr_a: pub
+│   │   │   ├── fn block_boxptr_ab: pub
+│   │   │   ├── fn block_boxptr_b: pub
+│   │   │   ├── const fn blockoffset: pub
+│   │   │   ├── fn contains: pub
+│   │   │   ├── const fn count_bytes: pub
+│   │   │   ├── const fn fileoffset_begin: pub
+│   │   │   ├── const fn fileoffset_end: pub
+│   │   │   ├── const fn is_empty: pub
+│   │   │   ├── const fn len: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn push_utf8_char: pub(self)
+│   │   │   ├── fn utf16_to_utf8: pub(self)
+│   │   │   └── fn utf32_to_utf8: pub(self)
+│   │   ├── enum LinePartPtrs: pub
+│   │   ├── type LineParts: pub
+│   │   ├── type Lines: pub
+│   │   └── type RangeLineIndex: pub
+│   ├── mod odl: pub
+│   │   ├── struct Odl: pub
+│   │   │   ├── fn as_bytes: pub
+│   │   │   ├── fn as_bytes: pub(self)
+│   │   │   ├── const fn dt: pub
+│   │   │   ├── fn dt: pub(self)
+│   │   │   ├── const fn dt_beg_end: pub
+│   │   │   ├── fn dt_beg_end: pub(self)
+│   │   │   ├── fn is_empty: pub
+│   │   │   └── fn len: pub
+│   │   ├── struct OdlEvent: pub
+│   │   │   ├── fn render: pub
+│   │   │   └── fn render_capacity_estimate: pub(self)
+│   │   └── type TimestampType: pub
+│   ├── mod slice_contains: pub
+│   │   ├── const fn slice_contains_10_2: pub(self)
+│   │   ├── const fn slice_contains_11_2: pub(self)
+│   │   ├── const fn slice_contains_12_2: pub(self)
+│   │   ├── fn slice_contains_12_D2: pub(crate)
+│   │   ├── const fn slice_contains_13_2: pub(self)
+│   │   ├── const fn slice_contains_14_2: pub(self)
+│   │   ├── const fn slice_contains_15_2: pub(self)
+│   │   ├── const fn slice_contains_16_2: pub(self)
+│   │   ├── const fn slice_contains_17_2: pub(self)
+│   │   ├── const fn slice_contains_18_2: pub(self)
+│   │   ├── const fn slice_contains_19_2: pub(self)
+│   │   ├── const fn slice_contains_20_2: pub(self)
+│   │   ├── const fn slice_contains_21_2: pub(self)
+│   │   ├── const fn slice_contains_22_2: pub(self)
+│   │   ├── const fn slice_contains_23_2: pub(self)
+│   │   ├── const fn slice_contains_24_2: pub(self)
+│   │   ├── const fn slice_contains_25_2: pub(self)
+│   │   ├── const fn slice_contains_26_2: pub(self)
+│   │   ├── const fn slice_contains_27_2: pub(self)
+│   │   ├── const fn slice_contains_28_2: pub(self)
+│   │   ├── const fn slice_contains_29_2: pub(self)
+│   │   ├── const fn slice_contains_2_2: pub(self)
+│   │   ├── const fn slice_contains_30_2: pub(self)
+│   │   ├── const fn slice_contains_31_2: pub(self)
+│   │   ├── const fn slice_contains_32_2: pub(self)
+│   │   ├── const fn slice_contains_33_2: pub(self)
+│   │   ├── const fn slice_contains_34_2: pub(self)
+│   │   ├── const fn slice_contains_35_2: pub(self)
+│   │   ├── const fn slice_contains_36_2: pub(self)
+│   │   ├── const fn slice_contains_37_2: pub(self)
+│   │   ├── const fn slice_contains_38_2: pub(self)
+│   │   ├── const fn slice_contains_39_2: pub(self)
+│   │   ├── const fn slice_contains_3_2: pub(self)
+│   │   ├── const fn slice_contains_40_2: pub(self)
+│   │   ├── const fn slice_contains_41_2: pub(self)
+│   │   ├── const fn slice_contains_42_2: pub(self)
+│   │   ├── const fn slice_contains_43_2: pub(self)
+│   │   ├── const fn slice_contains_44_2: pub(self)
+│   │   ├── const fn slice_contains_45_2: pub(self)
+│   │   ├── const fn slice_contains_46_2: pub(self)
+│   │   ├── const fn slice_contains_47_2: pub(self)
+│   │   ├── const fn slice_contains_48_2: pub(self)
+│   │   ├── const fn slice_contains_49_2: pub(self)
+│   │   ├── const fn slice_contains_4_2: pub(self)
+│   │   ├── const fn slice_contains_50_2: pub(self)
+│   │   ├── const fn slice_contains_51_2: pub(self)
+│   │   ├── const fn slice_contains_52_2: pub(self)
+│   │   ├── const fn slice_contains_53_2: pub(self)
+│   │   ├── const fn slice_contains_54_2: pub(self)
+│   │   ├── const fn slice_contains_55_2: pub(self)
+│   │   ├── const fn slice_contains_56_2: pub(self)
+│   │   ├── const fn slice_contains_57_2: pub(self)
+│   │   ├── const fn slice_contains_58_2: pub(self)
+│   │   ├── const fn slice_contains_59_2: pub(self)
+│   │   ├── const fn slice_contains_5_2: pub(self)
+│   │   ├── const fn slice_contains_60_2: pub(self)
+│   │   ├── const fn slice_contains_61_2: pub(self)
+│   │   ├── const fn slice_contains_62_2: pub(self)
+│   │   ├── const fn slice_contains_63_2: pub(self)
+│   │   ├── const fn slice_contains_64_2: pub(self)
+│   │   ├── const fn slice_contains_65_2: pub(self)
+│   │   ├── const fn slice_contains_66_2: pub(self)
+│   │   ├── const fn slice_contains_67_2: pub(self)
+│   │   ├── const fn slice_contains_68_2: pub(self)
+│   │   ├── const fn slice_contains_69_2: pub(self)
+│   │   ├── const fn slice_contains_6_2: pub(self)
+│   │   ├── const fn slice_contains_70_2: pub(self)
+│   │   ├── const fn slice_contains_71_2: pub(self)
+│   │   ├── const fn slice_contains_72_2: pub(self)
+│   │   ├── const fn slice_contains_73_2: pub(self)
+│   │   ├── const fn slice_contains_74_2: pub(self)
+│   │   ├── const fn slice_contains_75_2: pub(self)
+│   │   ├── const fn slice_contains_76_2: pub(self)
+│   │   ├── const fn slice_contains_77_2: pub(self)
+│   │   ├── const fn slice_contains_78_2: pub(self)
+│   │   ├── const fn slice_contains_79_2: pub(self)
+│   │   ├── const fn slice_contains_7_2: pub(self)
+│   │   ├── const fn slice_contains_80_2: pub(self)
+│   │   ├── const fn slice_contains_81_2: pub(self)
+│   │   ├── const fn slice_contains_82_2: pub(self)
+│   │   ├── const fn slice_contains_83_2: pub(self)
+│   │   ├── const fn slice_contains_84_2: pub(self)
+│   │   ├── const fn slice_contains_85_2: pub(self)
+│   │   ├── const fn slice_contains_86_2: pub(self)
+│   │   ├── const fn slice_contains_87_2: pub(self)
+│   │   ├── const fn slice_contains_88_2: pub(self)
+│   │   ├── const fn slice_contains_89_2: pub(self)
+│   │   ├── const fn slice_contains_8_2: pub(self)
+│   │   ├── const fn slice_contains_90_2: pub(self)
+│   │   ├── const fn slice_contains_91_2: pub(self)
+│   │   ├── const fn slice_contains_92_2: pub(self)
+│   │   ├── const fn slice_contains_93_2: pub(self)
+│   │   ├── const fn slice_contains_94_2: pub(self)
+│   │   ├── const fn slice_contains_95_2: pub(self)
+│   │   ├── const fn slice_contains_96_2: pub(self)
+│   │   ├── const fn slice_contains_97_2: pub(self)
+│   │   ├── const fn slice_contains_98_2: pub(self)
+│   │   ├── const fn slice_contains_99_2: pub(self)
+│   │   ├── const fn slice_contains_9_2: pub(self)
+│   │   ├── fn slice_contains_D2: pub
+│   │   ├── fn slice_contains_D2_custom: pub
+│   │   ├── fn slice_contains_X_2: pub
+│   │   ├── fn slice_contains_X_2_memchr: pub
+│   │   └── fn slice_contains_X_2_unroll: pub
+│   └── mod sysline: pub
+│       ├── struct Sysline: pub
+│       │   ├── fn blockoffset_first: pub
+│       │   ├── fn blockoffset_last: pub
+│       │   ├── const fn charsz: pub
+│       │   ├── fn count_bytes: pub
+│       │   ├── const fn count_lines: pub
+│       │   ├── const fn dt: pub
+│       │   ├── fn dt_difference: pub
+│       │   ├── const fn encoding_type: pub
+│       │   ├── fn ends_with_newline: pub
+│       │   ├── fn fileoffset_begin: pub
+│       │   ├── fn fileoffset_end: pub
+│       │   ├── fn fileoffset_next: pub
+│       │   ├── fn from_parts: pub
+│       │   ├── fn from_parts_with_offsets: pub
+│       │   ├── fn last: pub
+│       │   ├── fn len: pub
+│       │   ├── fn new_no_lines: pub
+│       │   ├── fn new_no_lines_with_offsets: pub
+│       │   ├── fn occupies_one_block: pub
+│       │   └── fn push: pub
+│       ├── type SyslineP: pub
+│       └── type SyslineP_Opt: pub
+├── mod debug: pub
+│   └── mod printers: pub
+│       ├── fn buffer_to_string_noraw: pub
+│       ├── const fn byte_to_char_noraw: pub
+│       └── const fn char_to_char_noraw: pub
+├── mod libload: pub
+│   └── mod systemd_dlopen2: pub
+│       ├── type JournalApiContainer: pub
+│       ├── type JournalApiPtr: pub
+│       ├── struct LOAD_LIBRARY_SYSTEMD_OK: pub
+│       │   └── fn initialize: pub(self)
+│       ├── struct LOAD_LIBRARY_SYSTEMD_PATH: pub
+│       │   └── fn initialize: pub(self)
+│       ├── enum LoadLibraryError: pub
+│       │   ├── const fn is_err: pub
+│       │   ├── const fn is_ok: pub
+│       │   └── const fn is_prev_err: pub
+│       ├── struct SYSTEMD_JOURNAL_API: pub
+│       │   └── fn initialize: pub(self)
+│       ├── struct SdJournalHApi: pub
+│       ├── fn journal_api: pub
+│       ├── fn load_library_systemd: pub
+│       ├── fn set_systemd_journal_api: pub(self)
+│       └── type size_t: pub(self)
+├── fn main: pub
+├── mod printer: pub
+│   ├── mod printers: pub
+│   │   ├── enum ColorTheme: pub
+│   │   ├── struct PrinterLogMessage: pub
+│   │   │   ├── fn datetime_to_string_asl: pub(self)
+│   │   │   ├── fn datetime_to_string_etl: pub(self)
+│   │   │   ├── fn datetime_to_string_evtx: pub(self)
+│   │   │   ├── fn datetime_to_string_fixedstruct: pub(self)
+│   │   │   ├── fn datetime_to_string_journalentry: pub(self)
+│   │   │   ├── fn datetime_to_string_sysline: pub(self)
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn print_asl: pub
+│   │   │   ├── fn print_asl_: pub(self)
+│   │   │   ├── fn print_asl_color: pub(self)
+│   │   │   ├── fn print_asl_prepend: pub(self)
+│   │   │   ├── fn print_asl_prepend_color: pub(self)
+│   │   │   ├── fn print_etl: pub
+│   │   │   ├── fn print_etl_: pub(self)
+│   │   │   ├── fn print_etl_color: pub(self)
+│   │   │   ├── fn print_etl_prepend: pub(self)
+│   │   │   ├── fn print_etl_prepend_color: pub(self)
+│   │   │   ├── fn print_evtx: pub
+│   │   │   ├── fn print_evtx_: pub(self)
+│   │   │   ├── fn print_evtx_color: pub(self)
+│   │   │   ├── fn print_evtx_prepend: pub(self)
+│   │   │   ├── fn print_evtx_prepend_color: pub(self)
+│   │   │   ├── fn print_fixedstruct: pub
+│   │   │   ├── fn print_fixedstruct_: pub(self)
+│   │   │   ├── fn print_fixedstruct_color: pub(self)
+│   │   │   ├── fn print_fixedstruct_prependdate: pub(self)
+│   │   │   ├── fn print_fixedstruct_prependdate_color: pub(self)
+│   │   │   ├── fn print_fixedstruct_prependfile: pub(self)
+│   │   │   ├── fn print_fixedstruct_prependfile_color: pub(self)
+│   │   │   ├── fn print_fixedstruct_prependfile_prependdate: pub(self)
+│   │   │   ├── fn print_fixedstruct_prependfile_prependdate_color: pub(self)
+│   │   │   ├── fn print_journalentry: pub
+│   │   │   ├── fn print_journalentry_: pub(self)
+│   │   │   ├── fn print_journalentry_color: pub(self)
+│   │   │   ├── fn print_journalentry_prepend: pub(self)
+│   │   │   ├── fn print_journalentry_prepend_color: pub(self)
+│   │   │   ├── fn print_line: pub(self)
+│   │   │   ├── fn print_native_event: pub(self)
+│   │   │   ├── fn print_odl: pub
+│   │   │   ├── fn print_sysline: pub
+│   │   │   ├── fn print_sysline_: pub(self)
+│   │   │   ├── fn print_sysline_color: pub(self)
+│   │   │   ├── fn print_sysline_prependdate: pub(self)
+│   │   │   ├── fn print_sysline_prependdate_color: pub(self)
+│   │   │   ├── fn print_sysline_prependfile: pub(self)
+│   │   │   ├── fn print_sysline_prependfile_color: pub(self)
+│   │   │   ├── fn print_sysline_prependfile_prependdate: pub(self)
+│   │   │   └── fn print_sysline_prependfile_prependdate_color: pub(self)
+│   │   ├── type PrinterLogMessageResult: pub
+│   │   ├── fn color_default: pub
+│   │   ├── fn color_dimmed: pub
+│   │   ├── fn color_rand: pub
+│   │   ├── fn color_theme_to_index: pub(self)
+│   │   ├── fn fpath_to_prependname: pub
+│   │   ├── fn fpath_to_prependpath: pub
+│   │   ├── fn print_colored: pub
+│   │   ├── fn print_colored_stderr: pub
+│   │   ├── fn write_stderr: pub
+│   │   └── fn write_stdout: pub
+│   └── mod summary: pub
+│       ├── type MapPathIdSummary: pub
+│       ├── type MapPathIdSummaryPrint: pub
+│       ├── type MapPathIdToColor: pub
+│       ├── type MapPathIdToFPath: pub
+│       ├── type MapPathIdToFileProcessingResultBlockZero: pub
+│       ├── type MapPathIdToFileType: pub
+│       ├── type MapPathIdToLogMessageType: pub
+│       ├── type MapPathIdToModifiedTime: pub
+│       ├── type MapPathIdToPrinterLogMessage: pub
+│       ├── type MapPathIdToProcessPathResult: pub
+│       ├── type MapPathIdToProcessPathResultOrdered: pub
+│       ├── type MapPathIdToStackSize: pub
+│       ├── struct SummaryPrinted: pub
+│       │   ├── fn _summaryprint_map_update: pub
+│       │   ├── fn new: pub
+│       │   ├── fn print_colored_stderr: pub
+│       │   ├── fn summaryprint_map_update_asl: pub
+│       │   ├── fn summaryprint_map_update_etl: pub
+│       │   ├── fn summaryprint_map_update_evtx: pub
+│       │   ├── fn summaryprint_map_update_fixedstruct: pub
+│       │   ├── fn summaryprint_map_update_journalentry: pub
+│       │   ├── fn summaryprint_map_update_odl: pub
+│       │   ├── fn summaryprint_map_update_sysline: pub
+│       │   ├── fn summaryprint_update_asl: pub
+│       │   ├── fn summaryprint_update_dt: pub(self)
+│       │   ├── fn summaryprint_update_etl: pub
+│       │   ├── fn summaryprint_update_evtx: pub
+│       │   ├── fn summaryprint_update_fixedstruct: pub
+│       │   ├── fn summaryprint_update_journalentry: pub
+│       │   ├── fn summaryprint_update_odl: pub
+│       │   └── fn summaryprint_update_sysline: pub
+│       ├── type SummaryPrintedOpt: pub
+│       ├── fn eprintln_debug_color_error: pub(self)
+│       ├── fn eprintln_display_color_error: pub(self)
+│       ├── fn percent64: pub(self)
+│       ├── fn print_all_files_summaries: pub(self)
+│       ├── fn print_cache_stats: pub(self)
+│       ├── fn print_cache_stats_summaryblockreader: pub(self)
+│       ├── fn print_cache_stats_summaryfixedstructreader: pub(self)
+│       ├── fn print_cache_stats_summarylinereader: pub(self)
+│       ├── fn print_cache_stats_summarysyslinereader: pub(self)
+│       ├── fn print_datetime_asis_utc_dimmed: pub(self)
+│       ├── fn print_datetime_utc_dimmed: pub(self)
+│       ├── fn print_dimmed: pub(self)
+│       ├── fn print_drop_stats: pub(self)
+│       ├── fn print_error_summary: pub(self)
+│       ├── fn print_file_about: pub(self)
+│       ├── fn print_file_summary: pub(self)
+│       ├── fn print_files_processpathresult: pub(self)
+│       ├── fn print_summary: pub
+│       ├── fn print_summary_opt_printed: pub
+│       ├── fn print_summary_opt_processed: pub(self)
+│       ├── fn print_summary_opt_processed_summaryblockreader: pub(self)
+│       ├── fn seconds_to_hmsm: pub(crate)
+│       ├── fn summary_largest_etl_event: pub(crate)
+│       ├── fn summary_largest_evtx_event: pub(crate)
+│       ├── fn summary_largest_journal_event: pub(crate)
+│       ├── fn summary_longest_line_sysline: pub(crate)
+│       └── fn summary_update: pub
+├── mod readers: pub
+│   ├── mod aslparser: pub
+│   │   ├── struct AslParser: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn next_record: pub
+│   │   │   └── fn string_ref: pub(self)
+│   │   ├── fn be_u16: pub(self)
+│   │   ├── fn be_u32: pub(self)
+│   │   ├── fn be_u64: pub(self)
+│   │   ├── fn charge_string_bytes: pub(self)
+│   │   └── fn invalid: pub(self)
+│   ├── mod aslreader: pub
+│   │   ├── struct AslReader: pub
+│   │   │   ├── fn analyze: pub
+│   │   │   ├── fn from_reader: pub
+│   │   │   ├── fn mtime: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn next_event: pub
+│   │   │   ├── fn record_error: pub(self)
+│   │   │   └── fn summary_complete: pub
+│   │   ├── struct AslSource: pub
+│   │   ├── enum Consumption: pub(self)
+│   │   └── struct SummaryAslReader: pub
+│   ├── mod blockreader: pub
+│   │   ├── enum ArchiveMessage: pub(self)
+│   │   ├── type Block: pub
+│   │   ├── type BlockIndex: pub
+│   │   ├── type BlockOffset: pub
+│   │   ├── type BlockP: pub
+│   │   ├── struct BlockReader: pub
+│   │   │   ├── fn LRU_cache_disable: pub
+│   │   │   ├── fn LRU_cache_enable: pub
+│   │   │   ├── const fn block_index_at_file_offset: pub
+│   │   │   ├── const fn block_index_at_file_offset_self: pub
+│   │   │   ├── const fn block_offset_at_file_offset: pub
+│   │   │   ├── const fn block_offset_at_file_offset_self: pub(self)
+│   │   │   ├── fn blocklen_at_blockoffset: pub
+│   │   │   ├── const fn blockoffset_last: pub
+│   │   │   ├── const fn blocksz: pub
+│   │   │   ├── fn blocksz_at_blockoffset: pub
+│   │   │   ├── fn blocksz_at_blockoffset_impl: pub(self)
+│   │   │   ├── const fn count_blocks: pub
+│   │   │   ├── fn count_blocks_processed: pub
+│   │   │   ├── fn count_bytes: pub
+│   │   │   ├── fn disable_drop_data: pub
+│   │   │   ├── fn drop_block: pub
+│   │   │   ├── const fn file_offset_at_block_offset: pub
+│   │   │   ├── const fn file_offset_at_block_offset_index: pub
+│   │   │   ├── const fn file_offset_at_block_offset_self: pub
+│   │   │   ├── const fn fileoffset_last: pub
+│   │   │   ├── const fn filesz: pub
+│   │   │   ├── const fn filetype: pub
+│   │   │   ├── fn filetype_text_encoding_update: pub
+│   │   │   ├── const fn is_drop_data: pub
+│   │   │   ├── const fn is_streamed_file: pub
+│   │   │   ├── fn last_blockindex_at_blockoffset: pub
+│   │   │   ├── fn metadata: pub
+│   │   │   ├── fn mtime: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn open_tar: pub
+│   │   │   ├── const fn path: pub
+│   │   │   ├── const fn path_id: pub
+│   │   │   ├── fn read_block: pub
+│   │   │   ├── fn read_block_File: pub(self)
+│   │   │   ├── fn read_block_FileBz2: pub(self)
+│   │   │   ├── fn read_block_FileGz: pub(self)
+│   │   │   ├── fn read_block_FileLz4: pub(self)
+│   │   │   ├── fn read_block_FileTar: pub(self)
+│   │   │   ├── fn read_block_FileXz: pub(self)
+│   │   │   ├── fn read_block_FileZip: pub(self)
+│   │   │   ├── fn read_data: pub(crate)
+│   │   │   ├── fn read_data_to_buffer: pub
+│   │   │   ├── fn store_block_in_LRU_cache: pub(self)
+│   │   │   ├── fn store_block_in_storage: pub(self)
+│   │   │   └── fn summary: pub
+│   │   ├── type BlockSz: pub
+│   │   ├── type Blocks: pub
+│   │   ├── type BlocksLRUCache: pub
+│   │   ├── type BlocksTracked: pub
+│   │   ├── type BufReaderLz4: pub(self)
+│   │   ├── type BufReaderXz: pub(self)
+│   │   ├── struct Bz2Data: pub
+│   │   ├── struct GzData: pub
+│   │   ├── struct Lz4Data: pub
+│   │   ├── type Lz4FrameReader: pub(self)
+│   │   ├── type ReadData: pub
+│   │   ├── enum ReadDataParts: pub
+│   │   ├── type ResultFindReadBlock: pub
+│   │   ├── type ResultReadData: pub
+│   │   ├── type ResultReadDataToBuffer: pub
+│   │   ├── type Slices: pub
+│   │   ├── struct SummaryBlockReader: pub
+│   │   ├── type TarChecksum: pub
+│   │   ├── struct TarData: pub
+│   │   │   ├── fn finish_producer: pub(self)
+│   │   │   ├── fn recv: pub(self)
+│   │   │   └── fn start: pub(self)
+│   │   ├── type TarHandle: pub
+│   │   ├── type TarMTime: pub
+│   │   ├── struct XzBlockWriter: pub(self)
+│   │   │   ├── fn finish: pub(self)
+│   │   │   ├── fn new: pub(self)
+│   │   │   └── fn send: pub(self)
+│   │   ├── struct XzData: pub
+│   │   │   ├── fn finish_producer: pub(self)
+│   │   │   ├── fn recv: pub(self)
+│   │   │   └── fn start: pub(self)
+│   │   ├── enum XzMessage: pub(self)
+│   │   ├── struct ZipData: pub(self)
+│   │   │   ├── fn finish_producer: pub(self)
+│   │   │   ├── fn finish_with_error: pub(self)
+│   │   │   ├── fn recv: pub(self)
+│   │   │   └── fn start: pub(self)
+│   │   ├── fn blocksz_def: pub
+│   │   ├── const fn dword_to_u32: pub(self)
+│   │   ├── fn err_from_err_path_results3: pub(self)
+│   │   ├── fn xz_decompress_error: pub(self)
+│   │   ├── fn xz_read_vli: pub(self)
+│   │   └── fn xz_uncompressed_size: pub(self)
+│   ├── mod etlparser: pub
+│   │   ├── type BufferData: pub(self)
+│   │   ├── enum ClockType: pub
+│   │   │   └── fn from_reserved_flags: pub(self)
+│   │   ├── struct Cur: pub
+│   │   │   ├── fn cstr: pub(self)
+│   │   │   ├── fn guid: pub(self)
+│   │   │   ├── fn new: pub(self)
+│   │   │   ├── fn remaining: pub(self)
+│   │   │   ├── fn rest: pub(self)
+│   │   │   ├── fn skip: pub(self)
+│   │   │   ├── fn take: pub(self)
+│   │   │   ├── fn u16: pub(self)
+│   │   │   ├── fn u32: pub(self)
+│   │   │   ├── fn u64: pub(self)
+│   │   │   ├── fn u8: pub(self)
+│   │   │   └── fn wstr: pub(self)
+│   │   ├── struct EtlParser: pub
+│   │   │   ├── fn decode_payload: pub(self)
+│   │   │   ├── const fn header: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn next_buffer: pub(self)
+│   │   │   ├── fn next_event: pub
+│   │   │   ├── fn parse_logfile_header: pub(self)
+│   │   │   ├── fn parse_record: pub(self)
+│   │   │   ├── fn read_buffer: pub(self)
+│   │   │   ├── fn resolve_provider_name: pub(self)
+│   │   │   ├── fn split_error: pub(self)
+│   │   │   ├── fn split_event: pub(self)
+│   │   │   ├── fn split_full: pub(self)
+│   │   │   ├── fn split_message: pub(self)
+│   │   │   └── fn split_system: pub(self)
+│   │   ├── enum EtlRecordError: pub
+│   │   ├── struct LogfileHeader: pub
+│   │   │   ├── fn time_delta_to_filetime: pub
+│   │   │   └── fn to_fields: pub(self)
+│   │   ├── struct RawRecord: pub
+│   │   ├── enum TlCount: pub
+│   │   ├── struct TlField: pub
+│   │   │   └── fn struct_len: pub(self)
+│   │   ├── struct TlSchema: pub
+│   │   ├── type TlSchemaCache: pub
+│   │   ├── fn decode_kernel_group0: pub
+│   │   ├── fn decode_tracelogging: pub
+│   │   ├── fn kernel_group0_opcode_name: pub
+│   │   ├── fn kernel_group_lookup: pub
+│   │   ├── fn read_full: pub
+│   │   ├── fn read_u16_at: pub
+│   │   ├── fn read_u32_at: pub
+│   │   ├── fn read_u64_at: pub
+│   │   ├── fn system_header_extra: pub(self)
+│   │   ├── fn tl_charge: pub(self)
+│   │   ├── fn tl_decode_fields: pub
+│   │   ├── fn tl_field_extent: pub(self)
+│   │   ├── fn tl_parse_schema: pub
+│   │   ├── fn tl_read_field_value: pub(self)
+│   │   ├── fn tl_read_scalar: pub
+│   │   ├── fn tl_read_sid: pub(self)
+│   │   ├── fn tl_schema_cached: pub
+│   │   ├── fn tl_schema_nesting_ok: pub(self)
+│   │   └── fn utf16le_to_string: pub
+│   ├── mod etlreader: pub
+│   │   ├── struct EtlReader: pub
+│   │   │   ├── fn analyze: pub
+│   │   │   ├── const fn filesz: pub
+│   │   │   ├── const fn filetype: pub
+│   │   │   ├── const fn mtime: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn next: pub
+│   │   │   ├── const fn path: pub
+│   │   │   ├── const fn path_id: pub
+│   │   │   ├── fn set_error: pub(self)
+│   │   │   ├── fn summary: pub
+│   │   │   └── fn summary_complete: pub
+│   │   ├── type Events: pub
+│   │   ├── type EventsKey: pub
+│   │   └── struct SummaryEtlReader: pub
+│   ├── mod evtxreader: pub
+│   │   ├── type Events: pub
+│   │   ├── type EventsKey: pub
+│   │   ├── struct EvtxReader: pub
+│   │   │   ├── fn analyze: pub
+│   │   │   ├── fn dt_first_accepted: pub
+│   │   │   ├── fn dt_first_processed: pub
+│   │   │   ├── fn dt_last_accepted: pub
+│   │   │   ├── fn dt_last_processed: pub
+│   │   │   ├── const fn filesz: pub
+│   │   │   ├── const fn filetype: pub
+│   │   │   ├── const fn mtime: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn next: pub
+│   │   │   ├── const fn path: pub
+│   │   │   ├── const fn path_id: pub
+│   │   │   ├── fn summary: pub
+│   │   │   └── fn summary_complete: pub
+│   │   ├── struct SummaryEvtxReader: pub
+│   │   └── fn ts_pass_filters: pub
+│   ├── mod filedecompressor: pub
+│   │   ├── type BufReaderLz4: pub(self)
+│   │   ├── type DecompressToNtfResult: pub
+│   │   ├── type DecompressToNtfValue: pub
+│   │   ├── type ListFPaths: pub(self)
+│   │   ├── type Lz4FrameReader: pub(self)
+│   │   ├── struct NAMED_TEMP_FILES: pub(self)
+│   │   │   └── fn initialize: pub(self)
+│   │   ├── struct NAMED_TEMP_FILES_COUNT: pub(self)
+│   │   │   └── fn initialize: pub(self)
+│   │   ├── struct TEMPFILE_CREATE_LOCK: pub(self)
+│   │   │   └── fn initialize: pub(self)
+│   │   ├── fn count_temporary_files: pub
+│   │   ├── fn decompress_to_ntf: pub
+│   │   ├── fn path_temporary_files_dir: pub
+│   │   └── fn remove_temporary_files: pub
+│   ├── mod filehandlemanager: pub
+│   │   ├── struct FILE_HANDLE_MANAGER: pub
+│   │   │   └── fn initialize: pub(self)
+│   │   ├── struct FileEntryManaged: pub(self)
+│   │   │   └── fn new: pub(self)
+│   │   ├── struct FileHandleKey: pub
+│   │   │   └── const fn new: pub
+│   │   ├── struct FileHandleManaged: pub
+│   │   │   ├── fn metadata: pub
+│   │   │   └── fn with_state_mut: pub(self)
+│   │   ├── struct FileHandleManager: pub
+│   │   │   ├── fn count_open: pub(crate)
+│   │   │   ├── fn count_open_total: pub(crate)
+│   │   │   ├── fn evict_one: pub(crate)
+│   │   │   ├── fn handle_managed: pub(self)
+│   │   │   ├── fn handle_reservations: pub
+│   │   │   ├── fn handle_unmanaged: pub(self)
+│   │   │   ├── fn handles_managed_active_helper: pub(crate)
+│   │   │   ├── fn handles_unmanaged_helper: pub(crate)
+│   │   │   ├── fn handles_unmanaged_pending_helper: pub(crate)
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn new_open_max: pub
+│   │   │   ├── fn open_max: pub
+│   │   │   ├── fn request_open_managed: pub
+│   │   │   ├── fn request_open_unmanaged: pub
+│   │   │   ├── fn request_read: pub
+│   │   │   └── fn summary: pub
+│   │   ├── struct FileHandleManagerState: pub(self)
+│   │   │   ├── fn count_capacity_used: pub(self)
+│   │   │   ├── fn count_open_hi_update: pub(self)
+│   │   │   ├── fn count_open_total: pub(self)
+│   │   │   ├── fn count_pending_unmanaged: pub(self)
+│   │   │   ├── fn count_unmanaged: pub(self)
+│   │   │   ├── fn count_unmanaged_usize: pub(self)
+│   │   │   ├── fn ensure_open: pub(self)
+│   │   │   ├── fn evict_one: pub(self)
+│   │   │   ├── fn make_room_for_count: pub(self)
+│   │   │   ├── fn make_room_for_managed: pub(self)
+│   │   │   ├── fn make_room_for_unmanaged: pub(self)
+│   │   │   ├── fn new: pub(self)
+│   │   │   ├── fn open_entry_once: pub(self)
+│   │   │   ├── fn open_entry_once_adjust_open_max: pub(self)
+│   │   │   ├── fn release_handle_managed: pub(self)
+│   │   │   ├── fn release_handle_unmanaged: pub(self)
+│   │   │   ├── fn retain_handle_managed: pub(self)
+│   │   │   ├── fn retain_handle_unmanaged: pub(self)
+│   │   │   ├── fn touch: pub(self)
+│   │   │   └── fn with_file_mut: pub(self)
+│   │   ├── enum FileHandleRole: pub
+│   │   ├── struct FileHandleUnmanaged: pub
+│   │   ├── type OpenCountType: pub(self)
+│   │   ├── type OpenMaxCountType: pub
+│   │   ├── struct OpenOptionsManaged: pub
+│   │   │   ├── fn open: pub(self)
+│   │   │   ├── const fn read_only: pub
+│   │   │   └── const fn write_existing: pub
+│   │   ├── struct SummaryFileHandleManager: pub
+│   │   ├── fn file_handle_open_max: pub(self)
+│   │   ├── const fn filetype_handle_counts: pub
+│   │   └── fn is_error_too_many_open_files: pub(crate)
+│   ├── mod filepreprocessor: pub
+│   │   ├── enum FileTypeArchiveMultiple: pub
+│   │   ├── enum PathToFiletypeResult: pub
+│   │   ├── enum ProcessPathResult: pub
+│   │   ├── type ProcessPathResults: pub
+│   │   ├── fn archive_member_matches: pub(self)
+│   │   ├── fn archive_selection: pub(self)
+│   │   ├── fn detect_filetype_text_encoding: pub
+│   │   ├── fn error_to_string: pub(self)
+│   │   ├── fn is_texty_ascii_byte: pub(self)
+│   │   ├── fn path_to_filetype: pub
+│   │   ├── fn pathbuf_to_filetype: pub
+│   │   ├── fn pathbuf_to_filetype_impl: pub(self)
+│   │   ├── fn process_archive_selector: pub(self)
+│   │   ├── fn process_path: pub
+│   │   ├── fn process_path_tar: pub
+│   │   ├── fn process_path_tar_impl: pub(self)
+│   │   ├── fn process_path_zip: pub
+│   │   ├── fn process_path_zip_impl: pub(self)
+│   │   ├── fn ratio_to_score: pub(self)
+│   │   ├── fn score_heuristic_utf16: pub(self)
+│   │   ├── fn score_heuristic_utf16be_with_bom: pub(self)
+│   │   ├── fn score_heuristic_utf16be_without_bom: pub(self)
+│   │   ├── fn score_heuristic_utf16le_with_bom: pub(self)
+│   │   ├── fn score_heuristic_utf16le_without_bom: pub(self)
+│   │   ├── fn score_heuristic_utf32: pub(self)
+│   │   ├── fn score_heuristic_utf32be_with_bom: pub(self)
+│   │   ├── fn score_heuristic_utf32be_without_bom: pub(self)
+│   │   ├── fn score_heuristic_utf32le_with_bom: pub(self)
+│   │   ├── fn score_heuristic_utf32le_without_bom: pub(self)
+│   │   ├── fn score_heuristic_utf8_with_bom: pub(self)
+│   │   └── fn score_heuristic_utf8_without_bom: pub(self)
+│   ├── mod fixedstructreader: pub
+│   │   ├── struct FixedStructReader: pub
+│   │   │   ├── const fn block_index_at_file_offset: pub
+│   │   │   ├── const fn block_offset_at_file_offset: pub
+│   │   │   ├── const fn blockoffset_last: pub
+│   │   │   ├── const fn blocksz: pub
+│   │   │   ├── const fn count_blocks: pub
+│   │   │   ├── fn count_entries_processed: pub
+│   │   │   ├── fn drop_entry: pub(self)
+│   │   │   ├── fn dt_first_last_update: pub(self)
+│   │   │   ├── fn entries_stored_highest: pub
+│   │   │   ├── fn entry_dt_after_or_before: pub
+│   │   │   ├── fn entry_pass_filters: pub
+│   │   │   ├── const fn file_offset_at_block_offset: pub
+│   │   │   ├── const fn file_offset_at_block_offset_index: pub
+│   │   │   ├── fn fileoffset_first: pub
+│   │   │   ├── const fn fileoffset_last: pub
+│   │   │   ├── const fn fileoffset_to_fixedstructoffset: pub
+│   │   │   ├── const fn filesz: pub
+│   │   │   ├── const fn filetype: pub
+│   │   │   ├── const fn fixedstruct_size: pub
+│   │   │   ├── const fn fixedstruct_size_fo: pub
+│   │   │   ├── const fn fixedstruct_type: pub
+│   │   │   ├── fn insert_cache_entry: pub(self)
+│   │   │   ├── const fn is_fileoffset_last: pub
+│   │   │   ├── fn is_last: pub
+│   │   │   ├── fn mtime: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── const fn path: pub
+│   │   │   ├── const fn path_id: pub
+│   │   │   ├── fn preprocess_fixedstructtype: pub(crate)
+│   │   │   ├── fn preprocess_timevalues: pub
+│   │   │   ├── fn process_entry_at: pub
+│   │   │   ├── fn remove_cache_entry: pub(self)
+│   │   │   ├── fn score_file: pub
+│   │   │   ├── fn set_error: pub(self)
+│   │   │   ├── fn summary: pub
+│   │   │   └── fn summary_complete: pub
+│   │   ├── type FoList: pub
+│   │   ├── type FoToEntry: pub
+│   │   ├── type FoToFo: pub
+│   │   ├── type ListFileOffsetFixedStructPtr: pub(self)
+│   │   ├── type MapTvPairToFo: pub(self)
+│   │   ├── type ResultFindFixedStruct: pub
+│   │   ├── type ResultFindFixedStructProcZeroBlock: pub
+│   │   ├── enum ResultFixedStructReaderNew: pub
+│   │   ├── type ResultFixedStructReaderNewError: pub
+│   │   ├── enum ResultFixedStructReaderScoreFile: pub
+│   │   ├── type ResultFixedStructReaderScoreFileError: pub
+│   │   ├── type ResultTvFo: pub
+│   │   └── struct SummaryFixedStructReader: pub
+│   ├── mod helpers: pub
+│   │   ├── type ZipHandle: pub(crate)
+│   │   ├── fn basename: pub
+│   │   ├── fn count_char_in_str: pub
+│   │   ├── fn filename_count_extensions: pub
+│   │   ├── fn fpath_to_path: pub
+│   │   ├── fn open_zip: pub(crate)
+│   │   ├── fn path_clone: pub
+│   │   ├── fn path_filesz: pub
+│   │   ├── fn path_to_fpath: pub
+│   │   ├── fn zip_error: pub(crate)
+│   │   ├── fn zip_member_index: pub(crate)
+│   │   └── fn zip_member_mtime: pub(crate)
+│   ├── mod journalreader: pub
+│   │   ├── type EntryBuffer: pub(self)
+│   │   ├── type EntryBufferKey: pub(self)
+│   │   ├── enum JournalOutput: pub
+│   │   │   └── fn iterator: pub
+│   │   ├── struct JournalReader: pub
+│   │   │   ├── fn Error_from_Errno: pub(self)
+│   │   │   ├── fn analyze: pub
+│   │   │   ├── fn call_sd_id128_get_boot: pub(self)
+│   │   │   ├── fn call_sd_journal_enumerate_available_data: pub(self)
+│   │   │   ├── fn call_sd_journal_get_cursor: pub(self)
+│   │   │   ├── fn call_sd_journal_get_data: pub(self)
+│   │   │   ├── fn call_sd_journal_get_monotonic_usec: pub(self)
+│   │   │   ├── fn call_sd_journal_get_realtime_usec: pub(self)
+│   │   │   ├── fn call_sd_journal_next: pub(self)
+│   │   │   ├── fn dt_first_accepted: pub
+│   │   │   ├── fn dt_first_processed: pub
+│   │   │   ├── fn dt_last_accepted: pub
+│   │   │   ├── fn dt_last_processed: pub
+│   │   │   ├── fn em_first_last_update_accepted: pub(self)
+│   │   │   ├── fn em_first_last_update_accepted_all: pub(self)
+│   │   │   ├── fn em_first_last_update_processed: pub(crate)
+│   │   │   ├── const fn filesz: pub
+│   │   │   ├── const fn filetype: pub
+│   │   │   ├── fn get_monotonic_usec: pub(self)
+│   │   │   ├── fn get_source_realtime_timestamp: pub(self)
+│   │   │   ├── fn journal_event_size_current: pub(self)
+│   │   │   ├── const fn mtime: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn next: pub
+│   │   │   ├── fn next_cat: pub(self)
+│   │   │   ├── fn next_common: pub
+│   │   │   ├── fn next_dispatch: pub(self)
+│   │   │   ├── fn next_export: pub(self)
+│   │   │   ├── fn next_fill_buffer: pub(self)
+│   │   │   ├── fn next_short: pub(self)
+│   │   │   ├── fn next_verbose: pub(self)
+│   │   │   ├── const fn path: pub
+│   │   │   ├── const fn path_id: pub
+│   │   │   ├── fn summary: pub
+│   │   │   └── fn summary_complete: pub
+│   │   ├── struct KEY_MESSAGE_CSTR: pub
+│   │   │   └── fn initialize: pub(self)
+│   │   ├── struct KEY_SOURCE_REALTIME_TIMESTAMP_CSTR: pub
+│   │   │   └── fn initialize: pub(self)
+│   │   ├── type ResultNext: pub
+│   │   ├── type ResultNextCommon: pub
+│   │   ├── struct SummaryJournalReader: pub
+│   │   ├── fn em_after_or_before: pub
+│   │   ├── fn em_pass_filters: pub
+│   │   └── const fn errno_to_errorkind: pub
+│   ├── mod linereader: pub
+│   │   ├── type FoToFo: pub
+│   │   ├── type FoToLine: pub
+│   │   ├── struct LineReader: pub
+│   │   │   ├── fn LRU_cache_disable: pub
+│   │   │   ├── fn LRU_cache_enable: pub
+│   │   │   ├── const fn block_index_at_file_offset: pub
+│   │   │   ├── const fn block_offset_at_file_offset: pub
+│   │   │   ├── const fn blockoffset_last: pub
+│   │   │   ├── const fn blocksz: pub
+│   │   │   ├── const fn charsz: pub
+│   │   │   ├── fn check_store: pub(self)
+│   │   │   ├── fn check_store_LRU: pub(self)
+│   │   │   ├── const fn count_blocks: pub
+│   │   │   ├── const fn count_lines_processed: pub
+│   │   │   ├── fn count_lines_stored: pub
+│   │   │   ├── fn drop_line: pub
+│   │   │   ├── fn drop_lines: pub
+│   │   │   ├── fn encoding_type: pub
+│   │   │   ├── const fn file_offset_at_block_offset: pub
+│   │   │   ├── const fn file_offset_at_block_offset_index: pub
+│   │   │   ├── const fn fileoffset_last: pub
+│   │   │   ├── const fn filesz: pub
+│   │   │   ├── const fn filetype: pub
+│   │   │   ├── fn filetype_text_encoding_update: pub
+│   │   │   ├── fn find_line: pub
+│   │   │   ├── fn find_line_in_block: pub
+│   │   │   ├── fn find_line_search_max: pub(self)
+│   │   │   ├── fn get_linep: pub
+│   │   │   ├── fn insert_line: pub(self)
+│   │   │   ├── const fn is_drop_data: pub
+│   │   │   ├── const fn is_fileoffset_last: pub
+│   │   │   ├── fn is_line_last: pub
+│   │   │   ├── fn is_newline_at: pub(self)
+│   │   │   ├── const fn is_streamed_file: pub
+│   │   │   ├── fn lines_contains: pub(self)
+│   │   │   ├── const fn lines_stored_highest: pub
+│   │   │   ├── fn mtime: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn new_linepart_checked: pub(self)
+│   │   │   ├── const fn path: pub
+│   │   │   ├── const fn path_id: pub
+│   │   │   └── fn summary: pub
+│   │   ├── type LinesLRUCache: pub
+│   │   ├── type ResultFindLine: pub
+│   │   └── struct SummaryLineReader: pub
+│   ├── mod odlparser: pub
+│   │   ├── enum Body: pub(self)
+│   │   ├── struct OdlDecodingContext: pub
+│   │   │   ├── fn decode_parameter: pub(self)
+│   │   │   ├── fn decode_token: pub(self)
+│   │   │   ├── fn has_companions: pub
+│   │   │   ├── fn load_keystore: pub
+│   │   │   └── fn load_map: pub
+│   │   ├── struct OdlHeader: pub
+│   │   ├── struct OdlKey: pub(self)
+│   │   ├── enum OdlKeyEncoding: pub(self)
+│   │   ├── struct OdlParser: pub
+│   │   │   ├── const fn header: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn next_event: pub
+│   │   │   └── fn read_record: pub(self)
+│   │   ├── enum OdlRecordError: pub
+│   │   ├── fn decode_keystore_plaintext: pub(self)
+│   │   ├── fn decode_text: pub(self)
+│   │   ├── fn extract_parameters: pub(self)
+│   │   ├── fn invalid: pub(self)
+│   │   ├── fn read_bounded: pub(self)
+│   │   └── fn read_string: pub(self)
+│   ├── mod odlreader: pub
+│   │   ├── struct OdlCompanions: pub(self)
+│   │   │   ├── fn load: pub(self)
+│   │   │   └── fn report_error: pub(self)
+│   │   ├── struct OdlReader: pub
+│   │   │   ├── fn analyze: pub
+│   │   │   ├── fn filesz: pub
+│   │   │   ├── fn filetype: pub
+│   │   │   ├── fn from_reader: pub
+│   │   │   ├── fn mtime: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn next: pub
+│   │   │   ├── fn path: pub
+│   │   │   ├── fn path_id: pub
+│   │   │   ├── fn report_error: pub(self)
+│   │   │   ├── fn summary: pub
+│   │   │   └── fn summary_complete: pub
+│   │   ├── struct OdlSource: pub
+│   │   ├── struct SummaryOdlReader: pub
+│   │   └── fn load_companions: pub(self)
+│   ├── mod summary: pub
+│   │   ├── struct Summary: pub
+│   │   │   ├── fn blockreader: pub
+│   │   │   ├── fn datetime_first_printed: pub
+│   │   │   ├── fn datetime_first_processed: pub
+│   │   │   ├── fn datetime_last_printed: pub
+│   │   │   ├── fn datetime_last_processed: pub
+│   │   │   ├── fn datetime_out_of_order: pub
+│   │   │   ├── fn has_blockreader: pub
+│   │   │   ├── fn max_drop: pub
+│   │   │   ├── fn max_hit_miss: pub
+│   │   │   ├── fn new: pub
+│   │   │   └── fn new_failed: pub
+│   │   ├── type SummaryOpt: pub
+│   │   └── enum SummaryReaderData: pub
+│   │       └── const fn is_dummy: pub
+│   ├── mod syslinereader: pub
+│   │   ├── type DateTimeParseDatasIndexes: pub
+│   │   ├── type DateTimePatternCounts: pub
+│   │   ├── type FindDateTimeData: pub
+│   │   ├── type LineParsedCache: pub(self)
+│   │   ├── type ResultFindDateTime: pub
+│   │   ├── type ResultFindSysline: pub
+│   │   ├── type ResultParseDateTime: pub
+│   │   ├── struct SummarySyslineReader: pub
+│   │   ├── type SyslineRange: pub(self)
+│   │   ├── struct SyslineReader: pub
+│   │   │   ├── fn LRU_cache_disable: pub
+│   │   │   ├── fn LRU_cache_enable: pub
+│   │   │   ├── const fn block_index_at_file_offset: pub
+│   │   │   ├── const fn block_offset_at_file_offset: pub
+│   │   │   ├── const fn blockoffset_last: pub
+│   │   │   ├── const fn blocksz: pub
+│   │   │   ├── const fn charsz: pub
+│   │   │   ├── fn check_store: pub(self)
+│   │   │   ├── fn clear_syslines: pub(crate)
+│   │   │   ├── const fn count_blocks: pub
+│   │   │   ├── const fn count_lines_processed: pub
+│   │   │   ├── fn count_lines_stored: pub
+│   │   │   ├── const fn count_syslines_processed: pub
+│   │   │   ├── fn count_syslines_stored: pub
+│   │   │   ├── fn datetime_parse_data: pub(crate)
+│   │   │   ├── fn debug_assert_gt_fo_syslineend: pub(self)
+│   │   │   ├── fn disable_range_lookups: pub
+│   │   │   ├── fn drop_data: pub
+│   │   │   ├── fn drop_sysline: pub
+│   │   │   ├── fn dt_first_last_update: pub(crate)
+│   │   │   ├── fn dt_pattern_has_year: pub
+│   │   │   ├── fn dt_pattern_index_max_count: pub(crate)
+│   │   │   ├── fn dt_pattern_uptime: pub
+│   │   │   ├── fn dt_patterns_analysis: pub(crate)
+│   │   │   ├── fn dt_patterns_counts_debug_print: pub(self)
+│   │   │   ├── fn dt_patterns_counts_in_use: pub(crate)
+│   │   │   ├── fn dt_patterns_indexes_refresh: pub(crate)
+│   │   │   ├── fn dt_patterns_update: pub(crate)
+│   │   │   ├── fn encoding_type: pub
+│   │   │   ├── fn ezcheck_slice: pub(crate)
+│   │   │   ├── const fn file_offset_at_block_offset: pub
+│   │   │   ├── const fn file_offset_at_block_offset_index: pub
+│   │   │   ├── const fn fileoffset_last: pub
+│   │   │   ├── const fn filesz: pub
+│   │   │   ├── const fn filetype: pub
+│   │   │   ├── fn filetype_text_encoding_update: pub
+│   │   │   ├── fn find_datetime_in_line: pub(crate)
+│   │   │   ├── fn find_sysline: pub
+│   │   │   ├── fn find_sysline_at_datetime_filter: pub
+│   │   │   ├── fn find_sysline_at_datetime_filter_binary_search: pub
+│   │   │   ├── fn find_sysline_at_datetime_filter_linear_search: pub
+│   │   │   ├── fn find_sysline_between_datetime_filters: pub
+│   │   │   ├── fn find_sysline_in_block: pub
+│   │   │   ├── fn find_sysline_in_block_year: pub
+│   │   │   ├── fn find_sysline_year: pub
+│   │   │   ├── fn insert_sysline: pub(self)
+│   │   │   ├── const fn is_drop_data: pub
+│   │   │   ├── const fn is_streamed_file: pub
+│   │   │   ├── fn is_sysline_last: pub
+│   │   │   ├── fn is_syslinep_last: pub
+│   │   │   ├── fn mtime: pub
+│   │   │   ├── fn new: pub
+│   │   │   ├── fn out_of_order_recompute: pub(crate)
+│   │   │   ├── fn parse_datetime_in_line: pub(self)
+│   │   │   ├── fn parse_datetime_in_line_cached: pub(crate)
+│   │   │   ├── const fn path: pub
+│   │   │   ├── const fn path_id: pub
+│   │   │   ├── fn remove_sysline: pub(crate)
+│   │   │   ├── fn summary: pub
+│   │   │   ├── fn sysline_dt_after_or_before: pub
+│   │   │   ├── fn sysline_pass_filters: pub
+│   │   │   └── const fn syslines_stored_highest: pub
+│   │   ├── type Syslines: pub
+│   │   ├── type SyslinesLRUCache: pub(self)
+│   │   ├── type SyslinesRangeMap: pub(self)
+│   │   ├── fn data_without_bom: pub(self)
+│   │   ├── fn process_bytes_to_regex_to_datetime: pub(self)
+│   │   ├── fn push_utf8_char: pub(self)
+│   │   ├── fn transcode_bytes_to_utf8_buffer: pub(self)
+│   │   └── fn utf8_offsets_to_actual_offsets_second_pass: pub(self)
+│   └── mod syslogprocessor: pub
+│       ├── struct BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP: pub
+│       │   └── fn initialize: pub(self)
+│       ├── struct BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP: pub
+│       │   └── fn initialize: pub(self)
+│       ├── type BszRange: pub(self)
+│       ├── type FileProcessingResultBlockZero: pub
+│       ├── type MapBszRangeToCount: pub(self)
+│       ├── enum ProcessingStage: pub
+│       ├── struct SummarySyslogProcessor: pub
+│       └── struct SyslogProcessor: pub
+│           ├── fn assert_stage: pub(self)
+│           ├── const fn block_index_at_file_offset: pub
+│           ├── const fn block_offset_at_file_offset: pub
+│           ├── const fn blockoffset_last: pub
+│           ├── const fn blocksz: pub
+│           ├── fn blockzero_analysis: pub(super)
+│           ├── fn blockzero_analysis_bytes: pub(super)
+│           ├── fn blockzero_analysis_lines: pub(super)
+│           ├── fn blockzero_analysis_syslines: pub(super)
+│           ├── const fn charsz: pub
+│           ├── const fn count_blocks: pub
+│           ├── fn count_lines: pub
+│           ├── fn did_process_missing_year: pub(self)
+│           ├── fn did_process_uptime: pub(self)
+│           ├── fn drop_data: pub
+│           ├── fn drop_data_try: pub
+│           ├── const fn file_offset_at_block_offset: pub
+│           ├── const fn file_offset_at_block_offset_index: pub
+│           ├── const fn fileoffset_last: pub
+│           ├── const fn filesz: pub
+│           ├── const fn filetype: pub
+│           ├── fn find_sysline: pub
+│           ├── fn find_sysline_between_datetime_filters: pub
+│           ├── const fn is_drop_data: pub
+│           ├── fn is_sysline_last: pub
+│           ├── fn mtime: pub
+│           ├── fn new: pub
+│           ├── const fn path: pub
+│           ├── const fn path_id: pub
+│           ├── fn process_missing_year: pub
+│           ├── fn process_stage0_valid_file_check: pub
+│           ├── fn process_stage1_blockzero_analysis: pub
+│           ├── fn process_stage2_find_dt: pub
+│           ├── fn process_stage3_stream_syslines: pub
+│           ├── fn process_stage4_summary: pub
+│           ├── fn process_uptime: pub
+│           ├── fn set_error: pub(self)
+│           ├── fn summary: pub
+│           ├── fn summary_complete: pub
+│           └── fn systemtime_at_uptime_zero: pub(self)
+└── mod subprojects: pub
+    ├── mod lzma_rs: pub
+    │   ├── mod compress: pub
+    │   ├── mod decode: pub(self)
+    │   │   ├── mod lzbuffer: pub
+    │   │   │   ├── struct LzAccumBuffer: pub
+    │   │   │   │   ├── fn append_bytes: pub
+    │   │   │   │   ├── fn append_bytes: pub(self)
+    │   │   │   │   ├── fn append_literal: pub(self)
+    │   │   │   │   ├── fn append_lz: pub(self)
+    │   │   │   │   ├── fn finish: pub(self)
+    │   │   │   │   ├── fn from_stream: pub
+    │   │   │   │   ├── fn get_output: pub(self)
+    │   │   │   │   ├── fn get_output_mut: pub(self)
+    │   │   │   │   ├── fn into_output: pub(self)
+    │   │   │   │   ├── fn last_n: pub(self)
+    │   │   │   │   ├── fn last_or: pub(self)
+    │   │   │   │   ├── fn len: pub(self)
+    │   │   │   │   ├── fn reset: pub
+    │   │   │   │   └── fn reset: pub(self)
+    │   │   │   ├── trait LzBuffer: pub
+    │   │   │   └── struct LzCircularBuffer: pub
+    │   │   │       ├── fn append_bytes: pub(self)
+    │   │   │       ├── fn append_literal: pub(self)
+    │   │   │       ├── fn append_lz: pub(self)
+    │   │   │       ├── fn finish: pub(self)
+    │   │   │       ├── fn from_stream: pub
+    │   │   │       ├── fn get: pub(self)
+    │   │   │       ├── fn get_output: pub(self)
+    │   │   │       ├── fn get_output_mut: pub(self)
+    │   │   │       ├── fn into_output: pub(self)
+    │   │   │       ├── fn last_n: pub(self)
+    │   │   │       ├── fn last_or: pub(self)
+    │   │   │       ├── fn len: pub(self)
+    │   │   │       ├── fn reset: pub(self)
+    │   │   │       └── fn set: pub(self)
+    │   │   ├── mod lzma: pub
+    │   │   │   ├── struct DecoderState: pub(crate)
+    │   │   │   │   ├── fn decode_distance: pub(self)
+    │   │   │   │   ├── fn decode_literal: pub(self)
+    │   │   │   │   ├── fn new: pub
+    │   │   │   │   ├── fn process: pub
+    │   │   │   │   ├── fn process_mode: pub(self)
+    │   │   │   │   ├── fn process_next: pub(self)
+    │   │   │   │   ├── fn process_next_inner: pub(self)
+    │   │   │   │   ├── fn process_stream: pub
+    │   │   │   │   ├── fn read_partial_input_buf: pub(self)
+    │   │   │   │   ├── fn reset_state: pub
+    │   │   │   │   ├── fn set_unpacked_size: pub
+    │   │   │   │   └── fn try_process_next: pub(self)
+    │   │   │   ├── struct LzmaDecoder: pub
+    │   │   │   │   ├── fn decompress: pub
+    │   │   │   │   ├── fn new: pub
+    │   │   │   │   └── fn reset: pub
+    │   │   │   ├── struct LzmaParams: pub
+    │   │   │   │   ├── fn new: pub
+    │   │   │   │   └── fn read_header: pub
+    │   │   │   ├── struct LzmaProperties: pub
+    │   │   │   │   └── fn validate: pub(crate)
+    │   │   │   ├── enum ProcessingMode: pub(self)
+    │   │   │   └── enum ProcessingStatus: pub(self)
+    │   │   ├── mod lzma2: pub
+    │   │   │   └── struct Lzma2Decoder: pub
+    │   │   │       ├── fn decompress: pub
+    │   │   │       ├── fn new: pub
+    │   │   │       ├── fn parse_lzma: pub(self)
+    │   │   │       ├── fn parse_uncompressed: pub(self)
+    │   │   │       └── fn reset: pub
+    │   │   ├── mod options: pub
+    │   │   │   ├── struct Options: pub
+    │   │   │   └── enum UnpackedSize: pub
+    │   │   ├── mod rangecoder: pub
+    │   │   │   ├── struct BitTree: pub
+    │   │   │   │   ├── fn new: pub
+    │   │   │   │   ├── fn parse: pub
+    │   │   │   │   └── fn parse_reverse: pub
+    │   │   │   ├── struct LenDecoder: pub
+    │   │   │   │   ├── fn decode: pub
+    │   │   │   │   └── fn new: pub
+    │   │   │   └── struct RangeDecoder: pub
+    │   │   │       ├── fn decode_bit: pub
+    │   │   │       ├── fn from_parts: pub
+    │   │   │       ├── fn get: pub
+    │   │   │       ├── fn get_bit: pub(self)
+    │   │   │       ├── fn is_eof: pub
+    │   │   │       ├── fn is_finished_ok: pub
+    │   │   │       ├── fn new: pub
+    │   │   │       ├── fn normalize: pub(self)
+    │   │   │       ├── fn parse_bit_tree: pub(self)
+    │   │   │       ├── fn parse_reverse_bit_tree: pub
+    │   │   │       ├── fn read_into: pub
+    │   │   │       └── fn set: pub
+    │   │   ├── mod stream: pub
+    │   │   │   ├── struct RunState: pub(self)
+    │   │   │   ├── enum State: pub(self)
+    │   │   │   └── struct Stream: pub
+    │   │   │       ├── fn finish: pub
+    │   │   │       ├── fn get_output: pub
+    │   │   │       ├── fn get_output_mut: pub
+    │   │   │       ├── fn new: pub
+    │   │   │       ├── fn new_with_options: pub
+    │   │   │       ├── fn read_data: pub(self)
+    │   │   │       └── fn read_header: pub(self)
+    │   │   ├── mod util: pub
+    │   │   │   ├── struct CountBufRead: pub
+    │   │   │   │   ├── fn count: pub
+    │   │   │   │   └── fn new: pub
+    │   │   │   ├── struct CrcDigestRead: pub
+    │   │   │   │   └── fn new: pub
+    │   │   │   ├── fn flush_zero_padding: pub
+    │   │   │   ├── fn is_eof: pub
+    │   │   │   └── fn read_tag: pub
+    │   │   └── mod xz: pub
+    │   │       ├── struct BlockHeader: pub(self)
+    │   │       ├── enum Checksummer: pub(self)
+    │   │       ├── struct CrcWriter: pub(crate)
+    │   │       │   ├── fn count: pub
+    │   │       │   ├── fn finalize: pub
+    │   │       │   └── fn new: pub
+    │   │       ├── struct Filter: pub(self)
+    │   │       ├── enum FilterId: pub(self)
+    │   │       ├── struct Record: pub(self)
+    │   │       ├── fn check_index: pub(self)
+    │   │       ├── fn decode_filter: pub(self)
+    │   │       ├── fn decode_stream: pub
+    │   │       ├── fn get_filter_id: pub(self)
+    │   │       ├── fn get_multibyte: pub
+    │   │       ├── fn read_block: pub(self)
+    │   │       ├── fn read_block_header: pub(self)
+    │   │       ├── fn validate_block_check: pub(self)
+    │   │       └── fn verify_streaming_check: pub(self)
+    │   ├── mod decompress: pub
+    │   │   └── mod raw: pub
+    │   ├── mod encode: pub(self)
+    │   │   ├── mod dumbencoder: pub
+    │   │   │   └── struct Encoder: pub
+    │   │   │       ├── fn encode_literal: pub(self)
+    │   │   │       ├── fn finish: pub(self)
+    │   │   │       ├── fn from_stream: pub
+    │   │   │       └── fn process: pub
+    │   │   ├── mod lzma2: pub
+    │   │   │   └── fn encode_stream: pub
+    │   │   ├── mod options: pub
+    │   │   │   ├── struct Options: pub
+    │   │   │   └── enum UnpackedSize: pub
+    │   │   ├── mod rangecoder: pub(self)
+    │   │   │   └── struct RangeEncoder: pub
+    │   │   │       ├── fn encode_bit: pub
+    │   │   │       ├── fn finish: pub
+    │   │   │       ├── fn new: pub
+    │   │   │       ├── fn normalize: pub(self)
+    │   │   │       └── fn write_low: pub(self)
+    │   │   ├── mod util: pub(self)
+    │   │   │   ├── struct CountWrite: pub
+    │   │   │   │   ├── fn count: pub
+    │   │   │   │   └── fn new: pub
+    │   │   │   └── struct CrcDigestWrite: pub
+    │   │   │       └── fn new: pub
+    │   │   └── mod xz: pub
+    │   │       ├── fn encode_stream: pub
+    │   │       ├── fn write_block: pub(self)
+    │   │       ├── fn write_footer: pub(self)
+    │   │       ├── fn write_header: pub(self)
+    │   │       ├── fn write_index: pub(self)
+    │   │       └── fn write_multibyte: pub(self)
+    │   ├── mod error: pub
+    │   │   ├── enum Error: pub
+    │   │   └── type Result: pub
+    │   ├── fn lzma2_compress: pub
+    │   ├── fn lzma2_decompress: pub
+    │   ├── fn lzma_compress: pub
+    │   ├── fn lzma_compress_with_options: pub
+    │   ├── fn lzma_decompress: pub
+    │   ├── fn lzma_decompress_with_options: pub
+    │   ├── mod macros: pub(self)
+    │   ├── mod util: pub(self)
+    │   │   └── mod vec2d: pub
+    │   │       └── struct Vec2D: pub
+    │   │           ├── fn fill: pub
+    │   │           └── fn init: pub
+    │   ├── mod xz: pub(self)
+    │   │   ├── enum CheckMethod: pub
+    │   │   │   └── fn try_from: pub
+    │   │   ├── struct StreamFlags: pub(crate)
+    │   │   │   ├── fn parse: pub(crate)
+    │   │   │   └── fn serialize: pub(crate)
+    │   │   ├── mod crc: pub(crate)
+    │   │   ├── mod footer: pub(crate)
+    │   │   └── mod header: pub(crate)
+    │   │       └── struct StreamHeader: pub(crate)
+    │   │           └── fn parse: pub(crate)
+    │   ├── fn xz_compress: pub
+    │   └── fn xz_decompress: pub
+    └── mod rust_lzxpress: pub
+        ├── mod data: pub
+        │   └── fn decompress: pub
+        └── mod error: pub
+            └── enum Error: pub
