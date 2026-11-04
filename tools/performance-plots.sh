@@ -51,6 +51,11 @@ else
     )
 fi
 
+if [[ ! "${DIROUT:-}" ]]; then
+    echo "ERROR: DIROUT is not set" >&2
+    exit 1
+fi
+
 declare -i FILE_NUM=${FILE_NUM:-300}
 
 for FILE in "${FILES[@]}"; do
