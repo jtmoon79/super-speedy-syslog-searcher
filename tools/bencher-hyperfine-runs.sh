@@ -6,10 +6,9 @@
 #
 # Environment variables:
 #   PROGRAM           s4 executable (default: ./target/release/s4)
-#   HYPERFINE_INSTALL  Hyperfine executable (default: hyperfine on PATH)
-#   DIROUT            Output directory; if unset/empty, use a temporary directory
-#                     removed at exit. Supplied directories are never removed.
-#   HRUNS             Measured runs, at least 2 (default: 10)
+#   HYPERFINE_INSTALL Hyperfine executable (default: hyperfine on PATH)
+#   DIROUT            Output directory
+#   HRUNS             Measured runs, at least 2 (default: 5)
 #   HWARMUP           Warmup runs, at least 0 (default: 2)
 #   BENCHER_REPORT    Upload report path (default: DIROUT/bencher-report.json)
 #   BENCHER_TESTBED   Testbed name (default: Linux OS, CPU model, and core count)
@@ -29,8 +28,10 @@
 
 set -euo pipefail
 
-# Define files to benchmark, along with differing block sizes
-# some files without block sizes because they do not use a BlockReader
+# FILE_NUM Variant is applied to all files.
+# BLOCKSZ Variant is only applied to files that are processed with a BlockReader.
+declare -r FILE_NUM="5,50"
+declare -r FILE_NUM_ARRAY="[5, 50]"
 declare -r BLOCKSZ_TEST="4096,8192,65535,131071"
 declare -ar FILES_BLOCKS=(
     "./logs/Darwin25/var-log/powermanagement/2026.05.30.asl"
@@ -55,7 +56,7 @@ readonly SCRIPT_DIR=$(cd "$(dirname -- "${BASH_SOURCE[0]}")"; pwd)
 cd "${SCRIPT_DIR}/.."
 readonly PROGRAM="${PROGRAM-./target/release/s4}"
 readonly HYPERFINE="${HYPERFINE_INSTALL-hyperfine}"
-declare -r HRUNS="${HRUNS-10}"
+declare -r HRUNS="${HRUNS-5}"
 declare -r HWARMUP="${HWARMUP-2}"
 readonly FILTER="${SCRIPT_DIR}/bencher-hyperfine-runs-filter.jq"
 
@@ -65,6 +66,10 @@ if [[ "${HRUNS}" -lt 2 ]]; then
 fi
 if [[ "${HWARMUP}" -lt 0 ]]; then
     echo "ERROR: HWARMUP must be an integer >= 0" >&2
+    exit 1
+fi
+if [[ -z "${DIROUT-}" ]]; then
+    echo "ERROR: DIROUT must be set" >&2
     exit 1
 fi
 
@@ -155,39 +160,34 @@ for file_block in "${FILES_BLOCKS[@]}"; do
     fi
     name="${file##*/}"
     manifest_entries+=("$(
-        jq -en --arg name "${name}" --arg blocks "${blocks}" '
-            {name: $name, block_sizes:
-                (if $blocks == "" then []
-                    else $blocks | split(",") | map(
-                    if test("^[1-9][0-9]*$") then tonumber
-                    else error("invalid block size") end)
+        jq -cn --arg name "${name}" --arg blocks "${blocks}" '
+            [{name: $name, variant: "FILE_NUM", values: '"${FILE_NUM_ARRAY}"'}]
+            + (if $blocks == "" then []
+                else [{
+                    name: $name,
+                    variant: "BLOCKSZ",
+                    values: ($blocks | split(",") | map(
+                        if test("^[1-9][0-9]*$") then tonumber
+                        else error("invalid block size") end))
+                }]
                 end)
-            }
         ')
     ")
 done
 manifest=$(
     printf '%s\n' "${manifest_entries[@]}" \
-    | jq -es '
+    | jq -s 'add |
         if length > 0
-            and (map(.name) | unique | length) == length
-            and all(.[]; (.block_sizes | unique | length) == (.block_sizes | length))
-        then . else error("benchmark names and block sizes must be unique") end
+            and all(.[]; (.values | unique | length) == (.values | length))
+            and (map([.name, .variant]) | unique | length) == length
+        then . else error("benchmark names and variants must be unique") end
     '
 )
 readonly manifest
 
-declare output_dir
-if [[ -n "${DIROUT-}" ]]; then
-    mkdir -p -- "${DIROUT}"
-    output_dir="${DIROUT}"
-    output_dir=$(realpath "${output_dir}")
-else
-    output_dir=$(mktemp -d "${TMPDIR:-${TMP:-/tmp}}/s4-hyperfine-runs.sh.XXXXXX")
-    output_dir=$(realpath "${output_dir}")
-    trap "rm -rf -- \"${output_dir}\"" EXIT
-fi
+output_dir=$(realpath "${DIROUT}")
 readonly output_dir
+mkdir -p -- "${output_dir}"
 trap 'exit 130' INT
 trap 'exit 143' TERM
 echo "Benchmark output directory: ${output_dir}"
@@ -198,6 +198,29 @@ declare result
 declare -i index=0
 declare -a results=()
 
+function run_hyperfine() {
+    local name="${1}"
+    local result="${2}"
+    local command="${3}"
+    shift 3
+    local -a args=(
+        --export-csv "${result%.json}.csv"
+        --export-json "${result}"
+        --export-markdown "${result%.json}.md"
+        --shell=sh
+        --show-output
+        --warmup "${HWARMUP}"
+        --runs "${HRUNS}"
+        "$@"
+        --command-name "${name}"
+    )
+    (
+        set -x
+        "${HYPERFINE}" "${args[@]}" "${command}"
+    )
+    results+=("${result}")
+}
+
 for file_block in "${FILES_BLOCKS[@]}"; do
     echo_line
     file=$(echo -n "${file_block}" | cut -f1 -d'|')
@@ -207,29 +230,25 @@ for file_block in "${FILES_BLOCKS[@]}"; do
         continue
     fi
     name="${file##*/}"
+
+    # run with Variant FILE_NUM
     index=$((index + 1))
-    result="${output_dir}/hyperfine-results-${index}.json"
-    declare -a args=(
-        --export-csv "${result%.json}.csv"
-        --export-json "${result}"
-        --export-markdown "${result%.json}.md"
-        --shell=bash
-        --show-output
-        --warmup "${HWARMUP}"
-        --runs "${HRUNS}"
-        --command-name "${name}"
-    )
-    # process the file 5 times to make oddities more obvious
-    printf -v command '%q -cn -- %q %q %q %q %q &>/dev/null' "${PROGRAM}" "${file}" "${file}" "${file}" "${file}" "${file}"
-    if [[ -n "${blocks}" ]]; then
-        args+=(--parameter-list S4_BLOCKSZ "${blocks}")
-        command="env S4_BLOCKSZ={S4_BLOCKSZ} ${command}"
+    result="${output_dir}/hyperfine-results-${index}-FILE_NUM.json"
+    printf -v command 'yes %q | head -n {FILE_NUM} | %q -cn - 1>/dev/null 2>&1' "${file}" "${PROGRAM}"
+    command="yes ${file} | head -n {FILE_NUM} | ${PROGRAM} -cn - 1>/dev/null 2>&1"
+    run_hyperfine "${name}" "${result}" "${command}" --parameter-list FILE_NUM "${FILE_NUM}"
+
+    if [[ -z "${blocks}" ]]; then
+        continue
     fi
-    (
-        set -x
-        "${HYPERFINE}" "${args[@]}" "${command}"
-    )
-    results+=("${result}")
+
+    # run with Variant BLOCKSZ
+    index=$((index + 1))
+    result="${output_dir}/hyperfine-results-${index}-BLOCKSZ.json"
+    # Process the file 5 times to make oddities more obvious.
+    printf -v command '%q -cn -- %q %q %q %q %q 1>/dev/null 2>&1' "${PROGRAM}" "${file}" "${file}" "${file}" "${file}" "${file}"
+    command="env S4_BLOCKSZ={BLOCKSZ} ${command}"
+    run_hyperfine "${name}" "${result}" "${command}" --parameter-list BLOCKSZ "${blocks}"
 done
 
 echo_line

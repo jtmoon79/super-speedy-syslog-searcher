@@ -1,9 +1,9 @@
 #!/usr/bin/env jq -es
 #
 # Run with jq -es, --argjson benchmarks, and --argjson runs.
-# benchmarks: [{name: "a.log", block_sizes: [4096,8192]}, {name: "b.evtx", block_sizes: []}]
+# benchmarks: [{name: "a.log", variant: "FILE_NUM", values: [5,50]}]
 #
-# One Hyperfine 2 input per benchmark, in manifest order.
+# One Hyperfine 2 input per variant family, in manifest order.
 # Reports time_wall_clock in nanoseconds and memory_peak_resident in bytes.
 #
 
@@ -16,11 +16,13 @@ def nonnegative:
 require(($benchmarks | type) == "array" and ($benchmarks | length) > 0
         and all($benchmarks[];
             (.name | type) == "string" and (.name | length) > 0
-            and (.block_sizes | type) == "array"
-            and all(.block_sizes[]; nonnegative and . > 0 and . == floor)
-            and (.block_sizes | unique | length) == (.block_sizes | length))
-        and ($benchmarks | map(.name) | unique | length) == ($benchmarks | length);
-        "benchmark names must be unique; block sizes must be unique positive integers")
+            and (.variant == "FILE_NUM" or .variant == "BLOCKSZ")
+            and (.values | type) == "array" and (.values | length) > 0
+            and all(.values[]; nonnegative and . > 0 and . == floor)
+            and (.values | unique | length) == (.values | length)
+            and (.variant != "FILE_NUM" or .values == [5, 50]))
+        and ($benchmarks | map([.name, .variant]) | unique | length) == ($benchmarks | length);
+        "benchmark names and variants must be unique; variant values must be unique positive integers")
 | require(($runs | nonnegative) and $runs >= 2 and $runs == ($runs | floor);
           "at least two runs required")
 | require(length == ($benchmarks | length); "missing or extra benchmark results")
@@ -28,35 +30,30 @@ require(($benchmarks | type) == "array" and ($benchmarks | length) > 0
 | reduce .[] as $input ({};
     . as $accumulated
     | $benchmarks[$input.key] as $benchmark
-    | $benchmark.block_sizes as $sizes
+    | $benchmark.variant as $variant
+    | $benchmark.values as $values
     | $input.value
     | require(.schema_version == 2; "expected Hyperfine schema_version 2")
     | require((.results | type) == "array"; "missing benchmark results")
     | require(all(.results[]; .name == $benchmark.name);
               "unexpected benchmark name")
-    | require((.results | length) == (if ($sizes | length) == 0 then 1 else $sizes | length end);
+    | require((.results | length) == ($values | length);
               "missing or extra variants")
     | .results
     | map(
-        if ($sizes | length) == 0 then
-            require(.parameters == null or .parameters == {}; "unexpected parameters")
-            | {result: ., block_size: null}
-        else
-            require((.parameters | type) == "object"
-                    and (.parameters | keys) == ["S4_BLOCKSZ"]
-                    and (.parameters.S4_BLOCKSZ.value | type) == "string";
-                    "missing or unexpected variant parameters")
-            | .parameters.S4_BLOCKSZ.value as $value
-            | require($value | test("^[1-9][0-9]*$"); "invalid block size parameter")
-            | {result: ., block_size: ($value | tonumber)}
-        end)
-    | require((map(.block_size) | sort) ==
-              (if ($sizes | length) == 0 then [null] else $sizes | sort end);
-              "missing, duplicate, or unexpected block-size variant")
-    | sort_by(if .block_size == null then 0 else .block_size as $size | $sizes | index($size) end)
+        require((.parameters | type) == "object"
+                and (.parameters | keys) == [$variant]
+                and (.parameters[$variant].value | type) == "string";
+                "missing or unexpected variant parameters")
+        | .parameters[$variant].value as $value
+        | require($value | test("^[1-9][0-9]*$"); "invalid variant parameter")
+        | {result: ., value: ($value | tonumber)})
+    | require((map(.value) | sort) == ($values | sort);
+              "missing, duplicate, or unexpected variant value")
+    | sort_by(.value)
     | reduce .[] as $result ($accumulated;
         . as $accumulator
-        | $result.block_size as $block_size
+        | $result.value as $value
         | $result.result
         | .name as $name
         | require((.measurements | type) == "array"
@@ -92,6 +89,6 @@ require(($benchmarks | type) == "array" and ($benchmarks | length) > 0
                     average: $memory.mean
                 }
             }
-          } + if $block_size == null then {} else {parameters: {S4_BLOCKSZ: $block_size}} end)]
+          } + {parameters: {($variant): $value}})]
       )
   )
