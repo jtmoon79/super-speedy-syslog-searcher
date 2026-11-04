@@ -98,6 +98,8 @@ pub const COLOR_DIMMED: [Color; COLOR_THEME_COUNT] = [
 
 /// `Color` for printing some user-facing error messages.
 pub const COLOR_ERROR: Color = Color::Red;
+/// `Color` for printing some user-facing warning messages.
+pub const COLOR_WARN: Color = Color::Yellow;
 
 const CHARSZ: usize = 1;
 

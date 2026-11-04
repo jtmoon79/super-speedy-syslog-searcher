@@ -51,18 +51,18 @@ use crate::data::datetime::{
     DATETIME_PARSE_DATAS_LEN,
     DATETIME_PARSE_DATAS_LEN_MAX,
 };
+use crate::data::asl::Asl;
 use crate::data::etl::Etl;
 use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
-use crate::libload::systemd_dlopen2::LOAD_LIBRARY_SYSTEMD_PATH;
-use crate::data::asl::Asl;
 use crate::data::sysline::SyslineP;
 use crate::debug::printers::{
     de_err,
     de_wrn,
     e_err,
 };
+use crate::libload::systemd_dlopen2::LOAD_LIBRARY_SYSTEMD_PATH;
 use crate::printer::printers::{
     fpath_to_prependpath,
     print_colored_stderr,
@@ -71,6 +71,7 @@ use crate::printer::printers::{
     PrinterLogMessage,
     color_dimmed,
     COLOR_ERROR,
+    COLOR_WARN,
 };
 use crate::readers::blockreader::SummaryBlockReader;
 use crate::readers::filehandlemanager::SummaryFileHandleManager;
@@ -1079,6 +1080,51 @@ pub fn print_summary(
         &COLOR_ERROR,
     );
 
+    let (odl_largest_processed, odl_largest_accepted) = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::Odl(stats) = &summary.readerdata { Some(stats) } else { None })
+        .fold((0, 0), |(processed, accepted), stats| {
+        (
+            std::cmp::max(processed, stats.odlreader_event_largest_processed),
+            std::cmp::max(accepted, stats.odlreader_event_largest_accepted),
+        )
+        });
+    let syslinereader_datetime_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::Syslog((_, _, summary_sysline_reader, _)) = &summary.readerdata { Some(summary_sysline_reader) } else { None })
+        .map(|stats| stats.syslinereader_datetime_out_of_order)
+        .sum();
+    let aslreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::Asl(stats) = &summary.readerdata { Some(stats) } else { None })
+        .map(|stats| stats.aslreader_out_of_order)
+        .sum();
+    let etlreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::Etl(stats) = &summary.readerdata { Some(stats) } else { None })
+        .map(|stats| stats.etlreader_out_of_order)
+        .sum();
+    let evtxreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::Etvx(stats) = &summary.readerdata { Some(stats) } else { None })
+        .map(|stats| stats.evtxreader_out_of_order)
+        .sum();
+    let fixedstructreader_entries_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::FixedStruct(stats) = &summary.readerdata { Some(stats) } else { None })
+        .map(|(_, stats)| stats.fixedstructreader_entries_out_of_order)
+        .sum();
+    let journalreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::Journal(stats) = &summary.readerdata { Some(stats) } else { None })
+        .map(|stats| stats.journalreader_out_of_order)
+        .sum();
+    let odlreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::Odl(stats) = &summary.readerdata { Some(stats) } else { None })
+        .map(|stats| stats.odlreader_out_of_order)
+        .sum();
+
     // here is the final printed summary of the all files
     eprintln!("Program summary:\n");
     eprintln!("Paths considered       : {}", paths_total);
@@ -1092,20 +1138,9 @@ pub fn print_summary(
     eprintln!("Printed ASL events     : {}", summaryprinted.aslentries);
     eprintln!("Printed ETL events     : {}", summaryprinted.etlentries);
     eprintln!("Printed EVTX events    : {}", summaryprinted.evtxentries);
-    // TODO: [2023/03/26] eprint count of EVTX files "out of order".
     eprintln!("Printed FixedStruct    : {}", summaryprinted.fixedstructentries);
-    // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
     eprintln!("Printed Journal events : {}", summaryprinted.journalentries);
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
-    let odl_largest = map_pathid_summary
-        .values()
-        .filter_map(|summary| if let SummaryReaderData::Odl(stats) = &summary.readerdata { Some(stats) } else { None })
-        .fold((0, 0), |(processed, accepted), stats| {
-            (
-                std::cmp::max(processed, stats.odlreader_event_largest_processed),
-                std::cmp::max(accepted, stats.odlreader_event_largest_accepted),
-            )
-        });
     eprintln!("Line Maximum                   : {}", LINE_SEARCH_MAX);
     eprintln!("Line longest                   : {}", longest_line);
     eprintln!("Sysline longest                : {}", longest_sysline);
@@ -1115,12 +1150,31 @@ pub fn print_summary(
     eprintln!("EVTX event largest accepted    : {}", event_largest_accepted);
     eprintln!("Journal event largest processed: {}", journal_event_largest_processed);
     eprintln!("Journal event largest accepted : {}", journal_event_largest_accepted);
-    eprintln!("ODL event largest processed    : {}", odl_largest.0);
-    eprintln!("ODL event largest accepted     : {}", odl_largest.1);
+    eprintln!("ODL event largest processed    : {}", odl_largest_processed);
+    eprintln!("ODL event largest accepted     : {}", odl_largest_accepted);
+    eprint!("Syslines out of order          : ");
+    eprintln_display_color_error(&syslinereader_datetime_out_of_order, |_| syslinereader_datetime_out_of_order > 0, &color_choice);
+    eprint!("ASL events out of order        : ");
+    eprintln_display_color_error(&aslreader_out_of_order, |_| aslreader_out_of_order > 0, &color_choice);
+    eprint!("ETL events out of order        : ");
+    eprintln_display_color_error(&etlreader_out_of_order, |_| etlreader_out_of_order > 0, &color_choice);
+    eprint!("EVTX events out of order       : ");
+    eprintln_display_color_error(&evtxreader_out_of_order, |_| evtxreader_out_of_order > 0, &color_choice);
+    eprint!("FixedStruct out of order       : ");
+    eprintln_display_color_error(&fixedstructreader_entries_out_of_order, |_| fixedstructreader_entries_out_of_order > 0, &color_choice);
+    eprint!("Journal events out of order    : ");
+    eprintln_display_color_error(&journalreader_out_of_order, |_| journalreader_out_of_order > 0, &color_choice);
+    eprint!("ODL events out of order        : ");
+    eprintln_display_color_error(&odlreader_out_of_order, |_| odlreader_out_of_order > 0, &color_choice);
     eprintln!("Managed files max deflt: {}", summary_filehandlemanager.open_max_default);
     eprintln!("Managed files max adjus: {}", summary_filehandlemanager.open_max_adjusted);
     // TODO: print `count_hi` in yellow if it is ==max
-    eprintln!("Managed handles high   : {}", summary_filehandlemanager.managed_count_open_hi);
+    eprint!("Managed handles high   : ");
+    eprintln_display_color_warn(
+        &summary_filehandlemanager.managed_count_open_hi,
+        |_| summary_filehandlemanager.managed_count_open_hi >= summary_filehandlemanager.open_max_adjusted,
+        &color_choice
+    );
     eprintln!("Managed+unmanaged high : {}", summary_filehandlemanager.count_hi);
     eprintln!("Managed request open   : {}", summary_filehandlemanager.request_open_calls);
     eprintln!("Managed request read   : {}", summary_filehandlemanager.request_read_calls);
@@ -1421,6 +1475,25 @@ fn eprintln_debug_color_error<T, F>(value: &T, predicate: F, color_choice: &Colo
     }
 }
 
+/// print `value` normally if `predicate` returns `false`
+/// else print `value` in color with the warning color
+fn eprintln_display_color_warn<T, F>(value: &T, predicate: F, color_choice: &ColorChoice)
+    where
+        F: Fn(&T) -> bool,
+        T: fmt::Display,
+{
+    if ! predicate(value) {
+        eprintln!("{}", value);
+    } else {
+        let data = format!("{}", value);
+        print_colored_stderr(
+            COLOR_WARN,
+            Some(*color_choice),
+            data.as_bytes(),
+        );
+        eprintln!();
+    }
+}
 
 /// Print the (optional) [`Summary`] (multiple lines) processed sections.
 ///
