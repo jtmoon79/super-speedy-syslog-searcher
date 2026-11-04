@@ -1356,7 +1356,6 @@ fn month_bB_to_month_m_bytes(
 ///
 /// [`Captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html
 /// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#method.parse_from_str
-// TODO: allow returning an `Error` instead of `panic!`
 // TODO: [2026/06] prior to calling `captures_to_buffer_bytes`, non UTF-8 bytes must
 //       be converted to UTF-8. If `captures_to_buffer_bytes` handled all
 //       "conversions" like the function `month_bB_to_month_m_bytes` does, having a match expression
@@ -1373,7 +1372,7 @@ pub(crate) fn captures_to_buffer_bytes(
     systemtime_at_uptime_zero: &Option<SystemTime>,
     tz_offset_string: &String,
     dtfs: &DTFSSet,
-) -> usize {
+) -> Option<usize> {
     defn!("(…, …, year_opt {:?}, systemtime_at_uptime_zero {:?}, tz_offset {:?}, …)",
           year_opt, systemtime_at_uptime_zero, tz_offset_string);
 
@@ -1612,7 +1611,9 @@ pub(crate) fn captures_to_buffer_bytes(
                     defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                 }
                 _ => {
-                    panic!("bad day.len() {}", day.len());
+                    debug_panic!("bad day.len() {}", day.len());
+
+                    return None;
                 }
             }
         }
@@ -1841,12 +1842,18 @@ pub(crate) fn captures_to_buffer_bytes(
         DTFS_Tz::Z => {
             #[allow(non_snake_case)]
             let tzZ: &str = u8_to_str(
-                captures.iter().find(|cgn| cgn.group_index() == CGI_TZ).map(|match_type| {
+                match captures.iter().find(|cgn| cgn.group_index() == CGI_TZ).map(|match_type| {
                     let a = match_type.start();
                     let b = match_type.end();
                     &data[a..b]
-                }).expect("missing tz capture group")
-            ).unwrap_or_default();
+                }) {
+                    Some(a) => a,
+                    None => {
+                        debug_panic!("missing tz capture group {CGI_TZ}");
+                        &[]
+                    }
+                }
+            ).unwrap_or_else(|| { debug_panic!("u8_to_str failed to convert tzZ"); &"" } );
             if tzZ.is_empty() {
                 debug_panic!("tzZ.is_empty()");
                 // `u8_to_str` failed, fallback to using passed TZ offset
@@ -1880,7 +1887,7 @@ pub(crate) fn captures_to_buffer_bytes(
 
     defx!("return {:?}", at);
 
-    at
+    Some(at)
 }
 
 /// Run [`regex::Captures`] on the `data` then convert to a chrono
@@ -1931,7 +1938,7 @@ pub fn bytes_to_regex_to_datetime(
     // this ordering relates to datetime format strings in `test_DATETIME_PARSE_DATAS_test_cases`
     const BUFLEN: usize = 35;
     let mut buffer: [u8; BUFLEN] = [0; BUFLEN];
-    let copiedn = captures_to_buffer_bytes(
+    let copiedn = match captures_to_buffer_bytes(
         &mut buffer,
         data,
         &captures,
@@ -1939,7 +1946,13 @@ pub fn bytes_to_regex_to_datetime(
         systemtime_at_uptime_zero,
         tz_offset_string,
         &dtpd.dtfs
-    );
+    ) {
+        Some(n) => n,
+        None => {
+            defx!("captures_to_buffer_bytes returned None");
+            return None;
+        }
+    };
 
     // use the `dt_format` to parse the buffer of regex matches
     let buffer_s: &str = match u8_to_str(&buffer[0..copiedn]) {
