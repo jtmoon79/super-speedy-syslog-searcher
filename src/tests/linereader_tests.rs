@@ -225,6 +225,71 @@ fn test_mtime(path: &FPath) {
 
 // -------------------------------------------------------------------------------------------------
 
+#[test_matrix([4, 5, 0x100], [false, true])]
+fn test_drop_line_removes_offset_index(
+    blocksz: BlockSz,
+    keep_reference: bool,
+) {
+    let ntf = create_temp_file("abc\ndef\nxyz");
+    let path = ntf_fpath(&ntf);
+    let mut lr = new_LineReader(&path, blocksz);
+    for offset in [0, 4, 8] {
+        assert!(matches!(lr.find_line(offset), ResultFindLine::Found(_)));
+    }
+    assert_eq!(lr.count_line_offsets_stored(), 3);
+
+    let linep = lr.get_linep(&5).unwrap();
+    let held = keep_reference.then(|| linep.clone());
+    lr.drop_line(linep);
+    assert_eq!(lr.count_line_offsets_stored(), 2);
+    assert_eq!(lr.get_fileoffsets(), vec![0, 8]);
+    for offset in 0..11 {
+        if (4..8).contains(&offset) {
+            assert!(lr.get_linep(&offset).is_none());
+        } else {
+            let linep = lr.get_linep(&offset).unwrap();
+            assert_eq!(linep.fileoffset_begin(), if offset < 4 { 0 } else { 8 });
+        }
+    }
+    if let Some(ref linep) = held {
+        assert_eq!(linep.to_String(), "def\n");
+    }
+
+    match lr.find_line(4) {
+        ResultFindLine::Found((next, linep)) => {
+            assert_eq!(next, 8);
+            assert_eq!(linep.to_String(), "def\n");
+        }
+        result => panic!("Expected to reread dropped line, got {:?}", result),
+    }
+    assert_eq!(lr.count_line_offsets_stored(), 3);
+    assert_eq!(lr.get_fileoffsets(), vec![0, 4, 8]);
+}
+
+#[test]
+fn test_drop_line_bounds_offset_index_during_streaming() {
+    let ntf = create_temp_file(&"abc\n".repeat(256));
+    let path = ntf_fpath(&ntf);
+    let mut lr = new_LineReader(&path, 31);
+    let mut offset = 0;
+    for _ in 0..256 {
+        let linep = match lr.find_line(offset) {
+            ResultFindLine::Found((next, linep)) => {
+                offset = next;
+                linep
+            }
+            result => panic!("Expected next line, got {:?}", result),
+        };
+        assert_eq!(lr.count_line_offsets_stored(), 1);
+        lr.drop_line(linep);
+        assert_eq!(lr.count_line_offsets_stored(), 0);
+        assert_eq!(lr.count_lines_stored(), 0);
+    }
+    assert!(matches!(lr.find_line(offset), ResultFindLine::Done));
+}
+
+// -------------------------------------------------------------------------------------------------
+
 /// loop on `LineReader.find_line` until it is done
 /// this is the most straightforward use of `LineReader`
 fn process_LineReader(lr1: &mut LineReader) {
