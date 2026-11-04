@@ -116,7 +116,6 @@ lazy_static.workspace = true
 lru = "0.19.0"
 lz4_flex = "0.14.0"
 memchr = "2.8.3"
-memoffset = "0.9.1"
 min-max = "0.1.8"
 more-asserts.workspace = true
 mut_static = "5.0.0"

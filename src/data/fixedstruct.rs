@@ -436,10 +436,10 @@ const fn fixed_field_bytes(field: &[std::ffi::c_char]) -> &[u8] {
 pub mod freebsd_x8664 {
     use crate::common::FileOffset;
     use super::fixed_field_bytes;
-    use std::mem::size_of;
-    // TODO: can `memoffset::offset_of` be replaced with native `offset_of`?
-    //       see https://releases.rs/docs/1.82.0/
-    use ::memoffset::offset_of;
+    use std::mem::{
+        offset_of,
+        size_of,
+    };
     use ::const_format::assertcp_eq;
 
     pub type subseconds_t = std::ffi::c_longlong;
@@ -607,9 +607,11 @@ pub mod freebsd_x8664 {
 pub mod linux_arm64aarch64 {
     use crate::common::FileOffset;
     use super::fixed_field_bytes;
-    use std::mem::size_of;
+    use std::mem::{
+        offset_of,
+        size_of,
+    };
     use ::const_format::assertcp_eq;
-    use ::memoffset::offset_of;
 
     pub type c_char = std::ffi::c_char;
     pub type c_short = std::ffi::c_short;
@@ -875,8 +877,10 @@ pub mod linux_arm64aarch64 {
 pub mod linux_x86 {
     use crate::common::FileOffset;
     use super::fixed_field_bytes;
-    use std::mem::size_of;
-    use ::memoffset::offset_of;
+    use std::mem::{
+        offset_of,
+        size_of,
+    };
     use ::const_format::assertcp_eq;
 
     pub type b_time_t = std::ffi::c_uint;
@@ -1355,8 +1359,10 @@ pub mod linux_x86 {
 pub mod netbsd_x8632 {
     use crate::common::FileOffset;
     use super::fixed_field_bytes;
-    use std::mem::size_of;
-    use ::memoffset::offset_of;
+    use std::mem::{
+        offset_of,
+        size_of,
+    };
     use ::const_format::assertcp_eq;
 
     pub type comp_t = std::ffi::c_ushort;
@@ -1672,9 +1678,11 @@ pub mod netbsd_x8632 {
 pub mod netbsd_x8664 {
     use crate::common::FileOffset;
     use super::fixed_field_bytes;
-    use std::mem::size_of;
+    use std::mem::{
+        offset_of,
+        size_of,
+    };
     use ::const_format::assertcp_eq;
-    use ::memoffset::offset_of;
 
     pub type c_char = std::ffi::c_char;
     pub type pid_t = std::ffi::c_int;
@@ -2091,9 +2099,11 @@ pub mod netbsd_x8664 {
 pub mod openbsd_x86 {
     use crate::common::FileOffset;
     use super::fixed_field_bytes;
-    use std::mem::size_of;
+    use std::mem::{
+        offset_of,
+        size_of,
+    };
     use ::const_format::assertcp_eq;
-    use ::memoffset::offset_of;
 
     pub type c_char = std::ffi::c_char;
     pub type time_t = std::ffi::c_longlong;
