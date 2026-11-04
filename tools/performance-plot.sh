@@ -284,6 +284,12 @@ function seconds_to_hms() {
     printf "%02d:%02d:%02d" "${h}" "${m}" "${s}"
 }
 
+function milliseconds_to_hms() {
+    declare -ir milliseconds=${1}
+    declare -ir seconds=$((milliseconds / 1000))
+    seconds_to_hms ${seconds}
+}
+
 function gnuplot_svg_title_replace() {
     local file="${1}"
     shift
@@ -430,6 +436,29 @@ readonly BUILD_PROFILE
 # Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
 # Author: James Thomas Moon
 #
+# $ s4 --version
+# s4 (Super Speedy Syslog Searcher)
+# Version: 0.11.84
+# MSRV: 1.99.1
+# Profile: release
+# Allocator: system
+# Features:
+# Platform: x86_64-unknown-linux-gnu
+# Target OS: linux
+# Target OS Family: unix
+# Arch: x86_64
+# CPU Target: default
+# CPU Features: fxsr,sse,sse2
+# Compiled Regular Expressions: 188
+# Compiler Version: 1.99.1
+# Rust Build Flags:
+# Optimization Level: 3
+# Git Commit: 59092c93155e2cd8d6b06856c89f55d6718f6980
+# Build Date: 2026-11-04T06:08:15Z
+# License: MIT
+# Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+# Author: James Thomas Moon
+#
 
 # sanity check S4_PROGRAM
 (set -x; "${S4_PROGRAM}" --version)
@@ -437,6 +466,7 @@ readonly BUILD_PROFILE
 # parse version info, OS info, CPU model
 version_out=$("${S4_PROGRAM}" --version 2>&1)
 Version=$(echo "${version_out}" | grep -m1 -Ee '^Version:' | cut -f2 -d' ' | tr -d '\n')
+GitCommit=$(echo "${version_out}" | grep -m1 -Ee '^Git Commit:' | cut -f3 -d' ' | tr -d '\n')
 Allocator=$(echo "${version_out}" | grep -m1 -Ee '^Allocator:' | cut -f2 -d' ' | tr -d '\n')
 Platform=$(echo "${version_out}" | grep -m1 -Ee '^Platform:' | cut -f2 -d' ' | tr -d '\n')
 OptimizationLevel=$(echo "${version_out}" | grep -m1 -Ee '^Optimization Level:' | cut -f3 -d' ' | tr -d '\n')
@@ -444,9 +474,22 @@ Msrv=$(echo "${version_out}" | grep -m1 -Ee '^MSRV:' | cut -f2 -d' ' | tr -d '\n
 CpuModel=$(print_cpu_model)
 CpuCores=$(print_cpu_cores)
 RamTotalMB=$(print_ram_total_mb)
-source /etc/os-release
-OsName="${NAME} ${VERSION_ID}"
+OsName=$(
+    source /etc/os-release
+    echo -n "${NAME} ${VERSION_ID}"
+)
 GitTagLast=$(git describe --tags --abbrev=0 || echo "unknown")
+readonly Version
+readonly GitCommit
+readonly Allocator
+readonly Platform
+readonly OptimizationLevel
+readonly Msrv
+readonly CpuModel
+readonly CpuCores
+readonly RamTotalMB
+readonly OsName
+readonly GitTagLast
 # XXX: `S4_BLOCKSZ` must match `BLOCKSZ_DEF` defined in `blockreader.rs`
 declare -i S4_BLOCKSZ=${S4_BLOCKSZ-65535}
 declare -ir S4_BLOCKSZ_KB=$((S4_BLOCKSZ / 1024))
@@ -624,10 +667,9 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     #     }
     #   ]
     # }
-    cat "${json}" | "${JQ}" .
 
+    echo "Processing JSON results from ${json}" >&2
     # JSON values are always in base units (seconds, bytes)
-
     time_last=${mean-0}
     mean=$($JQ '.results[0].summary.time_wall_clock.mean' < "${json}" | to_milliseconds)
     stddev=$($JQ '.results[0].summary.time_wall_clock.stddev' < "${json}" | to_milliseconds)
@@ -670,7 +712,11 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     if ${DISKIO_AVAILABLE}; then
         diskio_mesg=", syscr ${diskio_syscr}, rchar ${diskio_rchar}, syscw ${diskio_syscw}, write_bytes ${diskio_write_bytes}"
     fi
-    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB${diskio_mesg} (script running for ${time_since_start_hms})${CLR_RESET}" >&2
+    proc_time_diff_hms=$(milliseconds_to_hms ${proc_time_diff})
+    time_per_file_ms=$((proc_time_diff / fnum))
+    time_remaining_ms=$((proc_time_diff * (FILE_NUM - fnum)))
+    time_remaining_hms=$(milliseconds_to_hms ${time_remaining_ms})
+    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms (${proc_time_diff_hms}), ${time_per_file_ms}ms per file, Max RSS ${mss_KB} KB${diskio_mesg}. Script running for ${time_since_start_hms}. Estimated time remaining ${time_remaining_hms}${CLR_RESET}" >&2
 
     first=false
 done
@@ -852,7 +898,7 @@ set encoding utf8
 set color
 set key off
 set output "${OUT_SVG_RSS}"
-set title "Command: ${s4_command} ${FILE_NAME} …\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nFile: ${FILE}\nBlock Size: ${S4_BLOCKSZ_KB} KB (${S4_BLOCKSZ} Bytes)\n${FILE_SZ_MESG}\n\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size) (×${mss_diff_blocksz_multiple_max} Blocks)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size) (×${mss_diff_blocksz_multiple_avg} Blocks)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size) (×${mss_diff_blocksz_multiple_min} Blocks)\n\n" \
+set title "Command: ${s4_command} ${FILE_NAME} …\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit ${GitCommit}, Tag ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nFile: ${FILE}\nBlock Size: ${S4_BLOCKSZ_KB} KB (${S4_BLOCKSZ} Bytes)\n${FILE_SZ_MESG}\n\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size) (×${mss_diff_blocksz_multiple_max} Blocks)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size) (×${mss_diff_blocksz_multiple_avg} Blocks)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size) (×${mss_diff_blocksz_multiple_min} Blocks)\n\n" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set format "%.0f"
@@ -933,7 +979,7 @@ set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FO
 set encoding utf8
 set color
 set key off
-set title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+set title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit ${GitCommit}, Tag ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set output "${OUT_SVG_TIME}"
@@ -1093,7 +1139,7 @@ set encoding utf8
 set color
 set key off
 set output "${OUT_SVG_DISKIO_READ}"
-set multiplot layout 2,1 title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nDisk I/O from /proc/<pid>/io (one run per file count)\n${CACHES_DROP_MESG}\n\nFile: ${FILE}\nBlock Size: ${S4_BLOCKSZ_KB} KB (${S4_BLOCKSZ} Bytes)\n${FILE_SZ_MESG}\n\nMax Read Count (syscr) per 1 File: ${diskio_syscr_per_file_max} (×${diskio_syscr_per_file_multiple_max} file blocks)\nAvg Read Count (syscr) per 1 File: ${diskio_syscr_per_file_avg} (×${diskio_syscr_per_file_multiple_avg} file blocks)\nMin Read Count (syscr) per 1 File: ${diskio_syscr_per_file_min} (×${diskio_syscr_per_file_multiple_min} file blocks)\nMax Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_max} (×${diskio_rchar_per_file_multiple_max} file size) (×${diskio_rchar_per_file_blocksz_multiple_max} Blocks)\nAvg Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_avg} (×${diskio_rchar_per_file_multiple_avg} file size) (×${diskio_rchar_per_file_blocksz_multiple_avg} Blocks)\nMin Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_min} (×${diskio_rchar_per_file_multiple_min} file size) (×${diskio_rchar_per_file_blocksz_multiple_min} Blocks)\n" \
+set multiplot layout 2,1 title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit: ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nDisk I/O from /proc/<pid>/io (one run per file count)\n${CACHES_DROP_MESG}\n\nFile: ${FILE}\nBlock Size: ${S4_BLOCKSZ_KB} KB (${S4_BLOCKSZ} Bytes)\n${FILE_SZ_MESG}\n\nMax Read Count (syscr) per 1 File: ${diskio_syscr_per_file_max} (×${diskio_syscr_per_file_multiple_max} file blocks)\nAvg Read Count (syscr) per 1 File: ${diskio_syscr_per_file_avg} (×${diskio_syscr_per_file_multiple_avg} file blocks)\nMin Read Count (syscr) per 1 File: ${diskio_syscr_per_file_min} (×${diskio_syscr_per_file_multiple_min} file blocks)\nMax Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_max} (×${diskio_rchar_per_file_multiple_max} file size) (×${diskio_rchar_per_file_blocksz_multiple_max} Blocks)\nAvg Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_avg} (×${diskio_rchar_per_file_multiple_avg} file size) (×${diskio_rchar_per_file_blocksz_multiple_avg} Blocks)\nMin Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_min} (×${diskio_rchar_per_file_multiple_min} file size) (×${diskio_rchar_per_file_blocksz_multiple_min} Blocks)\n" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 
@@ -1217,8 +1263,7 @@ for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
     declare -i proc_time_end=$(print_time_now_ms)
     declare -i proc_time_diff=$((proc_time_end - proc_time_beg))
     echo >&2
-
-    cat "${json}" | "${JQ}" .
+    echo "Processing JSON results from ${json}" >&2
 
     # JSON values are always in base units (seconds, bytes)
 
@@ -1340,7 +1385,7 @@ set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FO
 set encoding utf8
 set color
 set key off
-set title "Command: S4_BLOCKSZ=(${BLOCKSZ_MIN}..${BLOCKSZ_MAX} step by ${BLOCKSZ_ALIGN}) ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}, Cores: ${CpuCores}, RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+set title "Command: S4_BLOCKSZ=(${BLOCKSZ_MIN}..${BLOCKSZ_MAX} step by ${BLOCKSZ_ALIGN}) ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit ${GitCommit}, Tag ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}, Cores: ${CpuCores}, RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set output "${OUT_SVG_BLOCKSZ}"
