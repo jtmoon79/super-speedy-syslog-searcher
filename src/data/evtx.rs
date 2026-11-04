@@ -42,7 +42,10 @@ use crate::common::{
     NLc,
 };
 use crate::de_err;
-use crate::data::common::DtBegEndPairOpt;
+use crate::data::common::{
+    DtBegEndPair,
+    DtBegEndPairOpt,
+};
 use crate::data::datetime::{
     DateTime,
     DateTimeL,
@@ -263,13 +266,13 @@ impl Evtx {
     ) -> DtBegEndPairOpt {
         let dt_beg: usize = match data.find(TIMECREATED_BEG_SUBSTR) {
             Some(dt_beg) => dt_beg + TIMECREATED_BEG_SUBSTR.len(),
-            None => { return None; },
+            None => { return DtBegEndPairOpt::None; },
         };
         let dt_end: usize = match data[dt_beg..].find(TIMECREATED_END_SUBCHAR) {
             Some(dt_end) => dt_beg + dt_end,
-            None => { return None; },
+            None => { return DtBegEndPairOpt::None; },
         };
-        Some((dt_beg, dt_end))
+        DtBegEndPairOpt::Some(DtBegEndPair { beg: dt_beg, end: dt_end })
     }
 
     /// Length of this `Evtx` in bytes.

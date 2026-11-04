@@ -26,7 +26,10 @@ pub use crate::common::{
     NLu8,
     ResultFind,
 };
-use crate::data::common::DtBegEndPairOpt;
+use crate::data::common::{
+    DtBegEndPair,
+    DtBegEndPairOpt,
+};
 use crate::data::datetime::{
     DateTime,
     DateTimeL,
@@ -251,7 +254,7 @@ impl JournalEntry {
             dt,
             dt_uses_source,
             data,
-            dt_beg_end: DtBegEndPairOpt::Some((dt_a, dt_b)),
+            dt_beg_end: DtBegEndPairOpt::Some(DtBegEndPair { beg: dt_a, end: dt_b }),
         }
     }
 
@@ -287,7 +290,7 @@ impl JournalEntry {
             dt,
             dt_uses_source,
             data,
-            dt_beg_end: DtBegEndPairOpt::Some((dt_a, dt_b)),
+            dt_beg_end: DtBegEndPairOpt::Some(DtBegEndPair { beg: dt_a, end: dt_b }),
         }
     }
 

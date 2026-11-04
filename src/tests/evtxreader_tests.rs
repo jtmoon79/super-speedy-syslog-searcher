@@ -30,7 +30,10 @@ use crate::common::{
     LogMessageType,
     summary_stats_enable,
 };
-use crate::data::common::DtBegEndPairOpt;
+use crate::data::common::{
+    DtBegEndPair,
+    DtBegEndPairOpt,
+};
 use crate::data::datetime::DateTimeLOpt;
 use crate::data::evtx::{
     Evtx,
@@ -87,7 +90,7 @@ lazy_static! {
     /// EVTX #1
     static ref EVTX_1: Evtx = Evtx::new_forced(
         *EVTX_KPNP_ENTRY1_DT,
-        DtBegEndPairOpt::Some((420, 447)),
+        DtBegEndPairOpt::Some(DtBegEndPair { beg: 420, end: 447 }),
         EvtxRS {
             event_record_id: EVTX_KPNP_DATA1_ID,
             timestamp: *EVTX_KPNP_DATA1_TIMESTAMP,

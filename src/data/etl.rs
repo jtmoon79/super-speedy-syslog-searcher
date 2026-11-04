@@ -691,7 +691,7 @@ impl EtlEvent {
         let env: &EtlEnvelope = &self.envelope;
         let mut out: String = String::with_capacity(self.render_capacity());
         push_datetime_etl(&mut out, &dt);
-        let dt_beg_end: DtBegEndPair = (0, out.len());
+        let dt_beg_end: DtBegEndPair = DtBegEndPair { beg: 0, end: out.len() };
 
         _ = write!(out, " Provider={}", env.provider_guid);
         if let Some(name) = &env.provider_name {

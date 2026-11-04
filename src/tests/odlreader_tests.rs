@@ -22,6 +22,10 @@ use crate::common::{
     OdlSubType,
     summary_stats_enable,
 };
+use crate::data::common::{
+    DtBegEndPair,
+    DtBegEndPairOpt,
+};
 use crate::data::datetime::ymdhms;
 use crate::data::odl::Odl;
 use crate::readers::odlparser::OdlDecodingContext;
@@ -106,7 +110,7 @@ fn assert_reader_fixture(
         .zip(expected.iter())
     {
         assert_eq!(actual.dt(), &expected.dt);
-        assert_eq!(actual.dt_beg_end(), &Some((0, 29)));
+        assert_eq!(actual.dt_beg_end(), &DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 29 }));
         assert_eq!(
             actual
                 .as_bytes()

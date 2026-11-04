@@ -24,6 +24,7 @@ use ::si_trace_print::{
 
 use crate::common::Bytes;
 use crate::data::common::{
+    DtBegEndPair,
     DtBegEndPairOpt,
     PrintableEvent,
     replace_control_chars,
@@ -129,7 +130,7 @@ impl OdlEvent {
 
         Ok(Odl {
             dt,
-            dt_beg_end: Some((0, dt_end)),
+            dt_beg_end: DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: dt_end }),
             data: text.into_bytes(),
         })
     }

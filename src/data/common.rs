@@ -44,8 +44,11 @@ impl LogMessage {
 
 /// Bytes offsets of the beginning and end of the
 /// datetime substring within a `String`.
-// TODO: change to a typed `struct DtBegEndPair(usize, usize)`
-pub type DtBegEndPair = (usize, usize);
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Ord, PartialOrd)]
+pub struct DtBegEndPair{
+    pub beg: usize,
+    pub end: usize,
+}
 
 /// [`Option`] of [`DtBegEndPair`].
 pub type DtBegEndPairOpt = Option<DtBegEndPair>;

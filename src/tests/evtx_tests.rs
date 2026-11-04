@@ -12,7 +12,10 @@ use std::str; // for `from_utf8`
 use ::lazy_static::lazy_static;
 use ::test_case::test_case;
 
-use crate::data::common::DtBegEndPairOpt;
+use crate::data::common::{
+    DtBegEndPair,
+    DtBegEndPairOpt,
+};
 use crate::data::evtx::{
     Evtx,
     EvtxRS,
@@ -38,7 +41,7 @@ lazy_static! {
     /// EVTX #1
     static ref EVTX_1: Evtx = Evtx::new_forced(
         *EVTX_KPNP_ENTRY1_DT,
-        DtBegEndPairOpt::Some((420, 447)),
+        DtBegEndPairOpt::Some(DtBegEndPair { beg: 420, end: 447 }),
         EvtxRS {
             event_record_id: EVTX_KPNP_DATA1_ID,
             timestamp: *EVTX_KPNP_DATA1_TIMESTAMP,
@@ -49,7 +52,7 @@ lazy_static! {
 }
 
 #[test_case("", None)]
-#[test_case(EVTX_KPNP_DATA1_S, DtBegEndPairOpt::Some((420, 447)))]
+#[test_case(EVTX_KPNP_DATA1_S, DtBegEndPairOpt::Some(DtBegEndPair { beg: 420, end: 447 }))]
 #[test_case(EVTX_KPNP_DATA1_S_E, None)]
 fn test_get_dt_beg_end(
     input: &str,

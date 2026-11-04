@@ -49,6 +49,10 @@ use crate::common::{
     SUBPATH_SEP_DISPLAY_STR,
     summary_stat,
 };
+use crate::data::common::{
+    DtBegEndPair,
+    DtBegEndPairOpt,
+};
 use crate::data::datetime::{
     DateTimeL,
     DateTimePattern_string,
@@ -1804,8 +1808,8 @@ impl PrinterLogMessage {
         asl: &Asl,
     ) -> PrinterLogMessageResult {
         let (beg, end) = match asl.dt_beg_end() {
-            Some((beg, end)) => (*beg, *end),
-            None => (0, 0),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg, end }) => (*beg, *end),
+            DtBegEndPairOpt::None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let mut printed: usize = 0;
@@ -1858,8 +1862,8 @@ impl PrinterLogMessage {
             false => &[],
         };
         let (beg, end) = match asl.dt_beg_end() {
-            Some((beg, end)) => (*beg, *end),
-            None => (0, 0),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg, end }) => (*beg, *end),
+            DtBegEndPairOpt::None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let data: &[u8] = asl.as_bytes();
@@ -1985,8 +1989,8 @@ impl PrinterLogMessage {
         etl: &impl PrintableEvent,
     ) -> PrinterLogMessageResult {
         let (beg, end) = match etl.dt_beg_end() {
-            Some((beg, end)) => (*beg, *end),
-            None => (0, 0),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg, end }) => (*beg, *end),
+            DtBegEndPairOpt::None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let mut printed: usize = 0;
@@ -2039,8 +2043,8 @@ impl PrinterLogMessage {
             false => &[],
         };
         let (beg, end) = match etl.dt_beg_end() {
-            Some((beg, end)) => (*beg, *end),
-            None => (0, 0),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg, end }) => (*beg, *end),
+            DtBegEndPairOpt::None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let data = etl.as_bytes();
@@ -2165,8 +2169,8 @@ impl PrinterLogMessage {
         evtx: &Evtx,
     ) -> PrinterLogMessageResult {
         let (beg, end) = match evtx.dt_beg_end() {
-            Some((beg, end)) => (*beg, *end),
-            None => (0, 0),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg, end }) => (*beg, *end),
+            DtBegEndPairOpt::None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let mut printed: usize = 0;
@@ -2219,8 +2223,8 @@ impl PrinterLogMessage {
             false => &[],
         };
         let (beg, end) = match evtx.dt_beg_end() {
-            Some((beg, end)) => (*beg, *end),
-            None => (0, 0),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg, end }) => (*beg, *end),
+            DtBegEndPairOpt::None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let data = evtx.as_bytes();
@@ -2345,8 +2349,8 @@ impl PrinterLogMessage {
         journalentry: &JournalEntry,
     ) -> PrinterLogMessageResult {
         let (beg, end) = match journalentry.dt_beg_end() {
-            Some((beg, end)) => (*beg, *end),
-            None => (0, 0),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg, end }) => (*beg, *end),
+            DtBegEndPairOpt::None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let mut printed: usize = 0;
@@ -2404,8 +2408,8 @@ impl PrinterLogMessage {
             false => &[],
         };
         let (beg, end) = match journalentry.dt_beg_end() {
-            Some((beg, end)) => (*beg, *end),
-            None => (0, 0),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg, end }) => (*beg, *end),
+            DtBegEndPairOpt::None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let data = journalentry.as_bytes();

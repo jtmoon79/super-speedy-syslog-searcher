@@ -3,7 +3,11 @@
 use std::fs::File;
 use std::io::ErrorKind;
 
-use crate::data::common::PrintableEvent;
+use crate::data::common::{
+    DtBegEndPair,
+    DtBegEndPairOpt,
+    PrintableEvent,
+};
 use crate::readers::aslparser::AslParser;
 use crate::tests::common::{
     ASL_FIXTURES,
@@ -32,7 +36,7 @@ fn asl_render_timestamp_fields_and_control_characters() {
     assert!(line.contains("  host=host name  "));
     assert!(line.contains("  message='first second line'  field=value next\n"));
     assert_eq!(line.lines().count(), 1);
-    assert_eq!(asl.dt_beg_end(), &Some((0, 35)));
+    assert_eq!(asl.dt_beg_end(), &DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 35 }));
     assert_eq!(asl.len(), asl.as_bytes().len());
     assert!(!asl.is_empty());
     assert_eq!(PrintableEvent::dt(&asl), asl.dt());
@@ -83,7 +87,7 @@ fn asl_render_preserves_complete_output_with_and_without_overflow() {
         );
         assert_eq!(rendered.as_bytes(), expected.as_bytes());
         assert_eq!(rendered.len(), expected.len());
-        assert_eq!(rendered.dt_beg_end(), &Some((0, 35)));
+        assert_eq!(rendered.dt_beg_end(), &DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 35 }));
     }
 }
 

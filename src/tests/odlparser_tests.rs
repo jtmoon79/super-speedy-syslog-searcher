@@ -24,6 +24,8 @@ use cbc::cipher::{
 };
 
 use crate::data::common::{
+    DtBegEndPair,
+    DtBegEndPairOpt,
     PrintableEvent,
     replace_control_chars,
 };
@@ -70,7 +72,7 @@ fn assert_rendered(
     expected: &OdlExpectedLine,
 ) {
     assert_eq!(actual.dt(), &expected.dt);
-    assert_eq!(actual.dt_beg_end(), &Some((0, 29)));
+    assert_eq!(actual.dt_beg_end(), &DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 29 }));
     assert_eq!(
         actual
             .as_bytes()
@@ -182,7 +184,7 @@ fn test_odl_render_line_and_offset() {
         .render(&FO_M7)
         .unwrap();
     assert_eq!(rendered.as_bytes(), b"1969-12-31T17:00:00.000-07:00 a b:c d; param\n");
-    assert_eq!(rendered.dt_beg_end(), &Some((0, 29)));
+    assert_eq!(rendered.dt_beg_end(), &DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 29 }));
     assert_eq!(rendered.len(), rendered.len());
     assert!(!rendered.is_empty());
     assert_eq!(PrintableEvent::dt(&rendered), rendered.dt());
@@ -356,7 +358,7 @@ fn test_odlparser_compact_event_strings_and_rendering() {
         let expected = format!("1969-12-31T17:00:00.000-07:00 {normalized}:{normalized};{parameter_suffix}\n");
         let rendered = event.render(&FO_M7).unwrap();
         assert_eq!(rendered.as_bytes(), expected.as_bytes());
-        assert_eq!(rendered.dt_beg_end(), &Some((0, 29)));
+        assert_eq!(rendered.dt_beg_end(), &DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 29 }));
     }
 }
 
