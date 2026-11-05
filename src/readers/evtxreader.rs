@@ -24,7 +24,6 @@ use std::io::{
     Result,
 };
 use std::path::Path;
-use std::time::Duration;
 
 use ::evtx::{
     EvtxParser,
@@ -62,6 +61,8 @@ use ::tempfile::TempPath;
 use crate::common::{
     debug_panic,
     Count,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileMetadata,
     FileSz,
@@ -239,7 +240,7 @@ pub struct EvtxReader {
     out_of_order: Count,
     /// Summary statistic.
     /// Largest backward timestamp jump between consecutive processed entries.
-    out_of_order_max: Option<Duration>,
+    out_of_order_max: DurOutOfOrderMaxOpt,
     /// has `self.analyze()` been called?
     analyzed: bool,
     /// The last [`Error`], if any, as a `String`
@@ -286,7 +287,7 @@ pub struct SummaryEvtxReader {
     pub evtxreader_filesz: FileSz,
     pub evtxreader_out_of_order: Count,
     /// Largest backward timestamp jump, or `None` if none was observed.
-    pub evtxreader_out_of_order_max: Option<Duration>,
+    pub evtxreader_out_of_order_max: DurOutOfOrderMaxOpt,
 }
 
 /// Implement the EvtxReader.
@@ -395,7 +396,7 @@ impl EvtxReader {
             filesz,
             mtime,
             out_of_order: 0,
-            out_of_order_max: None,
+            out_of_order_max: DurOutOfOrderMaxOpt::None,
             analyzed: false,
             error: None,
         })
@@ -468,8 +469,8 @@ impl EvtxReader {
                             if ts_last_ > &timestamp {
                                 self.out_of_order += 1;
                                 let duration = ts_last_.duration_since(timestamp).unsigned_abs();
-                                self.out_of_order_max = Some(
-                                    self.out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)));
+                                self.out_of_order_max = DurOutOfOrderMaxOpt::Some(
+                                    self.out_of_order_max.map_or(duration, |prior_dur: DurOutOfOrderMax| prior_dur.max(duration)));
                             }
                         );
                     }

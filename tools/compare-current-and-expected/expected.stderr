@@ -57,7 +57,7 @@ File: ./logs/CentOS7/x86_64/lastlog
       Datetime first: 2023-12-15 16:10:21 +08:00 (2023-12-15 08:10:21.000000 +00:00)
       Datetime last : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.000000 +00:00)
       out of order  : 1
-      out of order max: 1894h 53m 37s
+      out of order max: 78d 22h 53m 37s
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
   Processing Drops:
@@ -367,7 +367,7 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
       Datetime first: 2023-12-11 06:45:53 +08:00 (2023-12-10 22:45:53.034179 +00:00)
       Datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
       out of order  : 3
-      out of order max: 1654h 9m 57s 294.708ms
+      out of order max: 68d 22h 9m 57s 294.708ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
@@ -458,7 +458,7 @@ File: ./logs/Debian11/aarch64_ARMv6/utmp
       Datetime first: 2023-11-27 13:07:44 +08:00 (2023-11-27 05:07:44.534149 +00:00)
       Datetime last : 2024-02-18 05:19:07 +08:00 (2024-02-17 21:19:07.971570 +00:00)
       out of order  : 2
-      out of order max: 1169h 56m 8s 385.986ms
+      out of order max: 48d 17h 56m 8s 385.986ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  4, 50.0%
   Processing Drops:
@@ -765,7 +765,7 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
       Datetime first: 2023-11-27 12:17:48 +08:00 (2023-11-27 04:17:48.994767 +00:00)
       Datetime last : 2024-02-18 12:56:44 +08:00 (2024-02-18 04:56:44.731607 +00:00)
       out of order  : 1
-      out of order max: 1663h 12m 51s 139.72ms
+      out of order max: 69d 7h 12m 51s 139.72ms
   Processing stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  1, 80.0%
   Processing Drops:
@@ -10951,7 +10951,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       Datetime first: 1972-01-01 00:00:00 -02:00 (1972-01-01 02:00:00.000000 +00:00)
       Datetime last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
       out of order  : 0
-      out of order max: 8783h 59m 59s
+      out of order max: 365d 23h 59m 59s
   Parsers:
                    datetime format missing year; estimated year of last sysline 2000
   Processing stores:
@@ -14024,7 +14024,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       Datetime first: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
       Datetime last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
       out of order  : 2
-      out of order max: 14688h 56m 22s
+      out of order max: 612d 56m 22s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
@@ -26756,13 +26756,13 @@ EVTX event largest processed   : 1701
 EVTX event largest accepted    : 1701
 Journal event largest processed: 1321
 Journal event largest accepted : 1321
-ODL event largest processed    : 0
-ODL event largest accepted     : 0
-Syslines out of order          : 0
+ODL event largest processed    : 6406
+ODL event largest accepted     : 6406
+Syslines out of order          : 96 largest 612d 56m 22s (./logs/RancherOS-1.5.8/boot/respawn.log)
 ASL events out of order        : 0
-ETL events out of order        : 0
-EVTX events out of order       : 0
-FixedStruct out of order       : 0
+ETL events out of order        : 21 largest 967.8103ms (./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl)
+EVTX events out of order       : 3 largest 59m 59s 8.9551ms (./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Microsoft-Windows-Kernel-PnP__Configuration.evtx)
+FixedStruct out of order       : 19 largest 78d 22h 53m 37s (./logs/CentOS7/x86_64/lastlog)
 Journal events out of order    : 0
 ODL events out of order        : 0
 Managed files max deflt: 980

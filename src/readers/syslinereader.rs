@@ -29,7 +29,6 @@ use std::io::{
     Result,
 };
 use std::sync::Arc;
-use std::time::Duration;
 
 use ::itertools::Itertools; // brings in `sorted_by`
 use ::lru::LruCache;
@@ -66,6 +65,8 @@ use crate::common::{
     Bytes,
     CharSz,
     Count,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileOffset,
     FileSz,
@@ -658,7 +659,7 @@ pub struct SyslineReader {
     /// Count of syslinereader entries found to be not in chronological order.
     pub(super) out_of_order: Count,
     /// Largest backward timestamp jump between consecutive forward-offset parses.
-    pub(super) out_of_order_max: Option<Duration>,
+    pub(super) out_of_order_max: DurOutOfOrderMaxOpt,
     dt_previous_processed: Option<(DateTimeL, FileOffset)>,
     /// `Count`s found patterns stored in `dt_patterns`.
     /// "mirrors" the global [`DATETIME_PARSE_DATAS`].
@@ -878,7 +879,7 @@ pub struct SummarySyslineReader {
     /// `SyslineReader::out_of_order`
     pub syslinereader_datetime_out_of_order: Count,
     /// Largest backward jump between forward-offset parses, or `None`.
-    pub syslinereader_out_of_order_max: Option<Duration>,
+    pub syslinereader_out_of_order_max: DurOutOfOrderMaxOpt,
     /// `SyslineReader::find_sysline`
     pub syslinereader_find_sysline_lru_cache_hit: Count,
     /// `SyslineReader::find_sysline`
@@ -1475,11 +1476,11 @@ impl SyslineReader {
                         Ok(duration) => duration,
                         Err(_) => {
                             debug_panic!("backward timestamp jump is positive");
-                            Duration::new(0, 0)
+                            DurOutOfOrderMax::new(0, 0)
                         }
                     };
-                    self.out_of_order_max = Some(
-                        self.out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)));
+                    self.out_of_order_max = DurOutOfOrderMaxOpt::Some(
+                        self.out_of_order_max.map_or(duration, |prior_dur: DurOutOfOrderMax| prior_dur.max(duration)));
                 }
             }
             previous = Some(datetime);
@@ -2013,15 +2014,15 @@ impl SyslineReader {
         defñ!("({:?})", datetime);
         if let Some((previous, previous_offset)) = self.dt_previous_processed {
             if previous_offset < offset && previous > *datetime {
-                let duration: Duration = match (previous - *datetime).to_std() {
+                let duration: DurOutOfOrderMax = match (previous - *datetime).to_std() {
                     Ok(dur) => dur,
                     Err(_) => {
                         debug_panic!("backward timestamp jump is positive");
-                        Duration::new(0, 0)
+                        DurOutOfOrderMax::new(0, 0)
                     }
                 };
-                self.out_of_order_max = Some(
-                    self.out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)));
+                self.out_of_order_max = DurOutOfOrderMaxOpt::Some(
+                    self.out_of_order_max.map_or(duration, |prior_dur: DurOutOfOrderMax| prior_dur.max(duration)));
             }
         }
         self.dt_previous_processed = Some((*datetime, offset));

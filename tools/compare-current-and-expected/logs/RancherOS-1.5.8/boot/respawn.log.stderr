@@ -28,7 +28,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       Datetime first: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
       Datetime last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
       out of order  : 2
-      out of order max: 14688h 56m 22s
+      out of order max: 612d 56m 22s
   Parsers:
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
@@ -71,7 +71,7 @@ Journal event largest processed: 0
 Journal event largest accepted : 0
 ODL event largest processed    : 0
 ODL event largest accepted     : 0
-Syslines out of order          : 0
+Syslines out of order          : 2 largest 612d 56m 22s (./logs/RancherOS-1.5.8/boot/respawn.log)
 ASL events out of order        : 0
 ETL events out of order        : 0
 EVTX events out of order       : 0

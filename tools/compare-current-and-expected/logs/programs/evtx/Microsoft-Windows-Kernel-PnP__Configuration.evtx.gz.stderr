@@ -52,7 +52,7 @@ ODL event largest accepted     : 0
 Syslines out of order          : 0
 ASL events out of order        : 0
 ETL events out of order        : 0
-EVTX events out of order       : 0
+EVTX events out of order       : 1 largest 59m 59s 8.9551ms (./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz)
 FixedStruct out of order       : 0
 Journal events out of order    : 0
 ODL events out of order        : 0

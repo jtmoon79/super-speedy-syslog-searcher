@@ -5,7 +5,8 @@
 //!      See [Issue #559](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/559).
 
 use std::collections::BTreeMap;
-use std::io::{self,
+use std::io::{
+    self,
     Error,
     ErrorKind,
     Read,
@@ -16,7 +17,6 @@ use std::sync::atomic::{
     AtomicBool,
     Ordering,
 };
-use std::time::Duration;
 
 use tempfile::TempPath;
 
@@ -28,6 +28,8 @@ use crate::common::{
     LogMessageType,
     PathId,
     summary_stat,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
 };
 use crate::data::asl::Asl;
 use crate::data::datetime::{
@@ -62,7 +64,7 @@ pub struct SummaryAslReader {
     pub aslreader_filesz: FileSz,
     pub aslreader_out_of_order: Count,
     /// Largest backward timestamp jump, or `None` if none was observed.
-    pub aslreader_out_of_order_max: Option<Duration>,
+    pub aslreader_out_of_order_max: DurOutOfOrderMaxOpt,
 }
 
 pub struct AslSource {
@@ -220,7 +222,7 @@ impl<R: Read + Seek> AslReader<R> {
                     stats.aslreader_out_of_order += 1;
                     let duration = (time - dt).to_std().expect("backward timestamp jump is positive");
                     stats.aslreader_out_of_order_max = Some(
-                        stats.aslreader_out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)),
+                        stats.aslreader_out_of_order_max.map_or(duration, |prior_dur: DurOutOfOrderMax| prior_dur.max(duration)),
                     );
                 }
                 previous = Some(dt);

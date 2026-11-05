@@ -71,7 +71,7 @@ Journal event largest processed: 0
 Journal event largest accepted : 0
 ODL event largest processed    : 0
 ODL event largest accepted     : 0
-Syslines out of order          : 0
+Syslines out of order          : 1 largest 2s 120ms (./logs/programs/proftpd/controls.log)
 ASL events out of order        : 0
 ETL events out of order        : 0
 EVTX events out of order       : 0

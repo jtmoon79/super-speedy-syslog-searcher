@@ -17,7 +17,6 @@ use std::sync::atomic::{
     AtomicBool,
     Ordering,
 };
-use std::time::Duration;
 
 use tempfile::TempPath;
 #[allow(unused_imports)]
@@ -33,6 +32,8 @@ use ::si_trace_print::{
 use crate::common::{
     Count,
     debug_panic,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileSz,
     FileType,
@@ -82,7 +83,7 @@ pub struct SummaryOdlReader {
     pub odlreader_filesz: FileSz,
     pub odlreader_out_of_order: Count,
     /// Largest backward timestamp jump, or `None` if none was observed.
-    pub odlreader_out_of_order_max: Option<Duration>,
+    pub odlreader_out_of_order_max: DurOutOfOrderMaxOpt,
     pub odlreader_records_skipped: Count,
     pub odlreader_events_undecoded: Count,
     pub odlreader_decoding_failures: Count,
@@ -329,15 +330,15 @@ impl<R: Read> OdlReader<R> {
                 }
                 if let Some(time) = previous.filter(|time| *time > dt) {
                     stats.odlreader_out_of_order += 1;
-                    let duration: Duration = match (time - dt).to_std() {
+                    let duration: DurOutOfOrderMax = match (time - dt).to_std() {
                         Ok(dur) => dur,
                         Err(_) => {
                             debug_panic!("backward timestamp jump is positive");
-                            Duration::new(0, 0)
+                            DurOutOfOrderMax::new(0, 0)
                         }
                     };
-                    stats.odlreader_out_of_order_max = Some(
-                        stats.odlreader_out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)),
+                    stats.odlreader_out_of_order_max = DurOutOfOrderMaxOpt::Some(
+                        stats.odlreader_out_of_order_max.map_or(duration, |prior_dur: DurOutOfOrderMax| prior_dur.max(duration)),
                     );
                 }
                 previous = Some(dt);

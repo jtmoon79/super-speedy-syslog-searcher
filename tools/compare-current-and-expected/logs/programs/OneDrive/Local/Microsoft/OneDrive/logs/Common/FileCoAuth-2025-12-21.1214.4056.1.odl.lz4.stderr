@@ -55,8 +55,8 @@ EVTX event largest processed   : 0
 EVTX event largest accepted    : 0
 Journal event largest processed: 0
 Journal event largest accepted : 0
-ODL event largest processed    : 0
-ODL event largest accepted     : 0
+ODL event largest processed    : 224
+ODL event largest accepted     : 224
 Syslines out of order          : 0
 ASL events out of order        : 0
 ETL events out of order        : 0

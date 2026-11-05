@@ -22,6 +22,8 @@ use ::test_case::test_case;
 
 use crate::common::{
     Count,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileOffset,
     FileType,
@@ -825,7 +827,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
-        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
+        fixedstructreader_out_of_order_max: Some(DurOutOfOrderMax::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -848,7 +850,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
-        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
+        fixedstructreader_out_of_order_max: Some(DurOutOfOrderMax::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -871,7 +873,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
-        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
+        fixedstructreader_out_of_order_max: Some(DurOutOfOrderMax::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -894,7 +896,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
-        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
+        fixedstructreader_out_of_order_max: Some(DurOutOfOrderMax::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -917,7 +919,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
-        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
+        fixedstructreader_out_of_order_max: Some(DurOutOfOrderMax::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -940,7 +942,7 @@ const fn SummaryBlockReader_new(
         fixedstructreader_utmp_entries: 3,
         fixedstructreader_first_entry_fileoffset: 0,
         fixedstructreader_entries_out_of_order: 2,
-        fixedstructreader_out_of_order_max: Some(std::time::Duration::new(2, 123_636_000)),
+        fixedstructreader_out_of_order_max: Some(DurOutOfOrderMax::new(2, 123_636_000)),
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
@@ -1335,7 +1337,7 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
         assert_eq!(fixedstructreader.entries_out_of_order, 2);
         assert_eq!(
             fixedstructreader.summary().fixedstructreader_out_of_order_max,
-            Some(std::time::Duration::new(2, 123_636_000)),
+            Some(DurOutOfOrderMax::new(2, 123_636_000)),
             "maximum includes entries excluded by datetime filters",
         );
     }

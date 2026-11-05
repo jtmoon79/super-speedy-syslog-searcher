@@ -72,7 +72,7 @@ Journal event largest processed: 0
 Journal event largest accepted : 0
 ODL event largest processed    : 0
 ODL event largest accepted     : 0
-Syslines out of order          : 0
+Syslines out of order          : 5 largest 30s 482ms (./logs/RedHatEnterprise9/audit/audit.log)
 ASL events out of order        : 0
 ETL events out of order        : 0
 EVTX events out of order       : 0

@@ -71,7 +71,7 @@ Journal event largest processed: 0
 Journal event largest accepted : 0
 ODL event largest processed    : 0
 ODL event largest accepted     : 0
-Syslines out of order          : 0
+Syslines out of order          : 1 largest 32m 59s 996ms (./logs/Ubuntu22/ubuntu-advantage-timer.log.1)
 ASL events out of order        : 0
 ETL events out of order        : 0
 EVTX events out of order       : 0

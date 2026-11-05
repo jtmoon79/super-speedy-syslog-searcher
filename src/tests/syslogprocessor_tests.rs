@@ -21,6 +21,8 @@ use ::test_case::test_case;
 
 use crate::common::{
     Count,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileOffset,
     RegexId,
@@ -629,11 +631,11 @@ fn test_process_missing_year_1972() {
 }
 
 #[test_case("Dec 31 23:59:59 before\nJan 1 00:00:01 after\n", 0, None; "ordered rollover")]
-#[test_case("Dec 31 23:59:59 before\nJan 1 00:00:02 after\nJan 1 00:00:01 backwards\n", 1, Some(std::time::Duration::from_secs(1)); "real backward jump after rollover")]
+#[test_case("Dec 31 23:59:59 before\nJan 1 00:00:02 after\nJan 1 00:00:01 backwards\n", 1, Some(DurOutOfOrderMax::from_secs(1)); "real backward jump after rollover")]
 fn test_process_missing_year_out_of_order_max_uses_final_syslines(
     data: &str,
     expected_count: Count,
-    expected_max: Option<std::time::Duration>,
+    expected_max: DurOutOfOrderMaxOpt,
 ) {
     summary_stats_enable();
     let suffix = String::from(".log");

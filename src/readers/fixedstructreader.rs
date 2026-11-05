@@ -34,7 +34,6 @@ use std::io::{
     ErrorKind,
     Result,
 };
-use std::time::Duration;
 
 use ::more_asserts::{
     debug_assert_ge,
@@ -63,6 +62,8 @@ use ::si_trace_print::{
 
 use crate::common::{
     Count,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileOffset,
     FileSz,
@@ -140,7 +141,7 @@ pub type ResultFindFixedStruct = ResultFind<(FileOffset, FixedStruct), (Option<F
 
 pub type ResultFindFixedStructProcZeroBlock = ResultFind<(FixedStructType, Score, ListFileOffsetFixedStructPtr), Error>;
 
-pub type ResultTvFo = Result<(usize, usize, usize, Count, Option<Duration>, MapTvPairToFo)>;
+pub type ResultTvFo = Result<(usize, usize, usize, Count, DurOutOfOrderMaxOpt, MapTvPairToFo)>;
 
 #[cfg(test)]
 pub type DroppedBlocks = LinkedList<BlockOffset>;
@@ -247,7 +248,7 @@ pub struct FixedStructReader {
     pub(crate) entries_stored_highest: usize,
     pub(crate) entries_out_of_order: Count,
     /// Largest backward timestamp jump between consecutive preprocessed entries.
-    pub(crate) out_of_order_max: Option<Duration>,
+    pub(crate) out_of_order_max: DurOutOfOrderMaxOpt,
     /// Internal stats - hits of `self.cache_entries` in `find_entry*` functions.
     pub(super) entries_hits: Count,
     /// Internal stats - misses of `self.cache_entries` in `find_entry*` functions.
@@ -314,7 +315,7 @@ pub struct SummaryFixedStructReader {
     pub fixedstructreader_first_entry_fileoffset: FileOffset,
     pub fixedstructreader_entries_out_of_order: Count,
     /// Largest backward timestamp jump, or `None` if none was observed.
-    pub fixedstructreader_out_of_order_max: Option<Duration>,
+    pub fixedstructreader_out_of_order_max: DurOutOfOrderMaxOpt,
     pub fixedstructreader_utmp_entries_max: Count,
     pub fixedstructreader_utmp_entries_hit: Count,
     pub fixedstructreader_utmp_entries_miss: Count,
@@ -1208,7 +1209,7 @@ impl FixedStructReader {
         let mut map_tv_pair_fo: MapTvPairToFo = MapTvPairToFo::new();
         // count of out of order entries
         let mut out_of_order: Count = 0;
-        let mut out_of_order_max: Option<Duration> = None;
+        let mut out_of_order_max: DurOutOfOrderMaxOpt = DurOutOfOrderMaxOpt::None;
         // valid fixedstruct but does not pass the time value filters
         let mut valid_no_pass_filter: usize = 0;
         // null fixedstruct or non-sense time values
@@ -1285,11 +1286,12 @@ impl FixedStructReader {
                                  u64::try_from(micros / 1_000_000),
                                  u32::try_from(micros % 1_000_000),
                              ) {
-                                 let duration = Duration::new(seconds, subsec_micros * 1000);
-                                 out_of_order_max = Some(
-                                    out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)));
-                             }
-                         }
+                                let duration = DurOutOfOrderMax::new(seconds, subsec_micros * 1000);
+                                out_of_order_max = DurOutOfOrderMaxOpt::Some(
+                                    out_of_order_max.map_or(duration, |prior_dur: DurOutOfOrderMax| prior_dur.max(duration))
+                                );
+                            }
+                        }
                         defo!(
                             "out_of_order = {}; tv_pair = {:?}, tv_pair_prev = {:?}",
                             out_of_order,

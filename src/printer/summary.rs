@@ -31,6 +31,7 @@ use crate::common::{
     debug_panic,
     AllocatorChosen,
     Count,
+    DurOutOfOrderMax,
     FPath,
     FileType,
     FileTypeArchive,
@@ -120,11 +121,12 @@ const DATETIMEFMT: &str = "%Y-%m-%d %H:%M:%S %:z";
 const DATETIMEFMT_SEC: &str = "%Y-%m-%d %H:%M:%S.%6f %:z";
 
 /// Format nonzero duration components, preserving fractional milliseconds.
-pub(crate) fn seconds_to_hmsm(duration: Duration) -> String {
+pub(crate) fn seconds_to_dhmsm(duration: DurOutOfOrderMax) -> String {
     let seconds = duration.as_secs();
     let mut parts = Vec::new();
     for (value, unit) in [
-        (seconds / 3600, "h"),
+        (seconds / 86400, "d"),
+        (seconds / 3600 % 24, "h"),
         (seconds / 60 % 60, "m"),
         (seconds % 60, "s"),
     ] {
@@ -383,7 +385,7 @@ impl SummaryPrinted {
                     None,
                 )
             }
-            SummaryReaderData::Etvx(summaryevtxreader) => {
+            SummaryReaderData::Evtx(summaryevtxreader) => {
                 (
                     None,
                     None,
@@ -977,7 +979,7 @@ pub(crate) fn summary_largest_evtx_event(map_pathid_summary: &MapPathIdSummary) 
     let mut largest_processed: Count = 0;
     let mut largest_accepted: Count = 0;
     for summary in map_pathid_summary.values() {
-        if let SummaryReaderData::Etvx(summaryevtxreader) = &summary.readerdata {
+        if let SummaryReaderData::Evtx(summaryevtxreader) = &summary.readerdata {
             largest_processed = std::cmp::max(
                 largest_processed,
                 summaryevtxreader.evtxreader_event_largest_processed,
@@ -1053,10 +1055,222 @@ pub fn print_summary(
         Some(color_choice),
         "".as_bytes()
     );
+    // gather largest and accepted
     let (longest_line, longest_sysline) = summary_longest_line_sysline(&map_pathid_summary);
     let (etl_event_largest_processed, etl_event_largest_accepted) = summary_largest_etl_event(&map_pathid_summary);
     let (event_largest_processed, event_largest_accepted) = summary_largest_evtx_event(&map_pathid_summary);
     let (journal_event_largest_processed, journal_event_largest_accepted) = summary_largest_journal_event(&map_pathid_summary);
+    let (odl_largest_processed, odl_largest_accepted) = map_pathid_summary
+        .values()
+        .filter_map(|summary| if let SummaryReaderData::Odl(stats) = &summary.readerdata { Some(stats) } else { None })
+        .fold((0, 0), |(processed, accepted), stats| {
+        (
+            std::cmp::max(processed, stats.odlreader_event_largest_processed),
+            std::cmp::max(accepted, stats.odlreader_event_largest_accepted),
+        )
+        });
+
+    // sum total out-of-order counts
+    let syslinereader_datetime_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| match summary.logmessagetype {
+            LogMessageType::Sysline => Some(summary.datetime_out_of_order()),
+            _ => None,
+        })
+        .sum();
+    let aslreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| match &summary.logmessagetype {
+            LogMessageType::Asl => Some(summary.datetime_out_of_order()),
+            _ => None,
+        })
+        .sum();
+    let etlreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| match &summary.logmessagetype {
+            LogMessageType::Etl => Some(summary.datetime_out_of_order()),
+            _ => None,
+        })
+        .sum();
+    let evtxreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| match &summary.logmessagetype {
+            LogMessageType::Evtx => Some(summary.datetime_out_of_order()),
+            _ => None,
+        })
+        .sum();
+    let fixedstructreader_entries_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| match &summary.logmessagetype {
+            LogMessageType::FixedStruct => Some(summary.datetime_out_of_order()),
+            _ => None,
+        })
+        .sum();
+    let journalreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| match &summary.logmessagetype {
+            LogMessageType::Journal => Some(summary.datetime_out_of_order()),
+            _ => None,
+        })
+        .sum();
+    let odlreader_out_of_order: Count = map_pathid_summary
+        .values()
+        .filter_map(|summary| match &summary.logmessagetype {
+            LogMessageType::Odl => Some(summary.datetime_out_of_order()),
+            _ => None,
+        })
+        .sum();
+
+    // find largest out of order duration (if any)
+    let empty: FPath = FPath::new();
+    let syslinereader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
+        .iter()
+        .filter_map(|(pid, summary)| match summary.logmessagetype {
+            LogMessageType::Sysline => {
+                match summary.datetime_out_of_order_max() {
+                    Some(ooom) => Some((pid, ooom)),
+                    None => None,
+                }
+            },
+            _ => None,
+        })
+        .max_by_key(|(pid, duration)|
+            (*duration, *pid)
+        )
+        .map(|(pid, duration)|
+            (
+                *pid,
+                duration,
+                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+            )
+        );
+    let aslreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
+        .iter()
+        .filter_map(|(pid, summary)| match summary.logmessagetype {
+            LogMessageType::Asl => {
+                match summary.datetime_out_of_order_max() {
+                    Some(ooom) => Some((pid, ooom)),
+                    None => None,
+                }
+            },
+            _ => None,
+        })
+        .max_by_key(|(pid, duration)|
+            (*duration, *pid)
+        )
+        .map(|(pid, duration)|
+            (
+                *pid,
+                duration,
+                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+            )
+        );
+
+    let etlreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
+        .iter()
+        .filter_map(|(pid, summary)| match summary.logmessagetype {
+            LogMessageType::Etl => {
+                match summary.datetime_out_of_order_max() {
+                    Some(ooom) => Some((pid, ooom)),
+                    None => None,
+                }
+            },
+            _ => None,
+        })
+        .max_by_key(|(pid, duration)|
+            (*duration, *pid)
+        )
+        .map(|(pid, duration)|
+            (
+                *pid,
+                duration,
+                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+            )
+        );
+    let evtxreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
+        .iter()
+        .filter_map(|(pid, summary)| match summary.logmessagetype {
+            LogMessageType::Evtx => {
+                match summary.datetime_out_of_order_max() {
+                    Some(ooom) => Some((pid, ooom)),
+                    None => None,
+                }
+            },
+            _ => None,
+        })
+        .max_by_key(|(pid, duration)|
+            (*duration, *pid)
+        )
+        .map(|(pid, duration)|
+            (
+                *pid,
+                duration,
+                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+            )
+        );
+    let fixedstructreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
+        .iter()
+        .filter_map(|(pid, summary)| match summary.logmessagetype {
+            LogMessageType::FixedStruct => {
+                match summary.datetime_out_of_order_max() {
+                    Some(ooom) => Some((pid, ooom)),
+                    None => None,
+                }
+            },
+            _ => None,
+        })
+        .max_by_key(|(pid, duration)|
+            (*duration, *pid)
+        )
+        .map(|(pid, duration)|
+            (
+                *pid,
+                duration,
+                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+            )
+        );
+    let journalreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
+        .iter()
+        .filter_map(|(pid, summary)| match summary.logmessagetype {
+            LogMessageType::Journal => {
+                match summary.datetime_out_of_order_max() {
+                    Some(ooom) => Some((pid, ooom)),
+                    None => None,
+                }
+            },
+            _ => None,
+        })
+        .max_by_key(|(pid, duration)|
+            (*duration, *pid)
+        )
+        .map(|(pid, duration)|
+            (
+                *pid,
+                duration,
+                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+            )
+        );
+    let odlreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
+        .iter()
+        .filter_map(|(pid, summary)| match summary.logmessagetype {
+            LogMessageType::Odl => {
+                match summary.datetime_out_of_order_max() {
+                    Some(ooom) => Some((pid, ooom)),
+                    None => None,
+                }
+            },
+            _ => None,
+        })
+        .max_by_key(|(pid, duration)|
+            (*duration, *pid)
+        )
+        .map(|(pid, duration)|
+            (
+                *pid,
+                duration,
+                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+            )
+        );
 
     // print details about all the valid files
     print_all_files_summaries(
@@ -1079,51 +1293,6 @@ pub fn print_summary(
         &color_default,
         &COLOR_ERROR,
     );
-
-    let (odl_largest_processed, odl_largest_accepted) = map_pathid_summary
-        .values()
-        .filter_map(|summary| if let SummaryReaderData::Odl(stats) = &summary.readerdata { Some(stats) } else { None })
-        .fold((0, 0), |(processed, accepted), stats| {
-        (
-            std::cmp::max(processed, stats.odlreader_event_largest_processed),
-            std::cmp::max(accepted, stats.odlreader_event_largest_accepted),
-        )
-        });
-    let syslinereader_datetime_out_of_order: Count = map_pathid_summary
-        .values()
-        .filter_map(|summary| if let SummaryReaderData::Syslog((_, _, summary_sysline_reader, _)) = &summary.readerdata { Some(summary_sysline_reader) } else { None })
-        .map(|stats| stats.syslinereader_datetime_out_of_order)
-        .sum();
-    let aslreader_out_of_order: Count = map_pathid_summary
-        .values()
-        .filter_map(|summary| if let SummaryReaderData::Asl(stats) = &summary.readerdata { Some(stats) } else { None })
-        .map(|stats| stats.aslreader_out_of_order)
-        .sum();
-    let etlreader_out_of_order: Count = map_pathid_summary
-        .values()
-        .filter_map(|summary| if let SummaryReaderData::Etl(stats) = &summary.readerdata { Some(stats) } else { None })
-        .map(|stats| stats.etlreader_out_of_order)
-        .sum();
-    let evtxreader_out_of_order: Count = map_pathid_summary
-        .values()
-        .filter_map(|summary| if let SummaryReaderData::Etvx(stats) = &summary.readerdata { Some(stats) } else { None })
-        .map(|stats| stats.evtxreader_out_of_order)
-        .sum();
-    let fixedstructreader_entries_out_of_order: Count = map_pathid_summary
-        .values()
-        .filter_map(|summary| if let SummaryReaderData::FixedStruct(stats) = &summary.readerdata { Some(stats) } else { None })
-        .map(|(_, stats)| stats.fixedstructreader_entries_out_of_order)
-        .sum();
-    let journalreader_out_of_order: Count = map_pathid_summary
-        .values()
-        .filter_map(|summary| if let SummaryReaderData::Journal(stats) = &summary.readerdata { Some(stats) } else { None })
-        .map(|stats| stats.journalreader_out_of_order)
-        .sum();
-    let odlreader_out_of_order: Count = map_pathid_summary
-        .values()
-        .filter_map(|summary| if let SummaryReaderData::Odl(stats) = &summary.readerdata { Some(stats) } else { None })
-        .map(|stats| stats.odlreader_out_of_order)
-        .sum();
 
     // here is the final printed summary of the all files
     eprintln!("Program summary:\n");
@@ -1152,20 +1321,57 @@ pub fn print_summary(
     eprintln!("Journal event largest accepted : {}", journal_event_largest_accepted);
     eprintln!("ODL event largest processed    : {}", odl_largest_processed);
     eprintln!("ODL event largest accepted     : {}", odl_largest_accepted);
+
     eprint!("Syslines out of order          : ");
-    eprintln_display_color_error(&syslinereader_datetime_out_of_order, |_| syslinereader_datetime_out_of_order > 0, &color_choice);
+    eprint_display_color_error(&syslinereader_datetime_out_of_order, syslinereader_datetime_out_of_order > 0, &color_choice);
+    match syslinereader_pathid_outofordermax_fpath {
+        Some((_, duration, fpath)) =>
+            eprintln!(" largest {} ({})", seconds_to_dhmsm(duration), fpath_to_prependpath(&fpath)),
+        None => eprintln!(),
+    };
     eprint!("ASL events out of order        : ");
-    eprintln_display_color_error(&aslreader_out_of_order, |_| aslreader_out_of_order > 0, &color_choice);
+    eprint_display_color_error(&aslreader_out_of_order, aslreader_out_of_order > 0, &color_choice);
+    match aslreader_pathid_outofordermax_fpath {
+        Some((_, duration, fpath)) =>
+            eprintln!(" largest {} ({})", seconds_to_dhmsm(duration), fpath_to_prependpath(&fpath)),
+        None => eprintln!(),
+    };
     eprint!("ETL events out of order        : ");
-    eprintln_display_color_error(&etlreader_out_of_order, |_| etlreader_out_of_order > 0, &color_choice);
+    eprint_display_color_error(&etlreader_out_of_order, etlreader_out_of_order > 0, &color_choice);
+    match etlreader_pathid_outofordermax_fpath {
+        Some((_, duration, fpath)) =>
+            eprintln!(" largest {} ({})", seconds_to_dhmsm(duration), fpath_to_prependpath(&fpath)),
+        None => eprintln!(),
+    };
     eprint!("EVTX events out of order       : ");
-    eprintln_display_color_error(&evtxreader_out_of_order, |_| evtxreader_out_of_order > 0, &color_choice);
+    eprint_display_color_error(&evtxreader_out_of_order, evtxreader_out_of_order > 0, &color_choice);
+    match evtxreader_pathid_outofordermax_fpath {
+        Some((_, duration, fpath)) =>
+            eprintln!(" largest {} ({})", seconds_to_dhmsm(duration), fpath_to_prependpath(&fpath)),
+        None => eprintln!(),
+    };
     eprint!("FixedStruct out of order       : ");
-    eprintln_display_color_error(&fixedstructreader_entries_out_of_order, |_| fixedstructreader_entries_out_of_order > 0, &color_choice);
+    eprint_display_color_error(&fixedstructreader_entries_out_of_order, fixedstructreader_entries_out_of_order > 0, &color_choice);
+    match fixedstructreader_pathid_outofordermax_fpath {
+        Some((_, duration, fpath)) =>
+            eprintln!(" largest {} ({})", seconds_to_dhmsm(duration), fpath_to_prependpath(&fpath)),
+        None => eprintln!(),
+    };
     eprint!("Journal events out of order    : ");
-    eprintln_display_color_error(&journalreader_out_of_order, |_| journalreader_out_of_order > 0, &color_choice);
+    eprint_display_color_error(&journalreader_out_of_order, journalreader_out_of_order > 0, &color_choice);
+    match journalreader_pathid_outofordermax_fpath {
+        Some((_, duration, fpath)) =>
+            eprintln!(" largest {} ({})", seconds_to_dhmsm(duration), fpath_to_prependpath(&fpath)),
+        None => eprintln!(),
+    };
     eprint!("ODL events out of order        : ");
-    eprintln_display_color_error(&odlreader_out_of_order, |_| odlreader_out_of_order > 0, &color_choice);
+    eprint_display_color_error(&odlreader_out_of_order, odlreader_out_of_order > 0, &color_choice);
+    match odlreader_pathid_outofordermax_fpath {
+        Some((_, duration, fpath)) =>
+            eprintln!(" largest {} ({})", seconds_to_dhmsm(duration), fpath_to_prependpath(&fpath)),
+        None => eprintln!(),
+    };
+
     eprintln!("Managed files max deflt: {}", summary_filehandlemanager.open_max_default);
     eprintln!("Managed files max adjus: {}", summary_filehandlemanager.open_max_adjusted);
     // TODO: print `count_hi` in yellow if it is ==max
@@ -1435,7 +1641,7 @@ fn print_file_about(
 }
 
 /// print `value` normally if `predicate` returns `false`
-/// else print `value` in color with the error color
+/// else print `value` in color with the error color (stderr)
 fn eprintln_display_color_error<T, F>(value: &T, predicate: F, color_choice: &ColorChoice)
     where
         F: Fn(&T) -> bool,
@@ -1454,8 +1660,26 @@ fn eprintln_display_color_error<T, F>(value: &T, predicate: F, color_choice: &Co
     }
 }
 
+/// print `value` normally if `errant` is `false`
+/// else print `value` in color with the error color (stderr)
+fn eprint_display_color_error<T>(value: &T, errant: bool, color_choice: &ColorChoice)
+    where
+        T: fmt::Display,
+{
+    if ! errant {
+        eprint!("{}", value);
+    } else {
+        let data = format!("{}", value);
+        print_colored_stderr(
+            COLOR_ERROR,
+            Some(*color_choice),
+            data.as_bytes(),
+        );
+    }
+}
+
 /// print `value` if `predicate` returns `false`
-/// else print `value` in color with the error color
+/// else print `value` in color with the error color (stderr)
 #[allow(dead_code)]
 fn eprintln_debug_color_error<T, F>(value: &T, predicate: F, color_choice: &ColorChoice)
     where
@@ -1587,7 +1811,7 @@ fn print_summary_opt_processed(
             eprintln!("{}Events accepted    : {}", indent2, summaryaslreader.aslreader_events_accepted);
             eprintln!("{}Out of order       : {}", indent2, summaryaslreader.aslreader_out_of_order);
             if let Some(duration) = summaryaslreader.aslreader_out_of_order_max {
-                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_dhmsm(duration));
             }
         }
         SummaryReaderData::Etl(summaryetlreader) => {
@@ -1626,7 +1850,7 @@ fn print_summary_opt_processed(
                 color_choice,
             );
             if let Some(duration) = summaryetlreader.etlreader_out_of_order_max {
-                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_dhmsm(duration));
             }
             return;
         }
@@ -1647,7 +1871,7 @@ fn print_summary_opt_processed(
             eprintln!("{}Records skipped    : {}", indent2, stats.odlreader_records_skipped);
             eprintln!("{}Out of order       : {}", indent2, stats.odlreader_out_of_order);
             if let Some(duration) = stats.odlreader_out_of_order_max {
-                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_dhmsm(duration));
             }
             if let Some(dt) = stats.odlreader_datetime_first_processed {
                 eprintln!("{}Datetime first     : {}", indent2, dt);
@@ -1657,7 +1881,7 @@ fn print_summary_opt_processed(
             }
             return;
         }
-        SummaryReaderData::Etvx(summaryevtxreader) => {
+        SummaryReaderData::Evtx(summaryevtxreader) => {
             eprintln!(
                 "{}File size          : {1} (0x{1:X}) (bytes)",
                 indent2, summaryevtxreader.evtxreader_filesz,
@@ -1684,7 +1908,7 @@ fn print_summary_opt_processed(
                 color_choice,
             );
             if let Some(duration) = summaryevtxreader.evtxreader_out_of_order_max {
-                eprintln!("{}Out of order max   : {}", indent2, seconds_to_hmsm(duration));
+                eprintln!("{}Out of order max   : {}", indent2, seconds_to_dhmsm(duration));
             }
             // for evtx files, nothing left to print about it so return
             return;
@@ -1727,7 +1951,7 @@ fn print_summary_opt_processed(
                 color_choice,
             );
             if let Some(duration) = summaryjournalreader.journalreader_out_of_order_max {
-                eprintln!("{}Out of order max: {}", indent2, seconds_to_hmsm(duration));
+                eprintln!("{}Out of order max: {}", indent2, seconds_to_dhmsm(duration));
             }
             return;
         }
@@ -1762,7 +1986,7 @@ fn print_summary_opt_processed(
         _ => None,
     };
     if let Some(duration) = out_of_order_max {
-        eprintln!("{}out of order max: {}", indent2, seconds_to_hmsm(duration));
+        eprintln!("{}out of order max: {}", indent2, seconds_to_dhmsm(duration));
     }
 
     // print datetime regex patterns
@@ -2230,7 +2454,7 @@ fn print_cache_stats(
         }
         SummaryReaderData::Etl(_summaryetlreader) => {}
         SummaryReaderData::Odl(_) => {}
-        SummaryReaderData::Etvx(_summaryevtxreader) => {}
+        SummaryReaderData::Evtx(_summaryevtxreader) => {}
         SummaryReaderData::Journal(_summaryjournalreader) => {}
         SummaryReaderData::Asl(_) => {}
         SummaryReaderData::Dummy => panic!("Unexpected SummaryReaderData::Dummy"),
@@ -2324,7 +2548,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
         }
         SummaryReaderData::Etl(..) => debug_panic!("Unexpected SummaryReaderData::Etl"),
         SummaryReaderData::Odl(..) => debug_panic!("Unexpected SummaryReaderData::Odl"),
-        SummaryReaderData::Etvx(..) => debug_panic!("Unexpected SummaryReaderData::Etvx"),
+        SummaryReaderData::Evtx(..) => debug_panic!("Unexpected SummaryReaderData::Evtx"),
         SummaryReaderData::Journal(..) => debug_panic!("Unexpected SummaryReaderData::Journal"),
         SummaryReaderData::Asl(..) => debug_panic!("Unexpected SummaryReaderData::Asl"),
         SummaryReaderData::Dummy => debug_panic!("Unexpected SummaryReaderData::Dummy"),

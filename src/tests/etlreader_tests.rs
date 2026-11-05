@@ -6,11 +6,11 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
-use std::time::Duration;
-
 use ::test_case::test_case;
 
 use crate::common::{
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FileType,
     FileTypeArchive,
     summary_stats_enable,
@@ -115,7 +115,7 @@ fn test_etlreader_out_of_order_max(filtered: bool) {
     .unwrap();
     let after = filtered.then(|| *ETL_FILE1_DATA[7].dt());
     reader.analyze(&after, &None);
-    let maximum = Some(Duration::new(1, 25_143_900));
+    let maximum = Some(DurOutOfOrderMax::new(1, 25_143_900));
     assert_eq!(reader.out_of_order, 2);
     assert_eq!(reader.out_of_order_max, maximum);
     let stats = reader.summary();

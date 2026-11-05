@@ -60,6 +60,9 @@ pub type SetPathId = HashSet<PathId>;
 
 pub type RegexId = u8;
 
+pub type DurOutOfOrderMax = std::time::Duration;
+pub type DurOutOfOrderMaxOpt = Option<DurOutOfOrderMax>;
+
 /// Status of whether summary statistics are enabled.
 ///
 /// Only access via `summary_stats_enabled()` function.

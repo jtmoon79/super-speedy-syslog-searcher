@@ -7,7 +7,6 @@
 #![allow(clippy::too_many_arguments)]
 
 use std::hint::black_box;
-use std::time::Duration;
 
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
@@ -23,6 +22,8 @@ use ::test_case::test_case;
 
 use crate::common::{
     Count,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileSz,
     FileType,
@@ -200,7 +201,7 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     1701,
     1052672,
     1,
-    Some(Duration::new(3599, 8_955_100)),
+    Some(DurOutOfOrderMax::new(3599, 8_955_100)),
     Some(*EVTX_KPNP_ENTRY1_DT),
     Some(*EVTX_KPNP_ENTRY227_DT),
     Some(*EVTX_KPNP_ENTRY1_DT),
@@ -216,7 +217,7 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     1701,
     1052672,
     1,
-    Some(Duration::new(3599, 8_955_100)),
+    Some(DurOutOfOrderMax::new(3599, 8_955_100)),
     Some(*EVTX_KPNP_GZ_ENTRY1_DT),
     Some(*EVTX_KPNP_GZ_ENTRY227_DT),
     Some(*EVTX_KPNP_GZ_ENTRY1_DT),
@@ -232,7 +233,7 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     1701,
     1052672,
     1,
-    Some(Duration::new(3599, 8_955_100)),
+    Some(DurOutOfOrderMax::new(3599, 8_955_100)),
     Some(*EVTX_KPNP_LZ4_ENTRY1_DT),
     Some(*EVTX_KPNP_LZ4_ENTRY227_DT),
     Some(*EVTX_KPNP_LZ4_ENTRY1_DT),
@@ -248,7 +249,7 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     1701,
     1052672,
     1,
-    Some(Duration::new(3599, 8_955_100)),
+    Some(DurOutOfOrderMax::new(3599, 8_955_100)),
     Some(*EVTX_KPNP_TAR_ENTRY1_DT),
     Some(*EVTX_KPNP_TAR_ENTRY227_DT),
     Some(*EVTX_KPNP_TAR_ENTRY1_DT),
@@ -264,7 +265,7 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
     1701,
     1052672,
     1,
-    Some(Duration::new(3599, 8_955_100)),
+    Some(DurOutOfOrderMax::new(3599, 8_955_100)),
     Some(*EVTX_KPNP_XZ_ENTRY1_DT),
     Some(*EVTX_KPNP_XZ_ENTRY227_DT),
     Some(*EVTX_KPNP_XZ_ENTRY1_DT),
@@ -280,7 +281,7 @@ fn test_EvtxReader_next_summary(
     event_largest_accepted: Count,
     filesz: FileSz,
     out_of_order: Count,
-    out_of_order_max: Option<Duration>,
+    out_of_order_max: DurOutOfOrderMaxOpt,
     datetime_first_accepted: DateTimeLOpt,
     datetime_last_accepted: DateTimeLOpt,
     datetime_first_processed: DateTimeLOpt,
@@ -382,11 +383,11 @@ fn test_EvtxReader_next_summary(
     assert_eq!(summary_c.max_drop(), 0);
     assert_eq!(summary_c.max_hit_miss(), events_processed);
     match summary_c.readerdata {
-        SummaryReaderData::Etvx(summary_evtx) => {
+        SummaryReaderData::Evtx(summary_evtx) => {
             assert_eq!(summary_evtx.evtxreader_out_of_order_max, out_of_order_max, "summary_complete.out_of_order_max");
         }
         _ => {
-            panic!("summary_c.readerdata() should be SummaryReaderData::Etvx");
+            panic!("summary_c.readerdata() should be SummaryReaderData::Evtx");
         }
     }
 }

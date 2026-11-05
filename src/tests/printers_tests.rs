@@ -193,7 +193,7 @@ fn summary_with_largest_evtx_values(
     event_largest_accepted: Count,
 ) -> Summary {
     Summary {
-        readerdata: SummaryReaderData::Etvx(SummaryEvtxReader {
+        readerdata: SummaryReaderData::Evtx(SummaryEvtxReader {
             evtxreader_event_largest_processed: event_largest_processed,
             evtxreader_event_largest_accepted: event_largest_accepted,
             ..Default::default()

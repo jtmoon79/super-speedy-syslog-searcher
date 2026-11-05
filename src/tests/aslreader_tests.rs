@@ -8,9 +8,11 @@ use std::io::{
     Read,
 };
 use std::sync::atomic::AtomicBool;
-use std::time::{Duration, SystemTime};
+use std::time::SystemTime;
 
 use crate::common::{
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FileType,
     FileTypeArchive,
     LogMessageType,
@@ -51,7 +53,7 @@ fn reader_from_bytes(bytes: Vec<u8>) -> AslReader<Cursor<Vec<u8>>> {
 fn aslreader_out_of_order_max() {
     summary_stats_enable();
     for (timestamps, count, maximum) in [
-        ([(100u64, 0u32), (90, 250_000_000), (110, 0), (80, 500_000_000), (79, 0)], 3, Some(Duration::new(29, 500_000_000))),
+        ([(100u64, 0u32), (90, 250_000_000), (110, 0), (80, 500_000_000), (79, 0)], 3, Some(DurOutOfOrderMax::new(29, 500_000_000))),
         ([(79, 0), (80, 500_000_000), (90, 250_000_000), (100, 0), (110, 0)], 0, None),
     ] {
         let mut bytes = vec![0; 80 + timestamps.len() * 122];

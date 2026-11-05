@@ -63,7 +63,7 @@ Syslines out of order          : 0
 ASL events out of order        : 0
 ETL events out of order        : 0
 EVTX events out of order       : 0
-FixedStruct out of order       : 0
+FixedStruct out of order       : 3 largest 16m 53s 576.316ms (./logs/Ubuntu22/x86_64/wtmp)
 Journal events out of order    : 0
 ODL events out of order        : 0
 Managed files max deflt: 980

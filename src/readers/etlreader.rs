@@ -18,7 +18,6 @@ use std::collections::BTreeMap;
 use std::fmt;
 use std::io::Result;
 use std::path::Path;
-use std::time::Duration;
 
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -38,6 +37,8 @@ use crate::common::{
     debug_panic,
     summary_stat,
     Count,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileMetadata,
     FileSz,
@@ -97,7 +98,7 @@ pub struct SummaryEtlReader {
     pub etlreader_filesz: FileSz,
     pub etlreader_out_of_order: Count,
     /// Largest backward timestamp jump, or `None` if none was observed.
-    pub etlreader_out_of_order_max: Option<Duration>,
+    pub etlreader_out_of_order_max: DurOutOfOrderMaxOpt,
     pub etlreader_buffers_read: Count,
     pub etlreader_buffers_compressed: Count,
     /// events decoded from TraceLogging metadata
@@ -140,7 +141,7 @@ pub struct EtlReader {
     pub(crate) dt_last_accepted: DateTimeLOpt,
     pub(crate) out_of_order: Count,
     /// Largest backward timestamp jump between consecutive processed events.
-    pub(crate) out_of_order_max: Option<Duration>,
+    pub(crate) out_of_order_max: DurOutOfOrderMaxOpt,
     pub(crate) buffers_read: Count,
     pub(crate) buffers_compressed: Count,
     pub(crate) events_tracelogging: Count,
@@ -370,15 +371,15 @@ impl EtlReader {
             summary_stat!(if let Some(last) = dt_last {
                 if last > dt {
                     self.out_of_order += 1;
-                    let duration: Duration = match (last - dt).to_std() {
+                    let duration: DurOutOfOrderMax = match (last - dt).to_std() {
                         Ok(dur) => dur,
                         Err(_) => {
                             debug_panic!("backward timestamp jump is positive");
-                            Duration::new(0, 0)
+                            DurOutOfOrderMax::new(0, 0)
                         }
                     };
-                    self.out_of_order_max = Some(
-                        self.out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)));
+                    self.out_of_order_max = DurOutOfOrderMaxOpt::Some(
+                        self.out_of_order_max.map_or(duration, |prior_dur: DurOutOfOrderMax| prior_dur.max(duration)));
                 }
             });
             dt_last = Some(dt);

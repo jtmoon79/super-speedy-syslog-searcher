@@ -63,7 +63,7 @@ Syslines out of order          : 0
 ASL events out of order        : 0
 ETL events out of order        : 0
 EVTX events out of order       : 0
-FixedStruct out of order       : 0
+FixedStruct out of order       : 1 largest 1m 19s (./logs/Debian13/RISC-V/lastlog)
 Journal events out of order    : 0
 ODL events out of order        : 0
 Managed files max deflt: 980

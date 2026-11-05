@@ -56,7 +56,7 @@ ODL event largest processed    : 0
 ODL event largest accepted     : 0
 Syslines out of order          : 0
 ASL events out of order        : 0
-ETL events out of order        : 0
+ETL events out of order        : 21 largest 967.8103ms (./logs/programs/Event_Trace_Log/PITR/PointInTimeRestore.etl)
 EVTX events out of order       : 0
 FixedStruct out of order       : 0
 Journal events out of order    : 0

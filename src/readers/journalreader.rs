@@ -153,7 +153,6 @@ use std::io::{
 #[cfg(test)]
 use std::ops::Range;
 use std::path::Path;
-use std::time::Duration;
 use std::slice::Iter;
 use std::str::FromStr;
 use std::string::ToString;
@@ -213,6 +212,8 @@ use crate::bindings::sd_journal_h::{
 };
 use crate::common::{
     Count,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileSz,
     FileType,
@@ -971,7 +972,7 @@ pub struct JournalReader {
     /// Out of chronological order.
     out_of_order: Count,
     /// Largest backward timestamp jump between consecutive processed entries.
-    out_of_order_max: Option<Duration>,
+    out_of_order_max: DurOutOfOrderMaxOpt,
     ts_previous_processed: EpochMicrosecondsOpt,
     /// The last [`Error`], if any, as a `String`
     ///
@@ -1039,7 +1040,7 @@ pub struct SummaryJournalReader {
     pub journalreader_api_call_errors: Count,
     pub journalreader_out_of_order: Count,
     /// Largest backward timestamp jump, or `None` if none was observed.
-    pub journalreader_out_of_order_max: Option<Duration>,
+    pub journalreader_out_of_order_max: DurOutOfOrderMaxOpt,
 }
 
 /// Implement the JournalReader.
@@ -1202,7 +1203,7 @@ impl<'a> JournalReader {
             api_calls: 1,
             api_call_errors: 0,
             out_of_order: 0,
-            out_of_order_max: None,
+            out_of_order_max: DurOutOfOrderMaxOpt::None,
             ts_previous_processed: None,
             error: None,
             #[cfg(test)]
@@ -2942,9 +2943,9 @@ impl<'a> JournalReader {
         defñ!("({:?})", em);
         if let Some(previous) = self.ts_previous_processed {
             if previous > *em {
-                let duration = Duration::from_micros(previous - *em);
-                self.out_of_order_max = Some(
-                    self.out_of_order_max.map_or(duration, |prior_dur: Duration| prior_dur.max(duration)));
+                let duration = DurOutOfOrderMax::from_micros(previous - *em);
+                self.out_of_order_max = DurOutOfOrderMaxOpt::Some(
+                    self.out_of_order_max.map_or(duration, |prior_dur: DurOutOfOrderMax| prior_dur.max(duration)));
             }
         }
         self.ts_previous_processed = Some(*em);

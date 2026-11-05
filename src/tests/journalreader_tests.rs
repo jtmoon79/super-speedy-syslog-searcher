@@ -10,7 +10,6 @@ use std::hint::black_box;
 use std::io::ErrorKind;
 use std::ops::Range;
 use std::path::Path;
-use std::time::Duration;
 
 use ::bstr::ByteSlice;
 use ::si_trace_print::{
@@ -23,6 +22,8 @@ use ::test_case::test_case;
 
 use crate::common::{
     Count,
+    DurOutOfOrderMax,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileSz,
     FileType,
@@ -107,12 +108,12 @@ const FT_NORM: FileType = FileType::Journal {
     archival_type: FileTypeArchive::Normal,
 };
 
-#[test_case(&[100_000_000, 90_250_000, 110_000_000, 80_500_000, 79_000_000], Some(Duration::new(29, 500_000_000)); "largest consecutive backward jump")]
-#[test_case(&[100_000_000, 90_000_000, 95_000_000, 94_000_000], Some(Duration::from_secs(10)); "not running maximum difference")]
-#[test_case(&[1, 0], Some(Duration::from_micros(1)); "microsecond")]
+#[test_case(&[100_000_000, 90_250_000, 110_000_000, 80_500_000, 79_000_000], Some(DurOutOfOrderMax::new(29, 500_000_000)); "largest consecutive backward jump")]
+#[test_case(&[100_000_000, 90_000_000, 95_000_000, 94_000_000], Some(DurOutOfOrderMax::new(10, 0)); "not running maximum difference")]
+#[test_case(&[1, 0], Some(DurOutOfOrderMax::new(0, 1)); "microsecond")]
 #[test_case(&[0, 1, 1, 2], None; "ordered and equal")]
 #[test_case(&[], None; "empty")]
-fn test_journalreader_out_of_order_max(timestamps: &[EpochMicroseconds], expected: Option<Duration>) {
+fn test_journalreader_out_of_order_max(timestamps: &[EpochMicroseconds], expected_out_of_order_max: DurOutOfOrderMaxOpt) {
     if SYSTEMD_NOT_AVAILABLE {
         return;
     }
@@ -133,7 +134,7 @@ fn test_journalreader_out_of_order_max(timestamps: &[EpochMicroseconds], expecte
     let SummaryReaderData::Journal(stats) = reader.summary_complete().readerdata else {
         panic!("expected journal summary")
     };
-    assert_eq!(stats.journalreader_out_of_order_max, expected);
+    assert_eq!(stats.journalreader_out_of_order_max, expected_out_of_order_max);
 }
 const FT_GZ: FileType = FileType::Journal {
     archival_type: FileTypeArchive::Gz,

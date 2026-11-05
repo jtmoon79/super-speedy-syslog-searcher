@@ -35,6 +35,7 @@ use crate::common::{
     debug_assert_nones,
     debug_panic,
     Count,
+    DurOutOfOrderMaxOpt,
     FPath,
     FileType,
     FileTypeArchive,
@@ -99,7 +100,7 @@ pub enum SummaryReaderData {
     /// For a [`EvtxReader`].
     ///
     /// [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
-    Etvx(SummaryEvtxReader),
+    Evtx(SummaryEvtxReader),
     /// For a [`JournalReader`] and underlying readers.
     ///
     /// [`JournalReader`]: crate::readers::journalreader::JournalReader
@@ -143,12 +144,14 @@ pub struct Summary {
     /// [`SummaryReaderData::Etl`].
     ///
     /// When `logmessagetype` is [`LogMessageType::Evtx`] then this must be
-    /// [`SummaryReaderData::Etvx`].
+    /// [`SummaryReaderData::Evtx`].
     ///
     /// When `logmessagetype` is [`LogMessageType::Journal`] then this must be
     /// [`SummaryReaderData::Journal`].
     ///
     /// [`LogMessageType::FixedStruct*`]: crate::common::LogMessageType
+    // TODO: there must be a more rustic way to enforce that the `readerdata`
+    //       and `logmessagetype` and `filetype` always agree
     pub readerdata: SummaryReaderData,
     /// path to temporary file
     pub path_ntf: Option<FPath>,
@@ -330,7 +333,7 @@ impl Summary {
                     summaryodlreader_opt
                 );
                 let summaryevtxreader = summaryevtxreader_opt.unwrap();
-                let readerdata: SummaryReaderData = SummaryReaderData::Etvx(summaryevtxreader);
+                let readerdata: SummaryReaderData = SummaryReaderData::Evtx(summaryevtxreader);
                 def1x!();
                 Summary {
                     path,
@@ -439,7 +442,7 @@ impl Summary {
             SummaryReaderData::FixedStruct((summaryblockreader, _summaryfixedstructreader)) => Some(summaryblockreader),
             SummaryReaderData::Etl(_) => None,
             SummaryReaderData::Odl(_) => None,
-            SummaryReaderData::Etvx(_) => None,
+            SummaryReaderData::Evtx(_) => None,
             SummaryReaderData::Journal(_) => None,
             SummaryReaderData::Asl(_) => None,
         }
@@ -468,7 +471,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_first_accepted,
             SummaryReaderData::Odl(summaryodlreader) => &summaryodlreader.odlreader_datetime_first_accepted,
-            SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_accepted,
+            SummaryReaderData::Evtx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_accepted,
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_first_accepted
             }
@@ -497,7 +500,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_first_processed,
             SummaryReaderData::Odl(summaryodlreader) => &summaryodlreader.odlreader_datetime_first_processed,
-            SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_processed,
+            SummaryReaderData::Evtx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_processed,
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_first_processed
             }
@@ -525,7 +528,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_last_accepted,
             SummaryReaderData::Odl(summaryodlreader) => &summaryodlreader.odlreader_datetime_last_accepted,
-            SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_accepted,
+            SummaryReaderData::Evtx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_accepted,
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_last_accepted
             }
@@ -553,7 +556,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_last_processed,
             SummaryReaderData::Odl(summaryodlreader) => &summaryodlreader.odlreader_datetime_last_processed,
-            SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_processed,
+            SummaryReaderData::Evtx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_processed,
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_last_processed
             }
@@ -566,7 +569,8 @@ impl Summary {
     pub fn datetime_out_of_order(&self) -> Count {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
-                panic!("Summary::datetime_last() called on Summary::Dummy; path {:?}", self.path,)
+                debug_panic!("Summary::datetime_out_of_order() called on Summary::Dummy; path {:?}", self.path,);
+                0
             }
             // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
             SummaryReaderData::Syslog((
@@ -581,9 +585,32 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => summaryetlreader.etlreader_out_of_order,
             SummaryReaderData::Odl(summaryodlreader) => summaryodlreader.odlreader_out_of_order,
-            SummaryReaderData::Etvx(summaryevtxreader) => summaryevtxreader.evtxreader_out_of_order,
+            SummaryReaderData::Evtx(summaryevtxreader) => summaryevtxreader.evtxreader_out_of_order,
             SummaryReaderData::Journal(summaryjournalreader) => summaryjournalreader.journalreader_out_of_order,
             SummaryReaderData::Asl(summaryaslreader) => summaryaslreader.aslreader_out_of_order,
+        }
+    }
+
+    pub fn datetime_out_of_order_max(&self) -> DurOutOfOrderMaxOpt {
+        match &self.readerdata {
+            SummaryReaderData::Dummy => {
+                debug_panic!("Summary::datetime_out_of_order_max() called on Summary::Dummy; path {:?}", self.path,);
+                None
+            }
+            // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::Syslog((
+                _summaryblockreader,
+                _summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => summarysyslinereader.syslinereader_out_of_order_max,
+            // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => summaryfixedstructreader.fixedstructreader_out_of_order_max,
+            SummaryReaderData::Etl(summaryetlreader) => summaryetlreader.etlreader_out_of_order_max,
+            SummaryReaderData::Odl(summaryodlreader) => summaryodlreader.odlreader_out_of_order_max,
+            SummaryReaderData::Evtx(summaryevtxreader) => summaryevtxreader.evtxreader_out_of_order_max,
+            SummaryReaderData::Journal(summaryjournalreader) => summaryjournalreader.journalreader_out_of_order_max,
+            SummaryReaderData::Asl(summaryaslreader) => summaryaslreader.aslreader_out_of_order_max,
         }
     }
 
@@ -654,7 +681,7 @@ impl Summary {
             SummaryReaderData::Odl(summaryodlreader) => {
                 max!(summaryodlreader.odlreader_events_accepted, summaryodlreader.odlreader_events_processed)
             }
-            SummaryReaderData::Etvx(summaryevtxreader) => {
+            SummaryReaderData::Evtx(summaryevtxreader) => {
                 max!(
                     summaryevtxreader.evtxreader_events_accepted,
                     summaryevtxreader.evtxreader_events_processed
@@ -708,7 +735,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(_summaryetlreader) => 0,
             SummaryReaderData::Odl(_) => 0,
-            SummaryReaderData::Etvx(_summaryevtxreader) => 0,
+            SummaryReaderData::Evtx(_summaryevtxreader) => 0,
             SummaryReaderData::Journal(_summaryjournalreader) => 0,
             SummaryReaderData::Asl(_) => 0,
         }
@@ -910,7 +937,7 @@ impl fmt::Debug for Summary {
                 .field("events processed", &summaryodlreader.odlreader_events_processed)
                 .field("events accepted", &summaryodlreader.odlreader_events_accepted)
                 .finish(),
-            SummaryReaderData::Etvx(summaryevtxreader) => match self.filetype {
+            SummaryReaderData::Evtx(summaryevtxreader) => match self.filetype {
                 None => {
                     debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
 
