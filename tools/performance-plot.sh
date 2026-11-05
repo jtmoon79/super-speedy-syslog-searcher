@@ -157,8 +157,10 @@ declare -ir HYPERFINE_RUNS=${HYPERFINE_RUNS-5}
 readonly CLR_INFO="\033[1;32m"  # green
 readonly CLR_RESET="\033[0m"
 
-# pre-cache sudo password
-sudo --validate -p "update the cached sudo credentials (enter sudo password): "
+if [[ "${SKIP_SUDO_VALIDATE-}" != "1" ]]; then
+    # pre-cache sudo password
+    sudo --validate -p "update the cached sudo credentials (enter sudo password): "
+fi
 
 # the upcoming `git checkout` may remove some of the above log files
 # so copy them to the temporary directory
@@ -582,7 +584,7 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     count+=1
     echo_line
 
-    echo -e "${CLR_INFO}Testing '${S4_PROGRAM}' with ${fnum} files; run ${count} of ${COUNT_RUNS_FILE}${CLR_RESET}" >&2
+    echo -e "${CLR_INFO}Testing '${S4_PROGRAM}' with ${fnum} files; run ${count} of ${COUNT_RUNS_FILE} for ${FILE_NAME}${CLR_RESET}" >&2
     echo >&2
 
     json="${tmpD}/${fnum}.json"
@@ -714,9 +716,17 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     fi
     proc_time_diff_hms=$(milliseconds_to_hms ${proc_time_diff})
     time_per_file_ms=$((proc_time_diff / fnum))
-    time_remaining_ms=$((proc_time_diff * (FILE_NUM - fnum)))
+    # estimate time remaining
+    declare -i fnum_i=${fnum}
+    declare -i time_remaining_ms=0
+    for ((fnum_i=FILE_NUM; fnum_i>fnum; fnum_i--)); do
+        time_remaining_ms+=$((time_per_file_ms * (FILE_NUM - fnum_i + 1)))
+    done
     time_remaining_hms=$(milliseconds_to_hms ${time_remaining_ms})
-    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms (${proc_time_diff_hms}), ${time_per_file_ms}ms per file, Max RSS ${mss_KB} KB${diskio_mesg}. Script running for ${time_since_start_hms}. Estimated time remaining ${time_remaining_hms}${CLR_RESET}" >&2
+    declare -i loop_remaining=$((FILE_NUM - fnum))
+
+    # print informative in-progress message
+    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms (${proc_time_diff_hms}), ${time_per_file_ms}ms per file, Max RSS ${mss_KB} KB${diskio_mesg}. Script has been running for ${time_since_start_hms}. Estimated time remaining ${time_remaining_hms} for ${loop_remaining} more iterations of file ${FILE_NAME}${CLR_RESET}" >&2
 
     first=false
 done
