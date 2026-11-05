@@ -23,7 +23,6 @@ use ::test_case::test_case;
 use crate::common::{
     Count,
     DurOutOfOrderMax,
-    DurOutOfOrderMaxOpt,
     FPath,
     FileOffset,
     FileType,

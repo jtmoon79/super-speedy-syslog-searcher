@@ -130,7 +130,7 @@ fn test_journalreader_out_of_order_max(timestamps: &[EpochMicroseconds], expecte
     for timestamp in timestamps {
         reader.em_first_last_update_processed(timestamp);
     }
-    assert_eq!(reader.summary().journalreader_out_of_order_max, expected);
+    assert_eq!(reader.summary().journalreader_out_of_order_max, expected_out_of_order_max);
     let SummaryReaderData::Journal(stats) = reader.summary_complete().readerdata else {
         panic!("expected journal summary")
     };

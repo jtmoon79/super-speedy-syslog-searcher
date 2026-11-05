@@ -70,7 +70,7 @@ use crate::printer::summary::{
     MapPathIdToStackSize,
     SummaryPrinted,
     print_summary,
-    seconds_to_hmsm,
+    seconds_to_dhmsm,
     summary_largest_evtx_event,
     summary_largest_journal_event,
     summary_longest_line_sysline,
@@ -134,14 +134,15 @@ use crate::tests::common::{
 };
 
 #[test_case(Duration::from_secs(60), String::from("1m"); "minute")]
-#[test_case(Duration::from_secs(61), String::from("1m 1s"); "minute and second")]
-#[test_case(Duration::from_secs(3605), String::from("1h 5s"); "hour and seconds")]
+#[test_case(Duration::from_secs(61), String::from("1m 1s"); "minute second")]
+#[test_case(Duration::from_secs(3605), String::from("1h 5s"); "hour seconds")]
+#[test_case(Duration::from_secs(2*86400 + 3605), String::from("2d 1h 5s"); "days hour seconds")]
 #[test_case(Duration::new(3605, 450_000_000), String::from("1h 5s 450ms"); "milliseconds")]
 #[test_case(Duration::new(3999, 8_955_100), String::from("1h 6m 39s 8.9551ms"); "fractional milliseconds")]
 #[test_case(Duration::from_nanos(1), String::from("0.000001ms"); "nanosecond")]
 #[test_case(Duration::ZERO, String::new(); "zero")]
-fn test_seconds_to_hmsm(input: Duration, expect: String) {
-    assert_eq!(seconds_to_hmsm(input), expect, "input {:?}", input);
+fn test_seconds_to_dhmsm(input: Duration, expect: String) {
+    assert_eq!(seconds_to_dhmsm(input), expect, "input {:?}", input);
 }
 
 // XXX: copied from `syslinereader_tests.rs`

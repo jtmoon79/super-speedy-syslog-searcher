@@ -12,7 +12,6 @@ use std::time::SystemTime;
 
 use crate::common::{
     DurOutOfOrderMax,
-    DurOutOfOrderMaxOpt,
     FileType,
     FileTypeArchive,
     LogMessageType,

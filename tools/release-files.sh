@@ -41,7 +41,7 @@ mkdir -vp "${DIROUT}"
 # run compare-log-mergers.sh first so interactive tools (toolong) can be manually bypassed
 (
     set -x
-    ./tools/compare-log-mergers/compare-log-mergers.sh
+    ./tools/compare-log-mergers/compare-log-mergers.sh --skip-tl
 )
 
 (

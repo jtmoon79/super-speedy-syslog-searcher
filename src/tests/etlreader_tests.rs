@@ -10,7 +10,6 @@ use ::test_case::test_case;
 
 use crate::common::{
     DurOutOfOrderMax,
-    DurOutOfOrderMaxOpt,
     FileType,
     FileTypeArchive,
     summary_stats_enable,
