@@ -895,6 +895,8 @@
 ./logs/other/test_cases/NTF5X4.log|2000-05-15 05:00:55.000000000 -0700
 ./logs/other/test_cases/NTF7_2.log|2000-03-13 03:33:23.000000000 -0800
 ./logs/other/test_cases/NTF9.log|2000-11-21 05:39:31 -0700
+./logs/other/tests/out_of_order1.log|2000-01-02 19:03:00 -0800
+./logs/other/tests/out_of_order2.log|1993-01-02 19:03:00 -0800
 ./logs/other/test_cases/test_data_file_H_dt4.log|2001-05-01 00:00:04 -0400
 ./logs/other/tests/basic-basic-dt10-repeats-longlines.log|2000-01-01 00:00:10.223
 ./logs/other/tests/basic-basic-dt10-repeats.log|2000-01-01 00:00:10
