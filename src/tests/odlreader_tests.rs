@@ -53,9 +53,9 @@ use crate::tests::common::{
     path_id_generator,
 };
 
-#[test_case(&[100_000, 90_250, 110_000, 80_500, 79_000], 3, Some(DurOutOfOrderMax::new(29, 500_000)); "largest consecutive backward jump")]
+#[test_case(&[100_000, 90_250, 110_000, 80_500, 79_000], 3, Some(DurOutOfOrderMax::new(29, 500_000_000)); "largest consecutive backward jump")]
 #[test_case(&[79_000, 80_500, 90_250, 110_000, 110_000], 0, None; "ordered and equal")]
-#[test_case(&[110_000, 109_999], 1, Some(DurOutOfOrderMax::new(0, 1)); "millisecond")]
+#[test_case(&[110_000, 109_999], 1, Some(DurOutOfOrderMax::new(0, 1_000_000)); "millisecond")]
 #[test_case(&[], 0, None; "empty")]
 fn test_odlreader_out_of_order_max(timestamps: &[u64], count: u64, maximum: DurOutOfOrderMaxOpt) {
     summary_stats_enable();

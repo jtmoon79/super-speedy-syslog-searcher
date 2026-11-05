@@ -110,10 +110,13 @@ const FT_NORM: FileType = FileType::Journal {
 
 #[test_case(&[100_000_000, 90_250_000, 110_000_000, 80_500_000, 79_000_000], Some(DurOutOfOrderMax::new(29, 500_000_000)); "largest consecutive backward jump")]
 #[test_case(&[100_000_000, 90_000_000, 95_000_000, 94_000_000], Some(DurOutOfOrderMax::new(10, 0)); "not running maximum difference")]
-#[test_case(&[1, 0], Some(DurOutOfOrderMax::new(0, 1)); "microsecond")]
+#[test_case(&[1, 0], Some(DurOutOfOrderMax::new(0, 1000)); "microsecond")]
 #[test_case(&[0, 1, 1, 2], None; "ordered and equal")]
 #[test_case(&[], None; "empty")]
-fn test_journalreader_out_of_order_max(timestamps: &[EpochMicroseconds], expected_out_of_order_max: DurOutOfOrderMaxOpt) {
+fn test_journalreader_out_of_order_max(
+    timestamps: &[EpochMicroseconds],
+    expected_out_of_order_max: DurOutOfOrderMaxOpt)
+{
     if SYSTEMD_NOT_AVAILABLE {
         return;
     }
