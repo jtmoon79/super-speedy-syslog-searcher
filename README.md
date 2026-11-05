@@ -485,10 +485,10 @@ Get-ChildItem -File -Recurse -ErrorAction SilentlyContinue `
 <br/>
 
 Count the number of log messages in a log file.
-Using ASCII **Record Separator** `0x1E` as the separator between log messages.
+Using ASCII _Record Separator_ `0x1E` as the separator between log messages.
 
 ```sh
-s4 --separator '\x1E' /var/log/some.log | grep -oFe "$(echo -e '\x1E')"  | wc -l
+s4 --separator '\x1E' /var/log/some.log | grep -cFe "$(echo -e '\x1E')"
 ```
 
 ```powershell
@@ -1155,9 +1155,9 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 |`s4`       |0.11.84|rpmalloc            |rpmalloc |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        | 20.1 ±  2.2     |15.8    |22.6    |35914.5        |555.271         |24.218          |1.311           |1.006            |
 |`s4`       |0.11.84|tcmalloc            |tcmalloc |x86_64-unknown-linux-gnu |default   |fxsr,sse,sse2                                                                                                                                                |3        | 18.1 ±  2.4     |13.8    |22.6    |30191.6        |548.675         |23.100          |1.806           |0.999            |
 |`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|default   |fxsr,sse,sse2                                                                                                                                                |3        | 81.9 ± 12.8     |51.4    |97.5    |20255.9        |891.347         |46.071          |5.577           |2.855            |
-|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|x86-64-v2 |cmpxchg16b,crt-static,fxsr,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3                                                                                          |3        | 84.7 ±  8.6     |63.5    |93.0    |21323.5        |883.615         |47.085          |5.622           |2.841            |
-|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|x86-64-v3 |avx,avx2,bmi1,bmi2,cmpxchg16b,crt-static,f16c,fma,fxsr,lzcnt,movbe,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3,xsave                                            |3        | 84.5 ± 11.2     |62.8    |106.2   |21791.5        |884.505         |46.195          |5.652           |2.905            |
-|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|x86-64-v4 |avx,avx2,avx512bw,avx512cd,avx512dq,avx512f,avx512vl,bmi1,bmi2,cmpxchg16b,crt-static,f16c,fma,fxsr,lzcnt,movbe,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3,xsave|3        | 82.7 ± 10.6     |62.3    |93.5    |21914.1        |876.547         |45.923          |5.611           |2.854            |
+|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|x86-64-v2 |cmpxchg16b,crt-static,fxsr,<br/>popcnt,sse,sse2,<br/>sse3,sse4.1,sse4.2,<br/>ssse3                                                                                          |3        | 84.7 ±  8.6     |63.5    |93.0    |21323.5        |883.615         |47.085          |5.622           |2.841            |
+|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|x86-64-v3 |avx,avx2,bmi1,<br/>bmi2,cmpxchg16b,crt-static,<br/>f16c,fma,fxsr,<br/>lzcnt,movbe,popcnt,<br/>sse,sse2,sse3,<br/>sse4.1,sse4.2,ssse3,<br/>xsave                                            |3        | 84.5 ± 11.2     |62.8    |106.2   |21791.5        |884.505         |46.195          |5.652           |2.905            |
+|`s4`       |0.11.84|release             |system   |x86_64-unknown-linux-musl|x86-64-v4 |avx,avx2,avx512bw,<br/>avx512cd,avx512dq,avx512f,<br/>avx512vl,bmi1,bmi2,<br/>cmpxchg16b,crt-static,f16c,<br/>fma,fxsr,lzcnt,<br/>movbe,popcnt,sse,<br/>sse2,sse3,sse4.1,<br/>sse4.2,ssse3,xsave|3        | 82.7 ± 10.6     |62.3    |93.5    |21914.1        |876.547         |45.923          |5.611           |2.854            |
 |`grep+sort`|3.12   |                    |         |x86_64                   |          |                                                                                                                                                             |         |112.6 ±  2.9     |110.7   |126.7   |24111.5        |609.479         |3.512           |0.293           |0.439            |
 |`lnav`     |0.13.2 |                    |         |x86_64                   |          |                                                                                                                                                             |         |177.6 ±  2.2     |174.6   |184.7   |7949.5         |1081.096        |29.860          |1.270           |2.451            |
 |`logmerger`|0.13.0 |                    |         |Python 3.14.4            |          |                                                                                                                                                             |2        |220.8 ±  3.2     |216.8   |229.9   |84567.5        |1102.493        |144.317         |8.928           |7.605            |
@@ -1173,9 +1173,9 @@ Input: `.\logs\programs\Event_Trace_Log\PITR\PointInTimeRestore.etl`
 
 | Program         | Version         | Allocator | Platform               | CPU Features                  | Opt Level | Wall Clock (ms) |
 | --------------- | --------------- | --------- | ---------------------- | ----------------------------- | --------- | --------------: |
-| s4              | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |   13.57 ±  0.55 |
-| s4              | 0.11.84         | mimalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |   13.68 ±  0.94 |
-| s4              | 0.11.84         | rpmalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |   14.52 ±  1.77 |
+| s4              | 0.11.84         | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,<br/>sse,sse2,sse3 | 3         |   13.57 ±  0.55 |
+| s4              | 0.11.84         | mimalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,<br/>sse,sse2,sse3 | 3         |   13.68 ±  0.94 |
+| s4              | 0.11.84         | rpmalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,<br/>sse,sse2,sse3 | 3         |   14.52 ±  1.77 |
 | [tracerpt.exe]  | 10.0.26100.1    |           | Windows                |                               |           |  120.84 ± 25.55 |
 | [`Get-WinEvent`]| 7.6.0           |           | pwsh                   |                               |           |  454.66 ± 17.71 |
 
@@ -1192,9 +1192,9 @@ Input: `.\logs\programs\evtx\Microsoft-Windows-Kernel-PnP__Configuration.evtx`
 
 | Program                   | Version   | Allocator | Platform               | CPU Features                  | Opt Level | Wall Clock (ms)  |
 | ------------------------- | --------- | --------- | ---------------------- | ----------------------------- | --------- | ---------------: |
-| s4                        | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    10.25 ±  0.48 |
-| s4                        | 0.11.84   | mimalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    11.48 ±  0.61 |
-| s4                        | 0.11.84   | rpmalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |    13.26 ±  0.92 |
+| s4                        | 0.11.84   | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,<br/>sse,sse2,sse3 | 3         |    10.25 ±  0.48 |
+| s4                        | 0.11.84   | mimalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,<br/>sse,sse2,sse3 | 3         |    11.48 ±  0.61 |
+| s4                        | 0.11.84   | rpmalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,<br/>sse,sse2,sse3 | 3         |    13.26 ±  0.92 |
 | [evtx_dump.py]            | 0.7.4     |           | Python 3.13.14         |                               | 2         |   549.29 ± 28.78 |
 | [evtx_dump]               | 0.15.1    |           | x86_64-pc-windows-msvc |                               |           |     6.97 ±  0.48 |
 | [EvtxECmd]                | 2026.10.2 |           | .NET                   |                               |           |   478.86 ± 15.48 |
@@ -1211,9 +1211,9 @@ Input: `.\logs\programs\OneDrive\Local\Microsoft\OneDrive\logs\Personal\SyncEngi
 
 | Program                       | Version    | Allocator | Platform               | CPU Features                  | Opt Level | Wall Clock (ms) |
 | ----------------------------- | ---------- | --------- | ---------------------- | ----------------------------- | --------- | --------------: |
-| s4                            | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |   27.47 ±  2.61 |
-| s4                            | 0.11.84    | mimalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |   31.86 ± 11.33 |
-| s4                            | 0.11.84    | rpmalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,sse,sse2,sse3 | 3         |   31.29 ± 11.84 |
+| s4                            | 0.11.84    | system    | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,<br/>sse,sse2,sse3 | 3         |   27.47 ±  2.61 |
+| s4                            | 0.11.84    | mimalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,<br/>sse,sse2,sse3 | 3         |   31.86 ± 11.33 |
+| s4                            | 0.11.84    | rpmalloc  | x86_64-pc-windows-msvc | cmpxchg16b,fxsr,<br/>sse,sse2,sse3 | 3         |   31.29 ± 11.84 |
 | [odl.py]                      | 2.0        |           | Python 3.13.14         |                               | 2         |  243.82 ± 11.71 |
 | [OneDriveExplorer]            | 2026.09.15 |           | Python 3.13.14         |                               | 1         |  756.27 ± 42.62 |
 
