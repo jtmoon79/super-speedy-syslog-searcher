@@ -107,6 +107,7 @@ jobs:
           chmod -v 0555 "${S4R}"
           "${S4R}" --version
       - name: Hyperfine benchmarks and create Bencher report
+        timeout-minutes: 45
         shell: bash
         run: |
           set -euxo pipefail
