@@ -1,205 +1,163 @@
 #!/usr/bin/env bash
 #
-# build all important profiles, three at a time in parallel
+# build all important profiles in parallel
 
 set -euo pipefail
 
 cd "$(dirname -- "${0}")/.."
 
-if which renice &>/dev/null; then
+if command -v renice &>/dev/null && [[ "${RENICE-}" = "1" ]]; then
     # the `rustc` processes are long-running aggressive users of CPU+RAM resources
     # so renice them to ease CPU pressure
     renice -n 20 -p $$
 fi
 
-export S4_BUILD_PRINT=1
-export S4_BUILD_REGEX_PRINT=1
+# run
+function r() {
+    (set -euxo pipefail; "${@}")
+}
 
-set -x
+# global tracker of PIDs for next `wait`
+declare -ag PIDs=()
+
+# run + save PID for `wait`
+function rw() {
+    r "${@}" &
+    PIDs+=($!)
+}
 
 # debug, release
 
-declare -a PIDs=()
-
-cargo build --locked --profile dev &
-PIDs+=($!)
-cargo build --locked --profile release &
-PIDs+=($!)
+rw cargo build --quiet --locked --profile dev
+rw cargo build --quiet --locked --profile release
+rw cargo test --quiet --locked
 
 wait ${PIDs[@]}
 
-./target/debug/s4 --version
-./target/release/s4 --version
+r ./target/debug/s4 --version
+r ./target/release/s4 --version
 
-# jemalloc, rpmalloc
+# jemalloc, rpmalloc, mimalloc, tcmalloc
 
 PIDs=()
 
-cargo build --locked --profile jemalloc --features jemalloc &
-PIDs+=($!)
-cargo build --locked --profile rpmalloc --features rpmalloc &
-PIDs+=($!)
+rw cargo build --quiet --locked --profile jemalloc --features jemalloc
+rw cargo build --quiet --locked --profile rpmalloc --features rpmalloc
+rw cargo build --quiet --locked --profile mimalloc --features mimalloc
+rw cargo build --quiet --locked --profile tcmalloc --features tcmalloc
 
 wait ${PIDs[@]}
 
-./target/jemalloc/s4 --version
-./target/rpmalloc/s4 --version
-
-# mimalloc, tcmalloc
-
-PIDs=()
-
-cargo build --locked --profile mimalloc --features mimalloc &
-PIDs+=($!)
-cargo build --locked --profile tcmalloc --features tcmalloc &
-PIDs+=($!)
-
-wait ${PIDs[@]}
-
-./target/mimalloc/s4 --version
-./target/tcmalloc/s4 --version
-
+r ./target/jemalloc/s4 --version
+r ./target/rpmalloc/s4 --version
+r ./target/mimalloc/s4 --version
+r ./target/tcmalloc/s4 --version
 
 # alloc_tracker, flamegraph
 
 PIDs=()
 
-cargo build  --locked --profile alloc_tracker --features alloc_tracker &
-PIDs+=($!)
-RUSTFLAGS=-g cargo build --locked --profile flamegraph &
-PIDs+=($!)
+rw cargo build --quiet --locked --profile alloc_tracker --features alloc_tracker
+rw env RUSTFLAGS=-g cargo build --quiet --locked --profile flamegraph
 
 wait ${PIDs[@]}
 
-./target/alloc_tracker/s4 --version
-./target/flamegraph/s4 --version
+r ./target/alloc_tracker/s4 --version
+r ./target/flamegraph/s4 --version
 
-# x86_64 x86_64-v2, x86_64-v3, x86_64-v4 *-unknown-linux-musl
+# x86_64 x86_64-v2, x86_64-v3, x86_64-v4
 
 PIDs=()
 
-cargo build-x86_64-v2 --locked --release &
-PIDs+=($!)
-cargo build-x86_64-v3 --locked --release &
-PIDs+=($!)
-cargo build-x86_64-v4 --locked --release &
-PIDs+=($!)
-cargo build --locked --release --target x86_64-unknown-linux-musl &
-PIDs+=($!)
+rw cargo build-x86_64-musl-v2 --quiet --locked --profile x86_64-musl-v2
+rw cargo build-x86_64-musl-v3 --quiet --locked --profile x86_64-musl-v3
+rw cargo build-x86_64-musl-v4 --quiet --locked --profile x86_64-musl-v4
 
 wait ${PIDs[@]}
 
-./target/x86_64-v2/x86_64-unknown-linux-musl/release/s4 --version
-./target/x86_64-v3/x86_64-unknown-linux-musl/release/s4 --version
-./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4 --version
-./target/x86_64-unknown-linux-musl/release/s4 --version
+r ./target/x86_64-unknown-linux-musl/x86_64-musl-v2/s4 --version
+r ./target/x86_64-unknown-linux-musl/x86_64-musl-v3/s4 --version
+r ./target/x86_64-unknown-linux-musl/x86_64-musl-v4/s4 --version
 
 # x86_64-v2, x86_64-v3, x86_64-v4 x86_64-unknown-linux-gnu
 
 PIDs=()
 
-cargo build-x86_64-gnu-v2 --locked --release &
-PIDs+=($!)
-cargo build-x86_64-gnu-v3 --locked --release &
-PIDs+=($!)
-cargo build-x86_64-gnu-v4 --locked --release &
-PIDs+=($!)
+rw cargo build-x86_64-gnu-v2 --quiet --locked --profile x86_64-gnu-v2
+rw cargo build-x86_64-gnu-v3 --quiet --locked --profile x86_64-gnu-v3
+rw cargo build-x86_64-gnu-v4 --quiet --locked --profile x86_64-gnu-v4
 
 wait ${PIDs[@]}
 
-./target/x86_64-gnu-v2/x86_64-unknown-linux-gnu/release/s4 --version
-./target/x86_64-gnu-v3/x86_64-unknown-linux-gnu/release/s4 --version
-./target/x86_64-gnu-v4/x86_64-unknown-linux-gnu/release/s4 --version
+r ./target/x86_64-unknown-linux-gnu/x86_64-gnu-v2/s4 --version
+r ./target/x86_64-unknown-linux-gnu/x86_64-gnu-v3/s4 --version
+r ./target/x86_64-unknown-linux-gnu/x86_64-gnu-v4/s4 --version
 
-# release_Opt0, clippy, docs
-
-declare -a PIDs=()
-
-cargo build --locked --profile release_Opt0 &
-PIDs+=($!)
-cargo clippy --locked --no-deps --all-targets --all-features &
-PIDs+=($!)
-cargo doc --locked --release --no-deps &
-PIDs+=($!)
-
-wait ${PIDs[@]}
-
-./target/release_Opt0/s4 --version
-
-# valgrind, check
+# clippy, docs, valgrind, check
 
 PIDs=()
 
-RUSTFLAGS=-g cargo build --locked --profile valgrind &
-PIDs+=($!)
-cargo check --locked &
-PIDs+=($!)
+rw cargo clippy --locked --quiet --no-deps --all-targets --all-features
+rw cargo doc --locked --quiet --release --no-deps
+rw cargo check --locked
+rw RUSTFLAGS=-g cargo build --quiet --locked --profile valgrind
 
 wait ${PIDs[@]}
 
-./target/valgrind/s4 --version
+r ./target/valgrind/s4 --version
 
-# release_O0_cgu1, release_O0_cgu512_pa
+# release_Opt0, release_O0_cgu1, release_O0_cgu512_pa
 
-declare -a PIDs=()
+PIDs=()
 
-cargo build --locked --profile release_O0_cgu1 &
-PIDs+=($!)
-cargo build --locked --profile release_O0_cgu512_pa &
-PIDs+=($!)
+rw cargo build --quiet --locked --profile release_Opt0
+rw cargo build --quiet --locked --profile release_O0_cgu1
+rw cargo build --quiet --locked --profile release_O0_cgu512_pa
 
 wait ${PIDs[@]}
 
-./target/release_O0_cgu1/s4 --version
-./target/release_O0_cgu512_pa/s4 --version
+r ./target/release_Opt0/s4 --version
+r ./target/release_O0_cgu1/s4 --version
+r ./target/release_O0_cgu512_pa/s4 --version
 
 # release_O1_cgu1, release_O1_cgu256_pa, release_O1_cgu512_pa
 
-declare -a PIDs=()
+PIDs=()
 
-cargo build --locked --profile release_O1_cgu1 &
-PIDs+=($!)
-cargo build --locked --profile release_O1_cgu256_pa &
-PIDs+=($!)
-cargo build --locked --profile release_O1_cgu512_pa &
-PIDs+=($!)
+rw cargo build --quiet --locked --profile release_O1_cgu1
+rw cargo build --quiet --locked --profile release_O1_cgu256_pa
+rw cargo build --quiet --locked --profile release_O1_cgu512_pa
 
 wait ${PIDs[@]}
 
-./target/release_O1_cgu1/s4 --version
-./target/release_O1_cgu256_pa/s4 --version
-./target/release_O1_cgu512_pa/s4 --version
+r ./target/release_O1_cgu1/s4 --version
+r ./target/release_O1_cgu256_pa/s4 --version
+r ./target/release_O1_cgu512_pa/s4 --version
 
 # release_O2_cgu1, release_O2_cgu256_pa, release_O2_cgu512_pa
 
-declare -a PIDs=()
+PIDs=()
 
-cargo build --locked --profile release_O2_cgu1 &
-PIDs+=($!)
-cargo build --locked --profile release_O2_cgu256_pa &
-PIDs+=($!)
-cargo build --locked --profile release_O2_cgu512_pa &
-PIDs+=($!)
+rw cargo build --quiet --locked --profile release_O2_cgu1
+rw cargo build --quiet --locked --profile release_O2_cgu256_pa
+rw cargo build --quiet --locked --profile release_O2_cgu512_pa
 
 wait ${PIDs[@]}
 
-./target/release_O2_cgu1/s4 --version
-./target/release_O2_cgu256_pa/s4 --version
-./target/release_O2_cgu512_pa/s4 --version
+r ./target/release_O2_cgu1/s4 --version
+r ./target/release_O2_cgu256_pa/s4 --version
+r ./target/release_O2_cgu512_pa/s4 --version
 
 # release_O3_cgu1_pa, release_O3_cgu256_pa, release_O3_cgu512_pa
 
-declare -a PIDs=()
+PIDs=()
 
-cargo build --locked --profile release_O3_cgu1_pa &
-PIDs+=($!)
-cargo build --locked --profile release_O3_cgu256_pa &
-PIDs+=($!)
-cargo build --locked --profile release_O3_cgu512_pa &
-PIDs+=($!)
+rw cargo build --quiet --locked --profile release_O3_cgu1_pa
+rw cargo build --quiet --locked --profile release_O3_cgu256_pa
+rw cargo build --quiet --locked --profile release_O3_cgu512_pa
 
 wait ${PIDs[@]}
 
-./target/release_O3_cgu1_pa/s4 --version
-./target/release_O3_cgu256_pa/s4 --version
-./target/release_O3_cgu512_pa/s4 --version
+r ./target/release_O3_cgu1_pa/s4 --version
+r ./target/release_O3_cgu256_pa/s4 --version
+r ./target/release_O3_cgu512_pa/s4 --version

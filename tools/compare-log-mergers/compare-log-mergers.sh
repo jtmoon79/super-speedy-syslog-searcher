@@ -285,12 +285,12 @@ if [[ ! "${PROGRAMS_S4_LISTING-}" ]]; then
             ./target/x86_64-unknown-linux-gnu/release/s4 \
             ./target/x86_64-unknown-linux-musl/release/s4 \
             ./target/x86_64-unknown-linux-ohos/release/s4 \
-            ./target/x86_64-v2/x86_64-unknown-linux-musl/release/s4 \
-            ./target/x86_64-v3/x86_64-unknown-linux-musl/release/s4 \
-            ./target/x86_64-v4/x86_64-unknown-linux-musl/release/s4 \
-            ./target/x86_64-gnu-v2/x86_64-unknown-linux-gnu/release/s4 \
-            ./target/x86_64-gnu-v3/x86_64-unknown-linux-gnu/release/s4 \
-            ./target/x86_64-gnu-v4/x86_64-unknown-linux-gnu/release/s4 \
+            ./target/x86_64-unknown-linux-musl/x86_64-musl-v2/s4 \
+            ./target/x86_64-unknown-linux-musl/x86_64-musl-v3/s4 \
+            ./target/x86_64-unknown-linux-musl/x86_64-musl-v4/s4 \
+            ./target/x86_64-unknown-linux-gnu/x86_64-gnu-v2/s4 \
+            ./target/x86_64-unknown-linux-gnu/x86_64-gnu-v3/s4 \
+            ./target/x86_64-unknown-linux-gnu/x86_64-gnu-v4/s4 \
     ; do
         if [[ -e "${p}" ]]; then
             echo "${p}"

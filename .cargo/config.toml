@@ -2,11 +2,10 @@
 warnings = "warn"
 
 [alias]
-build-x86_64-v4 = [
+build-x86_64-musl-v4 = [
     "build",
     "--bin", "s4",
     "--target", "x86_64-unknown-linux-musl",
-    "--target-dir", "./target/x86_64-v4",
     "--config", 'target.x86_64-unknown-linux-musl.linker="musl-gcc"',
     "--config", 'target.x86_64-unknown-linux-musl.rustflags=["-C", "target-cpu=x86-64-v4", "-C", "target-feature=+crt-static"]',
     "--config", 'env.CC_x86_64_unknown_linux_musl.value="musl-gcc"',
@@ -15,11 +14,10 @@ build-x86_64-v4 = [
     "--config", 'env.CFLAGS_x86_64_unknown_linux_musl.force=true',
 ]
 
-build-x86_64-v3 = [
+build-x86_64-musl-v3 = [
     "build",
     "--bin", "s4",
     "--target", "x86_64-unknown-linux-musl",
-    "--target-dir", "./target/x86_64-v3",
     "--config", 'target.x86_64-unknown-linux-musl.linker="musl-gcc"',
     "--config", 'target.x86_64-unknown-linux-musl.rustflags=["-C", "target-cpu=x86-64-v3", "-C", "target-feature=+crt-static"]',
     "--config", 'env.CC_x86_64_unknown_linux_musl.value="musl-gcc"',
@@ -28,11 +26,10 @@ build-x86_64-v3 = [
     "--config", 'env.CFLAGS_x86_64_unknown_linux_musl.force=true',
 ]
 
-build-x86_64-v2 = [
+build-x86_64-musl-v2 = [
     "build",
     "--bin", "s4",
     "--target", "x86_64-unknown-linux-musl",
-    "--target-dir", "./target/x86_64-v2",
     "--config", 'target.x86_64-unknown-linux-musl.linker="musl-gcc"',
     "--config", 'target.x86_64-unknown-linux-musl.rustflags=["-C", "target-cpu=x86-64-v2", "-C", "target-feature=+crt-static"]',
     "--config", 'env.CC_x86_64_unknown_linux_musl.value="musl-gcc"',
@@ -45,7 +42,6 @@ build-x86_64-gnu-v4 = [
     "build",
     "--bin", "s4",
     "--target", "x86_64-unknown-linux-gnu",
-    "--target-dir", "./target/x86_64-gnu-v4",
     "--config", 'target.x86_64-unknown-linux-gnu.rustflags=["-C", "target-cpu=x86-64-v4"]',
     "--config", 'env.CFLAGS_x86_64_unknown_linux_gnu.value="-march=x86-64-v4"',
     "--config", 'env.CFLAGS_x86_64_unknown_linux_gnu.force=true',
@@ -55,7 +51,6 @@ build-x86_64-gnu-v3 = [
     "build",
     "--bin", "s4",
     "--target", "x86_64-unknown-linux-gnu",
-    "--target-dir", "./target/x86_64-gnu-v3",
     "--config", 'target.x86_64-unknown-linux-gnu.rustflags=["-C", "target-cpu=x86-64-v3"]',
     "--config", 'env.CFLAGS_x86_64_unknown_linux_gnu.value="-march=x86-64-v3"',
     "--config", 'env.CFLAGS_x86_64_unknown_linux_gnu.force=true',
@@ -65,7 +60,6 @@ build-x86_64-gnu-v2 = [
     "build",
     "--bin", "s4",
     "--target", "x86_64-unknown-linux-gnu",
-    "--target-dir", "./target/x86_64-gnu-v2",
     "--config", 'target.x86_64-unknown-linux-gnu.rustflags=["-C", "target-cpu=x86-64-v2"]',
     "--config", 'env.CFLAGS_x86_64_unknown_linux_gnu.value="-march=x86-64-v2"',
     "--config", 'env.CFLAGS_x86_64_unknown_linux_gnu.force=true',

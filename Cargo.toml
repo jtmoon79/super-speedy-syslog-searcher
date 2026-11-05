@@ -284,7 +284,25 @@ opt-level = 0
 debug = 2
 strip = false
 
-# profile for quick builds without debug cruft
+[profile.x86_64-musl-v2]
+inherits = "release"
+
+[profile.x86_64-musl-v3]
+inherits = "release"
+
+[profile.x86_64-musl-v4]
+inherits = "release"
+
+[profile.x86_64-gnu-v2]
+inherits = "release"
+
+[profile.x86_64-gnu-v3]
+inherits = "release"
+
+[profile.x86_64-gnu-v4]
+inherits = "release"
+
+# profile for faster builds without debug cruft
 [profile.release_Opt0]
 inherits = "release"
 debug = 0
