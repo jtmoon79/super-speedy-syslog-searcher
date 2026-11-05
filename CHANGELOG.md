@@ -266,6 +266,9 @@ Helpful `git log` command for generating changelog entries:
 
 [unreleased diff]
 
+- Fix growing memory usage when streaming text logs by removing reverse line-offset index entries when their lines are dropped.
+- Fix missing archive path separators in `--summary` out-of-order statistics.
+
 [unreleased diff]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/latest...main
 
 <!-- TODO per release: Add Section(s) -->
