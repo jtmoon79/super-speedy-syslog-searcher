@@ -151,7 +151,7 @@ if [[ "${FILE}" =~ [[:space:]] ]]; then
 fi
 
 # number of hyperfine runs
-declare -ir HYPERFINE_RUNS=${HYPERFINE_RUNS-5}
+declare -ir HRUNS=${HRUNS-5}
 
 # echo color escapes
 readonly CLR_INFO="\033[1;32m"  # green
@@ -503,22 +503,24 @@ if [[ ${FILE_NUM} -lt 1 ]]; then
     exit 1
 fi
 
-readonly MD_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss_time_data.md"
-readonly CSV_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss_time_data.csv"
+readonly MD_FINAL_RSSTIME="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss_time_data.md"
+readonly CSV_FINAL_RSSTIME="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss_time_data.csv"
 readonly MD_FINAL_DISKIO="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__diskio.md"
 readonly CSV_FINAL_DISKIO="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__diskio.csv"
+readonly INFO_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__info.md"
 
-if [[ -f "${MD_FINAL}" ]]; then
-    echo "Final output already exists, skipping. '${MD_FINAL}'" >&2
+if [[ -f "${MD_FINAL_RSSTIME}" ]]; then
+    echo "Final output already exists, skipping. '${MD_FINAL_RSSTIME}'" >&2
     exit 0
 fi
-if [[ -f "${CSV_FINAL}" ]]; then
-    echo "Final output already exists, skipping. '${CSV_FINAL}'" >&2
+if [[ -f "${CSV_FINAL_RSSTIME}" ]]; then
+    echo "Final output already exists, skipping. '${CSV_FINAL_RSSTIME}'" >&2
     exit 0
 fi
 
 readonly tmpD=$(mktemp -d -t "tmp-s4-performance-plot_XXXXX")
 readonly IO_TXT="${tmpD}/io.txt"
+readonly INFO_DRAFT="${tmpD}/performance-plot-info.md"
 
 function exit_() {
     rm -rf "${tmpD}"
@@ -580,6 +582,7 @@ done
 
 declare -i count=0
 declare -ir COUNT_RUNS_FILE=$(seq 1 ${FILE_NUM} | wc -l)
+declare -ir RSS_TIME_START=${SECONDS}
 for fnum in $(seq 1 ${FILE_NUM}); do
     count+=1
     echo_line
@@ -632,7 +635,7 @@ for fnum in $(seq 1 ${FILE_NUM}); do
             --warmup=0 \
             --style=color \
             --metrics=time_wall_clock:ms,time_user,time_system,memory_peak_resident \
-            --runs=${HYPERFINE_RUNS} \
+            --runs=${HRUNS} \
             --export-json "${json}" \
             -N \
             --command-name "s4 ${fnum} files" \
@@ -720,16 +723,18 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     declare -i fnum_i=${fnum}
     declare -i time_remaining_ms=0
     for ((fnum_i=FILE_NUM; fnum_i>fnum; fnum_i--)); do
-        time_remaining_ms+=$((time_per_file_ms * (FILE_NUM - fnum_i + 1)))
+        time_remaining_ms+=$((time_per_file_ms * (FILE_NUM - fnum_i + 1) * HRUNS))
     done
     time_remaining_hms=$(milliseconds_to_hms ${time_remaining_ms})
     declare -i loop_remaining=$((FILE_NUM - fnum))
 
     # print informative in-progress message
-    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms (${proc_time_diff_hms}), ${time_per_file_ms}ms per file, Max RSS ${mss_KB} KB${diskio_mesg}. Script has been running for ${time_since_start_hms}. Estimated time remaining ${time_remaining_hms} for ${loop_remaining} more iterations of file ${FILE_NAME}${CLR_RESET}" >&2
+    echo -e "${CLR_INFO}For ${HRUNS} runs of ${fnum} files: time ${proc_time_diff} ms (${proc_time_diff_hms}), ${time_per_file_ms}ms per file, Max RSS ${mss_KB} KB${diskio_mesg}. Script has been running for ${time_since_start_hms}. Estimated time remaining ${time_remaining_hms} for ${loop_remaining} more iterations of file ${FILE_NAME}${CLR_RESET}" >&2
 
     first=false
 done
+declare -ir RSS_TIME_ELAPSED=$((SECONDS - RSS_TIME_START))
+readonly RSS_TIME_ELAPSED_HMS=$(seconds_to_hms "${RSS_TIME_ELAPSED}")
 
 echo_line
 
@@ -738,9 +743,9 @@ echo_line
 #
 
 # prettify the markdown table with aligned columns
-cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
+cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL_RSSTIME}"
 # save the CSV data
-cp -av "${CSV_DRAFT}" "${CSV_FINAL}"
+cp -av "${CSV_DRAFT}" "${CSV_FINAL_RSSTIME}"
 
 # disk I/O finals
 if ${DISKIO_AVAILABLE}; then
@@ -748,7 +753,7 @@ if ${DISKIO_AVAILABLE}; then
     cp -av "${CSV_DRAFT_DISKIO}" "${CSV_FINAL_DISKIO}"
 fi
 
-./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${MD_FINAL}"
+./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${MD_FINAL_RSSTIME}"
 echo >&2
 if ${DISKIO_AVAILABLE}; then
     ./tools/glow.sh --width=${COLUMNS} --preserve-new-lines "${MD_FINAL_DISKIO}"
@@ -766,6 +771,11 @@ mss_min=$(min "${mss_values[@]}")
 mss_diff_max=$(max "${mss_diff_values[@]}")
 mss_diff_min=$(min "${mss_diff_values[@]}")
 mss_diff_avg=$(avg "${mss_diff_values[@]}")
+readonly mss_max
+readonly mss_min
+readonly mss_diff_max
+readonly mss_diff_min
+readonly mss_diff_avg
 
 declare -i FILE_SZ_MULTIPLE_DENOMINATOR=${FILE_SZ_KB}
 if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
@@ -774,14 +784,23 @@ fi
 mss_diff_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_max} / ${FILE_SZ_MULTIPLE_DENOMINATOR}))")
 mss_diff_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_min} / ${FILE_SZ_MULTIPLE_DENOMINATOR}))")
 mss_diff_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_avg} / ${FILE_SZ_MULTIPLE_DENOMINATOR}))")
+readonly mss_diff_multiple_max
+readonly mss_diff_multiple_min
+readonly mss_diff_multiple_avg
 
 mss_diff_blocksz_multiple_max=$("${PYTHON}" -c "print('%.1f' % ((${mss_diff_max} * 1024) / ${S4_BLOCKSZ}))")
 mss_diff_blocksz_multiple_min=$("${PYTHON}" -c "print('%.1f' % ((${mss_diff_min} * 1024) / ${S4_BLOCKSZ}))")
 mss_diff_blocksz_multiple_avg=$("${PYTHON}" -c "print('%.1f' % ((${mss_diff_avg} * 1024) / ${S4_BLOCKSZ}))")
+readonly mss_diff_blocksz_multiple_max
+readonly mss_diff_blocksz_multiple_min
+readonly mss_diff_blocksz_multiple_avg
 
 time_diff_max=$(max "${time_diff_values[@]}")
 time_diff_min=$(min "${time_diff_values[@]}")
 time_diff_avg=$(avg "${time_diff_values[@]}")
+readonly time_diff_max
+readonly time_diff_min
+readonly time_diff_avg
 
 # sanity check
 if [[ ${#mss_values[@]} -ne ${#fnum_values[@]} ]]; then
@@ -791,6 +810,8 @@ fi
 
 DataRss=$(for i in "${!mss_values[@]}"; do echo "${mss_values[$i]} ${fnum_values[$i]}"; done)
 DataRssDiffs=$(for i in "${!mss_diff_values[@]}"; do echo "${mss_diff_values[$i]} ${fnum_values[$i+1]}"; done)
+readonly DataRss
+readonly DataRssDiffs
 
 declare -i x_range_max=$(max "${mss_values[@]}" "${mss_diff_values[@]}")
 x_range_max+=20000
@@ -842,7 +863,7 @@ fi
 # gnuplot create SVG for file count (Y) vs max RSS (X)
 #
 
-readonly OUT_SVG_RSS="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss.svg"
+readonly SVG_RSS="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss.svg"
 
 echo >&2
 
@@ -907,8 +928,8 @@ set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FO
 set encoding utf8
 set color
 set key off
-set output "${OUT_SVG_RSS}"
-set title "Command: ${s4_command} ${FILE_NAME} …\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit ${GitCommit}, Tag ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nFile: ${FILE}\nBlock Size: ${S4_BLOCKSZ_KB} KB (${S4_BLOCKSZ} Bytes)\n${FILE_SZ_MESG}\n\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size) (×${mss_diff_blocksz_multiple_max} Blocks)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size) (×${mss_diff_blocksz_multiple_avg} Blocks)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size) (×${mss_diff_blocksz_multiple_min} Blocks)\n\n" \
+set output "${SVG_RSS}"
+set title "Command: ${s4_command} ${FILE_NAME} …\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit ${GitCommit}, Tag ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HRUNS}\n\nFile: ${FILE}\nBlock Size: ${S4_BLOCKSZ_KB} KB (${S4_BLOCKSZ} Bytes)\n${FILE_SZ_MESG}\n\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size) (×${mss_diff_blocksz_multiple_max} Blocks)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size) (×${mss_diff_blocksz_multiple_avg} Blocks)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size) (×${mss_diff_blocksz_multiple_min} Blocks)\n\n" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set format "%.0f"
@@ -941,8 +962,8 @@ EOF
     echo "$GNUPLOT_SVG" | "$GNUPLOT"
 )
 
-gnuplot_svg_title_replace "${OUT_SVG_RSS}" "Max RSS (KB) per N file for '${FILE_NAME}'"
-xml_format "${OUT_SVG_RSS}"
+gnuplot_svg_title_replace "${SVG_RSS}" "Max RSS (KB) per N file for '${FILE_NAME}'"
+xml_format "${SVG_RSS}"
 
 echo >&2
 
@@ -950,7 +971,7 @@ echo >&2
 # gnuplot create SVG for file count (X) vs process time (Y)
 #
 
-readonly OUT_SVG_TIME="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__time.svg"
+readonly SVG_TIME="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__time.svg"
 
 DataTime=$(for i in "${!time_values[@]}"; do echo "${time_values[$i]} ${fnum_values[$i]}"; done)
 DataTimeDiffs=$(for i in "${!time_diff_values[@]}"; do echo "${time_diff_values[$i]} ${fnum_values[$i+1]}"; done)
@@ -989,10 +1010,10 @@ set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FO
 set encoding utf8
 set color
 set key off
-set title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit ${GitCommit}, Tag ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+set title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit ${GitCommit}, Tag ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HRUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
-set output "${OUT_SVG_TIME}"
+set output "${SVG_TIME}"
 set format "%.0f"
 set xlabel "Time (ms)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
 set ylabel "File count ${FILE_NUM}\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
@@ -1009,7 +1030,7 @@ EOD
 \$DataTimeDiffs << EOD
 $DataTimeDiffs
 EOD
-plot \$DataTime with lines linecolor rgbcolor "${COLOR_1}" title "Time (ms) mean among ${HYPERFINE_RUNS} runs", \
+plot \$DataTime with lines linecolor rgbcolor "${COLOR_1}" title "Time (ms) mean among ${HRUNS} runs", \
      \$DataTime using 1:2:(sprintf("%d ms", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_POINTS}" title "File Count, Time (ms) mean", \
      \$DataTimeDiffs with lines linecolor rgbcolor "${COLOR_2}" title "Time (ms) Diff from processing N files to processing N+1 files", \
      \$DataTimeDiffs using 1:2:(sprintf("%d ms (diff)", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_POINTS}" title "File Count, Time (ms) Diff from processing N files to processing N+1 files"
@@ -1021,8 +1042,8 @@ EOF
     echo "$GNUPLOT_SVG" | "$GNUPLOT"
 )
 
-gnuplot_svg_title_replace "${OUT_SVG_TIME}" "Time (ms) mean per N file for '${FILE_NAME}'"
-xml_format "${OUT_SVG_TIME}"
+gnuplot_svg_title_replace "${SVG_TIME}" "Time (ms) mean per N file for '${FILE_NAME}'"
+xml_format "${SVG_TIME}"
 
 # -----------------------------------------------------------------------------
 
@@ -1031,7 +1052,7 @@ xml_format "${OUT_SVG_TIME}"
 # two stacked panels in one multiplot SVG
 #
 
-readonly OUT_SVG_DISKIO_READ="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__diskio.svg"
+readonly SVG_DISKIO_READ="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__diskio.svg"
 if ${DISKIO_AVAILABLE}; then
 
     # sanity check disk I/O series length matches file counts
@@ -1046,6 +1067,8 @@ if ${DISKIO_AVAILABLE}; then
 
     DataDiskReadCount=$(for i in "${!diskio_syscr_values[@]}"; do echo "${diskio_syscr_values[$i]} ${fnum_values[$i]}"; done)
     DataDiskReadBytes=$(for i in "${!diskio_rchar_values[@]}"; do echo "${diskio_rchar_values[$i]} ${fnum_values[$i]}"; done)
+    readonly DataDiskReadCount
+    readonly DataDiskReadBytes
 
     # per-file rates for each run: total / file count (integer division)
     declare -a diskio_syscr_per_file_values=()
@@ -1067,6 +1090,13 @@ if ${DISKIO_AVAILABLE}; then
     diskio_rchar_per_file_min=$(min "${diskio_rchar_per_file_values[@]}")
     diskio_rchar_per_file_avg=$(avg "${diskio_rchar_per_file_values[@]}")
 
+    readonly diskio_syscr_per_file_max
+    readonly diskio_syscr_per_file_min
+    readonly diskio_syscr_per_file_avg
+    readonly diskio_rchar_per_file_max
+    readonly diskio_rchar_per_file_min
+    readonly diskio_rchar_per_file_avg
+
     # ratios vs file size and S4 block size — same style as RSS SVG
     # for compressed inputs, prefer uncompressed size as the logical file size
     declare -i DISKIO_FILE_SZ_BYTES=${FILE_SZ}
@@ -1084,6 +1114,19 @@ if ${DISKIO_AVAILABLE}; then
     diskio_rchar_per_file_blocksz_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_min} / max(${S4_BLOCKSZ}, 1)))")
     diskio_rchar_per_file_blocksz_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_avg} / max(${S4_BLOCKSZ}, 1)))")
 
+    readonly diskio_rchar_per_file_multiple_max
+    readonly diskio_rchar_per_file_multiple_min
+    readonly diskio_rchar_per_file_multiple_avg
+    readonly diskio_rchar_per_file_blocksz_multiple_max
+    readonly diskio_rchar_per_file_blocksz_multiple_min
+    readonly diskio_rchar_per_file_blocksz_multiple_avg
+
+    diskio_rchar_per_file_blocksz_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_min} / max(${S4_BLOCKSZ}, 1)))")
+    diskio_rchar_per_file_blocksz_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_avg} / max(${S4_BLOCKSZ}, 1)))")
+
+    readonly diskio_rchar_per_file_blocksz_multiple_min
+    readonly diskio_rchar_per_file_blocksz_multiple_avg
+
     # syscr is a call count: × file-size-in-blocks (calls per logical file block)
     diskio_syscr_per_file_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_max} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
     diskio_syscr_per_file_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_syscr_per_file_min} / max(${DISKIO_FILE_SZ_BLOCKS}, 1)))")
@@ -1093,6 +1136,8 @@ if ${DISKIO_AVAILABLE}; then
     diskio_syscr_max=$(max "${diskio_syscr_values[@]}")
     declare -i diskio_rchar_max
     diskio_rchar_max=$(max "${diskio_rchar_values[@]}")
+    readonly diskio_syscr_max
+    readonly diskio_rchar_max
 
     declare -i x_range_max_syscr=$((diskio_syscr_max + (diskio_syscr_max / 10) + 1))
     declare -i x_range_max_rchar=$((diskio_rchar_max + (diskio_rchar_max / 10) + 1))
@@ -1134,8 +1179,8 @@ if ${DISKIO_AVAILABLE}; then
         ytics_step_diskio=10
     fi
 
-    declare -i SVG_HEIGHT_DISKIO=$((SVG_HEIGHT + SVG_HEIGHT / 2))
-    declare -i SVG_WIDTH_DISKIO=${SVG_WIDTH}
+    declare -ir SVG_HEIGHT_DISKIO=$((SVG_HEIGHT + SVG_HEIGHT / 2))
+    declare -ir SVG_WIDTH_DISKIO=${SVG_WIDTH}
 
     if ${CACHES_DROPPED_ANY}; then
         CACHES_DROP_MESG="Page cache: dropped when permitted (at least one fnum)"
@@ -1148,7 +1193,7 @@ set terminal svg size ${SVG_WIDTH_DISKIO}, ${SVG_HEIGHT_DISKIO} fname "${FONT_NA
 set encoding utf8
 set color
 set key off
-set output "${OUT_SVG_DISKIO_READ}"
+set output "${SVG_DISKIO_READ}"
 set multiplot layout 2,1 title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit: ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel} (${CpuCores} cores), RAM: ${RamTotalMB} MB\n\nDisk I/O from /proc/<pid>/io (one run per file count)\n${CACHES_DROP_MESG}\n\nFile: ${FILE}\nBlock Size: ${S4_BLOCKSZ_KB} KB (${S4_BLOCKSZ} Bytes)\n${FILE_SZ_MESG}\n\nMax Read Count (syscr) per 1 File: ${diskio_syscr_per_file_max} (×${diskio_syscr_per_file_multiple_max} file blocks)\nAvg Read Count (syscr) per 1 File: ${diskio_syscr_per_file_avg} (×${diskio_syscr_per_file_multiple_avg} file blocks)\nMin Read Count (syscr) per 1 File: ${diskio_syscr_per_file_min} (×${diskio_syscr_per_file_multiple_min} file blocks)\nMax Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_max} (×${diskio_rchar_per_file_multiple_max} file size) (×${diskio_rchar_per_file_blocksz_multiple_max} Blocks)\nAvg Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_avg} (×${diskio_rchar_per_file_multiple_avg} file size) (×${diskio_rchar_per_file_blocksz_multiple_avg} Blocks)\nMin Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_min} (×${diskio_rchar_per_file_multiple_min} file size) (×${diskio_rchar_per_file_blocksz_multiple_min} Blocks)\n" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
@@ -1189,8 +1234,8 @@ EOF
         echo "$GNUPLOT_SVG" | "$GNUPLOT"
     )
 
-    gnuplot_svg_title_replace "${OUT_SVG_DISKIO_READ}" "Disk reads (syscr, rchar) per N file for '${FILE_NAME}'"
-    xml_format "${OUT_SVG_DISKIO_READ}"
+    gnuplot_svg_title_replace "${SVG_DISKIO_READ}" "Disk reads (syscr, rchar) per N file for '${FILE_NAME}'"
+    xml_format "${SVG_DISKIO_READ}"
 fi
 
 echo >&2
@@ -1247,6 +1292,7 @@ for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
 done
 echo >&2
 
+declare -ir BLOCKSZ_TIME_START=${SECONDS}
 for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
     count+=1
     echo -e "${CLR_INFO}Testing '${S4_PROGRAM}' with block size ${blocksz}; run ${count} of ${COUNT_RUNS_BSZ}. Step ${BLOCKSZ_ALIGN} up to ${BLOCKSZ_MAX}${CLR_RESET}" >&2
@@ -1263,7 +1309,7 @@ for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
             --warmup=0 \
             --style=color \
             --metrics=time_wall_clock:ms,time_user,time_system,memory_peak_resident \
-            --runs=${HYPERFINE_RUNS} \
+            --runs=${HRUNS} \
             --export-json "${json}" \
             -N \
             --command-name "S4_BLOCKSZ=${blocksz} ${s4_command} ${current_files[0]} ..." \
@@ -1317,12 +1363,14 @@ for blocksz in $(seq ${BLOCKSZ_MIN} ${BLOCKSZ_ALIGN} ${BLOCKSZ_MAX}); do
     time_since_start_hms=$(seconds_to_hms "${time_since_start}")
 
     echo >&2
-    echo -e "${CLR_INFO}For ${HYPERFINE_RUNS} runs with block size ${blocksz}: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB (script running for ${time_since_start_hms})${CLR_RESET}" >&2
+    echo -e "${CLR_INFO}For ${HRUNS} runs with block size ${blocksz}: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB (script running for ${time_since_start_hms})${CLR_RESET}" >&2
 
     first=false
 
     echo_line
 done
+declare -ir BLOCKSZ_TIME_ELAPSED=$((SECONDS - BLOCKSZ_TIME_START))
+readonly BLOCKSZ_TIME_ELAPSED_HMS=$(seconds_to_hms "${BLOCKSZ_TIME_ELAPSED}")
 
 # prettify the markdown table with aligned columns
 cat "${MD_DRAFT_BSZ}" | column -t -s '|' -o '|' > "${MD_FINAL_BSZ}"
@@ -1339,7 +1387,7 @@ echo_line
 # gnuplot create SVG for block size vs time
 #
 
-readonly OUT_SVG_BLOCKSZ="${DIROUT}/performance-plot__${FILE_NAME}__blocksz_${BLOCKSZ_ALIGN}.svg"
+readonly SVG_BSZ="${DIROUT}/performance-plot__${FILE_NAME}__blocksz_${BLOCKSZ_ALIGN}.svg"
 
 DataTime=$(for i in "${!time_values[@]}"; do echo "${time_values[$i]} ${blocksz_values[$i]}"; done)
 DataTimeDiffs=$(for i in "${!time_diff_values[@]}"; do echo "${time_diff_values[$i]} ${blocksz_values[$i+1]}"; done)
@@ -1395,10 +1443,10 @@ set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FO
 set encoding utf8
 set color
 set key off
-set title "Command: S4_BLOCKSZ=(${BLOCKSZ_MIN}..${BLOCKSZ_MAX} step by ${BLOCKSZ_ALIGN}) ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit ${GitCommit}, Tag ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}, Cores: ${CpuCores}, RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+set title "Command: S4_BLOCKSZ=(${BLOCKSZ_MIN}..${BLOCKSZ_MAX} step by ${BLOCKSZ_ALIGN}) ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Commit ${GitCommit}, Tag ${GitTagLast}, MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}, Cores: ${CpuCores}, RAM: ${RamTotalMB} MB\n\nHyperfine runs per data point: ${HRUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
-set output "${OUT_SVG_BLOCKSZ}"
+set output "${SVG_BSZ}"
 set format "%.0f"
 set xlabel "Time (ms)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
 set ylabel "Block size ${BLOCKSZ_ALIGN} step\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
@@ -1415,7 +1463,7 @@ EOD
 \$DataTimeDiffs << EOD
 $DataTimeDiffs
 EOD
-plot \$DataTime with lines linecolor rgbcolor "${COLOR_1}" title "Time (ms) mean among ${HYPERFINE_RUNS} runs", \
+plot \$DataTime with lines linecolor rgbcolor "${COLOR_1}" title "Time (ms) mean among ${HRUNS} runs", \
      \$DataTime using 1:2:(sprintf("%d ms", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_POINTS}" title "Block Size, Time (ms) mean", \
      \$DataTimeDiffs with lines linecolor rgbcolor "${COLOR_2}" title "Time (ms) Diff from processing N files to processing N+1 files", \
      \$DataTimeDiffs using 1:2:(sprintf("%d ms (diff)", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_POINTS}" title "File Count, Time (ms) Diff from processing N files to processing N+1 files"
@@ -1427,31 +1475,108 @@ EOF
     echo "$GNUPLOT_SVG" | "$GNUPLOT"
 )
 
-gnuplot_svg_title_replace "${OUT_SVG_BLOCKSZ}" "Time (ms) mean per ${BLOCKSZ_ALIGN} BlockSz step for ${FILE_RUNS_BLOCKSZ} x '${FILE_NAME}'"
-xml_format "${OUT_SVG_BLOCKSZ}"
+gnuplot_svg_title_replace "${SVG_BSZ}" "Time (ms) mean per ${BLOCKSZ_ALIGN} BlockSz step for ${FILE_RUNS_BLOCKSZ} x '${FILE_NAME}'"
+xml_format "${SVG_BSZ}"
 
-echo_line
+declare -ir TOTAL_TIME_ELAPSED=$((SECONDS - TIME_START))
+readonly TOTAL_TIME_ELAPSED_HMS=$(seconds_to_hms "${TOTAL_TIME_ELAPSED}")
+
+#
+# create informational summary markdown file
+#
+
+cat > "${INFO_DRAFT}" <<EOF
+# Performance plot information for ${FILE_NAME}
+
+- Hyperfine runs per data point: ${HRUNS}
+
+- File: ${FILE}
+- Maximum file count: ${FILE_NUM}
+- ${FILE_SZ_MESG}
+
+- Build profile: ${BUILD_PROFILE}
+- Version: ${Version}
+- Commit: ${GitCommit}
+- Tag: ${GitTagLast}
+- MSRV: ${Msrv}
+- Allocator: ${Allocator}
+- Platform: ${Platform}
+- Optimization level: ${OptimizationLevel}
+- Run on: ${OsName}
+- CPU: ${CpuModel} (${CpuCores} cores)
+- RAM: ${RamTotalMB} MB
+
+## Run durations
+
+- RSS/Time measurements: ${RSS_TIME_ELAPSED_HMS}
+- BlockSz measurements: ${BLOCKSZ_TIME_ELAPSED_HMS}
+- Total time: ${TOTAL_TIME_ELAPSED_HMS}
+
+## Max RSS by file count
+
+[\`$(basename "${SVG_RSS}")\`]($(basename "${SVG_RSS}"))
+[\`$(basename "${MD_FINAL_RSSTIME}")\`]($(basename "${MD_FINAL_RSSTIME}"))
+[\`$(basename "${CSV_FINAL_RSSTIME}")\`]($(basename "${CSV_FINAL_RSSTIME}"))
+
+- Plot: Max RSS (KB) per N file
+- Command: \`${s4_command} ${FILE_NAME} …\`
+- Max max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size) (×${mss_diff_blocksz_multiple_max} Blocks)
+- Avg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size) (×${mss_diff_blocksz_multiple_avg} Blocks)
+- Min max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size) (×${mss_diff_blocksz_multiple_min} Blocks)
+
+## Time by file count
+
+[\`$(basename "${SVG_TIME}")\`]($(basename "${SVG_TIME}"))
+[\`$(basename "${MD_FINAL_RSSTIME}")\`]($(basename "${MD_FINAL_RSSTIME}"))
+[\`$(basename "${CSV_FINAL_RSSTIME}")\`]($(basename "${CSV_FINAL_RSSTIME}"))
+
+- Plot: Time (ms) mean per N file
+- Command: \`${s4_command} ${FILE_NAME} …\`
+- Time Difference per 1 File Max: ${time_diff_max} ms
+- Time Difference per 1 File Avg: ${time_diff_avg} ms
+- Time Difference per 1 File Min: ${time_diff_min} ms
+
+EOF
+
+if ${DISKIO_AVAILABLE}; then
+    cat >> "${INFO_DRAFT}" <<EOF
+## Disk reads by file count
+
+[\`$(basename "${SVG_DISKIO}")\`]($(basename "${SVG_DISKIO}"))
+[\`$(basename "${MD_FINAL_DISKIO}")\`]($(basename "${MD_FINAL_DISKIO}"))
+[\`$(basename "${CSV_FINAL_DISKIO}")\`]($(basename "${CSV_FINAL_DISKIO}"))
+
+- Plot: Disk reads (syscr, rchar) per N file
+- Maximum file count: ${FILE_NUM}
+- Command: \`${s4_command} ${FILE_NAME} …\`
+- Disk I/O from \`/proc/<pid>/io\` (one run per file count)
+- ${CACHES_DROP_MESG}
+- Max Read Count (syscr) per 1 File: ${diskio_syscr_per_file_max} (×${diskio_syscr_per_file_multiple_max} file blocks)
+- Avg Read Count (syscr) per 1 File: ${diskio_syscr_per_file_avg} (×${diskio_syscr_per_file_multiple_avg} file blocks)
+- Min Read Count (syscr) per 1 File: ${diskio_syscr_per_file_min} (×${diskio_syscr_per_file_multiple_min} file blocks)
+- Max Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_max} (×${diskio_rchar_per_file_multiple_max} file size) (×${diskio_rchar_per_file_blocksz_multiple_max} Blocks)
+- Avg Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_avg} (×${diskio_rchar_per_file_multiple_avg} file size) (×${diskio_rchar_per_file_blocksz_multiple_avg} Blocks)
+- Min Read Bytes (rchar) per 1 File: ${diskio_rchar_per_file_min} (×${diskio_rchar_per_file_multiple_min} file size) (×${diskio_rchar_per_file_blocksz_multiple_min} Blocks)
+
+EOF
+fi
+
+cat >> "${INFO_DRAFT}" <<EOF
+## Time by block size
+
+[\`$(basename "${SVG_BSZ}")\`]($(basename "${SVG_BSZ}"))
+[\`$(basename "${MD_FINAL_BSZ}")\`]($(basename "${MD_FINAL_BSZ}"))
+[\`$(basename "${CSV_FINAL_BSZ}")\`]($(basename "${CSV_FINAL_BSZ}"))
+
+- Plot: Time (ms) mean per ${BLOCKSZ_ALIGN} BlockSz step for ${FILE_RUNS_BLOCKSZ} runs
+- Command: \`${S4_BLOCKSZ=(${BLOCKSZ_MIN}..${BLOCKSZ_MAX} step by ${BLOCKSZ_ALIGN})} ${s4_command} ${FILE_NAME} …\`
+- Time Difference per 1 File Max: ${time_diff_max} ms
+- Time Difference per 1 File Avg: ${time_diff_avg} ms
+- Time Difference per 1 File Min: ${time_diff_min} ms
+EOF
+
+cp -av "${INFO_DRAFT}" "${INFO_FINAL}"
 
 echo >&2
 
-echo -e "
-SVG RSS output written to: ${CLR_INFO}${OUT_SVG_RSS}${CLR_RESET}
-SVG TIME output written to: ${CLR_INFO}${OUT_SVG_TIME}${CLR_RESET}
-Markdown written to: ${CLR_INFO}${MD_FINAL}${CLR_RESET}
-CSV written to: ${CLR_INFO}${CSV_FINAL}${CLR_RESET}
-" >&2
-
-if ${DISKIO_AVAILABLE}; then
-    echo -e "SVG DISK READS output written to: ${CLR_INFO}${OUT_SVG_DISKIO_READ}${CLR_RESET}
-Disk I/O markdown written to: ${CLR_INFO}${MD_FINAL_DISKIO}${CLR_RESET}
-Disk I/O CSV written to: ${CLR_INFO}${CSV_FINAL_DISKIO}${CLR_RESET}
-" >&2
-else
-    echo -e "Disk I/O not measured; /proc/<pid>/io not available
-" >&2
-fi
-
-echo -e "SVG BLOCKSZ output written to: ${CLR_INFO}${OUT_SVG_BLOCKSZ}${CLR_RESET}
-Markdown written to: ${CLR_INFO}${MD_FINAL_BSZ}${CLR_RESET}
-CSV written to: ${CLR_INFO}${CSV_FINAL_BSZ}${CLR_RESET}
-" >&2
+./tools/glow.sh "${INFO_FINAL}"
