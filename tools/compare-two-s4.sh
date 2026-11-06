@@ -135,6 +135,7 @@ fi
 
 declare -a logs_eq=()
 declare -a logs_ne=()
+declare -i logs_ne_count=0
 
 for log in "${logs[@]}"; do
     declare okay=true
@@ -152,12 +153,15 @@ for log in "${logs[@]}"; do
         echo "${C_ERR}Return codes differ ${PROFILE_A}=${rcA} ${PROFILE_B}=${rcB} for log '${log}'${C_OFF}" >&2
         ret=1
         okay=false
+        logs_ne+=("${log} (return code $rcA vs $rcB)")
+        logs_ne_count+=1
     fi
     if ! "${DIFF}" --text --brief "${tmpA}" "${tmpB}"; then
         echo "${C_ERR}Files are not the same for log '${log}'.${C_OFF}" >&2
         ret=1
         okay=false
-        logs_ne+=("${log}")
+        logs_ne+=("${log} (different output)")
+        logs_ne_count+=1
         #"${DIFF}" --text -y --width=${COLUMNS-120} "${tmpA}" "${tmpB}"
     fi
     if $okay; then
@@ -238,7 +242,7 @@ if [[ ${#logs_eq[@]} -ne 0 ]]; then
 fi
 
 if [[ ${#logs_ne[@]} -ne 0 ]]; then
-    echo "${C_ERR}Files differ for ${#logs_ne[@]} logs.${C_OFF}"
+    echo "${C_ERR}Files differ for ${logs_ne_count} logs.${C_OFF}"
     for log_ in "${logs_ne[@]}"; do
         echo "${log_}"
     done
