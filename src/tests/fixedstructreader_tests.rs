@@ -459,7 +459,7 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
     ) {
         ResultFixedStructReaderNewError::FileOk(val) => {
             eprintln!("new_result_opt: {:?}", new_result_opt);
-            assert!(matches!(new_result_opt, None));
+            assert!(new_result_opt.is_none());
             val
         }
         result => match new_result_opt {
