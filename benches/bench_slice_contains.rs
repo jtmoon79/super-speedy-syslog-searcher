@@ -48,65 +48,79 @@ const SEARCH12: &[u8; 2] = b"12";
 const SEARCHXY: &[u8; 2] = b"XY";
 
 #[inline(never)]
+#[allow(clippy::assertions_on_constants)]
 fn X_2_baseline() {
     let slice_ = &B200[0..];
     black_box(slice_);
+    #[allow(clippy::assertions_on_constants)]
     assert!(true);
 }
 
 #[inline(never)]
+#[allow(clippy::assertions_on_constants)]
 fn X_2_custom1_slice_iter_found() {
     let slice_ = &B200[0..];
     black_box(slice_);
     for c in slice_.iter() {
         if c == &SEARCH12[0] || c == &SEARCH12[1] {
+            #[allow(clippy::assertions_on_constants)]
             assert!(true);
             return;
         }
     }
+    #[allow(clippy::assertions_on_constants)]
     assert!(false);
 }
 
 #[inline(never)]
+#[allow(clippy::assertions_on_constants)]
 fn X_2_custom1_slice_iter_notfound() {
     let slice_ = &B200[0..];
     black_box(slice_);
     for c in slice_.iter() {
         if c == &SEARCHXY[0] || c == &SEARCHXY[1] {
+            #[allow(clippy::assertions_on_constants)]
             assert!(false);
             return;
         }
     }
+    #[allow(clippy::assertions_on_constants)]
     assert!(true);
 }
 
 #[inline(never)]
+#[allow(clippy::assertions_on_constants)]
 fn X_2_custom2_slice_iter_found() {
     let slice_ = &B200[0..];
     black_box(slice_);
     for c in slice_.iter() {
         for s in SEARCH12.iter() {
             if c == s {
+                #[allow(clippy::assertions_on_constants)]
                 assert!(true);
                 return;
             }
         }
     }
+    #[allow(clippy::assertions_on_constants)]
     assert!(false);
 }
 
 #[inline(never)]
+#[allow(clippy::assertions_on_constants)]
 fn X_2_custom2_slice_iter_notfound() {
     let slice_ = &B200[0..];
     black_box(slice_);
     for c in slice_.iter() {
         for s in SEARCHXY.iter() {
             if c == s {
+                #[allow(clippy::assertions_on_constants)]
                 assert!(false);
                 return;
             }
         }
     }
+    #[allow(clippy::assertions_on_constants)]
     assert!(true);
 }
 
@@ -201,9 +215,11 @@ fn X_2_stringzilla_notfound() {
 }
 
 #[inline(never)]
+#[allow(clippy::assertions_on_constants)]
 fn D2_baseline() {
     let slice_ = &B200[0..];
     black_box(slice_);
+    #[allow(clippy::assertions_on_constants)]
     assert!(true);
 }
 

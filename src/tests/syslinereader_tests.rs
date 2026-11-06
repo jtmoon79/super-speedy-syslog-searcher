@@ -312,13 +312,13 @@ fn impl_find_sysline(
                 let slp_string = (*slp).to_String();
                 defo!("slr.find_sysline({}) Found", fo);
                 defo!("expected {:?}", sline_expect);
-                defo!("actual   {:?}", &slp_string.as_str());
+                defo!("actual   {:?}", slp_string.as_str());
                 assert_eq!(
                     sline_expect,
                     &slp_string.as_str(),
                     "\nExpected {:?}\nActual   {:?}\n",
                     sline_expect,
-                    &slp_string.as_str()
+                    slp_string.as_str()
                 );
             }
             ResultFindSysline::Done => {

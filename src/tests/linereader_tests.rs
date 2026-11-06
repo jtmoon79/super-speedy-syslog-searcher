@@ -511,7 +511,7 @@ fn compare_file_linereader(
         );
     }
     assert_eq!(contents_file_count, i, "Expected to compare {} lines, only compared {}", contents_file_count, i);
-    eprintln!("{}compare_file_linereader({:?})", sx(), &path);
+    eprintln!("{}compare_file_linereader({:?})", sx(), path);
 }
 
 /// test `LineReader::find_line` read all file offsets
