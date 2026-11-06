@@ -428,10 +428,8 @@ impl Summary {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
                 // `Dummy` can occur for files without adequate read permissions
-                panic!(
-                    "Summary::blockreader() called on readerdata type SummaryReaderData::Dummy; path {:?}",
-                    self.path
-                );
+                de_wrn!("Summary::blockreader() called on readerdata type SummaryReaderData::Dummy; path {:?}", self.path);
+                None
             }
             SummaryReaderData::Syslog((
                 summaryblockreader,
@@ -456,7 +454,8 @@ impl Summary {
     pub fn datetime_first_printed(&self) -> &DateTimeLOpt {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
-                panic!("Summary::datetime_first() called on Summary::Dummy; path {:?}", self.path,)
+                de_wrn!("Summary::datetime_first() called on Summary::Dummy; path {:?}", self.path);
+                &None
             }
             // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
             SummaryReaderData::Syslog((
@@ -485,7 +484,8 @@ impl Summary {
     pub fn datetime_first_processed(&self) -> &DateTimeLOpt {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
-                panic!("Summary::datetime_first() called on Summary::Dummy; path {:?}", self.path,)
+                de_wrn!("Summary::datetime_first() called on Summary::Dummy; path {:?}", self.path);
+                &None
             }
             // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
             SummaryReaderData::Syslog((
@@ -513,7 +513,8 @@ impl Summary {
     pub fn datetime_last_printed(&self) -> &DateTimeLOpt {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
-                panic!("Summary::datetime_last() called on Summary::Dummy; path {:?}", self.path,)
+                de_wrn!("Summary::datetime_last() called on Summary::Dummy; path {:?}", self.path);
+                &None
             }
             // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
             SummaryReaderData::Syslog((
@@ -541,7 +542,8 @@ impl Summary {
     pub fn datetime_last_processed(&self) -> &DateTimeLOpt {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
-                panic!("Summary::datetime_last() called on Summary::Dummy; path {:?}", self.path,)
+                de_wrn!("Summary::datetime_last() called on Summary::Dummy; path {:?}", self.path);
+                &None
             }
             // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
             SummaryReaderData::Syslog((
@@ -569,7 +571,7 @@ impl Summary {
     pub fn datetime_out_of_order(&self) -> Count {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
-                debug_panic!("Summary::datetime_out_of_order() called on Summary::Dummy; path {:?}", self.path,);
+                // XXX: this occurs for files with invalid data
                 0
             }
             // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
@@ -594,7 +596,7 @@ impl Summary {
     pub fn datetime_out_of_order_max(&self) -> DurOutOfOrderMaxOpt {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
-                debug_panic!("Summary::datetime_out_of_order_max() called on Summary::Dummy; path {:?}", self.path,);
+                // XXX: this occurs for files with invalid data
                 None
             }
             // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
