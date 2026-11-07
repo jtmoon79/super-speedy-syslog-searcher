@@ -177,8 +177,8 @@ try {
             continue
         }
 
-        Write-Host "PS> rustup toolchain install --profile minimal --target $target $MSRV" -ForegroundColor Green
-        & rustup toolchain install --profile minimal --target "$target" "$MSRV"
+        Write-Host "PS> rustup toolchain install --no-self-update --profile minimal --target $target $MSRV" -ForegroundColor Green
+        & rustup toolchain install --no-self-update --profile minimal --target "$target" "$MSRV"
 
         Write-Host "PS> cargo cross build --target $target" @CrossArgs -ForegroundColor Green
         $env:S4_BUILD_REGEX_PRINT = '1'
