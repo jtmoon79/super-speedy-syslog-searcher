@@ -46,6 +46,7 @@ export GIT_PAGER=
 function perf_path() {
     local perf_path_candidate
     for perf_path_candidate in \
+        "/usr/bin/perf" \
         "/usr/lib/linux-tools/$(ls -1v /usr/lib/linux-tools/ 2>/dev/null | tail -n1 || true)/perf" \
         "/usr/lib/linux-tools-$(uname -r)/perf" \
         "$(find /usr/lib/ -name perf -type f 2>/dev/null | sort | head -n1 || true)" \
@@ -84,6 +85,28 @@ if [[ ! -x "${PERF}" ]]; then
 fi
 export PERF
 
+# check PERF is built with required options
+# otherwise it will still run and everything will behave normally
+# but the flamegraph will not have recorded any frames from the s4 binary
+if ! PERF_BUILD_OPTIONS=$("${PERF}" version --build-options 2>&1); then
+    echo "ERROR: Cannot inspect perf build options:" >&2
+    echo "${PERF_BUILD_OPTIONS}" >&2
+    exit 1
+fi
+for feature in libelf dwarf-unwind; do
+    if ! grep -Eq \
+        "^[[:space:]]*${feature}:[[:space:]]*\\[[[:space:]]*on[[:space:]]*\\]" \
+        <<< "${PERF_BUILD_OPTIONS}"
+    then
+        echo "ERROR: perf lacks required ${feature} support: ${PERF}" >&2
+        echo 'Install a perf build with ELF and DWARF unwinding support.' >&2
+        echo 'For a local build, install libelf-dev and libdw-dev before rebuilding perf.' >&2
+        echo
+        echo "${PERF_BUILD_OPTIONS}" >&2
+        exit 1
+    fi
+done
+
 (
     export PAGER=cat
     set -x
@@ -103,6 +126,7 @@ if ! "${PROGRAM}" --version &>/dev/null; then
     exit 1
 fi
 declare -r BIN=${BIN-s4}
+readonly PROFILE=flamegraph
 
 export CARGO_PROFILE_RELEASE_DEBUG=true
 export RUSTFLAGS=-g
@@ -117,20 +141,24 @@ FREQ=${FREQ-3000}
 
 (
     set -x
-    # verify flamegraph can run the binary (s4 only prints it's version)
-    cargo flamegraph \
-        --verbose \
-        --flamechart \
-        --profile flamegraph \
-        --deterministic \
-        --output "${OUT}" \
-        --bin "${BIN}" \
-        --root \
-        --ignore-status \
-        --no-inline \
-        --freq ${FREQ} \
-        -- --version
-)
+    # verify flamegraph can run the binary
+    # this will compile the profile 'flamegraph' if not already built
+    env PERF=${PERF} \
+        CARGO_PROFILE_RELEASE_DEBUG=${CARGO_PROFILE_RELEASE_DEBUG} \
+        RUST_BACKTRACE=${RUST_BACKTRACE} \
+        cargo flamegraph \
+            --verbose \
+            --flamechart \
+            --profile "${PROFILE}" \
+            --deterministic \
+            --output "${OUT}" \
+            --bin "${BIN}" \
+            --root \
+            --ignore-status \
+            --no-inline \
+            --freq ${FREQ} \
+            -- --version
+    )
 echo >&2
 echo >&2
 rm -f -- perf.data perf.data.old "${OUT}"
@@ -170,7 +198,7 @@ else
                 echo './logs/programs/journal/RHE_91_system.journal'
                 echo './logs/programs/journal/Ubuntu22-user-1000.journal'
                 echo './logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx'
-               )
+              )
 fi
 
 NOTES+="; -freq ${FREQ}; created $(date +%Y%m%dT%H%M%S%z); ${FLAMEGRAPH_VERSION}; rust ${RUST_VERSION_SHORT} ${RUST_HOST}"
@@ -185,29 +213,26 @@ print(escape(r''' ${1-} '''[1:-1]).replace('/', r'\/'))
 
 NOTES_ESCAPED=$(html_sed_escape "${NOTES}")
 (
-
-echo PERF=${PERF} >&2
-echo CARGO_PROFILE_RELEASE_DEBUG=${CARGO_PROFILE_RELEASE_DEBUG} >&2
-echo RUST_BACKTRACE=${RUST_BACKTRACE} >&2
-
-set -x
-
-cargo flamegraph \
-    --verbose \
-    --flamechart \
-    --profile flamegraph \
-    --deterministic \
-    --output "${OUT}" \
-    --bin "${BIN}" \
-    --notes "foo<br/>bar<br/>${NOTES_ESCAPED}" \
-    --root \
-    --ignore-status \
-    --no-inline \
-    --freq ${FREQ} \
-    "${@}" \
-    -- \
-        "${args[@]}" \
-        1>/dev/null \
+    set -x
+    env PERF=${PERF} \
+        CARGO_PROFILE_RELEASE_DEBUG=${CARGO_PROFILE_RELEASE_DEBUG} \
+        RUST_BACKTRACE=${RUST_BACKTRACE} \
+        cargo flamegraph \
+            --verbose \
+            --flamechart \
+            --profile "${PROFILE}" \
+            --deterministic \
+            --output "${OUT}" \
+            --bin "${BIN}" \
+            --notes "${NOTES_ESCAPED}" \
+            --root \
+            --ignore-status \
+            --no-inline \
+            --freq ${FREQ} \
+            "${@}" \
+            -- \
+                "${args[@]}" \
+                1>/dev/null \
 )
 
 # Forcibly update the .svg title element with $NOTES and $args
