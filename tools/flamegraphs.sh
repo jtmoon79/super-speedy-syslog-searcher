@@ -6,6 +6,11 @@ set -euo pipefail
 
 cd "$(dirname -- "${0}")/.."
 
+if [[ "${SKIP_SUDO_VALIDATE-}" != "1" ]]; then
+    # pre-cache sudo password
+    sudo --validate -p "update the cached sudo credentials (enter sudo password): "
+fi
+
 SCRIPT="./tools/flamegraph.sh"
 
 DIROUT=${DIROUT-flamegraphs-$(date '+%Y%m%dT%H%M%S')}
@@ -33,6 +38,7 @@ for FLAMGRAPHOUT_S4FILE in \
     "flamegraph-syslog-no-matches__numbers3.log.svg|./logs/other/tests/numbers3.log" \
     "flamegraph-syslog__gen-99999-1-Motley_Crue.log.svg|./logs/other/tests/gen-99999-1-Motley_Crue.log" \
     "flamegraph-syslog__gen-99999-1-Motley_Crue.tar.svg|./logs/other/tests/gen-99999-1-Motley_Crue.tar" \
+    "flamegraph-syslog__gen-1000-3-foobar.log.svg|./logs/other/tests/gen-1000-3-foobar.log" \
     "flamegraph-syslog-bz2__gen-1000-3-foobar.log.bz2.svg|./logs/other/tests/gen-1000-3-foobar.log.bz2" \
     "flamegraph-syslog-gz__gen-1000-3-foobar.log.gz.svg|./logs/other/tests/gen-1000-3-foobar.log.gz" \
     "flamegraph-syslog-lz4__gen-1000-3-foobar.log.lz4.svg|./logs/other/tests/gen-1000-3-foobar.log.lz4" \
