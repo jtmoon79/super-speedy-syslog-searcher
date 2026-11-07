@@ -108,7 +108,7 @@ ere = { version = "=0.10.5", path = "subprojects/ere/ere", package = "super-spee
 ere_automator_procmacro = { version = "=0.10.5", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
 ere_datetimes_impl = { version = "=0.10.5", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
 evtx = { version = "0.15.1", features = ["multithreading"] }
-flate2 = "1.1.10"
+flate2 = "1.1.11"
 itertools = "0.15.0"
 jwalk = "0.9.0"
 kinded = "0.5.1"
