@@ -14,7 +14,7 @@ readonly PYTHON_DEFAULT='python3'
 declare -irg FILE_RUNS_BLOCKSZ_DEFAULT=10
 declare -irg BLOCKSZ_MIN_DEFAULT=4096
 declare -irg BLOCKSZ_MAX_DEFAULT=131072
-declare -irg BLOCKSZ_ALIGN_DEFAULT=4096
+declare -irg BLOCKSZ_ALIGN_DEFAULT=8192
 
 if [[ "${1-}" = "-h" || "${1-}" = "--help" || "${1-}" = "-?" ]]; then
     echo "\
