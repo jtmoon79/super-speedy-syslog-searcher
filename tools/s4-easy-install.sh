@@ -208,21 +208,23 @@ main() {
             curl -LsSf 'https://sh.rustup.rs' | sh
         )
     fi
-    # manually adjust to 'musl' build for some Operating Systems
-    # typically the target triple for 'alpine' will already be set to 'musl'
-    # but the triple for 'nixos' may need to be adjusted to 'musl'
-    if [ -r /etc/os-release ]; then
-        (
-            . /etc/os-release
-            if [ "${ID-}" = 'nixos' ] || [ "${ID-}" = 'alpine' ]; then
-                if has_command rev; then
-                    target_triple="$(echo "${target_triple}" | rev | cut -f 2- -d '-' | rev)-musl"
-                    info "target triple set to musl for OS ${ID-}"
-                else
-                    die "Program 'rev' is not available while trying to adjust target triple for OS ${ID-}"
-                fi
-            fi
-        )
+    if [ -r /etc/os-release ] && (set -eu; . /etc/os-release; [ "${ID-}" = 'nixos' ]); then
+        echo "\
+NixOS requires inserting this into /etc/nixos/configuration.nix
+
+    programs.nix-ld.enable = true;
+    programs.nix-ld.libraries = [
+      pkgs.stdenv.cc.cc.lib
+      pkgs.systemd
+    ];
+    environment.variables.S4_LIBSYSTEMD = \"\${pkgs.systemd}/lib/libsystemd.so\";
+
+Then run
+
+    sudo nixos-rebuild switch
+
+then logout and login, and re-run ${SCRIPT_NAME}
+"
     fi
     info "platform target is ${target_triple}"
     printf '\n' >&2

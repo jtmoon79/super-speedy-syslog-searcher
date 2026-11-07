@@ -80,6 +80,7 @@ or archived logs (`.tar`, `.zip`).
   - [Performance Comparisons](#performance-comparisons)
   - [Building locally](#building-locally)
   - [Parsing `.journal` files](#parsing-journal-files)
+    - [NixOS](#nixos)
   - [Requesting Support For DateTime Formats; your particular log file](#requesting-support-for-datetime-formats-your-particular-log-file)
   - [Logging Chaos: The Problem `s4` Solves](#logging-chaos-the-problem-s4-solves)
     - [Open-Source Software Examples](#open-source-software-examples)
@@ -1268,6 +1269,31 @@ You can view the optimization phases with `htop`:
 ### Parsing `.journal` files
 
 Requires `libsystemd` to be installed to use `libsystemd.so` at runtime.
+
+#### NixOS
+
+On NixOS, the `libsystemd` library is in the Nix store.
+Set `S4_LIBSYSTEMD` to its path in your NixOS configuration, typically `/etc/nixos/configuration.nix`.
+For example:
+
+```text
+{ pkgs, ... }:
+{
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = [
+    pkgs.stdenv.cc.cc.lib
+    pkgs.systemd
+  ];
+  environment.variables.S4_LIBSYSTEMD = "${pkgs.systemd}/lib/libsystemd.so";
+}
+```
+
+Run `sudo nixos-rebuild switch` and then run `s4` again.
+
+Note that `musl` builds do not support dynamic loading ([`dlopen`]). To allow dynamic loading of
+`libsystemd`, you must use a `gnu` build.
+
+[`dlopen`]: https://www.man7.org/linux/man-pages/man3/dlopen.3.html
 
 ### Requesting Support For DateTime Formats; your particular log file
 
