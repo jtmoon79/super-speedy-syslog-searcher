@@ -2770,6 +2770,10 @@ File name extensions that are skipped unless passed directly are:
 "#, NAME_EXT_UNPARSEABLE_STR, r#"
 
 
+s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
+archived within a .tar or .zip file.
+
+
 DateTime Filters may be strftime specifier patterns:
     "%Y%m%dT%H%M%S*"
     "%Y-%m-%dT%H:%M:%S*"
@@ -2846,6 +2850,10 @@ Resolved values of "--after" and "--before" can be reviewed in
 the "--summary" output.
 
 
+For log files that use datetimestamp without a year, the file Modification Time
+will be used to deduce the year of each log message.
+
+
 --prepend-tz and --dt-offset function independently:
 --dt-offset is used to interpret processed log message datetime stamps that
 do not have a timezone offset.
@@ -2864,13 +2872,6 @@ do not have a timezone offset.
  \"", unescape::BACKSLASH_ESCAPE_SEQUENCES8, "\", \
   \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, r#"",
  and "\xhh" where "hh" is a 2-digit hexadecimal value.
-
-
-s4 uses file naming to determine the file type.
-
-
-s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
-archived within a .tar or .zip file.
 
 
 Log messages from different files with the same datetime are printed in order

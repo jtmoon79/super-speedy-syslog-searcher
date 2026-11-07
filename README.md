@@ -511,6 +511,7 @@ After installing `s4`, you can copy the [Claude skill `s4-log-search`] into your
 ### `--help`
 
 ```text
+$ s4 --help
 Speedily search and merge log messages by datetime.
 DateTime filters may be passed to narrow the search.
 s4 aims to be very fast.
@@ -663,6 +664,10 @@ psd1, py, rb, sh, so, svg, sys, tif, tiff, ttf,
 tgz, war, wav, webm, webp, wma, wmv
 
 
+s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
+archived within a .tar or .zip file.
+
+
 DateTime Filters may be strftime specifier patterns:
     "%Y%m%dT%H%M%S*"
     "%Y-%m-%dT%H:%M:%S*"
@@ -739,6 +744,10 @@ Resolved values of "--after" and "--before" can be reviewed in
 the "--summary" output.
 
 
+For log files that use datetimestamp without a year, the file Modification Time
+will be used to deduce the year of each log message.
+
+
 --prepend-tz and --dt-offset function independently:
 --dt-offset is used to interpret processed log message datetime stamps that
 do not have a timezone offset.
@@ -748,13 +757,6 @@ do not have a timezone offset.
 --separator and --prepend-separator accepts backslash escape sequences:
     "\0", "\a", "\b", "\e", "\f", "\n", "\r", "\\", "\t", "\v",
  and "\xhh" where "hh" is a 2-digit hexadecimal value.
-
-
-s4 uses file naming to determine the file type.
-
-
-s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
-archived within a .tar or .zip file.
 
 
 Log messages from different files with the same datetime are printed in order
