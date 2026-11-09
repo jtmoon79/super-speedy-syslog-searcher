@@ -1242,6 +1242,7 @@ impl<R: Read> EtlParser<R> {
         def1o!("header {:?}", header);
         let mut provider_names: HashMap<Guid, EtlName> = HashMap::new();
         provider_names.insert(GUID_EVENT_TRACE, PROVIDER_NAME_KERNEL.into());
+        let schemas: TlSchemaCache = TlSchemaCache::new();
         def1x!();
 
         Ok(EtlParser {
@@ -1254,7 +1255,7 @@ impl<R: Read> EtlParser<R> {
             buf_index: 0,
             done: false,
             provider_names,
-            schemas: TlSchemaCache::new(),
+            schemas,
             buffers_read: 1,
             buffers_compressed: compressed as Count,
             records_skipped: 0,

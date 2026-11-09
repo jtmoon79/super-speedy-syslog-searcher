@@ -273,24 +273,27 @@ impl LineReader {
                 return Err(err);
             }
         };
+        let lines: FoToLine = FoToLine::new();
+        let foend_to_fobeg: FoToFo = FoToFo::new();
+        let find_line_lru_cache: LinesLRUCache = LinesLRUCache::new(
+            std::num::NonZeroUsize::new(LineReader::FIND_LINE_LRU_CACHE_SZ).unwrap(),
+        );
         def1x!("return Ok(LineReader)");
 
         Ok(LineReader {
             blockreader,
-            lines: FoToLine::new(),
+            lines,
             line_longest_processed: 0,
             lines_stored_highest: 0,
             lines_hits: 0,
             lines_miss: 0,
-            foend_to_fobeg: FoToFo::new(),
+            foend_to_fobeg,
             lines_processed: 0,
             line_parts_created: 0,
             charsz_,
             filetype_text_encoding_update_called: false,
             find_line_lru_cache_enabled: LineReader::CACHE_ENABLE_DEFAULT,
-            find_line_lru_cache: LinesLRUCache::new(
-                std::num::NonZeroUsize::new(LineReader::FIND_LINE_LRU_CACHE_SZ).unwrap(),
-            ),
+            find_line_lru_cache,
             find_line_lru_cache_hit: 0,
             find_line_lru_cache_miss: 0,
             find_line_lru_cache_put: 0,

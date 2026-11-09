@@ -375,11 +375,12 @@ impl EvtxReader {
                 return Err(Error::other(format!("EvtxParser::from_read_seek({:?}): {}", path_actual, err)));
             }
         };
+        let events: Events = Events::new();
         def1x!("return Ok(EvtxReader)");
 
         Ok(EvtxReader {
             evtxparser,
-            events: Events::new(),
+            events,
             path,
             path_id,
             fixed_offset,
