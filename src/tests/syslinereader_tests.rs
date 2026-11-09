@@ -488,6 +488,24 @@ fn test_find_datetime_in_line(regex_id: RegexId) {
     }
 }
 
+fn assert_parse_datetime_indexes_reused(
+    slr: &SyslineReader,
+    pointer: *const DateTimeParseInstrsIndex,
+    capacity: usize,
+) {
+    let indexes = slr.dt_patterns_buffer();
+    assert_eq!(indexes.as_ptr(), pointer);
+    assert_eq!(indexes.capacity(), capacity);
+    let counts = slr.dt_patterns_counts();
+    let mut expected: DateTimeParseDatasIndexes = counts.keys().copied().collect();
+    expected.sort_unstable_by(|a, b| {
+        counts[b]
+            .cmp(&counts[a])
+            .then_with(|| a.cmp(b))
+    });
+    assert_eq!(indexes, &expected);
+}
+
 #[test_matrix(0..191, (true, false))] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
 /// test `SyslineReader.parse_datetime_in_line_cached`
 fn test_parse_datetime_in_line_cached(
@@ -499,6 +517,8 @@ fn test_parse_datetime_in_line_cached(
     if !cache {
         slr.LRU_cache_disable();
     }
+    let pointer = slr.dt_patterns_buffer().as_ptr();
+    let capacity: usize = slr.dt_patterns_buffer().capacity();
 
     // get the regex_id and index for the current `regex_id`; if not found/compiled, skip the test
     let (index_expect, dtpi) = match DATETIME_PARSE_DATAS
@@ -532,6 +552,7 @@ fn test_parse_datetime_in_line_cached(
         slr.dt_patterns_reset();
         slr.dt_patterns_indexes_refresh();
         slr.dt_patterns_update(index_expect);
+        assert_parse_datetime_indexes_reused(&slr, pointer, capacity);
         // this assert repeats `test_dt_pattern_index_max_count` which is fine
         assert_eq!(
             slr.dt_pattern_index_max_count(),
@@ -571,6 +592,7 @@ fn test_parse_datetime_in_line_cached(
                 );
             }
         }
+        assert_parse_datetime_indexes_reused(&slr, pointer, capacity);
     }
 }
 

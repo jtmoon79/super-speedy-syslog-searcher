@@ -670,7 +670,7 @@ pub struct SyslineReader {
     ///
     /// Used to determine the best `DateTimeParseInstr` to use for sysline
     /// matching.
-    /// Not used after `self.analyzed` becomes `true` though still updated.
+    /// Also determines parsing priority after `self.analyzed` becomes `true`.
     ///
     /// [`DATETIME_PARSE_DATAS`]: crate::data::datetime::DATETIME_PARSE_DATAS
     pub(super) dt_patterns_counts: DateTimePatternCounts,
@@ -679,6 +679,9 @@ pub struct SyslineReader {
     ///
     /// Not updated after `self.analyzed` becomes `true`.
     dt_patterns_indexes: DateTimeParseDatasIndexes,
+    /// Reusable parsing indexes.
+    /// Refreshed whenever pattern tracking changes including after analysis.
+    dt_patterns_buffer: DateTimeParseDatasIndexes,
     /// Default [`FixedOffset`] for a found datetime without a timezone.
     ///
     /// Similar to the "fallback year". Different in that the
@@ -970,19 +973,29 @@ impl SyslineReader {
         };
         let mut dt_patterns_counts = DateTimePatternCounts::new();
         let mut dt_patterns_indexes = DateTimeParseDatasIndexes::with_capacity(DATETIME_PARSE_DATAS_LEN);
+        let mut dt_patterns_buffer = DateTimeParseDatasIndexes::with_capacity(DATETIME_PARSE_DATAS_LEN);
         for index in 0..DATETIME_PARSE_DATAS_LEN {
             dt_patterns_counts.insert(index as DateTimeParseInstrsIndex, 0);
             dt_patterns_indexes.push(index as DateTimeParseInstrsIndex);
+            dt_patterns_buffer.push(index as DateTimeParseInstrsIndex);
         }
+        let syslines: Syslines = Syslines::new();
+        let syslines_by_range: SyslinesRangeMap = SyslinesRangeMap::new();
+        let find_sysline_lru_cache: SyslinesLRUCache = SyslinesLRUCache::new(
+            std::num::NonZeroUsize::new(SyslineReader::FIND_SYSLINE_LRU_CACHE_SZ).unwrap(),
+        );
+        let parse_datetime_in_line_lru_cache: LineParsedCache = LineParsedCache::new(
+            std::num::NonZeroUsize::new(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ).unwrap(),
+        );
         def1x!("return Ok(SyslineReader)");
 
         Ok(SyslineReader {
             linereader: lr,
-            syslines: Syslines::new(),
+            syslines: syslines,
             sysline_longest: 0,
             syslines_count: 0,
             syslines_stored_highest: 0,
-            syslines_by_range: SyslinesRangeMap::new(),
+            syslines_by_range,
             range_lookups: true,
             syslines_hit: 0,
             syslines_miss: 0,
@@ -1000,22 +1013,19 @@ impl SyslineReader {
             dt_previous_processed: None,
             dt_patterns_counts,
             dt_patterns_indexes,
+            dt_patterns_buffer,
             tz_offset,
             tz_offset_string: tz_offset.to_string(),
             systemtime_at_uptime_zero: None,
             transcode_buffer: Bytes::with_capacity(0),
             find_sysline_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
             fileoffset_last: 0,
-            find_sysline_lru_cache: SyslinesLRUCache::new(
-                std::num::NonZeroUsize::new(SyslineReader::FIND_SYSLINE_LRU_CACHE_SZ).unwrap(),
-            ),
+            find_sysline_lru_cache,
             find_sysline_lru_cache_hit: 0,
             find_sysline_lru_cache_miss: 0,
             find_sysline_lru_cache_put: 0,
             parse_datetime_in_line_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
-            parse_datetime_in_line_lru_cache: LineParsedCache::new(
-                std::num::NonZeroUsize::new(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ).unwrap(),
-            ),
+            parse_datetime_in_line_lru_cache,
             parse_datetime_in_line_lru_cache_hit: 0,
             parse_datetime_in_line_lru_cache_miss: 0,
             parse_datetime_in_line_lru_cache_put: 0,
@@ -1778,7 +1788,7 @@ impl SyslineReader {
         line: &Line,
         encoding: FileTypeTextEncoding,
         transcode_buffer: &mut Bytes,
-        parse_data_indexes: &DateTimeParseDatasIndexes,
+        dt_patterns: &DateTimeParseDatasIndexes,
         charsz: CharSz,
         year_opt: &Option<Year>,
         systemtime_at_uptime_zero: &Option<SystemTime>,
@@ -1800,9 +1810,9 @@ impl SyslineReader {
         ezcheck12d2_hit_max: &mut LineIndex,
         path: &FPath,
     ) -> ResultFindDateTime {
-        defn!("(…, …, encoding {}, charsz {:?}, year_opt {:?}, tz_offset {:?}, {:?} line.len() {:?})",
-            encoding, charsz, year_opt, tz_offset, tz_offset, line.len());
-        defo!("parse_data_indexes.len() {} {:?}", parse_data_indexes.len(), parse_data_indexes);
+        defn!(
+            "(…, …, encoding {}, charsz {:?}, year_opt {:?}, tz_offset {:?}, {:?} line.len() {:?}, dt_patterns.len() {})",
+            encoding, charsz, year_opt, tz_offset, tz_offset, line.len(), dt_patterns.len());
 
         // skip an easy case; no possible datetime
         if line.len() < SyslineReader::DATETIME_STR_MIN {
@@ -1823,7 +1833,7 @@ impl SyslineReader {
 
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
-        for (_try, index) in parse_data_indexes
+        for (_try, index) in dt_patterns
             .iter()
             .enumerate()
         {
@@ -2092,6 +2102,7 @@ impl SyslineReader {
             return;
         }
         self.dt_patterns_indexes_refresh();
+        self.dt_patterns_buffer_refresh();
         defx!();
     }
 
@@ -2121,8 +2132,29 @@ impl SyslineReader {
         defx!("dt_patterns_indexes {:?}", self.dt_patterns_indexes);
     }
 
+    fn dt_patterns_buffer_refresh(&mut self) {
+        defn!();
+        self.dt_patterns_buffer.clear();
+        self.dt_patterns_buffer.extend(self.dt_patterns_counts.keys().copied());
+        self.dt_patterns_buffer.sort_unstable_by(|a, b| {
+            self.dt_patterns_counts[b]
+                .cmp(&self.dt_patterns_counts[a])
+                .then_with(|| a.cmp(b))
+        });
+        defx!("dt_patterns_buffer {} entries", self.dt_patterns_buffer.len());
+    }
+
+    #[cfg(test)]
+    pub(crate) fn dt_patterns_buffer(&self) -> &DateTimeParseDatasIndexes {
+        &self.dt_patterns_buffer
+    }
+
+    #[cfg(test)]
+    pub(crate) fn dt_patterns_counts(&self) -> &DateTimePatternCounts {
+        &self.dt_patterns_counts
+    }
+
     /// reset the internal pattern tracking
-    /// for testing only
     #[cfg(test)]
     pub(crate) fn dt_patterns_reset(&mut self) {
         defñ!();
@@ -2134,6 +2166,7 @@ impl SyslineReader {
             //self.dt_patterns_indexes.insert(index);
             self.dt_patterns_indexes.push(index);
         }
+        self.dt_patterns_buffer_refresh();
     }
 
     /// debug print the current pattern counts
@@ -2172,6 +2205,7 @@ impl SyslineReader {
         self.dt_patterns_counts_debug_print();
 
         if self.dt_patterns_counts.is_empty() {
+            self.dt_patterns_buffer_refresh();
             // no datetime patterns were found
             defx!("no datetime patterns were found; return false");
             return false;
@@ -2200,6 +2234,7 @@ impl SyslineReader {
 
         self.dt_patterns_indexes_refresh();
 
+        self.dt_patterns_buffer_refresh();
         self.dt_patterns_counts_debug_print();
 
         self.analyzed = true;
@@ -2256,9 +2291,8 @@ impl SyslineReader {
 
     /// Attempt to parse a DateTime substring in the passed `Line`.
     ///
-    /// Wraps call to `self.find_datetime_in_line` according to status of
-    /// `self.dt_patterns`.<br/>
-    /// If `self.dt_patterns` is `None`, will set `self.dt_patterns`.
+    /// Uses reusable indexes ordered by pattern match counts and updates those
+    /// counts on a successful parse.
     // TODO: [2022/08] having `dt_patterns_update` embedded into this is an unexpected side-affect
     //       the user should have more control over when `dt_patterns_update` is called.
     //       i.e. this approach is hacky
@@ -2271,28 +2305,11 @@ impl SyslineReader {
     ) -> ResultParseDateTime {
         defn!("(…, {}, year_opt {:?}) line: {:?}", charsz, year_opt, line.to_string_noraw());
 
-        // have already determined DateTime formatting for this file, so
-        // no need to try *all* built-in DateTime formats, just try the known good formats
-        // `self.dt_patterns`
-        //
-        // TODO: [2022/06/26] cost-savings: create the `indexes` once in an analysis update function
-        //       or somewhere else, Issue #84
-        let mut indexes: DateTimeParseDatasIndexes =
-            DateTimeParseDatasIndexes::with_capacity(self.dt_patterns_counts.len());
-        // copy of the regex indexes sorted by use count
-        // use `sort_unstable_by` which avoids intermediate allocations
-        indexes.extend(self.dt_patterns_counts.keys().copied());
-        indexes.sort_unstable_by(|a, b| {
-            self.dt_patterns_counts[b]
-                .cmp(&self.dt_patterns_counts[a]) // descending by count
-                .then_with(|| a.cmp(b))           // deterministic tie-breaker
-        });
-        defo!("indexes {:?}", indexes);
         let result: ResultFindDateTime = SyslineReader::find_datetime_in_line(
             line,
             self.encoding_type(),
             &mut self.transcode_buffer,
-            &indexes,
+            &self.dt_patterns_buffer,
             charsz,
             year_opt,
             &self.systemtime_at_uptime_zero,
