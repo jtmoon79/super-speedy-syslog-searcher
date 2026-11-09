@@ -410,17 +410,21 @@ struct FileHandleManagerState {
 impl FileHandleManagerState {
     fn new(open_max: OpenMaxCountType) -> Self {
         def1ñ!("open_max={}", open_max);
-        let lru_capacity = open_max;
         let mut summary = SummaryFileHandleManager::default();
         summary_stat!(summary.open_max_default = FILE_HANDLE_OPEN_MAX_DEFAULT.get() as u32);
         summary_stat!(summary.open_max_adjusted = open_max.get() as u32);
+        // allocate per-line for better alloc_tracker statistics
+        let handles_managed: HashMap<FileHandleKey, FileEntryManaged> = HashMap::new();
+        let handles_unmanaged: HashMap<FileHandleKey, usize> = HashMap::new();
+        let handles_unmanaged_pending: HashMap<FileHandleKey, usize> = HashMap::new();
+        let lru: LruCache<FileHandleKey, ()> = LruCache::new(open_max);
         Self {
-            handles_managed: HashMap::new(),
-            handles_unmanaged: HashMap::new(),
-            handles_unmanaged_pending: HashMap::new(),
+            handles_managed,
+            handles_unmanaged,
+            handles_unmanaged_pending,
             handles_managed_expected: 0,
             handles_unmanaged_expected: 0,
-            lru: LruCache::new(lru_capacity),
+            lru,
             count_open: 0,
             open_max,
             summary,

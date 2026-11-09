@@ -369,11 +369,8 @@ impl SyslogProcessor {
 
         if !SyslogProcessor::LRU_CACHE_ENABLE {
             slr.LRU_cache_disable();
-            slr.linereader
-                .LRU_cache_disable();
-            slr.linereader
-                .blockreader
-                .LRU_cache_disable();
+            slr.linereader.LRU_cache_disable();
+            slr.linereader.blockreader.LRU_cache_disable();
         }
 
         def1x!("return Ok(SyslogProcessor)");

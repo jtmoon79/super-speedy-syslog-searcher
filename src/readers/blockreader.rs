@@ -2516,6 +2516,9 @@ impl BlockReader {
 
         let blockn: Count = BlockReader::count_blocks(filesz_actual, blocksz);
         let blocks_highest = blocks.len();
+        let read_block_lru_cache: BlocksLRUCache = BlocksLRUCache::new(
+            std::num::NonZeroUsize::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ).unwrap(),
+        );
 
         def1x!("return Ok(BlockReader)");
 
@@ -2543,9 +2546,7 @@ impl BlockReader {
             count_bytes_read,
             blocks,
             blocks_read,
-            read_block_lru_cache: BlocksLRUCache::new(
-                std::num::NonZeroUsize::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ).unwrap(),
-            ),
+            read_block_lru_cache,
             read_block_lru_cache_enabled: BlockReader::CACHE_ENABLE_DEFAULT,
             read_block_cache_lru_hit: 0,
             read_block_cache_lru_miss: 0,

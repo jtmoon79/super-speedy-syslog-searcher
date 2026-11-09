@@ -522,6 +522,7 @@ impl FixedStructReader {
                 );
             }
         }
+        let cache_entries: FoToEntry = FoToEntry::new();
 
         let map_max_len = map_tvpair_fo.len();
         // now that the `fixedstruct_type` is known, create the FixedStructReader
@@ -532,7 +533,7 @@ impl FixedStructReader {
             fixedstruct_size: fixedstruct_type.size(),
             high_score,
             tz_offset,
-            cache_entries: FoToEntry::new(),
+            cache_entries,
             map_tvpair_fo,
             block_use_count,
             first_entry_fileoffset,

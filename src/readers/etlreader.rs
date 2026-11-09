@@ -226,11 +226,13 @@ impl EtlReader {
             },
         };
         let filesz: FileSz = metadata.len() as FileSz;
+        let events: Events = Events::new();
+        let session_name: String = String::new();
         def1x!("return Ok(EtlReader); filesz {} mtime {:?}", filesz, mtime);
 
         Ok(EtlReader {
             file: Some(file),
-            events: Events::new(),
+            events,
             path,
             path_id,
             fixed_offset,
@@ -254,7 +256,7 @@ impl EtlReader {
             events_kernel: 0,
             events_undecoded: 0,
             records_skipped: 0,
-            session_name: String::new(),
+            session_name,
             analyzed: false,
             error: None,
         })
