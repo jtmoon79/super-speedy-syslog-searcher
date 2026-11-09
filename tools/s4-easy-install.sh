@@ -2,6 +2,7 @@
 #
 # easy installer for s4 release binaries.
 # POSIX shell compatible.
+# Uses curl and unzip if available, fallback to python/python3.
 #
 # Usage:
 #   VER=0.9.81 ./tools/s4-easy-install.sh
@@ -68,14 +69,6 @@ die() {
     exit 1
 }
 
-require_program() {
-    program=$1
-    help_text=$2
-    if ! command -v "${program}" >/dev/null 2>&1; then
-        die "required program '${program}' was not found. ${help_text}"
-    fi
-}
-
 check_optional_program() {
     program=$1
     help_text=${2-}
@@ -90,6 +83,62 @@ check_optional_program() {
 
 has_command() {
     command -v "$1" >/dev/null 2>&1
+}
+
+download_file() {
+    if has_command curl; then
+        (set -eux; curl --silent --show-error --fail --location --output "$2" "$1")
+    else
+        "${PYTHON}" -c '
+import shutil
+import sys
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
+with urlopen(sys.argv[1]) as response, open(sys.argv[2], "wb") as output:
+    shutil.copyfileobj(response, output)
+' "$1" "$2"
+    fi
+}
+
+url_exists() {
+    if has_command curl; then
+        (set -eux; curl --head --fail --location --silent --output /dev/null "$1")
+    elif [ -n "${PYTHON-}" ]; then
+        "${PYTHON}" -c '
+import sys
+try:
+    from urllib.request import Request, urlopen
+    from urllib.error import HTTPError, URLError
+except ImportError:
+    from urllib2 import Request, urlopen, HTTPError, URLError
+request = Request(sys.argv[1])
+request.get_method = lambda: "HEAD"
+try:
+    urlopen(request).close()
+except (HTTPError, URLError) as error:
+    sys.stderr.write("%s\n" % error)
+    sys.exit(1)
+' "$1"
+    else
+        die "missing 'curl' or 'python'"
+    fi
+}
+
+extract_zip() {
+    if has_command unzip; then
+        unzip -o -d "$2" "$1"
+    elif [ -n "${PYTHON-}" ]; then
+        "${PYTHON}" -c '
+import sys
+import zipfile
+with zipfile.ZipFile(sys.argv[1]) as archive:
+    archive.extractall(sys.argv[2])
+' "$1" "$2"
+    else
+        die "missing 'unzip' or 'python'"
+    fi
 }
 
 is_in_path() {
@@ -164,8 +213,17 @@ choose_install_dir() {
 }
 
 main() {
-    require_program curl "Install curl via your package manager."
-    require_program unzip "Install unzip via your package manager."
+    PYTHON=
+    if ! has_command curl || ! has_command unzip; then
+        if has_command python; then
+            PYTHON=python
+        elif has_command python3; then
+            PYTHON=python3
+        else
+            die "missing 'curl' or 'unzip', and neither 'python' nor 'python3' was found. Install the missing programs via your package manager."
+        fi
+    fi
+    readonly PYTHON
 
     if check_optional_program sha256sum "SHA-256 verification will be skipped."; then
         has_sha256sum=0
@@ -202,10 +260,10 @@ main() {
          target_triple=$(rustc -vV | grep -m1 -Ee '^host: ' | cut -d ' ' -f 2-)
     else
         info "run sh.rustup.rs ..."
+        download_file 'https://sh.rustup.rs' "${WORKDIR}/rustup-init.sh"
+        chmod +x "${WORKDIR}/rustup-init.sh"
         target_triple=$(
-            export RUSTUP_INIT_SH_PRINT=arch
-            set -x
-            curl -LsSf 'https://sh.rustup.rs' | sh
+            env RUSTUP_INIT_SH_PRINT=arch sh "${WORKDIR}/rustup-init.sh"
         )
     fi
     if [ -r /etc/os-release ] && (set -eu; . /etc/os-release; [ "${ID-}" = 'nixos' ]); then
@@ -255,12 +313,12 @@ then logout and login, and re-run ${SCRIPT_NAME}
     fi
 
     info "download release ${VER} for target ${target_triple} ..."
-    (set -x; curl --silent --show-error --fail --location --output "${zip_path}" "${url_zip}")
+    download_file "${url_zip}" "${zip_path}"
 
     if [ "${has_sha256sum}" -eq 0 ] \
-       && curl --head --fail --location --silent --output /dev/null "${url_checksum}"; then
+       && url_exists "${url_checksum}"; then
         info "download checksum file ..."
-        (set -x; curl --silent --show-error --fail --location --output "${checksum_path}" "${url_checksum}")
+        download_file "${url_checksum}" "${checksum_path}"
         info "verify SHA-256 checksum of zip file ..."
         (
             cd "${WORKDIR}"
@@ -279,7 +337,7 @@ then logout and login, and re-run ${SCRIPT_NAME}
     printf '\n' >&2
 
     info "extract archive ..."
-    (set -x; unzip -o -d "${WORKDIR}" "${zip_path}") >/dev/null
+    extract_zip "${zip_path}" "${WORKDIR}"
 
     # handle both Unix and Windows-style zip contents
     if [ -f "${WORKDIR}/s4" ]; then
