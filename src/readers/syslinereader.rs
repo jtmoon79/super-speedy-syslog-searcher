@@ -2096,13 +2096,13 @@ impl SyslineReader {
             }
         }
         defo!("dt_patterns_counts {:?}", self.dt_patterns_counts);
+        self.dt_patterns_buffer_refresh();
         // refresh the indexes every time until `dt_patterns_analysis` is called
         if self.analyzed {
             defx!("already analyzed");
             return;
         }
         self.dt_patterns_indexes_refresh();
-        self.dt_patterns_buffer_refresh();
         defx!();
     }
 
@@ -2133,15 +2133,21 @@ impl SyslineReader {
     }
 
     fn dt_patterns_buffer_refresh(&mut self) {
-        defn!();
+        defn!("dt_patterns_buffer len {} capacity {}; clear(), extend()",
+            self.dt_patterns_buffer.len(), self.dt_patterns_buffer.capacity());
         self.dt_patterns_buffer.clear();
         self.dt_patterns_buffer.extend(self.dt_patterns_counts.keys().copied());
+        defo!("dt_patterns_counts len {}", self.dt_patterns_counts.len());
+        defo!("dt_patterns_buffer len {} capacity {}; sort_unstable_by(), shrink_to_fit()",
+            self.dt_patterns_buffer.len(), self.dt_patterns_buffer.capacity());
         self.dt_patterns_buffer.sort_unstable_by(|a, b| {
             self.dt_patterns_counts[b]
                 .cmp(&self.dt_patterns_counts[a])
                 .then_with(|| a.cmp(b))
         });
-        defx!("dt_patterns_buffer {} entries", self.dt_patterns_buffer.len());
+        self.dt_patterns_buffer.shrink_to_fit();
+        defx!("dt_patterns_buffer len {} capacity {}",
+            self.dt_patterns_buffer.len(), self.dt_patterns_buffer.capacity());
     }
 
     #[cfg(test)]
