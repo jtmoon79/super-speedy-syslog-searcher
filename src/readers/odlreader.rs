@@ -42,6 +42,7 @@ use crate::common::{
     PathId,
     SUBPATH_SEP,
     summary_stat,
+    summary_stats_enabled,
 };
 use crate::data::datetime::{
     DateTimeL,
@@ -52,6 +53,10 @@ use crate::data::datetime::{
     dt_pass_filters,
 };
 use crate::data::odl::Odl;
+use crate::debug::printers::{
+    de_wrn,
+    e_err,
+};
 use crate::readers::filedecompressor::decompress_to_ntf;
 use crate::readers::filehandlemanager::{
     FILE_HANDLE_MANAGER,
@@ -69,6 +74,8 @@ use crate::readers::odlparser::{
     OdlRecordError,
 };
 use crate::readers::summary::Summary;
+
+const ODL_WARNINGS_MAX: usize = 100;
 
 #[derive(Clone, Default, Debug, PartialEq, Eq)]
 pub struct SummaryOdlReader {
@@ -94,6 +101,7 @@ pub struct SummaryOdlReader {
     pub odlreader_supplementary_files_used: Vec<FPath>,
     /// Supplementary files searched for but missing or inaccessible.
     pub odlreader_supplementary_files_notfound: Vec<FPath>,
+    pub odlreader_warnings: Vec<String>,
 }
 
 /// Metadata supplied explicitly for a stream that has no filesystem path.
@@ -235,8 +243,20 @@ impl<R: Read> OdlReader<R> {
         message: String,
     ) {
         if self.error.is_none() {
-            crate::e_err!("{}: {}", self.source.path, message);
+            e_err!("{}: {}", self.source.path, message);
             self.error = Some(message);
+        }
+    }
+
+    fn report_warning(
+        &mut self,
+        message: String,
+    ) {
+        de_wrn!("{}: {}", self.source.path, message);
+        if summary_stats_enabled() {
+            if self.statistics.odlreader_warnings.len() < ODL_WARNINGS_MAX {
+                self.statistics.odlreader_warnings.push(message);
+            }
         }
     }
 
@@ -369,11 +389,10 @@ impl<R: Read> OdlReader<R> {
                 .insert((dt, event.ordinal), rendered);
         }
         if decoding_failures != 0 {
-            crate::e_wrn!(
-                "{}: {} ODL protected tokens could not be decoded; original tokens retained",
-                self.source.path,
+            self.report_warning(format!(
+                "{} ODL protected tokens could not be decoded; original tokens retained",
                 decoding_failures,
-            );
+            ));
         }
         if let Some(error) = &self.error {
             return Err(Error::new(ErrorKind::InvalidData, error.clone()));
