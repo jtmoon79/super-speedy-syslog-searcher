@@ -452,7 +452,7 @@ fn test_unmanaged_and_managed_high_water_counts_can_coexist() {
     let _handle_a = manager
         .request_open_managed(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
         .unwrap();
-    let fpath: FPath = path_to_fpath(&ntf_b.path());
+    let fpath: FPath = path_to_fpath(ntf_b.path());
     let _unmanaged = manager
         .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, &fpath)
         .unwrap();
@@ -640,7 +640,7 @@ fn test_too_many_open_files_retry_preserves_planned_managed_slot() {
     );
 
     manager.handle_reservations(&list_files);
-    let fpath: FPath = path_to_fpath(&ntf_a.path());
+    let fpath: FPath = path_to_fpath(ntf_a.path());
     let unmanaged = manager
         .request_open_unmanaged(PATH_ID_A, FileHandleRole::Unmanaged, &fpath)
         .unwrap();
@@ -680,7 +680,7 @@ fn test_handle_unmanaged_reservation_forces_managed_eviction() {
         .unwrap();
     assert_eq!(manager.count_open(), 1, "count_open() after opening managed handle_a");
 
-    let fpath: FPath = path_to_fpath(&ntf_b.path());
+    let fpath: FPath = path_to_fpath(ntf_b.path());
     let unmanaged = manager
         .request_open_unmanaged(PATH_ID_B, FileHandleRole::Unmanaged, &fpath)
         .unwrap();
