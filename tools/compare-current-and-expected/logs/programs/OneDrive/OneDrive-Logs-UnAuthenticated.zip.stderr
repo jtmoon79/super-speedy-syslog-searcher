@@ -12,8 +12,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|FeedbackHub/Sub
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       file size archive   : 278634 (0x4406A) (bytes)
       file size unarchived: 87 (0x57) (bytes)
@@ -88,6 +86,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-15.2333.24940.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 4 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -116,6 +115,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-24.0253.5716.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 2 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -144,6 +144,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-24.0347.38964.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 5 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -172,6 +173,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-24.1754.26324.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 17 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -200,6 +202,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-29.1702.24824.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 2 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -228,6 +231,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-29.1711.19032.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 2 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -256,6 +260,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-29.1716.24660.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 5 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -284,6 +289,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-30.2012.26512.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 5 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -312,6 +318,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-30.2356.5684.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 11 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -340,6 +347,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-10-04.0014.22988.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 17 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -368,6 +376,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-10-08.1128.35340.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 11 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -396,6 +405,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-10-10.1343.8720.1.aodl
       FileType      : AODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 14 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
