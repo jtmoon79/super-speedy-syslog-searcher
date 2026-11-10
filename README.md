@@ -346,12 +346,16 @@ Get-ChildItem -Filter '*.log' -File -Path "C:\Windows" -Recurse -ErrorAction Sil
 
 <br/>
 
-On Windows, print the [Windows Event logs]
-
-[Windows Event logs]: https://github.com/libyal/libevtx/blob/126297f7f0e325f9e2cd27b0b60d3cf02ffdfd04/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
+On Windows, print the _Windows Event logs_
 
 ```powershell
 s4.exe C:\Windows\System32\winevt\Logs
+```
+
+Print the OneDrive Logs, for the hour of noon yesterday
+
+```powershell
+s4.exe ${env:LOCALAPPDATA}\Microsoft\OneDrive -a='-1d!12:00' -b=@+1h
 ```
 
 <br/>
