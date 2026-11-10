@@ -414,79 +414,31 @@ impl SummaryPrinted {
         };
         eprintln!("{}Printed:", indent1);
 
-        if let Some(summaryblockreader) = summaryblockreader_opt {
-            eprint!("{}Bytes         : ", indent2);
-            let is_err: bool = self.bytes == 0 && summaryblockreader.blockreader_bytes != 0;
-            eprintln_display_color_error(
-                &self.bytes,
-                |_| is_err,
-                &color_choice_opt.unwrap_or_default(),
-            );
-
+        if let Some(_) = summaryblockreader_opt {
+            eprintln!("{}Bytes         : {}", indent2, self.bytes);
             eprintln!("{}Flushes       : {}", indent2, self.flushed);
-
             if summarylinereader_opt.is_some() {
-                eprint!("{}Lines         : ", indent2);
-                let is_err: bool = self.lines == 0 && summaryblockreader.blockreader_bytes != 0;
-                eprintln_display_color_error(
-                    &self.lines,
-                    |_| is_err,
-                    &color_choice_opt.unwrap_or_default(),
-                );
+                eprintln!("{}Lines         : {}", indent2, self.lines);
             }
         }
-
-        if let Some(summaryfixedstructreader) = summaryfixedstructreader_opt {
-            eprint!("{}Entries       : ", indent2);
-            let is_err: bool = self.fixedstructentries == 0 && summaryfixedstructreader.fixedstructreader_utmp_entries != 0;
-            eprintln_display_color_error(
-                &self.fixedstructentries,
-                |_| is_err,
-                &color_choice_opt.unwrap_or_default(),
-            );
+        if let Some(_) = summaryfixedstructreader_opt {
+            eprintln!("{}Entries       : {}", indent2, self.fixedstructentries);
         }
-
-        if let Some(summarylinereader) = summarylinereader_opt {
-            // if lines were processed but no syslines were processed
-            // then hint at an error with colored text
-            eprint!("{}Syslines      : ", indent2);
-            let is_err: bool = self.syslines == 0 && summarylinereader.linereader_lines != 0;
-            eprintln_display_color_error(
-                &self.syslines,
-                |_| is_err,
-                &color_choice_opt.unwrap_or_default(),
-            );
+        if let Some(_) = summarylinereader_opt {
+            eprintln!("{}Syslines      : {}", indent2, self.syslines);
         }
-
-        if let Some(summarylinereader) = summarylinereader_opt {
-            if self.dt_first.is_none() && summarylinereader.linereader_lines != 0 {
-                // if no datetime_first was processed but lines were processed
-                // then hint at an error with colored text
-                eprint!("{}Datetime First: ", indent2);
-                print_colored_stderr(
-                    COLOR_ERROR,
-                    color_choice_opt,
-                    "None Found".as_bytes(),
-                );
-                eprintln!();
-            } else if let Some(dt) = self.dt_first {
+        if let Some(_) = summarylinereader_opt {
+            if let Some(dt) = self.dt_first {
                 eprint!("{}Datetime First: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
-            if self.dt_last.is_none() && summarylinereader.linereader_lines != 0 {
-                // if no datetime_last was processed but lines were processed
-                // then hint at an error with colored text
-                eprint!("{}Datetime Last : ", indent2);
-                print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes());
-                eprintln!();
-            } else if let Some(dt) = self.dt_last {
+            if let Some(dt) = self.dt_last {
                 eprint!("{}Datetime last : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
         }
-
         if let Some(summaryaslreader) = summaryaslreader_opt {
             eprintln!("{}Bytes         : {}", indent2, self.bytes);
             eprintln!("{}Flushes       : {}", indent2, self.flushed);
@@ -1636,6 +1588,20 @@ fn print_file_about(
                 s.as_bytes(),
             );
             eprintln!();
+        }
+    }
+
+    if let Some(summary) = summary_opt {
+        if let SummaryReaderData::Odl(statistics) = &summary.readerdata {
+            for warning in &statistics.odlreader_warnings {
+                eprint!("{}Processing Err: ", OPT_SUMMARY_PRINT_INDENT2);
+                print_colored_stderr(
+                    COLOR_WARN,
+                    Some(*color_choice),
+                    warning.as_bytes(),
+                );
+                eprintln!();
+            }
         }
     }
 }
