@@ -248,7 +248,13 @@ jobs:
           # pre-test these using ./tools/cross-builds.sh
           # Tier 1
           - aarch64-unknown-linux-gnu
-          - x86_64-pc-windows-gnu
+          # BUG: fails to build in Github Actions:
+          #      + cargo cross check --locked --lib --bins --release --target x86_64-pc-windows-gnu
+          #      ...
+          #      Downloading "https://github.com/zijiren233/cross-make/releases/download/v0.7.7-linux-x86_64/x86_64-w64-mingw32-cross.tgz" to "/tmp/rust-cross-compiler/x86_64-w64-mingw32-cross-v0.7.7"
+          #      Check failed for target: x86_64-pc-windows-gnu
+          #      Error: Download failed: HTTP 404 Not Found for https://github.com/zijiren233/cross-make/releases/download/v0.7.7-linux-x86_64/x86_64-w64-mingw32-cross.tgz
+          #- x86_64-pc-windows-gnu
           - x86_64-unknown-linux-gnu
           # Tier 2
           - aarch64-unknown-linux-musl
