@@ -26,7 +26,6 @@
 - `src/libload/` is the dynamic library loader for `libsystemd`.
 - `src/readers/` defines `*Reader` implementations.
 - `src/printer/` defines the printer functions in `src/printer/printers.rs`. Printing to stdout is driven by the main thread.
-- `src/python/` defines the Python runner and the Python scripts in `src/python/s4_event_readers/`. These Python scripts are able to read `.odl`, `.asl`, and `.etl` files.
 - `src/s4/` defines the main `s4` binary program.
   - `src/s4/s4.rs` defines the main CLI program and the main driver thread.
 - `src/subprojects` has copied repositories from external projects that are compiled directly into the project.
@@ -36,7 +35,7 @@
 
 ## Development tips
 
-- Prefer plain POSIX `sh` as it avoids common prompt error `bash: __zoxide_hook: command not found`.
+- When developing on Ubuntu Linux, prefer plain POSIX `sh` instead of bash to avoid prompt error `bash: __zoxide_hook: command not found`.
   - if using `bash` then pass CLI options `--norc --noprofile`
 - To build a _release_ build faster, build profile `release_Opt0` which inherits from `release` but drops optimizations
 - Do not make changes to files using `cargo fmt` or `rustfmt`. The format changes will obscure the intention of the important code change.
