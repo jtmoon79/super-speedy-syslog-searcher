@@ -11,8 +11,6 @@ File: ./logs/Ubuntu22/dmesg.0.gz
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       file size compressed  : 569 (0x239) (bytes)
       file size uncompressed: 1161 (0x489) (bytes)

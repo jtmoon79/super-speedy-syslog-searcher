@@ -1199,8 +1199,6 @@ File: ./logs/Debian9/apt/eipp.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 374 (0x176) (bytes)
       bytes         : 256 (0x100)
@@ -1408,8 +1406,6 @@ File: ./logs/Debian9/boot.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 1106 (0x452) (bytes)
       bytes         : 256 (0x100)
@@ -2378,8 +2374,6 @@ File: ./logs/Debian9/user.log.1.lzo
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 346 (0x15A) (bytes)
       bytes         : 256 (0x100)
@@ -2462,8 +2456,6 @@ File: ./logs/Debian9/user.log.1.zst
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 252 (0xFC) (bytes)
       bytes         : 252 (0xFC)
@@ -2592,8 +2584,6 @@ File: ./logs/Debian9/Xorg.0.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 1249 (0x4E1) (bytes)
       bytes         : 481 (0x1E1)
@@ -2635,8 +2625,6 @@ File: ./logs/Debian9/Xorg.0.log.old
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 1250 (0x4E2) (bytes)
       bytes         : 482 (0x1E2)
@@ -3493,8 +3481,6 @@ File: ./logs/OpenSUSE15/lightdm.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 1232 (0x4D0) (bytes)
       bytes         : 464 (0x1D0)
@@ -4959,15 +4945,15 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
   Processing stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss   8, 55.6%, put   8
-      copying: SyslineReader::get_boxptrs()                        : sgl 125, dbl    1, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 128, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   9,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   9, 10.0%, put   9
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   7, miss  10, 41.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   9,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 117,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  10, miss 116
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 121,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  10, miss 120
   Processing Drops:
 
 File: ./logs/other/tests/dtf12c-x3_patts.log
@@ -5784,8 +5770,6 @@ File: ./logs/other/tests/dtf2-2.log.lz
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 55 (0x37) (bytes)
       bytes         : 55 (0x37)
@@ -5954,8 +5938,6 @@ File: ./logs/other/tests/dtf2-2.lz
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 55 (0x37) (bytes)
       bytes         : 55 (0x37)
@@ -8829,8 +8811,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).7z
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 480 (0x1E0) (bytes)
       bytes         : 256 (0x100)
@@ -9573,8 +9553,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 431 (0x1AF) (bytes)
       bytes         : 256 (0x100)
@@ -9701,8 +9679,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9, store all times).7z
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 456 (0x1C8) (bytes)
       bytes         : 256 (0x100)
@@ -9741,8 +9717,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9).7z
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 431 (0x1AF) (bytes)
       bytes         : 256 (0x100)
@@ -10045,8 +10019,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 448 (0x1C0) (bytes)
       bytes         : 256 (0x100)
@@ -10301,8 +10273,6 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 249 (0xF9) (bytes)
       bytes         : 249 (0xF9)
@@ -10978,8 +10948,6 @@ File: ./logs/other/tests/empty.7z
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 122 (0x7A) (bytes)
       bytes         : 122 (0x7A)
@@ -11363,8 +11331,6 @@ File: ./logs/other/tests/simple-10.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 10 (0xA) (bytes)
       bytes         : 10 (0xA)
@@ -11403,8 +11369,6 @@ File: ./logs/other/tests/simple-10s.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 10 (0xA) (bytes)
       bytes         : 10 (0xA)
@@ -11443,8 +11407,6 @@ File: ./logs/other/tests/simple-11.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 11 (0xB) (bytes)
       bytes         : 11 (0xB)
@@ -11526,8 +11488,6 @@ File: ./logs/other/tests/simple-11s.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 11 (0xB) (bytes)
       bytes         : 11 (0xB)
@@ -11608,8 +11568,6 @@ File: ./logs/other/tests/simple-13.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 13 (0xD) (bytes)
       bytes         : 13 (0xD)
@@ -11690,8 +11648,6 @@ File: ./logs/other/tests/simple-14s_.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 15 (0xF) (bytes)
       bytes         : 15 (0xF)
@@ -11937,8 +11893,6 @@ File: ./logs/other/tests/simple-6.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 6 (0x6) (bytes)
       bytes         : 6 (0x6)
@@ -11977,8 +11931,6 @@ File: ./logs/other/tests/simple-7.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 7 (0x7) (bytes)
       bytes         : 7 (0x7)
@@ -12017,8 +11969,6 @@ File: ./logs/other/tests/simple-8.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 8 (0x8) (bytes)
       bytes         : 8 (0x8)
@@ -12057,8 +12007,6 @@ File: ./logs/other/tests/simple-9.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 9 (0x9) (bytes)
       bytes         : 9 (0x9)
@@ -12176,8 +12124,6 @@ File: ./logs/programs/claude/history.jsonl
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 215 (0xD7) (bytes)
       bytes         : 215 (0xD7)
@@ -12220,8 +12166,6 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 6502 (0x1966) (bytes)
       bytes         : 256 (0x100)
@@ -12769,8 +12713,6 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|FeedbackHub/Sub
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       file size archive   : 278634 (0x4406A) (bytes)
       file size unarchived: 87 (0x57) (bytes)
@@ -12845,6 +12787,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-15.2333.24940.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 4 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -12873,6 +12816,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-24.0253.5716.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 2 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -12901,6 +12845,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-24.0347.38964.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 5 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -12929,6 +12874,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-24.1754.26324.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 17 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -12957,6 +12903,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-29.1702.24824.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 2 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -12985,6 +12932,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-29.1711.19032.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 2 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13013,6 +12961,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-29.1716.24660.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 5 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13041,6 +12990,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-30.2012.26512.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 5 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13069,6 +13019,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-09-30.2356.5684.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 11 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13097,6 +13048,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-10-04.0014.22988.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 17 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13125,6 +13077,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-10-08.1128.35340.1.odl
       FileType      : ODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 11 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13153,6 +13106,7 @@ File: ./logs/programs/OneDrive/OneDrive-Logs-UnAuthenticated.zip|NucleusUnAuthen
       Subpath       : NucleusUnAuthenticated-2026-10-10.1343.8720.1.aodl
       FileType      : AODL (ZIP) (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 14 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 0
       Bytes         : 0
@@ -13354,6 +13308,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
   About:
       FileType      : ODLGZ (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 2 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 615
       Bytes         : 251471
@@ -13383,6 +13338,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
   About:
       FileType      : AODL (OneDrive Log)
       LogMessageType: ODL event (OneDrive Log)
+      Processing Err: 58 ODL protected tokens could not be decoded; original tokens retained
   Printed:
       Events        : 829
       Bytes         : 282261
@@ -23354,8 +23310,6 @@ File: ./logs/Ubuntu18/fontconfig.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 1557 (0x615) (bytes)
       bytes         : 256 (0x100)
@@ -23394,8 +23348,6 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 679 (0x2A7) (bytes)
       bytes         : 256 (0x100)
@@ -23434,8 +23386,6 @@ File: ./logs/Ubuntu18/gpu-manager.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 672 (0x2A0) (bytes)
       bytes         : 256 (0x100)
@@ -23474,8 +23424,6 @@ File: ./logs/Ubuntu18/installer/initial-status
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 860 (0x35C) (bytes)
       bytes         : 256 (0x100)
@@ -23514,8 +23462,6 @@ File: ./logs/Ubuntu18/installer/media-info
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 62 (0x3E) (bytes)
       bytes         : 62 (0x3E)
@@ -23677,8 +23623,6 @@ File: ./logs/Ubuntu18/prime-offload.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 55 (0x37) (bytes)
       bytes         : 55 (0x37)
@@ -23717,8 +23661,6 @@ File: ./logs/Ubuntu18/prime-supported.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 30 (0x1E) (bytes)
       bytes         : 30 (0x1E)
@@ -24587,8 +24529,6 @@ File: ./logs/Ubuntu22/apt/eipp.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 266 (0x10A) (bytes)
       bytes         : 256 (0x100)
@@ -24881,8 +24821,6 @@ File: ./logs/Ubuntu22/dmesg
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 1193 (0x4A9) (bytes)
       bytes         : 425 (0x1A9)
@@ -24924,8 +24862,6 @@ File: ./logs/Ubuntu22/dmesg-+0400
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 937 (0x3A9) (bytes)
       bytes         : 425 (0x1A9)
@@ -24967,8 +24903,6 @@ File: ./logs/Ubuntu22/dmesg.0
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 1161 (0x489) (bytes)
       bytes         : 393 (0x189)
@@ -25010,8 +24944,6 @@ File: ./logs/Ubuntu22/dmesg.0.gz
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       file size compressed  : 569 (0x239) (bytes)
       file size uncompressed: 1161 (0x489) (bytes)
@@ -25138,8 +25070,6 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 932 (0x3A4) (bytes)
       bytes         : 256 (0x100)
@@ -25617,8 +25547,6 @@ File: ./logs/Windows10Pro/comsetup.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 761 (0x2F9) (bytes)
       bytes         : 256 (0x100)
@@ -25784,8 +25712,6 @@ File: ./logs/Windows10Pro/DtcInstall.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 770 (0x302) (bytes)
       bytes         : 256 (0x100)
@@ -26076,8 +26002,6 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 332426 (0x5128A) (bytes)
       bytes         : 256 (0x100)
@@ -26116,8 +26040,6 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 18434 (0x4802) (bytes)
       bytes         : 256 (0x100)
@@ -26492,8 +26414,6 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 1373 (0x55D) (bytes)
       bytes         : 256 (0x100)
@@ -26617,8 +26537,6 @@ File: ./logs/Windows11Pro/setupact.log
       Flushes       : 0
       Lines         : 0
       Syslines      : 0
-      Datetime First: None Found
-      Datetime Last : None Found
   Processed:
       File size     : 6372 (0x18E4) (bytes)
       bytes         : 256 (0x100)
