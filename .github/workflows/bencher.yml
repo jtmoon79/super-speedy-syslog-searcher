@@ -49,7 +49,7 @@ jobs:
   job_bencher:
     name: Bencher
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v7
         with:
@@ -96,7 +96,7 @@ jobs:
           toolchain: ${{ env.MSRV_UPLOAD }}
       - name: Build release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         if: ${{ inputs.s4_release_artifact == '' }}
-        timeout-minutes: 120
+        timeout-minutes: 45
         shell: bash
         run: |
           set -euxo pipefail
@@ -107,7 +107,7 @@ jobs:
           chmod -v 0555 "${S4R}"
           "${S4R}" --version
       - name: Hyperfine benchmarks and create Bencher report
-        timeout-minutes: 45
+        timeout-minutes: 75
         shell: bash
         run: |
           set -euxo pipefail
