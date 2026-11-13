@@ -69,15 +69,15 @@ r ./target/flamegraph/s4 --version
 
 PIDs=()
 
-rw cargo build-x86_64-musl-v2 --quiet --locked --profile x86_64-musl-v2
-rw cargo build-x86_64-musl-v3 --quiet --locked --profile x86_64-musl-v3
-rw cargo build-x86_64-musl-v4 --quiet --locked --profile x86_64-musl-v4
+rw cargo build-x86_64-v2-musl --quiet --locked --profile x86_64-v2-musl
+rw cargo build-x86_64-v3-musl --quiet --locked --profile x86_64-v3-musl
+rw cargo build-x86_64-v4-musl --quiet --locked --profile x86_64-v4-musl
 
 wait ${PIDs[@]}
 
-r ./target/x86_64-unknown-linux-musl/x86_64-musl-v2/s4 --version
-r ./target/x86_64-unknown-linux-musl/x86_64-musl-v3/s4 --version
-r ./target/x86_64-unknown-linux-musl/x86_64-musl-v4/s4 --version
+r ./target/x86_64-unknown-linux-musl/x86_64-v2-musl/s4 --version
+r ./target/x86_64-unknown-linux-musl/x86_64-v3-musl/s4 --version
+r ./target/x86_64-unknown-linux-musl/x86_64-v4-musl/s4 --version
 
 # x86_64-v2, x86_64-v3, x86_64-v4 x86_64-unknown-linux-gnu
 

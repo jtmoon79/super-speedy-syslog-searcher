@@ -2,7 +2,7 @@
 warnings = "warn"
 
 [alias]
-build-x86_64-musl-v4 = [
+build-x86_64-v4-musl = [
     "build",
     "--bin", "s4",
     "--target", "x86_64-unknown-linux-musl",
@@ -14,7 +14,7 @@ build-x86_64-musl-v4 = [
     "--config", 'env.CFLAGS_x86_64_unknown_linux_musl.force=true',
 ]
 
-build-x86_64-musl-v3 = [
+build-x86_64-v3-musl = [
     "build",
     "--bin", "s4",
     "--target", "x86_64-unknown-linux-musl",
@@ -26,7 +26,7 @@ build-x86_64-musl-v3 = [
     "--config", 'env.CFLAGS_x86_64_unknown_linux_musl.force=true',
 ]
 
-build-x86_64-musl-v2 = [
+build-x86_64-v2-musl = [
     "build",
     "--bin", "s4",
     "--target", "x86_64-unknown-linux-musl",

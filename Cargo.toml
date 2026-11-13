@@ -284,13 +284,13 @@ opt-level = 0
 debug = 2
 strip = false
 
-[profile.x86_64-musl-v2]
+[profile.x86_64-v2-musl]
 inherits = "release"
 
-[profile.x86_64-musl-v3]
+[profile.x86_64-v3-musl]
 inherits = "release"
 
-[profile.x86_64-musl-v4]
+[profile.x86_64-v4-musl]
 inherits = "release"
 
 [profile.x86_64-gnu-v2]
