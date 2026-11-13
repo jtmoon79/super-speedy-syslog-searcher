@@ -59,6 +59,7 @@ PIDs=()
 
 rw cargo build --quiet --locked --profile alloc_tracker --features alloc_tracker
 rw env RUSTFLAGS=-g cargo build --quiet --locked --profile flamegraph
+rw cargo publish --quiet --locked --dry-run --allow-dirty
 
 wait ${PIDs[@]}
 
