@@ -61,15 +61,9 @@ readonly dest_path="${DIROUT}/${dest_name}"
 readonly zip_name="${BIN}_${TARGET}_v${VERSION}.zip"
 readonly zip_path="${RELEASE_DIR}/${zip_name}"
 
-if [[ -e "${zip_path}" ]]; then
-    echo "ERROR: destination zip already exists '${zip_path}'" >&2
-    exit 2
-fi
-
-for output_path in "${dest_path}" "${dest_path}.sha256" "${zip_path}.sha256"; do
+for output_path in "${dest_path}" "${dest_path}.sha256" "${zip_path}.sha256" "${zip_path}"; do
     if [[ -e "${output_path}" ]]; then
-        echo "ERROR: destination already exists '${output_path}'" >&2
-        exit 1
+        rm -vf "${output_path}"
     fi
 done
 
