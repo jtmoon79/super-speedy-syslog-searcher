@@ -22,9 +22,11 @@
 #   FILTER when set, only targets matching the regex pattern in FILTER will be built
 #
 # Concurrent runs must select different targets. Each target has a separate
-# build cache and a separate probe cache under target/cross-builds/TARGET.
+# build cache and a separate probe cache under target/cross-builds/TARGET. Selecting
+# parallel non-conflicting targets is the responsibility of the user.
+# cargo's built-in lockfile mechanism should protect against corruption.
 #
-# option --print-targets will print all supported targets and exit
+# Option --print-targets will print all supported targets and exit.
 #
 # Must support running on Ubuntu and Darwin OS
 
@@ -339,12 +341,19 @@ if (echo | column --table --separator "$SEP" --output-separator "$SEP" --table-c
 fi
 readonly COLUMN_NEW
 
-PROJECT_MANIFEST=$(readlink -f "$(dirname -- "${0}")/../Cargo.toml")
+cd "$(dirname "$0")/.."
+
+readonly PROJECT_ROOT=$(pwd)
+if [[ "${PROJECT_ROOT}" =~ [[:cntrl:]] ]]; then
+    echo "ERROR: project directory must not contain control characters" >&2
+    exit 1
+fi
+
+readonly PROJECT_MANIFEST="${PROJECT_ROOT}/Cargo.toml"
 if [[ ! -f "${PROJECT_MANIFEST}" ]]; then
     echo "ERROR cannot find PROJECT_MANIFEST at ${PROJECT_MANIFEST}" >&2
     exit 1
 fi
-readonly PROJECT_MANIFEST
 
 # if passed `--print-targets` then pretty print the targets and exit.
 # useful for seeing the numeric indexes and then choosing an index FILTER value.
@@ -553,14 +562,6 @@ function publish_package() {
     }
 }
 
-cd "$(dirname "$0")/.."
-
-readonly PROJECT_ROOT=$(pwd)
-if [[ "${PROJECT_ROOT}" =~ [[:cntrl:]] ]]; then
-    echo "ERROR: project directory must not contain control characters" >&2
-    exit 1
-fi
-
 # print the profile arguments based on $1
 function output_profile() {
     local profile=debug
@@ -665,7 +666,7 @@ function cross_build() {
     local stage
     shift
     printf -v cross_build_command '%q ' cross build --quiet --target "${target}" "$@" --target-dir "${CARGO_TARGET_DIR}"
-    cross_build_command="S4_BUILD_REGEX_PRINT=0 ${cross_build_command% }"
+    cross_build_command="${cross_build_command% }"
     for stage in probe regular; do
         (
             export S4_BUILD_REGEX_PRINT=0
@@ -694,7 +695,7 @@ function cargo_build_nightly() {
     local stage
     shift
     printf -v cargo_build_nightly_command '%q ' cargo +nightly build --quiet -Zbuild-std --target "${target}" "$@" "${build_dir_args[@]}"
-    cargo_build_nightly_command="S4_BUILD_REGEX_PRINT=0 ${cargo_build_nightly_command% }"
+    cargo_build_nightly_command="${cargo_build_nightly_command% }"
     for stage in probe regular; do
         (
             export S4_BUILD_REGEX_PRINT=0
@@ -714,7 +715,7 @@ function cargo_cross_build() {
     local stage
     shift
     printf -v cargo_cross_build_command '%q ' cargo cross build --quiet --target "${target}" "$@" "${build_dir_args[@]}"
-    cargo_cross_build_command="S4_BUILD_REGEX_PRINT=0 ${cargo_cross_build_command% }"
+    cargo_cross_build_command="${cargo_cross_build_command% }"
     for stage in probe regular; do
         (
             export S4_BUILD_REGEX_PRINT=0
