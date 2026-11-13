@@ -26,6 +26,30 @@ function rw() {
     PIDs+=($!)
 }
 
+if [[ "${DIROUT-}" ]]; then
+    mkdir -p "${DIROUT}"
+fi
+
+VERSION=$(
+    set -euo pipefail
+    grep -m1 -Eo '^version\s*=\s*"[0-9]+\.[0-9]+\.[0-9]+"' Cargo.toml \
+    | cut -d'"' -f2- \
+    | tr -d '"'
+)
+readonly VERSION
+
+function archive () {
+    if [[ ! "${DIROUT-}" ]]; then
+        return 0
+    fi
+    local binary_path="$1"
+    local target="$2"
+    ./tools/package-binary.sh "$binary_path" "$target" "$VERSION"
+}
+
+DEFAULT_TARGET=$(default-target)
+readonly DEFAULT_TARGET
+
 # debug, release
 
 rw cargo build --quiet --locked --profile dev
@@ -36,6 +60,8 @@ wait ${PIDs[@]}
 
 r ./target/debug/s4 --version
 r ./target/release/s4 --version
+
+archive "./target/release/s4" "${DEFAULT_TARGET}-release"
 
 # jemalloc, rpmalloc, mimalloc, tcmalloc
 
@@ -52,6 +78,11 @@ r ./target/jemalloc/s4 --version
 r ./target/rpmalloc/s4 --version
 r ./target/mimalloc/s4 --version
 r ./target/tcmalloc/s4 --version
+
+archive "./target/jemalloc/s4" "${DEFAULT_TARGET}-jemalloc"
+archive "./target/rpmalloc/s4" "${DEFAULT_TARGET}-rpmalloc"
+archive "./target/mimalloc/s4" "${DEFAULT_TARGET}-mimalloc"
+#archive "./target/tcmalloc/s4" "${DEFAULT_TARGET}-tcmalloc"
 
 # alloc_tracker, flamegraph
 
@@ -80,6 +111,10 @@ r ./target/x86_64-unknown-linux-musl/x86_64-v2-musl/s4 --version
 r ./target/x86_64-unknown-linux-musl/x86_64-v3-musl/s4 --version
 r ./target/x86_64-unknown-linux-musl/x86_64-v4-musl/s4 --version
 
+archive "./target/x86_64-unknown-linux-musl/x86_64-v2-musl/s4" "x86_64-v2-musl"
+archive "./target/x86_64-unknown-linux-musl/x86_64-v3-musl/s4" "x86_64-v3-musl"
+archive "./target/x86_64-unknown-linux-musl/x86_64-v4-musl/s4" "x86_64-v4-musl"
+
 # x86_64-v2, x86_64-v3, x86_64-v4 x86_64-unknown-linux-gnu
 
 PIDs=()
@@ -93,6 +128,10 @@ wait ${PIDs[@]}
 r ./target/x86_64-unknown-linux-gnu/x86_64-gnu-v2/s4 --version
 r ./target/x86_64-unknown-linux-gnu/x86_64-gnu-v3/s4 --version
 r ./target/x86_64-unknown-linux-gnu/x86_64-gnu-v4/s4 --version
+
+archive "./target/x86_64-unknown-linux-gnu/x86_64-gnu-v2/s4" "x86_64-gnu-v2"
+archive "./target/x86_64-unknown-linux-gnu/x86_64-gnu-v3/s4" "x86_64-gnu-v3"
+archive "./target/x86_64-unknown-linux-gnu/x86_64-gnu-v4/s4" "x86_64-gnu-v4"
 
 # clippy, docs, valgrind, check
 
