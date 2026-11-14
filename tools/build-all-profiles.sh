@@ -140,7 +140,7 @@ PIDs=()
 rw cargo clippy --locked --quiet --no-deps --all-targets --all-features
 rw cargo doc --locked --quiet --release --no-deps
 rw cargo check --locked
-rw RUSTFLAGS=-g cargo build --quiet --locked --profile valgrind
+rw env RUSTFLAGS=-g cargo build --quiet --locked --profile valgrind
 
 wait ${PIDs[@]}
 
