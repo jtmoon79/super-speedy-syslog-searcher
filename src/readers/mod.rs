@@ -21,7 +21,7 @@
 //! ### Reading C-struct record-keeping files; acct, lastlog, utmp, etc.
 //!
 //! * A [`FixedStructReader`] drives a [`BlockReader`] to derive
-//! [`FixedStruct`s].
+//!   [`FixedStruct`s].
 //!
 //! <br/>
 //!
@@ -46,7 +46,7 @@
 //! ### Reading [`systemd` journal files]
 //!
 //! * A [`JournalReader`] drives a [`JournalApiPtr`] to derive
-//! [Journal entries].
+//!   [Journal entries].
 //!
 //! <br/>
 //! <br/>

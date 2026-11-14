@@ -414,20 +414,20 @@ impl SummaryPrinted {
         };
         eprintln!("{}Printed:", indent1);
 
-        if let Some(_) = summaryblockreader_opt {
+        if summaryblockreader_opt.is_some() {
             eprintln!("{}Bytes         : {}", indent2, self.bytes);
             eprintln!("{}Flushes       : {}", indent2, self.flushed);
             if summarylinereader_opt.is_some() {
                 eprintln!("{}Lines         : {}", indent2, self.lines);
             }
         }
-        if let Some(_) = summaryfixedstructreader_opt {
+        if summaryfixedstructreader_opt.is_some() {
             eprintln!("{}Entries       : {}", indent2, self.fixedstructentries);
         }
-        if let Some(_) = summarylinereader_opt {
+        if summaryevtxreader_opt.is_some() {
             eprintln!("{}Syslines      : {}", indent2, self.syslines);
         }
-        if let Some(_) = summarylinereader_opt {
+        if summarylinereader_opt.is_some() {
             if let Some(dt) = self.dt_first {
                 eprint!("{}Datetime First: ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
@@ -1079,10 +1079,7 @@ pub fn print_summary(
         .iter()
         .filter_map(|(pid, summary)| match summary.logmessagetype {
             LogMessageType::Sysline => {
-                match summary.datetime_out_of_order_max() {
-                    Some(ooom) => Some((pid, ooom)),
-                    None => None,
-                }
+                summary.datetime_out_of_order_max().map(|ooom| (pid, ooom))
             },
             _ => None,
         })
@@ -1093,17 +1090,14 @@ pub fn print_summary(
             (
                 *pid,
                 duration,
-                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+                map_pathid_path.get(pid).unwrap_or(&empty).clone()
             )
         );
     let aslreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
         .iter()
         .filter_map(|(pid, summary)| match summary.logmessagetype {
             LogMessageType::Asl => {
-                match summary.datetime_out_of_order_max() {
-                    Some(ooom) => Some((pid, ooom)),
-                    None => None,
-                }
+                summary.datetime_out_of_order_max().map(|ooom| (pid, ooom))
             },
             _ => None,
         })
@@ -1114,7 +1108,7 @@ pub fn print_summary(
             (
                 *pid,
                 duration,
-                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+                map_pathid_path.get(pid).unwrap_or(&empty).clone()
             )
         );
 
@@ -1122,10 +1116,7 @@ pub fn print_summary(
         .iter()
         .filter_map(|(pid, summary)| match summary.logmessagetype {
             LogMessageType::Etl => {
-                match summary.datetime_out_of_order_max() {
-                    Some(ooom) => Some((pid, ooom)),
-                    None => None,
-                }
+                summary.datetime_out_of_order_max().map(|ooom| (pid, ooom))
             },
             _ => None,
         })
@@ -1136,17 +1127,14 @@ pub fn print_summary(
             (
                 *pid,
                 duration,
-                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+                map_pathid_path.get(pid).unwrap_or(&empty).clone()
             )
         );
     let evtxreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
         .iter()
         .filter_map(|(pid, summary)| match summary.logmessagetype {
             LogMessageType::Evtx => {
-                match summary.datetime_out_of_order_max() {
-                    Some(ooom) => Some((pid, ooom)),
-                    None => None,
-                }
+                summary.datetime_out_of_order_max().map(|ooom| (pid, ooom))
             },
             _ => None,
         })
@@ -1157,17 +1145,14 @@ pub fn print_summary(
             (
                 *pid,
                 duration,
-                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+                map_pathid_path.get(pid).unwrap_or(&empty).clone()
             )
         );
     let fixedstructreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
         .iter()
         .filter_map(|(pid, summary)| match summary.logmessagetype {
             LogMessageType::FixedStruct => {
-                match summary.datetime_out_of_order_max() {
-                    Some(ooom) => Some((pid, ooom)),
-                    None => None,
-                }
+                summary.datetime_out_of_order_max().map(|ooom| (pid, ooom))
             },
             _ => None,
         })
@@ -1178,17 +1163,14 @@ pub fn print_summary(
             (
                 *pid,
                 duration,
-                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+                map_pathid_path.get(pid).unwrap_or(&empty).clone()
             )
         );
     let journalreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
         .iter()
         .filter_map(|(pid, summary)| match summary.logmessagetype {
             LogMessageType::Journal => {
-                match summary.datetime_out_of_order_max() {
-                    Some(ooom) => Some((pid, ooom)),
-                    None => None,
-                }
+                summary.datetime_out_of_order_max().map(|ooom| (pid, ooom))
             },
             _ => None,
         })
@@ -1199,17 +1181,14 @@ pub fn print_summary(
             (
                 *pid,
                 duration,
-                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+                map_pathid_path.get(pid).unwrap_or(&empty).clone()
             )
         );
     let odlreader_pathid_outofordermax_fpath: Option<(PathId, DurOutOfOrderMax, FPath)> = map_pathid_summary
         .iter()
         .filter_map(|(pid, summary)| match summary.logmessagetype {
             LogMessageType::Odl => {
-                match summary.datetime_out_of_order_max() {
-                    Some(ooom) => Some((pid, ooom)),
-                    None => None,
-                }
+                summary.datetime_out_of_order_max().map(|ooom| (pid, ooom))
             },
             _ => None,
         })
@@ -1220,7 +1199,7 @@ pub fn print_summary(
             (
                 *pid,
                 duration,
-                map_pathid_path.get(pid).unwrap_or_else(||&empty).clone()
+                map_pathid_path.get(pid).unwrap_or(&empty).clone()
             )
         );
 
@@ -2318,7 +2297,7 @@ fn print_cache_stats_summarysyslinereader(
     );
     // SyslineReader::regex_captures_attempted
     let rc_diff: Count = if summarysyslinereader.syslinereader_regex_captures_attempted >= summarysyslinereader.syslinereader_regex_captures_matched {
-        summarysyslinereader.syslinereader_regex_captures_attempted - summarysyslinereader.syslinereader_regex_captures_matched
+        summarysyslinereader.syslinereader_regex_captures_attempted.saturating_sub(summarysyslinereader.syslinereader_regex_captures_matched)
     } else {
         0
     };

@@ -1388,7 +1388,7 @@ pub(crate) fn captures_to_buffer_bytes(
             // special case
             // copy the epoch milliseconds but only the seconds part
             // then copy the milliseconds, the last 3 chars, as a fractional
-            captures.iter().find(|cgn| cgn.group_index() == CGI_EPOCH).map(|cgn| {
+            if let Some(cgn) = captures.iter().find(|cgn| cgn.group_index() == CGI_EPOCH) {
                 // copy the seconds part of the epoch milliseconds
                 let a = cgn.start();
                 let mut b = cgn.end();
@@ -1413,7 +1413,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 defo!("copy buffer[{:?}‥{:?}] = {:?}", at, at + len_, &data[a..b]);
                 buffer[at..at + len_].copy_from_slice(&data[a..b]);
                 at += len_;
-            });
+            };
             defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Epoch::_none => {}
@@ -1508,14 +1508,14 @@ pub(crate) fn captures_to_buffer_bytes(
         }
         | DTFS_Year::_fill => {
             let mut found_year: bool = false;
-            captures.iter().find(|cgn| cgn.group_index() == CGI_YEAR).map(|match_type| {
+            if let Some(match_type) = captures.iter().find(|cgn| cgn.group_index() == CGI_YEAR) {
                 let a = match_type.start();
                 let b = match_type.end();
                 let year: &[u8] = &data[a..b];
                 copy_slice_to_buffer!(year, buffer, at);
                 defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                 found_year = true;
-            });
+            }
             if !found_year{
                 match year_opt {
                     Some(year) => {
@@ -1819,7 +1819,7 @@ pub(crate) fn captures_to_buffer_bytes(
                         Ok(val) => {
                             match val.char_indices().nth(1) {
                                 Some((offset, _)) => {
-                                    copy_slice_to_buffer!(val[offset..].as_bytes(), buffer, at);
+                                    copy_slice_to_buffer!(&val.as_bytes()[offset..], buffer, at);
                                     defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                                 }
                                 None => {
@@ -1853,7 +1853,7 @@ pub(crate) fn captures_to_buffer_bytes(
                         &[]
                     }
                 }
-            ).unwrap_or_else(|| { debug_panic!("u8_to_str failed to convert tzZ"); &"" } );
+            ).unwrap_or_else(|| { debug_panic!("u8_to_str failed to convert tzZ"); "" } );
             if tzZ.is_empty() {
                 debug_panic!("tzZ.is_empty()");
                 // `u8_to_str` failed, fallback to using passed TZ offset

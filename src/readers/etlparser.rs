@@ -987,6 +987,7 @@ fn tl_charge(values_left: &mut usize) -> Option<()> {
 
 /// Decode one scalar or struct, charging its `EtlValue` before constructing it.
 /// Struct members share `values_left`.
+#[allow(clippy::too_many_arguments)]
 fn tl_read_field_value(
     fields: &[TlField],
     field: &TlField,
@@ -1015,6 +1016,7 @@ fn tl_read_field_value(
 /// decoded or that would exceed [`TL_ARRAY_LEN_MAX`] or the event budget;
 /// `out` holds what was decoded before the failure. An over-limit array is
 /// not truncated.
+#[allow(clippy::too_many_arguments)]
 pub fn tl_decode_fields(
     fields: &[TlField],
     idx: &mut usize,

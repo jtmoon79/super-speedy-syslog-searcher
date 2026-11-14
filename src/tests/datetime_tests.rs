@@ -699,7 +699,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
             .any(|x| x == &dtpd.cgn_first),
         "cgn_first {:?} not in CGN_ALL {:?}; declared at line {}",
         dtpd.cgn_first,
-        &CGN_ALL,
+        CGN_ALL,
         dtpd._line_num
     );
     let mut cgn_first_i: usize = usize::MAX;
@@ -735,7 +735,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
             .any(|x| x == &dtpd.cgn_last),
         "cgn_last {:?} not in CGN_ALL {:?}; declared at line {}",
         dtpd.cgn_last,
-        &CGN_ALL,
+        CGN_ALL,
         dtpd._line_num
     );
     let mut cgn_last_i: usize = 0;
@@ -849,9 +849,9 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
                     dtpd._line_num,
                     s,
                     (dta, dtb),
-                    &s_dta_dtb,
+                    s_dta_dtb,
                     (a, b),
-                    &s_a_b,
+                    s_a_b,
                 );
                 let ymdhmsn_args_: ymdhmsn_args = test_case_.2;
                 if ymdhmsn_args_ != DUMMY_ARGS {

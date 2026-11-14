@@ -157,7 +157,9 @@ macro_rules! path_filesz_or_return_err {
                 Some(val) => val,
                 None => {
                     defx!("path_filesz() returned None for {:?}", $path);
-                    return Err(Error::new(ErrorKind::Other, format!("path_filesz() returned None for {:?}", $path)));
+                    return Err(
+                        Error::other(format!("path_filesz() returned None for {:?}", $path))
+                    );
                 }
             }
         }

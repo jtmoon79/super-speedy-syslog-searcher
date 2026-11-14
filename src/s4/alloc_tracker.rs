@@ -727,12 +727,11 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                                 |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF tracked site", Some(&err))
                             );
                             let pr: &str = PROJECT_ROOT.as_str();
-                            for i in 0..frames_captured {
-                                let (fidx, funcidx, lineno, colno) = collected_frame_keys[i];
+                            for (fidx, funcidx, lineno, colno) in collected_frame_keys.iter().take(frames_captured) {
                                 let fname: &str = filenames.get(fidx).map(|s| s.as_str()).unwrap_or("<unknown file>");
-                                let funcname: &str = functions.get(funcidx).map(|s| s.as_str()).unwrap_or("<unknown function>");
                                 // remove leading project root from file path to make it more readable
-                                let fname: &str = if fname.starts_with(pr) { &fname[pr.len()..] } else { fname };
+                                let fname: &str = if let Some(fname_) = fname.strip_prefix(pr) { fname_ } else { fname };
+                                let funcname: &str = functions.get(funcidx).map(|s| s.as_str()).unwrap_or("<unknown function>");
                                 core::fmt::write(
                                     &mut *apw,
                                     format_args!("    {fname}:{lineno}:{colno}  [{funcname}]\n"),
@@ -819,7 +818,6 @@ pub fn print_tracking_map() {
         Ok(path) => Some(
             std::fs::OpenOptions::new()
                 .create(true)
-                .write(true)
                 .append(true)
                 .open(&path)
                 .unwrap_or_else(|err| panic!("{}={:?} could not be opened for writing: {}", ENV_ALLOCATOR_OUTPUT, path, err))

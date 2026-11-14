@@ -987,11 +987,12 @@ impl SyslineReader {
         let parse_datetime_in_line_lru_cache: LineParsedCache = LineParsedCache::new(
             std::num::NonZeroUsize::new(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ).unwrap(),
         );
+        let transcode_buffer: Bytes = Bytes::with_capacity(0);
         def1x!("return Ok(SyslineReader)");
 
         Ok(SyslineReader {
             linereader: lr,
-            syslines: syslines,
+            syslines,
             sysline_longest: 0,
             syslines_count: 0,
             syslines_stored_highest: 0,
@@ -1017,7 +1018,7 @@ impl SyslineReader {
             tz_offset,
             tz_offset_string: tz_offset.to_string(),
             systemtime_at_uptime_zero: None,
-            transcode_buffer: Bytes::with_capacity(0),
+            transcode_buffer,
             find_sysline_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
             fileoffset_last: 0,
             find_sysline_lru_cache,

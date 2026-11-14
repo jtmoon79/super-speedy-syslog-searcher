@@ -1398,18 +1398,13 @@ impl<'a> JournalReader {
                 return None;
             }
         };
-        let value: &[u8] = match data.find_byte(b'=') {
-            Some(at) => {
-                let b = std::cmp::min(at + 1,  data.len());
+        let value: &[u8] = {
+            let at = data.find_byte(b'=')?;
+            let b = std::cmp::min(at + 1,  data.len());
 
-                &data[b..]
-            },
-            None => return None
+            &data[b..]
         };
-        let value_s: &str = match std::str::from_utf8(value) {
-            Ok(s) => s,
-            Err(_e) => return None
-        };
+        let value_s: &str = std::str::from_utf8(value).ok()?;
         let source_realtime_timestamp: EpochMicroseconds =
             match EpochMicroseconds::from_str(value_s) {
                 Ok(ts) => ts,

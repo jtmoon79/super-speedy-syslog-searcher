@@ -2698,6 +2698,7 @@ pub(crate) enum DUR_OFFSET_TYPE {
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub(crate) enum EXACT_HMS {
     None,
+    #[allow(clippy::upper_case_acronyms)]
     HMS(u32, u32, u32),
 }
 
@@ -5335,11 +5336,7 @@ fn exec_fileprocessor_thread(
     let tid: thread::ThreadId = thread_cur.id();
 
     #[cfg(any(debug_assertions, test))]
-    let tname: &str = <&str>::clone(
-        &thread_cur
-            .name()
-            .unwrap_or(""),
-    );
+    let tname: &str = thread_cur.name().unwrap_or("");
     #[cfg(not(any(debug_assertions, test)))]
     let tname: &str = "";
 
@@ -5816,7 +5813,7 @@ fn processing_loop(
                 _from_env = true;
             }
         }
-        defo!("stack_size={stack_size}{}", _from_env.then_some(" (from RUST_MIN_STACK env. var.)").unwrap_or(""));
+        defo!("stack_size={stack_size}{}", if _from_env { " (from RUST_MIN_STACK env. var.)" } else { "" });
         map_pathid_stacksize.insert(*pathid, stack_size);
 
         // TODO: [2026/06] it would be interesting to experiment with different `CHANNEL_CAPACITY` values
@@ -6394,10 +6391,9 @@ fn processing_loop(
                             ),
                             false => None,
                         };
-                    let prepend_date_format: Option<String> = match cli_prepend_dt_format {
-                        Some(ref s) => Some(s.to_owned() + cli_prepend_separator.as_str()),
-                        None => None,
-                    };
+                    let prepend_date_format: Option<String> = cli_prepend_dt_format.as_ref().map(
+                        |s| s.to_owned() + cli_prepend_separator.as_str()
+                    );
                     let encoding_type = match map_pathid_datum.get(pathid) {
                         Some((LogMessage::Sysline(syslinep), _)) => syslinep.encoding_type(),
                         _ => match map_pathid_filetype.get(pathid) {

@@ -288,7 +288,7 @@ pub fn decompress_to_ntf(
             ntfs_mut.push_back(fpath_ntf);
         }
         Err(err) => {
-            let ioerr = Error::new(ErrorKind::Other, format!("NAMED_TEMP_FILES.lock() failed: {:?}", err));
+            let ioerr = Error::other(format!("NAMED_TEMP_FILES.lock() failed: {:?}", err));
             defx!("NAMED_TEMP_FILES.lock() failed, return {:?}", err);
             return err_from_err_path_result_dtn!(&ioerr, &fpath, Some("NAMED_TEMP_FILES.lock() failed"));
         }

@@ -925,7 +925,7 @@ pub fn utf_to_utf8(value: &str, encoding: FileTypeTextEncoding) -> String {
     }
 }
 
-pub fn bytes_to_utf8(value: &Vec<u8>, encoding: FileTypeTextEncoding) -> String {
+pub fn bytes_to_utf8(value: &[u8], encoding: FileTypeTextEncoding) -> String {
     match encoding {
         FileTypeTextEncoding::Utf8Ascii
         | FileTypeTextEncoding::Utf8BOM => String::from_utf8_lossy(value).to_string(),
