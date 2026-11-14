@@ -12,6 +12,10 @@
 #   HWARMUP           Warmup runs, at least 0 (default: 2)
 #   BENCHER_REPORT    Upload report path (default: DIROUT/bencher-report.json)
 #   BENCHER_TESTBED   Testbed name (default: Linux OS, CPU model, and core count)
+#   UPLOAD_REPORT     If set to 1, automatically send the report after running
+#                     benchmarks.
+#
+# Extra command-line arguments are forwarded to hyperfine.
 #
 # Writes Hyperfine JSON/Markdown pairs, bencher-results.json (BMF metrics), and
 # bencher-report.json (the report envelope required by POST /reports).
@@ -28,11 +32,15 @@
 
 set -euo pipefail
 
+# prepare as much as possible before running hyperfine to elicit problems, e.g.
+# missing programs, forgotten environment variables, etc. before starting
+# the hyperfine runs, as they take tens of minutes
+
 # FILE_NUM Variant is applied to all files.
 # BLOCKSZ Variant is only applied to files that are processed with a BlockReader.
-declare -r FILE_NUM="5,50"
-declare -r FILE_NUM_ARRAY="[5, 50]"
-declare -r BLOCKSZ_TEST="4096,8192,65535,131071"
+readonly FILE_NUM="5,50"
+readonly FILE_NUM_ARRAY="[5, 50]"
+readonly BLOCKSZ_TEST="4096,8192,65535,131071"
 declare -ar FILES_BLOCKS=(
     "./logs/Darwin25/var-log/powermanagement/2026.05.30.asl"
     "./logs/NetBSD9.3/Xorg.0.log.old|${BLOCKSZ_TEST}"
@@ -56,8 +64,8 @@ readonly SCRIPT_DIR=$(cd "$(dirname -- "${BASH_SOURCE[0]}")"; pwd)
 cd "${SCRIPT_DIR}/.."
 readonly PROGRAM="${PROGRAM-./target/release/s4}"
 readonly HYPERFINE="${HYPERFINE_INSTALL-hyperfine}"
-declare -r HRUNS="${HRUNS-5}"
-declare -r HWARMUP="${HWARMUP-2}"
+readonly HRUNS="${HRUNS-5}"
+readonly HWARMUP="${HWARMUP-1}"
 readonly FILTER="${SCRIPT_DIR}/bencher-hyperfine-runs-filter.jq"
 
 if [[ "${HRUNS}" -lt 2 ]]; then
@@ -80,9 +88,109 @@ for tool in "${PROGRAM}" "${HYPERFINE}" jq python3 git lscpu nproc; do
     fi
 done
 
+# print `lscpu` model name cleanly.
+# remove extraneous information like (R), (TM), CPU, and extra spaces
+# which can break bencher's testbed naming
+function print_cpu_modelname() {
+        if ! modelname=$(lscpu -p='MODELNAME' &>/dev/null); then
+            # lscpu does not support COLUMN 'MODELNAME', i.e. on ARM-based systems.
+            # output looks like:
+            #    $ lscpu
+            #    Architecture:        armv6l
+            #    Byte Order:          Little Endian
+            #    CPU(s):              1
+            #    Vendor ID:           ARM
+            #    Model:               7
+            #    Model name:          ARM1176
+            #    Core(s) per socket:  1
+            #    Socket(s):           1
+            #    ...
+            lscpu \
+            | grep 'Model name:' \
+            | cut -f2 -d: \
+            | sed -E -e 's/ +//g' \
+            | sed -E -e 's/\((R|TM|tm)\)//g' -e 's/ CPU( |$)/\1/g' -e 's/ @ / /g' -e 's/ +/ /g' -e 's/^ +| +$//g'
+            return 0
+        fi
+        # lscpu supports COLUMN 'MODELNAME', i.e. on x86-based systems.
+        # output looks like:
+        #    $  lscpu -p='MODELNAME'
+        #    # The following is the parsable format, which can be fed to other
+        #    # programs. Each different item in every column has an unique ID
+        #    # starting usually from zero.
+        #    # Modelname
+        #    AMD Ryzen 7 7700X 8-Core Processor
+        #    AMD Ryzen 7 7700X 8-Core Processor
+        #    AMD Ryzen 7 7700X 8-Core Processor
+        #    AMD Ryzen 7 7700X 8-Core Processor
+        #    AMD Ryzen 7 7700X 8-Core Processor
+        #    AMD Ryzen 7 7700X 8-Core Processor
+        #    AMD Ryzen 7 7700X 8-Core Processor
+        lscpu -p='MODELNAME' \
+        | grep -v '^#' \
+        | sort -u \
+        | paste -sd ',' - \
+        | sed -E -e 's/\((R|TM|tm)\)//g' -e 's/ CPU( |$)/\1/g' -e 's/ @ / /g' -e 's/ +/ /g' -e 's/^ +| +$//g'
+}
+
+# verify print_cpu_modelname succeeds
+if ! CPU_MODELNAME=$(print_cpu_modelname); then
+    echo "ERROR: lscpu to print CPU model name" >&2
+    exit 1
+fi
+echo "CPU Model: ${CPU_MODELNAME}"
+
+if [[ "${UPLOAD_REPORT-}" == "1" ]]; then
+    if [[ -z "${BENCHER_RUN_KEY-}" ]]; then
+        echo "ERROR: BENCHER_RUN_KEY must be set to upload the report" >&2
+        exit 1
+    fi
+fi
+
+branch="${GITHUB_REF_NAME-}"
+if [[ -z "${branch}" ]]; then
+    branch=$(git symbolic-ref --short HEAD)
+fi
+readonly branch
+echo "Branch: ${branch}"
+
+BENCHER_TESTBED="${BENCHER_TESTBED-}"
+if [[ -z "${BENCHER_TESTBED}" ]]; then
+    cpu_model=${CPU_MODELNAME}
+    cpu_cores=$(nproc)
+    BENCHER_TESTBED=$(
+        source /etc/os-release
+        printf '%s %s, %s, %s cores' "${NAME}" "${VERSION_ID}" "${cpu_model}" "${cpu_cores}"
+    )
+    # Bencher testbed names must be at most 64 bytes
+    BENCHER_TESTBED=$(
+        export LC_ALL=C
+        t="${BENCHER_TESTBED:0:64}"
+        echo -n "${t%"${t##*[! ]}"}"
+    )
+fi
+readonly BENCHER_TESTBED
+# Bencher testbed name rules:
+# - non-empty
+# - no leading/trailing whitespace
+# - at most 64 bytes
+if [[ -z "${BENCHER_TESTBED}" \
+    || "${BENCHER_TESTBED}" != "${BENCHER_TESTBED#[[:space:]]}" \
+    || "${BENCHER_TESTBED}" != "${BENCHER_TESTBED%[[:space:]]}" \
+    || $(export LC_ALL=C; echo -n "${#BENCHER_TESTBED}") -gt 64 ]]; then
+    echo "ERROR: BENCHER_TESTBED must be 1 to 64 bytes without leading or trailing whitespace: '${BENCHER_TESTBED}'" >&2
+    exit 1
+fi
+echo "Bencher testbed: ${BENCHER_TESTBED}" >&2
+
+# print a horizontal line across the terminal
 function echo_line() {
-    # print a horizontal line across the terminal
-    python3 -Bc "print('─' * ${COLUMNS:-100}, end='\n\n')"
+    declare -i i=0
+    while (( i < ${COLUMNS:-100} )); do
+        printf '─'
+        (( i++ )) || true
+    done
+    printf '\n\n'
 }
 
 # example --version output:
@@ -253,39 +361,6 @@ done
 
 echo_line
 
-branch="${GITHUB_REF_NAME-}"
-if [[ -z "${branch}" ]]; then
-    branch=$(git symbolic-ref --short HEAD)
-fi
-BENCHER_TESTBED="${BENCHER_TESTBED-}"
-if [[ -z "${BENCHER_TESTBED}" ]]; then
-    # drop CPU model noise, e.g.
-    # "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz" becomes
-    # "Intel Xeon Platinum 8370C 2.80GHz"
-    cpu_model=$(
-        lscpu -p='MODELNAME' | grep -v '^#' | sort -u | paste -sd ',' - \
-        | sed -E -e 's/\((R|TM|tm)\)//g' -e 's/ CPU( |$)/\1/g' -e 's/ @ / /g' -e 's/ +/ /g' -e 's/^ +| +$//g'
-    )
-    cpu_cores=$(nproc)
-    BENCHER_TESTBED=$(
-        source /etc/os-release
-        printf '%s %s, %s, %s cores' "${NAME}" "${VERSION_ID}" "${cpu_model}" "${cpu_cores}"
-    )
-    # Bencher testbed names must be at most 64 bytes
-    BENCHER_TESTBED=$(LC_ALL=C; t="${BENCHER_TESTBED:0:64}"; echo -n "${t%"${t##*[! ]}"}")
-fi
-readonly branch
-readonly BENCHER_TESTBED
-# Bencher name rules: non-empty, no leading/trailing whitespace, at most 64 bytes
-if [[ -z "${BENCHER_TESTBED}" \
-    || "${BENCHER_TESTBED}" != "${BENCHER_TESTBED#[[:space:]]}" \
-    || "${BENCHER_TESTBED}" != "${BENCHER_TESTBED%[[:space:]]}" \
-    || $(LC_ALL=C; echo -n "${#BENCHER_TESTBED}") -gt 64 ]]; then
-    echo "ERROR: BENCHER_TESTBED must be 1 to 64 bytes without leading or trailing whitespace: '${BENCHER_TESTBED}'" >&2
-    exit 1
-fi
-echo "Bencher testbed: ${BENCHER_TESTBED}" >&2
-
 if [[ -z "${BENCHER_REPORT-}" ]]; then
     BENCHER_REPORT="${output_dir}/bencher-report.json"
 fi
@@ -320,3 +395,7 @@ fi
 echo
 echo "Bencher report: ${BENCHER_REPORT}"
 echo
+
+if [[ "${UPLOAD_REPORT-}" == "1" ]]; then
+    (set -eux; ./tools/bencher-report-upload.sh "${BENCHER_REPORT}")
+fi
