@@ -52,9 +52,14 @@ function print_git_ref_date() {
 
 GIT_CURRENT=$(git rev-parse HEAD)
 
+# print a horizontal line across the terminal
 function echo_line() {
-    # print a horizontal line across the terminal
-    python3 -Bc "print('─' * ${COLUMNS:-100}, end='\n\n')"
+    declare -i i=0
+    while (( i < ${COLUMNS:-100} )); do
+        printf '─'
+        (( i++ )) || true
+    done
+    printf '\n\n'
 }
 
 function grep_rust_version() {

@@ -77,19 +77,18 @@ if [[ ${#files[@]} -lt 1 ]]; then
     exit 1
 fi
 
+# print a horizontal line across the terminal
 function echo_line() {
-    python3 -Bc "print('─' * ${COLUMNS:-100}, end='\n\n')"
-}
-
-function file_size() {
-    stat --printf='%s' "${1}"
+    declare -i i=0
+    while (( i < ${COLUMNS:-100} )); do
+        printf '─'
+        (( i++ )) || true
+    done
+    printf '\n\n'
 }
 
 function file_isempty() {
-    if [[ ! -f "${1}" ]]; then
-        return 1
-    fi
-    [[ $(file_size "${1}") -eq 0 ]]
+    [[ ! -s "${1}" ]]
 }
 
 # datetime range for s4

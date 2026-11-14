@@ -167,10 +167,14 @@ fi
 TDIR_LOGS=/tmp/s4-performance-plot
 mkdir -vp "${TDIR_LOGS}"
 
-# print a line as wide as the terminal
+# print a horizontal line across the terminal
 function echo_line() {
-    "${PYTHON}" -Bc "import sys; print('─' * ${COLUMNS:-100}, file=sys.stderr)"
-    echo >&2
+    declare -i i=0
+    while (( i < ${COLUMNS:-100} )); do
+        printf '─'
+        (( i++ )) || true
+    done
+    printf '\n\n'
 }
 
 # print file size in bytes

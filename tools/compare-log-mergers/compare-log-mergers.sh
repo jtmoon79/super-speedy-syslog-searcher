@@ -337,8 +337,14 @@ function files_caching() {
     cat "${files[@]}" > "${tmpOut}"
 }
 
+# print a horizontal line across the terminal
 function echo_line() {
-    python3 -Bc "print('─' * ${COLUMNS:-100}, end='\n\n')"
+    declare -i i=0
+    while (( i < ${COLUMNS:-100} )); do
+        printf '─'
+        (( i++ )) || true
+    done
+    printf '\n\n'
 }
 
 function echo_warn() {
