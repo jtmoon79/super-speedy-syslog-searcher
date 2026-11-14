@@ -344,7 +344,8 @@ for file_block in "${FILES_BLOCKS[@]}"; do
     result="${output_dir}/hyperfine-results-${index}-FILE_NUM.json"
     printf -v command 'yes %q | head -n {FILE_NUM} | %q -cn - 1>/dev/null 2>&1' "${file}" "${PROGRAM}"
     command="yes ${file} | head -n {FILE_NUM} | ${PROGRAM} -cn - 1>/dev/null 2>&1"
-    run_hyperfine "${name}" "${result}" "${command}" --parameter-list FILE_NUM "${FILE_NUM}"
+    # pass extra script arguments to hyperfine
+    run_hyperfine "${name}" "${result}" "${command}" --parameter-list FILE_NUM "${FILE_NUM}" "${@}"
 
     if [[ -z "${blocks}" ]]; then
         continue
@@ -356,7 +357,8 @@ for file_block in "${FILES_BLOCKS[@]}"; do
     # Process the file 5 times to make oddities more obvious.
     printf -v command '%q -cn -- %q %q %q %q %q 1>/dev/null 2>&1' "${PROGRAM}" "${file}" "${file}" "${file}" "${file}" "${file}"
     command="env S4_BLOCKSZ={BLOCKSZ} ${command}"
-    run_hyperfine "${name}" "${result}" "${command}" --parameter-list BLOCKSZ "${blocks}"
+    # pass extra script arguments to hyperfine
+    run_hyperfine "${name}" "${result}" "${command}" --parameter-list BLOCKSZ "${blocks}" "${@}"
 done
 
 echo_line
