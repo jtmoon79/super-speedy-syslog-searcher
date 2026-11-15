@@ -417,7 +417,7 @@ impl FileHandleManagerState {
         let handles_managed: HashMap<FileHandleKey, FileEntryManaged> = HashMap::new();
         let handles_unmanaged: HashMap<FileHandleKey, usize> = HashMap::new();
         let handles_unmanaged_pending: HashMap<FileHandleKey, usize> = HashMap::new();
-        let lru: LruCache<FileHandleKey, ()> = LruCache::new(open_max);
+        let lru: LruCache<FileHandleKey, ()> = LruCache::sparse(open_max);
         Self {
             handles_managed,
             handles_unmanaged,
