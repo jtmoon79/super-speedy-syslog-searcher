@@ -29,6 +29,7 @@ use std::sync::atomic::{
 use std::sync::{
     OnceLock,
     RwLock,
+    RwLockReadGuard,
 };
 
 use ::backtrace::SymbolName;
@@ -707,11 +708,11 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
             };
 
             if allocator_do_print {
-                let filenames = match ALLOCATOR_TRACKING_FILENAMES.read() {
+                let filenames: RwLockReadGuard<Vec<String>> = match ALLOCATOR_TRACKING_FILENAMES.read() {
                     Ok(f) => f,
                     Err(err) => alloc_exit("ALLOCATOR_TRACKING_FILENAMES.read() failed", Some(&err)),
                 };
-                let functions = match ALLOCATOR_TRACKING_FUNCTIONS.read() {
+                let functions: RwLockReadGuard<Vec<String>> = match ALLOCATOR_TRACKING_FUNCTIONS.read() {
                     Ok(f) => f,
                     Err(err) => alloc_exit("ALLOCATOR_TRACKING_FUNCTIONS.read() failed", Some(&err)),
                 };
@@ -728,10 +729,10 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                             );
                             let pr: &str = PROJECT_ROOT.as_str();
                             for (fidx, funcidx, lineno, colno) in collected_frame_keys.iter().take(frames_captured) {
-                                let fname: &str = filenames.get(fidx).map(|s| s.as_str()).unwrap_or("<unknown file>");
+                                let fname: &str = filenames.get(*fidx).map(|s| s.as_str()).unwrap_or("<unknown file>");
                                 // remove leading project root from file path to make it more readable
                                 let fname: &str = if let Some(fname_) = fname.strip_prefix(pr) { fname_ } else { fname };
-                                let funcname: &str = functions.get(funcidx).map(|s| s.as_str()).unwrap_or("<unknown function>");
+                                let funcname: &str = functions.get(*funcidx).map(|s| s.as_str()).unwrap_or("<unknown function>");
                                 core::fmt::write(
                                     &mut *apw,
                                     format_args!("    {fname}:{lineno}:{colno}  [{funcname}]\n"),
