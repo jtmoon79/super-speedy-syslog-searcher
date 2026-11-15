@@ -1134,8 +1134,6 @@ if ${DISKIO_AVAILABLE}; then
     readonly diskio_rchar_per_file_multiple_min
     readonly diskio_rchar_per_file_multiple_avg
     readonly diskio_rchar_per_file_blocksz_multiple_max
-    readonly diskio_rchar_per_file_blocksz_multiple_min
-    readonly diskio_rchar_per_file_blocksz_multiple_avg
 
     diskio_rchar_per_file_blocksz_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_min} / max(${S4_BLOCKSZ}, 1)))")
     diskio_rchar_per_file_blocksz_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${diskio_rchar_per_file_avg} / max(${S4_BLOCKSZ}, 1)))")
