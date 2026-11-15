@@ -16,7 +16,8 @@ set -x
 
 exec \
     curl \
-    --fail-with-body \
+    --fail \
+    --location \
     --show-error \
     --request DELETE \
     --header "Authorization: Bearer ${BENCHER_RUN_KEY}" \

@@ -35,8 +35,9 @@ declare -r api="https://api.bencher.dev/v0/projects/${BENCHER_PROJECT}"
 function request() {
     if ! (set -x
         curl \
-            --fail-with-body \
+            --fail \
             --silent \
+            --location \
             --show-error \
             --header "Authorization: Bearer ${BENCHER_RUN_KEY}" \
             --header 'Content-Type: application/json' \
