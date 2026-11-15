@@ -27,13 +27,9 @@
     "flake8.args": [
         "--max-line-length=120"
     ],
-    "rust-analyzer.check.extraArgs": [
+    "rust-analyzer.runnables.extraArgs": [
         "--target-dir",
-        "./target/rust-analyzer_check"
-    ],
-    "rust-analyzer.cargo.extraArgs": [
-        "--target-dir",
-        "./target/rust-analyzer_cargo"
+        "./target/rust-analyzer"
     ],
     "chat.tools.terminal.autoApprove": {
         "/^bash --norc --noprofile -c 'git --no-pager status --short'$/": {
