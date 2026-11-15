@@ -325,7 +325,11 @@ function io_field() {
     declare -r iofile=${1}
     declare -r key=${2}
     local val
-    val=$(set -euo pipefail; grep -m1 -Ee "^${key}:" "${iofile}" | cut -f2 -d':' | tr -d '[:space:]')
+    val=$(set -euo pipefail;
+        grep -m1 -Ee "^${key}:" "${iofile}" \
+        | cut -f2 -d':' \
+        | tr -d '[:space:]'
+    )
     if [[ -z "${val}" || ! "${val}" =~ ^[0-9]+$ ]]; then
         echo "ERROR: missing or non-integer '${key}' in '${iofile}'" >&2
         if [[ -f "${iofile}" ]]; then
@@ -373,10 +377,18 @@ function cmd_io() {
     : > "${iofile}"
     echo "${PS4-}${cmd}" >&2
     declare -i status=0
-    "${PYTHON}" -c '
-import os, subprocess, sys
-iofile, cmd = sys.argv[1], sys.argv[2]
-# `exec` so pid is s4, not a wrapper shell
+    declare sudo_=
+    if [[ "$(whoami)" != "root" ]]; then
+        sudo_="sudo -n"
+    fi
+    ${sudo_} "${PYTHON}" -c '
+import os
+import subprocess
+import sys
+
+iofile = sys.argv[1]
+cmd = sys.argv[2]
+# `exec` so PID is s4, not a wrapper shell
 p = subprocess.Popen(["sh", "-c", "exec " + cmd], stdout=subprocess.DEVNULL)
 os.waitid(os.P_PID, p.pid, os.WEXITED | os.WNOWAIT)
 try:
