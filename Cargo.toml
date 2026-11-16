@@ -61,6 +61,7 @@ exclude = [
     ".taplo.toml",
     ".vscode/*",
     "benches/bench_decode_utf.rs",
+    "benches/bench_decompress.rs",
     "benches/bench_prints.rs",
     "benches/bench_ranges.rs",
     "benches/bench_regex.rs",
@@ -207,6 +208,7 @@ test-case = "3.4.1"
 jetscii = "0.5.3"
 regex-automata = "0.4.18"
 range-set-blaze = "0.8.0"
+sirocco = "0.3.1"
 stringzilla = "3.12.6"
 # src/subprojects/lzma_rs/
 seq-macro = "0.3"
@@ -379,6 +381,10 @@ panic = "abort"
 name = "bench_decode_utf"
 harness = false
 #dependency = ["dep:jetscii"]
+
+[[bench]]
+name = "bench_decompress"
+harness = false
 
 [[bench]]
 name = "bench_prints"
