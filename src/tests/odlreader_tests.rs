@@ -11,8 +11,6 @@ use std::io::{
 use std::sync::atomic::AtomicBool;
 use std::time::SystemTime;
 
-use base64::Engine;
-use base64::engine::general_purpose::STANDARD;
 use ::test_case::test_case;
 
 use crate::common::{
