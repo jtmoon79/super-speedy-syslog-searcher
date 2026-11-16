@@ -8,6 +8,7 @@
 
 use std::io::{
     Cursor,
+    Read,
     Seek,
     SeekFrom,
     Write,

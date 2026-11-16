@@ -3,6 +3,10 @@
 //! Miscellaneous helper functions for _Readers_.
 
 use std;
+use std::io::{
+    Read,
+    Seek,
+};
 
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -34,6 +38,84 @@ pub(crate) use ::zip::read::ZipArchive;
 pub(crate) use ::zip::read::ZipFile;
 
 pub(crate) type ZipHandle = ZipArchive<FileHandleManaged>;
+
+pub(crate) fn gzip_header_metadata<R: std::io::Read + std::io::Seek>(
+    reader: &mut R,
+) -> std::io::Result<(String, u32)> {
+    defn!();
+
+    let position: u64 = reader.stream_position()?;
+    let result: std::io::Result<(String, u32)> = {
+        let mut buffered = std::io::BufReader::new(&mut *reader);
+        (|| {
+            let mut fixed = [0; 10];
+            buffered.read_exact(&mut fixed)?;
+            let flags: u8 = fixed[3];
+            let mtime: u32 = u32::from_le_bytes(fixed[4..8].try_into().unwrap());
+
+            if flags & 0x04 != 0 {
+                let mut extra_len = [0; 2];
+                buffered.read_exact(&mut extra_len)?;
+                buffered.seek(std::io::SeekFrom::Current(i64::from(u16::from_le_bytes(extra_len))))?;
+            }
+
+            let filename: Vec<u8> = if flags & 0x08 != 0 {
+                read_gzip_zero_terminated(&mut buffered, true)?
+            } else {
+                Vec::new()
+            };
+            if flags & 0x10 != 0 {
+                read_gzip_zero_terminated(&mut buffered, false)?;
+            }
+            if flags & 0x02 != 0 {
+                let mut header_crc = [0; 2];
+                buffered.read_exact(&mut header_crc)?;
+            }
+
+            Ok((String::from_utf8(filename).unwrap_or_default(), mtime))
+        })()
+    };
+    reader.seek(std::io::SeekFrom::Start(position))?;
+    defx!("return {:?}", result);
+
+    result
+}
+
+fn read_gzip_zero_terminated<R: std::io::BufRead>(
+    reader: &mut R,
+    keep: bool,
+) -> std::io::Result<Vec<u8>> {
+    defn!();
+
+    let mut value: Vec<u8> = Vec::new();
+    loop {
+        let buffer: &[u8] = reader.fill_buf()?;
+        if buffer.is_empty() {
+            defx!("return Err()");
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::UnexpectedEof,
+                "unterminated gzip header field",
+            ));
+        }
+        match buffer.iter().position(|byte| *byte == 0) {
+            Some(end) => {
+                if keep {
+                    value.extend_from_slice(&buffer[..end]);
+                }
+                reader.consume(end + 1);
+                defx!("return Ok({:?} bytes)", value.len());
+                return Ok(value);
+            }
+            None => {
+                let count = buffer.len();
+                if keep {
+                    value.extend_from_slice(buffer);
+                }
+                reader.consume(count);
+            }
+        }
+    }
+}
 
 pub(crate) fn zip_error(error: zip::result::ZipError, path: &str) -> std::io::Error {
     let error = std::io::Error::from(error);

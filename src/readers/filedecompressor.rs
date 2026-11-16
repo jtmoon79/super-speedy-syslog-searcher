@@ -29,12 +29,11 @@ use std::sync::{
 use std::time::SystemTime;
 
 use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
-// `flate2` is for gzip files.
-use ::flate2::read::GzDecoder;
-use ::flate2::GzHeader;
 use ::lazy_static::lazy_static;
 // `lz4_flex` is for lz4 files.
 use ::lz4_flex;
+// `sirocco` is for gzip files.
+use ::sirocco;
 pub use ::zip::read::ZipArchive;
 pub use ::zip::read::ZipFile;
 
@@ -78,6 +77,7 @@ use crate::readers::blockreader::{
 };
 use crate::readers::helpers::{
     fpath_to_path,
+    gzip_header_metadata,
     path_filesz,
     path_to_fpath,
     open_zip,
@@ -326,7 +326,7 @@ pub fn decompress_to_ntf(
     };
     defo!("file_ntf {:?}", file_ntf);
 
-    let file_compressed: FileHandleManaged;
+    let mut file_compressed: FileHandleManaged;
     let file_compressed_metadata: FileMetadata;
     match file_type_archive {
         FileTypeArchive::Normal
@@ -672,10 +672,21 @@ pub fn decompress_to_ntf(
             //       BlockReader::new(). Both should be refactored to reduce
             //       duplicate code.
 
-            let mut decoder: GzDecoder<FileHandleManaged> = GzDecoder::new(file_compressed);
-            defo!("GzDecoder: {:?}", decoder);
-            let header_opt: Option<&GzHeader> = decoder.header();
-            let mut _filename: String = String::with_capacity(0);
+            let (_filename, mtime_secs) = match gzip_header_metadata(&mut file_compressed) {
+                Ok(metadata) => metadata,
+                Err(err) => {
+                    defx!("read gzip header Error, return Err({:?})", err);
+                    return err_from_err_path_result_dtn!(&err, &fpath, Some("read gzip header failed"));
+                }
+            };
+            let mtime = match mtime_secs {
+                0 => SystemTime::UNIX_EPOCH,
+                _ => SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(u64::from(mtime_secs)),
+            };
+            let mut decoder = sirocco::inflate::Reader::new(
+                sirocco::Format::Gzip, BufReader::new(file_compressed)
+            );
+            defo!("sirocco::inflate::Reader: {:?}", decoder);
 
             //
             // GZIP binary format https://datatracker.ietf.org/doc/html/rfc1952#page-5
@@ -696,24 +707,6 @@ pub fn decompress_to_ntf(
             // compression started.  MTIME = 0 means no time stamp is
             // available.
             //
-            let mut mtime: SystemTime = SystemTime::UNIX_EPOCH;
-            match header_opt {
-                Some(header) => {
-                    let filename_: &[u8] = header
-                        .filename()
-                        .unwrap_or(&[]);
-                    _filename = match String::from_utf8(filename_.to_vec()) {
-                        Ok(val) => val,
-                        Err(_err) => String::with_capacity(0),
-                    };
-                    mtime = header
-                        .mtime_as_datetime()
-                        .unwrap_or(SystemTime::UNIX_EPOCH);
-                }
-                None => {
-                    defo!("FileGz: GzDecoder::header() is None for {:?}", path_std);
-                }
-            };
             defo!("filename {:?}", _filename);
             defo!("mtime    {:?}", mtime);
             mtime_opt = if mtime == SystemTime::UNIX_EPOCH { None } else { Some(mtime) };
@@ -722,16 +715,16 @@ pub fn decompress_to_ntf(
             let mut bufwriter: BufWriter<FileHandleManaged> = BufWriter::new(file_ntf);
             defo!("bufwriter {:?}", bufwriter);
             let mut _bytes_read_total: usize = 0;
-            defo!("GzDecoder start");
+            defo!("gzip decoder start");
             loop {
                 let bytes_read: usize = match decoder.read(&mut buf) {
                     Ok(val) => val,
                     Err(err) => {
-                        defx!("GzDecoder::read() Error, return Err({:?})", err);
-                        return err_from_err_path_result_dtn!(&err, &fpath, Some("GzDecoder.read() failed"));
+                        defx!("gzip decoder read Error, return Err({:?})", err);
+                        return err_from_err_path_result_dtn!(&err, &fpath, Some("gzip decoder read failed"));
                     }
                 };
-                defo!("GzDecoder read {:?} bytes", bytes_read);
+                defo!("gzip decoder read {:?} bytes", bytes_read);
                 _bytes_read_total += bytes_read;
                 if bytes_read == 0 {
                     break;
@@ -744,7 +737,7 @@ pub fn decompress_to_ntf(
                     }
                 }
             }
-            defo!("GzDecoder complete");
+            defo!("gzip decoder complete");
             defo!("bytes decompressed {:?}", _bytes_read_total);
         }
         FileTypeArchive::Lz4
