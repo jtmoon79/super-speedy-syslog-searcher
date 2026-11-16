@@ -493,7 +493,8 @@ Count the number of log messages in a log file.
 Using ASCII _Record Separator_ `0x1E` as the separator between log messages.
 
 ```sh
-s4 --separator '\x1E' /var/log/some.log | grep -cFe "$(echo -e '\x1E')"
+s4 --separator '\x1E' /var/log/some.log \
+  | grep -cFe "$(echo -e '\x1E')"
 ```
 
 ```powershell
