@@ -19,19 +19,13 @@ command -v s4
 s4 --version
 ```
 
-For `.asl`, `.etl`, `.odl`, `.aodl`, `.odlgz`, or `.odlsent` files, `s4` may require its Python environment to exist. If those formats fail, suggest running:
-
-```sh
-s4 --venv
-```
-
-If `s4` is unavailable, ask the user to install it or provide the path to the binary.
-
 ### Installation
+
+If `s4` is not found, ask the user if they would like to install it.
 
 #### Unix
 
-On Unix, use the POSIX-compliant Unix shell script `s4-easy-install.sh`.
+On Unix, install `s4` with the POSIX-compliant Unix shell script `s4-easy-install.sh`.
 
 ```sh
 curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.sh' | sh
@@ -39,16 +33,12 @@ curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searc
 
 #### Windows
 
-On Windows, run the PowerShell script `s4-easy-install.ps1`
+On Windows, install `s4.exe` with the PowerShell script `s4-easy-install.ps1`
 
 ```powershell
-Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
-
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1' `
-  -OutFile s4-easy-install.ps1
-
-.\s4-easy-install.ps1
+& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1")))
 ```
+
 
 ## Core Workflow
 
@@ -220,7 +210,7 @@ Commonly useful input types include:
 - Windows Event Trace Logs (`.etl`), Apple System Logs (`.asl`), and OneDrive logs (`.odl`, `.aodl`, `.odlgz`, `.odlsent`) when the needed Python environment is available.
 - User accounting records such as `acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, and `wtmp`.
 - Compressed log files named `.gz`, `.bz2`, `.lz4`, or `.xz`.
-- `.tar` archives containing parseable log files.
+- `.tar` or `.zip` archives containing parseable log files.
 
 Use `--journal-output <FORMAT>` for `.journal` output formats matching `journalctl --output`, such as `short`, `short-precise`, `short-iso`, `verbose`, `export`, or `cat`.
 
@@ -228,10 +218,6 @@ Use `--journal-output <FORMAT>` for `.journal` output formats matching `journalc
 
 - `s4` narrows and merges by interpreted datetime. It does not perform built-in regex or literal message search.
 - `s4` is not a live-tail or interactive TUI tool.
-- `.zip` archives are not supported.
 - Nested archives or compressed files, such as `logs.tar.xz` or a `.gz` file inside a `.tar`, are not supported.
-- Multi-file `.gz` and `.xz` streams process only the first stream. It is rare to find multi-stream compressed `.gz` or `.xz`.
-- Some compressed, archived, or binary formats may be memory-heavy because the installed `s4` may need to read or extract entire files before printing.
-- Datetimes printed for `.journal` files may differ from `journalctl` output.
 - Only Gregorian calendar datetimes and English datetime language are supported.
 - If logs come from different hosts or regions, ask for the source timezone and consider normalizing output with `-u`.
