@@ -1,0 +1,145 @@
+2026-08-27 14:10:14 URL:http://ftpmaster.internal/ubuntu/dists/resolute/InRelease [135549/135549] -> "/build/chroot/var/lib/apt/lists/partial/ftpmaster.internal_ubuntu_dists_resolute_InRelease" [1]
+gpgv: Signature made Thu Apr 23 17:07:30 2026 UTC
+gpgv:                using RSA key F6ECB3762474EDA9D21B7022871920D1991BC93C
+gpgv: Good signature from "Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>"
+2026-08-27 14:10:15 URL:http://ftpmaster.internal/ubuntu/dists/resolute/main/binary-amd64/by-hash/SHA256/ed9ac41cb263efaecc5a06a0742dc56570e2fb5ff94c4f2e4b2fbdcddd73cf24 [1480032/1480032] -> "/build/chroot/var/lib/apt/lists/partial/ftpmaster.internal_ubuntu_dists_resolute_main_binary-amd64_Packages.xz" [1]
+2026-08-27 14:10:15 URL:http://ftpmaster.internal/ubuntu/dists/resolute/restricted/binary-amd64/by-hash/SHA256/147c90b597ef6c1d1480f9cfe44f49201e9c2c0a1071f3ebec9e4de51690ccbd [151900/151900] -> "/build/chroot/var/lib/apt/lists/partial/ftpmaster.internal_ubuntu_dists_resolute_restricted_binary-amd64_Packages.xz" [1]
+2026-08-27 14:10:17 URL:http://ftpmaster.internal/ubuntu/pool/main/a/adduser/adduser_3.153ubuntu1_all.deb [194420/194420] -> "/build/chroot//var/cache/apt/archives/partial/adduser_3.153ubuntu1_all.deb" [1]
+2026-08-27 14:10:18 URL:http://ftpmaster.internal/ubuntu/pool/main/a/apt/apt_3.2.0_amd64.deb [1485978/1485978] -> "/build/chroot//var/cache/apt/archives/partial/apt_3.2.0_amd64.deb" [1]
+2026-08-27 14:10:18 URL:http://ftpmaster.internal/ubuntu/pool/main/b/base-files/base-files_14ubuntu6_amd64.deb [75050/75050] -> "/build/chroot//var/cache/apt/archives/partial/base-files_14ubuntu6_amd64.deb" [1]
+2026-08-27 14:10:18 URL:http://ftpmaster.internal/ubuntu/pool/main/b/base-passwd/base-passwd_3.6.8_amd64.deb [54908/54908] -> "/build/chroot//var/cache/apt/archives/partial/base-passwd_3.6.8_amd64.deb" [1]
+2026-08-27 14:10:18 URL:http://ftpmaster.internal/ubuntu/pool/main/b/bash/bash_5.3-2ubuntu1_amd64.deb [859874/859874] -> "/build/chroot//var/cache/apt/archives/partial/bash_5.3-2ubuntu1_amd64.deb" [1]
+2026-08-27 14:10:18 URL:http://ftpmaster.internal/ubuntu/pool/main/u/util-linux/bsdutils_2.41.3-3ubuntu2_amd64.deb [80056/80056] -> "/build/chroot//var/cache/apt/archives/partial/bsdutils_1%3a2.41.3-3ubuntu2_amd64.deb" [1]
+2026-08-27 14:10:18 URL:http://ftpmaster.internal/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260223_all.deb [157874/157874] -> "/build/chroot//var/cache/apt/archives/partial/ca-certificates_20260223_all.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/c/chrony/chrony_4.8-2ubuntu1_amd64.deb [341784/341784] -> "/build/chroot//var/cache/apt/archives/partial/chrony_4.8-2ubuntu1_amd64.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/c/console-setup/console-setup_1.237ubuntu3_all.deb [101478/101478] -> "/build/chroot//var/cache/apt/archives/partial/console-setup_1.237ubuntu3_all.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/c/console-setup/console-setup-linux_1.237ubuntu3_all.deb [6205464/6205464] -> "/build/chroot//var/cache/apt/archives/partial/console-setup-linux_1.237ubuntu3_all.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/c/coreutils-from/coreutils_9.5-1ubuntu2+0.0.0~ubuntu25_all.deb [3060/3060] -> "/build/chroot//var/cache/apt/archives/partial/coreutils_9.5-1ubuntu2+0.0.0~ubuntu25_all.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/c/coreutils-from/coreutils-from-uutils_0.0.0~ubuntu25_all.deb [7124/7124] -> "/build/chroot//var/cache/apt/archives/partial/coreutils-from-uutils_0.0.0~ubuntu25_all.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/c/cron/cron_3.0pl1-200ubuntu1_amd64.deb [88556/88556] -> "/build/chroot//var/cache/apt/archives/partial/cron_3.0pl1-200ubuntu1_amd64.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/c/cron/cron-daemon-common_3.0pl1-200ubuntu1_all.deb [15748/15748] -> "/build/chroot//var/cache/apt/archives/partial/cron-daemon-common_3.0pl1-200ubuntu1_all.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/d/dash/dash_0.5.12-12ubuntu3_amd64.deb [96008/96008] -> "/build/chroot//var/cache/apt/archives/partial/dash_0.5.12-12ubuntu3_amd64.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/d/dbus/dbus_1.16.2-2ubuntu4_amd64.deb [24152/24152] -> "/build/chroot//var/cache/apt/archives/partial/dbus_1.16.2-2ubuntu4_amd64.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/d/dbus/dbus-bin_1.16.2-2ubuntu4_amd64.deb [40052/40052] -> "/build/chroot//var/cache/apt/archives/partial/dbus-bin_1.16.2-2ubuntu4_amd64.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/d/dbus/dbus-daemon_1.16.2-2ubuntu4_amd64.deb [118996/118996] -> "/build/chroot//var/cache/apt/archives/partial/dbus-daemon_1.16.2-2ubuntu4_amd64.deb" [1]
+2026-08-27 14:10:19 URL:http://ftpmaster.internal/ubuntu/pool/main/d/dbus/dbus-session-bus-common_1.16.2-2ubuntu4_all.deb [54462/54462] -> "/build/chroot//var/cache/apt/archives/partial/dbus-session-bus-common_1.16.2-2ubuntu4_all.deb" [1]
+
+2026-08-27 14:10:37 URL:http://ftpmaster.internal/ubuntu/pool/main/v/vim/xxd_9.1.2141-1ubuntu4_amd64.deb [67546/67546] -> "/build/chroot//var/cache/apt/archives/partial/xxd_2%3a9.1.2141-1ubuntu4_amd64.deb" [1]
+2026-08-27 14:10:37 URL:http://ftpmaster.internal/ubuntu/pool/main/z/zlib/zlib1g_1.3.dfsg+really1.3.1-1ubuntu3_amd64.deb [63922/63922] -> "/build/chroot//var/cache/apt/archives/partial/zlib1g_1%3a1.3.dfsg+really1.3.1-1ubuntu3_amd64.deb" [1]
+gpgv: Signature made Thu Apr 23 17:07:30 2026 UTC
+gpgv:                using RSA key F6ECB3762474EDA9D21B7022871920D1991BC93C
+gpgv: Good signature from "Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>"
+dpkg: warning: parsing file '/var/lib/dpkg/status' near line 5 package 'dpkg':
+ missing 'Description' field
+dpkg: warning: parsing file '/var/lib/dpkg/status' near line 5 package 'dpkg':
+ missing 'Architecture' field
+Selecting previously unselected package base-passwd.
+(Reading database ... 0 files and directories currently installed.)
+Preparing to unpack .../base-passwd_3.6.8_amd64.deb ...
+Unpacking base-passwd (3.6.8) ...
+dpkg: base-passwd: dependency problems, but configuring anyway as you requested:
+ base-passwd depends on libc6 (>= 2.34); however:
+  Package libc6 is not installed.
+ base-passwd depends on libdebconfclient0 (>= 0.145); however:
+  Package libdebconfclient0 is not installed.
+ base-passwd depends on libselinux1 (>= 3.1~); however:
+  Package libselinux1 is not installed.
+
+Setting up base-passwd (3.6.8) ...
+dpkg: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+Selecting previously unselected package base-files.
+dpkg: regarding .../base-files_14ubuntu6_amd64.deb containing base-files, pre-dependency problem:
+ base-files pre-depends on awk
+  awk is not installed.
+
+dpkg: warning: ignoring pre-dependency problem!
+(Reading database ... 44 files and directories currently installed.)
+Preparing to unpack .../base-files_14ubuntu6_amd64.deb ...
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+Unpacking base-files (14ubuntu6) ...
+dpkg: base-files: dependency problems, but configuring anyway as you requested:
+ base-files depends on awk; however:
+  Package awk is not installed.
+ base-files depends on libc6 (>= 2.34); however:
+  Package libc6 is not installed.
+ base-files depends on libcrypt1 (>= 1:4.4.10-10ubuntu3); however:
+  Package libcrypt1 is not installed.
+
+Setting up base-files (14ubuntu6) ...
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Description' field
+dpkg-divert: warning: parsing file '/var/lib/dpkg/status' near line 25 package 'dpkg':
+ missing 'Architecture' field
+dpkg: warning: parsing file '/var/lib/dpkg/status' near line 60 package 'dpkg':
+ missing 'Description' field
+dpkg: warning: parsing file '/var/lib/dpkg/status' near line 60 package 'dpkg':
+ missing 'Architecture' field
+dpkg: regarding .../dpkg_1.23.7ubuntu1_amd64.deb containing dpkg, pre-dependency problem:
+ dpkg pre-depends on libbz2-1.0
+  libbz2-1.0 is not installed.
+
+
+Setting up networkd-dispatcher (2.2.4-1.1ubuntu1) ...
+Created symlink '/etc/systemd/system/multi-user.target.wants/networkd-dispatcher.service' -> '/usr/lib/systemd/system/networkd-dispatcher.service'.
+Setting up python3-rich (13.9.4-1.2) ...
+Setting up netplan.io (1.2-1ubuntu5) ...
+Setting up kbd (2.7.1-2ubuntu2) ...
+Setting up console-setup-linux (1.237ubuntu3) ...
+update-alternatives: using /etc/console-setup/vtrgb to provide /etc/vtrgb (vtrgb) in auto mode
+Created symlink '/etc/systemd/system/sysinit.target.wants/keyboard-setup.service' -> '/usr/lib/systemd/system/keyboard-setup.service'.
+Created symlink '/etc/systemd/system/multi-user.target.wants/console-setup.service' -> '/usr/lib/systemd/system/console-setup.service'.
+Created symlink '/etc/systemd/system/sysinit.target.wants/setvtrgb.service' -> '/usr/lib/systemd/system/setvtrgb.service'.
+Setting up console-setup (1.237ubuntu3) ...
+Setting up ubuntu-minimal (1.570) ...
+Processing triggers for libc-bin (2.43-2ubuntu2) ...
+Processing triggers for ca-certificates (20260223) ...
+Updating certificates in /etc/ssl/certs...
+0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
