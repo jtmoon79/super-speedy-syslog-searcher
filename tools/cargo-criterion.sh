@@ -84,6 +84,13 @@ mkdir -p "${DIROUT}"
     | .[]
 ' > "${DIROUT}/benchmark.md"
 
+# format the markdown table so it's also readable as text
+tmpf=$(mktemp)
+cp -f "${DIROUT}/benchmark.md" "$tmpf"
+column -t -s '|' -o ' | ' "$tmpf" > "${DIROUT}/benchmark.md"
+rm -f "$tmpf"
+
+# pretty print
 ./tools/glow.sh "${DIROUT}/benchmark.md"
 
 set -x
