@@ -391,7 +391,7 @@ s4 /var/log -a=@-5m -b 20220101T120000
 
 <br/>
 
-Print the log messages on for the 5 minute period ending 1 minute ago
+Print the log messages for the 5 minute period ending 1 minute ago
 
 ```sh
 s4 /var/log -a=@-5m -b=-1m
