@@ -298,7 +298,7 @@ impl SummaryPrinted {
         let (
             summaryblockreader_opt,
             summarylinereader_opt,
-            _summarysyslinereader_opt,
+            summarysyslinereader_opt,
             _summarysyslogprocessor_opt,
             summaryfixedstructreader_opt,
             summaryaslreader_opt,
@@ -424,7 +424,7 @@ impl SummaryPrinted {
         if summaryfixedstructreader_opt.is_some() {
             eprintln!("{}Entries       : {}", indent2, self.fixedstructentries);
         }
-        if summaryevtxreader_opt.is_some() {
+        if summarysyslinereader_opt.is_some() {
             eprintln!("{}Syslines      : {}", indent2, self.syslines);
         }
         if summarylinereader_opt.is_some() {
