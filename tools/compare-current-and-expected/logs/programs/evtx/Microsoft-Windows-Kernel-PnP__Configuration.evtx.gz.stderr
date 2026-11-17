@@ -60,8 +60,8 @@ Managed files max deflt: 980
 Managed files max adjus: 200
 Managed request open   : 3
 Managed request read   : 0
-Managed write calls    : 17
-Managed seek calls     : 36
+Managed write calls    : 20
+Managed seek calls     : 38
 Managed metadata calls : 2
 Managed open errors    : 0
 Managed evict fails    : 0

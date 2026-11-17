@@ -5,49 +5,14 @@ File: ./logs/other/tests/invalid.gz
   About:
       FileType      : TEXT UTF8/ASCII (GZIP) (text log)
       LogMessageType: text log lines
-      Processing Err: unexpected end of file (GzDecoder.read(…) failed) file "./logs/other/tests/invalid.gz"
-  Printed:
-      Bytes         : 0
-      Flushes       : 0
-      Lines         : 0
-      Syslines      : 0
-  Processed:
-      file size compressed  : 8 (0x8) (bytes)
-      file size uncompressed: 172247372 (0xA44494C) (bytes)
-      bytes         : 0 (0x0)
-      bytes total   : 172247372 (0xA44494C)
-      Block size    : 256 (0x100)
-      Blocks        : 0
-      Blocks total  : 672842 (172247552 bytes)
-      Lines         : 0
-      Line longest  : 0 (bytes)
-      Line parts    : 0
-      Syslines      : 0
-      Sysline longest: 0 (bytes)
-      Syslines high : 0
-      out of order  : 0
-  Processing stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 0,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 0,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 0,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 0,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 0, miss 0
-  Processing Drops:
-  Error: unexpected end of file: unexpected end of file
-
-File: ./logs/other/tests/invalid.gz 
+      Processing Err: failed to fill whole buffer read gzip header file "./logs/other/tests/invalid.gz"
+  Error: failed to fill whole buffer read gzip header file "./logs/other/tests/invalid.gz"
 
 Program summary:
 
 Paths considered       : 1
-Paths not processed    : 1
-Files processed        : 0
+Paths not processed    : 0
+Files processed        : 1
 Files printed          : 0
 Printed bytes          : 0
 Printed flushes        : 0
@@ -82,7 +47,7 @@ Managed files max adjus: 200
 Managed request open   : 2
 Managed request read   : 0
 Managed write calls    : 0
-Managed seek calls     : 2
+Managed seek calls     : 4
 Managed metadata calls : 1
 Managed open errors    : 0
 Managed evict fails    : 0
