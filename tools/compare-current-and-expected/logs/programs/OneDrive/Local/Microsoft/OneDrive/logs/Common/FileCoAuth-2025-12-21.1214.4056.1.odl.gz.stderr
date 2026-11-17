@@ -69,7 +69,7 @@ Managed files max adjus: 200
 Managed request open   : 6
 Managed request read   : 0
 Managed write calls    : 1
-Managed seek calls     : 0
+Managed seek calls     : 2
 Managed metadata calls : 2
 Managed open errors    : 2
 Managed evict fails    : 0
