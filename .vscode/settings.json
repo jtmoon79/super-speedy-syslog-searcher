@@ -38,5 +38,5 @@
         },
         "command": true
     },
-    "python.defaultInterpreterPath": "./.venv/bin/python3"
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python3"
 }
