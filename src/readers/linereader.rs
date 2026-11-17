@@ -18,6 +18,10 @@ use std::io::{
 use std::sync::Arc;
 
 use ::lru::LruCache;
+use ::memchr::{
+    memchr,
+    memrchr,
+};
 use ::more_asserts::debug_assert_ge;
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -330,6 +334,34 @@ impl LineReader {
         } else {
             Ok(())
         }
+    }
+
+    /// Skip UTF-8 bytes to a newline, the search limit, or the block's last byte.
+    fn find_line_skip_utf8_forward(
+        bytes: &[u8],
+        fileoffset_start: FileOffset,
+        fileoffset_orig: FileOffset,
+    ) -> BlockIndex {
+        let scan_len = std::cmp::min(
+            LINE_SEARCH_MAX.saturating_sub(fileoffset_start.abs_diff(fileoffset_orig)),
+            bytes.len() as FileOffset,
+        ) as BlockIndex;
+        memchr(NLu8, &bytes[..scan_len])
+            .unwrap_or(std::cmp::min(scan_len, bytes.len() - 1))
+    }
+
+    /// Include the limit byte: a preceding newline is checked before its distance.
+    fn find_line_skip_utf8_reverse(
+        bytes: &[u8],
+        fileoffset_start: FileOffset,
+        fileoffset_orig: FileOffset,
+    ) -> BlockIndex {
+        let scan_start = std::cmp::min(
+            fileoffset_orig.saturating_sub(LINE_SEARCH_MAX).saturating_sub(fileoffset_start),
+            (bytes.len() - 1) as FileOffset,
+        ) as BlockIndex;
+        memrchr(NLu8, &bytes[scan_start..])
+            .map_or(scan_start, |index| scan_start + index)
     }
 
     /// See [`BlockReader::blocksz`].
@@ -1812,6 +1844,10 @@ impl LineReader {
         let charsz_bi: BlockIndex = self.charsz() as BlockIndex;
         let filesz: FileSz = self.filesz();
         let blockoffset_last: BlockOffset = self.blockoffset_last();
+        let utf8: bool = matches!(
+            self.encoding_type(),
+            FileTypeTextEncoding::Utf8Ascii | FileTypeTextEncoding::Utf8BOM
+        );
 
         // handle special cases
         if filesz == 0 {
@@ -1927,10 +1963,15 @@ impl LineReader {
             let mut bi_at: BlockIndex = bi_middle;
             let bi_stop: BlockIndex = bptr_middle.len() as BlockIndex;
             debug_assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
-            //bi_beg = bi_stop - charsz_bi;
             defo!("B1: scan middle block {} forwards (block len {}), starting from blockindex {} (fileoffset {}) searching for newline B", bo_middle, (*bptr_middle).len(), bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at));
+            if utf8 {
+                bi_at += Self::find_line_skip_utf8_forward(
+                    &bptr_middle[bi_at..bi_stop],
+                    fileoffset,
+                    fileoffset_orig,
+                );
+            }
             loop {
-                // TODO: [2024/07] cost-savings: use memchr to scan
                 let fo_at: FileOffset = self.file_offset_at_block_offset_index(
                     bo_middle,
                     std::cmp::min(bi_at + charsz_bi - 1, bi_stop - 1),
@@ -2051,8 +2092,14 @@ impl LineReader {
                     bi_end,
                 );
                 if bi_end >= charsz_bi {
+                    if utf8 {
+                        bi_beg += Self::find_line_skip_utf8_forward(
+                            &bptr[bi_beg..bi_end],
+                            self.file_offset_at_block_offset_index(bof, bi_beg),
+                            fileoffset_orig,
+                        );
+                    }
                     loop {
-                        // TODO: [2024/07] cost-savings: use memchr to scan
                         let fo_at: FileOffset = self.file_offset_at_block_offset_index(
                             bof,
                             std::cmp::min(bi_beg + charsz_bi - 1, bi_end - 1),
@@ -2376,8 +2423,14 @@ impl LineReader {
                 "A2a: scan middle block {} backwards, starting from blockindex {} (fileoffset {}) down to blockindex {} searching for newline A",
                 bo_middle, bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at), BI_STOP,
             );
+            if utf8 {
+                bi_at = Self::find_line_skip_utf8_reverse(
+                    &bptr_middle[..=bi_at],
+                    self.file_offset_at_block_offset_index(bo_middle, 0),
+                    fileoffset_orig,
+                );
+            }
             loop {
-                // TODO: [2024/07] cost-savings: use memchr to scan
                 if self.is_newline_at(bptr_middle.as_slice(), bi_at) {
                     found_nl_a = true;
                     fo_nl_a = self.file_offset_at_block_offset_index(bo_middle, bi_at);
@@ -2504,8 +2557,14 @@ impl LineReader {
                     "A5: scan block {} backwards, starting from blockindex {} (fileoffset {}) down to blockindex {} searching for newline A",
                     bof, bi_at, self.file_offset_at_block_offset_index(bof, bi_at), BI_STOP,
                 );
+                if utf8 {
+                    bi_at = Self::find_line_skip_utf8_reverse(
+                        &bptr[..=bi_at],
+                        self.file_offset_at_block_offset_index(bof, 0),
+                        fileoffset_orig,
+                    );
+                }
                 loop {
-                    // TODO: [2024/07] cost-savings: use memchr to scan
                     if self.is_newline_at(bptr.as_slice(), bi_at) {
                         found_nl_a = true;
                         fo_nl_a = self.file_offset_at_block_offset_index(bof, bi_at);
