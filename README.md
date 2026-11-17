@@ -661,13 +661,17 @@ Some effort is made to determine unusual extensions, e.g. `system.log.1` is reco
 as a `.log` file name extension.
 
 File name extensions that are skipped unless passed directly are:
-7z, a, aac, aux, avi, bat, bin, bmp, bz, c,
-cat, class, cpp, cmd, diagpkg, dll, ear, exe, flac, flv,
-gif, h, hpp, htm, html, ico, jar, java, jpeg, jpg,
-keystore, lib, m4b, m4p, m4r, m4v, mkv, mov, mp3, mp4,
-msi, mui, o, ogg, opus, otc-shm, otc-wal, pl, png, ps1,
-psd1, py, rb, sh, so, svg, sys, tif, tiff, ttf,
-tgz, war, wav, webm, webp, wma, wmv
+_baseband, _powermanagement, _storedata, 7z, a, aac, aux, avi, bat, bin,
+bmp, bz, c, cat, chm, class, cmd, conf, config, cpp,
+css, db-journal, db-shm, db-wal, diagpkg, dll, docx, ear, exe, flac,
+flv, gif, h, h264, hpp, htm, html, ico, ini, jar,
+java, jpeg, jpg, keystore, lib, library-ms, lua, m4b, m4p, m4r,
+m4v, manifest, metadata-v2, metadata, mkv, mov, mp3, mp4, msi, mui,
+o, ogg, opus, otc-shm, otc-wal, pdf, pl, png, properties, proto,
+ps1, psd1, py, raw, regtrans-ms, rb, sh, sig, so, sql,
+sqlite, sqlite3, svg, sys, tag, tgz, thumb, thumbs, tif, tiff,
+toml, ttf, vmoptions, wallet, war, wasm, wav, webm, webp, wma,
+wmv, yaml, yml
 
 
 s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
