@@ -1,0 +1,17 @@
+#File,Block Size,Profile,Mean (ms),Min (ms),Max (ms),Diff (ms),Max RSS (KB),Max RSS (KB) diff,CPU %
+dtf5-6a.log,8192,release,2 ± 0,2,3,-,14264,-,0.008
+dtf5-6a.log,16384,release,2 ± 0,2,2,0,14400,136,0.007
+dtf5-6a.log,24576,release,2 ± 0,2,2,0,14360,-40,0.007
+dtf5-6a.log,32768,release,2 ± 0,2,2,0,14416,56,0.007
+dtf5-6a.log,40960,release,2 ± 0,2,2,0,14468,52,0.007
+dtf5-6a.log,49152,release,2 ± 0,2,2,0,14152,-316,0.007
+dtf5-6a.log,57344,release,2 ± 0,2,2,0,14480,328,0.007
+dtf5-6a.log,65536,release,2 ± 0,2,2,0,14404,-76,0.007
+dtf5-6a.log,73728,release,2 ± 0,2,2,0,14536,132,0.007
+dtf5-6a.log,81920,release,2 ± 0,2,2,0,14080,-456,0.007
+dtf5-6a.log,90112,release,2 ± 0,2,2,0,14356,276,0.007
+dtf5-6a.log,98304,release,2 ± 0,2,2,0,14408,52,0.007
+dtf5-6a.log,106496,release,2 ± 0,2,3,0,14048,-360,0.007
+dtf5-6a.log,114688,release,2 ± 0,2,2,0,14476,428,0.007
+dtf5-6a.log,122880,release,2 ± 0,2,2,0,14320,-156,0.007
+dtf5-6a.log,131072,release,2 ± 0,2,3,0,14336,16,0.007

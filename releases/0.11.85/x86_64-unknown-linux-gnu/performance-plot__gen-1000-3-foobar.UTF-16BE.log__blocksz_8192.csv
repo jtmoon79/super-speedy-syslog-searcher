@@ -1,0 +1,17 @@
+#File,Block Size,Profile,Mean (ms),Min (ms),Max (ms),Diff (ms),Max RSS (KB),Max RSS (KB) diff,CPU %
+gen-1000-3-foobar.UTF-16BE.log,8192,release,198 ± 1,196,199,-,14384,-,0.474
+gen-1000-3-foobar.UTF-16BE.log,16384,release,199 ± 2,197,203,1,15444,1060,0.477
+gen-1000-3-foobar.UTF-16BE.log,24576,release,200 ± 3,196,204,1,15692,248,0.482
+gen-1000-3-foobar.UTF-16BE.log,32768,release,198 ± 8,192,213,-2,16860,1168,0.481
+gen-1000-3-foobar.UTF-16BE.log,40960,release,200 ± 6,195,210,2,17048,188,0.489
+gen-1000-3-foobar.UTF-16BE.log,49152,release,195 ± 1,193,197,-5,17912,864,0.474
+gen-1000-3-foobar.UTF-16BE.log,57344,release,195 ± 0,194,196,0,17800,-112,0.472
+gen-1000-3-foobar.UTF-16BE.log,65536,release,195 ± 0,194,197,0,18336,536,0.472
+gen-1000-3-foobar.UTF-16BE.log,73728,release,195 ± 0,194,196,0,19088,752,0.475
+gen-1000-3-foobar.UTF-16BE.log,81920,release,195 ± 1,193,196,0,19340,252,0.471
+gen-1000-3-foobar.UTF-16BE.log,90112,release,196 ± 0,195,197,1,20280,940,0.473
+gen-1000-3-foobar.UTF-16BE.log,98304,release,197 ± 1,195,198,1,20404,124,0.476
+gen-1000-3-foobar.UTF-16BE.log,106496,release,199 ± 4,196,206,2,20772,368,0.482
+gen-1000-3-foobar.UTF-16BE.log,114688,release,197 ± 0,196,198,-2,21484,712,0.476
+gen-1000-3-foobar.UTF-16BE.log,122880,release,204 ± 5,198,212,7,22044,560,0.499
+gen-1000-3-foobar.UTF-16BE.log,131072,release,198 ± 1,197,200,-6,22160,116,0.479

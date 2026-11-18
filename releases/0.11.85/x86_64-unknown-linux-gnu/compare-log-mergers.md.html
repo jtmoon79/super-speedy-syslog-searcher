@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta name="GENERATOR" content="github.com/gomarkdown/markdown markdown processor for Go" />
+  <meta charset="utf-8" />
+<style>
+table {  border-collapse: collapse; width: 100%;}
+
+th,
+td {
+  border: 1px solid #666;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: 700;
+  border-bottom: 2px solid #333;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var columnTypes = ['alpha', 'numeric', 'alpha', 'numeric', 'numeric', 'numeric'];
+
+  function numericValue(text) {
+    var match = String(text).replace(/,/g, '').match(/-?[0-9]+(?:[.][0-9]+)?/);
+    return match ? Number(match[0]) : NaN;
+  }
+
+  function compareCells(aText, bText, type, asc) {
+    if (type === 'numeric') {
+      var aNum = numericValue(aText);
+      var bNum = numericValue(bText);
+      var aNaN = Number.isNaN(aNum);
+      var bNaN = Number.isNaN(bNum);
+
+      if (aNaN && bNaN) {
+        return 0;
+      }
+      if (aNaN) {
+        return 1;
+      }
+      if (bNaN) {
+        return -1;
+      }
+      return asc ? aNum - bNum : bNum - aNum;
+    }
+
+    var cmp = String(aText).localeCompare(String(bText), undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    return asc ? cmp : -cmp;
+  }
+
+  function getRowsForSort(table) {
+    if (table.tBodies && table.tBodies.length > 0) {
+      return {
+        container: table.tBodies[0],
+        rows: Array.from(table.tBodies[0].rows)
+      };
+    }
+
+    var allRows = Array.from(table.rows);
+    return {
+      container: table,
+      rows: allRows.slice(1)
+    };
+  }
+
+  Array.from(document.querySelectorAll('table')).forEach(function (table) {
+    var headerRow = table.tHead && table.tHead.rows.length > 0
+      ? table.tHead.rows[0]
+      : table.rows[0];
+
+    if (!headerRow) {
+      return;
+    }
+
+    Array.from(headerRow.cells).forEach(function (th, colIndex) {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', function () {
+        var rowsInfo = getRowsForSort(table);
+        var rows = rowsInfo.rows;
+        var sortType = columnTypes[colIndex] || 'alpha';
+        var currentlyAsc = th.getAttribute('data-sort-dir') === 'asc';
+        var asc = !currentlyAsc;
+
+        Array.from(headerRow.cells).forEach(function (cell) {
+          if (cell !== th) {
+            cell.removeAttribute('data-sort-dir');
+          }
+        });
+
+        rows.sort(function (aRow, bRow) {
+          var aCell = aRow.cells[colIndex];
+          var bCell = bRow.cells[colIndex];
+          var aText = aCell ? aCell.textContent.trim() : '';
+          var bText = bCell ? bCell.textContent.trim() : '';
+          return compareCells(aText, bText, sortType, asc);
+        });
+
+        rows.forEach(function (row) {
+          rowsInfo.container.appendChild(row);
+        });
+
+        th.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
+      });
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<table>
+<thead>
+<tr>
+<th align="left">Program</th>
+<th align="left">Version</th>
+<th align="left">Profile</th>
+<th align="left">Allocator</th>
+<th align="left">Platform</th>
+<th align="left">CPU Target</th>
+<th align="left">CPU Features</th>
+<th align="left">Opt Level</th>
+<th align="right">Wall Clock ̅𝓍 (ms)</th>
+<th align="right">Min (ms)</th>
+<th align="right">Max (ms)</th>
+<th align="right">̅𝓍 peak RSS (kB)</th>
+<th align="right">̅𝓍 CPU cycles (M)</th>
+<th align="right">̅𝓍 cache refs (M)</th>
+<th align="right">̅𝓍 cache miss (M)</th>
+<th align="right">̅𝓍 branch miss (M)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">3</td>
+<td align="right">142.0 ± 3.5</td>
+<td align="right">133.2</td>
+<td align="right">149.3</td>
+<td align="right">21574.6</td>
+<td align="right">775.479</td>
+<td align="right">53.434</td>
+<td align="right">7.449</td>
+<td align="right">4.728</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O0_cgu1</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">0</td>
+<td align="right">155.7 ± 23.8</td>
+<td align="right">115.5</td>
+<td align="right">222.0</td>
+<td align="right">42000.0</td>
+<td align="right">4310.081</td>
+<td align="right">158.830</td>
+<td align="right">31.211</td>
+<td align="right">5.870</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O0_cgu512_pa</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">0</td>
+<td align="right">150.3 ± 21.4</td>
+<td align="right">114.5</td>
+<td align="right">195.0</td>
+<td align="right">41494.0</td>
+<td align="right">4374.338</td>
+<td align="right">167.111</td>
+<td align="right">32.364</td>
+<td align="right">5.668</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O1_cgu1</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">1</td>
+<td align="right">153.2 ± 9.1</td>
+<td align="right">143.4</td>
+<td align="right">178.6</td>
+<td align="right">20884.3</td>
+<td align="right">963.947</td>
+<td align="right">63.720</td>
+<td align="right">10.235</td>
+<td align="right">5.185</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O1_cgu256_pa</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">1</td>
+<td align="right">149.9 ± 5.3</td>
+<td align="right">142.0</td>
+<td align="right">165.7</td>
+<td align="right">21830.6</td>
+<td align="right">1011.240</td>
+<td align="right">71.575</td>
+<td align="right">12.970</td>
+<td align="right">5.260</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O1_cgu512_pa</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">1</td>
+<td align="right">148.7 ± 3.7</td>
+<td align="right">140.4</td>
+<td align="right">158.2</td>
+<td align="right">21751.0</td>
+<td align="right">1007.560</td>
+<td align="right">71.701</td>
+<td align="right">11.383</td>
+<td align="right">4.984</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O2_cgu1</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">2</td>
+<td align="right">143.3 ± 3.2</td>
+<td align="right">135.5</td>
+<td align="right">149.2</td>
+<td align="right">21350.7</td>
+<td align="right">777.018</td>
+<td align="right">52.359</td>
+<td align="right">7.402</td>
+<td align="right">4.757</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O2_cgu256_pa</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">2</td>
+<td align="right">144.3 ± 3.5</td>
+<td align="right">138.2</td>
+<td align="right">153.9</td>
+<td align="right">21406.9</td>
+<td align="right">789.097</td>
+<td align="right">55.131</td>
+<td align="right">7.964</td>
+<td align="right">4.891</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O2_cgu512_pa</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">2</td>
+<td align="right">145.4 ± 3.6</td>
+<td align="right">138.9</td>
+<td align="right">156.4</td>
+<td align="right">21399.6</td>
+<td align="right">805.904</td>
+<td align="right">54.965</td>
+<td align="right">8.782</td>
+<td align="right">5.005</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O3_cgu1_pa</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">3</td>
+<td align="right">144.7 ± 3.1</td>
+<td align="right">137.7</td>
+<td align="right">150.5</td>
+<td align="right">21591.0</td>
+<td align="right">781.323</td>
+<td align="right">53.906</td>
+<td align="right">7.694</td>
+<td align="right">4.736</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O3_cgu256_pa</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">3</td>
+<td align="right">144.6 ± 2.8</td>
+<td align="right">139.7</td>
+<td align="right">153.0</td>
+<td align="right">21387.5</td>
+<td align="right">787.895</td>
+<td align="right">54.730</td>
+<td align="right">8.554</td>
+<td align="right">4.800</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_O3_cgu512_pa</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">3</td>
+<td align="right">143.6 ± 4.1</td>
+<td align="right">132.0</td>
+<td align="right">153.2</td>
+<td align="right">21347.4</td>
+<td align="right">786.945</td>
+<td align="right">54.177</td>
+<td align="right">7.842</td>
+<td align="right">4.806</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">release_Opt0</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">0</td>
+<td align="right">186.8 ± 25.6</td>
+<td align="right">137.8</td>
+<td align="right">232.2</td>
+<td align="right">43473.6</td>
+<td align="right">5369.235</td>
+<td align="right">231.867</td>
+<td align="right">61.612</td>
+<td align="right">22.800</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">jemalloc</td>
+<td align="left">jemalloc</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">3</td>
+<td align="right">145.3 ± 3.2</td>
+<td align="right">139.8</td>
+<td align="right">152.2</td>
+<td align="right">26547.4</td>
+<td align="right">798.146</td>
+<td align="right">55.750</td>
+<td align="right">8.390</td>
+<td align="right">4.657</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">mimalloc</td>
+<td align="left">mimalloc</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">3</td>
+<td align="right">147.3 ± 2.6</td>
+<td align="right">143.0</td>
+<td align="right">153.4</td>
+<td align="right">73269.9</td>
+<td align="right">774.719</td>
+<td align="right">53.491</td>
+<td align="right">8.384</td>
+<td align="right">4.720</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">rpmalloc</td>
+<td align="left">rpmalloc</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">default</td>
+<td align="left">fxsr,sse,sse2</td>
+<td align="left">3</td>
+<td align="right">148.9 ± 3.1</td>
+<td align="right">141.5</td>
+<td align="right">158.8</td>
+<td align="right">35495.7</td>
+<td align="right">781.994</td>
+<td align="right">52.630</td>
+<td align="right">8.209</td>
+<td align="right">4.576</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">x86_64-musl-v2</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-musl</td>
+<td align="left">x86-64-v2</td>
+<td align="left">cmpxchg16b,crt-static,fxsr,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3</td>
+<td align="left">3</td>
+<td align="right">282.3 ± 38.5</td>
+<td align="right">229.2</td>
+<td align="right">365.1</td>
+<td align="right">19974.6</td>
+<td align="right">1084.827</td>
+<td align="right">65.577</td>
+<td align="right">14.571</td>
+<td align="right">6.641</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">x86_64-musl-v3</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-musl</td>
+<td align="left">x86-64-v3</td>
+<td align="left">avx,avx2,bmi1,bmi2,cmpxchg16b,crt-static,f16c,fma,fxsr,lzcnt,movbe,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3,xsave</td>
+<td align="left">3</td>
+<td align="right">285.1 ± 34.1</td>
+<td align="right">234.8</td>
+<td align="right">330.8</td>
+<td align="right">20471.8</td>
+<td align="right">1063.812</td>
+<td align="right">66.041</td>
+<td align="right">14.247</td>
+<td align="right">6.663</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">x86_64-musl-v4</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-musl</td>
+<td align="left">x86-64-v4</td>
+<td align="left">avx,avx2,avx512bw,avx512cd,avx512dq,avx512f,avx512vl,bmi1,bmi2,cmpxchg16b,crt-static,f16c,fma,fxsr,lzcnt,movbe,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3,xsave</td>
+<td align="left">3</td>
+<td align="right">283.6 ± 34.3</td>
+<td align="right">209.1</td>
+<td align="right">340.2</td>
+<td align="right">20397.1</td>
+<td align="right">1076.365</td>
+<td align="right">66.905</td>
+<td align="right">14.861</td>
+<td align="right">6.658</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">x86_64-gnu-v2</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">x86-64-v2</td>
+<td align="left">cmpxchg16b,fxsr,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3</td>
+<td align="left">3</td>
+<td align="right">145.1 ± 3.9</td>
+<td align="right">140.0</td>
+<td align="right">159.2</td>
+<td align="right">21541.4</td>
+<td align="right">796.328</td>
+<td align="right">54.570</td>
+<td align="right">8.941</td>
+<td align="right">4.721</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">x86_64-gnu-v3</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">x86-64-v3</td>
+<td align="left">avx,avx2,bmi1,bmi2,cmpxchg16b,f16c,fma,fxsr,lzcnt,movbe,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3,xsave</td>
+<td align="left">3</td>
+<td align="right">142.7 ± 3.4</td>
+<td align="right">131.6</td>
+<td align="right">149.3</td>
+<td align="right">22125.8</td>
+<td align="right">772.067</td>
+<td align="right">53.077</td>
+<td align="right">7.547</td>
+<td align="right">4.645</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.11.84</td>
+<td align="left">x86_64-gnu-v4</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="left">x86-64-v4</td>
+<td align="left">avx,avx2,avx512bw,avx512cd,avx512dq,avx512f,avx512vl,bmi1,bmi2,cmpxchg16b,f16c,fma,fxsr,lzcnt,movbe,popcnt,sse,sse2,sse3,sse4.1,sse4.2,ssse3,xsave</td>
+<td align="left">3</td>
+<td align="right">157.9 ± 16.5</td>
+<td align="right">135.1</td>
+<td align="right">197.6</td>
+<td align="right">22246.9</td>
+<td align="right">857.194</td>
+<td align="right">54.112</td>
+<td align="right">10.209</td>
+<td align="right">5.175</td>
+</tr>
+
+<tr>
+<td align="left"><code>grep+sort</code></td>
+<td align="left">3.12</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">x86_64</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right">145.6 ± 1.5</td>
+<td align="right">143.9</td>
+<td align="right">151.2</td>
+<td align="right">24431.5</td>
+<td align="right">723.560</td>
+<td align="right">3.895</td>
+<td align="right">0.377</td>
+<td align="right">0.290</td>
+</tr>
+
+<tr>
+<td align="left"><code>lnav</code></td>
+<td align="left">0.13.2</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">x86_64</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right">231.6 ± 2.2</td>
+<td align="right">227.6</td>
+<td align="right">238.7</td>
+<td align="right">8114.2</td>
+<td align="right">1294.641</td>
+<td align="right">36.048</td>
+<td align="right">1.964</td>
+<td align="right">3.108</td>
+</tr>
+
+<tr>
+<td align="left"><code>logmerger</code></td>
+<td align="left">0.13.0</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Python 3.14.4</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">2</td>
+<td align="right">273.9 ± 3.4</td>
+<td align="right">268.5</td>
+<td align="right">282.8</td>
+<td align="right">84188.2</td>
+<td align="right">1238.922</td>
+<td align="right">126.365</td>
+<td align="right">10.982</td>
+<td align="right">8.546</td>
+</tr>
+</tbody>
+</table>
+<p>CPU Model: AMD Ryzen 7 7700X 8-Core Processor</p>
+
+<p>CPU Cores: 16</p>
+
+<p>RAM Total (GB): 62</p>
+
+</body>
+</html>

@@ -1,0 +1,3024 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>`RHE_91_system.journal`</title>
+  <meta name="GENERATOR" content="github.com/gomarkdown/markdown markdown processor for Go" />
+  <meta charset="utf-8" />
+<style>
+table {  border-collapse: collapse; width: 100%;}
+
+th,
+td {
+  border: 1px solid #666;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: 700;
+  border-bottom: 2px solid #333;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var columnTypes = ['alpha', 'numeric', 'alpha', 'numeric', 'numeric', 'numeric'];
+
+  function numericValue(text) {
+    var match = String(text).replace(/,/g, '').match(/-?[0-9]+(?:[.][0-9]+)?/);
+    return match ? Number(match[0]) : NaN;
+  }
+
+  function compareCells(aText, bText, type, asc) {
+    if (type === 'numeric') {
+      var aNum = numericValue(aText);
+      var bNum = numericValue(bText);
+      var aNaN = Number.isNaN(aNum);
+      var bNaN = Number.isNaN(bNum);
+
+      if (aNaN && bNaN) {
+        return 0;
+      }
+      if (aNaN) {
+        return 1;
+      }
+      if (bNaN) {
+        return -1;
+      }
+      return asc ? aNum - bNum : bNum - aNum;
+    }
+
+    var cmp = String(aText).localeCompare(String(bText), undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    return asc ? cmp : -cmp;
+  }
+
+  function getRowsForSort(table) {
+    if (table.tBodies && table.tBodies.length > 0) {
+      return {
+        container: table.tBodies[0],
+        rows: Array.from(table.tBodies[0].rows)
+      };
+    }
+
+    var allRows = Array.from(table.rows);
+    return {
+      container: table,
+      rows: allRows.slice(1)
+    };
+  }
+
+  Array.from(document.querySelectorAll('table')).forEach(function (table) {
+    var headerRow = table.tHead && table.tHead.rows.length > 0
+      ? table.tHead.rows[0]
+      : table.rows[0];
+
+    if (!headerRow) {
+      return;
+    }
+
+    Array.from(headerRow.cells).forEach(function (th, colIndex) {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', function () {
+        var rowsInfo = getRowsForSort(table);
+        var rows = rowsInfo.rows;
+        var sortType = columnTypes[colIndex] || 'alpha';
+        var currentlyAsc = th.getAttribute('data-sort-dir') === 'asc';
+        var asc = !currentlyAsc;
+
+        Array.from(headerRow.cells).forEach(function (cell) {
+          if (cell !== th) {
+            cell.removeAttribute('data-sort-dir');
+          }
+        });
+
+        rows.sort(function (aRow, bRow) {
+          var aCell = aRow.cells[colIndex];
+          var bCell = bRow.cells[colIndex];
+          var aText = aCell ? aCell.textContent.trim() : '';
+          var bText = bCell ? bCell.textContent.trim() : '';
+          return compareCells(aText, bText, sortType, asc);
+        });
+
+        rows.forEach(function (row) {
+          rowsInfo.container.appendChild(row);
+        });
+
+        th.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
+      });
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<h1><code>RHE_91_system.journal</code></h1>
+
+<h2><code>--version</code></h2>
+
+<pre><code class="language-text">s4 (Super Speedy Syslog Searcher)
+Version: 0.11.84
+MSRV: 1.99.1
+Profile: alloc_tracker
+Allocator: alloc_tracker
+Features: alloc_tracker
+Platform: x86_64-unknown-linux-gnu
+Target OS: linux
+Target OS Family: unix
+Arch: x86_64
+CPU Target: default
+CPU Features: fxsr,sse,sse2
+Compiled Regular Expressions: 188
+Compiler Version: 1.99.1
+Rust Build Flags: 
+Optimization Level: 0
+Git Commit: 8ce20292e705cac0c418a6ce78ff2fe489e3ef28
+Build Date: 2026-11-15T09:14:13Z
+License: MIT
+Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+Author: James Thomas Moon
+
+</code></pre>
+
+<h2>Command</h2>
+
+<p><code>$ ./target/alloc_tracker/s4 ./logs/programs/journal/RHE_91_system.journal</code></p>
+
+<h2>Allocator Tracking results</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left"><strong>File:line:col</strong><br/><strong>Call Site</strong></th>
+<th align="right"><strong>Thread<br/>ID</strong></th>
+<th align="left"><strong>Thread<br/>Name</strong></th>
+<th align="right"><strong>Allocations</strong></th>
+<th align="right"><strong>Bytes</strong></th>
+<th align="right"><strong>Bytes<br/>per Allocation</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L2115"><code>src/readers/journalreader.rs:2115:58</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::next_short</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">6,243</td>
+<td align="right">81,159 (79.26 KiB)</td>
+<td align="right">13 (13 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1801"><code>src/readers/journalreader.rs:1801:22</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::next_dispatch</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1299"><code>src/readers/journalreader.rs:1299:43</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::Error_from_Errno</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">2,823</td>
+<td align="right">237,132 (231.57 KiB)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1461"><code>src/readers/journalreader.rs:1461:27</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::call_sd_journal_get_data</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1972"><code>src/readers/journalreader.rs:1972:35</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::next_short</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">2,082</td>
+<td align="right">666,240 (650.62 KiB)</td>
+<td align="right">320 (320 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1801"><code>src/readers/journalreader.rs:1801:22</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::next_dispatch</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L2115"><code>src/readers/journalreader.rs:2115:34</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::next_short</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">2,081</td>
+<td align="right">16,648 (16.26 KiB)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1801"><code>src/readers/journalreader.rs:1801:22</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::next_dispatch</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1299"><code>src/readers/journalreader.rs:1299:9</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::Error_from_Errno</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">1,882</td>
+<td align="right">60,224 (58.81 KiB)</td>
+<td align="right">32 (32 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1461"><code>src/readers/journalreader.rs:1461:27</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::call_sd_journal_get_data</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3879"><code>src/s4/s4.rs:3879:16</code></a><br/><code>s4[565658153264a5bc]::s4::cli_process_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">165</td>
+<td align="right">17,879 (17.46 KiB)</td>
+<td align="right">108 (108 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4140"><code>src/s4/s4.rs:4140:9</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">38</td>
+<td align="right">10,658 (10.41 KiB)</td>
+<td align="right">280 (280 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L2190"><code>src/readers/journalreader.rs:2190:20</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::next_short</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">6</td>
+<td align="right">3,840 (3.75 KiB)</td>
+<td align="right">640 (640 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1801"><code>src/readers/journalreader.rs:1801:22</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::next_dispatch</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4188"><code>src/s4/s4.rs:4188:5</code></a><br/><code>s4[565658153264a5bc]::s4::set_signal_handler</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">6</td>
+<td align="right">149 (149 B)</td>
+<td align="right">24 (24 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5627"><code>src/s4/s4.rs:5627:15</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5832"><code>src/s4/s4.rs:5832:14</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">4</td>
+<td align="right">230 (230 B)</td>
+<td align="right">57 (57 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L420"><code>src/readers/filehandlemanager.rs:420:48</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManagerState&gt;::new</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">3</td>
+<td align="right">34,880 (34.06 KiB)</td>
+<td align="right">11,626 (11.35 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L880"><code>src/readers/filehandlemanager.rs:880:40</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManager&gt;::new_open_max</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L378"><code>src/s4/s4.rs:378:21</code></a><br/><code>s4[565658153264a5bc]::s4::LOCAL_NOW::__rust_std_internal_init_fn::{closure#0}</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">3</td>
+<td align="right">5,924 (5.79 KiB)</td>
+<td align="right">1,974 (1.93 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L377"><code>src/s4/s4.rs:377:17</code></a><br/><code>s4[565658153264a5bc]::s4::LOCAL_NOW::__rust_std_internal_init_fn</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5930"><code>src/s4/s4.rs:5930:66</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop::recv_many_chan</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">3</td>
+<td align="right">240 (240 B)</td>
+<td align="right">80 (80 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L6080"><code>src/s4/s4.rs:6080:52</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L455"><code>src/s4/s4.rs:455:5</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Color_Choice as clap_builder[639015aad05df3ec]::derive::ValueEnum&gt;::to_possible_value</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">3</td>
+<td align="right">24 (24 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3879"><code>src/s4/s4.rs:3879:16</code></a><br/><code>s4[565658153264a5bc]::s4::cli_process_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5825"><code>src/s4/s4.rs:5825:13</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">3,960 (3.87 KiB)</td>
+<td align="right">1,980 (1.93 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5622"><code>src/s4/s4.rs:5622:38</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">648 (648 B)</td>
+<td align="right">324 (324 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/libload/systemd_dlopen2.rs#L505"><code>src/libload/systemd_dlopen2.rs:505:24</code></a><br/><code>s4lib[6747c811d5b9f10f]::libload::systemd_dlopen2::load_library_systemd</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">39 (39 B)</td>
+<td align="right">19 (19 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5487"><code>src/s4/s4.rs:5487:27</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3173"><code>src/s4/s4.rs:3173:5</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">20,480 (20.00 KiB)</td>
+<td align="right">20,480 (20.00 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3079"><code>src/s4/s4.rs:3079:5</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">10,240 (10.00 KiB)</td>
+<td align="right">10,240 (10.00 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3017"><code>src/s4/s4.rs:3017:5</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5,120 (5.00 KiB)</td>
+<td align="right">5,120 (5.00 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5655"><code>src/s4/s4.rs:5655:34</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,580 (2.52 KiB)</td>
+<td align="right">2,580 (2.52 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2967"><code>src/s4/s4.rs:2967:5</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,560 (2.50 KiB)</td>
+<td align="right">2,560 (2.50 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/printer/printers.rs#L839"><code>src/printer/printers.rs:839:32</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::printer::printers::PrinterLogMessage&gt;::new</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,056 (2.01 KiB)</td>
+<td align="right">2,056 (2.01 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L6408"><code>src/s4/s4.rs:6408:54</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/printer/printers.rs#L838"><code>src/printer/printers.rs:838:21</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::printer::printers::PrinterLogMessage&gt;::new</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,056 (2.01 KiB)</td>
+<td align="right">2,056 (2.01 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L6408"><code>src/s4/s4.rs:6408:54</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L6125"><code>src/s4/s4.rs:6125:46</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1,288 (1.26 KiB)</td>
+<td align="right">1,288 (1.26 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/printer/printers.rs#L802"><code>src/printer/printers.rs:802:22</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::printer::printers::PrinterLogMessage&gt;::new</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1,024 (1.00 KiB)</td>
+<td align="right">1,024 (1.00 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L6408"><code>src/s4/s4.rs:6408:54</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5998"><code>src/s4/s4.rs:5998:34</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">980 (980 B)</td>
+<td align="right">980 (980 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L880"><code>src/readers/filehandlemanager.rs:880:20</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManager&gt;::new_open_max</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">384 (384 B)</td>
+<td align="right">384 (384 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L873"><code>src/readers/filehandlemanager.rs:873:9</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManager&gt;::new</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5554"><code>src/s4/s4.rs:5554:33</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">320 (320 B)</td>
+<td align="right">320 (320 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L951"><code>src/readers/filehandlemanager.rs:951:18</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManager&gt;::request_open_managed</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">1</td>
+<td align="right">276 (276 B)</td>
+<td align="right">276 (276 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1091"><code>src/readers/journalreader.rs:1091:69</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::new</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5431"><code>src/s4/s4.rs:5431:34</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">276 (276 B)</td>
+<td align="right">276 (276 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5827"><code>src/s4/s4.rs:5827:34</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">232 (232 B)</td>
+<td align="right">232 (232 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4146"><code>src/s4/s4.rs:4146:51</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">224 (224 B)</td>
+<td align="right">224 (224 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/mod.rs#L13"><code>src/s4/mod.rs:13:5</code></a><br/><code>s4[565658153264a5bc]::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5438"><code>src/s4/s4.rs:5438:49</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">148 (148 B)</td>
+<td align="right">148 (148 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5971"><code>src/s4/s4.rs:5971:22</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">128 (128 B)</td>
+<td align="right">128 (128 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/libload/systemd_dlopen2.rs#L444"><code>src/libload/systemd_dlopen2.rs:444:26</code></a><br/><code>s4lib[6747c811d5b9f10f]::libload::systemd_dlopen2::set_systemd_journal_api</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">120 (120 B)</td>
+<td align="right">120 (120 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/libload/systemd_dlopen2.rs#L508"><code>src/libload/systemd_dlopen2.rs:508:17</code></a><br/><code>s4lib[6747c811d5b9f10f]::libload::systemd_dlopen2::load_library_systemd</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5440"><code>src/s4/s4.rs:5440:39</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">100 (100 B)</td>
+<td align="right">100 (100 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filepreprocessor.rs#L1852"><code>src/readers/filepreprocessor.rs:1852:31</code></a><br/><code>s4lib[6747c811d5b9f10f]::readers::filepreprocessor::process_path</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">98 (98 B)</td>
+<td align="right">98 (98 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4149"><code>src/s4/s4.rs:4149:42</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2976"><code>src/s4/s4.rs:2976:12</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::FromArgMatches&gt;::from_arg_matches_mut::{closure#0}</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">96 (96 B)</td>
+<td align="right">96 (96 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2976"><code>src/s4/s4.rs:2976:12</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::FromArgMatches&gt;::from_arg_matches_mut</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L638"><code>src/readers/filehandlemanager.rs:638:33</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManagerState&gt;::retain_handle_unmanaged</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L907"><code>src/readers/filehandlemanager.rs:907:27</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManager&gt;::handle_unmanaged</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5657"><code>src/s4/s4.rs:5657:36</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5976"><code>src/s4/s4.rs:5976:38</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L1050"><code>src/readers/filehandlemanager.rs:1050:49</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManager&gt;::handle_reservations</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5574"><code>src/s4/s4.rs:5574:25</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5975"><code>src/s4/s4.rs:5975:28</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filepreprocessor.rs#L1895"><code>src/readers/filepreprocessor.rs:1895:49</code></a><br/><code>s4lib[6747c811d5b9f10f]::readers::filepreprocessor::process_path</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">56 (56 B)</td>
+<td align="right">56 (56 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4149"><code>src/s4/s4.rs:4149:42</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5653"><code>src/s4/s4.rs:5653:32</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5453"><code>src/s4/s4.rs:5453:44</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5455"><code>src/s4/s4.rs:5455:35</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5457"><code>src/s4/s4.rs:5457:41</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3897"><code>src/s4/s4.rs:3897:33</code></a><br/><code>s4[565658153264a5bc]::s4::cli_process_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4140"><code>src/s4/s4.rs:4140:9</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1149"><code>src/readers/journalreader.rs:1149:21</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::new</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">1</td>
+<td align="right">46 (46 B)</td>
+<td align="right">46 (46 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5203"><code>src/s4/s4.rs:5203:50</code></a><br/><code>s4[565658153264a5bc]::s4::exec_journalprocessor</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L3069"><code>src/readers/journalreader.rs:3069:32</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::summary_complete</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">1</td>
+<td align="right">45 (45 B)</td>
+<td align="right">45 (45 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5306"><code>src/s4/s4.rs:5306:33</code></a><br/><code>s4[565658153264a5bc]::s4::exec_journalprocessor</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L374"><code>src/readers/filehandlemanager.rs:374:24</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileEntryManaged&gt;::new</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">1</td>
+<td align="right">45 (45 B)</td>
+<td align="right">45 (45 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L951"><code>src/readers/filehandlemanager.rs:951:30</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManager&gt;::request_open_managed</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5205"><code>src/s4/s4.rs:5205:14</code></a><br/><code>s4[565658153264a5bc]::s4::exec_journalprocessor</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">1</td>
+<td align="right">45 (45 B)</td>
+<td align="right">45 (45 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5351"><code>src/s4/s4.rs:5351:37</code></a><br/><code>s4[565658153264a5bc]::s4::exec_fileprocessor_thread</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5554"><code>src/s4/s4.rs:5554:61</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">45 (45 B)</td>
+<td align="right">45 (45 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filepreprocessor.rs#L1848"><code>src/readers/filepreprocessor.rs:1848:33</code></a><br/><code>s4lib[6747c811d5b9f10f]::readers::filepreprocessor::process_path</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">45 (45 B)</td>
+<td align="right">45 (45 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4149"><code>src/s4/s4.rs:4149:42</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5713"><code>src/s4/s4.rs:5713:18</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">45 (45 B)</td>
+<td align="right">45 (45 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5713"><code>src/s4/s4.rs:5713:26</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">45 (45 B)</td>
+<td align="right">45 (45 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filepreprocessor.rs#L1895"><code>src/readers/filepreprocessor.rs:1895:88</code></a><br/><code>s4lib[6747c811d5b9f10f]::readers::filepreprocessor::process_path</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">45 (45 B)</td>
+<td align="right">45 (45 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4149"><code>src/s4/s4.rs:4149:42</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3924"><code>src/s4/s4.rs:3924:34</code></a><br/><code>s4[565658153264a5bc]::s4::cli_process_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">45 (45 B)</td>
+<td align="right">45 (45 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4140"><code>src/s4/s4.rs:4140:9</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3232"><code>src/s4/s4.rs:3232:10</code></a><br/><code>s4[565658153264a5bc]::s4::cli_process_tz_offset</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3879"><code>src/s4/s4.rs:3879:16</code></a><br/><code>s4[565658153264a5bc]::s4::cli_process_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5977"><code>src/s4/s4.rs:5977:30</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">36 (36 B)</td>
+<td align="right">36 (36 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L6004"><code>src/s4/s4.rs:6004:52</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">36 (36 B)</td>
+<td align="right">36 (36 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L6319"><code>src/s4/s4.rs:6319:62</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">36 (36 B)</td>
+<td align="right">36 (36 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5828"><code>src/s4/s4.rs:5828:47</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">32 (32 B)</td>
+<td align="right">32 (32 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5674"><code>src/s4/s4.rs:5674:30</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">32 (32 B)</td>
+<td align="right">32 (32 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L540"><code>src/readers/journalreader.rs:540:66</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::KEY_SOURCE_REALTIME_TIMESTAMP_CSTR as core[efd5e57aef94d71e]::ops::deref::Deref&gt;::deref::__static_ref_initialize</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">1</td>
+<td align="right">27 (27 B)</td>
+<td align="right">27 (27 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/journalreader.rs#L1389"><code>src/readers/journalreader.rs:1389:13</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::journalreader::JournalReader&gt;::get_source_realtime_timestamp</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L547"><code>src/readers/filehandlemanager.rs:547:18</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManagerState&gt;::touch</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right">1</td>
+<td align="right">24 (24 B)</td>
+<td align="right">24 (24 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filehandlemanager.rs#L773"><code>src/readers/filehandlemanager.rs:773:14</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::readers::filehandlemanager::FileHandleManagerState&gt;::open_entry_once</code></td>
+<td align="right">3</td>
+<td align="left"><code>RHE_91_system.journal</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5830"><code>src/s4/s4.rs:5830:29</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">21 (21 B)</td>
+<td align="right">21 (21 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/helpers.rs#L116"><code>src/readers/helpers.rs:116:5</code></a><br/><code>s4lib[6747c811d5b9f10f]::readers::helpers::basename</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">21 (21 B)</td>
+<td align="right">21 (21 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5828"><code>src/s4/s4.rs:5828:32</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3231"><code>src/s4/s4.rs:3231:28</code></a><br/><code>s4[565658153264a5bc]::s4::cli_process_tz_offset</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">20 (20 B)</td>
+<td align="right">20 (20 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3879"><code>src/s4/s4.rs:3879:16</code></a><br/><code>s4[565658153264a5bc]::s4::cli_process_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3171"><code>src/s4/s4.rs:3171:24</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3135"><code>src/s4/s4.rs:3135:28</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3015"><code>src/s4/s4.rs:3015:16</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2976"><code>src/s4/s4.rs:2976:12</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3077"><code>src/s4/s4.rs:3077:24</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3043"><code>src/s4/s4.rs:3043:18</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2997"><code>src/s4/s4.rs:2997:13</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3029"><code>src/s4/s4.rs:3029:17</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3111"><code>src/s4/s4.rs:3111:25</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3122"><code>src/s4/s4.rs:3122:24</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3101"><code>src/s4/s4.rs:3101:23</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3058"><code>src/s4/s4.rs:3058:20</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3147"><code>src/s4/s4.rs:3147:21</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2986"><code>src/s4/s4.rs:2986:12</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3089"><code>src/s4/s4.rs:3089:23</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3159"><code>src/s4/s4.rs:3159:19</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3181"><code>src/s4/s4.rs:3181:14</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L2931"><code>src/s4/s4.rs:2931:10</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::CommandFactory&gt;::command</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/printer/printers.rs#L804"><code>src/printer/printers.rs:804:28</code></a><br/><code>&lt;s4lib[6747c811d5b9f10f]::printer::printers::PrinterLogMessage&gt;::new</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">14 (14 B)</td>
+<td align="right">14 (14 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L6408"><code>src/s4/s4.rs:6408:54</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/libload/systemd_dlopen2.rs#L508"><code>src/libload/systemd_dlopen2.rs:508:60</code></a><br/><code>s4lib[6747c811d5b9f10f]::libload::systemd_dlopen2::load_library_systemd</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">13 (13 B)</td>
+<td align="right">13 (13 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5487"><code>src/s4/s4.rs:5487:27</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5813"><code>src/s4/s4.rs:5813:26</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3012"><code>src/s4/s4.rs:3012:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args::{closure#0}</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3012"><code>src/s4/s4.rs:3012:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3855"><code>src/s4/s4.rs:3855:51</code></a><br/><code>s4[565658153264a5bc]::s4::unescape::unescape_str</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4021"><code>src/s4/s4.rs:4021:43</code></a><br/><code>s4[565658153264a5bc]::s4::cli_process_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filepreprocessor.rs#L821"><code>src/readers/filepreprocessor.rs:821:10</code></a><br/><code>s4lib[6747c811d5b9f10f]::readers::filepreprocessor::pathbuf_to_filetype_impl</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">7 (7 B)</td>
+<td align="right">7 (7 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/readers/filepreprocessor.rs#L1278"><code>src/readers/filepreprocessor.rs:1278:5</code></a><br/><code>s4lib[6747c811d5b9f10f]::readers::filepreprocessor::pathbuf_to_filetype</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3144"><code>src/s4/s4.rs:3144:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args::{closure#3}</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3144"><code>src/s4/s4.rs:3144:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3168"><code>src/s4/s4.rs:3168:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args::{closure#5}</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3168"><code>src/s4/s4.rs:3168:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3156"><code>src/s4/s4.rs:3156:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args::{closure#4}</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">4 (4 B)</td>
+<td align="right">4 (4 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3156"><code>src/s4/s4.rs:3156:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L5683"><code>src/s4/s4.rs:5683:10</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">4 (4 B)</td>
+<td align="right">4 (4 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L6015"><code>src/s4/s4.rs:6015:26</code></a><br/><code>s4[565658153264a5bc]::s4::processing_loop</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">4 (4 B)</td>
+<td align="right">4 (4 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L4155"><code>src/s4/s4.rs:4155:21</code></a><br/><code>s4[565658153264a5bc]::s4::main</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3119"><code>src/s4/s4.rs:3119:27</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args::{closure#1}</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1 (1 B)</td>
+<td align="right">1 (1 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3119"><code>src/s4/s4.rs:3119:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3119"><code>src/s4/s4.rs:3119:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args::{closure#1}</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1 (1 B)</td>
+<td align="right">1 (1 B)</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.11.85/src/s4/s4.rs#L3119"><code>src/s4/s4.rs:3119:9</code></a><br/><code>&lt;s4[565658153264a5bc]::s4::CLI_Args as clap_builder[639015aad05df3ec]::derive::Args&gt;::augment_args</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td align="left"></td>
+<td align="right"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table>
+
+<h2>Allocator Tracking summary</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left"><strong>tracked</strong></th>
+<th align="right"><strong>bytes</strong></th>
+<th align="right"><strong>calls</strong></th>
+<th align="left"><strong>about</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">normal allocations</td>
+<td align="right">1,192,522</td>
+<td align="right">15,432</td>
+<td align="left">normal program allocations; this is the most useful number</td>
+</tr>
+
+<tr>
+<td align="left">total deallocations</td>
+<td align="right">192,838,693</td>
+<td align="right">315,604</td>
+<td align="left">includes normal program deallocations and tracking deallocations</td>
+</tr>
+
+<tr>
+<td align="left">current outstanding</td>
+<td align="right">76,582,052</td>
+<td align="right"></td>
+<td align="left">outstanding allocated bytes as of this print</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Allocator Tracking internals</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left"><strong>tracked</strong></th>
+<th align="right"><strong>bytes</strong></th>
+<th align="right"><strong>calls</strong></th>
+<th align="left"><strong>about</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">total from tracking</td>
+<td align="right">268,228,198</td>
+<td align="right">409,785</td>
+<td align="left">tracking allocations; not part of the normal program allocations</td>
+</tr>
+
+<tr>
+<td align="left">tracking from backtrace</td>
+<td align="right">266,514,987</td>
+<td align="right"></td>
+<td align="left">tracking allocations specifically for <code>backtrace::trace</code> and <code>backtrace::resolve_frame</code>; subset of &ldquo;total from tracking&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">tracking from other</td>
+<td align="right">1,713,211</td>
+<td align="right"></td>
+<td align="left">other tracking allocations, not &ldquo;from backtrace&rdquo;; subset of &ldquo;total from tracking&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">ratio tracking to normal</td>
+<td align="right">100 to 0</td>
+<td align="right">100 to 4</td>
+<td align="left">ratio of tracking allocations/calls to normal program allocations/calls</td>
+</tr>
+
+<tr>
+<td align="left">diff table vs total</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">sanity check of total numbers and table numbers; should be 0</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th align="left"><strong>parameter</strong></th>
+<th align="right"><strong>value</strong></th>
+<th align="left"><strong>about</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">frame depth</td>
+<td align="right">2</td>
+<td align="left">max depth of backtraced frames for each allocation call site; env var &ldquo;S4_ALLOC_TRACKER_DEPTH&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">call sites</td>
+<td align="right">101</td>
+<td align="left">entries in the table above</td>
+</tr>
+
+<tr>
+<td align="left">cached file names</td>
+<td align="right">8</td>
+<td align="left"></td>
+</tr>
+
+<tr>
+<td align="left">cached function names</td>
+<td align="right">47</td>
+<td align="left"></td>
+</tr>
+
+<tr>
+<td align="left">cached thread names</td>
+<td align="right">2</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p><em>2026-11-15 13:26:10.836448112 -08:00</em></p>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+#File,Block Size,Profile,Mean (ms),Min (ms),Max (ms),Diff (ms),Max RSS (KB),Max RSS (KB) diff,CPU %
+gen-1000-3-foobar.log.bz2,8192,release,184 ± 6,178,196,-,50168,-,1.162
+gen-1000-3-foobar.log.bz2,16384,release,207 ± 3,203,211,23,51632,1464,1.181
+gen-1000-3-foobar.log.bz2,24576,release,210 ± 2,206,212,3,51732,100,1.144
+gen-1000-3-foobar.log.bz2,32768,release,215 ± 6,208,225,5,52876,1144,1.142
+gen-1000-3-foobar.log.bz2,40960,release,218 ± 6,210,226,3,53052,176,1.131
+gen-1000-3-foobar.log.bz2,49152,release,220 ± 3,216,223,2,54056,1004,1.131
+gen-1000-3-foobar.log.bz2,57344,release,223 ± 4,217,228,3,54220,164,1.145
+gen-1000-3-foobar.log.bz2,65536,release,225 ± 4,221,231,2,54760,540,1.129
+gen-1000-3-foobar.log.bz2,73728,release,226 ± 5,218,230,1,55524,764,1.134
+gen-1000-3-foobar.log.bz2,81920,release,227 ± 5,220,235,1,55756,232,1.132
+gen-1000-3-foobar.log.bz2,90112,release,224 ± 5,218,233,-3,56592,836,1.107
+gen-1000-3-foobar.log.bz2,98304,release,227 ± 8,220,242,3,56708,116,1.137
+gen-1000-3-foobar.log.bz2,106496,release,224 ± 7,212,232,-3,56852,144,1.080
+gen-1000-3-foobar.log.bz2,114688,release,230 ± 7,223,242,6,58196,1344,1.121
+gen-1000-3-foobar.log.bz2,122880,release,230 ± 3,227,235,0,58056,-140,1.106
+gen-1000-3-foobar.log.bz2,131072,release,226 ± 8,217,240,-4,59360,1304,1.117

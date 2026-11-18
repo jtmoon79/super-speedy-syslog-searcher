@@ -1,0 +1,17 @@
+#File,Block Size,Profile,Mean (ms),Min (ms),Max (ms),Diff (ms),Max RSS (KB),Max RSS (KB) diff,CPU %
+gen-1000-3-foobar-noyear.log,8192,release,155 ± 3,153,160,-,30520,-,0.449
+gen-1000-3-foobar-noyear.log,16384,release,155 ± 1,154,156,0,30512,-8,0.449
+gen-1000-3-foobar-noyear.log,24576,release,162 ± 5,158,172,7,30488,-24,0.465
+gen-1000-3-foobar-noyear.log,32768,release,164 ± 3,160,169,2,30468,-20,0.474
+gen-1000-3-foobar-noyear.log,40960,release,173 ± 8,164,185,9,30712,244,0.549
+gen-1000-3-foobar-noyear.log,49152,release,162 ± 5,158,171,-11,30608,-104,0.471
+gen-1000-3-foobar-noyear.log,57344,release,183 ± 10,173,200,21,30692,84,0.532
+gen-1000-3-foobar-noyear.log,65536,release,166 ± 4,162,172,-17,30568,-124,0.487
+gen-1000-3-foobar-noyear.log,73728,release,168 ± 4,164,176,2,30524,-44,0.480
+gen-1000-3-foobar-noyear.log,81920,release,182 ± 7,173,193,14,30580,56,0.522
+gen-1000-3-foobar-noyear.log,90112,release,167 ± 6,159,174,-15,30520,-60,0.474
+gen-1000-3-foobar-noyear.log,98304,release,179 ± 5,173,185,12,30592,72,0.496
+gen-1000-3-foobar-noyear.log,106496,release,181 ± 16,160,202,2,30528,-64,0.514
+gen-1000-3-foobar-noyear.log,114688,release,160 ± 6,155,170,-21,30512,-16,0.446
+gen-1000-3-foobar-noyear.log,122880,release,158 ± 1,156,159,-2,30440,-72,0.437
+gen-1000-3-foobar-noyear.log,131072,release,161 ± 3,157,167,3,30412,-28,0.453

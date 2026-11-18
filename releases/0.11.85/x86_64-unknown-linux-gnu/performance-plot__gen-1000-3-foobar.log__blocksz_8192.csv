@@ -1,0 +1,17 @@
+#File,Block Size,Profile,Mean (ms),Min (ms),Max (ms),Diff (ms),Max RSS (KB),Max RSS (KB) diff,CPU %
+gen-1000-3-foobar.log,8192,release,141 ± 5,137,150,-,14820,-,0.413
+gen-1000-3-foobar.log,16384,release,139 ± 2,137,144,-2,15844,1024,0.405
+gen-1000-3-foobar.log,24576,release,138 ± 0,138,139,-1,16652,808,0.406
+gen-1000-3-foobar.log,32768,release,139 ± 0,139,141,1,16880,228,0.409
+gen-1000-3-foobar.log,40960,release,139 ± 1,138,142,0,17816,936,0.408
+gen-1000-3-foobar.log,49152,release,139 ± 0,138,140,0,17820,4,0.408
+gen-1000-3-foobar.log,57344,release,139 ± 0,138,139,0,18212,392,0.409
+gen-1000-3-foobar.log,65536,release,138 ± 2,136,142,-1,19168,956,0.412
+gen-1000-3-foobar.log,73728,release,141 ± 1,139,143,3,19424,256,0.415
+gen-1000-3-foobar.log,81920,release,138 ± 0,138,139,-3,20204,780,0.406
+gen-1000-3-foobar.log,90112,release,138 ± 0,138,139,0,20668,464,0.407
+gen-1000-3-foobar.log,98304,release,141 ± 1,139,143,3,21140,472,0.414
+gen-1000-3-foobar.log,106496,release,138 ± 0,138,139,-3,21812,672,0.409
+gen-1000-3-foobar.log,114688,release,139 ± 1,138,141,1,22080,268,0.409
+gen-1000-3-foobar.log,122880,release,140 ± 0,138,141,1,22660,580,0.413
+gen-1000-3-foobar.log,131072,release,139 ± 0,139,140,-1,23008,348,0.412
