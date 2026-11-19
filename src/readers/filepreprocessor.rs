@@ -71,20 +71,141 @@ const SCORE_UTF8_BOM: u8 = 250;
 const SCORE_VALID_UTF8: u8 = 220;
 const SCORE_UTF8_FAST_PATH_MIN: u8 = 1;
 
-pub const NAME_EXT_UNPARSEABLE: [&str; 103] = [
+/// unparseable files by name.
+///
+/// miscellaneous one-name files I found on various systems; admittedly a
+/// haphazard list.
+pub const NAME_UNPARSEABLE: [&str; 109] = [
+    ".DS_Store",
+    "asset",
+    "AUTHORS.txt",
+    "AUTHORS",
+    "BookmarkMergedSurfaceOrdering",
+    "BrowsingTopicsSiteData-journal",
+    "BrowsingTopicsSiteData",
+    "cache.db",
+    "changelog.md",
+    "CHANGELOG.md",
+    "Cookies-journal",
+    "Cookies",
+    "customSettings",
+    "db-journal",
+    "dep_analysis_cache_v2-shm",
+    "dep_analysis_cache_v2-wal",
+    "dep_analysis_cache_v2",
+    "Device Bound Sessions-journal",
+    "Device Bound Sessions",
+    "DIPS-journal",
+    "DIPS-wal",
+    "Dockerfile",
+    "downloadCache_",
+    "downloadCache-journal",
+    "downloadCache",
+    "EdgeEDropSQLite.db-journal",
+    "EdgeEDropSQLite.db-shm",
+    "EdgeEDropSQLite.db-wal",
+    "EdgeEDropSQLite.db",
+    "EdgeHubAppUsageSQLite.db",
+    "EdgeJourneys.db-journal",
+    "EdgeJourneys.db-shm",
+    "EdgeJourneys.db-shm",
+    "EdgeJourneys.db-wal",
+    "EdgeJourneys.db-wal",
+    "EdgeJourneys.db",
+    "EdgeJourneys.db",
+    "edgeSettings",
+    "EncryptedBookmarks2",
+    "index-of.js",
+    "index.d.cts",
+    "index.d.mts",
+    "index.d.ts.map",
+    "index.d.ts",
+    "index.js",
+    "keys.js",
+    "language-configuration.json",
+    "Last Browser-journal",
+    "Last Browser",
+    "Last Version-journal",
+    "Last Version",
+    "license.md",
+    "LICENSE.md",
+    "license",
+    "LICENSE",
+    "Login Data For Account-journal",
+    "Login Data For Account",
+    "Login Data-journal",
+    "Login Data",
+    "MANIFEST-000001",
+    "manifest.json",
+    "manifest",
+    "mirror_metadata_update_db-shm",
+    "mirror_metadata_update_db-wal",
+    "mirror_metadata_update_db",
+    "Network Action Predictor-journal",
+    "Network Action Predictor",
+    "Network Persistent State",
+    "NetworkDataMigrated-journal",
+    "NetworkDataMigrated",
+    "README",
+    "README.md",
+    "scalar.js",
+    "Scalar.js",
+    "SCT Auditing Pending Reports",
+    "Secure Preferences",
+    "ServerCertificate-journal",
+    "ServerCertificate",
+    "session.db-shm",
+    "session.db-wal",
+    "session.db",
+    "settings.dat",
+    "settings.db-shm",
+    "settings.db-wal",
+    "settings.db",
+    "Settings.index",
+    "settings.json",
+    "settings.schema",
+    "SettingsCache.txt",
+    "SettingsDatabase.db-shm",
+    "SettingsDatabase.db-wal",
+    "SettingsDatabase.db",
+    "settingsglobals.txt",
+    "settingssynonyms.txt",
+    "SetupGridENV",
+    "TemporaryItems",
+    "Thumbs.db:encryptable",
+    "Thumbs.db",
+    "TransportSecurity",
+    "Trust Tokens-journal",
+    "Trust Tokens",
+    "uriCache_",
+    "uriCache",
+    "UserClasses.dat",
+    "Vpn Tokens-journal",
+    "Vpn Tokens",
+    "Web Data-journal",
+    "Web Data",
+    "WHEEL",
+];
+
+/// unparseable files by extension
+pub const NAME_EXT_UNPARSEABLE: [&str; 134] = [
     "_baseband",
     "_powermanagement",
     "_storedata",
+    "3gp",
     "7z",
     "a",
     "aac",
     "aux",
     "avi",
+    "awk",
     "bat",
     "bin",
     "bmp",
+    "bytecode",
     "bz",
     "c",
+    "cab",
     "cat",
     "chm",
     "class",
@@ -99,31 +220,47 @@ pub const NAME_EXT_UNPARSEABLE: [&str; 103] = [
     "diagpkg",
     "dll",
     "docx",
+    "dxcache-shm",
+    "dxcache-wal",
+    "dxcache",
+    "dynlib",
     "ear",
+    "etag",
     "exe",
     "flac",
     "flv",
     "gif",
+    "gitignore",
+    "go",
     "h",
     "h264",
+    "hlsl",
     "hpp",
     "htm",
     "html",
+    "hyb",
     "ico",
+    "identifier",
+    "imagemanifest",
     "ini",
+    "installstate",
     "jar",
     "java",
     "jpeg",
     "jpg",
     "keystore",
+    "keystream",
     "lib",
     "library-ms",
+    "lnk",
+    "lsv",
     "lua",
     "m4b",
     "m4p",
     "m4r",
     "m4v",
     "manifest",
+    "md5",
     "metadata-v2",
     "metadata",
     "mkv",
@@ -132,6 +269,7 @@ pub const NAME_EXT_UNPARSEABLE: [&str; 103] = [
     "mp4",
     "msi",
     "mui",
+    "nupkg",
     "o",
     "ogg",
     "opus",
@@ -145,13 +283,20 @@ pub const NAME_EXT_UNPARSEABLE: [&str; 103] = [
     "ps1",
     "psd1",
     "py",
+    "pyc",
     "raw",
-    "regtrans-ms",
     "rb",
+    "regtrans-ms",
+    "schema",
     "sh",
     "sig",
     "so",
+    "sock",
+    "sql-shm",
+    "sql-wal",
     "sql",
+    "sqlite-shm",
+    "sqlite-wal",
     "sqlite",
     "sqlite3",
     "svg",
@@ -164,7 +309,9 @@ pub const NAME_EXT_UNPARSEABLE: [&str; 103] = [
     "tiff",
     "toml",
     "ttf",
+    "vim",
     "vmoptions",
+    "vsix",
     "wallet",
     "war",
     "wasm",
@@ -173,10 +320,13 @@ pub const NAME_EXT_UNPARSEABLE: [&str; 103] = [
     "webp",
     "wma",
     "wmv",
+    "xhtml",
     "yaml",
     "yml",
 ];
+
 // TODO: nice rust feature would be compile-time join over const array
+/// user-facing listing of the unparseable file extensions.
 pub const NAME_EXT_UNPARSEABLE_STR: &str = concatcp!(
     NAME_EXT_UNPARSEABLE[0], ", ",
     NAME_EXT_UNPARSEABLE[1], ", ",
@@ -280,7 +430,38 @@ pub const NAME_EXT_UNPARSEABLE_STR: &str = concatcp!(
     NAME_EXT_UNPARSEABLE[99], ",\n",
     NAME_EXT_UNPARSEABLE[100], ", ",
     NAME_EXT_UNPARSEABLE[101], ", ",
-    NAME_EXT_UNPARSEABLE[102],
+    NAME_EXT_UNPARSEABLE[102], ", ",
+    NAME_EXT_UNPARSEABLE[103], ", ",
+    NAME_EXT_UNPARSEABLE[104], ", ",
+    NAME_EXT_UNPARSEABLE[105], ", ",
+    NAME_EXT_UNPARSEABLE[106], ", ",
+    NAME_EXT_UNPARSEABLE[107], ", ",
+    NAME_EXT_UNPARSEABLE[108], ", ",
+    NAME_EXT_UNPARSEABLE[109], ",\n",
+    NAME_EXT_UNPARSEABLE[110], ", ",
+    NAME_EXT_UNPARSEABLE[111], ", ",
+    NAME_EXT_UNPARSEABLE[112], ", ",
+    NAME_EXT_UNPARSEABLE[113], ", ",
+    NAME_EXT_UNPARSEABLE[114], ", ",
+    NAME_EXT_UNPARSEABLE[115], ", ",
+    NAME_EXT_UNPARSEABLE[116], ", ",
+    NAME_EXT_UNPARSEABLE[117], ", ",
+    NAME_EXT_UNPARSEABLE[118], ", ",
+    NAME_EXT_UNPARSEABLE[119], ",\n",
+    NAME_EXT_UNPARSEABLE[120], ", ",
+    NAME_EXT_UNPARSEABLE[121], ", ",
+    NAME_EXT_UNPARSEABLE[122], ", ",
+    NAME_EXT_UNPARSEABLE[123], ", ",
+    NAME_EXT_UNPARSEABLE[124], ", ",
+    NAME_EXT_UNPARSEABLE[125], ", ",
+    NAME_EXT_UNPARSEABLE[126], ", ",
+    NAME_EXT_UNPARSEABLE[127], ", ",
+    NAME_EXT_UNPARSEABLE[128], ", ",
+    NAME_EXT_UNPARSEABLE[129], ",\n",
+    NAME_EXT_UNPARSEABLE[130], ", ",
+    NAME_EXT_UNPARSEABLE[131], ", ",
+    NAME_EXT_UNPARSEABLE[132], ", ",
+    NAME_EXT_UNPARSEABLE[133],
 );
 
 #[inline(always)]
@@ -772,17 +953,20 @@ fn pathbuf_to_filetype_impl(
         None => FileTypeArchive::Normal,
     };
 
-    #[allow(non_snake_case)]
-    let RET_FALLBACK_TEXT: PathToFiletypeResult =
+    let ret_fallback: PathToFiletypeResult = if unparseable_are_text {
+        // unparseable is considered UTF-8/ASCII text
         PathToFiletypeResult::Filetype(
             FileType::Text {
                 archival_type: fta,
                 encoding_type: FileTypeTextEncoding::Utf8Ascii
-            });
-    const RET_FALLBACK_UNPARSABLE: PathToFiletypeResult =
-        PathToFiletypeResult::Filetype(FileType::Unparsable);
+            })
+    } else {
+        // unparseable is considered unknown or binary data
+        PathToFiletypeResult::Filetype(FileType::Unparsable)
+    };
 
-    defo!("pathbuf       {:?}", pathbuf);
+    // TODO: check for subdirectory `__MACOSX` and other special directories
+
     // trim common trailing junk characters from suffix
     const JUNK_CHARS: &[char] = &['~', '-', ',', '?', ';'];
     let mut pathbuf_clean: &PathBuf = pathbuf;
@@ -791,6 +975,13 @@ fn pathbuf_to_filetype_impl(
         .unwrap_or_default();
     defo!("file_name     {:?}", file_name);
     let fname = file_name.to_str().unwrap_or_default();
+
+    // check for known skippable file names
+    if NAME_UNPARSEABLE.contains(&fname) {
+        defx!("{fname:?} in NAME_UNPARSEABLE, return {ret_fallback:?}");
+        return ret_fallback;
+    }
+
     let mut pathbuf_ref: PathBuf;
     if fname.ends_with(JUNK_CHARS) {
         defo!("trailing junk characters {:?}", fname);
@@ -798,16 +989,8 @@ fn pathbuf_to_filetype_impl(
         defo!("fname2        {:?}", fname2);
         if fname2.is_empty() {
             // the file name is all junk characters so return a fallback
-            match unparseable_are_text {
-                true => {
-                    defx!("fname.ends_with(JUNK_CHARS) {:?}, return {:?}", fname, RET_FALLBACK_TEXT);
-                    return RET_FALLBACK_TEXT;
-                }
-                false => {
-                    defx!("fname.ends_with(JUNK_CHARS) {:?}, return {:?}", fname, RET_FALLBACK_UNPARSABLE);
-                    return RET_FALLBACK_UNPARSABLE;
-                }
-            }
+            defx!("fname.ends_with(JUNK_CHARS) {fname:?}, return {ret_fallback:?}");
+            return ret_fallback;
         }
         pathbuf_ref = pathbuf.with_file_name(fname2);
         pathbuf_clean = &pathbuf_ref;
@@ -829,16 +1012,8 @@ fn pathbuf_to_filetype_impl(
             .all(|c| c == '.')
     {
         de_err!("file_name_s {:?} is all '.'", file_name_s);
-        match unparseable_are_text {
-            true => {
-                defx!("file_name_s {:?}, return {:?}", file_name_s, RET_FALLBACK_TEXT);
-                return RET_FALLBACK_TEXT;
-            }
-            false => {
-                defx!("file_name_s {:?}, return {:?}", file_name_s, RET_FALLBACK_UNPARSABLE);
-                return RET_FALLBACK_UNPARSABLE;
-            }
-        }
+        defx!("file_name_s {:?} is all '.', return {ret_fallback:?}", file_name_s);
+        return ret_fallback;
     }
 
     // trim leading junk characters from file_name
@@ -850,16 +1025,8 @@ fn pathbuf_to_filetype_impl(
         defo!("fname2        {:?}", fname2);
         if fname2.is_empty() {
             // the file name is all junk characters so return a fallback
-            match unparseable_are_text {
-                true => {
-                    defx!("fname.starts_with(JUNK_CHARS) {:?}, return {:?}", fname_, RET_FALLBACK_TEXT);
-                    return RET_FALLBACK_TEXT;
-                }
-                false => {
-                    defx!("fname.starts_with(JUNK_CHARS) {:?}, return {:?}", fname_, RET_FALLBACK_UNPARSABLE);
-                    return RET_FALLBACK_UNPARSABLE;
-                }
-            }
+            defx!("fname.starts_with(JUNK_CHARS) {fname_:?}, return {ret_fallback:?}");
+            return ret_fallback;
         }
         if fname2 != pathbuf_clean.extension().unwrap_or_default() {
             pathbuf_ref = pathbuf.with_file_name(fname2);
@@ -873,16 +1040,14 @@ fn pathbuf_to_filetype_impl(
     }
 
     if file_name.is_empty() {
-        match unparseable_are_text {
-            true => {
-                defx!("file_name.is_empty() {:?}, return {:?}", file_name, RET_FALLBACK_TEXT);
-                return RET_FALLBACK_TEXT;
-            }
-            false => {
-                defx!("file_name.is_empty() {:?}, return {:?}", file_name, RET_FALLBACK_UNPARSABLE);
-                return RET_FALLBACK_UNPARSABLE;
-            }
-        }
+        defx!("file_name is empty, return {ret_fallback:?}");
+        return ret_fallback;
+    }
+
+    // check again for known skippable file names
+    if NAME_UNPARSEABLE.contains(&file_name.to_str().unwrap_or_default()) {
+        defx!("{file_name:?} in NAME_UNPARSEABLE, return {ret_fallback:?}");
+        return ret_fallback;
     }
 
     let file_suffix: String = pathbuf_clean
@@ -904,6 +1069,9 @@ fn pathbuf_to_filetype_impl(
         defx!("return {:?}", ret);
         return ret;
     }
+
+    // TODO: skip Apple Double shadow metadata files, e.g. `._photo.jpg`
+    //       see https://cloudstreet-dev.github.io/macOS-and-Unix/part2-filesystem/metadata-files.html
 
     defo!("match file_suffix {:?}", file_suffix.as_str());
     match file_suffix.as_str() {
@@ -1127,16 +1295,8 @@ fn pathbuf_to_filetype_impl(
         // covers some common extensions. not at all exhaustive but still helpful
         suffix if NAME_EXT_UNPARSEABLE.contains(&suffix)
         => {
-            match unparseable_are_text {
-                true => {
-                    defx!("matched file_suffix {:?}; return fallback FileType::Text", file_suffix);
-                    return RET_FALLBACK_TEXT;
-                }
-                false => {
-                    defx!("matched file_suffix {:?}; return FileType::Unparsable", file_suffix);
-                    return RET_FALLBACK_UNPARSABLE;
-                }
-            }
+            defx!("matched file_suffix {file_suffix:?}; return fallback {ret_fallback:?}");
+            return ret_fallback;
         }
         _ => {
             defo!("file_suffix {:?} not matched", file_suffix);
@@ -1155,16 +1315,8 @@ fn pathbuf_to_filetype_impl(
         "general.keystore"
         | "ObfuscationStringMap.txt"
         => {
-            match unparseable_are_text {
-                true => {
-                    defx!("file_name_s {:?} (OneDrive mapping), return {:?}", file_name_s, RET_FALLBACK_TEXT);
-                    return RET_FALLBACK_TEXT;
-                }
-                false => {
-                    defx!("file_name_s {:?} (OneDrive mapping), return {:?}", file_name_s, RET_FALLBACK_UNPARSABLE);
-                    return RET_FALLBACK_UNPARSABLE;
-                }
-            }
+            defx!("file_name_s {file_name_s:?} (OneDrive mapping), return {ret_fallback:?}");
+            return ret_fallback;
         }
         _ => {}
     }
@@ -1188,16 +1340,8 @@ fn pathbuf_to_filetype_impl(
     defo!("match file_name_s.is_empty() {:?}", file_name_s.is_empty());
 
     if file_name_s.is_empty() {
-        match unparseable_are_text {
-            true => {
-                defx!("file_name_s.is_empty() {:?}, return {:?}", file_name_s, RET_FALLBACK_TEXT);
-                return RET_FALLBACK_TEXT;
-            }
-            false => {
-                defx!("file_name_s.is_empty() {:?}, return {:?}", file_name_s, RET_FALLBACK_UNPARSABLE);
-                return RET_FALLBACK_UNPARSABLE;
-            }
-        }
+        defx!("file_name_s is empty, return {ret_fallback:?}");
+        return ret_fallback;
     }
 
     defo!("match file_name_s {:?}", file_name_s);
