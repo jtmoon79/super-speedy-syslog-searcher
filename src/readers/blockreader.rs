@@ -358,6 +358,7 @@ fn xz_read_vli<R: Read>(
     reader: &mut R,
     digest: &mut crc::Digest<'_, u32>,
 ) -> Result<u64> {
+    defñ!();
     let mut value: u64 = 0;
     for index in 0..9 {
         let mut byte: [u8; 1] = [0];
@@ -387,8 +388,10 @@ fn xz_uncompressed_size(
     filesz: FileSz,
     path: &FPath,
 ) -> Result<FileSz> {
+    defn!("path={path:?}, filesz={filesz}");
     const XZ_STREAM_MIN_SIZE: FileSz = 32;
     if filesz < XZ_STREAM_MIN_SIZE {
+        defx!("XZ file is too small ({filesz} bytes) for file {path:?}");
         return Err(Error::new(
             ErrorKind::InvalidData,
             format!("XZ file is too small ({filesz} bytes) for file {path:?}"),
@@ -399,6 +402,7 @@ fn xz_uncompressed_size(
     let mut header: [u8; XZ_STREAM_HEADER_SIZE as usize] = [0; XZ_STREAM_HEADER_SIZE as usize];
     file_xz.read_exact(&mut header)?;
     if header[..XZ_MAGIC_HEADER.len()] != XZ_MAGIC_HEADER {
+        defx!("failed to find XZ stream header magic bytes for {path:?}");
         return Err(Error::new(
             ErrorKind::InvalidData,
             format!("failed to find XZ stream header magic bytes for {path:?}"),
@@ -414,6 +418,7 @@ fn xz_uncompressed_size(
     let crc32 = Crc::<u32>::new(&CRC_32_ISO_HDLC);
     let header_crc32 = u32::from_le_bytes(header[8..12].try_into().unwrap());
     if header_crc32 != crc32.checksum(&header[6..8]) {
+        defx!("invalid XZ stream header CRC32 for {path:?}");
         return Err(Error::new(
             ErrorKind::InvalidData,
             format!("invalid XZ stream header CRC32 for {path:?}"),
@@ -424,12 +429,14 @@ fn xz_uncompressed_size(
     let mut footer: [u8; XZ_STREAM_FOOTER_SIZE as usize] = [0; XZ_STREAM_FOOTER_SIZE as usize];
     file_xz.read_exact(&mut footer)?;
     if footer[10..] != XZ_MAGIC_FOOTER {
+        defx!("failed to find XZ stream footer magic bytes for {path:?}");
         return Err(Error::new(
             ErrorKind::InvalidData,
             format!("failed to find XZ stream footer magic bytes for {path:?}"),
         ));
     }
     if footer[8..10] != header[6..8] {
+        defx!("XZ stream header and footer flags differ for {path:?}");
         return Err(Error::new(
             ErrorKind::InvalidData,
             format!("XZ stream header and footer flags differ for {path:?}"),
@@ -437,6 +444,7 @@ fn xz_uncompressed_size(
     }
     let footer_crc32 = u32::from_le_bytes(footer[..4].try_into().unwrap());
     if footer_crc32 != crc32.checksum(&footer[4..10]) {
+        defx!("invalid XZ stream footer CRC32 for {path:?}");
         return Err(Error::new(
             ErrorKind::InvalidData,
             format!("invalid XZ stream footer CRC32 for {path:?}"),
@@ -449,6 +457,7 @@ fn xz_uncompressed_size(
         .and_then(|value| value.checked_mul(4))
         .ok_or_else(|| Error::new(ErrorKind::InvalidData, format!("XZ index size overflow for {path:?}")))?;
     if index_size < 8 || index_size > filesz - XZ_STREAM_HEADER_SIZE - XZ_STREAM_FOOTER_SIZE {
+        defx!("invalid XZ index size {index_size} for {path:?}");
         return Err(Error::new(
             ErrorKind::InvalidData,
             format!("invalid XZ index size {index_size} for {path:?}"),
@@ -465,6 +474,7 @@ fn xz_uncompressed_size(
         index_reader.read_exact(&mut indicator)?;
         digest.update(&indicator);
         if indicator[0] != 0 {
+            defx!("invalid XZ index indicator for {path:?}");
             return Err(Error::new(
                 ErrorKind::InvalidData,
                 format!("invalid XZ index indicator for {path:?}"),
@@ -490,6 +500,7 @@ fn xz_uncompressed_size(
         }
 
         if index_reader.limit() > 3 {
+            defx!("invalid XZ index padding length for {path:?}");
             return Err(Error::new(
                 ErrorKind::InvalidData,
                 format!("invalid XZ index padding length for {path:?}"),
@@ -500,6 +511,7 @@ fn xz_uncompressed_size(
             index_reader.read_exact(&mut padding)?;
             digest.update(&padding);
             if padding[0] != 0 {
+                defx!("invalid XZ index padding for {path:?}");
                 return Err(Error::new(
                     ErrorKind::InvalidData,
                     format!("invalid XZ index padding for {path:?}"),
@@ -513,6 +525,7 @@ fn xz_uncompressed_size(
     let mut index_crc32_stored: [u8; 4] = [0; 4];
     file_xz.read_exact(&mut index_crc32_stored)?;
     if u32::from_le_bytes(index_crc32_stored) != index_crc32 {
+        defx!("invalid XZ index CRC32 for {path:?}");
         return Err(Error::new(
             ErrorKind::InvalidData,
             format!("invalid XZ index CRC32 for {path:?}"),
@@ -528,13 +541,15 @@ fn xz_uncompressed_size(
     //      See Issue #11
     //      <https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11>
     if stream_start != 0 {
+        defx!("multiple XZ streams or stream padding are not supported for {path:?}");
         return Err(Error::new(
             ErrorKind::InvalidData,
             format!("multiple XZ streams or stream padding are not supported for {path:?}"),
         ));
     }
-
     file_xz.seek(SeekFrom::Start(0))?;
+
+    defx!("filesz_uncompressed={filesz_uncompressed}");
 
     Ok(filesz_uncompressed)
 }
@@ -591,6 +606,7 @@ impl Write for XzBlockWriter {
         &mut self,
         buffer: &[u8],
     ) -> Result<usize> {
+        def1n!("buffer.len()={}", buffer.len());
         let mut offset: usize = 0;
         while offset < buffer.len() {
             let count = std::cmp::min(self.blocksz - self.block.len(), buffer.len() - offset);
@@ -1215,7 +1231,6 @@ impl fmt::Debug for BlockReader {
     }
 }
 
-// TODO: [2023/04] remove redundant variable prefix name `blockreader_`
 // TODO: [2023/05] instead of having 1:1 manual copying of `BlockReader`
 //       fields to `SummaryBlockReader` fields, just store a
 //       `SummaryBlockReader` in `BlockReader` and update directly.
@@ -3674,6 +3689,7 @@ impl BlockReader {
             let reader = match self.bz2 {
                 Some(ref mut bz2) => &mut bz2.decoder,
                 None => {
+                    defx!("Bz2DecoderReader not initialized for file {:?}", self.path);
                     return ResultFindReadBlock::Err(Error::new(
                         ErrorKind::InvalidData,
                         format!("Bz2DecoderReader not initialized for file {:?}", self.path),
@@ -3708,6 +3724,7 @@ impl BlockReader {
                         if size == 0 {
                             // the `Bz2Decoder` stalled, bail out
                             let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                            defx!("({}): Error Bz2DecoderReader.read() returned zero bytes", blockoffset);
                             return ResultFindReadBlock::Err(Error::new(
                                 ErrorKind::UnexpectedEof,
                                 format!(
@@ -3745,6 +3762,7 @@ impl BlockReader {
             defo!("({}): block.len() {}, blocksz {}, blockoffset at {}", blockoffset, blocklen_sz, self.blocksz, bo_at);
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                defx!("Bz2DecoderReader read zero bytes for block {} at byte {} for file {:?}", bo_at, byte_at, self.path);
                 return ResultFindReadBlock::Err(Error::new(
                     ErrorKind::UnexpectedEof,
                     format!(
@@ -3756,6 +3774,7 @@ impl BlockReader {
                 // last block, is blocksz correct?
                 if blocklen_sz > self.blocksz {
                     let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                    defx!("Bz2DecoderReader read too many bytes for last block {} at byte {} for file {:?}", bo_at, byte_at, self.path);
                     return ResultFindReadBlock::Err(Error::new(
                         ErrorKind::InvalidData,
                         format!(
@@ -3767,6 +3786,7 @@ impl BlockReader {
             } else if bytes_read != (self.blocksz as usize) {
                 // not last block, is blocksz correct?
                 let byte_at = self.file_offset_at_block_offset_self(bo_at) + (bytes_read as FileOffset);
+                defx!("Bz2DecoderReader read incorrect number of bytes for block {} at byte {} for file {:?}", bo_at, byte_at, self.path);
                 return ResultFindReadBlock::Err(Error::new(
                     ErrorKind::InvalidData,
                     format!(
@@ -3936,6 +3956,7 @@ impl BlockReader {
             );
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                defx!("gzip decoder read zero bytes for block {} at byte {} for file {:?}", bo_at, byte_at, self.path);
                 return ResultFindReadBlock::Err(Error::new(
                     ErrorKind::UnexpectedEof,
                     format!(
@@ -3947,6 +3968,7 @@ impl BlockReader {
                 // last block, is blocksz correct?
                 if blocklen_sz > self.blocksz {
                     let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                    defx!("gzip decoder read too many bytes for last block {} at byte {} for file {:?}", bo_at, byte_at, self.path);
                     return ResultFindReadBlock::Err(Error::new(
                         ErrorKind::InvalidData,
                         format!(
@@ -3958,6 +3980,7 @@ impl BlockReader {
             } else if blocklen_sz != self.blocksz {
                 // not last block, is blocksz correct?
                 let byte_at = self.file_offset_at_block_offset_self(bo_at) + blocklen_sz;
+                defx!("gzip decoder read incorrect number of bytes for block {} at byte {} for file {:?}", bo_at, byte_at, self.path);
                 return ResultFindReadBlock::Err(Error::new(
                     ErrorKind::InvalidData,
                     format!(
@@ -4092,6 +4115,7 @@ impl BlockReader {
             let reader = match self.lz {
                 Some(ref mut lz) => &mut lz.reader,
                 None => {
+                    defx!("FrameDecoder not initialized for file {:?}", self.path);
                     return ResultFindReadBlock::Err(Error::new(
                         ErrorKind::InvalidData,
                         format!("FrameDecoder not initialized for file {:?}", self.path),
@@ -4132,6 +4156,7 @@ impl BlockReader {
             defo!("({}): block.len() {}, blocksz {}, blockoffset at {}", blockoffset, blocklen_sz, self.blocksz, bo_at);
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                defx!("FrameDecoder.read() read zero bytes for block {} at byte {} for file {:?}", bo_at, byte_at, self.path);
                 return ResultFindReadBlock::Err(Error::new(
                     ErrorKind::UnexpectedEof,
                     format!(
@@ -4143,6 +4168,7 @@ impl BlockReader {
                 // last block, is blocksz correct?
                 if blocklen_sz > self.blocksz {
                     let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                    defx!("FrameDecoder.read() read too many bytes for last block {} at byte {} for file {:?}", bo_at, byte_at, self.path);
                     return ResultFindReadBlock::Err(Error::new(
                         ErrorKind::InvalidData,
                         format!(
@@ -4154,6 +4180,7 @@ impl BlockReader {
             } else if blocklen_sz != self.blocksz {
                 // not last block, is blocksz correct?
                 let byte_at = self.file_offset_at_block_offset_self(bo_at) + blocklen_sz;
+                defx!("FrameDecoder.read() read incorrect number of bytes for block {} at byte {} for file {:?}", bo_at, byte_at, self.path);
                 return ResultFindReadBlock::Err(Error::new(
                     ErrorKind::InvalidData,
                     format!(
@@ -4626,9 +4653,11 @@ impl BlockReader {
                     let error = Error::new(
                         ErrorKind::UnexpectedEof, format!("ZIP member ended before block {next}: {path:?}"),
                     );
+                    defx!("({}): ZIP member ended unexpectedly before block {}", blockoffset, next);
                     return ResultFindReadBlock::Err(self.zip.as_mut().unwrap().finish_with_error(error));
                 }
                 Ok(ArchiveMessage::Error(error)) | Err(error) => {
+                    defx!("({}): ZIP reader encountered error for block {}", blockoffset, next);
                     return ResultFindReadBlock::Err(self.zip.as_mut().unwrap().finish_with_error(error));
                 }
             };
