@@ -564,7 +564,7 @@ then logout and login, and re-run ${SCRIPT_NAME}
             info "verify SHA-256 checksum of binary file ..."
             (
                 cd "${WORKDIR}"
-                if ! (set -x; checksum "${binary_checksum_name}"); then
+                if ! checksum "${binary_checksum_name}"; then
                     if [ "${IGNORE_CHECKSUM-}" = "1" ]; then
                         warn "checksum verification failed for ${zip_name} from URL ${url_zip}, but IGNORE_CHECKSUM=1 is set."
                         return 0
