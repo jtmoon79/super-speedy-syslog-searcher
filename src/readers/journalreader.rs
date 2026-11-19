@@ -159,6 +159,7 @@ use std::string::ToString;
 use std::{
     fmt,
     mem,
+    sync::LazyLock,
 };
 
 use ::bstr::{
@@ -166,7 +167,6 @@ use ::bstr::{
     ByteVec,
 };
 use ::itertools::Itertools; // for `sorted`
-use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_le,
@@ -536,10 +536,10 @@ pub const KEY_PID_BYTES: &[u8] = KEY_PID.as_bytes();
 pub const KEY_SELINUX_CONTEXT: &str = "_SELINUX_CONTEXT";
 pub const KEY_SELINUX_CONTEXT_BYTES: &[u8] = KEY_SELINUX_CONTEXT.as_bytes();
 
-lazy_static! {
-    pub static ref KEY_SOURCE_REALTIME_TIMESTAMP_CSTR: CString = CString::new(KEY_SOURCE_REALTIME_TIMESTAMP).unwrap();
-    pub static ref KEY_MESSAGE_CSTR: CString = CString::new(KEY_MESSAGE).unwrap();
-}
+pub static KEY_SOURCE_REALTIME_TIMESTAMP_CSTR: LazyLock<CString> =
+    LazyLock::new(|| CString::new(KEY_SOURCE_REALTIME_TIMESTAMP).unwrap());
+pub static KEY_MESSAGE_CSTR: LazyLock<CString> =
+    LazyLock::new(|| CString::new(KEY_MESSAGE).unwrap());
 
 /// `journalctl` output formats.
 ///

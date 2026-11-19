@@ -12,7 +12,6 @@ use ::criterion::{
     criterion_main,
     Criterion,
 };
-use ::lazy_static::lazy_static;
 
 use s4lib::data::slice_contains::{
     slice_contains_D2_custom,
@@ -30,17 +29,15 @@ use s4lib::data::slice_contains::{
     slice_contains_X_2_stringzilla,
 };
 
-lazy_static! {
-    /// search this slice for a 2 byte "needle"
-    pub static ref B200: &'static [u8; 200] = b"\
+/// search this slice for a 2 byte "needle"
+pub const static B200: &'static [u8; 200] = b"\
 a_c_e_f_h_1_k_l_n_p_r_t_v_x_z_3ABCDEFGHI4__345678951234567896__34567897__34567898__34567899123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVW__ZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV";
-    /// for D2 search, has two digits in a row `"456789"`
-    pub static ref D2_200_HAS_D2: &'static [u8; 200] = b"\
+/// for D2 search, has two digits in a row `"456789"`
+pub const static D2_200_HAS_D2: &'static [u8; 200] = b"\
 0abcdefghijklmnopqrstuvwxyz1ABCDEFGHIJKLMNOPQRSTUVWXYZ2abcdefghijklmnopqrstuvwxyz3ABCDEFGHIJKLMNOPQRSTUVWXYZ456789fghijklmnopqrstuvwxyz5abcdefghijklmnopqrstuvwxyz6abcdefghijklmnopqrstuvwxyz7abcdefghij";
-    /// for D2 search, no two digits in a row
-    pub static ref D2_200_NO_D2: &'static [u8; 200] = b"\
+/// for D2 search, no two digits in a row
+pub const static D2_200_NO_D2: &'static [u8; 200] = b"\
 0abcdefghijklmnopqrstuvwxyz1ABCDEFGHIJKLMNOPQRSTUVWXYZ2abcdefghijklmnopqrstuvwxyz3ABCDEFGHIJKLMNOPQRSTUVWXYZ4abcdefghijklmnopqrstuvwxyz5abcdefghijklmnopqrstuvwxyz6abcdefghijklmnopqrstuvwxyz7abcdefghij";
-}
 
 /// "needle" in B200
 const SEARCH12: &[u8; 2] = b"12";

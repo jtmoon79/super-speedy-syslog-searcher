@@ -27,6 +27,7 @@ use std::sync::atomic::{
     Ordering,
 };
 use std::sync::{
+    LazyLock,
     OnceLock,
     RwLock,
     RwLockReadGuard,
@@ -37,7 +38,6 @@ use ::chrono::{
     DateTime,
     Local,
 };
-use ::lazy_static::lazy_static;
 use ::rustc_demangle::{
     Demangle,
     demangle,
@@ -248,32 +248,32 @@ static ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE: AtomicUsize = const { AtomicU
 /// Set once from `S4_ALLOC_TRACKER_DEPTH` in `allocator_tracker_enable()`.
 static ALLOCATOR_DEPTH: OnceLock<usize> = const { OnceLock::new() };
 
-lazy_static! {
-    /// Global map for tracking allocator call sites and their statistics.
-    pub(super)static ref ALLOCATOR_TRACKING_MAP: RwLock<AllocatorDebugTrackingMap> =
-        RwLock::new(AllocatorDebugTrackingMap::with_capacity(2056));
-    /// Global table of all file names seen while resolving backtrace frames.
-    /// Indexes to this table are saved in `ALLOCATOR_TRACKING_MAP`
-    pub(super) static ref ALLOCATOR_TRACKING_FILENAMES: RwLock<Vec<String>> =
-        RwLock::new(Vec::with_capacity(100));
-    /// Global table of all function names seen while resolving backtrace frames.
-    /// Indexes to this table are saved in `ALLOCATOR_TRACKING_MAP`
-    pub(super) static ref ALLOCATOR_TRACKING_FUNCTIONS: RwLock<Vec<String>> =
-        RwLock::new(Vec::with_capacity(300));
-    /// Global table of all thread names seen while resolving backtrace frames.
-    /// Indexes to this table are saved in `ALLOCATOR_TRACKING_MAP`
-    pub(super) static ref ALLOCATOR_TRACKING_THREADNAMES: RwLock<Vec<String>> =
-        RwLock::new(Vec::with_capacity(50));
+/// Global map for tracking allocator call sites and their statistics.
+pub(super) static ALLOCATOR_TRACKING_MAP: LazyLock<RwLock<AllocatorDebugTrackingMap>> =
+    LazyLock::new(|| RwLock::new(AllocatorDebugTrackingMap::with_capacity(2056)));
+/// Global table of all file names seen while resolving backtrace frames.
+/// Indexes to this table are saved in `ALLOCATOR_TRACKING_MAP`
+pub(super) static ALLOCATOR_TRACKING_FILENAMES: LazyLock<RwLock<Vec<String>>> =
+    LazyLock::new(|| RwLock::new(Vec::with_capacity(100)));
+/// Global table of all function names seen while resolving backtrace frames.
+/// Indexes to this table are saved in `ALLOCATOR_TRACKING_MAP`
+pub(super) static ALLOCATOR_TRACKING_FUNCTIONS: LazyLock<RwLock<Vec<String>>> =
+    LazyLock::new(|| RwLock::new(Vec::with_capacity(300)));
+/// Global table of all thread names seen while resolving backtrace frames.
+/// Indexes to this table are saved in `ALLOCATOR_TRACKING_MAP`
+pub(super) static ALLOCATOR_TRACKING_THREADNAMES: LazyLock<RwLock<Vec<String>>> =
+    LazyLock::new(|| RwLock::new(Vec::with_capacity(50)));
 
-    /// The root path of the project, used to determine if a backtrace frame
-    /// is from project source code and should be tracked.
-    pub(super) static ref PROJECT_ROOT: String = match ::project_root::get_project_root() {
+/// The root path of the project, used to determine if a backtrace frame
+/// is from project source code and should be tracked.
+pub(super) static PROJECT_ROOT: LazyLock<String> =
+    LazyLock::new(|| match ::project_root::get_project_root() {
         Ok(root) => root.to_string_lossy().to_string(),
         Err(_) => String::from(""),
-    };
-    /// `PROJECT_ROOT` as bytes.
-    pub(super) static ref PROJECT_ROOT_BYTES: Vec<u8> = PROJECT_ROOT.as_bytes().to_vec();
-}
+    });
+/// `PROJECT_ROOT` as bytes.
+pub(super) static PROJECT_ROOT_BYTES: LazyLock<Vec<u8>> =
+    LazyLock::new(|| PROJECT_ROOT.as_bytes().to_vec());
 
     /// Return true when the named environment variable is set to a truthy value.
     /// Accepted values are `1`, `true`, and `yes`, matched case-insensitively.

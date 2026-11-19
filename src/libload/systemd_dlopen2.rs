@@ -8,6 +8,7 @@ use std::env;
 use std::fmt;
 use std::sync::{
     Arc,
+    LazyLock,
     RwLock,
 };
 
@@ -16,7 +17,6 @@ use ::dlopen2::wrapper::{
     Container,
     WrapperApi,
 };
-use ::lazy_static::lazy_static;
 use ::si_trace_print::{
     defn,
     defo,
@@ -316,43 +316,43 @@ pub type JournalApiContainer = Container<SdJournalHApi>;
 /// Multi-threaded pointer to a the `libsystemd` interface.
 pub type JournalApiPtr = Arc<JournalApiContainer>;
 
-lazy_static! {
-    /// The interface for using shared library `libsystemd.so`.
-    ///
-    /// The `RwLock` is to allow setting the value in `load_library_systemd()`.
-    /// It's an oddity of setting a `lazy_static` variable once and then again
-    /// later on.
-    /// The `Option` is to allow setting an initial value of `None` because
-    /// there may be no need to load `libsystemd` (or loading `libsystemd`
-    /// may fail so the program should then just skip `.journal` files).
-    /// The `Arc` is to allow returning a reference to the `dlopen2::Container`
-    /// that can be shared among threads.
-    /// The `dlopen2::Container` is the how `dlopen2` wraps a shared library
-    /// reference handle for the given API, `SdJournalHApi`.
-    pub static ref SYSTEMD_JOURNAL_API: RwLock<Option<JournalApiPtr>> = {
-        defñ!("lazy_static! SYSTEMD_JOURNAL_API::new()");
+/// The interface for using shared library `libsystemd.so`.
+///
+/// The `RwLock` allows updating the value in `load_library_systemd()` after
+/// this static is initialized.
+/// The `Option` is to allow setting an initial value of `None` because
+/// there may be no need to load `libsystemd` (or loading `libsystemd`
+/// may fail so the program should then just skip `.journal` files).
+/// The `Arc` is to allow returning a reference to the `dlopen2::Container`
+/// that can be shared among threads.
+/// The `dlopen2::Container` is the how `dlopen2` wraps a shared library
+/// reference handle for the given API, `SdJournalHApi`.
+pub static SYSTEMD_JOURNAL_API: LazyLock<RwLock<Option<JournalApiPtr>>> =
+    LazyLock::new(|| {
+        defñ!("LazyLock::new() SYSTEMD_JOURNAL_API");
 
         RwLock::new(None)
-    };
+    });
 
-    /// None means `load_library_systemd()` has not been called yet.
-    /// Some(false) means `load_library_systemd()` was called but failed.
-    /// Some(true) means `load_library_systemd()` was called and succeeded.
-    pub static ref LOAD_LIBRARY_SYSTEMD_OK: RwLock<Option<bool>> = {
-        defñ!("lazy_static! SYSTEMD_JOURNAL_API::new()");
-
-        RwLock::new(None)
-    };
-
-    /// Path to loaded `libsystemd` library, if any.
-    pub static ref LOAD_LIBRARY_SYSTEMD_PATH: RwLock<Option<String>> = {
-        defñ!("lazy_static! LOAD_LIBRARY_SYSTEMD_PATH::new()");
+/// None means `load_library_systemd()` has not been called yet.
+/// Some(false) means `load_library_systemd()` was called but failed.
+/// Some(true) means `load_library_systemd()` was called and succeeded.
+pub static LOAD_LIBRARY_SYSTEMD_OK: LazyLock<RwLock<Option<bool>>> =
+    LazyLock::new(|| {
+        defñ!("LazyLock::new() LOAD_LIBRARY_SYSTEMD_OK");
 
         RwLock::new(None)
-    };
-}
+    });
 
-/// Helpful accessor for lazy_static [`SYSTEMD_JOURNAL_API`].
+/// Path to loaded `libsystemd` library, if any.
+pub static LOAD_LIBRARY_SYSTEMD_PATH: LazyLock<RwLock<Option<String>>> =
+    LazyLock::new(|| {
+        defñ!("LazyLock::new() LOAD_LIBRARY_SYSTEMD_PATH");
+
+        RwLock::new(None)
+    });
+
+/// Helpful accessor for [`SYSTEMD_JOURNAL_API`].
 ///
 /// [`SYSTEMD_JOURNAL_API`]: static@SYSTEMD_JOURNAL_API
 pub fn journal_api() -> JournalApiPtr {

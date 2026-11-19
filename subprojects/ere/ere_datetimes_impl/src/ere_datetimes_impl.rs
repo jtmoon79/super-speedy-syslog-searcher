@@ -12,6 +12,7 @@ use std::collections::{
     HashSet,
 };
 use std::fmt;
+use std::sync::LazyLock;
 #[doc(hidden)]
 pub use std::time::{
     SystemTime,
@@ -1979,9 +1980,9 @@ pub const GROUP_NAMES: [&CaptureGroupName; GROUP_NAMES_LEN] = [
     CGN_EPOCH,
 ];
 
-::lazy_static::lazy_static! {
-    /// The `HashSet` of [`GROUP_NAMES`]
-    pub static ref GROUP_NAMES_SET: HashSet<String> = {
+/// The `HashSet` of [`GROUP_NAMES`]
+pub static GROUP_NAMES_SET: LazyLock<HashSet<String>> =
+    LazyLock::new(|| {
         let mut set = HashSet::new();
         for name in GROUP_NAMES.iter() {
             set.insert(name.to_string());
@@ -1994,10 +1995,11 @@ pub const GROUP_NAMES: [&CaptureGroupName; GROUP_NAMES_LEN] = [
         defñ!("init GROUP_NAMES_SET");
 
         set
-    };
+    });
 
-    /// A map from group name `&str` to its index in [`GROUP_NAMES`].
-    pub static ref GROUP_NAMES_MAP: HashMap<String, usize> = {
+/// A map from group name `&str` to its index in [`GROUP_NAMES`].
+pub static GROUP_NAMES_MAP: LazyLock<HashMap<String, usize>> =
+    LazyLock::new(|| {
         let mut map = HashMap::new();
         map.insert(CGN_YEAR.to_string(), CGI_YEAR);
         map.insert(CGN_MONTH.to_string(), CGI_MONTH);
@@ -2018,9 +2020,10 @@ pub const GROUP_NAMES: [&CaptureGroupName; GROUP_NAMES_LEN] = [
         defñ!("init GROUP_NAMES_MAP");
 
         map
-    };
+    });
 
-    pub static ref GROUP_NAMES_MAP_STR: HashMap<&'static str, usize> = {
+pub static GROUP_NAMES_MAP_STR: LazyLock<HashMap<&'static str, usize>> =
+    LazyLock::new(|| {
         let mut map = HashMap::new();
         map.insert(CGN_YEAR, CGI_YEAR);
         map.insert(CGN_MONTH, CGI_MONTH);
@@ -2041,8 +2044,7 @@ pub const GROUP_NAMES: [&CaptureGroupName; GROUP_NAMES_LEN] = [
         defñ!("init GROUP_NAMES_MAP_STR");
 
         map
-    };
-}
+    });
 
 /// `Instr`uctions for `pars`ing from some unknown [`bytes`](u8) to a
 /// [`regex::Regex.captures`] instance to a `&str` value that can be passed to
