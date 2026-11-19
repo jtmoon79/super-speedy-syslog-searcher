@@ -838,12 +838,9 @@ impl Line {
     //           fn get_boxptrs(...) -> either::Either<Box<&[u8]>, Vec<Box<&[u8]>>>
     //      causes error `experimental Sized`
     //
-    // TODO: use `&RangeLineIndex` instead of `a` `b`
-    //
     /// Get [`Box`] pointer(s) to an underlying `&[u8]` slice that is
     /// part of this `Line`.
-    /// * `a` is inclusive
-    /// * `b` is exclusive
+    /// `ab.start` is inclusive and `ab.end` is exclusive.
     ///
     /// If slice is refers to one `Linepart` then return a single `Box` pointer.
     ///
@@ -856,9 +853,10 @@ impl Line {
     /// copying lots of bytes around).
     pub fn get_boxptrs(
         self: &Line,
-        mut a: LineIndex,
-        mut b: LineIndex,
+        ab: RangeLineIndex,
     ) -> LinePartPtrs<'_> {
+        let mut a = ab.start;
+        let mut b = ab.end;
         defn!(
             "(…, {}, {}), lineparts {} line.len() {} {:?}",
             a,

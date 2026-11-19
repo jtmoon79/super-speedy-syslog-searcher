@@ -554,10 +554,14 @@ fn process_bytes_to_regex_to_datetime(
         #[cfg(any(debug_assertions, test))]
         path,
     ) {
-        CapturedDtDataOpt::Some(CapturedDtData { beg: dt_beg_utf8, end: dt_end_utf8, dt }) if encoding_type.basic_encoding() == FileTypeBasicEncoding::Utf8 => {
+        CapturedDtDataOpt::Some(CapturedDtData { beg_end, dt }) if encoding_type.basic_encoding() == FileTypeBasicEncoding::Utf8 => {
+            let dt_beg_utf8: LineIndex = beg_end.start;
+            let dt_end_utf8: LineIndex = beg_end.end;
             Some((dt_beg_utf8, dt_end_utf8, dt_beg_utf8, dt_end_utf8, dt))
         }
-        CapturedDtDataOpt::Some(CapturedDtData { beg: dt_beg_utf8, end: dt_end_utf8, dt }) => {
+        CapturedDtDataOpt::Some(CapturedDtData { beg_end, dt }) => {
+            let dt_beg_utf8: LineIndex = beg_end.start;
+            let dt_end_utf8: LineIndex = beg_end.end;
             let (dt_beg_actual, dt_end_actual) = match utf8_offsets_to_actual_offsets_second_pass(
                 data_no_bom,
                 encoding_type,
@@ -1885,7 +1889,7 @@ impl SyslineReader {
             // where it searches within the `Line`
             let mut hack_slice: Bytes;
             let slice_: &[u8];
-            match line.get_boxptrs(range_start as LineIndex, slice_end as LineIndex) {
+            match line.get_boxptrs(range_start as LineIndex..slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
                     debug_panic!(
                         "LinePartPtrs::NoPtr for slice [{}, {}); file {:?}",
@@ -2723,12 +2727,10 @@ impl SyslineReader {
                         dt,
                     );
                     defo!(
-                        "({}): A sl.dt_beg_actual {}, sl.dt_end_actual {}, sl.dt_beg_utf8 {}, sl.dt_end_utf8 {}, sl.push({:?}){}{}",
+                        "({}): A sl.dt_actual {:?}, sl.dt_utf8 {:?}, sl.push({:?}){}{}",
                         fileoffset,
-                        dt_beg_actual,
-                        dt_end_actual,
-                        dt_beg_utf8,
-                        dt_end_utf8,
+                        dt_beg_actual..dt_end_actual,
+                        dt_beg_utf8..dt_end_utf8,
                         (*linep).to_string_noraw(),
                         so(),
                         (*linep).to_stringutf8_noraw(self.encoding_type())

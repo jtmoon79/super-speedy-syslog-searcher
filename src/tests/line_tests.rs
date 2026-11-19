@@ -288,14 +288,14 @@ fn test_line_get_slices() {
 #[test]
 fn test_line_get_boxptrs_2_6_no_ptr() {
     let line = new_line_2_6();
-    let boxptrs: LinePartPtrs = line.get_boxptrs(99, 999);
+    let boxptrs: LinePartPtrs = line.get_boxptrs(99..999);
     assert!(boxptrs.is_no_ptr());
 }
 
 #[test]
 fn test_line_get_boxptrs_2_6_single_zero_length() {
     let line = new_line_2_6();
-    let boxptrs: LinePartPtrs = line.get_boxptrs(0, 0);
+    let boxptrs: LinePartPtrs = line.get_boxptrs(0..0);
     assert!(boxptrs.is_single_ptr());
     let bptr: Box<&[u8]> = match boxptrs {
         LinePartPtrs::SinglePtr(ptr) => ptr,
@@ -309,7 +309,7 @@ fn test_line_get_boxptrs_2_6_single_zero_length() {
 #[test]
 fn test_line_get_boxptrs_2_6_single_0_2() {
     let line = new_line_2_6();
-    let boxptrs: LinePartPtrs = line.get_boxptrs(0, 2);
+    let boxptrs: LinePartPtrs = line.get_boxptrs(0..2);
     assert!(boxptrs.is_single_ptr());
     let bptr: Box<&[u8]> = match boxptrs {
         LinePartPtrs::SinglePtr(ptr) => ptr,
@@ -323,7 +323,7 @@ fn test_line_get_boxptrs_2_6_single_0_2() {
 #[test]
 fn test_line_get_boxptrs_2_6_single_3_99() {
     let line = new_line_2_6();
-    let boxptrs: LinePartPtrs = line.get_boxptrs(3, 99);
+    let boxptrs: LinePartPtrs = line.get_boxptrs(3..99);
     assert!(boxptrs.is_single_ptr());
     let bptr: Box<&[u8]> = match boxptrs {
         LinePartPtrs::SinglePtr(ptr) => ptr,
@@ -337,7 +337,7 @@ fn test_line_get_boxptrs_2_6_single_3_99() {
 #[test]
 fn test_line_get_boxptrs_2_6_single_0_1() {
     let line = new_line_2_6();
-    let boxptrs: LinePartPtrs = line.get_boxptrs(0, 1);
+    let boxptrs: LinePartPtrs = line.get_boxptrs(0..1);
     assert!(boxptrs.is_single_ptr());
     let bptr: Box<&[u8]> = match boxptrs {
         LinePartPtrs::SinglePtr(ptr) => ptr,
@@ -351,7 +351,7 @@ fn test_line_get_boxptrs_2_6_single_0_1() {
 #[test]
 fn test_line_get_boxptrs_2_6_double_0_4() {
     let line = new_line_2_6();
-    let boxptrs: LinePartPtrs = line.get_boxptrs(0, line.len());
+    let boxptrs: LinePartPtrs = line.get_boxptrs(0..line.len());
     assert!(boxptrs.is_double_ptr());
     let (bptr1, bptr2): (Box<&[u8]>, Box<&[u8]>) = match boxptrs {
         LinePartPtrs::DoublePtr(ptr1, ptr2) => (ptr1, ptr2),
@@ -366,7 +366,7 @@ fn test_line_get_boxptrs_2_6_double_0_4() {
 #[test]
 fn test_line_get_boxptrs_2_6_double_0_3() {
     let line = new_line_2_6();
-    let boxptrs: LinePartPtrs = line.get_boxptrs(0, line.len() - 1);
+    let boxptrs: LinePartPtrs = line.get_boxptrs(0..line.len() - 1);
     assert!(boxptrs.is_double_ptr());
     let (bptr1, bptr2): (Box<&[u8]>, Box<&[u8]>) = match boxptrs {
         LinePartPtrs::DoublePtr(ptr1, ptr2) => (ptr1, ptr2),

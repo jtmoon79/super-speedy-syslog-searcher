@@ -1076,16 +1076,14 @@ pub fn datetime_parse_from_str_w_tz(
 /// Data of interest from a set of [`regex::Captures`] for a datetime
 /// substring found in a [`Line`].
 ///
-/// - datetime substring begin index
-/// - datetime substring end index
+/// - datetime substring index range
 /// - datetime
 ///
 /// [`Line`]: crate::data::line::Line
 /// [`regex::Captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CapturedDtData{
-    pub beg: LineIndex,
-    pub end: LineIndex,
+    pub beg_end: RangeLineIndex,
     pub dt: DateTimeL,
 }
 pub type CapturedDtDataOpt = Option<CapturedDtData>;
@@ -1997,7 +1995,7 @@ pub fn bytes_to_regex_to_datetime(
     debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}, index {}", dt_beg, dt_end, index);
     defx!("return Some({:?}, {:?}, {:?})", dt_beg, dt_end, dt);
 
-    Some(CapturedDtData{ beg: dt_beg, end: dt_end, dt })
+    Some(CapturedDtData{ beg_end: dt_beg..dt_end, dt })
 }
 
 // --------------------
