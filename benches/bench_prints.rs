@@ -21,13 +21,8 @@ use ::s4lib::common::NLu8;
 
 const CHARSZ: usize = 1;
 
-//
-// test data
-//
-
-lazy_static! {
-    static ref Data1: Vec<u8> = Vec::from(b"2000-01-01 00:00:00 abcdefghijklmnopqrstuvwxyz".as_slice());
-}
+/// test data
+const static Data1: Vec<u8> = Vec::from(b"2000-01-01 00:00:00 abcdefghijklmnopqrstuvwxyz".as_slice());
 
 //
 // differing decoding functions

@@ -23,13 +23,13 @@ use std::path::{
 };
 use std::str::FromStr;
 use std::sync::{
+    LazyLock,
     Mutex,
     RwLock,
 };
 use std::time::SystemTime;
 
 use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
-use ::lazy_static::lazy_static;
 // `lz4_flex` is for lz4 files.
 use ::lz4_flex;
 // `sirocco` is for gzip files.
@@ -133,29 +133,30 @@ macro_rules! err_from_err_path_result_dtn {
 
 type ListFPaths = LinkedList<FPath>;
 
-lazy_static! {
-    /// Global list of named temporary files created by the program.
-    /// This is used by a signal handler run in the main thread to remove the
-    /// temporary files during an unexpected exit.
-    static ref NAMED_TEMP_FILES: RwLock<ListFPaths> = {
-        defñ!("lazy_static! NAMED_TEMP_FILES");
+/// Global list of named temporary files created by the program.
+/// This is used by a signal handler run in the main thread to remove the
+/// temporary files during an unexpected exit.
+static NAMED_TEMP_FILES: LazyLock<RwLock<ListFPaths>> =
+    LazyLock::new(|| {
+        defñ!("LazyLock::new() NAMED_TEMP_FILES");
 
         RwLock::new(ListFPaths::new())
-    };
-    /// Summary statistic.
-    /// Count `NAMED_TEMP_FILES.push_back()` calls. Allows for `NAMED_TEMP_FILES`
-    /// to be cleared at any time before printing the summary.
-    static ref NAMED_TEMP_FILES_COUNT: RwLock<usize> = {
-        defñ!("lazy_static! NAMED_TEMP_FILES_COUNT");
+    });
+/// Summary statistic.
+/// Count `NAMED_TEMP_FILES.push_back()` calls. Allows for `NAMED_TEMP_FILES`
+/// to be cleared at any time before printing the summary.
+static NAMED_TEMP_FILES_COUNT: LazyLock<RwLock<usize>> =
+    LazyLock::new(|| {
+        defñ!("LazyLock::new() NAMED_TEMP_FILES_COUNT");
 
         RwLock::new(0)
-    };
-    static ref TEMPFILE_CREATE_LOCK: Mutex<()> = {
-        defñ!("lazy_static! TEMPFILE_CREATE_LOCK");
+    });
+static TEMPFILE_CREATE_LOCK: LazyLock<Mutex<()>> =
+    LazyLock::new(|| {
+        defñ!("LazyLock::new() TEMPFILE_CREATE_LOCK");
 
         Mutex::new(())
-    };
-}
+    });
 
 /// Helper function to decompress `path_std` to a temporary file.
 /// Returns a `Result` containing a value [`DecompressToNtfValue`].

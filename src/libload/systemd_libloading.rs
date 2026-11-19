@@ -4,10 +4,12 @@
 //!
 //! [`libloading`]: https://docs.rs/libloading/0.7.4/libloading/index.html
 
-use std::sync::RwLock;
+use std::sync::{
+    LazyLock,
+    RwLock,
+};
 
 use ::libloading::{Library, Symbol};
-use ::lazy_static::lazy_static;
 use ::si_trace_print::{
     defo,
     defñ,
@@ -162,68 +164,78 @@ pub type func_sig_sd_journal_enumerate_available_data = unsafe extern "C" fn(
 
 const FUNC_NAME_JOURNAL_ENUMERATE_AVAILABLE_DATA: &str = "sd_journal_enumerate_available_data";
 
-lazy_static! {
-    static ref LIB_SYSTEMD: RwLock<Option<Box<Library>>> = {
-        defñ!("lazy_static! LIB_SYSTEMD::new()");
+static LIB_SYSTEMD: LazyLock<RwLock<Option<Box<Library>>>> =
+    LazyLock::new(|| {
+        defñ!("LazyLock::new() LIB_SYSTEMD");
 
         RwLock::new(None)
-    }
+    });
 
-    /// Function pointer to [`sd_journal_open_files`] function.
-    ///
-    /// [`sd_journal_open_files`]: https://man7.org/linux/man-pages/man3/sd_journal_open.3.html
-    static ref FUNC_SD_JOURNAL_OPEN_FILES: RwLock<Option<Symbol<'static, func_sig_sd_journal_open_files>>> = {
-        defñ!("lazy_static! FUNC_SD_JOURNAL_OPEN_FILES::new()");
+/// Function pointer to [`sd_journal_open_files`] function.
+///
+/// [`sd_journal_open_files`]: https://man7.org/linux/man-pages/man3/sd_journal_open.3.html
+static FUNC_SD_JOURNAL_OPEN_FILES: LazyLock<
+    RwLock<Option<Symbol<'static, func_sig_sd_journal_open_files>>>,
+> = LazyLock::new(|| {
+    defñ!("LazyLock::new() FUNC_SD_JOURNAL_OPEN_FILES");
 
-        RwLock::new(None)
-    }
+    RwLock::new(None)
+});
 
-    /// Function pointer to [`sd_journal_seek_head`] function.
-    ///
-    /// [`sd_journal_seek_head`]: https://man7.org/linux/man-pages/man3/sd_journal_seek_head.3.html
-    static ref FUNC_SD_JOURNAL_SEEK_HEAD: RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_seek_head>>> = {
-        defñ!("lazy_static! FUNC_SD_JOURNAL_SEEK_HEAD::new()");
+/// Function pointer to [`sd_journal_seek_head`] function.
+///
+/// [`sd_journal_seek_head`]: https://man7.org/linux/man-pages/man3/sd_journal_seek_head.3.html
+static FUNC_SD_JOURNAL_SEEK_HEAD: LazyLock<
+    RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_seek_head>>>,
+> = LazyLock::new(|| {
+    defñ!("LazyLock::new() FUNC_SD_JOURNAL_SEEK_HEAD");
 
-        RwLock::new(None)
-    }
+    RwLock::new(None)
+});
 
-    /// Function pointer to [`sd_journal_seek_realtime_usec`] function.
-    ///
-    /// [`sd_journal_seek_realtime_usec`]: https://www.man7.org/linux/man-pages/man3/sd_journal_seek_head.3.html
-    static ref FUNC_SD_JOURNAL_SEEK_REALTIME_USEC: RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_seek_journal_realtime_usec>>> = {
-        defñ!("lazy_static! FUNC_SD_JOURNAL_SEEK_REALTIME_USEC::new()");
+/// Function pointer to [`sd_journal_seek_realtime_usec`] function.
+///
+/// [`sd_journal_seek_realtime_usec`]: https://www.man7.org/linux/man-pages/man3/sd_journal_seek_head.3.html
+static FUNC_SD_JOURNAL_SEEK_REALTIME_USEC: LazyLock<
+    RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_seek_journal_realtime_usec>>>,
+> = LazyLock::new(|| {
+    defñ!("LazyLock::new() FUNC_SD_JOURNAL_SEEK_REALTIME_USEC");
 
-        RwLock::new(None)
-    }
+    RwLock::new(None)
+});
 
-    /// Function pointer to [`sd_journal_next`] function.
-    ///
-    /// [`sd_journal_next`]: https://man7.org/linux/man-pages/man3/sd_journal_next.3.html
-    static ref FUNC_SD_JOURNAL_NEXT: RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_next>>> = {
-        defñ!("lazy_static! FUNC_SD_JOURNAL_NEXT::new()");
+/// Function pointer to [`sd_journal_next`] function.
+///
+/// [`sd_journal_next`]: https://man7.org/linux/man-pages/man3/sd_journal_next.3.html
+static FUNC_SD_JOURNAL_NEXT: LazyLock<
+    RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_next>>>,
+> = LazyLock::new(|| {
+    defñ!("LazyLock::new() FUNC_SD_JOURNAL_NEXT");
 
-        RwLock::new(None)
-    }
+    RwLock::new(None)
+});
 
-    /// Function pointer to [`sd_journal_get_realtime_usec`] function.
-    ///
-    /// [`sd_journal_get_realtime_usec`]: https://www.man7.org/linux/man-pages/man3/sd_journal_get_realtime_usec.3.html
-    static ref FUNC_SD_JOURNAL_GET_REALTIME_USEC: RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_get_realtime_usec>>> = {
-        defñ!("lazy_static! FUNC_SD_JOURNAL_GET_REALTIME_USEC::new()");
+/// Function pointer to [`sd_journal_get_realtime_usec`] function.
+///
+/// [`sd_journal_get_realtime_usec`]: https://www.man7.org/linux/man-pages/man3/sd_journal_get_realtime_usec.3.html
+static FUNC_SD_JOURNAL_GET_REALTIME_USEC: LazyLock<
+    RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_get_realtime_usec>>>,
+> = LazyLock::new(|| {
+    defñ!("LazyLock::new() FUNC_SD_JOURNAL_GET_REALTIME_USEC");
 
-        RwLock::new(None)
-    }
+    RwLock::new(None)
+});
 
-    /// Function pointer to [`sd_journal_enumerate_available_data`] function.
-    ///
-    /// [`sd_journal_enumerate_available_data`]: https://man7.org/linux/man-pages/man3/sd_journal_get_data.3.html
-    static ref FUNC_SD_JOURNAL_ENUMERATE_AVAILABLE_DATA: RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_enumerate_available_data>>> = {
-        defñ!("lazy_static! FUNC_SD_JOURNAL_ENUMERATE_AVAILABLE_DATA::new()");
+/// Function pointer to [`sd_journal_enumerate_available_data`] function.
+///
+/// [`sd_journal_enumerate_available_data`]: https://man7.org/linux/man-pages/man3/sd_journal_get_data.3.html
+static FUNC_SD_JOURNAL_ENUMERATE_AVAILABLE_DATA: LazyLock<
+    RwLock<Option<libloading::Symbol<'static, func_sig_sd_journal_enumerate_available_data>>>,
+> = LazyLock::new(|| {
+    defñ!("LazyLock::new() FUNC_SD_JOURNAL_ENUMERATE_AVAILABLE_DATA");
 
-        RwLock::new(None)
-    }
-
-}
+    RwLock::new(None)
+});
 
 /// Load the shared library and get function pointers to
 /// functions of interest.

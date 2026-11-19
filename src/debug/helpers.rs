@@ -11,9 +11,9 @@ use std::io::ErrorKind;
 #[allow(unused_imports)] // XXX: clippy wrongly marks `Write` as unused
 use std::io::Write; // for `NamedTempFile.write_all`
 use std::path::PathBuf;
+use std::sync::LazyLock;
 
 use ::filepath::FilePath; // provide `path` function on `File`
-use ::lazy_static::lazy_static;
 use ::si_trace_print::{
     defn,
     defo,
@@ -40,11 +40,11 @@ use crate::readers::helpers::path_to_fpath;
 /// See <https://github.com/Stebalien/tempfile/issues/183>.
 pub const STR_TEMPFILE_PREFIX: &str = "tmp-s4-test-";
 
-lazy_static! {
-    pub static ref STRING_TEMPFILE_PREFIX: String = String::from(STR_TEMPFILE_PREFIX);
-    // there is no `String::default` so create this just once
-    static ref STRING_TEMPFILE_SUFFIX: String = String::from("");
-}
+pub static STRING_TEMPFILE_PREFIX: LazyLock<String> =
+    LazyLock::new(|| String::from(STR_TEMPFILE_PREFIX));
+/// there is no `String::default` so create this just once
+static STRING_TEMPFILE_SUFFIX: LazyLock<String> =
+    LazyLock::new(|| String::from(""));
 
 /// Small helper function for copying `NamedTempFile` path to a `FPath`.
 pub fn ntf_fpath(ntf: &NamedTempFile) -> FPath {
@@ -60,7 +60,7 @@ pub fn create_temp_file(data: &str) -> NamedTempFile {
 
 /// Testing helper function to write a `[u8]` to a temporary file.
 ///
-/// BUG: `NamedTempFile` created within `lazy_static` will fail to remove itself
+/// BUG: `NamedTempFile` created within `LazyLock` will fail to remove itself
 ///      <https://github.com/Stebalien/tempfile/issues/183>.
 pub fn create_temp_file_data(data: &[u8]) -> NamedTempFile {
     let mut ntf = match tempfile::Builder::new()
@@ -73,11 +73,8 @@ pub fn create_temp_file_data(data: &[u8]) -> NamedTempFile {
             panic!("NamedTempFile::new() return Err {}", err);
         }
     };
-    match ntf.write_all(data) {
-        Ok(_) => {}
-        Err(err) => {
-            panic!("NamedTempFile::write_all() return Err {}", err);
-        }
+    if let Err(err) = ntf.write_all(data) {
+        panic!("NamedTempFile::write_all() return Err {}", err);
     }
 
     ntf
@@ -112,11 +109,8 @@ pub fn create_temp_file_with_name_rlen(
             panic!("tempfile::Builder::new().tempfile() return Err {}", err);
         }
     };
-    match ntf.write_all(data) {
-        Ok(_) => {}
-        Err(err) => {
-            panic!("NamedTempFile::write_all() return Err {}", err);
-        }
+    if let Err(err) = ntf.write_all(data) {
+        panic!("NamedTempFile::write_all() return Err {}", err);
     }
 
     ntf

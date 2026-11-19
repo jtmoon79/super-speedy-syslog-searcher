@@ -28,7 +28,6 @@ use ::criterion::{
     criterion_main,
     Criterion,
 };
-use ::lazy_static::lazy_static;
 use {
     ::arraystring,
     ::encoding_rs,
@@ -36,74 +35,56 @@ use {
 
 type Bytes = Vec<u8>;
 
-lazy_static! {
-    static ref Data1: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1',
-    ];
-}
+const static Data1: Bytes = vec![
+    b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1',
+];
+const static Data2: Bytes = vec![
+    b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',
+];
+const static Data3: Bytes = vec![
+    b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b'A', b'B', b'C', b'D', b'E', b'F',
+    b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N',
+];
+const static Data4: Bytes = vec![
+    b'2', b'0', b'0', b'0', b'T',
+    b'0', b'0',
+    b'0', b'0',
+    b'0', b'1',
+    // valid UTF8, non-ASCII chars
+    0xC3, 0x81, // Á
+    b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I',
+];
+/// invalid UTF8
+const static Data5i: Bytes = vec![
+    b'2', b'0', b'0', b'0', b'T',
+    b'0', b'0',
+    b'0', b'0',
+    b'0', b'1',
+    // value 0xFF is invalid UTF8 value
+    0xFF, b' ',
+];
+/// invalid UTF8
+const static Data6i: Bytes = vec![
+    b'2', b'0', b'0', b'0', b'T',
+    b'0', b'0',
+    b'0', b'0',
+    b'0', b'1',
+    // four UTF8 continuation bytes in a row; seems invalid to me
+    0x80, 0x80,
+    0x80, 0x80,
+    b'A',
+];
 
-lazy_static! {
-    static ref Data2: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',
-    ];
-}
+const static Datas: Vec<&'static Vec<u8>> = vec![
+    // easy runs (no invalid UTF8) x18
+    &Data1, &Data1, &Data1,
+    &Data2, &Data2, &Data2, &Data2, &Data2,
+    &Data3, &Data3, &Data3, &Data3, &Data3,
+    &Data4, &Data4, &Data4, &Data4, &Data4,
+    // hard runs (invalid UTF8) x2 (10% of runs)
+    &Data5i, &Data6i
+];
 
-lazy_static! {
-    static ref Data3: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b'A', b'B', b'C', b'D', b'E', b'F',
-        b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N',
-    ];
-}
-
-lazy_static! {
-    static ref Data4: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T',
-        b'0', b'0',
-        b'0', b'0',
-        b'0', b'1',
-        // valid UTF8, non-ASCII chars
-        0xC3, 0x81, // Á
-        b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I',
-    ];
-}
-
-lazy_static! {
-    // invalid UTF8
-    static ref Data5i: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T',
-        b'0', b'0',
-        b'0', b'0',
-        b'0', b'1',
-        // value 0xFF is invalid UTF8 value
-        0xFF, b' ',
-    ];
-}
-
-lazy_static! {
-    // invalid UTF8
-    static ref Data6i: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T',
-        b'0', b'0',
-        b'0', b'0',
-        b'0', b'1',
-        // four UTF8 continuation bytes in a row; seems invalid to me
-        0x80, 0x80,
-        0x80, 0x80,
-        b'A',
-    ];
-}
-
-lazy_static! {
-    static ref Datas: Vec<&'static Vec<u8>> = vec![
-        // easy runs (no invalid UTF8) x18
-        &Data1, &Data1, &Data1,
-        &Data2, &Data2, &Data2, &Data2, &Data2,
-        &Data3, &Data3, &Data3, &Data3, &Data3,
-        &Data4, &Data4, &Data4, &Data4, &Data4,
-        // hard runs (invalid UTF8) x2 (10% of runs)
-        &Data5i, &Data6i
-    ];
-}
 const COUNT_DATAS: u32 = 20;
 const COUNT_VALID_UTF8_IN_DATAS: u32 = 18;
 const COUNT_ASCIIONLY_IN_DATAS: u32 = 13;

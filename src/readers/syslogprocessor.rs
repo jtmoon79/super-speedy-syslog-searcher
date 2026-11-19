@@ -30,10 +30,10 @@ use std::io::{
     ErrorKind,
     Result,
 };
+use std::sync::LazyLock;
 use std::time::Duration as StdDuration;
 
 use ::chrono::Datelike;
-use ::lazy_static::lazy_static;
 use ::more_asserts::debug_assert_le;
 use ::rangemap::RangeMap;
 use ::si_trace_print::{
@@ -168,13 +168,13 @@ type BszRange = std::ops::Range<BlockSz>;
 /// [`Count`]: crate::common::Count
 type MapBszRangeToCount = RangeMap<u64, Count>;
 
-lazy_static! {
-    /// For files in `blockzero_analyis`, the number of [`Line`]s needed to
-    /// be found within block zero.
-    ///
-    /// [`Line`]: crate::data::line::Line
-    pub static ref BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP: MapBszRangeToCount = {
-        defñ!("lazy_static! BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP::new()");
+/// For files in `blockzero_analyis`, the number of [`Line`]s needed to
+/// be found within block zero.
+///
+/// [`Line`]: crate::data::line::Line
+pub static BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP: LazyLock<MapBszRangeToCount> =
+    LazyLock::new(|| {
+        defñ!("LazyLock::new() BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP");
 
         let mut m = MapBszRangeToCount::new();
         m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX_BSZ}, 1);
@@ -182,23 +182,22 @@ lazy_static! {
         m.insert(BszRange{start: SYSLOG_SZ_MAX_BSZ * 3, end: BlockSz::MAX}, 3);
 
         m
-    };
+    });
 
-    /// For files in `blockzero_analyis`, the number of [`Sysline`]s needed to
-    /// be found within block zero.
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
-    pub static ref BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP: MapBszRangeToCount = {
-        defñ!("lazy_static! BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP::new()");
+/// For files in `blockzero_analyis`, the number of [`Sysline`]s needed to
+/// be found within block zero.
+///
+/// [`Sysline`]: crate::data::sysline::Sysline
+pub static BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP: LazyLock<MapBszRangeToCount> =
+    LazyLock::new(|| {
+        defñ!("LazyLock::new() BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP");
 
         let mut m = MapBszRangeToCount::new();
         m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX_BSZ}, 1);
         m.insert(BszRange{start: SYSLOG_SZ_MAX_BSZ, end: BlockSz::MAX}, 2);
 
         m
-    };
-}
-
+    });
 
 /// 25 hours.
 /// For processing syslog files without a year.

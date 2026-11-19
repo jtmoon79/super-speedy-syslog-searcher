@@ -58,11 +58,11 @@ use std::sync::atomic::{
 };
 use std::sync::{
     Arc,
+    LazyLock,
     Mutex,
     Weak,
 };
 
-use ::lazy_static::lazy_static;
 use ::lru::LruCache;
 use ::si_trace_print::{
     defn,
@@ -1363,14 +1363,12 @@ impl Seek for &FileHandleManaged {
     }
 }
 
-lazy_static! {
-    /// Global file handle manager singleton.
-    pub static ref FILE_HANDLE_MANAGER: FileHandleManager = {
-        defñ!("lazy_static! FILE_HANDLE_MANAGER::new()");
+/// Global file handle manager singleton.
+pub static FILE_HANDLE_MANAGER: LazyLock<FileHandleManager> = LazyLock::new(|| {
+    defñ!("LazyLock::new() FILE_HANDLE_MANAGER");
 
-        FileHandleManager::new()
-    };
-}
+    FileHandleManager::new()
+});
 
 /// state for `file_handle_open_max`
 static FILE_HANDLE_OPEN_MAX_WRN: AtomicBool = AtomicBool::new(false);
