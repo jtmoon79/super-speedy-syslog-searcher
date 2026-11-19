@@ -1348,10 +1348,7 @@ impl BlockReader {
                         path
                     );
                     return Result::Err(Error::new(
-                        // TODO: TRACKING: use `ErrorKind::InvalidFilename` when it is stable
-                        //       <https://github.com/rust-lang/rust/issues/86442>
-                        //       <https://github.com/rust-lang/rust/pull/134076>
-                        ErrorKind::InvalidInput,
+                        ErrorKind::InvalidFilename,
                         format!(
                             "Given Filetype {:?} but failed to find delimiter {:?} in {:?}",
                             filetype, SUBPATH_SEP, path
@@ -3654,7 +3651,6 @@ impl BlockReader {
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
             // was *ever* read.
-            // TODO: [2024/06/02] add another stat tracker for lookups in `self.blocks_read`
             if self
                 .blocks_read
                 .contains(&bo_at)
@@ -3888,7 +3884,6 @@ impl BlockReader {
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
             // was *ever* read.
-            // TODO: [2022/06/18] add another stat tracker for lookups in `self.blocks_read`
             if self
                 .blocks_read
                 .contains(&bo_at)
@@ -4080,7 +4075,6 @@ impl BlockReader {
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
             // was *ever* read.
-            // TODO: [2022/06/18] add another stat tracker for lookups in `self.blocks_read`
             if self
                 .blocks_read
                 .contains(&bo_at)
