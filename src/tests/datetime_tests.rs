@@ -835,8 +835,8 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
                     "Passed regex #{} dtpd declared at line {} result {:?}, test data {:?}",
                     dtpd.regex_id, dtpd._line_num, capdata, s
                 );
-                let a: LineIndex = capdata.beg;
-                let b: LineIndex = capdata.end;
+                let a: LineIndex = capdata.beg_end.start;
+                let b: LineIndex = capdata.beg_end.end;
                 assert_lt!(a, b, "regex #{} bad a {} b {}", dtpd.regex_id, a, b);
                 // verify indexes returned by the regex
                 let s_a_b = buffer_to_string_noraw(data[a..b].as_bstr());

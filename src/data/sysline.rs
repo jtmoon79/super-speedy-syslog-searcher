@@ -55,6 +55,7 @@ use crate::data::line::{
     LineIndex,
     LineP,
     Lines,
+    RangeLineIndex,
 };
 #[cfg(test)]
 use crate::data::line::LinePart;
@@ -83,30 +84,15 @@ use crate::readers::blockreader::Slices;
 ///
 /// [`DateTimeL`]: crate::data::datetime::DateTimeL
 /// [`Line`]: crate::data::line::Line
-// TODO: [2023/04] replace datetime offsets with `common::DtBegEndPairOpt`
 pub struct Sysline {
     /// The one or more `Line` that make up a Sysline.
     pub(crate) lines: Lines,
     /// Encoding of the underlying text data.
     pub(crate) encoding_type: FileTypeTextEncoding,
-    /// Index into `Line` where datetime string starts (inclusive).
-    ///
-    /// Byte-based count.
-    ///
-    /// Datetime is presumed to be on first `Line`.
-    // TODO: use `RangeLineIndex`
-    pub(crate) dt_beg_actual: LineIndex,
-    /// Index into `Line` where datetime string ends, one byte past last
-    /// byte of datetime string (exclusive).
-    ///
-    /// Byte-based count.
-    ///
-    /// Datetime is presumed to be on first `Line`.
-    pub(crate) dt_end_actual: LineIndex,
-    /// Index into UTF-8 transformed line where datetime string starts (inclusive).
-    pub(crate) dt_beg_utf8: LineIndex,
-    /// Index into UTF-8 transformed line where datetime string ends (exclusive).
-    pub(crate) dt_end_utf8: LineIndex,
+    /// Byte range into the first `Line` containing the datetime string.
+    pub(crate) dt_actual: RangeLineIndex,
+    /// Byte range into the UTF-8 transformed first `Line` containing the datetime string.
+    pub(crate) dt_utf8: RangeLineIndex,
     /// Parsed DateTime instance.
     dt: DateTimeL,
 }
@@ -130,10 +116,8 @@ impl std::fmt::Debug for Sysline {
             .field("fileoffset_begin()", &self.fileoffset_begin())
             .field("fileoffset_end()", &self.fileoffset_end())
             .field("lines.len", &self.lines.len())
-            .field("dt_beg_actual", &self.dt_beg_actual)
-            .field("dt_end_actual", &self.dt_end_actual)
-            .field("dt_beg_utf8", &self.dt_beg_utf8)
-            .field("dt_end_utf8", &self.dt_end_utf8)
+            .field("dt_actual", &self.dt_actual)
+            .field("dt_utf8", &self.dt_utf8)
             .field("dt", &self.dt)
             .field("lines", &li_s)
             .finish()
@@ -186,10 +170,8 @@ impl Sysline {
         Sysline {
             lines: Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY),
             encoding_type,
-            dt_beg_actual,
-            dt_end_actual,
-            dt_beg_utf8,
-            dt_end_utf8,
+            dt_actual: dt_beg_actual..dt_end_actual,
+            dt_utf8: dt_beg_utf8..dt_end_utf8,
             dt,
         }
     }
@@ -219,10 +201,8 @@ impl Sysline {
         Sysline {
             lines,
             encoding_type,
-            dt_beg_actual,
-            dt_end_actual,
-            dt_beg_utf8,
-            dt_end_utf8,
+            dt_actual: dt_beg_actual..dt_end_actual,
+            dt_utf8: dt_beg_utf8..dt_end_utf8,
             dt,
         }
     }
@@ -442,13 +422,13 @@ impl Sysline {
         assert!(!self.lines.is_empty(),
                 "dt_bytes: No lines stored in this Sysline yet caller wants Bytes");
         let line0 = &self.lines[0];
-        let ia: LineIndex = self.dt_beg_actual;
-        let ib: LineIndex = self.dt_end_actual;
+        let ia: LineIndex = self.dt_actual.start;
+        let ib: LineIndex = self.dt_actual.end;
         assert_lt!(ia, line0.len(), "dt_beg_actual={} is past end of line zero (len {})", ia, line0.len());
         assert_lt!(ib, line0.len(), "dt_end_actual={} is past end of line zero (len {})", ib, line0.len());
         assert_le!(ia, ib, "bad dt_beg_actual={}, dt_end_actual={}", ia, ib);
         let mut bytes: Bytes = Bytes::with_capacity((ib - ia) as usize);
-        match line0.get_boxptrs(ia, ib) {
+        match line0.get_boxptrs(ia..ib) {
             LinePartPtrs::SinglePtr(ptr) => {
                 bytes.extend_from_slice(*ptr);
             }

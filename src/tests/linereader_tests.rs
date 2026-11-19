@@ -1761,7 +1761,7 @@ fn test_Line_get_boxptrs(
             .unwrap();
         eprintln!("{}{}: returned {:?}", so(), fn_, (*linep).to_string_noraw());
         eprintln!("{}{}: line.get_boxptrs({}, {})", so(), fn_, a, b);
-        let boxptrs = match (*linep).get_boxptrs(*a, *b) {
+        let boxptrs = match (*linep).get_boxptrs(*a..*b) {
             LinePartPtrs::NoPtr => {
                 assert!(bytes_check.is_empty(), "Expected bytes_check {:?}, received NoPtr (no bytes)", bytes_check);
                 continue;

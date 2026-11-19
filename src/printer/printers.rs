@@ -1280,8 +1280,8 @@ impl PrinterLogMessage {
         setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
         for linep in (*syslinep).lines.iter() {
             if line_first {
-                let dt_beg = (*syslinep).dt_beg_utf8;
-                let dt_end = (*syslinep).dt_end_utf8;
+                let dt_beg = (*syslinep).dt_utf8.start;
+                let dt_end = (*syslinep).dt_utf8.end;
                 print_color_line_highlight_dt!(self, self.buffer, linep, dt_beg, dt_end, printed, flushed);
                 line_first = false;
             } else {
@@ -1321,8 +1321,8 @@ impl PrinterLogMessage {
             buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
             setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
             if line_first {
-                let dt_beg = (*syslinep).dt_beg_utf8;
-                let dt_end = (*syslinep).dt_end_utf8;
+                let dt_beg = (*syslinep).dt_utf8.start;
+                let dt_end = (*syslinep).dt_utf8.end;
                 print_color_line_highlight_dt!(self, self.buffer, linep, dt_beg, dt_end, printed, flushed);
                 line_first = false;
             } else {
@@ -1365,8 +1365,8 @@ impl PrinterLogMessage {
             buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
             setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
             if line_first {
-                let dt_beg = (*syslinep).dt_beg_utf8;
-                let dt_end = (*syslinep).dt_end_utf8;
+                let dt_beg = (*syslinep).dt_utf8.start;
+                let dt_end = (*syslinep).dt_utf8.end;
                 print_color_line_highlight_dt!(self, self.buffer, linep, dt_beg, dt_end, printed, flushed);
                 line_first = false;
             } else {
@@ -1412,8 +1412,8 @@ impl PrinterLogMessage {
             buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
             setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
             if line_first {
-                let dt_beg = (*syslinep).dt_beg_utf8;
-                let dt_end = (*syslinep).dt_end_utf8;
+                let dt_beg = (*syslinep).dt_utf8.start;
+                let dt_end = (*syslinep).dt_utf8.end;
                 print_color_line_highlight_dt!(self, self.buffer, linep, dt_beg, dt_end, printed, flushed);
                 line_first = false;
             } else {
