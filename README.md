@@ -663,17 +663,20 @@ Some effort is made to determine unusual extensions, e.g. `system.log.1` is reco
 as a `.log` file name extension.
 
 File name extensions that are skipped unless passed directly are:
-_baseband, _powermanagement, _storedata, 7z, a, aac, aux, avi, bat, bin,
-bmp, bz, c, cat, chm, class, cmd, conf, config, cpp,
-css, db-journal, db-shm, db-wal, diagpkg, dll, docx, ear, exe, flac,
-flv, gif, h, h264, hpp, htm, html, ico, ini, jar,
-java, jpeg, jpg, keystore, lib, library-ms, lua, m4b, m4p, m4r,
-m4v, manifest, metadata-v2, metadata, mkv, mov, mp3, mp4, msi, mui,
-o, ogg, opus, otc-shm, otc-wal, pdf, pl, png, properties, proto,
-ps1, psd1, py, raw, regtrans-ms, rb, sh, sig, so, sql,
-sqlite, sqlite3, svg, sys, tag, tgz, thumb, thumbs, tif, tiff,
-toml, ttf, vmoptions, wallet, war, wasm, wav, webm, webp, wma,
-wmv, yaml, yml
+_baseband, _powermanagement, _storedata, 3gp, 7z, a, aac, aux, avi, awk,
+bat, bin, bmp, bytecode, bz, c, cab, cat, chm, class,
+cmd, conf, config, cpp, css, db-journal, db-shm, db-wal, diagpkg, dll,
+docx, dxcache-shm, dxcache-wal, dxcache, dynlib, ear, etag, exe, flac, flv,
+gif, gitignore, go, h, h264, hlsl, hpp, htm, html, hyb,
+ico, identifier, imagemanifest, ini, installstate, jar, java, jpeg, jpg, keystore,
+keystream, lib, library-ms, lnk, lsv, lua, m4b, m4p, m4r, m4v,
+manifest, md5, metadata-v2, metadata, mkv, mov, mp3, mp4, msi, mui,
+nupkg, o, ogg, opus, otc-shm, otc-wal, pdf, pl, png, properties,
+proto, ps1, psd1, py, pyc, raw, rb, regtrans-ms, schema, sh,
+sig, so, sock, sql-shm, sql-wal, sql, sqlite-shm, sqlite-wal, sqlite, sqlite3,
+svg, sys, tag, tgz, thumb, thumbs, tif, tiff, toml, ttf,
+vim, vmoptions, vsix, wallet, war, wasm, wav, webm, webp, wma,
+wmv, xhtml, yaml, yml
 
 
 s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
