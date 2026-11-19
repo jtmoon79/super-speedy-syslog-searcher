@@ -2296,54 +2296,56 @@ impl LineReader {
         // This is common for sequential calls to this function.
         if fileoffset > 0 {
             let fo_: FileOffset = fileoffset - 1;
-            // TODO: replace `if contains_key` with `match get` to avoid double lookup
-            if self.lines.contains_key(&fo_) {
-                summary_stat!(self.lines_hits += 1);
-                defo!("A1a: hit in self.lines for FileOffset {} (before part A)", fo_);
-                fo_nl_a = fo_;
-                let linep_prev: LineP = LineP::clone(&self.lines.get(&fo_nl_a).unwrap());
-                debug_assert_eq!(
-                    fo_nl_a,
-                    (*linep_prev).fileoffset_end(),
-                    "get_linep({}) returned Line with fileoffset_end() {}; these should match; file {:?}",
-                    fo_nl_a,
-                    (*linep_prev).fileoffset_end(),
-                    self.path(),
-                );
-                let li: LinePart = self.new_linepart_checked(
-                    bptr_middle,
-                    self.block_index_at_file_offset(fileoffset),
-                    bi_middle_end + 1,
-                    fileoffset,
-                    self.block_offset_at_file_offset(fileoffset),
-                    self.blocksz(),
-                );
-                summary_stat!(self.line_parts_created += 1);
-                line.prepend(li);
-                if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
-                    defx!("({}): A1a line length exceeded maximum; return {:?}", fileoffset, err);
-                    return ResultFindLine::Err(err);
+            match self.lines.get(&fo_) {
+                Some(linep_prev) => {
+                    summary_stat!(self.lines_hits += 1);
+                    defo!("A1a: hit in self.lines for FileOffset {} (before part A)", fo_);
+                    fo_nl_a = fo_;
+                    let linep_prev: LineP = LineP::clone(linep_prev);
+                    debug_assert_eq!(
+                        fo_nl_a,
+                        (*linep_prev).fileoffset_end(),
+                        "get_linep({}) returned Line with fileoffset_end() {}; these should match; file {:?}",
+                        fo_nl_a,
+                        (*linep_prev).fileoffset_end(),
+                        self.path(),
+                    );
+                    let li: LinePart = self.new_linepart_checked(
+                        bptr_middle,
+                        self.block_index_at_file_offset(fileoffset),
+                        bi_middle_end + 1,
+                        fileoffset,
+                        self.block_offset_at_file_offset(fileoffset),
+                        self.blocksz(),
+                    );
+                    summary_stat!(self.line_parts_created += 1);
+                    line.prepend(li);
+                    if let Err(err) = self.find_line_search_max(line.fileoffset_begin(), line.fileoffset_end()) {
+                        defx!("({}): A1a line length exceeded maximum; return {:?}", fileoffset, err);
+                        return ResultFindLine::Err(err);
+                    }
+                    let linep: LineP = self.insert_line(line);
+                    let fo_next: FileOffset = fo_nl_b + 1;
+                    if self.find_line_lru_cache_enabled {
+                        summary_stat!(self.find_line_lru_cache_put += 1);
+                        defo!("A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_string_noraw());
+                        self.find_line_lru_cache
+                            .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
+                    }
+                    defx!(
+                        "({}): return ResultFindLine::Found({}, LineP)  @[{}, {}] {:?}",
+                        fileoffset,
+                        fo_next,
+                        (*linep).fileoffset_begin(),
+                        (*linep).fileoffset_end(),
+                        (*linep).to_string_noraw()
+                    );
+                    return ResultFindLine::Found((fo_next, LineP::clone(&linep)));
                 }
-                let linep: LineP = self.insert_line(line);
-                let fo_next: FileOffset = fo_nl_b + 1;
-                if self.find_line_lru_cache_enabled {
-                    summary_stat!(self.find_line_lru_cache_put += 1);
-                    defo!("A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_string_noraw());
-                    self.find_line_lru_cache
-                        .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
+                None => {
+                    summary_stat!(self.lines_miss += 1);
+                    defo!("A1a: miss in self.lines for FileOffset {} (quick check before part A)", fo_);
                 }
-                defx!(
-                    "({}): return ResultFindLine::Found({}, LineP)  @[{}, {}] {:?}",
-                    fileoffset,
-                    fo_next,
-                    (*linep).fileoffset_begin(),
-                    (*linep).fileoffset_end(),
-                    (*linep).to_string_noraw()
-                );
-                return ResultFindLine::Found((fo_next, LineP::clone(&linep)));
-            } else {
-                summary_stat!(self.lines_miss += 1);
-                defo!("A1a: miss in self.lines for FileOffset {} (quick check before part A)", fo_);
             }
             match self.get_linep(&fo_) {
                 Some(linep_prev) => {
