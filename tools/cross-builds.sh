@@ -661,6 +661,7 @@ function set_build_dir() {
     )
 }
 
+# run `cross build`
 function cross_build() {
     local target="$1"
     local stage
@@ -690,6 +691,7 @@ function cross_build() {
     done
 }
 
+# run `cargo +nightly build`
 function cargo_build_nightly() {
     local target="$1"
     local stage
@@ -704,12 +706,34 @@ function cargo_build_nightly() {
                 export S4_BUILD_REGEX=1
             fi
             set -x
-            env export S4_BUILD_REGEX=${S4_BUILD_REGEX} S4_BUILD_REGEX_PRINT=${S4_BUILD_REGEX_PRINT} \
+            env S4_BUILD_REGEX_PRINT=${S4_BUILD_REGEX_PRINT} \
                 cargo +nightly build --quiet -Zbuild-std --target "${target}" "$@" "${build_dir_args[@]}"
         ) || return $?
     done
 }
 
+# run `cargo build`
+function cargo_build() {
+    local target="$1"
+    local stage
+    shift
+    printf -v cargo_build_command '%q ' cargo build --quiet --target "${target}" "$@" "${build_dir_args[@]}"
+    cargo_build_command="${cargo_build_command% }"
+    for stage in probe regular; do
+        (
+            export S4_BUILD_REGEX_PRINT=0
+            if [[ "${stage}" == probe ]]; then
+                set_build_dir "${CARGO_TARGET_DIR}/probe"
+                export S4_BUILD_REGEX=1
+            fi
+            set -x
+            env S4_BUILD_REGEX_PRINT=${S4_BUILD_REGEX_PRINT} \
+                cargo build --quiet --target "${target}" "$@" "${build_dir_args[@]}"
+        ) || return $?
+    done
+}
+
+# run `cargo cross build`
 function cargo_cross_build() {
     local target="$1"
     local stage
@@ -724,7 +748,7 @@ function cargo_cross_build() {
                 export S4_BUILD_REGEX=1
             fi
             set -x
-            env S4_BUILD_REGEX=${S4_BUILD_REGEX} S4_BUILD_REGEX_PRINT=${S4_BUILD_REGEX_PRINT} \
+            env S4_BUILD_REGEX_PRINT=${S4_BUILD_REGEX_PRINT} \
                 cargo cross build --quiet --target "${target}" "$@" "${build_dir_args[@]}"
         ) || return $?
     done
@@ -795,43 +819,44 @@ for TIER_TARGET in "${tiertargets_to_build[@]}"; do
     fi
 
     built_command='_'
-    cross_build_result=true
-    if ! cross_build "${TARGET}" "$@"; then
-        cross_build_result=false
-    else
+    cross_build_result=false
+    if cross_build "${TARGET}" "$@"; then
+        cross_build_result=true
         built_command="${cross_build_command}"
     fi
 
     rustup_component_add_result=false
     cargo_build_nightly_result=false
     if ! $cross_build_result; then
-        rustup_component_add_result=true
-        if ! rustup_component_add "${TARGET}"; then
-            rustup_component_add_result=false
+        if rustup_component_add "${TARGET}"; then
+            rustup_component_add_result=true
+            if cargo_build_nightly "${TARGET}" "$@"; then
+                cargo_build_nightly_result=true
+                built_command="${cargo_build_nightly_command}"
+            fi
+        else
             echo -e "${CLR_RED}ERROR: could not add nightly components for target '${TARGET}'${CLR_RESET}" >&2
         fi
     fi
-    if $rustup_component_add_result; then
-        cargo_build_nightly_result=true
-        if ! cargo_build_nightly "${TARGET}" "$@"; then
-            cargo_build_nightly_result=false
-        else
-            built_command="${cargo_build_nightly_command}"
+
+    cargo_build_result=false
+    if ! $cross_build_result && ! $cargo_build_nightly_result; then
+        if cargo_build "${TARGET}" "$@"; then
+            cargo_build_result=true
+            built_command="${cargo_build_command}"
         fi
     fi
 
     cargo_cross_build_result=false
-    if ! $cross_build_result && ! $cargo_build_nightly_result; then
-        cargo_cross_build_result=true
-        if ! cargo_cross_build "${TARGET}" "$@"; then
-            cargo_cross_build_result=false
-        else
+    if ! $cross_build_result && ! $cargo_build_nightly_result && ! $cargo_build_result; then
+        if cargo_cross_build "${TARGET}" "$@"; then
+            cargo_cross_build_result=true
             built_command="${cargo_cross_build_command}"
         fi
     fi
 
     package_status=1
-    if $cross_build_result || $cargo_build_nightly_result || $cargo_cross_build_result; then
+    if $cross_build_result || $cargo_build_nightly_result || $cargo_build_result || $cargo_cross_build_result; then
         s4_files=()
         for s4_file in "${CARGO_TARGET_DIR}/${TARGET}/${BUILD_OUTPUT_PROFILE}/${BIN}" "${CARGO_TARGET_DIR}/${TARGET}/${BUILD_OUTPUT_PROFILE}/${BIN}.exe"; do
             if [[ -f "${s4_file}" ]]; then
