@@ -32,7 +32,7 @@ TODO: per release
 [![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.11.85.svg?logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
 [![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#01185)
 
-_Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
+_Super Speedy Syslog Searcher_ (`s4`) is a no-setup command-line tool to search
 and merge varying log messages from varying log files, sorted by datetime.
 Datetime filters may be passed to narrow the search to a datetime range.
 
@@ -308,6 +308,8 @@ Other platforms have not been checked for use with `tcmalloc`.
 ---
 
 ## Use
+
+`s4` does not have any setup or parsing configuration options.
 
 ### `s4` example uses
 
