@@ -7,6 +7,7 @@
 //!
 //! [`PrinterLogMessage`]: self::PrinterLogMessage
 
+use std::fmt;
 use std::hint::black_box;
 use std::io::{
     Error,
@@ -103,15 +104,58 @@ pub const COLOR_WARN: Color = Color::Yellow;
 
 const CHARSZ: usize = 1;
 
-/// Default format string is `CLI_OPT_PREPEND_FMT` in `s4.rs` value
-/// `%Y%m%dT%H%M%S%.3f%z`.
-/// Example output `20210509T124318.616-0700` (24 chars).
-/// Round up to 40 in case user passes long format string.
-///
-/// XXX: this should loosely follow changes to `CLI_OPT_PREPEND_FMT`
-const CLI_OPT_PREPEND_FMT_CHARLEN: usize = 40;
+const DATETIME_BUFFER_INLINE_CAP: usize = 64;
 
 const COLORS_TEXT_LEN: usize = 28;
+
+/// Keeps normal datetime prefixes inline; longer user formats spill to the heap.
+struct DateTimeBuffer {
+    inline: [u8; DATETIME_BUFFER_INLINE_CAP],
+    inline_len: usize,
+    overflow: Option<Vec<u8>>,
+}
+
+impl DateTimeBuffer {
+    fn new() -> Self {
+        Self {
+            inline: [0; DATETIME_BUFFER_INLINE_CAP],
+            inline_len: 0,
+            overflow: None,
+        }
+    }
+
+    fn as_bytes(&self) -> &[u8] {
+        match &self.overflow {
+            Some(overflow) => overflow.as_slice(),
+            None => &self.inline[..self.inline_len],
+        }
+    }
+}
+
+impl fmt::Write for DateTimeBuffer {
+    fn write_str(
+        &mut self,
+        s: &str,
+    ) -> fmt::Result {
+        if let Some(overflow) = &mut self.overflow {
+            overflow.extend_from_slice(s.as_bytes());
+            return Ok(());
+        }
+
+        let len = self.inline_len + s.len();
+        if len <= self.inline.len() {
+            self.inline[self.inline_len..len].copy_from_slice(s.as_bytes());
+            self.inline_len = len;
+            return Ok(());
+        }
+
+        let mut overflow = Vec::with_capacity(len);
+        overflow.extend_from_slice(&self.inline[..self.inline_len]);
+        overflow.extend_from_slice(s.as_bytes());
+        self.overflow = Some(overflow);
+        Ok(())
+    }
+}
 
 /// A preselection of `Color`s for log messages.
 /// Dark Theme: bright colors chosen for a dark background console.
@@ -991,129 +1035,109 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Helper function to transform [`sysline.dt`] to a `String`.
-    ///
-    /// [`sysline.dt`]: crate::data::sysline::Sysline#method.dt
-    #[inline(always)]
-    fn datetime_to_string_sysline(
+    fn datetime_to_buffer(
         &self,
-        syslinep: &SyslineP,
-    ) -> String {
-        // write the `syslinep.dt` into a `String` once
-        //
-        // TODO: [2022] cost-savings...
-        // XXX: would be cool if `chrono::DateTime` offered a format that returned
-        //      `[u8; 100]` on the stack (where `100` is maximum possible length).
-        //      That would be much faster than heap allocating a new `String`.
-        //      instead, `format` returns a `DelayedFormat` object
-        //      https://docs.rs/chrono/latest/chrono/format/struct.DelayedFormat.html
-        //
-        let dt_: DateTimeL = (*syslinep)
-            .dt()
-            .with_timezone(&self.prepend_date_offset);
-        let dt_delayedformat = dt_.format(
-            self.prepend_date_format.as_str(),
-        );
-        let mut dt_str = String::with_capacity(CLI_OPT_PREPEND_FMT_CHARLEN);
-        match dt_delayedformat.write_to(&mut dt_str) {
-            Ok(_) => {}
-            Err(_err) => de_err!("{}", _err),
-        }
-
-        dt_str
-    }
-
-    /// Helper function to transform [`fixedstruct.dt`] to a `String`.
-    ///
-    /// [`fixedstruct.dt`]: crate::data::fixedstruct::fixedstruct#structfield.dt
-    #[inline(always)]
-    fn datetime_to_string_fixedstruct(
-        &self,
-        fixedstruct: &FixedStruct,
-    ) -> String {
-        // write the `fixedstruct.dt` into a `String` once
-        let dt_: DateTimeL = (*fixedstruct)
-            .dt()
-            .with_timezone(&self.prepend_date_offset);
-        let dt_delayedformat = dt_.format(
-            self.prepend_date_format.as_str(),
-        );
-
-        dt_delayedformat.to_string()
-    }
-
-    /// Helper function to transform [`fixedstruct.dt`] to a `String`.
-    ///
-    /// [`fixedstruct.dt`]: crate::data::fixedstruct::fixedstruct#structfield.dt
-    #[inline(always)]
-    fn datetime_to_string_asl(
-        &self,
-        asl: &Asl,
-    ) -> String {
-        let dt: DateTimeL = asl
-            .dt()
-            .with_timezone(&self.prepend_date_offset);
+        dt: DateTimeL,
+    ) -> DateTimeBuffer {
         let dt_delayedformat = dt.format(
             self.prepend_date_format.as_str(),
         );
+        let mut dt_buffer: DateTimeBuffer = DateTimeBuffer::new();
+        if let Err(_err) = dt_delayedformat.write_to(&mut dt_buffer) {
+            de_err!("{}", _err);
+        }
 
-        dt_delayedformat.to_string()
+        dt_buffer
     }
 
-    /// Helper function to transform [`etl.dt`] to a `String`.
+    /// Helper function to transform [`sysline.dt`] to bytes.
+    ///
+    /// [`sysline.dt`]: crate::data::sysline::Sysline#method.dt
+    #[inline(always)]
+    fn datetime_buffer_sysline(
+        &self,
+        syslinep: &SyslineP,
+    ) -> DateTimeBuffer {
+        let dt_: DateTimeL = (*syslinep)
+            .dt()
+            .with_timezone(&self.prepend_date_offset);
+
+        self.datetime_to_buffer(dt_)
+    }
+
+    /// Helper function to transform [`fixedstruct.dt`] to bytes.
+    ///
+    /// [`fixedstruct.dt`]: crate::data::fixedstruct::fixedstruct#structfield.dt
+    #[inline(always)]
+    fn datetime_buffer_fixedstruct(
+        &self,
+        fixedstruct: &FixedStruct,
+    ) -> DateTimeBuffer {
+        let dt_: DateTimeL = (*fixedstruct)
+            .dt()
+            .with_timezone(&self.prepend_date_offset);
+
+        self.datetime_to_buffer(dt_)
+    }
+
+    /// Helper function to transform [`asl.dt`] to bytes.
+    ///
+    /// [`asl.dt`]: crate::data::asl::Asl#method.dt
+    #[inline(always)]
+    fn datetime_buffer_asl(
+        &self,
+        asl: &Asl,
+    ) -> DateTimeBuffer {
+        let dt: DateTimeL = asl
+            .dt()
+            .with_timezone(&self.prepend_date_offset);
+
+        self.datetime_to_buffer(dt)
+    }
+
+    /// Helper function to transform [`etl.dt`] to bytes.
     ///
     /// [`etl.dt`]: crate::data::etl::Etl#structfield.dt
     #[inline(always)]
-    fn datetime_to_string_etl(
+    fn datetime_buffer_etl(
         &self,
         etl: &impl PrintableEvent,
-    ) -> String {
+    ) -> DateTimeBuffer {
         let dt_: DateTimeL = etl
             .dt()
             .with_timezone(&self.prepend_date_offset);
-        let dt_delayedformat = dt_.format(
-            self.prepend_date_format.as_str(),
-        );
 
-        dt_delayedformat.to_string()
+        self.datetime_to_buffer(dt_)
     }
 
-    /// Helper function to transform [`evtx.dt`] to a `String`.
+    /// Helper function to transform [`evtx.dt`] to bytes.
     ///
     /// [`evtx.dt`]: crate::data::evtx::Evtx#structfield.dt
     #[inline(always)]
-    fn datetime_to_string_evtx(
+    fn datetime_buffer_evtx(
         &self,
         evtx: &Evtx,
-    ) -> String {
-        // write the `evtx.dt` into a `String` once
+    ) -> DateTimeBuffer {
         let dt_: DateTimeL = evtx
             .dt()
             .with_timezone(&self.prepend_date_offset);
-        let dt_delayedformat = dt_.format(
-            self.prepend_date_format.as_str(),
-        );
 
-        dt_delayedformat.to_string()
+        self.datetime_to_buffer(dt_)
     }
 
-    /// Helper function to transform [`JournalEntry.dt`] to a `String`.
+    /// Helper function to transform [`JournalEntry.dt`] to bytes.
     ///
     /// [`JournalEntry.dt`]: crate::data::journal::JournalEntry#structfield.dt
     #[inline(always)]
-    fn datetime_to_string_journalentry(
+    fn datetime_buffer_journalentry(
         &self,
         journalentry: &JournalEntry,
-    ) -> String {
-        // write the `journalentry.dt` into a `String` once
+    ) -> DateTimeBuffer {
         let dt_: DateTimeL = journalentry
             .dt()
             .with_timezone(&self.prepend_date_offset);
-        let dt_delayedformat = dt_.format(
-            self.prepend_date_format.as_str(),
-        );
 
-        dt_delayedformat.to_string()
+        self.datetime_to_buffer(dt_)
     }
 
     // TODO: make this a macro and it could be used in all functions
@@ -1183,8 +1207,8 @@ impl PrinterLogMessage {
 
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
-        let dt_string: String = self.datetime_to_string_sysline(syslinep);
-        let dtb: &[u8] = dt_string.as_bytes();
+        let dt_buffer: DateTimeBuffer = self.datetime_buffer_sysline(syslinep);
+        let dtb: &[u8] = dt_buffer.as_bytes();
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
@@ -1244,8 +1268,8 @@ impl PrinterLogMessage {
 
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
-        let dt_string: String = self.datetime_to_string_sysline(syslinep);
-        let dtb: &[u8] = dt_string.as_bytes();
+        let dt_buffer: DateTimeBuffer = self.datetime_buffer_sysline(syslinep);
+        let dtb: &[u8] = dt_buffer.as_bytes();
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
@@ -1311,8 +1335,8 @@ impl PrinterLogMessage {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         let mut line_first = true;
-        let dt_string: String = self.datetime_to_string_sysline(syslinep);
-        let dtb: &[u8] = dt_string.as_bytes();
+        let dt_buffer: DateTimeBuffer = self.datetime_buffer_sysline(syslinep);
+        let dtb: &[u8] = dt_buffer.as_bytes();
         let stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
@@ -1396,8 +1420,8 @@ impl PrinterLogMessage {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         let mut line_first = true;
-        let dt_string: String = self.datetime_to_string_sysline(syslinep);
-        let dtb: &[u8] = dt_string.as_bytes();
+        let dt_buffer: DateTimeBuffer = self.datetime_buffer_sysline(syslinep);
+        let dtb: &[u8] = dt_buffer.as_bytes();
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
@@ -1471,8 +1495,8 @@ impl PrinterLogMessage {
 
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
-        let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
-        let dtb: &[u8] = dt_string.as_bytes();
+        let dt_buffer: DateTimeBuffer = self.datetime_buffer_fixedstruct(fixedstruct);
+        let dtb: &[u8] = dt_buffer.as_bytes();
         let at = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
@@ -1528,8 +1552,8 @@ impl PrinterLogMessage {
 
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
-        let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
-        let dtb: &[u8] = dt_string.as_bytes();
+        let dt_buffer: DateTimeBuffer = self.datetime_buffer_fixedstruct(fixedstruct);
+        let dtb: &[u8] = dt_buffer.as_bytes();
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
@@ -1598,8 +1622,8 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
-        let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
-        let dtb: &[u8] = dt_string.as_bytes();
+        let dt_buffer: DateTimeBuffer = self.datetime_buffer_fixedstruct(fixedstruct);
+        let dtb: &[u8] = dt_buffer.as_bytes();
         let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
@@ -1693,8 +1717,8 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
-        let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
-        let dtb: &[u8] = dt_string.as_bytes();
+        let dt_buffer: DateTimeBuffer = self.datetime_buffer_fixedstruct(fixedstruct);
+        let dtb: &[u8] = dt_buffer.as_bytes();
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
@@ -1772,11 +1796,11 @@ impl PrinterLogMessage {
                     .as_bytes(),
             false => &[],
         };
-        let prepend_date_s: String;
+        let prepend_date_buffer: DateTimeBuffer;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_asl(asl);
-                prepend_date_s.as_bytes()
+                prepend_date_buffer = self.datetime_buffer_asl(asl);
+                prepend_date_buffer.as_bytes()
             }
             false => &[],
         };
@@ -1855,11 +1879,11 @@ impl PrinterLogMessage {
                     .as_bytes(),
             false => &[],
         };
-        let prepend_date_s: String;
+        let prepend_date_buffer: DateTimeBuffer;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_asl(asl);
-                prepend_date_s.as_bytes()
+                prepend_date_buffer = self.datetime_buffer_asl(asl);
+                prepend_date_buffer.as_bytes()
             }
             false => &[],
         };
@@ -1953,11 +1977,11 @@ impl PrinterLogMessage {
                     .as_bytes(),
             false => &[],
         };
-        let prepend_date_s: String;
+        let prepend_date_buffer: DateTimeBuffer;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_etl(etl);
-                prepend_date_s.as_bytes()
+                prepend_date_buffer = self.datetime_buffer_etl(etl);
+                prepend_date_buffer.as_bytes()
             }
             false => &[],
         };
@@ -2036,11 +2060,11 @@ impl PrinterLogMessage {
                     .as_bytes(),
             false => &[],
         };
-        let prepend_date_s: String;
+        let prepend_date_buffer: DateTimeBuffer;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_etl(etl);
-                prepend_date_s.as_bytes()
+                prepend_date_buffer = self.datetime_buffer_etl(etl);
+                prepend_date_buffer.as_bytes()
             }
             false => &[],
         };
@@ -2133,11 +2157,11 @@ impl PrinterLogMessage {
                     .as_bytes(),
             false => &[],
         };
-        let prepend_date_s: String;
+        let prepend_date_buffer: DateTimeBuffer;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_evtx(evtx);
-                prepend_date_s.as_bytes()
+                prepend_date_buffer = self.datetime_buffer_evtx(evtx);
+                prepend_date_buffer.as_bytes()
             }
             false => &[],
         };
@@ -2216,11 +2240,11 @@ impl PrinterLogMessage {
                     .as_bytes(),
             false => &[],
         };
-        let prepend_date_s: String;
+        let prepend_date_buffer: DateTimeBuffer;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_evtx(evtx);
-                prepend_date_s.as_bytes()
+                prepend_date_buffer = self.datetime_buffer_evtx(evtx);
+                prepend_date_buffer.as_bytes()
             }
             false => &[],
         };
@@ -2313,11 +2337,11 @@ impl PrinterLogMessage {
                     .as_bytes(),
             false => &[],
         };
-        let prepend_date_s: String;
+        let prepend_date_buffer: DateTimeBuffer;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_journalentry(journalentry);
-                prepend_date_s.as_bytes()
+                prepend_date_buffer = self.datetime_buffer_journalentry(journalentry);
+                prepend_date_buffer.as_bytes()
             }
             false => &[],
         };
@@ -2401,11 +2425,11 @@ impl PrinterLogMessage {
                     .as_bytes(),
             false => &[],
         };
-        let prepend_date_s: String;
+        let prepend_date_buffer: DateTimeBuffer;
         let prepend_date: &[u8] = match do_prependdate {
             true => {
-                prepend_date_s = self.datetime_to_string_journalentry(journalentry);
-                prepend_date_s.as_bytes()
+                prepend_date_buffer = self.datetime_buffer_journalentry(journalentry);
+                prepend_date_buffer.as_bytes()
             }
             false => &[],
         };

@@ -294,6 +294,24 @@ const CCN: ColorChoice = ColorChoice::Never;
 const CLR: Color = Color::Green;
 const FILEN: &str = "foo.log";
 const DATE: &str = "20000101T000000";
+const DATE_LONG: &str = concat!(
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+    "0123456789",
+);
 
 #[test_case(CCA, CLR, None, None, None, 333, 37; "a")]
 #[test_case(CCU, CLR, None, None, None, 333, 37; "b")]
@@ -306,6 +324,7 @@ const DATE: &str = "20000101T000000";
 #[test_case(CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 487, 49; "i")]
 #[test_case(CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 487, 49; "j")]
 #[test_case(CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 487, 5; "k")]
+#[test_case(CCN, CLR, None, Some(DATE_LONG), Some(FO_P8), 1453, 5; "long date format")]
 fn test_PrinterLogMessage_print_sysline_NTF5(
     colorchoice: ColorChoice,
     color: Color,
