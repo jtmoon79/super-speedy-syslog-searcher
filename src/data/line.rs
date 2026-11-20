@@ -878,6 +878,7 @@ impl Line {
         let mut b1: LineIndex = b;
         // Box ptr to first `a` slice of `linepart`, also a flag for special case
         let mut bptr_a: Option<Box<&[u8]>> = None;
+        let mut ptrs_capacity: usize = 0;
         for linepart in &self.lineparts {
             let len_ = linepart.len();
             deo!("next: a {}, b {}, len_ {}", a1, b1, len_);
@@ -887,20 +888,23 @@ impl Line {
                 return LinePartPtrs::SinglePtr(linepart.block_boxptr_ab(&a1, &b1));
             } else if a1 < len_ && len_ < b1 && !a_found {
                 a_found = true;
+                ptrs_capacity = 1;
                 bptr_a = Some(linepart.block_boxptr_a(&a1));
                 b1 -= len_;
                 deo!("a_found: bptr_a = block_boxptr_a({})", a1);
             } else if b1 <= len_ && a_found {
+                ptrs_capacity += 1;
+                if ptrs_capacity > 2 {
+                    break;
+                }
                 // harder case, pretty efficient
                 defx!("return DoublePtr({}, {})", a1, b1);
                 return LinePartPtrs::DoublePtr(bptr_a.unwrap(), linepart.block_boxptr_b(&b1));
             } else if len_ < b1 && a_found {
-                deo!("break: a {} < {} && {} < {} b && a_found", a1, len_, len_, b1);
-                bptr_a = None;
-                break;
+                ptrs_capacity += 1;
+                b1 -= len_;
             } else if a_found {
-                deo!("break: a_found");
-                bptr_a = None;
+                ptrs_capacity += 1;
                 break;
             } else {
                 a1 -= len_;
@@ -910,18 +914,19 @@ impl Line {
         // handle special case where `b` is beyond last `lineparts` but `a` data is
         // within last `linepart`
         if let Some(a) = bptr_a {
-            defx!("special case: return SinglePtr({})", a1);
-            return LinePartPtrs::SinglePtr(a);
+            if ptrs_capacity == 1 {
+                defx!("special case: return SinglePtr({})", a1);
+                return LinePartPtrs::SinglePtr(a);
+            }
         }
 
         // previous searches failed, so it must be the hardest case.
         // hardest case: `a, b` are among many `lineparts` (>=3 `Box` pointers required)
         //               less efficient (requires a new `Vec`)
-        // TODO: cost-savings: vec capacity will often be less than `lineparts.len()`
-        deo!("Vec::with_capacity({})", self.lineparts.len());
         let mut a_found = false;
         let mut b_search = false;
-        let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box<&[u8]>>::with_capacity(self.lineparts.len());
+        deo!("Vec::with_capacity({})", ptrs_capacity);
+        let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box<&[u8]>>::with_capacity(ptrs_capacity);
         for linepart in &self.lineparts {
             let len_ = linepart.len();
             if !a_found && a < len_ {
@@ -961,9 +966,10 @@ impl Line {
             } else if !a_found {
                 deo!("next: !a_found, a {}, {} linepart.len(), a becomes {}", a, len_, a - len_);
                 a -= len_;
+                b -= len_;
                 continue;
             }
-            if b_search && b < len_ {
+            if b_search && b <= len_ {
                 deo!(
                     "ptrs.push(linepart.block_boxptr_b({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]",
                     b,
