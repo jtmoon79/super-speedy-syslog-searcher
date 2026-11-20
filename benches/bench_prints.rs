@@ -16,13 +16,12 @@ use ::criterion::{
     criterion_main,
     Criterion,
 };
-use ::lazy_static::lazy_static;
 use ::s4lib::common::NLu8;
 
 const CHARSZ: usize = 1;
 
 /// test data
-const static Data1: Vec<u8> = Vec::from(b"2000-01-01 00:00:00 abcdefghijklmnopqrstuvwxyz".as_slice());
+const Data1: &[u8] = b"2000-01-01 00:00:00 abcdefghijklmnopqrstuvwxyz";
 
 //
 // differing decoding functions
