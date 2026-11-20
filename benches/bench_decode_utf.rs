@@ -21,6 +21,7 @@
 )]
 
 use std::hint::black_box;
+use std::sync::LazyLock;
 
 use ::bstr::ByteSlice; // adds method `to_bstr` on some built-ins
 use ::criterion::{
@@ -35,17 +36,17 @@ use {
 
 type Bytes = Vec<u8>;
 
-const static Data1: Bytes = vec![
+static Data1: LazyLock<Bytes> = LazyLock::new(|| vec![
     b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1',
-];
-const static Data2: Bytes = vec![
+]);
+static Data2: LazyLock<Bytes> = LazyLock::new(|| vec![
     b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',
-];
-const static Data3: Bytes = vec![
+]);
+static Data3: LazyLock<Bytes> = LazyLock::new(|| vec![
     b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b'A', b'B', b'C', b'D', b'E', b'F',
     b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N',
-];
-const static Data4: Bytes = vec![
+]);
+static Data4: LazyLock<Bytes> = LazyLock::new(|| vec![
     b'2', b'0', b'0', b'0', b'T',
     b'0', b'0',
     b'0', b'0',
@@ -53,18 +54,18 @@ const static Data4: Bytes = vec![
     // valid UTF8, non-ASCII chars
     0xC3, 0x81, // Á
     b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I',
-];
+]);
 /// invalid UTF8
-const static Data5i: Bytes = vec![
+static Data5i: LazyLock<Bytes> = LazyLock::new(|| vec![
     b'2', b'0', b'0', b'0', b'T',
     b'0', b'0',
     b'0', b'0',
     b'0', b'1',
     // value 0xFF is invalid UTF8 value
     0xFF, b' ',
-];
+]);
 /// invalid UTF8
-const static Data6i: Bytes = vec![
+static Data6i: LazyLock<Bytes> = LazyLock::new(|| vec![
     b'2', b'0', b'0', b'0', b'T',
     b'0', b'0',
     b'0', b'0',
@@ -73,17 +74,17 @@ const static Data6i: Bytes = vec![
     0x80, 0x80,
     0x80, 0x80,
     b'A',
-];
+]);
 
-const static Datas: Vec<&'static Vec<u8>> = vec![
+static Datas: LazyLock<Vec<&'static Vec<u8>>> = LazyLock::new(|| vec![
     // easy runs (no invalid UTF8) x18
-    &Data1, &Data1, &Data1,
-    &Data2, &Data2, &Data2, &Data2, &Data2,
-    &Data3, &Data3, &Data3, &Data3, &Data3,
-    &Data4, &Data4, &Data4, &Data4, &Data4,
+    &*Data1, &*Data1, &*Data1,
+    &*Data2, &*Data2, &*Data2, &*Data2, &*Data2,
+    &*Data3, &*Data3, &*Data3, &*Data3, &*Data3,
+    &*Data4, &*Data4, &*Data4, &*Data4, &*Data4,
     // hard runs (invalid UTF8) x2 (10% of runs)
-    &Data5i, &Data6i
-];
+    &*Data5i, &*Data6i
+]);
 
 const COUNT_DATAS: u32 = 20;
 const COUNT_VALID_UTF8_IN_DATAS: u32 = 18;
