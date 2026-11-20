@@ -9,8 +9,8 @@
 #![allow(clippy::too_many_arguments)]
 
 use std::io::ErrorKind;
+use std::sync::LazyLock;
 
-use ::lazy_static::lazy_static;
 use ::more_asserts::{
     assert_ge,
     assert_le,
@@ -2078,9 +2078,7 @@ fn test_simple_processing_different_utf() {
     }
 }
 
-lazy_static::lazy_static! {
-    static ref ES: String = String::with_capacity(0);
-}
+static ES: LazyLock<String> = LazyLock::new(|| String::with_capacity(0));
 
 // FILE_UTF8_ABC_FPATH
 #[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc"), &[]; "UTF8 ABC 4 0")]
@@ -2503,168 +2501,167 @@ fn test_find_line_in_block_utf(
 }
 
 // generated paths for archived abc_nl_def_nl fixtures
-lazy_static! {
-    static ref ABC_NL_DEF_NL_PLAIN_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.bz2");
-    static ref ABC_NL_DEF_NL_PLAIN_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.gz");
-    static ref ABC_NL_DEF_NL_PLAIN_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.lz4");
-    static ref ABC_NL_DEF_NL_PLAIN_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.xz");
-    static ref ABC_NL_DEF_NL_PLAIN_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_PLAIN_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF8_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.bz2");
-    static ref ABC_NL_DEF_NL_UTF8_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.gz");
-    static ref ABC_NL_DEF_NL_UTF8_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.lz4");
-    static ref ABC_NL_DEF_NL_UTF8_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.xz");
-    static ref ABC_NL_DEF_NL_UTF8_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-8.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF8_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-8.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF8BOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.bz2");
-    static ref ABC_NL_DEF_NL_UTF8BOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.gz");
-    static ref ABC_NL_DEF_NL_UTF8BOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.lz4");
-    static ref ABC_NL_DEF_NL_UTF8BOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.xz");
-    static ref ABC_NL_DEF_NL_UTF8BOM_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-8_BOM.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF8BOM_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-8_BOM.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF16LE_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.bz2");
-    static ref ABC_NL_DEF_NL_UTF16LE_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.gz");
-    static ref ABC_NL_DEF_NL_UTF16LE_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.lz4");
-    static ref ABC_NL_DEF_NL_UTF16LE_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.xz");
-    static ref ABC_NL_DEF_NL_UTF16LE_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-16LE.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF16LE_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-16LE.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF16LEBOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.bz2");
-    static ref ABC_NL_DEF_NL_UTF16LEBOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.gz");
-    static ref ABC_NL_DEF_NL_UTF16LEBOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.lz4");
-    static ref ABC_NL_DEF_NL_UTF16LEBOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.xz");
-    static ref ABC_NL_DEF_NL_UTF16LEBOM_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-16LE_BOM.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF16LEBOM_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-16LE_BOM.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF16BEBOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.bz2");
-    static ref ABC_NL_DEF_NL_UTF16BEBOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.gz");
-    static ref ABC_NL_DEF_NL_UTF16BEBOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.lz4");
-    static ref ABC_NL_DEF_NL_UTF16BEBOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.xz");
-    static ref ABC_NL_DEF_NL_UTF16BEBOM_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-16BE_BOM.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF16BEBOM_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-16BE_BOM.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF32LE_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.bz2");
-    static ref ABC_NL_DEF_NL_UTF32LE_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.gz");
-    static ref ABC_NL_DEF_NL_UTF32LE_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.lz4");
-    static ref ABC_NL_DEF_NL_UTF32LE_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.xz");
-    static ref ABC_NL_DEF_NL_UTF32LE_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-32LE.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF32LE_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-32LE.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF32BE_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.bz2");
-    static ref ABC_NL_DEF_NL_UTF32BE_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.gz");
-    static ref ABC_NL_DEF_NL_UTF32BE_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.lz4");
-    static ref ABC_NL_DEF_NL_UTF32BE_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.xz");
-    static ref ABC_NL_DEF_NL_UTF32BE_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-32BE.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF32BE_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-32BE.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF32LEBOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.bz2");
-    static ref ABC_NL_DEF_NL_UTF32LEBOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.gz");
-    static ref ABC_NL_DEF_NL_UTF32LEBOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.lz4");
-    static ref ABC_NL_DEF_NL_UTF32LEBOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.xz");
-    static ref ABC_NL_DEF_NL_UTF32LEBOM_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-32LE_BOM.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF32LEBOM_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-32LE_BOM.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF32BEBOM_BZ2_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.bz2");
-    static ref ABC_NL_DEF_NL_UTF32BEBOM_GZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.gz");
-    static ref ABC_NL_DEF_NL_UTF32BEBOM_LZ4_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.lz4");
-    static ref ABC_NL_DEF_NL_UTF32BEBOM_XZ_FPATH: FPath = FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.xz");
-    static ref ABC_NL_DEF_NL_UTF32BEBOM_TAR_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.tar");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-32BE_BOM.log");
-        path
-    };
-    static ref ABC_NL_DEF_NL_UTF32BEBOM_ZIP_FPATH: FPath = {
-        let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.zip");
-        path.push(SUBPATH_SEP);
-        path.push_str("abc_nl_def_nl.UTF-32BE_BOM.log");
-        path
-    };
-}
+
+static ABC_NL_DEF_NL_PLAIN_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.bz2"));
+static ABC_NL_DEF_NL_PLAIN_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.gz"));
+static ABC_NL_DEF_NL_PLAIN_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.lz4"));
+static ABC_NL_DEF_NL_PLAIN_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.log.xz"));
+static ABC_NL_DEF_NL_PLAIN_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.log");
+    path
+});
+static ABC_NL_DEF_NL_PLAIN_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF8_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.bz2"));
+static ABC_NL_DEF_NL_UTF8_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.gz"));
+static ABC_NL_DEF_NL_UTF8_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.lz4"));
+static ABC_NL_DEF_NL_UTF8_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.log.xz"));
+static ABC_NL_DEF_NL_UTF8_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-8.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF8_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-8.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF8BOM_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.bz2"));
+static ABC_NL_DEF_NL_UTF8BOM_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.gz"));
+static ABC_NL_DEF_NL_UTF8BOM_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.lz4"));
+static ABC_NL_DEF_NL_UTF8BOM_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.log.xz"));
+static ABC_NL_DEF_NL_UTF8BOM_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-8_BOM.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF8BOM_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-8_BOM.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-8_BOM.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF16LE_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.bz2"));
+static ABC_NL_DEF_NL_UTF16LE_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.gz"));
+static ABC_NL_DEF_NL_UTF16LE_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.lz4"));
+static ABC_NL_DEF_NL_UTF16LE_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.log.xz"));
+static ABC_NL_DEF_NL_UTF16LE_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-16LE.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF16LE_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-16LE.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF16LEBOM_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.bz2"));
+static ABC_NL_DEF_NL_UTF16LEBOM_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.gz"));
+static ABC_NL_DEF_NL_UTF16LEBOM_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.lz4"));
+static ABC_NL_DEF_NL_UTF16LEBOM_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.log.xz"));
+static ABC_NL_DEF_NL_UTF16LEBOM_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-16LE_BOM.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF16LEBOM_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16LE_BOM.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-16LE_BOM.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF16BEBOM_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.bz2"));
+static ABC_NL_DEF_NL_UTF16BEBOM_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.gz"));
+static ABC_NL_DEF_NL_UTF16BEBOM_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.lz4"));
+static ABC_NL_DEF_NL_UTF16BEBOM_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.log.xz"));
+static ABC_NL_DEF_NL_UTF16BEBOM_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-16BE_BOM.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF16BEBOM_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-16BE_BOM.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-16BE_BOM.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF32LE_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.bz2"));
+static ABC_NL_DEF_NL_UTF32LE_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.gz"));
+static ABC_NL_DEF_NL_UTF32LE_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.lz4"));
+static ABC_NL_DEF_NL_UTF32LE_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.log.xz"));
+static ABC_NL_DEF_NL_UTF32LE_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-32LE.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF32LE_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-32LE.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF32BE_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.bz2"));
+static ABC_NL_DEF_NL_UTF32BE_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.gz"));
+static ABC_NL_DEF_NL_UTF32BE_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.lz4"));
+static ABC_NL_DEF_NL_UTF32BE_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.log.xz"));
+static ABC_NL_DEF_NL_UTF32BE_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-32BE.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF32BE_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-32BE.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF32LEBOM_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.bz2"));
+static ABC_NL_DEF_NL_UTF32LEBOM_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.gz"));
+static ABC_NL_DEF_NL_UTF32LEBOM_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.lz4"));
+static ABC_NL_DEF_NL_UTF32LEBOM_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.log.xz"));
+static ABC_NL_DEF_NL_UTF32LEBOM_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-32LE_BOM.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF32LEBOM_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32LE_BOM.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-32LE_BOM.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF32BEBOM_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.bz2"));
+static ABC_NL_DEF_NL_UTF32BEBOM_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.gz"));
+static ABC_NL_DEF_NL_UTF32BEBOM_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.lz4"));
+static ABC_NL_DEF_NL_UTF32BEBOM_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.log.xz"));
+static ABC_NL_DEF_NL_UTF32BEBOM_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.tar");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-32BE_BOM.log");
+    path
+});
+static ABC_NL_DEF_NL_UTF32BEBOM_ZIP_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path = String::from("./logs/other/test_cases/abc_nl_def_nl.UTF-32BE_BOM.zip");
+    path.push(SUBPATH_SEP);
+    path.push_str("abc_nl_def_nl.UTF-32BE_BOM.log");
+    path
+});
 
 const BYTES_EF: &[u8] = &[0xEF];
 const BYTES_6100: &[u8] = &[0x61, 0x00];
@@ -2710,28 +2707,26 @@ const UTF32LE_BOM_ABC_BYTES: [u8; 16] = [
     0xFF, 0xFE, 0x00, 0x00, b'a', 0x00, 0x00, 0x00, b'b', 0x00, 0x00, 0x00, b'c', 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    // UTF-16BE
-    static ref ABC_UTF16BE: String = encode_utf16be("abc");
-    static ref ABC_NL_UTF16BE: String = encode_utf16be("abc\n");
-    static ref DEF_UTF16BE: String = encode_utf16be("def");
-    static ref DEF_NL_UTF16BE: String = encode_utf16be("def\n");
-    // UTF-16LE
-    static ref ABC_UTF16LE: String = encode_utf16le("abc");
-    static ref ABC_NL_UTF16LE: String = encode_utf16le("abc\n");
-    static ref DEF_UTF16LE: String = encode_utf16le("def");
-    static ref DEF_NL_UTF16LE: String = encode_utf16le("def\n");
-    // UTF-32BE
-    static ref ABC_UTF32BE: String = encode_utf32be("abc");
-    static ref ABC_NL_UTF32BE: String = encode_utf32be("abc\n");
-    static ref DEF_UTF32BE: String = encode_utf32be("def");
-    static ref DEF_NL_UTF32BE: String = encode_utf32be("def\n");
-    // UTF-32LE
-    static ref ABC_UTF32LE: String = encode_utf32le("abc");
-    static ref ABC_NL_UTF32LE: String = encode_utf32le("abc\n");
-    static ref DEF_UTF32LE: String = encode_utf32le("def");
-    static ref DEF_NL_UTF32LE: String = encode_utf32le("def\n");
-}
+// UTF-16BE
+static ABC_UTF16BE: LazyLock<String> = LazyLock::new(|| encode_utf16be("abc"));
+static ABC_NL_UTF16BE: LazyLock<String> = LazyLock::new(|| encode_utf16be("abc\n"));
+static DEF_UTF16BE: LazyLock<String> = LazyLock::new(|| encode_utf16be("def"));
+static DEF_NL_UTF16BE: LazyLock<String> = LazyLock::new(|| encode_utf16be("def\n"));
+// UTF-16LE
+static ABC_UTF16LE: LazyLock<String> = LazyLock::new(|| encode_utf16le("abc"));
+static ABC_NL_UTF16LE: LazyLock<String> = LazyLock::new(|| encode_utf16le("abc\n"));
+static DEF_UTF16LE: LazyLock<String> = LazyLock::new(|| encode_utf16le("def"));
+static DEF_NL_UTF16LE: LazyLock<String> = LazyLock::new(|| encode_utf16le("def\n"));
+// UTF-32BE
+static ABC_UTF32BE: LazyLock<String> = LazyLock::new(|| encode_utf32be("abc"));
+static ABC_NL_UTF32BE: LazyLock<String> = LazyLock::new(|| encode_utf32be("abc\n"));
+static DEF_UTF32BE: LazyLock<String> = LazyLock::new(|| encode_utf32be("def"));
+static DEF_NL_UTF32BE: LazyLock<String> = LazyLock::new(|| encode_utf32be("def\n"));
+// UTF-32LE
+static ABC_UTF32LE: LazyLock<String> = LazyLock::new(|| encode_utf32le("abc"));
+static ABC_NL_UTF32LE: LazyLock<String> = LazyLock::new(|| encode_utf32le("abc\n"));
+static DEF_UTF32LE: LazyLock<String> = LazyLock::new(|| encode_utf32le("def"));
+static DEF_NL_UTF32LE: LazyLock<String> = LazyLock::new(|| encode_utf32le("def\n"));
 
 // UTF-8
 #[test_matrix(UTF_8, &FILE_UTF8_ABC_FPATH, (4, 8, 12, 16, 20), (0, 1, 2), RS3T_FOUND, "abc", &[])]

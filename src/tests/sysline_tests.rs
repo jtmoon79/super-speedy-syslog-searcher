@@ -7,7 +7,8 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
-use ::lazy_static::lazy_static;
+use std::sync::LazyLock;
+
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
     defn,
@@ -47,7 +48,7 @@ const DATA_STR0_LAST_BYTE: u8 = b'Z';
 const DT_BEG0: usize = 0;
 const DT_END0: usize = 24;
 
-#[allow(dead_code)] // XXX: used in `lazy_static`
+#[allow(dead_code)] // XXX: used in `LazyLock`
 const DT_STR1: &str = "2022-01-02T03:04:06+08:00";
 
 #[allow(dead_code)]
@@ -60,20 +61,21 @@ const DT_END2: usize = 32;
 
 const BLOCKSZ: BlockSz = 16;
 const BLOCKOFFSET_INIT: BlockOffset = 2;
-lazy_static! {
-    static ref DT_0: DateTimeL = DateTimeL::parse_from_rfc3339(DT_STR0).unwrap();
-    static ref DT_1: DateTimeL = DateTimeL::parse_from_rfc3339(DT_STR1).unwrap();
-    static ref DIFF_0_1: Duration = Duration::try_seconds(1).unwrap();
-    static ref BLOCKOFFSET_LAST: BlockOffset = {
-        let n_: BlockOffset = (DATA_STR0.len() / (BLOCKSZ as usize)) as BlockOffset;
-        let x_: BlockOffset = match DATA_STR0.len() % (BLOCKSZ as usize) {
-            0 => 0 as BlockOffset,
-            _ => 1 as BlockOffset,
-        };
 
-        (n_ + x_ + BLOCKOFFSET_INIT - 1) as BlockOffset
+static DT_0: LazyLock<DateTimeL> = LazyLock::new(|| DateTimeL::parse_from_rfc3339(DT_STR0).unwrap());
+#[allow(dead_code)]
+static DT_1: LazyLock<DateTimeL> = LazyLock::new(|| DateTimeL::parse_from_rfc3339(DT_STR1).unwrap());
+#[allow(dead_code)]
+static DIFF_0_1: LazyLock<Duration> = LazyLock::new(|| Duration::try_seconds(1).unwrap());
+static BLOCKOFFSET_LAST: LazyLock<BlockOffset> = LazyLock::new(|| {
+    let n_: BlockOffset = (DATA_STR0.len() / (BLOCKSZ as usize)) as BlockOffset;
+    let x_: BlockOffset = match DATA_STR0.len() % (BLOCKSZ as usize) {
+        0 => 0 as BlockOffset,
+        _ => 1 as BlockOffset,
     };
-}
+
+    (n_ + x_ + BLOCKOFFSET_INIT - 1) as BlockOffset
+});
 
 /// create an interesting sysline
 fn new_sysline(

@@ -14,9 +14,9 @@ use std::sync::atomic::{
     AtomicU32,
     Ordering,
 };
+use std::sync::LazyLock;
 
 use ::const_format::concatcp;
-use ::lazy_static::lazy_static;
 
 use crate::common::{
     BOM_UTF8,
@@ -134,17 +134,17 @@ pub const FILETYPE_UTF8_TAR: FileType =
 pub const FILETYPE_UTF8_XZ: FileType =
     FileType::Text { archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii };
 
-lazy_static! {
-    // data from the various forms of the 1 byte, 3 byte, and 8 byte file
-    pub static ref BYTES_A: Vec<u8> = vec![b'A'];
-    pub static ref BYTES_AB: Vec<u8> = vec![b'A', b'B'];
-    pub static ref BYTES_CD: Vec<u8> = vec![b'C', b'D'];
-    pub static ref BYTES_C: Vec<u8> = vec![b'C'];
-    pub static ref BYTES_ABC: Vec<u8> = vec![b'A', b'B', b'C'];
-    pub static ref BYTES_ABCD: Vec<u8> = vec![b'A', b'B', b'C', b'D'];
-    pub static ref BYTES_EFGH: Vec<u8> = vec![b'E', b'F', b'G', b'H'];
-    pub static ref BYTES_ABCDEFGH: Vec<u8> = vec![b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H']; 
-}
+
+// data from the various forms of the 1 byte, 3 byte, and 8 byte file
+pub static BYTES_A: LazyLock<Vec<u8>> = LazyLock::new(|| vec![b'A']);
+pub static BYTES_AB: LazyLock<Vec<u8>> = LazyLock::new(|| vec![b'A', b'B']);
+pub static BYTES_CD: LazyLock<Vec<u8>> = LazyLock::new(|| vec![b'C', b'D']);
+pub static BYTES_C: LazyLock<Vec<u8>> = LazyLock::new(|| vec![b'C']);
+pub static BYTES_ABC: LazyLock<Vec<u8>> = LazyLock::new(|| vec![b'A', b'B', b'C']);
+pub static BYTES_ABCD: LazyLock<Vec<u8>> = LazyLock::new(|| vec![b'A', b'B', b'C', b'D']);
+pub static BYTES_EFGH: LazyLock<Vec<u8>> = LazyLock::new(|| vec![b'E', b'F', b'G', b'H']);
+pub static BYTES_ABCDEFGH: LazyLock<Vec<u8>> = LazyLock::new(|| vec![b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H']);
+
 
 // FixedOffset Zulu / UTC
 pub const FO_Z: FixedOffset = FixedOffset::east_opt(0).unwrap();
@@ -182,29 +182,26 @@ pub const FO_P10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
 pub const FO_P11: FixedOffset = FixedOffset::east_opt(3600 * 11).unwrap();
 pub const FO_P12: FixedOffset = FixedOffset::east_opt(3600 * 12).unwrap();
 
-lazy_static! {
+// FixedOffset Local
+pub static FO_L: LazyLock<FixedOffset> = LazyLock::new(|| *LOCAL_NOW.offset());
+pub static FO_L_STR: LazyLock<String> = LazyLock::new(|| String::from(&*FO_L.to_string()));
 
-    // FixedOffset Local
-    pub static ref FO_L: FixedOffset = *LOCAL_NOW.offset();
-    pub static ref FO_L_STR: String = String::from(&*FO_L.to_string());
+// Datetimes
 
-    // Datetimes
-
-    // now
-    pub static ref LOCAL_NOW: DateTime<Local> = Local::now();
-    // now
-    pub static ref DATETIME_NOW_Z0: DateTime<FixedOffset> = LOCAL_NOW.with_timezone(&FO_Z);
-    // now
-    pub static ref UTC_NOW: DateTime<Utc> = (*LOCAL_NOW).into();
-    /// 1970-01-01T00:00:00+00:00
-    pub static ref DT_0: DateTimeL = ymdhms(&FO_0, 0, 0, 0, 0, 0, 0);
-    /// 1970-01-01T01:00:00+01:00
-    pub static ref DT_0_E1: DateTimeL = ymdhms(&FO_E1, 0, 0, 0, 1, 0, 0);
-    /// 1970-01-12T13:46:40.456123+00:00
-    pub static ref DT_1: DateTimeL = ymdhmsm(&FO_0, 1970, 1, 12, 13, 46, 40, 456123);
-    /// 1970-01-12T14:46:40.456123+01:00 (matches `DT_1`)
-    pub static ref DT_1_E1: DateTimeL = ymdhmsm(&FO_E1, 1970, 1, 12, 14, 46, 40, 456123);
-}
+// now
+pub static LOCAL_NOW: LazyLock<DateTime<Local>> = LazyLock::new(|| Local::now());
+// now
+pub static DATETIME_NOW_Z0: LazyLock<DateTime<FixedOffset>> = LazyLock::new(|| LOCAL_NOW.with_timezone(&FO_Z));
+// now
+pub static UTC_NOW: LazyLock<DateTime<Utc>> = LazyLock::new(|| (*LOCAL_NOW).into());
+/// 1970-01-01T00:00:00+00:00
+pub static DT_0: LazyLock<DateTimeL> = LazyLock::new(|| ymdhms(&FO_0, 0, 0, 0, 0, 0, 0));
+/// 1970-01-01T01:00:00+01:00
+pub static DT_0_E1: LazyLock<DateTimeL> = LazyLock::new(|| ymdhms(&FO_E1, 0, 0, 0, 1, 0, 0));
+/// 1970-01-12T13:46:40.456123+00:00
+pub static DT_1: LazyLock<DateTimeL> = LazyLock::new(|| ymdhmsm(&FO_0, 1970, 1, 12, 13, 46, 40, 456123));
+/// 1970-01-12T14:46:40.456123+01:00 (matches `DT_1`)
+pub static DT_1_E1: LazyLock<DateTimeL> = LazyLock::new(|| ymdhmsm(&FO_E1, 1970, 1, 12, 14, 46, 40, 456123));
 
 /// matches `DT_0`
 pub const TS_0: EpochMicroseconds = 0;
@@ -223,580 +220,566 @@ fn create_temp_log(data: &str) -> NamedTempFile {
     create_temp_file_with_suffix(data, &STRING_LOG)
 }
 
-lazy_static! {
-    static ref STRING_LOG: String = String::from(".log");
+static STRING_LOG: LazyLock<String> = LazyLock::new(|| String::from(".log"));
 
-    // files with only newlines
+// files with only newlines
 
-    pub static ref NTF_NL_1: NamedTempFile = create_temp_log("\n");
-    pub static ref NTF_NL_1_PATH: FPath = ntf_fpath(&NTF_NL_1);
-    pub static ref NTF_NL_2: NamedTempFile = create_temp_log("\n\n");
-    pub static ref NTF_NL_2_PATH: FPath = ntf_fpath(&NTF_NL_2);
-    pub static ref NTF_NL_3: NamedTempFile = create_temp_log("\n\n\n");
-    pub static ref NTF_NL_3_PATH: FPath = ntf_fpath(&NTF_NL_3);
-    pub static ref NTF_NL_4: NamedTempFile = create_temp_log("\n\n\n\n");
-    pub static ref NTF_NL_4_PATH: FPath = ntf_fpath(&NTF_NL_4);
-    pub static ref NTF_NL_5: NamedTempFile = create_temp_log("\n\n\n\n\n");
-    pub static ref NTF_NL_5_PATH: FPath = ntf_fpath(&NTF_NL_5);
+pub static NTF_NL_1: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("\n"));
+pub static NTF_NL_1_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_NL_1));
+pub static NTF_NL_2: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("\n\n"));
+pub static NTF_NL_2_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_NL_2));
+pub static NTF_NL_3: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("\n\n\n"));
+pub static NTF_NL_3_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_NL_3));
+pub static NTF_NL_4: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("\n\n\n\n"));
+pub static NTF_NL_4_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_NL_4));
+pub static NTF_NL_5: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("\n\n\n\n\n"));
+pub static NTF_NL_5_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_NL_5));
 
-    pub static ref NTF_WNL_1: NamedTempFile = create_temp_log("\r\n");
-    pub static ref NTF_WNL_1_PATH: FPath = ntf_fpath(&NTF_WNL_1);
+pub static NTF_WNL_1: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("\r\n"));
+pub static NTF_WNL_1_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_WNL_1));
 
-    // empty log file with suffix
+// empty log file with suffix
 
-    pub static ref NTF_LOG_EMPTY: NamedTempFile = {
-        create_temp_log("")
-    };
-    pub static ref NTF_LOG_EMPTY_FPATH: FPath = {
-        path_to_fpath(NTF_LOG_EMPTY.path())
-    };
+pub static NTF_LOG_EMPTY: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    create_temp_log("")
+});
+pub static NTF_LOG_EMPTY_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    path_to_fpath(NTF_LOG_EMPTY.path())
+});
 
-    // empty unknown file with suffix
+// empty unknown file with suffix
 
-    pub static ref NTF_UNKNOWN_EMPTY: NamedTempFile = {
-        let mut name = String::from("tmp-s4-UKNNOWN-");
-        name.push_str((*LOCAL_NOW).format("%Y%m%dT%H%M%S").to_string().as_str());
-        create_temp_file_with_name_exact("", &name)
-    };
-    pub static ref NTF_UNKNOWN_EMPTY_FPATH: FPath = {
-        path_to_fpath(NTF_UNKNOWN_EMPTY.path())
-    };
+pub static NTF_UNKNOWN_EMPTY: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    let mut name = String::from("tmp-s4-UKNNOWN-");
+    name.push_str((*LOCAL_NOW).format("%Y%m%dT%H%M%S").to_string().as_str());
+    create_temp_file_with_name_exact("", &name)
+});
+pub static NTF_UNKNOWN_EMPTY_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    path_to_fpath(NTF_UNKNOWN_EMPTY.path())
+});
 
-    // 1 byte file
-    pub static ref NTF_1BYTE: NamedTempFile = create_temp_log("A");
-    pub static ref NTF_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE);
-    // 3 byte file
-    pub static ref NTF_3BYTE: NamedTempFile = create_temp_log("ABC");
-    pub static ref NTF_3BYTE_FPATH: FPath = ntf_fpath(&NTF_3BYTE);
-    // 5 byte file
-    pub static ref NTF_5BYTE: NamedTempFile = create_temp_log("ABCDE");
-    pub static ref NTF_5BYTE_FPATH: FPath = ntf_fpath(&NTF_5BYTE);
-    // 8 byte file
-    pub static ref NTF_8BYTE: NamedTempFile = create_temp_log("ABCDEFGH");
-    pub static ref NTF_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE);
-    // 9 byte file
-    pub static ref NTF_9BYTE: NamedTempFile = create_temp_log("ABCDEFGHI");
-    pub static ref NTF_9BYTE_FPATH: FPath = ntf_fpath(&NTF_9BYTE);
+// 1 byte file
+pub static NTF_1BYTE: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("A"));
+pub static NTF_1BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_1BYTE));
+// 3 byte file
+pub static NTF_3BYTE: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("ABC"));
+pub static NTF_3BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_3BYTE));
+// 5 byte file
+pub static NTF_5BYTE: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("ABCDE"));
+pub static NTF_5BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_5BYTE));
+// 8 byte file
+pub static NTF_8BYTE: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("ABCDEFGH"));
+pub static NTF_8BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_8BYTE));
+// 9 byte file
+pub static NTF_9BYTE: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log("ABCDEFGHI"));
+pub static NTF_9BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_9BYTE));
 
-    // 1 sysline file
+// 1 sysline file
 
-    pub static ref NTF_SYSLINE_1: NamedTempFile = create_temp_log(
-        "2000-01-02T03:04:05+00:00 INFO: sysline #1\n"
-    );
-    pub static ref NTF_SYSLINE_1_PATH: FPath = ntf_fpath(&NTF_SYSLINE_1);
-    pub static ref NTF_SYSLINE_1_SYSLINE1_DT: DateTimeL = {
-        ymdhms(&FO_0, 2000, 1, 2, 3, 4, 5)
-    };
+pub static NTF_SYSLINE_1: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log(
+    "2000-01-02T03:04:05+00:00 INFO: sysline #1\n"
+));
+pub static NTF_SYSLINE_1_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_SYSLINE_1));
+pub static NTF_SYSLINE_1_SYSLINE1_DT: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_0, 2000, 1, 2, 3, 4, 5)
+});
 
-    // 2 sysline file
+// 2 sysline file
 
-    pub static ref NTF_SYSLINE_2_DATA: &'static str =
-        "2000-01-02T03:04:05+00:00 VERBOSE: sysline #1\n2000-01-02T03:04:06+00:00 DEBUG: sysline #2\n";
-    pub static ref NTF_SYSLINE_2: NamedTempFile = create_temp_log(*NTF_SYSLINE_2_DATA);
-    pub static ref NTF_SYSLINE_2_PATH: FPath = ntf_fpath(&NTF_SYSLINE_2);
-    pub static ref NTF_SYSLINE_2_SYSLINE1_DT: DateTimeL = {
-        ymdhms(&FO_0, 2000, 1, 2, 3, 4, 5)
-    };
-    pub static ref NTF_SYSLINE_2_SYSLINE2_DT: DateTimeL = {
-        ymdhms(&FO_0, 2000, 1, 2, 3, 4, 6)
-    };
-    pub static ref NTF_SYSLINE_2_SZ: FileSz = {
-        (*NTF_SYSLINE_2_DATA).len() as FileSz
-    };
+pub const NTF_SYSLINE_2_DATA: &'static str =
+    "2000-01-02T03:04:05+00:00 VERBOSE: sysline #1\n2000-01-02T03:04:06+00:00 DEBUG: sysline #2\n";
+pub static NTF_SYSLINE_2: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_log(NTF_SYSLINE_2_DATA));
+pub static NTF_SYSLINE_2_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_SYSLINE_2));
+pub static NTF_SYSLINE_2_SYSLINE1_DT: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_0, 2000, 1, 2, 3, 4, 5)
+});
+pub static NTF_SYSLINE_2_SYSLINE2_DT: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_0, 2000, 1, 2, 3, 4, 6)
+});
+pub static NTF_SYSLINE_2_SZ: LazyLock<FileSz> = LazyLock::new(|| {
+    (NTF_SYSLINE_2_DATA).len() as FileSz
+});
 
-    pub static ref NTF_LINE_TOO_LONG_UTF8: NamedTempFile = {
-        let mut data = String::new();
-        for index in 1..=5 {
-            data.push_str(&format!("[2026/01/01T00:00:00] hello {index}\n"));
-        }
-        data.push_str("[2026/01/01T00:00:00] ");
-        data.push_str(&"a".repeat(LINE_SEARCH_MAX as usize + 1));
-        create_temp_log(&data)
-    };
-    pub static ref NTF_LINE_TOO_LONG_UTF8_FPATH: FPath = ntf_fpath(&NTF_LINE_TOO_LONG_UTF8);
-
-}
+pub static NTF_LINE_TOO_LONG_UTF8: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    let mut data = String::new();
+    for index in 1..=5 {
+        data.push_str(&format!("[2026/01/01T00:00:00] hello {index}\n"));
+    }
+    data.push_str("[2026/01/01T00:00:00] ");
+    data.push_str(&"a".repeat(LINE_SEARCH_MAX as usize + 1));
+    create_temp_log(&data)
+});
+pub static NTF_LINE_TOO_LONG_UTF8_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_LINE_TOO_LONG_UTF8));
 
 // UTF-16 LE
-lazy_static! {
-    pub static ref PATH_LOGS1: PathBuf = PathBuf::from("./logs/other/tests");
 
-    // 5 sysline file UTF-16 LE
-    pub static ref FILE_UTF16LE_SYSLINE_2_NAME: String = String::from("dtf5-6b.UTF-16LE.log");
-    pub static ref FILE_UTF16LE_SYSLINE_2: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF16LE_SYSLINE_2_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_DTF56B_NAME: String = String::from("dtf5-6b.UTF-16LE.log");
-    pub static ref FILE_UTF16LE_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF16LE_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_DTF56B_PATH);
+pub static PATH_LOGS1: LazyLock<PathBuf> = LazyLock::new(|| PathBuf::from("./logs/other/tests"));
 
-    pub static ref PATH_LOGS2: PathBuf = PathBuf::from("./logs/other/test_cases");
+// 5 sysline file UTF-16 LE
+pub static FILE_UTF16LE_SYSLINE_2_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-16LE.log"));
+pub static FILE_UTF16LE_SYSLINE_2: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF16LE_SYSLINE_2_NAME);
+    path
+});
+pub static FILE_UTF16LE_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-16LE.log"));
+pub static FILE_UTF16LE_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF16LE_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF16LE_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_DTF56B_PATH));
 
-    // 1 line file UTF-16 LE
-    pub static ref FILE_UTF16LE_ABC_NAME: String = String::from("abc_.UTF-16LE.log");
-    pub static ref FILE_UTF16LE_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16LE_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_ABC);
+pub static PATH_LOGS2: LazyLock<PathBuf> = LazyLock::new(|| PathBuf::from("./logs/other/test_cases"));
 
-    pub static ref FILE_UTF16LE_ABC_NL_NAME: String = String::from("abc_nl.UTF-16LE.log");
-    pub static ref FILE_UTF16LE_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16LE_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_ABC_NL);
+// 1 line file UTF-16 LE
+pub static FILE_UTF16LE_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-16LE.log"));
+pub static FILE_UTF16LE_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16LE_ABC_NAME);
+    path
+});
+pub static FILE_UTF16LE_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_ABC));
 
-    // 2 line file UTF-16 LE
-    pub static ref FILE_UTF16LE_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-16LE.log");
-    pub static ref FILE_UTF16LE_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16LE_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_ABC_NL_DEF);
+pub static FILE_UTF16LE_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-16LE.log"));
+pub static FILE_UTF16LE_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16LE_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF16LE_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_ABC_NL));
 
-    // 2 line file UTF-16 LE with trailing newline
-    pub static ref FILE_UTF16LE_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-16LE.log");
-    pub static ref FILE_UTF16LE_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16LE_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_ABC_NL_DEF_NL);
-}
+// 2 line file UTF-16 LE
+pub static FILE_UTF16LE_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-16LE.log"));
+pub static FILE_UTF16LE_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16LE_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF16LE_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_ABC_NL_DEF));
+
+// 2 line file UTF-16 LE with trailing newline
+pub static FILE_UTF16LE_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-16LE.log"));
+pub static FILE_UTF16LE_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16LE_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF16LE_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_ABC_NL_DEF_NL));
 
 // UTF-16 BE
-lazy_static! {
-    // 1 line file UTF-16 BE
-    pub static ref FILE_UTF16BE_ABC_NAME: String = String::from("abc_.UTF-16BE.log");
-    pub static ref FILE_UTF16BE_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16BE_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_ABC);
 
-    pub static ref FILE_UTF16BE_ABC_NL_NAME: String = String::from("abc_nl.UTF-16BE.log");
-    pub static ref FILE_UTF16BE_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16BE_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_ABC_NL);
+// 1 line file UTF-16 BE
+pub static FILE_UTF16BE_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-16BE.log"));
+pub static FILE_UTF16BE_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16BE_ABC_NAME);
+    path
+});
+pub static FILE_UTF16BE_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_ABC));
 
-    // 2 line file UTF-16 BE
-    pub static ref FILE_UTF16BE_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-16BE.log");
-    pub static ref FILE_UTF16BE_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16BE_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_ABC_NL_DEF);
+pub static FILE_UTF16BE_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-16BE.log"));
+pub static FILE_UTF16BE_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16BE_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF16BE_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_ABC_NL));
 
-    // 2 line file UTF-16 BE with trailing newline
-    pub static ref FILE_UTF16BE_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-16BE.log");
-    pub static ref FILE_UTF16BE_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16BE_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_ABC_NL_DEF_NL);
+// 2 line file UTF-16 BE
+pub static FILE_UTF16BE_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-16BE.log"));
+pub static FILE_UTF16BE_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16BE_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF16BE_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_ABC_NL_DEF));
 
-    // UTF-16 BE multiple syslines
-    pub static ref FILE_UTF16BE_DTF56B_NAME: String = String::from("dtf5-6b.UTF-16BE.log");
-    pub static ref FILE_UTF16BE_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF16BE_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_DTF56B_PATH);
-}
+// 2 line file UTF-16 BE with trailing newline
+pub static FILE_UTF16BE_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-16BE.log"));
+pub static FILE_UTF16BE_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16BE_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF16BE_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_ABC_NL_DEF_NL));
+
+// UTF-16 BE multiple syslines
+pub static FILE_UTF16BE_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-16BE.log"));
+pub static FILE_UTF16BE_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF16BE_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF16BE_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_DTF56B_PATH));
 
 // UTF-16 BE BOM
-lazy_static! {
-    // 1 line file UTF-16 BE BOM
-    pub static ref FILE_UTF16BE_BOM_ABC_NAME: String = String::from("abc_.UTF-16BE_BOM.log");
-    pub static ref FILE_UTF16BE_BOM_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16BE_BOM_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_ABC);
 
-    pub static ref FILE_UTF16BE_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-16BE_BOM.log");
-    pub static ref FILE_UTF16BE_BOM_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16BE_BOM_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_ABC_NL);
+// 1 line file UTF-16 BE BOM
+pub static FILE_UTF16BE_BOM_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-16BE_BOM.log"));
+pub static FILE_UTF16BE_BOM_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16BE_BOM_ABC_NAME);
+    path
+});
+pub static FILE_UTF16BE_BOM_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_BOM_ABC));
 
-    // 2 line file UTF-16 BE BOM
-    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-16BE_BOM.log");
-    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16BE_BOM_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_ABC_NL_DEF);
+pub static FILE_UTF16BE_BOM_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-16BE_BOM.log"));
+pub static FILE_UTF16BE_BOM_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16BE_BOM_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF16BE_BOM_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_BOM_ABC_NL));
 
-    // 2 line file UTF-16 BE BOM with trailing newline
-    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-16BE_BOM.log");
-    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16BE_BOM_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_ABC_NL_DEF_NL);
+// 2 line file UTF-16 BE BOM
+pub static FILE_UTF16BE_BOM_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-16BE_BOM.log"));
+pub static FILE_UTF16BE_BOM_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16BE_BOM_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF16BE_BOM_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_BOM_ABC_NL_DEF));
 
-    // UTF-16 BE BOM multiple syslines
-    pub static ref FILE_UTF16BE_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-16BE_BOM.log");
-    pub static ref FILE_UTF16BE_BOM_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF16BE_BOM_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF16BE_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_DTF56B_PATH);
+// 2 line file UTF-16 BE BOM with trailing newline
+pub static FILE_UTF16BE_BOM_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-16BE_BOM.log"));
+pub static FILE_UTF16BE_BOM_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16BE_BOM_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF16BE_BOM_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_BOM_ABC_NL_DEF_NL));
 
-}
+// UTF-16 BE BOM multiple syslines
+pub static FILE_UTF16BE_BOM_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-16BE_BOM.log"));
+pub static FILE_UTF16BE_BOM_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF16BE_BOM_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF16BE_BOM_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16BE_BOM_DTF56B_PATH));
 
 // UTF-32 LE
-lazy_static! {
-    // 1 line file UTF-32 LE
-    pub static ref FILE_UTF32LE_ABC_NAME: String = String::from("abc_.UTF-32LE.log");
-    pub static ref FILE_UTF32LE_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32LE_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_ABC);
 
-    pub static ref FILE_UTF32LE_ABC_NL_NAME: String = String::from("abc_nl.UTF-32LE.log");
-    pub static ref FILE_UTF32LE_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32LE_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_ABC_NL);
+// 1 line file UTF-32 LE
+pub static FILE_UTF32LE_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-32LE.log"));
+pub static FILE_UTF32LE_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32LE_ABC_NAME);
+    path
+});
+pub static FILE_UTF32LE_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_ABC));
 
-    // 2 line file UTF-32 LE
-    pub static ref FILE_UTF32LE_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-32LE.log");
-    pub static ref FILE_UTF32LE_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32LE_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_ABC_NL_DEF);
+pub static FILE_UTF32LE_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-32LE.log"));
+pub static FILE_UTF32LE_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32LE_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF32LE_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_ABC_NL));
 
-    // 2 line file UTF-32 LE with trailing newline
-    pub static ref FILE_UTF32LE_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-32LE.log");
-    pub static ref FILE_UTF32LE_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32LE_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_ABC_NL_DEF_NL);
+// 2 line file UTF-32 LE
+pub static FILE_UTF32LE_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-32LE.log"));
+pub static FILE_UTF32LE_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32LE_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF32LE_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_ABC_NL_DEF));
 
-    // UTF-32 LE multiple syslines
-    pub static ref FILE_UTF32LE_DTF56B_NAME: String = String::from("dtf5-6b.UTF-32LE.log");
-    pub static ref FILE_UTF32LE_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF32LE_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_DTF56B_PATH);
-}
+// 2 line file UTF-32 LE with trailing newline
+pub static FILE_UTF32LE_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-32LE.log"));
+pub static FILE_UTF32LE_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32LE_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF32LE_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_ABC_NL_DEF_NL));
+
+// UTF-32 LE multiple syslines
+pub static FILE_UTF32LE_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-32LE.log"));
+pub static FILE_UTF32LE_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF32LE_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF32LE_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_DTF56B_PATH));
 
 // UTF-32 BE BOM
-lazy_static! {
-    // 1 line file UTF-32 BE BOM
-    pub static ref FILE_UTF32BE_BOM_ABC_NAME: String = String::from("abc_.UTF-32BE_BOM.log");
-    pub static ref FILE_UTF32BE_BOM_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32BE_BOM_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_ABC);
 
-    pub static ref FILE_UTF32BE_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-32BE_BOM.log");
-    pub static ref FILE_UTF32BE_BOM_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32BE_BOM_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_ABC_NL);
+// 1 line file UTF-32 BE BOM
+pub static FILE_UTF32BE_BOM_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-32BE_BOM.log"));
+pub static FILE_UTF32BE_BOM_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32BE_BOM_ABC_NAME);
+    path
+});
+pub static FILE_UTF32BE_BOM_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_BOM_ABC));
 
-    // 2 line file UTF-32 BE BOM
-    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-32BE_BOM.log");
-    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32BE_BOM_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_ABC_NL_DEF);
+pub static FILE_UTF32BE_BOM_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-32BE_BOM.log"));
+pub static FILE_UTF32BE_BOM_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32BE_BOM_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF32BE_BOM_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_BOM_ABC_NL));
 
-    // 2 line file UTF-32 BE BOM with trailing newline
-    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-32BE_BOM.log");
-    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32BE_BOM_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_ABC_NL_DEF_NL);
+// 2 line file UTF-32 BE BOM
+pub static FILE_UTF32BE_BOM_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-32BE_BOM.log"));
+pub static FILE_UTF32BE_BOM_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32BE_BOM_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF32BE_BOM_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_BOM_ABC_NL_DEF));
 
-    // UTF-32 BE BOM multiple syslines
-    pub static ref FILE_UTF32BE_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-32BE_BOM.log");
-    pub static ref FILE_UTF32BE_BOM_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF32BE_BOM_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_DTF56B_PATH);
-}
+// 2 line file UTF-32 BE BOM with trailing newline
+pub static FILE_UTF32BE_BOM_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-32BE_BOM.log"));
+pub static FILE_UTF32BE_BOM_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32BE_BOM_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF32BE_BOM_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_BOM_ABC_NL_DEF_NL));
+
+// UTF-32 BE BOM multiple syslines
+pub static FILE_UTF32BE_BOM_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-32BE_BOM.log"));
+pub static FILE_UTF32BE_BOM_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF32BE_BOM_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF32BE_BOM_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_BOM_DTF56B_PATH));
 
 // UTF-32 BE
-lazy_static! {
-    // 1 line file UTF-32 BE
-    pub static ref FILE_UTF32BE_ABC_NAME: String = String::from("abc_.UTF-32BE.log");
-    pub static ref FILE_UTF32BE_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32BE_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_ABC);
 
-    pub static ref FILE_UTF32BE_ABC_NL_NAME: String = String::from("abc_nl.UTF-32BE.log");
-    pub static ref FILE_UTF32BE_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32BE_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_ABC_NL);
+// 1 line file UTF-32 BE
+pub static FILE_UTF32BE_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-32BE.log"));
+pub static FILE_UTF32BE_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32BE_ABC_NAME);
+    path
+});
+pub static FILE_UTF32BE_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_ABC));
 
-    // 2 line file UTF-32 BE
-    pub static ref FILE_UTF32BE_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-32BE.log");
-    pub static ref FILE_UTF32BE_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32BE_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_ABC_NL_DEF);
+pub static FILE_UTF32BE_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-32BE.log"));
+pub static FILE_UTF32BE_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32BE_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF32BE_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_ABC_NL));
 
-    // 2 line file UTF-32 BE with trailing newline
-    pub static ref FILE_UTF32BE_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-32BE.log");
-    pub static ref FILE_UTF32BE_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32BE_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_ABC_NL_DEF_NL);
+// 2 line file UTF-32 BE
+pub static FILE_UTF32BE_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-32BE.log"));
+pub static FILE_UTF32BE_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32BE_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF32BE_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_ABC_NL_DEF));
 
-    // UTF-32 BE multiple syslines
-    pub static ref FILE_UTF32BE_DTF56B_NAME: String = String::from("dtf5-6b.UTF-32BE.log");
-    pub static ref FILE_UTF32BE_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF32BE_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF32BE_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_DTF56B_PATH);
-}
+// 2 line file UTF-32 BE with trailing newline
+pub static FILE_UTF32BE_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-32BE.log"));
+pub static FILE_UTF32BE_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32BE_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF32BE_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_ABC_NL_DEF_NL));
+
+// UTF-32 BE multiple syslines
+pub static FILE_UTF32BE_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-32BE.log"));
+pub static FILE_UTF32BE_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF32BE_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF32BE_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32BE_DTF56B_PATH));
 
 // UTF-16 LE BOM
-lazy_static! {
-    // 1 line file UTF-16 LE BOM
-    pub static ref FILE_UTF16LE_BOM_ABC_NAME: String = String::from("abc_.UTF-16LE_BOM.log");
-    pub static ref FILE_UTF16LE_BOM_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16LE_BOM_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_ABC);
 
-    pub static ref FILE_UTF16LE_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-16LE_BOM.log");
-    pub static ref FILE_UTF16LE_BOM_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16LE_BOM_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_ABC_NL);
+// 1 line file UTF-16 LE BOM
+pub static FILE_UTF16LE_BOM_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-16LE_BOM.log"));
+pub static FILE_UTF16LE_BOM_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16LE_BOM_ABC_NAME);
+    path
+});
+pub static FILE_UTF16LE_BOM_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_BOM_ABC));
 
-    // 2 line file UTF-16 LE BOM
-    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-16LE_BOM.log");
-    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16LE_BOM_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_ABC_NL_DEF);
+pub static FILE_UTF16LE_BOM_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-16LE_BOM.log"));
+pub static FILE_UTF16LE_BOM_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16LE_BOM_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF16LE_BOM_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_BOM_ABC_NL));
 
-    // 2 line file UTF-16 LE BOM with trailing newline
-    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-16LE_BOM.log");
-    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF16LE_BOM_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_ABC_NL_DEF_NL);
+// 2 line file UTF-16 LE BOM
+pub static FILE_UTF16LE_BOM_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-16LE_BOM.log"));
+pub static FILE_UTF16LE_BOM_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16LE_BOM_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF16LE_BOM_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_BOM_ABC_NL_DEF));
 
-    // UTF-16 LE BOM multiple syslines
-    pub static ref FILE_UTF16LE_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-16LE_BOM.log");
-    pub static ref FILE_UTF16LE_BOM_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF16LE_BOM_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF16LE_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_DTF56B_PATH);
-}
+// 2 line file UTF-16 LE BOM with trailing newline
+pub static FILE_UTF16LE_BOM_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-16LE_BOM.log"));
+pub static FILE_UTF16LE_BOM_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF16LE_BOM_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF16LE_BOM_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_BOM_ABC_NL_DEF_NL));
+
+// UTF-16 LE BOM multiple syslines
+pub static FILE_UTF16LE_BOM_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-16LE_BOM.log"));
+pub static FILE_UTF16LE_BOM_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF16LE_BOM_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF16LE_BOM_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF16LE_BOM_DTF56B_PATH));
 
 // UTF-32 LE BOM
-lazy_static! {
-    // 1 line file UTF-32 LE BOM
-    pub static ref FILE_UTF32LE_BOM_ABC_NAME: String = String::from("abc_.UTF-32LE_BOM.log");
-    pub static ref FILE_UTF32LE_BOM_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32LE_BOM_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_ABC);
 
-    pub static ref FILE_UTF32LE_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-32LE_BOM.log");
-    pub static ref FILE_UTF32LE_BOM_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32LE_BOM_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_ABC_NL);
+// 1 line file UTF-32 LE BOM
+pub static FILE_UTF32LE_BOM_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-32LE_BOM.log"));
+pub static FILE_UTF32LE_BOM_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32LE_BOM_ABC_NAME);
+    path
+});
+pub static FILE_UTF32LE_BOM_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_BOM_ABC));
 
-    // 2 line file UTF-32 LE BOM
-    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-32LE_BOM.log");
-    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32LE_BOM_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_ABC_NL_DEF);
+pub static FILE_UTF32LE_BOM_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-32LE_BOM.log"));
+pub static FILE_UTF32LE_BOM_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32LE_BOM_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF32LE_BOM_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_BOM_ABC_NL));
 
-    // 2 line file UTF-32 LE BOM with trailing newline
-    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-32LE_BOM.log");
-    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF32LE_BOM_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_ABC_NL_DEF_NL);
+// 2 line file UTF-32 LE BOM
+pub static FILE_UTF32LE_BOM_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-32LE_BOM.log"));
+pub static FILE_UTF32LE_BOM_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32LE_BOM_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF32LE_BOM_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_BOM_ABC_NL_DEF));
 
-    // UTF-32 LE BOM multiple syslines
-    pub static ref FILE_UTF32LE_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-32LE_BOM.log");
-    pub static ref FILE_UTF32LE_BOM_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF32LE_BOM_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF32LE_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_DTF56B_PATH);
-}
+// 2 line file UTF-32 LE BOM with trailing newline
+pub static FILE_UTF32LE_BOM_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-32LE_BOM.log"));
+pub static FILE_UTF32LE_BOM_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF32LE_BOM_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF32LE_BOM_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_BOM_ABC_NL_DEF_NL));
+
+// UTF-32 LE BOM multiple syslines
+pub static FILE_UTF32LE_BOM_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-32LE_BOM.log"));
+pub static FILE_UTF32LE_BOM_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF32LE_BOM_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF32LE_BOM_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF32LE_BOM_DTF56B_PATH));
 
 // UTF-8
-lazy_static! {
-    // 1 line file UTF-8
-    pub static ref FILE_UTF8_ABC_NAME: String = String::from("abc_.UTF-8.log");
-    pub static ref FILE_UTF8_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF8_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF8_ABC);
 
-    pub static ref FILE_UTF8_ABC_NL_NAME: String = String::from("abc_nl.UTF-8.log");
-    pub static ref FILE_UTF8_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF8_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF8_ABC_NL);
+// 1 line file UTF-8
+pub static FILE_UTF8_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-8.log"));
+pub static FILE_UTF8_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF8_ABC_NAME);
+    path
+});
+pub static FILE_UTF8_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_ABC));
 
-    // 2 line file UTF-8
-    pub static ref FILE_UTF8_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-8.log");
-    pub static ref FILE_UTF8_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF8_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF8_ABC_NL_DEF);
+pub static FILE_UTF8_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-8.log"));
+pub static FILE_UTF8_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF8_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF8_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_ABC_NL));
 
-    // 2 line file UTF-8 with trailing newline
-    pub static ref FILE_UTF8_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-8.log");
-    pub static ref FILE_UTF8_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF8_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF8_ABC_NL_DEF_NL);
+// 2 line file UTF-8
+pub static FILE_UTF8_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-8.log"));
+pub static FILE_UTF8_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF8_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF8_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_ABC_NL_DEF));
 
-    // UTF-8 multiple syslines
-    pub static ref FILE_UTF8_DTF56B_NAME: String = String::from("dtf5-6b.UTF-8.log");
-    pub static ref FILE_UTF8_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF8_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF8_DTF56B_PATH);
-}
+// 2 line file UTF-8 with trailing newline
+pub static FILE_UTF8_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-8.log"));
+pub static FILE_UTF8_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF8_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF8_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_ABC_NL_DEF_NL));
+
+// UTF-8 multiple syslines
+pub static FILE_UTF8_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-8.log"));
+pub static FILE_UTF8_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF8_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF8_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_DTF56B_PATH));
 
 // UTF-8 BOM
-lazy_static! {
-    // 1 line file UTF-8 BOM
-    pub static ref FILE_UTF8_BOM_ABC_NAME: String = String::from("abc_.UTF-8_BOM.log");
-    pub static ref FILE_UTF8_BOM_ABC: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF8_BOM_ABC_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_ABC);
 
-    pub static ref FILE_UTF8_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-8_BOM.log");
-    pub static ref FILE_UTF8_BOM_ABC_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF8_BOM_ABC_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_ABC_NL);
+// 1 line file UTF-8 BOM
+pub static FILE_UTF8_BOM_ABC_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_.UTF-8_BOM.log"));
+pub static FILE_UTF8_BOM_ABC: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF8_BOM_ABC_NAME);
+    path
+});
+pub static FILE_UTF8_BOM_ABC_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_BOM_ABC));
 
-    // 2 line file UTF-8 BOM
-    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-8_BOM.log");
-    pub static ref FILE_UTF8_BOM_ABC_NL_DEF: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF8_BOM_ABC_NL_DEF_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_ABC_NL_DEF);
+pub static FILE_UTF8_BOM_ABC_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl.UTF-8_BOM.log"));
+pub static FILE_UTF8_BOM_ABC_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF8_BOM_ABC_NL_NAME);
+    path
+});
+pub static FILE_UTF8_BOM_ABC_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_BOM_ABC_NL));
 
-    // 2 line file UTF-8 BOM with trailing newline
-    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-8_BOM.log");
-    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_NL: PathBuf = {
-        let mut path = PATH_LOGS2.clone();
-        path.push(&*FILE_UTF8_BOM_ABC_NL_DEF_NL_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_ABC_NL_DEF_NL);
+// 2 line file UTF-8 BOM
+pub static FILE_UTF8_BOM_ABC_NL_DEF_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def.UTF-8_BOM.log"));
+pub static FILE_UTF8_BOM_ABC_NL_DEF: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF8_BOM_ABC_NL_DEF_NAME);
+    path
+});
+pub static FILE_UTF8_BOM_ABC_NL_DEF_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_BOM_ABC_NL_DEF));
 
-    // UTF-8 BOM multiple syslines
-    pub static ref FILE_UTF8_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-8_BOM.log");
-    pub static ref FILE_UTF8_BOM_DTF56B_PATH: PathBuf = {
-        let mut path = PATH_LOGS1.clone();
-        path.push(&*FILE_UTF8_BOM_DTF56B_NAME);
-        path
-    };
-    pub static ref FILE_UTF8_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_DTF56B_PATH);
-}
+// 2 line file UTF-8 BOM with trailing newline
+pub static FILE_UTF8_BOM_ABC_NL_DEF_NL_NAME: LazyLock<String> = LazyLock::new(|| String::from("abc_nl_def_nl.UTF-8_BOM.log"));
+pub static FILE_UTF8_BOM_ABC_NL_DEF_NL: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS2.clone();
+    path.push(&*FILE_UTF8_BOM_ABC_NL_DEF_NL_NAME);
+    path
+});
+pub static FILE_UTF8_BOM_ABC_NL_DEF_NL_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_BOM_ABC_NL_DEF_NL));
+
+// UTF-8 BOM multiple syslines
+pub static FILE_UTF8_BOM_DTF56B_NAME: LazyLock<String> = LazyLock::new(|| String::from("dtf5-6b.UTF-8_BOM.log"));
+pub static FILE_UTF8_BOM_DTF56B_PATH: LazyLock<PathBuf> = LazyLock::new(|| {
+    let mut path = PATH_LOGS1.clone();
+    path.push(&*FILE_UTF8_BOM_DTF56B_NAME);
+    path
+});
+pub static FILE_UTF8_BOM_DTF56B_FPATH: LazyLock<FPath> = LazyLock::new(|| path_to_fpath(&FILE_UTF8_BOM_DTF56B_PATH));
 
 pub const REGEX_ID_DTF56B: RegexId = 45;
 
@@ -981,23 +964,23 @@ pub const BZ2_EMPTY_DATA: [u8; 14] = [
     0x50, 0x90, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    /// an empty file, gzipped
-    pub static ref NTF_BZ2_EMPTY: NamedTempFile = {
-        create_temp_file_bytes_with_suffix(
-            &BZ2_EMPTY_DATA, &String::from("-empty.bz2")
-        )
-    };
-    pub static ref NTF_BZ2_EMPTY_PATH: &'static Path = {
-        fpath_to_path(&NTF_BZ2_EMPTY_FPATH)
-    };
-    pub static ref NTF_BZ2_EMPTY_FPATH: FPath = {
-        path_to_fpath(NTF_BZ2_EMPTY.path())
-    };
-    pub static ref NTF_BZ2_EMPTY_SYSTEMTIME: SystemTime = seconds_to_systemtime(
-        &1_659_160_049
-    );
-}
+
+/// an empty file, gzipped
+pub static NTF_BZ2_EMPTY: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    create_temp_file_bytes_with_suffix(
+        &BZ2_EMPTY_DATA, &String::from("-empty.bz2")
+    )
+});
+pub static NTF_BZ2_EMPTY_PATH: LazyLock<&'static Path> = LazyLock::new(|| {
+    fpath_to_path(&NTF_BZ2_EMPTY_FPATH)
+});
+pub static NTF_BZ2_EMPTY_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    path_to_fpath(NTF_BZ2_EMPTY.path())
+});
+pub static NTF_BZ2_EMPTY_SYSTEMTIME: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(
+    &1_659_160_049
+));
+
 pub const NTF_BZ2_EMPTY_FILETYPE: FileType = FILETYPE_UTF8;
 
 /// bzip2 of a one-byte file using `bzip2`:
@@ -1014,13 +997,11 @@ pub const BZ2_1BYTE_DATA: [u8; 37] = [
     0x10, 0x36, 0x05, 0xb1, 0x60,
 ];
 
-lazy_static! {
-    pub static ref NTF_1BYTE_BZ2: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&BZ2_1BYTE_DATA, &String::from("-one-byte.bz2"));
-    pub static ref NTF_BZ2_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE_BZ2);
-    pub static ref NTF_BZ2_1BYTE_PATH: &'static Path = fpath_to_path(&NTF_BZ2_1BYTE_FPATH);
-    pub static ref NTF_BZ2_1BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(&1_659_160_178);
-}
+pub static NTF_1BYTE_BZ2: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&BZ2_1BYTE_DATA, &String::from("-one-byte.bz2")));
+pub static NTF_BZ2_1BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_1BYTE_BZ2));
+pub static NTF_BZ2_1BYTE_PATH: LazyLock<&'static Path> = LazyLock::new(|| fpath_to_path(&NTF_BZ2_1BYTE_FPATH));
+pub static NTF_BZ2_1BYTE_SYSTEMTIME: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(&1_659_160_178));
 
 /// bzip2 of a eight byte file using `bzip2`:
 ///
@@ -1037,13 +1018,11 @@ pub const BZ2_8BYTE_DATA: [u8; 44] = [
     0x4a, 0xe4, 0xb3, 0x80,
 ];
 
-lazy_static! {
-    pub static ref NTF_8BYTE_BZ2: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&BZ2_8BYTE_DATA, &String::from("-eight-byte.bz2"));
-    pub static ref NTF_BZ2_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_BZ2);
-    pub static ref NTF_BZ2_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_BZ2_8BYTE_FPATH);
-    pub static ref NTF_BZ2_8BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(&1_659_322_953);
-}
+pub static NTF_8BYTE_BZ2: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&BZ2_8BYTE_DATA, &String::from("-eight-byte.bz2")));
+pub static NTF_BZ2_8BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_8BYTE_BZ2));
+pub static NTF_BZ2_8BYTE_PATH: LazyLock<&'static Path> = LazyLock::new(|| fpath_to_path(&NTF_BZ2_8BYTE_FPATH));
+pub static NTF_BZ2_8BYTE_SYSTEMTIME: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(&1_659_322_953));
 
 // ---------
 // gzip data
@@ -1059,23 +1038,22 @@ pub const GZ_EMPTY_DATA: [u8; 26] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    /// an empty file, gzipped
-    pub static ref NTF_GZ_EMPTY: NamedTempFile = {
-        create_temp_file_bytes_with_suffix(
-            &GZ_EMPTY_DATA, &String::from("-empty.gz")
-        )
-    };
-    pub static ref NTF_GZ_EMPTY_PATH: &'static Path = {
-        fpath_to_path(&NTF_GZ_EMPTY_FPATH)
-    };
-    pub static ref NTF_GZ_EMPTY_FPATH: FPath = {
-        path_to_fpath(NTF_GZ_EMPTY.path())
-    };
-    pub static ref NTF_GZ_EMPTY_SYSTEMTIME: SystemTime = seconds_to_systemtime(
-        &1_659_160_049
-    );
-}
+/// an empty file, gzipped
+pub static NTF_GZ_EMPTY: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    create_temp_file_bytes_with_suffix(
+        &GZ_EMPTY_DATA, &String::from("-empty.gz")
+    )
+});
+pub static NTF_GZ_EMPTY_PATH: LazyLock<&'static Path> = LazyLock::new(|| {
+    fpath_to_path(&NTF_GZ_EMPTY_FPATH)
+});
+pub static NTF_GZ_EMPTY_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    path_to_fpath(NTF_GZ_EMPTY.path())
+});
+pub static NTF_GZ_EMPTY_SYSTEMTIME: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(
+    &1_659_160_049
+));
+
 pub const NTF_GZ_EMPTY_FILETYPE: FileType = FILETYPE_UTF8;
 
 /// gzip of a one-byte file using `gzip`:
@@ -1089,13 +1067,12 @@ pub const GZ_1BYTE_DATA: [u8; 27] = [
     0x04, 0x00, 0x8b, 0x9e, 0xd9, 0xd3, 0x01, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref NTF_1BYTE_GZ: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&GZ_1BYTE_DATA, &String::from("-one-byte.gz"));
-    pub static ref NTF_GZ_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE_GZ);
-    pub static ref NTF_GZ_1BYTE_PATH: &'static Path = fpath_to_path(&NTF_GZ_1BYTE_FPATH);
-    pub static ref NTF_GZ_1BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(&1_659_160_178);
-}
+pub static NTF_1BYTE_GZ: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&GZ_1BYTE_DATA, &String::from("-one-byte.gz")));
+pub static NTF_GZ_1BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_1BYTE_GZ));
+pub static NTF_GZ_1BYTE_PATH: LazyLock<&'static Path> = LazyLock::new(|| fpath_to_path(&NTF_GZ_1BYTE_FPATH));
+pub static NTF_GZ_1BYTE_SYSTEMTIME: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(&1_659_160_178));
+
 
 ///
 /// gzip of a eight byte file using `gzip`:
@@ -1109,13 +1086,11 @@ pub const GZ_8BYTE_DATA: [u8; 34] = [
     0x74, 0x72, 0x76, 0x71, 0x75, 0x73, 0xf7, 0x00, 0x00, 0x1c, 0xb6, 0xdc, 0x68, 0x08, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref NTF_8BYTE_GZ: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&GZ_8BYTE_DATA, &String::from("-eight-byte.gz"));
-    pub static ref NTF_GZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_GZ);
-    pub static ref NTF_GZ_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_GZ_8BYTE_FPATH);
-    pub static ref NTF_GZ_8BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(&1_659_322_953);
-}
+pub static NTF_8BYTE_GZ: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&GZ_8BYTE_DATA, &String::from("-eight-byte.gz")));
+pub static NTF_GZ_8BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_8BYTE_GZ));
+pub static NTF_GZ_8BYTE_PATH: LazyLock<&'static Path> = LazyLock::new(|| fpath_to_path(&NTF_GZ_8BYTE_FPATH));
+pub static NTF_GZ_8BYTE_SYSTEMTIME: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(&1_659_322_953));
 
 // -------
 // xz data
@@ -1131,20 +1106,19 @@ pub const XZ_EMPTY_DATA: [u8; 32] = [
     0xdf, 0x44, 0x21, 0x1f, 0xb6, 0xf3, 0x7d, 0x01, 0x00, 0x00, 0x00, 0x00, 0x04, 0x59, 0x5a,
 ];
 
-lazy_static! {
-    /// an empty file, compressed
-    pub static ref NTF_XZ_EMPTY: NamedTempFile = {
-        create_temp_file_bytes_with_suffix(
-            &XZ_EMPTY_DATA, &String::from("-empty.xz")
-        )
-    };
-    pub static ref NTF_XZ_EMPTY_PATH: &'static Path = {
-        fpath_to_path(&NTF_XZ_EMPTY_FPATH)
-    };
-    pub static ref NTF_XZ_EMPTY_FPATH: FPath = {
-        path_to_fpath(NTF_XZ_EMPTY.path())
-    };
-}
+/// an empty file, compressed
+pub static NTF_XZ_EMPTY: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    create_temp_file_bytes_with_suffix(
+        &XZ_EMPTY_DATA, &String::from("-empty.xz")
+    )
+});
+pub static NTF_XZ_EMPTY_PATH: LazyLock<&'static Path> = LazyLock::new(|| {
+    fpath_to_path(&NTF_XZ_EMPTY_FPATH)
+});
+pub static NTF_XZ_EMPTY_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    path_to_fpath(NTF_XZ_EMPTY.path())
+});
+
 pub const NTF_XZ_EMPTY_FILETYPE: FileType = FILETYPE_UTF8_GZ;
 
 /// xz of a one-byte file:
@@ -1160,12 +1134,10 @@ pub const XZ_1BYTE_DATA: [u8; 60] = [
     0x7d, 0x01, 0x00, 0x00, 0x00, 0x00, 0x04, 0x59, 0x5a,
 ];
 
-lazy_static! {
-    pub static ref NTF_1BYTE_XZ: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&XZ_1BYTE_DATA, &String::from("-one-byte.xz"));
-    pub static ref NTF_XZ_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE_XZ);
-    pub static ref NTF_XZ_1BYTE_PATH: &'static Path = fpath_to_path(&NTF_XZ_1BYTE_FPATH);
-}
+pub static NTF_1BYTE_XZ: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&XZ_1BYTE_DATA, &String::from("-one-byte.xz")));
+pub static NTF_XZ_1BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_1BYTE_XZ));
+pub static NTF_XZ_1BYTE_PATH: LazyLock<&'static Path> = LazyLock::new(|| fpath_to_path(&NTF_XZ_1BYTE_FPATH));
 
 /// xz of an 8 byte file:
 ///
@@ -1180,12 +1152,10 @@ pub const XZ_8BYTE_DATA: [u8; 64] = [
     0xbb, 0x1f, 0xb6, 0xf3, 0x7d, 0x01, 0x00, 0x00, 0x00, 0x00, 0x04, 0x59, 0x5a,
 ];
 
-lazy_static! {
-    pub static ref NTF_8BYTE_XZ: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&XZ_8BYTE_DATA, &String::from("-8byte.xz"));
-    pub static ref NTF_XZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_XZ);
-    pub static ref NTF_XZ_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_XZ_8BYTE_FPATH);
-}
+pub static NTF_8BYTE_XZ: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&XZ_8BYTE_DATA, &String::from("-8byte.xz")));
+pub static NTF_XZ_8BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_8BYTE_XZ));
+pub static NTF_XZ_8BYTE_PATH: LazyLock<&'static Path> = LazyLock::new(|| fpath_to_path(&NTF_XZ_8BYTE_FPATH));
 
 /// lz4 of an empty file using `lz4c`
 ///
@@ -1198,23 +1168,21 @@ pub const LZ4_EMPTY_DATA: [u8; 15] = [
     0x00, 0x00, 0x00, 0x05, 0x5d, 0xcc, 0x02,
 ];
 
-lazy_static! {
-    /// an empty file, lz4 compressed
-    pub static ref NTF_LZ4_EMPTY: NamedTempFile = {
-        create_temp_file_bytes_with_suffix(
-            &LZ4_EMPTY_DATA, &String::from("-empty.lz4")
-        )
-    };
-    pub static ref NTF_LZ4_EMPTY_PATH: &'static Path = {
-        fpath_to_path(&NTF_LZ4_EMPTY_FPATH)
-    };
-    pub static ref NTF_LZ4_EMPTY_FPATH: FPath = {
-        path_to_fpath(NTF_LZ4_EMPTY.path())
-    };
-    pub static ref NTF_LZ4_EMPTY_SYSTEMTIME: SystemTime = seconds_to_systemtime(
-        &0
-    );
-}
+/// an empty file, lz4 compressed
+pub static NTF_LZ4_EMPTY: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    create_temp_file_bytes_with_suffix(
+        &LZ4_EMPTY_DATA, &String::from("-empty.lz4")
+    )
+});
+pub static NTF_LZ4_EMPTY_PATH: LazyLock<&'static Path> = LazyLock::new(|| {
+    fpath_to_path(&NTF_LZ4_EMPTY_FPATH)
+});
+pub static NTF_LZ4_EMPTY_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    path_to_fpath(NTF_LZ4_EMPTY.path())
+});
+pub static NTF_LZ4_EMPTY_SYSTEMTIME: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(
+    &0
+));
 
 /// lz4 of an 8 byte file:
 ///
@@ -1229,12 +1197,10 @@ pub const LZ4_8BYTE_DATA: [u8; 27] = [
     0x05, 0x57, 0x63,
 ];
 
-lazy_static! {
-    pub static ref NTF_8BYTE_LZ4: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&LZ4_8BYTE_DATA, &String::from("-8byte.lz4"));
-    pub static ref NTF_LZ4_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_LZ4);
-    pub static ref NTF_LZ4_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_LZ4_8BYTE_FPATH);
-}
+pub static NTF_8BYTE_LZ4: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&LZ4_8BYTE_DATA, &String::from("-8byte.lz4")));
+pub static NTF_LZ4_8BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_8BYTE_LZ4));
+pub static NTF_LZ4_8BYTE_PATH: LazyLock<&'static Path> = LazyLock::new(|| fpath_to_path(&NTF_LZ4_8BYTE_FPATH));
 
 // --------
 // tar data
@@ -1348,19 +1314,17 @@ pub const TAR_0BYTE_DATA: [u8; 1536] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref NTF_TAR_0BYTE: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&TAR_0BYTE_DATA, &String::from(TAR_0BYTE_FILENAME));
-    pub static ref NTF_TAR_0BYTE_FPATH: FPath = ntf_fpath(&NTF_TAR_0BYTE);
-    pub static ref NTF_TAR_0BYTE_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_0BYTE_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_0BYTE_FILEA_FILENAME);
+pub static NTF_TAR_0BYTE: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&TAR_0BYTE_DATA, &String::from(TAR_0BYTE_FILENAME)));
+pub static NTF_TAR_0BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TAR_0BYTE));
+pub static NTF_TAR_0BYTE_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_0BYTE_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_0BYTE_FILEA_FILENAME);
 
-        path_
-    };
+    path_
+});
 
-}
 pub const NTF_TAR_0BYTE_FILEA_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 
 // -------------------------------------------------------------------------------------------------
@@ -1983,21 +1947,20 @@ pub const TAR_1BYTE_DATA: [u8; 10240] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref NTF_TAR_1BYTE: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&TAR_1BYTE_DATA, &String::from("-one-byte.tar"));
-    pub static ref NTF_TAR_1BYTE_FPATH: FPath = ntf_fpath(&NTF_TAR_1BYTE);
-    pub static ref NTF_TAR_1BYTE_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_1BYTE_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_1BYTE_FILEA_FILENAME);
+pub static NTF_TAR_1BYTE: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&TAR_1BYTE_DATA, &String::from("-one-byte.tar")));
+pub static NTF_TAR_1BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TAR_1BYTE));
+pub static NTF_TAR_1BYTE_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_1BYTE_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_1BYTE_FILEA_FILENAME);
 
-        path_
-    };
-    pub static ref NTF_TAR_1BYTE_FILEA_SYSTEMTIME: SystemTime = seconds_to_systemtime(
-        &1_659_164_896
-    );
-}
+    path_
+});
+pub static NTF_TAR_1BYTE_FILEA_SYSTEMTIME: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(
+    &1_659_164_896
+));
+
 pub const NTF_TAR_1BYTE_FILEA_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 
 // -------------------------------------------------------------------------------------------------
@@ -2138,18 +2101,17 @@ pub const TAR_3BYTE_OLDGNU_DATA: [u8; 2048] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref NTF_TAR_3BYTE_OLDGNU: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&TAR_3BYTE_OLDGNU_DATA, &String::from(TAR_3BYTE_OLDGNU_FILENAME));
-    pub static ref NTF_TAR_3BYTE_OLDGNU_FPATH: FPath = ntf_fpath(&NTF_TAR_3BYTE_OLDGNU);
-    pub static ref NTF_TAR_3BYTE_OLDGNU_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_3BYTE_OLDGNU_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_3BYTE_OLDGNU_FILEA_FILENAME);
+pub static NTF_TAR_3BYTE_OLDGNU: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&TAR_3BYTE_OLDGNU_DATA, &String::from(TAR_3BYTE_OLDGNU_FILENAME)));
+pub static NTF_TAR_3BYTE_OLDGNU_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TAR_3BYTE_OLDGNU));
+pub static NTF_TAR_3BYTE_OLDGNU_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_3BYTE_OLDGNU_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_3BYTE_OLDGNU_FILEA_FILENAME);
 
-        path_
-    };
-}
+    path_
+});
+
 pub const NTF_TAR_3BYTE_OLDGNU_FILEA_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 
 // -------------------------------------------------------------------------------------------------
@@ -2350,18 +2312,17 @@ pub const TAR_3BYTE_PAX_DATA: [u8; 3072] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref NTF_TAR_3BYTE_PAX: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&TAR_3BYTE_PAX_DATA, &String::from(TAR_3BYTE_PAX_FILENAME));
-    pub static ref NTF_TAR_3BYTE_PAX_FPATH: FPath = ntf_fpath(&NTF_TAR_3BYTE_PAX);
-    pub static ref NTF_TAR_3BYTE_PAX_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_3BYTE_PAX_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_3BYTE_PAX_FILEA_FILENAME);
+pub static NTF_TAR_3BYTE_PAX: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&TAR_3BYTE_PAX_DATA, &String::from(TAR_3BYTE_PAX_FILENAME)));
+pub static NTF_TAR_3BYTE_PAX_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TAR_3BYTE_PAX));
+pub static NTF_TAR_3BYTE_PAX_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_3BYTE_PAX_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_3BYTE_PAX_FILEA_FILENAME);
 
-        path_
-    };
-}
+    path_
+});
+
 pub const NTF_TAR_3BYTE_PAX_FILEA_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 
 // -------------------------------------------------------------------------------------------------
@@ -2502,18 +2463,17 @@ pub const TAR_3BYTE_USTAR_DATA: [u8; 2048] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref NTF_TAR_3BYTE_USTAR: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&TAR_3BYTE_USTAR_DATA, &String::from(TAR_3BYTE_USTAR_FILENAME));
-    pub static ref NTF_TAR_3BYTE_USTAR_FPATH: FPath = ntf_fpath(&NTF_TAR_3BYTE_PAX);
-    pub static ref NTF_TAR_3BYTE_USTAR_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_3BYTE_USTAR_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_3BYTE_USTAR_FILEA_FILENAME);
+pub static NTF_TAR_3BYTE_USTAR: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&TAR_3BYTE_USTAR_DATA, &String::from(TAR_3BYTE_USTAR_FILENAME)));
+pub static NTF_TAR_3BYTE_USTAR_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TAR_3BYTE_PAX));
+pub static NTF_TAR_3BYTE_USTAR_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_3BYTE_USTAR_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_3BYTE_USTAR_FILEA_FILENAME);
 
-        path_
-    };
-}
+    path_
+});
+
 pub const NTF_TAR_3BYTE_USTAR_FILEA_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 
 // -------------------------------------------------------------------------------------------------
@@ -2654,18 +2614,17 @@ pub const TAR_3BYTE_V7_DATA: [u8; 2048] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref NTF_TAR_3BYTE_V7: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&TAR_3BYTE_V7_DATA, &String::from(TAR_3BYTE_V7_FILENAME));
-    pub static ref NTF_TAR_3BYTE_V7_FPATH: FPath = ntf_fpath(&NTF_TAR_3BYTE_PAX);
-    pub static ref NTF_TAR_3BYTE_V7_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_3BYTE_V7_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_3BYTE_V7_FILEA_FILENAME);
+pub static NTF_TAR_3BYTE_V7: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&TAR_3BYTE_V7_DATA, &String::from(TAR_3BYTE_V7_FILENAME)));
+pub static NTF_TAR_3BYTE_V7_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TAR_3BYTE_PAX));
+pub static NTF_TAR_3BYTE_V7_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_3BYTE_V7_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_3BYTE_V7_FILEA_FILENAME);
 
-        path_
-    };
-}
+    path_
+});
+
 pub const NTF_TAR_3BYTE_V7_FILEA_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 
 // -------------------------------------------------------------------------------------------------
@@ -2806,23 +2765,22 @@ pub const TAR_8BYTE_DATA: [u8; 2048] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    // file8.tar
-    pub static ref NTF_TAR_8BYTE: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&TAR_8BYTE_DATA, &String::from(TAR_8BYTE_FILENAME));
-    pub static ref NTF_TAR_8BYTE_FPATH: FPath = ntf_fpath(&NTF_TAR_8BYTE);
-    // file8.tar|fileA.txt
-    pub static ref NTF_TAR_8BYTE_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_8BYTE_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_8BYTE_FILEA_FILENAME);
+// file8.tar
+pub static NTF_TAR_8BYTE: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&TAR_8BYTE_DATA, &String::from(TAR_8BYTE_FILENAME)));
+pub static NTF_TAR_8BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TAR_8BYTE));
+// file8.tar|fileA.txt
+pub static NTF_TAR_8BYTE_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_8BYTE_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_8BYTE_FILEA_FILENAME);
 
-        path_
-    };
-    pub static ref NTF_TAR_8BYTE_FILEA_SYSTEMTIME: SystemTime = seconds_to_systemtime(
-        &1_659_730_196
-    );
-}
+    path_
+});
+pub static NTF_TAR_8BYTE_FILEA_SYSTEMTIME: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(
+    &1_659_730_196
+));
+
 pub const NTF_TAR_8BYTE_FILEA_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 
 // -------------------------------------------------------------------------------------------------
@@ -2849,18 +2807,17 @@ pub const TGZ_8BYTE_DATA: [u8; 111] = [
     0x00, 0x7e, 0x99, 0x0f, 0x2c, 0x00, 0x08, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref NTF_TGZ_8BYTE: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&TGZ_8BYTE_DATA, &String::from(TGZ_8BYTE_FILENAME));
-    pub static ref NTF_TGZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_TGZ_8BYTE);
-    pub static ref NTF_TGZ_8BYTE_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TGZ_8BYTE_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TGZ_8BYTE_FILEA_FILENAME);
+pub static NTF_TGZ_8BYTE: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&TGZ_8BYTE_DATA, &String::from(TGZ_8BYTE_FILENAME)));
+pub static NTF_TGZ_8BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TGZ_8BYTE));
+pub static NTF_TGZ_8BYTE_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TGZ_8BYTE_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TGZ_8BYTE_FILEA_FILENAME);
 
-        path_
-    };
-}
+    path_
+});
+
 pub const NTF_TGZ_8BYTE_FILETYPE: FileType = FileType::Unparsable;
 pub const NTF_TGZ_8BYTE_FILEA_FILETYPE: FileType = FileType::Unparsable;
 
@@ -3063,29 +3020,28 @@ pub const TAR_AB_DATA: [u8; 3072] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    /// fileAB.tar
-    pub static ref NTF_TAR_AB: NamedTempFile =
-        create_temp_file_bytes_with_suffix(&TAR_AB_DATA, &String::from(TAR_AB_FILENAME));
-    /// fileAB.tar
-    pub static ref NTF_TAR_AB_FPATH: FPath = ntf_fpath(&NTF_TAR_AB);
-    /// fileAB.tar|fileA.txt
-    pub static ref NTF_TAR_AB_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_AB_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_AB_FILEA_FILENAME);
+/// fileAB.tar
+pub static NTF_TAR_AB: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(&TAR_AB_DATA, &String::from(TAR_AB_FILENAME)));
+/// fileAB.tar
+pub static NTF_TAR_AB_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TAR_AB));
+/// fileAB.tar|fileA.txt
+pub static NTF_TAR_AB_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_AB_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_AB_FILEA_FILENAME);
 
-        path_
-    };
-    /// fileAB.tar|fileB.txt
-    pub static ref NTF_TAR_AB_FILEB_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_AB_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_AB_FILEB_FILENAME);
+    path_
+});
+/// fileAB.tar|fileB.txt
+pub static NTF_TAR_AB_FILEB_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_AB_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_AB_FILEB_FILENAME);
 
-        path_
-    };
-}
+    path_
+});
+
 pub const NTF_TAR_AB_FILEA_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 pub const NTF_TAR_AB_FILEB_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 
@@ -3768,87 +3724,85 @@ pub const TAR_ABCDEFGHI_DATA: [u8; 10240] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    /// fileABCDEFGHI.tar
-    pub static ref NTF_TAR_ABCDEFGHI: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            &TAR_ABCDEFGHI_DATA, &String::from(TAR_ABCDEFGHI_FILENAME)
-        );
-    /// fileABCDEFGHI.tar
-    pub static ref NTF_TAR_ABCDEFGHI_FPATH: FPath = ntf_fpath(&NTF_TAR_ABCDEFGHI);
-    /// fileABCDEFGHI.tar|fileA.evtx
-    pub static ref NTF_TAR_ABCDEFGHI_FILEA_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ABCDEFGHI_FILEA_FILENAME);
+/// fileABCDEFGHI.tar
+pub static NTF_TAR_ABCDEFGHI: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        &TAR_ABCDEFGHI_DATA, &String::from(TAR_ABCDEFGHI_FILENAME)
+    ));
+/// fileABCDEFGHI.tar
+pub static NTF_TAR_ABCDEFGHI_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_TAR_ABCDEFGHI));
+/// fileABCDEFGHI.tar|fileA.evtx
+pub static NTF_TAR_ABCDEFGHI_FILEA_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_ABCDEFGHI_FILEA_FILENAME);
 
-        path_
-    };
-    /// fileABCDEFGHI.tar|fileB.journal
-    pub static ref NTF_TAR_ABCDEFGHI_FILEB_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ABCDEFGHI_FILEB_FILENAME);
+    path_
+});
+/// fileABCDEFGHI.tar|fileB.journal
+pub static NTF_TAR_ABCDEFGHI_FILEB_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_ABCDEFGHI_FILEB_FILENAME);
 
-        path_
-    };
-    /// fileABCDEFGHI.tar|fileC.utmp
-    pub static ref NTF_TAR_ABCDEFGHI_FILEC_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ABCDEFGHI_FILEC_FILENAME);
+    path_
+});
+/// fileABCDEFGHI.tar|fileC.utmp
+pub static NTF_TAR_ABCDEFGHI_FILEC_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_ABCDEFGHI_FILEC_FILENAME);
 
-        path_
-    };
-    /// fileABCDEFGHI.tar|fileD.txt
-    pub static ref NTF_TAR_ABCDEFGHI_FILED_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ABCDEFGHI_FILED_FILENAME);
+    path_
+});
+/// fileABCDEFGHI.tar|fileD.txt
+pub static NTF_TAR_ABCDEFGHI_FILED_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_ABCDEFGHI_FILED_FILENAME);
 
-        path_
-    };
-    /// fileABCDEFGHI.tar|fileE.evtx.gz
-    pub static ref NTF_TAR_ABCDEFGHI_FILEE_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ABCDEFGHI_FILEE_FILENAME);
+    path_
+});
+/// fileABCDEFGHI.tar|fileE.evtx.gz
+pub static NTF_TAR_ABCDEFGHI_FILEE_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_ABCDEFGHI_FILEE_FILENAME);
 
-        path_
-    };
-    /// fileABCDEFGHI.tar|fileF.journal.xz
-    pub static ref NTF_TAR_ABCDEFGHI_FILEF_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ABCDEFGHI_FILEF_FILENAME);
+    path_
+});
+/// fileABCDEFGHI.tar|fileF.journal.xz
+pub static NTF_TAR_ABCDEFGHI_FILEF_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_ABCDEFGHI_FILEF_FILENAME);
 
-        path_
-    };
-    /// fileABCDEFGHI.tar|fileG.txt.xz
-    pub static ref NTF_TAR_ABCDEFGHI_FILEG_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ABCDEFGHI_FILEG_FILENAME);
+    path_
+});
+/// fileABCDEFGHI.tar|fileG.txt.xz
+pub static NTF_TAR_ABCDEFGHI_FILEG_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_ABCDEFGHI_FILEG_FILENAME);
 
-        path_
-    };
-    /// fileABCDEFGHI.tar|fileH.txt.tar
-    pub static ref NTF_TAR_ABCDEFGHI_FILEH_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ABCDEFGHI_FILEH_FILENAME);
+    path_
+});
+/// fileABCDEFGHI.tar|fileH.txt.tar
+pub static NTF_TAR_ABCDEFGHI_FILEH_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_ABCDEFGHI_FILEH_FILENAME);
 
-        path_
-    };
-    /// fileABCDEFGHI.tar|fileI
-    pub static ref NTF_TAR_ABCDEFGHI_FILEI_FPATH: FPath = {
-        let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
-        path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ABCDEFGHI_FILEI_FILENAME);
+    path_
+});
+/// fileABCDEFGHI.tar|fileI
+pub static NTF_TAR_ABCDEFGHI_FILEI_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
+    path_.push(SUBPATH_SEP);
+    path_.push_str(TAR_ABCDEFGHI_FILEI_FILENAME);
 
-        path_
-    };
-}
+    path_
+});
 
 pub const NTF_TAR_ABCDEFGHI_FILEA_FILETYPE: FileType = FILETYPE_EVTX_TAR;
 pub const NTF_TAR_ABCDEFGHI_FILEB_FILETYPE: FileType = FILETYPE_JOURNAL_TAR;
@@ -4046,36 +4000,33 @@ pub const LINUX_X86_LASTLOG_BUFFER1: [u8; linux_x86::LASTLOG_SZ] = [
 pub const LINUX_X86_LASTLOG_1ENTRY_FILENAME: &str = "linux_x86_lastlog1.lastlog";
 pub const LINUX_X86_LASTLOG_1ENTRY_FILESZ: FileSz = LINUX_X86_LASTLOG_BUFFER1.len() as FileSz;
 
-lazy_static! {
-    // LINUX_X86_LASTLOG_1ENTRY
+// LINUX_X86_LASTLOG_1ENTRY
 
-    pub static ref LINUX_X86_LASTLOG_1ENTRY_DATA: Vec<u8> = {
-        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(
-            LINUX_X86_LASTLOG_BUFFER1.len()
-        );
-        v_.append(&mut LINUX_X86_LASTLOG_BUFFER1.as_slice().to_vec());
+pub static LINUX_X86_LASTLOG_1ENTRY_DATA: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let mut v_: Vec<u8> = Vec::<u8>::with_capacity(
+        LINUX_X86_LASTLOG_BUFFER1.len()
+    );
+    v_.append(&mut LINUX_X86_LASTLOG_BUFFER1.as_slice().to_vec());
 
-        v_
-    };
+    v_
+});
 
-    pub static ref NTF_LINUX_X86_LASTLOG_1ENTRY: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            LINUX_X86_LASTLOG_1ENTRY_DATA.as_slice(),
-            &String::from(LINUX_X86_LASTLOG_1ENTRY_FILENAME)
-        );
+pub static NTF_LINUX_X86_LASTLOG_1ENTRY: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        LINUX_X86_LASTLOG_1ENTRY_DATA.as_slice(),
+        &String::from(LINUX_X86_LASTLOG_1ENTRY_FILENAME)
+    ));
 
-    pub static ref NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH: FPath = ntf_fpath(&NTF_LINUX_X86_LASTLOG_1ENTRY);
+pub static NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_LINUX_X86_LASTLOG_1ENTRY));
 
-    /// datetime of `LINUX_X86_LASTLOG_BUFFER1`
-    pub static ref LINUX_X86_LASTLOG_BUFFER1_DT: DateTimeL = {
-        ymdhms(&FO_0, 2023, 12, 15, 20, 10, 21)
-    };
-    /// datetime of `LINUX_X86_LASTLOG_BUFFER1` with offset
-    pub static ref LINUX_X86_LASTLOG_BUFFER1_DTO: DateTimeL = {
-        ymdhms(&FO_E8, 2023, 12, 15, 16, 10, 21)
-    };
-
-}
+/// datetime of `LINUX_X86_LASTLOG_BUFFER1`
+pub static LINUX_X86_LASTLOG_BUFFER1_DT: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_0, 2023, 12, 15, 20, 10, 21)
+});
+/// datetime of `LINUX_X86_LASTLOG_BUFFER1` with offset
+pub static LINUX_X86_LASTLOG_BUFFER1_DTO: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_E8, 2023, 12, 15, 16, 10, 21)
+});
 
 // linux_x86::utmpx
 
@@ -4135,11 +4086,9 @@ pub const LINUX_X86_UTMPX_BUFFER1: [u8; linux_x86::UTMPX_SZ] = [
     0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref LINUX_X86_UTMPX_BUFFER1_DATETIME: DateTimeL = {
-        ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 0)
-    };
-}
+pub static LINUX_X86_UTMPX_BUFFER1_DATETIME: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 0)
+});
 
 /// two seconds after `LINUX_X86_UTMPX_BUFFER1`
 ///
@@ -4198,11 +4147,9 @@ pub const LINUX_X86_UTMPX_BUFFER2: [u8; linux_x86::UTMPX_SZ] = [
     0x00, 0x00, 0x00, 0x00,
 ];
 
-lazy_static! {
-    pub static ref LINUX_X86_UTMPX_BUFFER2_DATETIME: DateTimeL = {
-        ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 4)
-    };
-}
+pub static LINUX_X86_UTMPX_BUFFER2_DATETIME: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 4)
+});
 
 /// four seconds after `LINUX_X86_UTMPX_BUFFER1`
 ///
@@ -4310,168 +4257,165 @@ pub const LINUX_X86_UTMPX_AA_ENTRY_FILESZ: FileSz = LINUX_X86_UTMPX_BUFFER_AA.le
 pub const LINUX_X86_UTMPX_FF_ENTRY_FILENAME: &str = "linux_x86_utmpx_ff_entry.utmp";
 pub const LINUX_X86_UTMPX_FF_ENTRY_FILESZ: FileSz = LINUX_X86_UTMPX_BUFFER_FF.len() as FileSz;
 
-lazy_static! {
+// UTMPX_1ENTRY
 
-    // UTMPX_1ENTRY
+pub static LINUX_X86_UTMPX_1ENTRY_DATA: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER1.len());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER1.as_slice().to_vec());
 
-    pub static ref LINUX_X86_UTMPX_1ENTRY_DATA: Vec<u8> = {
-        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER1.len());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER1.as_slice().to_vec());
+    v_
+});
+pub static LINUX_X86_UTMPX_1ENTRY_DATETIME1: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 0)
+});
+pub static NTF_UTMPX_1ENTRY: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        LINUX_X86_UTMPX_1ENTRY_DATA.as_slice(),
+        &String::from(LINUX_X86_UTMPX_1ENTRY_FILENAME)
+    ));
+pub static NTF_LINUX_X86_UTMPX_1ENTRY_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_UTMPX_1ENTRY));
 
-        v_
-    };
-    pub static ref LINUX_X86_UTMPX_1ENTRY_DATETIME1: DateTimeL = {
-        ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 0)
-    };
-    pub static ref NTF_UTMPX_1ENTRY: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            LINUX_X86_UTMPX_1ENTRY_DATA.as_slice(),
-            &String::from(LINUX_X86_UTMPX_1ENTRY_FILENAME)
-        );
-    pub static ref NTF_LINUX_X86_UTMPX_1ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_1ENTRY);
+// UTMPX_2ENTRY
 
-    // UTMPX_2ENTRY
+pub static LINUX_X86_UTMPX_2ENTRY_DATA: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let mut v_: Vec<u8> = Vec::<u8>::with_capacity(
+        LINUX_X86_UTMPX_BUFFER1.len()
+        + LINUX_X86_UTMPX_BUFFER2.len()
+    );
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER1.as_slice().to_vec());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER2.as_slice().to_vec());
 
-    pub static ref LINUX_X86_UTMPX_2ENTRY_DATA: Vec<u8> = {
-        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(
-            LINUX_X86_UTMPX_BUFFER1.len()
-            + LINUX_X86_UTMPX_BUFFER2.len()
-        );
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER1.as_slice().to_vec());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER2.as_slice().to_vec());
+    v_
+});
+pub static NTF_UTMPX_2ENTRY: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        LINUX_X86_UTMPX_2ENTRY_DATA.as_slice(),
+        &String::from(LINUX_X86_UTMPX_2ENTRY_FILENAME)
+    ));
+pub static NTF_LINUX_X86_UTMPX_2ENTRY_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_UTMPX_2ENTRY));
 
-        v_
-    };
-    pub static ref NTF_UTMPX_2ENTRY: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            LINUX_X86_UTMPX_2ENTRY_DATA.as_slice(),
-            &String::from(LINUX_X86_UTMPX_2ENTRY_FILENAME)
-        );
-    pub static ref NTF_LINUX_X86_UTMPX_2ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_2ENTRY);
+// UTMPX_3ENTRY
 
-    // UTMPX_3ENTRY
+pub static LINUX_X86_UTMPX_3ENTRY_DATA: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_3ENTRY_FILESZ as usize);
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER1.as_slice().to_vec());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER2.as_slice().to_vec());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER3.as_slice().to_vec());
 
-    pub static ref LINUX_X86_UTMPX_3ENTRY_DATA: Vec<u8> = {
-        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_3ENTRY_FILESZ as usize);
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER1.as_slice().to_vec());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER2.as_slice().to_vec());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER3.as_slice().to_vec());
+    v_
+});
+pub static NTF_UTMPX_3ENTRY: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        LINUX_X86_UTMPX_3ENTRY_DATA.as_slice(),
+        &String::from(LINUX_X86_UTMPX_3ENTRY_FILENAME)
+    ));
+pub static NTF_LINUX_X86_UTMPX_3ENTRY_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_UTMPX_3ENTRY));
 
-        v_
-    };
-    pub static ref NTF_UTMPX_3ENTRY: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            LINUX_X86_UTMPX_3ENTRY_DATA.as_slice(),
-            &String::from(LINUX_X86_UTMPX_3ENTRY_FILENAME)
-        );
-    pub static ref NTF_LINUX_X86_UTMPX_3ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_3ENTRY);
+// LINUX_X86_UTMPX_3ENTRY_OOO
+// (out of order)
 
-    // LINUX_X86_UTMPX_3ENTRY_OOO
-    // (out of order)
+pub static LINUX_X86_UTMPX_3ENTRY_DATA_OOO: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_3ENTRY_OOO_FILESZ as usize);
+    // entries in reverse chronological order
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER3.as_slice().to_vec());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER2.as_slice().to_vec());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER1.as_slice().to_vec());
 
-    pub static ref LINUX_X86_UTMPX_3ENTRY_DATA_OOO: Vec<u8> = {
-        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_3ENTRY_OOO_FILESZ as usize);
-        // entries in reverse chronological order
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER3.as_slice().to_vec());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER2.as_slice().to_vec());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER1.as_slice().to_vec());
+    v_
+});
+pub static NTF_LINUX_X86_UTMPX_3ENTRY_OOO: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        LINUX_X86_UTMPX_3ENTRY_DATA_OOO.as_slice(),
+        &String::from(LINUX_X86_UTMPX_3ENTRY_OOO_FILENAME)
+    ));
+pub static NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_LINUX_X86_UTMPX_3ENTRY_OOO));
 
-        v_
-    };
-    pub static ref NTF_LINUX_X86_UTMPX_3ENTRY_OOO: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            LINUX_X86_UTMPX_3ENTRY_DATA_OOO.as_slice(),
-            &String::from(LINUX_X86_UTMPX_3ENTRY_OOO_FILENAME)
-        );
-    pub static ref NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH: FPath = ntf_fpath(&NTF_LINUX_X86_UTMPX_3ENTRY_OOO);
+// UTMPX_00
 
-    // UTMPX_00
+pub static LINUX_X86_UTMPX_00_ENTRY_DATA: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER_00.len());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER_00.as_slice().to_vec());
 
-    pub static ref LINUX_X86_UTMPX_00_ENTRY_DATA: Vec<u8> = {
-        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER_00.len());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER_00.as_slice().to_vec());
+    v_
+});
+pub static NTF_UTMPX_00_ENTRY: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        LINUX_X86_UTMPX_00_ENTRY_DATA.as_slice(),
+        &String::from(LINUX_X86_UTMPX_00_ENTRY_FILENAME)
+    ));
+pub static NTF_LINUX_X86_UTMPX_00_ENTRY_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_UTMPX_00_ENTRY));
 
-        v_
-    };
-    pub static ref NTF_UTMPX_00_ENTRY: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            LINUX_X86_UTMPX_00_ENTRY_DATA.as_slice(),
-            &String::from(LINUX_X86_UTMPX_00_ENTRY_FILENAME)
-        );
-    pub static ref NTF_LINUX_X86_UTMPX_00_ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_00_ENTRY);
+// UTMPX_55
 
-    // UTMPX_55
+pub static LINUX_X86_UTMPX_55_ENTRY_DATA: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER_55.len());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER_55.as_slice().to_vec());
 
-    pub static ref LINUX_X86_UTMPX_55_ENTRY_DATA: Vec<u8> = {
-        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER_55.len());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER_55.as_slice().to_vec());
+    v_
+});
+pub static NTF_UTMPX_55_ENTRY: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        LINUX_X86_UTMPX_55_ENTRY_DATA.as_slice(),
+        &String::from(LINUX_X86_UTMPX_55_ENTRY_FILENAME)
+    ));
+pub static NTF_LINUX_X86_UTMPX_55_ENTRY_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_UTMPX_55_ENTRY));
 
-        v_
-    };
-    pub static ref NTF_UTMPX_55_ENTRY: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            LINUX_X86_UTMPX_55_ENTRY_DATA.as_slice(),
-            &String::from(LINUX_X86_UTMPX_55_ENTRY_FILENAME)
-        );
-    pub static ref NTF_LINUX_X86_UTMPX_55_ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_55_ENTRY);
+// UTMPX_AA
 
-    // UTMPX_AA
+pub static LINUX_X86_UTMPX_AA_ENTRY_DATA: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER_AA.len());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER_AA.as_slice().to_vec());
 
-    pub static ref LINUX_X86_UTMPX_AA_ENTRY_DATA: Vec<u8> = {
-        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER_AA.len());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER_AA.as_slice().to_vec());
+    v_
+});
+pub static NTF_UTMPX_AA_ENTRY: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        LINUX_X86_UTMPX_AA_ENTRY_DATA.as_slice(),
+        &String::from(LINUX_X86_UTMPX_AA_ENTRY_FILENAME)
+    ));
+pub static NTF_LINUX_X86_UTMPX_AA_ENTRY_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_UTMPX_AA_ENTRY));
 
-        v_
-    };
-    pub static ref NTF_UTMPX_AA_ENTRY: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            LINUX_X86_UTMPX_AA_ENTRY_DATA.as_slice(),
-            &String::from(LINUX_X86_UTMPX_AA_ENTRY_FILENAME)
-        );
-    pub static ref NTF_LINUX_X86_UTMPX_AA_ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_AA_ENTRY);
+// UTMPX_FF
 
-    // UTMPX_FF
+pub static LINUX_X86_UTMPX_FF_ENTRY_DATA: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER_FF.len());
+    v_.append(&mut LINUX_X86_UTMPX_BUFFER_FF.as_slice().to_vec());
 
-    pub static ref LINUX_X86_UTMPX_FF_ENTRY_DATA: Vec<u8> = {
-        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(LINUX_X86_UTMPX_BUFFER_FF.len());
-        v_.append(&mut LINUX_X86_UTMPX_BUFFER_FF.as_slice().to_vec());
+    v_
+});
+pub static NTF_UTMPX_FF_ENTRY: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(
+        LINUX_X86_UTMPX_FF_ENTRY_DATA.as_slice(),
+        &String::from(LINUX_X86_UTMPX_FF_ENTRY_FILENAME)
+    ));
+pub static NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_UTMPX_FF_ENTRY));
 
-        v_
-    };
-    pub static ref NTF_UTMPX_FF_ENTRY: NamedTempFile =
-        create_temp_file_bytes_with_suffix(
-            LINUX_X86_UTMPX_FF_ENTRY_DATA.as_slice(),
-            &String::from(LINUX_X86_UTMPX_FF_ENTRY_FILENAME)
-        );
-    pub static ref NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_FF_ENTRY);
+// DATETIMES
 
-    // DATETIMES
-
-    /// datetime of `LINUX_X86_UTMPX_BUFFER1`
-    pub static ref LINUX_X86_UTMPX_BUFFER1_DT: DateTimeL = {
-        ymdhms(&FO_0, 2020, 1, 1, 12, 0, 0)
-    };
-    /// datetime of `LINUX_X86_UTMPX_BUFFER1` with offset
-    pub static ref LINUX_X86_UTMPX_BUFFER1_DTO: DateTimeL = {
-        ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 0)
-    };
-    /// datetime of `LINUX_X86_UTMPX_BUFFER2`
-    pub static ref LINUX_X86_UTMPX_BUFFER2_DT: DateTimeL = {
-        ymdhmsn(&FO_0, 2020, 1, 1, 12, 0, 2, 123636000)
-    };
-    /// datetime of `LINUX_X86_UTMPX_BUFFER2` with offset
-    pub static ref LINUX_X86_UTMPX_BUFFER2_DTO: DateTimeL = {
-        ymdhmsn(&FO_E8, 2020, 1, 1, 20, 0, 2, 123636000)
-    };
-    /// datetime of `LINUX_X86_UTMPX_BUFFER3`
-    pub static ref LINUX_X86_UTMPX_BUFFER3_DT: DateTimeL = {
-        ymdhmsn(&FO_0, 2020, 1, 1, 12, 0, 4, 123636000)
-    };
-    /// datetime of `LINUX_X86_UTMPX_BUFFER3` with offset
-    pub static ref LINUX_X86_UTMPX_BUFFER3_DTO: DateTimeL = {
-        ymdhmsn(&FO_E8, 2020, 1, 1, 20, 0, 4, 123636000)
-    };
-}
+/// datetime of `LINUX_X86_UTMPX_BUFFER1`
+pub static LINUX_X86_UTMPX_BUFFER1_DT: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_0, 2020, 1, 1, 12, 0, 0)
+});
+/// datetime of `LINUX_X86_UTMPX_BUFFER1` with offset
+pub static LINUX_X86_UTMPX_BUFFER1_DTO: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 0)
+});
+/// datetime of `LINUX_X86_UTMPX_BUFFER2`
+pub static LINUX_X86_UTMPX_BUFFER2_DT: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhmsn(&FO_0, 2020, 1, 1, 12, 0, 2, 123636000)
+});
+/// datetime of `LINUX_X86_UTMPX_BUFFER2` with offset
+pub static LINUX_X86_UTMPX_BUFFER2_DTO: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhmsn(&FO_E8, 2020, 1, 1, 20, 0, 2, 123636000)
+});
+/// datetime of `LINUX_X86_UTMPX_BUFFER3`
+pub static LINUX_X86_UTMPX_BUFFER3_DT: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhmsn(&FO_0, 2020, 1, 1, 12, 0, 4, 123636000)
+});
+/// datetime of `LINUX_X86_UTMPX_BUFFER3` with offset
+pub static LINUX_X86_UTMPX_BUFFER3_DTO: LazyLock<DateTimeL> = LazyLock::new(|| {
+    ymdhmsn(&FO_E8, 2020, 1, 1, 20, 0, 4, 123636000)
+});
 
 pub const NTF_LINUX_X86_UTMPX_2ENTRY_FILETYPE: FileType =
     FileType::FixedStruct { archival_type: FileTypeArchive::Normal, fixedstruct_type: FileTypeFixedStruct::Utmpx };
@@ -4814,13 +4758,11 @@ pub const ASL_1_FILESZ: FileSz = 3366;
 pub const ASL_1_GZ_STR_PATH: &str = "./logs/MacOS11/powermanagement/2023.10.26.asl.gz";
 pub const ASL_1_EVENT_COUNT: Count = 10;
 
-lazy_static! {
-    pub static ref ASL_1_FPATH: FPath = FPath::from(ASL_1_STR_PATH);
-    pub static ref ASL_1_GZ_FPATH: FPath = FPath::from(ASL_1_GZ_STR_PATH);
-    pub static ref ASL_1_GZ_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1698298291)
-    };
-}
+pub static ASL_1_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(ASL_1_STR_PATH));
+pub static ASL_1_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(ASL_1_GZ_STR_PATH));
+pub static ASL_1_GZ_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1698298291)
+});
 
 // .etl data
 
@@ -4829,13 +4771,11 @@ pub const ETL_1_FILESZ: FileSz = 16384;
 pub const ETL_1_GZ_STR_PATH: &str = "./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz";
 pub const ETL_1_EVENT_COUNT: Count = 21;
 
-lazy_static! {
-    pub static ref ETL_1_FPATH: FPath = FPath::from(ETL_1_STR_PATH);
-    pub static ref ETL_1_GZ_FPATH: FPath = FPath::from(ETL_1_GZ_STR_PATH);
-    pub static ref ETL_1_GZ_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1759660280)
-    };
-}
+pub static ETL_1_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(ETL_1_STR_PATH));
+pub static ETL_1_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(ETL_1_GZ_STR_PATH));
+pub static ETL_1_GZ_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1759660280)
+});
 
 // .odl data
 
@@ -4843,14 +4783,12 @@ pub const ODL_1_STR_PATH: &str = "./logs/programs/OneDrive/Local/Microsoft/OneDr
 pub const ODL_1_FILESZ: FileSz = 1961;
 pub const ODL_1_GZ_STR_PATH: &str = "./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.gz";
 
-lazy_static! {
-    pub static ref ODL_1_FPATH: FPath = FPath::from(ODL_1_STR_PATH);
-    pub static ref ODL_1_EVENT_COUNT: Count = 11;
-    pub static ref ODL_1_GZ_FPATH: FPath = FPath::from(ODL_1_GZ_STR_PATH);
-    pub static ref ODL_1_GZ_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1766319245)
-    };
-}
+pub static ODL_1_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(ODL_1_STR_PATH));
+pub const ODL_1_EVENT_COUNT: Count = 11;
+pub static ODL_1_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(ODL_1_GZ_STR_PATH));
+pub static ODL_1_GZ_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1766319245)
+});
 
 // -------------------------------------------------------------------------------------------------
 
@@ -4932,107 +4870,103 @@ pub const EVTX_KPNP_DATA1_S: &str = r#"
 </Event>
 "#;
 
-lazy_static! {
+// EVTX_NE
 
-    // EVTX_NE
+pub static EVTX_NE_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(EVTX_NE_STR_PATH_PROJD));
+pub const EVTX_NE_EVENT_COUNT: Count = 0;
+pub static EVTX_NE_F: LazyLock<File> = LazyLock::new(||
+    File::open(fpath_to_path(&EVTX_NE_FPATH)).unwrap());
 
-    pub static ref EVTX_NE_FPATH: FPath = FPath::from(EVTX_NE_STR_PATH_PROJD);
-    pub static ref EVTX_NE_EVENT_COUNT: Count = 0;
-    pub static ref EVTX_NE_F: File =
-        File::open(fpath_to_path(&EVTX_NE_FPATH)).unwrap();
+// EVTX_KPNP
 
-    // EVTX_KPNP
+pub const EVTX_KPNP_EVENT_COUNT: Count = 227;
+pub static EVTX_KPNP_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(EVTX_KPNP_STR_PATH_PROJD));
+pub static EVTX_KPNP_F: LazyLock<File> = LazyLock::new(||
+    File::open(fpath_to_path(&EVTX_KPNP_FPATH)).unwrap());
 
-    pub static ref EVTX_KPNP_EVENT_COUNT: Count = 227;
-    pub static ref EVTX_KPNP_FPATH: FPath = FPath::from(EVTX_KPNP_STR_PATH_PROJD);
-    pub static ref EVTX_KPNP_F: File =
-        File::open(fpath_to_path(&EVTX_KPNP_FPATH)).unwrap();
+pub static EVTX_KPNP_ENTRY_FO: LazyLock<FixedOffset> = LazyLock::new(|| FO_0);
 
-    pub static ref EVTX_KPNP_ENTRY_FO: FixedOffset = FO_0;
+/// Entry 1 datetime
+pub static EVTX_KPNP_ENTRY1_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&EVTX_KPNP_ENTRY_FO, 2023, 3, 10, 3, 49, 43, 558721));
+/// Entry last datetime
+pub static EVTX_KPNP_ENTRY227_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsn(&EVTX_KPNP_ENTRY_FO, 2023, 3, 17, 21, 21, 46, 786681900));
 
-    /// Entry 1 datetime
-    pub static ref EVTX_KPNP_ENTRY1_DT: DateTimeL =
-        ymdhmsm(&EVTX_KPNP_ENTRY_FO, 2023, 3, 10, 3, 49, 43, 558721);
-    /// Entry last datetime
-    pub static ref EVTX_KPNP_ENTRY227_DT: DateTimeL =
-        ymdhmsn(&EVTX_KPNP_ENTRY_FO, 2023, 3, 17, 21, 21, 46, 786681900);
+// EVTX_KPNP bz2
 
-    // EVTX_KPNP bz2
+pub static EVTX_KPNP_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(EVTX_KPNP_BZ2_STR_PATH_PROJD));
+/// set by `./tools/log-files-time-update.sh`
+pub static EVTX_KPNP_BZ2_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1678535460)
+});
+pub const EVTX_KPNP_BZ2_EVENT_COUNT: Count = 227;
+pub static EVTX_KPNP_BZ2_F: LazyLock<File> = LazyLock::new(||
+    File::open(fpath_to_path(&EVTX_KPNP_BZ2_FPATH)).unwrap());
+/// Entry 1 datetime
+pub static EVTX_KPNP_BZ2_ENTRY1_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY1_DT);
+/// Entry last datetime
+pub static EVTX_KPNP_BZ2_ENTRY227_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY227_DT);
 
-    pub static ref EVTX_KPNP_BZ2_FPATH: FPath = FPath::from(EVTX_KPNP_BZ2_STR_PATH_PROJD);
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref EVTX_KPNP_BZ2_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1678535460)
-    };
-    pub static ref EVTX_KPNP_BZ2_EVENT_COUNT: Count = 227;
-    pub static ref EVTX_KPNP_BZ2_F: File =
-        File::open(fpath_to_path(&EVTX_KPNP_BZ2_FPATH)).unwrap();
-    /// Entry 1 datetime
-    pub static ref EVTX_KPNP_BZ2_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
-    /// Entry last datetime
-    pub static ref EVTX_KPNP_BZ2_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
+// EVTX_KPNP gz
 
-    // EVTX_KPNP gz
+pub static EVTX_KPNP_GZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(EVTX_KPNP_GZ_STR_PATH_PROJD));
+/// set by `./tools/log-files-time-update.sh`
+pub static EVTX_KPNP_GZ_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980)
+});
+pub const EVTX_KPNP_GZ_EVENT_COUNT: Count = 227;
+pub static EVTX_KPNP_GZ_F: LazyLock<File> = LazyLock::new(||
+    File::open(fpath_to_path(&EVTX_KPNP_GZ_FPATH)).unwrap());
+/// Entry 1 datetime
+pub static EVTX_KPNP_GZ_ENTRY1_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY1_DT);
+/// Entry last datetime
+pub static EVTX_KPNP_GZ_ENTRY227_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY227_DT);
 
-    pub static ref EVTX_KPNP_GZ_FPATH: FPath = FPath::from(EVTX_KPNP_GZ_STR_PATH_PROJD);
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref EVTX_KPNP_GZ_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980)
-    };
-    pub static ref EVTX_KPNP_GZ_EVENT_COUNT: Count = 227;
-    pub static ref EVTX_KPNP_GZ_F: File =
-        File::open(fpath_to_path(&EVTX_KPNP_GZ_FPATH)).unwrap();
-    /// Entry 1 datetime
-    pub static ref EVTX_KPNP_GZ_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
-    /// Entry last datetime
-    pub static ref EVTX_KPNP_GZ_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
+// EVTX_KPNP lz4
 
-    // EVTX_KPNP lz4
+pub static EVTX_KPNP_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(EVTX_KPNP_LZ4_STR_PATH_PROJD));
+/// set by `./tools/log-files-time-update.sh`
+pub static EVTX_KPNP_LZ4_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1678708380)
+});
+pub const EVTX_KPNP_LZ4_EVENT_COUNT: Count = 227;
+pub static EVTX_KPNP_LZ4_F: LazyLock<File> = LazyLock::new(||
+    File::open(fpath_to_path(&EVTX_KPNP_LZ4_FPATH)).unwrap());
+/// Entry 1 datetime
+pub static EVTX_KPNP_LZ4_ENTRY1_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY1_DT);
+/// Entry last datetime
+pub static EVTX_KPNP_LZ4_ENTRY227_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY227_DT);
 
-    pub static ref EVTX_KPNP_LZ4_FPATH: FPath = FPath::from(EVTX_KPNP_LZ4_STR_PATH_PROJD);
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref EVTX_KPNP_LZ4_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1678708380)
-    };
-    pub static ref EVTX_KPNP_LZ4_EVENT_COUNT: Count = 227;
-    pub static ref EVTX_KPNP_LZ4_F: File =
-        File::open(fpath_to_path(&EVTX_KPNP_LZ4_FPATH)).unwrap();
-    /// Entry 1 datetime
-    pub static ref EVTX_KPNP_LZ4_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
-    /// Entry last datetime
-    pub static ref EVTX_KPNP_LZ4_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
+// EVTX_KPNP tar
 
-    // EVTX_KPNP tar
+pub static EVTX_KPNP_TAR_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(EVTX_KPNP_TAR_STR_PATH_PROJD));
+/// set by `./tools/log-files-time-update.sh`
+pub static EVTX_KPNP_TAR_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980)
+});
+pub const EVTX_KPNP_TAR_EVENT_COUNT: Count = 227;
+pub static EVTX_KPNP_TAR_F: LazyLock<File> = LazyLock::new(||
+    File::open(fpath_to_path(&EVTX_KPNP_TAR_FPATH)).unwrap());
+/// Entry 1 datetime
+pub static EVTX_KPNP_TAR_ENTRY1_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY1_DT);
+/// Entry last datetime
+pub static EVTX_KPNP_TAR_ENTRY227_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY227_DT);
 
-    pub static ref EVTX_KPNP_TAR_FPATH: FPath = FPath::from(EVTX_KPNP_TAR_STR_PATH_PROJD);
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref EVTX_KPNP_TAR_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980)
-    };
-    pub static ref EVTX_KPNP_TAR_EVENT_COUNT: Count = 227;
-    pub static ref EVTX_KPNP_TAR_F: File =
-        File::open(fpath_to_path(&EVTX_KPNP_TAR_FPATH)).unwrap();
-    /// Entry 1 datetime
-    pub static ref EVTX_KPNP_TAR_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
-    /// Entry last datetime
-    pub static ref EVTX_KPNP_TAR_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
+// EVTX_KPNP xz
 
-    // EVTX_KPNP xz
-
-    pub static ref EVTX_KPNP_XZ_FPATH: FPath = FPath::from(EVTX_KPNP_XZ_STR_PATH_PROJD);
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref EVTX_KPNP_XZ_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1678794840)
-    };
-    pub static ref EVTX_KPNP_XZ_EVENT_COUNT: Count = 227;
-    pub static ref EVTX_KPNP_XZ_F: File =
-        File::open(fpath_to_path(&EVTX_KPNP_XZ_FPATH)).unwrap();
-    /// Entry 1 datetime
-    pub static ref EVTX_KPNP_XZ_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
-    /// Entry last datetime
-    pub static ref EVTX_KPNP_XZ_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
-
-}
+pub static EVTX_KPNP_XZ_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from(EVTX_KPNP_XZ_STR_PATH_PROJD));
+/// set by `./tools/log-files-time-update.sh`
+pub static EVTX_KPNP_XZ_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1678794840)
+});
+pub const EVTX_KPNP_XZ_EVENT_COUNT: Count = 227;
+pub static EVTX_KPNP_XZ_F: LazyLock<File> = LazyLock::new(||
+    File::open(fpath_to_path(&EVTX_KPNP_XZ_FPATH)).unwrap());
+/// Entry 1 datetime
+pub static EVTX_KPNP_XZ_ENTRY1_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY1_DT);
+/// Entry last datetime
+pub static EVTX_KPNP_XZ_ENTRY227_DT: LazyLock<DateTimeL> = LazyLock::new(|| *EVTX_KPNP_ENTRY227_DT);
 
 // -------------------------------------------------------------------------------------------------
 
@@ -5042,153 +4976,149 @@ pub const SYSTEMD_NOT_AVAILABLE: bool = cfg!(target_os = "windows") || cfg!(targ
 
 pub const JOURNAL_FILE_RHE_91_SYSTEM_FILESZ: FileSz = 4644864;
 
-lazy_static! {
+// empty file with suffix .journal
 
-    // empty file with suffix .journal
+pub static NTF_JOURNAL_EMPTY: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    create_temp_file_with_suffix("", &String::from(".journal"))
+});
+pub static NTF_JOURNAL_EMPTY_FPATH: LazyLock<FPath> = LazyLock::new(|| {
+    path_to_fpath(NTF_JOURNAL_EMPTY.path())
+});
 
-    pub static ref NTF_JOURNAL_EMPTY: NamedTempFile = {
-        create_temp_file_with_suffix("", &String::from(".journal"))
-    };
-    pub static ref NTF_JOURNAL_EMPTY_FPATH: FPath = {
-        path_to_fpath(NTF_JOURNAL_EMPTY.path())
-    };
+// .journal file taken from a new Red Hat Enterprise 9.1 system
 
-    // .journal file taken from a new Red Hat Enterprise 9.1 system
+pub static JOURNAL_FILE_RHE_91_SYSTEM_FPATH: LazyLock<FPath> = LazyLock::new(||
+    FPath::from("./logs/programs/journal/RHE_91_system.journal"));
+/// set by `./tools/log-files-time-update.sh`
+pub static JOURNAL_FILE_RHE_91_SYSTEM_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655)
+});
+pub static JOURNAL_FILE_RHE_91_SYSTEM_PATH: LazyLock<&'static Path> = LazyLock::new(||
+    fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_EXISTS: LazyLock<bool> = LazyLock::new(||
+    JOURNAL_FILE_RHE_91_SYSTEM_PATH.exists());
+pub const JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT: Count = 2081;
+pub const JOURNAL_FILE_RHE_91_SYSTEM_EVENT_FILESZ: FileSz = 4644864;
+pub static JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768));
 
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_FPATH: FPath =
-        FPath::from("./logs/programs/journal/RHE_91_system.journal");
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655)
-    };
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_PATH: &'static Path =
-        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_EXISTS: bool =
-        JOURNAL_FILE_RHE_91_SYSTEM_PATH.exists();
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT: Count = 2081;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_EVENT_FILESZ: FileSz = 4644864;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+// .journal file taken from a new Red Hat Enterprise 9.1 system gz
 
-    // .journal file taken from a new Red Hat Enterprise 9.1 system gz
+pub static JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH: LazyLock<FPath> = LazyLock::new(||
+    FPath::from("./logs/programs/journal/RHE_91_system.journal.bz2"));
+/// set by `./tools/log-files-time-update.sh`
+pub static JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1681254655)
+});
+pub static JOURNAL_FILE_RHE_91_SYSTEM_BZ2_PATH: LazyLock<&'static Path> = LazyLock::new(||
+    fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_BZ2_EXISTS: LazyLock<bool> = LazyLock::new(||
+    JOURNAL_FILE_RHE_91_SYSTEM_BZ2_PATH.exists());
+pub const JOURNAL_FILE_RHE_91_SYSTEM_BZ2_EVENT_COUNT: Count = 2081;
+pub const JOURNAL_FILE_RHE_91_SYSTEM_BZ2_EVENT_FILESZ: FileSz = 4644864;
+pub static JOURNAL_FILE_RHE_91_SYSTEM_BZ2_ENTRY_FIRST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_BZ2_ENTRY_LAST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768));
 
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH: FPath =
-        FPath::from("./logs/programs/journal/RHE_91_system.journal.bz2");
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1681254655)
-    };
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_PATH: &'static Path =
-        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_EXISTS: bool =
-        JOURNAL_FILE_RHE_91_SYSTEM_BZ2_PATH.exists();
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_EVENT_COUNT: Count = 2081;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_EVENT_FILESZ: FileSz = 4644864;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_ENTRY_FIRST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_ENTRY_LAST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+// .journal file taken from a new Red Hat Enterprise 9.1 system gz
 
-    // .journal file taken from a new Red Hat Enterprise 9.1 system gz
+pub static JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH: LazyLock<FPath> = LazyLock::new(||
+    FPath::from("./logs/programs/journal/RHE_91_system.journal.gz"));
+/// set by `./tools/log-files-time-update.sh`
+pub static JOURNAL_FILE_RHE_91_SYSTEM_GZ_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634)
+});
+pub static JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH: LazyLock<&'static Path> = LazyLock::new(||
+    fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_GZ_EXISTS: LazyLock<bool> = LazyLock::new(||
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH.exists());
+pub const JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT: Count = 2081;
+pub const JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_FILESZ: FileSz = 4644864;
+pub static JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768));
 
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH: FPath =
-        FPath::from("./logs/programs/journal/RHE_91_system.journal.gz");
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634)
-    };
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH: &'static Path =
-        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_EXISTS: bool =
-        JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH.exists();
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT: Count = 2081;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_FILESZ: FileSz = 4644864;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+// .journal file taken from a new Red Hat Enterprise 9.1 system tar
 
-    // .journal file taken from a new Red Hat Enterprise 9.1 system tar
+pub static JOURNAL_FILE_RHE_91_SYSTEM_TAR_FPATH: LazyLock<FPath> = LazyLock::new(||
+    FPath::from(
+        concatcp!(
+            "./logs/programs/journal/RHE_91_system.tar",
+            SUBPATH_SEP,
+            "RHE_91_system.journal"
+        )
+    ));
+/// set by `./tools/log-files-time-update.sh`
+pub static JOURNAL_FILE_RHE_91_SYSTEM_TAR_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634)
+});
+pub static JOURNAL_FILE_RHE_91_SYSTEM_TAR_PATH: LazyLock<&'static Path> = LazyLock::new(||
+    fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_TAR_FPATH));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_TAR_EXISTS: LazyLock<bool> = LazyLock::new(||
+    JOURNAL_FILE_RHE_91_SYSTEM_TAR_PATH.exists());
+pub const JOURNAL_FILE_RHE_91_SYSTEM_TAR_EVENT_COUNT: Count = 2081;
+pub const JOURNAL_FILE_RHE_91_SYSTEM_TAR_EVENT_FILESZ: FileSz = 4644864;
+pub static JOURNAL_FILE_RHE_91_SYSTEM_TAR_ENTRY_FIRST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_TAR_ENTRY_LAST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768));
 
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_FPATH: FPath =
-        FPath::from(
-            concatcp!(
-                "./logs/programs/journal/RHE_91_system.tar",
-                SUBPATH_SEP,
-                "RHE_91_system.journal"
-            )
-        );
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634)
-    };
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_PATH: &'static Path =
-        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_TAR_FPATH);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_EXISTS: bool =
-        JOURNAL_FILE_RHE_91_SYSTEM_TAR_PATH.exists();
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_EVENT_COUNT: Count = 2081;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_EVENT_FILESZ: FileSz = 4644864;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_ENTRY_FIRST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_ENTRY_LAST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+// .journal file taken from a new Red Hat Enterprise 9.1 system xz
 
-    // .journal file taken from a new Red Hat Enterprise 9.1 system xz
+pub static JOURNAL_FILE_RHE_91_SYSTEM_LZ4_FPATH: LazyLock<FPath> = LazyLock::new(||
+    FPath::from("./logs/programs/journal/RHE_91_system.journal.lz4"));
+/// set by `./tools/log-files-time-update.sh`
+pub static JOURNAL_FILE_RHE_91_SYSTEM_LZ4_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655)
+});
+pub static JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH: LazyLock<&'static Path> = LazyLock::new(||
+    fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_LZ4_FPATH));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EXISTS: LazyLock<bool> = LazyLock::new(||
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH.exists());
+pub const JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT: Count = 2081;
+pub const JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_FILESZ: FileSz = 4644864;
+pub static JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768));
 
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_FPATH: FPath =
-        FPath::from("./logs/programs/journal/RHE_91_system.journal.lz4");
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655)
-    };
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH: &'static Path =
-        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_LZ4_FPATH);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EXISTS: bool =
-        JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH.exists();
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT: Count = 2081;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_FILESZ: FileSz = 4644864;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+// .journal file taken from a new Red Hat Enterprise 9.1 system xz
 
-    // .journal file taken from a new Red Hat Enterprise 9.1 system xz
+pub static JOURNAL_FILE_RHE_91_SYSTEM_XZ_FPATH: LazyLock<FPath> = LazyLock::new(||
+    FPath::from("./logs/programs/journal/RHE_91_system.journal.xz"));
+/// set by `./tools/log-files-time-update.sh`
+pub static JOURNAL_FILE_RHE_91_SYSTEM_XZ_MTIME: LazyLock<SystemTime> = LazyLock::new(|| {
+    SystemTime::UNIX_EPOCH + Duration::from_secs(1681164774)
+});
+pub static JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH: LazyLock<&'static Path> = LazyLock::new(||
+    fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_XZ_FPATH));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_XZ_EXISTS: LazyLock<bool> = LazyLock::new(||
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH.exists());
+pub const JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT: Count = 2081;
+pub const JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_FILESZ: FileSz = 4644864;
+pub static JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000));
+pub static JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768));
 
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_FPATH: FPath =
-        FPath::from("./logs/programs/journal/RHE_91_system.journal.xz");
-    /// set by `./tools/log-files-time-update.sh`
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1681164774)
-    };
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH: &'static Path =
-        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_XZ_FPATH);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_EXISTS: bool =
-        JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH.exists();
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT: Count = 2081;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_FILESZ: FileSz = 4644864;
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+// .journal file taken from an Ubuntu 22 system
 
-    // .journal file taken from an Ubuntu 22 system
-
-    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH: FPath =
-        FPath::from("./logs/programs/journal/Ubuntu22-user-1000x3.journal");
-    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH: &'static Path =
-        fpath_to_path(&JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH);
-    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_EXISTS: bool =
-        JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH.exists();
-    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT: Count = 3;
-    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_FILESZ: FileSz = 8388608;
-    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 2, 7, 6, 40, 60134);
-    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 4, 2, 7, 7, 0, 789680);
-
-}
+pub static JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH: LazyLock<FPath> = LazyLock::new(||
+    FPath::from("./logs/programs/journal/Ubuntu22-user-1000x3.journal"));
+pub static JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH: LazyLock<&'static Path> = LazyLock::new(||
+    fpath_to_path(&JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH));
+pub static JOURNAL_FILE_UBUNTU_22_SYSTEM_EXISTS: LazyLock<bool> = LazyLock::new(||
+    JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH.exists());
+pub const JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT: Count = 3;
+pub const JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_FILESZ: FileSz = 8388608;
+pub static JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 2, 7, 6, 40, 60134));
+pub static JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT: LazyLock<DateTimeL> = LazyLock::new(||
+    ymdhmsm(&FO_0, 2023, 4, 2, 7, 7, 0, 789680));
 
 // .journal file taken from a new Red Hat Enterprise 9.1 system, first entry printed
 
@@ -5324,75 +5254,72 @@ pub fn touch(path: &Path) -> io::Result<()> {
 /// 2023-04-22T03:47:45.7255624-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="NoOp success."
 /// ```
 pub const ETL_FILE1_PATH: &str = "./logs/Windows11Pro/Logs/SIH/SIH.20230422.034724.362.1.etl";
+pub static ETL_FILE1_DATA: LazyLock<Vec<Etl>> = LazyLock::new(|| {
+    let etl_data: Vec<Etl> = vec![
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 363294300),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:24.3632943-07:00 Provider={68fdd900-4a3e-11d1-84f4-0000f80464e3} ProviderName="MSNT_SystemTrace" EventName="Header" EventId=0 Version=2 Level=0 Opcode=0 Task=0 Keywords=0x0 PID=6412 TID=3240 HookId=0x0000 BufferSize=4096 Version=83951626 ProviderVersion=22621 NumberOfProcessors=1 EndTime=133266341204136027 TimerResolution=156250 MaxFileSize=128 LogFileMode=0x11002009 BuffersWritten=2 StartBuffers=1 PointerSize=8 EventsLost=0 CPUSpeed=4491 LoggerName=0xA LogFileName=0x7 BootTime=133264396075000000 PerfFreq=10000000 StartTime=133266340443632943 ReservedFlags=0x1 BuffersLost=0 SessionNameString="SIH_trace_log" LogFileNameString="C:\\Windows\\Logs\\SIH\\SIH.20230422.034724.362.1.etl""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 363294300),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:24.3632943-07:00 Provider={68fdd900-4a3e-11d1-84f4-0000f80464e3} ProviderName="MSNT_SystemTrace" EventName="PartitionInfoExtension" EventId=0 Version=2 Level=0 Opcode=80 Task=0 Keywords=0x0 PID=6412 TID=3240 HookId=0x0050 Payload=0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 472278200),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:24.4722782-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="wmain""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 472411800),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:24.4724118-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="cV = r4azpSFmbE6m+FuC09jWSA.0.1""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 509147100),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:24.5091471-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="Retrieving SLS response from server using ETAG \"XAopazV00XDWnJCwkmEWRv6JkbjRA9QSSZ2+e/3MzEk=_1440\"...""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 26, 613642600),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:26.6136426-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="report [0] on [fe3cr.delivery.mp.microsoft.com] with Alternate DNS needed[false], fPassDefault[true], fPassFallback[false]""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 25, 588498700),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:25.5884987-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="DNS Resiliency Feature is switched ON.""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 30548300),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:45.0305483-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="report [0] on [slscr.update.microsoft.com] with Alternate DNS needed[false], fPassDefault[true], fPassFallback[false]""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 31620400),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:45.0316204-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="Normal start.""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 38212800),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:45.0382128-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="Retrieving SLS response from server using ETAG \"MT1EoJH/qrWpWwGRkx7sbsS28A32Rz55YIcdvvtjCGK=_1440\"...""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 725541400),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:45.7255414-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=3 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="*FAILED* [80245108] DoWithCatchHResult caught""#),
+        ),
+        Etl::new(
+            ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 725562400),
+            DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
+            Bytes::from(br#"2023-04-22T03:47:45.7255624-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="NoOp success.""#),
+        ),
+    ];
 
-lazy_static::lazy_static! {
-    pub static ref ETL_FILE1_DATA: Vec<Etl> = {
-        let etl_data: Vec<Etl> = vec![
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 363294300),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:24.3632943-07:00 Provider={68fdd900-4a3e-11d1-84f4-0000f80464e3} ProviderName="MSNT_SystemTrace" EventName="Header" EventId=0 Version=2 Level=0 Opcode=0 Task=0 Keywords=0x0 PID=6412 TID=3240 HookId=0x0000 BufferSize=4096 Version=83951626 ProviderVersion=22621 NumberOfProcessors=1 EndTime=133266341204136027 TimerResolution=156250 MaxFileSize=128 LogFileMode=0x11002009 BuffersWritten=2 StartBuffers=1 PointerSize=8 EventsLost=0 CPUSpeed=4491 LoggerName=0xA LogFileName=0x7 BootTime=133264396075000000 PerfFreq=10000000 StartTime=133266340443632943 ReservedFlags=0x1 BuffersLost=0 SessionNameString="SIH_trace_log" LogFileNameString="C:\\Windows\\Logs\\SIH\\SIH.20230422.034724.362.1.etl""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 363294300),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:24.3632943-07:00 Provider={68fdd900-4a3e-11d1-84f4-0000f80464e3} ProviderName="MSNT_SystemTrace" EventName="PartitionInfoExtension" EventId=0 Version=2 Level=0 Opcode=80 Task=0 Keywords=0x0 PID=6412 TID=3240 HookId=0x0050 Payload=0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 472278200),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:24.4722782-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="wmain""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 472411800),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:24.4724118-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="cV = r4azpSFmbE6m+FuC09jWSA.0.1""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 24, 509147100),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:24.5091471-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="Retrieving SLS response from server using ETAG \"XAopazV00XDWnJCwkmEWRv6JkbjRA9QSSZ2+e/3MzEk=_1440\"...""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 26, 613642600),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:26.6136426-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="report [0] on [fe3cr.delivery.mp.microsoft.com] with Alternate DNS needed[false], fPassDefault[true], fPassFallback[false]""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 25, 588498700),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:25.5884987-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="DNS Resiliency Feature is switched ON.""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 30548300),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:45.0305483-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="report [0] on [slscr.update.microsoft.com] with Alternate DNS needed[false], fPassDefault[true], fPassFallback[false]""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 31620400),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:45.0316204-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="Normal start.""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 38212800),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:45.0382128-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="Retrieving SLS response from server using ETAG \"MT1EoJH/qrWpWwGRkx7sbsS28A32Rz55YIcdvvtjCGK=_1440\"...""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 725541400),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:45.7255414-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=3 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="*FAILED* [80245108] DoWithCatchHResult caught""#),
-            ),
-            Etl::new(
-                ymdhmsn(&FO_M7, 2023, 4, 22, 3, 47, 45, 725562400),
-                DtBegEndPairOpt::Some(DtBegEndPair { beg: 0, end: 33 }),
-                Bytes::from(br#"2023-04-22T03:47:45.7255624-07:00 Provider={9906081d-e45a-4f41-a53f-2ac2e0225de1} ProviderName="SIHTraceLogging" EventName="SIH" EventId=0 Version=0 Level=4 Opcode=0 Task=0 Keywords=0x400000 PID=6412 TID=3240 Info="NoOp success.""#),
-            ),
-        ];
-
-        etl_data
-    };
-}
+    etl_data
+});
 
 // ODL files
 //
@@ -5439,37 +5366,35 @@ fn odl_expected(
     }
 }
 
-lazy_static! {
-    pub static ref ODL_NUCLEUS_ODLGZ_DATA: Vec<OdlExpectedLine> = vec![
-        odl_expected(5, 17, 35, 756, br#"2025-12-21T05:17:35.756-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::Initialize; JokeYakLog:\RodOafGad\PieFarAwe\TaxZigPen\WarPewMuch\PenFoxRag\MuchGadSea\WolfSeaJoy\FoxKidTax\WowSewYup\QuillTheCan.txt"#),
-        odl_expected(5, 17, 35, 756, br#"2025-12-21T05:17:35.756-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::UpdateLocalVariableFromFile; 3, 0, 3, 2, 1, 1, "#),
-        odl_expected(5, 17, 35, 757, br#"2025-12-21T05:17:35.757-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::CreateLoggingTelemetrySession;"#),
-        odl_expected(5, 17, 35, 758, br#"2025-12-21T05:17:35.758-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::HasGroupPolicyConfiguringTelemetryUploadLocation;"#),
-        odl_expected(5, 17, 35, 758, br#"2025-12-21T05:17:35.758-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::ShouldUseExperimentalDll;"#),
-    ];
-    pub static ref ODL_SYNCENGINE_ODL_DATA: Vec<OdlExpectedLine> = vec![
-        odl_expected(5, 17, 16, 910, br#"2025-12-21T05:17:16.910-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::Initialize; JokeYakLog:\RodOafGad\PieFarAwe\TaxZigPen\WarPewMuch\PenFoxRag\MuchGadSea\WolfSeaJoy\MawPieTruck\QuillTheCan.txt"#),
-        odl_expected(5, 17, 16, 910, br#"2025-12-21T05:17:16.910-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::UpdateLocalVariableFromFile; 3, 0, 3, 2, 1, 1, "#),
-        odl_expected(5, 17, 16, 910, br#"2025-12-21T05:17:16.910-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::CreateLoggingTelemetrySession;"#),
-        odl_expected(5, 17, 16, 911, br#"2025-12-21T05:17:16.911-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::HasGroupPolicyConfiguringTelemetryUploadLocation;"#),
-        odl_expected(5, 17, 16, 911, br#"2025-12-21T05:17:16.911-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::ShouldUseExperimentalDll;"#),
-    ];
-    pub static ref ODL_NUCLEUSLOCAL_AODL_DATA: Vec<OdlExpectedLine> = vec![
-        odl_expected(5, 14, 8, 216, br#"2025-12-21T05:14:08.216-07:00 LocalEnvironment.cpp:Nucleus::System::CreateLocalEnvironment;"#),
-        odl_expected(5, 14, 8, 217, br#"2025-12-21T05:14:08.217-07:00 LocalEnvironment.cpp:Nucleus::System::LocalEnvironment::Start;"#),
-        odl_expected(5, 14, 8, 218, br#"2025-12-21T05:14:08.218-07:00 DatabasePathResolver.cpp:Nucleus::Database::DatabasePathResolver::DatabasePathResolver;"#),
-        odl_expected(5, 14, 8, 218, br#"2025-12-21T05:14:08.218-07:00 LocalContentDatabase.cpp:Nucleus::Database::LocalContentDatabase::Initialize;"#),
-        odl_expected(5, 14, 8, 226, br#"2025-12-21T05:14:08.226-07:00 DataSource.cpp:Nucleus::Database::DataSource::PrepareSchema; DataSourceDBResetOnStaleTempSchema localContent Success"#),
-        odl_expected(5, 14, 8, 232, br#"2025-12-21T05:14:08.232-07:00 DataSource.cpp:Nucleus::Database::DataSource::PrepareSchema; DataSourceDBResetOnStaleTempSchema thumbnailCache Success"#),
-        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 EventMachine.cpp:EvtMachine::EventMachine::AttachThread; Nucleus Shared Worker Thread"#),
-        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
-        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ 1f2b5e15-2693-4a5d-a6eb-f3a1aacfba80/"#),
-        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread"#),
-        odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
-        odl_expected(5, 14, 8, 234, br#"2025-12-21T05:14:08.234-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
-        odl_expected(5, 14, 8, 234, br#"2025-12-21T05:14:08.234-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
-        odl_expected(5, 14, 8, 234, br#"2025-12-21T05:14:08.234-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
-        odl_expected(5, 14, 13, 366, br#"2025-12-21T05:14:13.366-07:00 EventMachine.cpp:EvtMachine::EventMachine::FireEvent; NucleusUpdateRingSettingsUpdated"#),
-        odl_expected(5, 14, 13, 366, br#"2025-12-21T05:14:13.366-07:00 EventMachine.cpp:EvtMachine::EventMachine::FireEvent; NucleusUpdateRingSettingsUpdated"#),
-    ];
-}
+pub static ODL_NUCLEUS_ODLGZ_DATA: LazyLock<Vec<OdlExpectedLine>> = LazyLock::new(|| vec![
+    odl_expected(5, 17, 35, 756, br#"2025-12-21T05:17:35.756-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::Initialize; JokeYakLog:\RodOafGad\PieFarAwe\TaxZigPen\WarPewMuch\PenFoxRag\MuchGadSea\WolfSeaJoy\FoxKidTax\WowSewYup\QuillTheCan.txt"#),
+    odl_expected(5, 17, 35, 756, br#"2025-12-21T05:17:35.756-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::UpdateLocalVariableFromFile; 3, 0, 3, 2, 1, 1, "#),
+    odl_expected(5, 17, 35, 757, br#"2025-12-21T05:17:35.757-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::CreateLoggingTelemetrySession;"#),
+    odl_expected(5, 17, 35, 758, br#"2025-12-21T05:17:35.758-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::HasGroupPolicyConfiguringTelemetryUploadLocation;"#),
+    odl_expected(5, 17, 35, 758, br#"2025-12-21T05:17:35.758-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::ShouldUseExperimentalDll;"#),
+]);
+pub static ODL_SYNCENGINE_ODL_DATA: LazyLock<Vec<OdlExpectedLine>> = LazyLock::new(|| vec![
+    odl_expected(5, 17, 16, 910, br#"2025-12-21T05:17:16.910-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::Initialize; JokeYakLog:\RodOafGad\PieFarAwe\TaxZigPen\WarPewMuch\PenFoxRag\MuchGadSea\WolfSeaJoy\MawPieTruck\QuillTheCan.txt"#),
+    odl_expected(5, 17, 16, 910, br#"2025-12-21T05:17:16.910-07:00 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::UpdateLocalVariableFromFile; 3, 0, 3, 2, 1, 1, "#),
+    odl_expected(5, 17, 16, 910, br#"2025-12-21T05:17:16.910-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::CreateLoggingTelemetrySession;"#),
+    odl_expected(5, 17, 16, 911, br#"2025-12-21T05:17:16.911-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::HasGroupPolicyConfiguringTelemetryUploadLocation;"#),
+    odl_expected(5, 17, 16, 911, br#"2025-12-21T05:17:16.911-07:00 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::ShouldUseExperimentalDll;"#),
+]);
+pub static ODL_NUCLEUSLOCAL_AODL_DATA: LazyLock<Vec<OdlExpectedLine>> = LazyLock::new(|| vec![
+    odl_expected(5, 14, 8, 216, br#"2025-12-21T05:14:08.216-07:00 LocalEnvironment.cpp:Nucleus::System::CreateLocalEnvironment;"#),
+    odl_expected(5, 14, 8, 217, br#"2025-12-21T05:14:08.217-07:00 LocalEnvironment.cpp:Nucleus::System::LocalEnvironment::Start;"#),
+    odl_expected(5, 14, 8, 218, br#"2025-12-21T05:14:08.218-07:00 DatabasePathResolver.cpp:Nucleus::Database::DatabasePathResolver::DatabasePathResolver;"#),
+    odl_expected(5, 14, 8, 218, br#"2025-12-21T05:14:08.218-07:00 LocalContentDatabase.cpp:Nucleus::Database::LocalContentDatabase::Initialize;"#),
+    odl_expected(5, 14, 8, 226, br#"2025-12-21T05:14:08.226-07:00 DataSource.cpp:Nucleus::Database::DataSource::PrepareSchema; DataSourceDBResetOnStaleTempSchema localContent Success"#),
+    odl_expected(5, 14, 8, 232, br#"2025-12-21T05:14:08.232-07:00 DataSource.cpp:Nucleus::Database::DataSource::PrepareSchema; DataSourceDBResetOnStaleTempSchema thumbnailCache Success"#),
+    odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 EventMachine.cpp:EvtMachine::EventMachine::AttachThread; Nucleus Shared Worker Thread"#),
+    odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+    odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ 1f2b5e15-2693-4a5d-a6eb-f3a1aacfba80/"#),
+    odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread"#),
+    odl_expected(5, 14, 8, 233, br#"2025-12-21T05:14:08.233-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+    odl_expected(5, 14, 8, 234, br#"2025-12-21T05:14:08.234-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+    odl_expected(5, 14, 8, 234, br#"2025-12-21T05:14:08.234-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+    odl_expected(5, 14, 8, 234, br#"2025-12-21T05:14:08.234-07:00 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread"#),
+    odl_expected(5, 14, 13, 366, br#"2025-12-21T05:14:13.366-07:00 EventMachine.cpp:EvtMachine::EventMachine::FireEvent; NucleusUpdateRingSettingsUpdated"#),
+    odl_expected(5, 14, 13, 366, br#"2025-12-21T05:14:13.366-07:00 EventMachine.cpp:EvtMachine::EventMachine::FireEvent; NucleusUpdateRingSettingsUpdated"#),
+]);

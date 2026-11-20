@@ -5182,7 +5182,6 @@ version = "0.10.6"
 dependencies = [
  "const-str",
  "dotenvy",
- "lazy_static",
  "macro-string",
  "proc-macro2",
  "quote",
@@ -5198,7 +5197,6 @@ dependencies = [
  "build-print",
  "const-str",
  "dotenvy",
- "lazy_static",
  "more-asserts",
  "si_trace_print",
  "super-speedy-syslog-searcher_ere",
@@ -5246,7 +5244,6 @@ dependencies = [
  "jetscii",
  "jwalk",
  "kinded",
- "lazy_static",
  "libc",
  "list-features",
  "log",

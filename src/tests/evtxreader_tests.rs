@@ -7,8 +7,8 @@
 #![allow(clippy::too_many_arguments)]
 
 use std::hint::black_box;
+use std::sync::LazyLock;
 
-use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
     defn,
@@ -86,20 +86,18 @@ pub const EVTX_KPNP_DATA1_S_E: &str = r#"
   <System>
     <TimeCreated SystemTime="2023-03-10T03:49:43"#;
 
-lazy_static! {
-    static ref EVTX_KPNP_DATA1_TIMESTAMP: Timestamp = Timestamp::new(1678420183, 0).unwrap();
-    /// EVTX #1
-    static ref EVTX_1: Evtx = Evtx::new_forced(
-        *EVTX_KPNP_ENTRY1_DT,
-        DtBegEndPairOpt::Some(DtBegEndPair { beg: 420, end: 447 }),
-        EvtxRS {
-            event_record_id: EVTX_KPNP_DATA1_ID,
-            timestamp: *EVTX_KPNP_DATA1_TIMESTAMP,
-            data: String::from(EVTX_KPNP_DATA1_S),
-            recovered: false
-        }
-    );
-}
+static EVTX_KPNP_DATA1_TIMESTAMP: LazyLock<Timestamp> = LazyLock::new(|| Timestamp::new(1678420183, 0).unwrap());
+/// EVTX #1
+static EVTX_1: LazyLock<Evtx> = LazyLock::new(|| Evtx::new_forced(
+    *EVTX_KPNP_ENTRY1_DT,
+    DtBegEndPairOpt::Some(DtBegEndPair { beg: 420, end: 447 }),
+    EvtxRS {
+        event_record_id: EVTX_KPNP_DATA1_ID,
+        timestamp: *EVTX_KPNP_DATA1_TIMESTAMP,
+        data: String::from(EVTX_KPNP_DATA1_S),
+        recovered: false
+    }
+));
 
 const FT_NORM: FileType = FileType::Evtx {
     archival_type: FileTypeArchive::Normal,
@@ -195,8 +193,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
 #[test_case(
     &EVTX_KPNP_FPATH,
     FT_NORM,
-    *EVTX_KPNP_EVENT_COUNT,
-    *EVTX_KPNP_EVENT_COUNT,
+    EVTX_KPNP_EVENT_COUNT,
+    EVTX_KPNP_EVENT_COUNT,
     1701,
     1701,
     1052672,
@@ -211,8 +209,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
 #[test_case(
     &EVTX_KPNP_GZ_FPATH,
     FT_GZ,
-    *EVTX_KPNP_GZ_EVENT_COUNT,
-    *EVTX_KPNP_GZ_EVENT_COUNT,
+    EVTX_KPNP_GZ_EVENT_COUNT,
+    EVTX_KPNP_GZ_EVENT_COUNT,
     1701,
     1701,
     1052672,
@@ -227,8 +225,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
 #[test_case(
     &EVTX_KPNP_LZ4_FPATH,
     FT_LZ4,
-    *EVTX_KPNP_LZ4_EVENT_COUNT,
-    *EVTX_KPNP_LZ4_EVENT_COUNT,
+    EVTX_KPNP_LZ4_EVENT_COUNT,
+    EVTX_KPNP_LZ4_EVENT_COUNT,
     1701,
     1701,
     1052672,
@@ -243,8 +241,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
 #[test_case(
     &EVTX_KPNP_TAR_FPATH,
     FT_TAR,
-    *EVTX_KPNP_TAR_EVENT_COUNT,
-    *EVTX_KPNP_TAR_EVENT_COUNT,
+    EVTX_KPNP_TAR_EVENT_COUNT,
+    EVTX_KPNP_TAR_EVENT_COUNT,
     1701,
     1701,
     1052672,
@@ -259,8 +257,8 @@ fn test_EvtxReader_summary_empty(path: &FPath) {
 #[test_case(
     &EVTX_KPNP_XZ_FPATH,
     FT_XZ,
-    *EVTX_KPNP_XZ_EVENT_COUNT,
-    *EVTX_KPNP_XZ_EVENT_COUNT,
+    EVTX_KPNP_XZ_EVENT_COUNT,
+    EVTX_KPNP_XZ_EVENT_COUNT,
     1701,
     1701,
     1052672,

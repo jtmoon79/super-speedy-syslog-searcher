@@ -8,7 +8,6 @@
 
 use std::io::{
     Cursor,
-    Read,
     Seek,
     SeekFrom,
     Write,
@@ -23,7 +22,7 @@ use ::chrono::{
     Local,
     TimeZone,
 };
-use ::lazy_static::lazy_static;
+use std::sync::LazyLock;
 use ::si_trace_print::stack::stack_offset_set;
 use ::si_trace_print::{
     defn,
@@ -378,8 +377,8 @@ fn test_BlockReader(
 
 // reading plain file tests
 
-lazy_static! {
-    static ref NTF_BASIC_10: NamedTempFile = {
+
+    static NTF_BASIC_10: LazyLock<NamedTempFile> = LazyLock::new(|| {
         create_temp_file(
             "\
 1901-01-01 00:01:01 1
@@ -393,9 +392,9 @@ lazy_static! {
 1909-01-09 00:13:09 9
 1910-01-10 00:14:10 10",
         )
-    };
-    static ref NTF_BASIC_10_FPATH: FPath = ntf_fpath(&NTF_BASIC_10);
-}
+    });
+    static NTF_BASIC_10_FPATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_BASIC_10));
+
 
 #[test]
 fn test_new_read_block_basic10_0() {
@@ -1311,12 +1310,12 @@ fn zip_temp_file(data: &[u8]) -> (NamedTempFile, FPath) {
     (ntf, path)
 }
 
-lazy_static! {
-    static ref NTF_ZIP_1BYTE: (NamedTempFile, FPath) = zip_temp_file(BYTES_A.as_slice());
-    static ref NTF_ZIP_1BYTE_FPATH: FPath = NTF_ZIP_1BYTE.1.clone();
-    static ref NTF_ZIP_8BYTE: (NamedTempFile, FPath) = zip_temp_file(BYTES_ABCDEFGH.as_slice());
-    static ref NTF_ZIP_8BYTE_FPATH: FPath = NTF_ZIP_8BYTE.1.clone();
-}
+
+    static NTF_ZIP_1BYTE: LazyLock<(NamedTempFile, FPath)> = LazyLock::new(|| zip_temp_file(BYTES_A.as_slice()));
+    static NTF_ZIP_1BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| NTF_ZIP_1BYTE.1.clone());
+    static NTF_ZIP_8BYTE: LazyLock<(NamedTempFile, FPath)> = LazyLock::new(|| zip_temp_file(BYTES_ABCDEFGH.as_slice()));
+    static NTF_ZIP_8BYTE_FPATH: LazyLock<FPath> = LazyLock::new(|| NTF_ZIP_8BYTE.1.clone());
+
 
 fn assert_zip_mtime(path: &FPath, expected: SystemTime) {
     let mut br = new_BlockReader(path, FILETYPE_UTF8_ZIP, BSZ);
@@ -1655,11 +1654,9 @@ const RD0_BUFFER: [u8; RD0_SZ] = [];
 const RD0_FILENAME: &str = "rd0.data";
 const RD0_FT: FileType = FILETYPE_UTF8;
 
-lazy_static! {
-    static ref RD0_NTF: NamedTempFile =
-        create_temp_file_bytes_with_suffix(RD0_BUFFER.as_slice(), &String::from(RD0_FILENAME));
-    static ref RD0_FP: FPath = ntf_fpath(&RD0_NTF);
-}
+static RD0_NTF: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(RD0_BUFFER.as_slice(), &String::from(RD0_FILENAME)));
+static RD0_FP: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&RD0_NTF));
 
 // RD1
 
@@ -1668,11 +1665,9 @@ const RD1_BUFFER: [u8; RD1_SZ] = [0];
 const RD1_FILENAME: &str = "rd1.data";
 const RD1_FT: FileType = FILETYPE_UTF8;
 
-lazy_static! {
-    static ref RD1_NTF: NamedTempFile =
-        create_temp_file_bytes_with_suffix(RD1_BUFFER.as_slice(), &String::from(RD1_FILENAME));
-    static ref RD1_FP: FPath = ntf_fpath(&RD1_NTF);
-}
+static RD1_NTF: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(RD1_BUFFER.as_slice(), &String::from(RD1_FILENAME)));
+static RD1_FP: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&RD1_NTF));
 
 // RD2
 
@@ -1681,11 +1676,9 @@ const RD2_BUFFER: [u8; RD2_SZ] = [0, 1];
 const RD2_FILENAME: &str = "rd2.data";
 const RD2_FT: FileType = FILETYPE_UTF8;
 
-lazy_static! {
-    static ref RD2_NTF: NamedTempFile =
-        create_temp_file_bytes_with_suffix(RD2_BUFFER.as_slice(), &String::from(RD2_FILENAME));
-    static ref RD2_FP: FPath = ntf_fpath(&RD2_NTF);
-}
+static RD2_NTF: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(RD2_BUFFER.as_slice(), &String::from(RD2_FILENAME)));
+static RD2_FP: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&RD2_NTF));
 
 // RD3
 
@@ -1694,11 +1687,9 @@ const RD3_BUFFER: [u8; RD3_SZ] = [0, 1, 2];
 const RD3_FILENAME: &str = "rd3.data";
 const RD3_FT: FileType = FILETYPE_UTF8;
 
-lazy_static! {
-    static ref RD3_NTF: NamedTempFile =
-        create_temp_file_bytes_with_suffix(RD3_BUFFER.as_slice(), &String::from(RD3_FILENAME));
-    static ref RD3_FP: FPath = ntf_fpath(&RD3_NTF);
-}
+static RD3_NTF: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(RD3_BUFFER.as_slice(), &String::from(RD3_FILENAME)));
+static RD3_FP: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&RD3_NTF));
 
 // RD4
 
@@ -1707,11 +1698,9 @@ const RD4_BUFFER: [u8; RD4_SZ] = [0, 1, 2, 3];
 const RD4_FILENAME: &str = "rd4.data";
 const RD4_FT: FileType = FILETYPE_UTF8;
 
-lazy_static! {
-    static ref RD4_NTF: NamedTempFile =
-        create_temp_file_bytes_with_suffix(RD4_BUFFER.as_slice(), &String::from(RD4_FILENAME));
-    static ref RD4_FP: FPath = ntf_fpath(&RD4_NTF);
-}
+static RD4_NTF: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(RD4_BUFFER.as_slice(), &String::from(RD4_FILENAME)));
+static RD4_FP: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&RD4_NTF));
 
 // RD5
 
@@ -1720,11 +1709,10 @@ const RD5_BUFFER: [u8; RD5_SZ] = [0, 1, 2, 3, 4];
 const RD5_FILENAME: &str = "rd5.data";
 const RD5_FT: FileType = FILETYPE_UTF8;
 
-lazy_static! {
-    static ref RD5_NTF: NamedTempFile =
-        create_temp_file_bytes_with_suffix(RD5_BUFFER.as_slice(), &String::from(RD5_FILENAME));
-    static ref RD5_FP: FPath = ntf_fpath(&RD5_NTF);
-}
+
+static RD5_NTF: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(RD5_BUFFER.as_slice(), &String::from(RD5_FILENAME)));
+static RD5_FP: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&RD5_NTF));
 
 // RD6
 
@@ -1733,11 +1721,10 @@ const RD6_BUFFER: [u8; RD6_SZ] = [0, 1, 2, 3, 4, 5];
 const RD6_FILENAME: &str = "rd6.data";
 const RD6_FT: FileType = FILETYPE_UTF8;
 
-lazy_static! {
-    static ref RD6_NTF: NamedTempFile =
-        create_temp_file_bytes_with_suffix(RD6_BUFFER.as_slice(), &String::from(RD6_FILENAME));
-    static ref RD6_FP: FPath = ntf_fpath(&RD6_NTF);
-}
+
+static RD6_NTF: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(RD6_BUFFER.as_slice(), &String::from(RD6_FILENAME)));
+static RD6_FP: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&RD6_NTF));
 
 // RD7
 
@@ -1746,11 +1733,9 @@ const RD7_BUFFER: [u8; RD7_SZ] = [0, 1, 2, 3, 4, 5, 6];
 const RD7_FILENAME: &str = "rd7.data";
 const RD7_FT: FileType = FILETYPE_UTF8;
 
-lazy_static! {
-    static ref RD7_NTF: NamedTempFile =
-        create_temp_file_bytes_with_suffix(RD7_BUFFER.as_slice(), &String::from(RD7_FILENAME));
-    static ref RD7_FP: FPath = ntf_fpath(&RD7_NTF);
-}
+static RD7_NTF: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(RD7_BUFFER.as_slice(), &String::from(RD7_FILENAME)));
+static RD7_FP: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&RD7_NTF));
 
 // RD16
 
@@ -1761,11 +1746,11 @@ const RD16_BUFFER: [u8; RD16_SZ] = [
 const RD16_FILENAME: &str = "rd16.data";
 const RD16_FT: FileType = FILETYPE_UTF8;
 
-lazy_static! {
-    static ref RD16_NTF: NamedTempFile =
-        create_temp_file_bytes_with_suffix(RD16_BUFFER.as_slice(), &String::from(RD16_FILENAME));
-    static ref RD16_FP: FPath = ntf_fpath(&RD16_NTF);
-}
+
+static RD16_NTF: LazyLock<NamedTempFile> = LazyLock::new(||
+    create_temp_file_bytes_with_suffix(RD16_BUFFER.as_slice(), &String::from(RD16_FILENAME)));
+static RD16_FP: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&RD16_NTF));
+
 
 #[derive(Debug, Eq, PartialEq)]
 enum ResultReadData_Test {
