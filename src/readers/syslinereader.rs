@@ -2538,50 +2538,49 @@ impl SyslineReader {
         }
 
         // check if there is a Sysline already known at this fileoffset
-        // TODO: replace `if contains_key` with `match get` to avoid double lookup
-        if self
-            .syslines
-            .contains_key(&fileoffset)
-        {
-            summary_stat!(self.syslines_hit += 1);
-            defo!("hit self.syslines for FileOffset {}", fileoffset);
-            let syslinep: SyslineP = SyslineP::clone(self.syslines.get(&fileoffset).unwrap());
-            let fo_next: FileOffset = (*syslinep).fileoffset_end() + 1;
-            if self.is_sysline_last(&syslinep) {
-                defo!(
-                    "return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+        match self.syslines.get(&fileoffset) {
+            Some(syslinep) => {
+                summary_stat!(self.syslines_hit += 1);
+                defo!("hit self.syslines for FileOffset {}", fileoffset);
+                let syslinep: SyslineP = SyslineP::clone(syslinep);
+                let fo_next: FileOffset = (*syslinep).fileoffset_end() + 1;
+                if self.is_sysline_last(&syslinep) {
+                    defo!(
+                        "return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                        fo_next,
+                        &syslinep,
+                        (*syslinep).fileoffset_begin(),
+                        (*syslinep).fileoffset_end(),
+                        (*syslinep).to_string_noraw()
+                    );
+                    summary_stat!(self.find_sysline_lru_cache_put += 1);
+                    self.find_sysline_lru_cache
+                        .put(fileoffset, ResultFindSysline::Found(
+                            (fo_next, SyslineP::clone(&syslinep))
+                        ));
+                    return Some(ResultFindSysline::Found((fo_next, syslinep)));
+                }
+                if self.find_sysline_lru_cache_enabled {
+                    summary_stat!(self.find_sysline_lru_cache_put += 1);
+                    self.find_sysline_lru_cache
+                        .put(fileoffset, ResultFindSysline::Found(
+                            (fo_next, SyslineP::clone(&syslinep))
+                        ));
+                }
+                defx!(
+                    "return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] from self.syslines {:?}",
                     fo_next,
                     &syslinep,
                     (*syslinep).fileoffset_begin(),
                     (*syslinep).fileoffset_end(),
                     (*syslinep).to_string_noraw()
                 );
-                summary_stat!(self.find_sysline_lru_cache_put += 1);
-                self.find_sysline_lru_cache
-                    .put(fileoffset, ResultFindSysline::Found(
-                        (fo_next, SyslineP::clone(&syslinep))
-                    ));
                 return Some(ResultFindSysline::Found((fo_next, syslinep)));
             }
-            if self.find_sysline_lru_cache_enabled {
-                summary_stat!(self.find_sysline_lru_cache_put += 1);
-                self.find_sysline_lru_cache
-                    .put(fileoffset, ResultFindSysline::Found(
-                        (fo_next, SyslineP::clone(&syslinep))
-                    ));
+            None => {
+                summary_stat!(self.syslines_miss += 1);
+                defo!("fileoffset {} not found in self.syslines", fileoffset);
             }
-            defx!(
-                "return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] from self.syslines {:?}",
-                fo_next,
-                &syslinep,
-                (*syslinep).fileoffset_begin(),
-                (*syslinep).fileoffset_end(),
-                (*syslinep).to_string_noraw()
-            );
-            return Some(ResultFindSysline::Found((fo_next, syslinep)));
-        } else {
-            summary_stat!(self.syslines_miss += 1);
-            defo!("fileoffset {} not found in self.syslines", fileoffset);
         }
         defx!("return None");
 
