@@ -8,9 +8,9 @@
 #![allow(clippy::too_many_arguments)]
 
 use std::str; // for `from_utf8`
+use std::sync::LazyLock;
 
 use ::chrono::FixedOffset;
-use ::lazy_static::lazy_static;
 use ::more_asserts::{
     assert_gt,
     assert_lt,
@@ -81,16 +81,16 @@ use crate::tests::common::{
 /// fileoffset for `UTMPX2`
 const UTMPX2_FO2: FileOffset = linux_x86::UTMPX_SZ_FO;
 
-lazy_static! {
-    static ref UTMPX2_PTR: FixedStructDynPtr =
-        buffer_to_fixedstructptr(&LINUX_X86_UTMPX_BUFFER2, FixedStructType::Fs_Linux_x86_Utmpx,).unwrap();
-    static ref UTMPX2: FixedStruct =
-        FixedStruct::new(UTMPX2_FO2, &FO_0, &LINUX_X86_UTMPX_BUFFER2, FixedStructType::Fs_Linux_x86_Utmpx).unwrap();
-    static ref UTMPX2_DT: DateTimeL = ymdhmsm(&FO_0, 2020, 1, 1, 12, 0, 2, 123636);
-    static ref UTMPX2_STRING_NORAW: String = UTMPX2.to_string_noraw();
-    static ref LINUX_X86_LASTLOG_1ENTRY_PTR: FixedStructDynPtr =
-        buffer_to_fixedstructptr(&LINUX_X86_LASTLOG_BUFFER1, FixedStructType::Fs_Linux_x86_Lastlog,).unwrap();
-}
+#[allow(dead_code)]
+static UTMPX2_PTR: LazyLock<FixedStructDynPtr> = LazyLock::new(||
+    buffer_to_fixedstructptr(&LINUX_X86_UTMPX_BUFFER2, FixedStructType::Fs_Linux_x86_Utmpx,).unwrap());
+static UTMPX2: LazyLock<FixedStruct> = LazyLock::new(||
+    FixedStruct::new(UTMPX2_FO2, &FO_0, &LINUX_X86_UTMPX_BUFFER2, FixedStructType::Fs_Linux_x86_Utmpx).unwrap());
+static UTMPX2_DT: LazyLock<DateTimeL> = LazyLock::new(|| ymdhmsm(&FO_0, 2020, 1, 1, 12, 0, 2, 123636));
+static UTMPX2_STRING_NORAW: LazyLock<String> = LazyLock::new(|| UTMPX2.to_string_noraw());
+#[allow(dead_code)]
+static LINUX_X86_LASTLOG_1ENTRY_PTR: LazyLock<FixedStructDynPtr> = LazyLock::new(||
+    buffer_to_fixedstructptr(&LINUX_X86_LASTLOG_BUFFER1, FixedStructType::Fs_Linux_x86_Lastlog,).unwrap());
 
 #[test_case(
     ymdhmsm(&FO_0, 2030, 1, 2, 0, 12, 13, 999999), 1893543133, 999999

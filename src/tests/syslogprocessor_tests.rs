@@ -6,9 +6,10 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
+use std::sync::LazyLock;
+
 use ::const_format::concatcp;
 use ::filetime;
-use ::lazy_static::lazy_static;
 use ::more_asserts::assert_gt;
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
@@ -165,9 +166,9 @@ const NTF5_MTIME_UNIXEPOCH: i64 = 957502855;
 
 const NTF5_DATA: &str = concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
-#[allow(dead_code)] // XXX: used in `lazy_static`
+#[allow(dead_code)] // XXX: used in `LazyLock`
 const NTF5_LINE2_DATETIME_STR: &str = "Mar 3 03:00:00 +0000";
-#[allow(dead_code)] // XXX: used in `lazy_static`
+#[allow(dead_code)] // XXX: used in `LazyLock`
 const NTF5_LINE2_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %z";
 
 //
@@ -202,9 +203,9 @@ const REGEX_ID_NTF3: RegexId = 31;
 
 const NTF3_DATA: &str = concatcp!(NTF3_DATA_LINE0, NTF3_DATA_LINE1, NTF3_DATA_LINE2,);
 
-#[allow(dead_code)] // XXX: used in `lazy_static`
+#[allow(dead_code)] // XXX: used in `LazyLock`
 const NTF3_LINE1_DATETIME_STR: &str = "Feb 2 02:00:00 2000 +0000";
-#[allow(dead_code)] // XXX: used in `lazy_static`
+#[allow(dead_code)] // XXX: used in `LazyLock`
 const NTF3_LINE1_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %Y %z";
 
 const NTF3_DATA_SYSLINES: [&str; 3] = [
@@ -346,228 +347,231 @@ const NTF7_2_DATA_SYSLINES: [&str; 8] = [
 // NTF0X12000
 //
 
-#[allow(dead_code)] // XXX: used in `lazy_static`
+#[allow(dead_code)] // XXX: used in `LazyLock`
 const NTF0X12000_DATA: &[u8; 12000] = &[0; 12000];
-#[allow(dead_code)] // XXX: used in `lazy_static`
+#[allow(dead_code)] // XXX: used in `LazyLock`
 const TIMEZONE_0: FixedOffset = FixedOffset::west_opt(0).unwrap();
 
-lazy_static! {
-    //
-    // NTF1S_A
-    //
 
-    static ref NTF1S_A: NamedTempFile = {
-        let ntf = create_temp_file(NTF1S_A_DATA);
-        // set the file's modified time to `NTF1S_A_MTIME_UNIXEPOCH`
-        let mtime = filetime::FileTime::from_unix_time(NTF1S_A_MTIME_UNIXEPOCH, 0);
-        match filetime::set_file_mtime(ntf.path(), mtime) {
-            Ok(_) => {},
-            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+//
+// NTF1S_A
+//
+
+static NTF1S_A: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    let ntf = create_temp_file(NTF1S_A_DATA);
+    // set the file's modified time to `NTF1S_A_MTIME_UNIXEPOCH`
+    let mtime = filetime::FileTime::from_unix_time(NTF1S_A_MTIME_UNIXEPOCH, 0);
+    match filetime::set_file_mtime(ntf.path(), mtime) {
+        Ok(_) => {},
+        Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+    }
+
+    ntf
+});
+
+static NTF1S_A_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF1S_A));
+
+/// a `DateTimeL` instance three minutes after `NTF1S_A_DATA_LINE0`
+static NTF1S_A_DATA_LINE0_AFTER: LazyLock<DateTimeLOpt> = LazyLock::new(|| {
+    match DateTimeL::parse_from_rfc3339("2001-01-01T12:37:56-00:00") {
+        Ok(dt) => Some(dt),
+        Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+    }
+});
+
+//
+// NTF1S_B
+//
+
+static NTF1S_B: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    let ntf = create_temp_file(NTF1S_B_DATA);
+    // set the file's modified time to `NTF1S_B_MTIME_UNIXEPOCH`
+    let mtime = filetime::FileTime::from_unix_time(NTF1S_B_MTIME_UNIXEPOCH, 0);
+    match filetime::set_file_mtime(ntf.path(), mtime) {
+        Ok(_) => {},
+        Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+    }
+
+    ntf
+});
+
+static NTF1S_B_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF1S_B));
+
+/// a `DateTimeL` instance three minutes after `NTF1S_B_DATA_LINE0`
+#[allow(dead_code)]
+static NTF1S_B_DATA_LINE0_AFTER: LazyLock<DateTimeLOpt> = LazyLock::new(|| {
+    match DateTimeL::parse_from_rfc3339("2001-01-01T12:37:56-00:00") {
+        Ok(dt) => Some(dt),
+        Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+    }
+});
+
+//
+// NTF1S_C
+//
+
+static NTF1S_C: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    let ntf = create_temp_file(NTF1S_C_DATA);
+    // set the file's modified time to `NTF1S_C_MTIME_UNIXEPOCH`
+    let mtime = filetime::FileTime::from_unix_time(NTF1S_C_MTIME_UNIXEPOCH, 0);
+    match filetime::set_file_mtime(ntf.path(), mtime) {
+        Ok(_) => {},
+        Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+    }
+
+    ntf
+});
+
+static NTF1S_C_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF1S_C));
+
+//
+// NTF2S_A
+//
+
+static NTF2S_A: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    let ntf = create_temp_file(NTF2S_A_DATA);
+    // set the file's modified time to `NTF2S_A_MTIME_UNIXEPOCH`
+    let mtime = filetime::FileTime::from_unix_time(NTF2S_A_MTIME_UNIXEPOCH, 0);
+    match filetime::set_file_mtime(ntf.path(), mtime) {
+        Ok(_) => {},
+        Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+    }
+
+    ntf
+});
+
+static NTF2S_A_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF2S_A));
+
+/// a `DateTimeL` instance at `NTF2S_A_DATA_LINE1`
+#[allow(dead_code)]
+static NTF2S_A_DATA_LINE1_AFTER: LazyLock<DateTimeLOpt> = LazyLock::new(|| {
+    match DateTimeL::parse_from_rfc3339("2001-01-02T23:45:60-00:00") {
+        Ok(dt) => Some(dt),
+        Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+    }
+});
+
+//
+// NTF5
+//
+
+/// a `DateTimeL` instance a few hours before `NTF5_DATA_LINE2` and after
+/// `NTF5_DATA_LINE1`
+static NTF5_DATA_LINE2_BEFORE: LazyLock<DateTimeLOpt> = LazyLock::new(|| {
+    match DateTimeL::parse_from_rfc3339("2000-03-01T12:00:00-00:00") {
+        Ok(dt) => Some(dt),
+        Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+    }
+});
+
+/// a `DateTimeL` instance some hours after `NTF5_DATA_LINE4`
+static NTF5_DATA_LINE4_AFTER: LazyLock<DateTimeLOpt> = LazyLock::new(|| {
+    match DateTimeL::parse_from_rfc3339("2000-05-05T23:00:00-00:00") {
+        Ok(dt) => Some(dt),
+        Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+    }
+});
+
+#[allow(dead_code)]
+static NTF5_LINE2_DATETIME: LazyLock<DateTimeL> = LazyLock::new(|| {
+    match datetime_parse_from_str(
+        NTF5_LINE2_DATETIME_STR, NTF5_LINE2_DATETIME_PATTERN, true, &TIMEZONE_0
+    ) {
+        Some(dt) => dt,
+        None => {
+            panic!("bad parameters to datetime_parse_from_str for NTF5_LINE2_DATETIME_STR");
         }
+    }
+});
 
-        ntf
-    };
+static NTF5: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    let ntf = create_temp_file(NTF5_DATA);
+    // set the file's modified time to `NTF5_MTIME_UNIXEPOCH`
+    let mtime = filetime::FileTime::from_unix_time(NTF5_MTIME_UNIXEPOCH, 0);
+    match filetime::set_file_mtime(ntf.path(), mtime) {
+        Ok(_) => {},
+        Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+    }
 
-    static ref NTF1S_A_PATH: FPath = ntf_fpath(&NTF1S_A);
+    ntf
+});
 
-    // a `DateTimeL` instance three minutes after `NTF1S_A_DATA_LINE0`
-    static ref NTF1S_A_DATA_LINE0_AFTER: DateTimeLOpt = {
-        match DateTimeL::parse_from_rfc3339("2001-01-01T12:37:56-00:00") {
-            Ok(dt) => Some(dt),
-            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+static NTF5_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF5));
+
+//
+// NTF5X4
+//
+
+static NTF5X4: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    let ntf = create_temp_file(NTF5X4_DATA);
+    // set the file's modified time to `NTF5X4_MTIME_UNIXEPOCH`
+    let mtime = filetime::FileTime::from_unix_time(NTF5X4_MTIME_UNIXEPOCH, 0);
+    match filetime::set_file_mtime(ntf.path(), mtime) {
+        Ok(_) => {},
+        Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+    }
+
+    ntf
+});
+
+static NTF5X4_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF5X4));
+
+//
+// NTF3
+//
+#[allow(dead_code)]
+static NTF3_LINE1_DATETIME: LazyLock<DateTimeL> = LazyLock::new(|| {
+    match datetime_parse_from_str(
+        NTF3_LINE1_DATETIME_STR, NTF3_LINE1_DATETIME_PATTERN, true, &TIMEZONE_0
+    ) {
+        Some(dt) => dt,
+        None => {
+            panic!("bad parameters to datetime_parse_from_str for NTF3_LINE1_DATETIME_STR");
         }
-    };
+    }
+});
 
-    //
-    // NTF1S_B
-    //
+static NTF3: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(NTF3_DATA));
 
-    static ref NTF1S_B: NamedTempFile = {
-        let ntf = create_temp_file(NTF1S_B_DATA);
-        // set the file's modified time to `NTF1S_B_MTIME_UNIXEPOCH`
-        let mtime = filetime::FileTime::from_unix_time(NTF1S_B_MTIME_UNIXEPOCH, 0);
-        match filetime::set_file_mtime(ntf.path(), mtime) {
-            Ok(_) => {},
-            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
-        }
+static NTF3_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF3));
 
-        ntf
-    };
+//
+// NTF9
+//
 
-    static ref NTF1S_B_PATH: FPath = ntf_fpath(&NTF1S_B);
+static NTF9: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(NTF9_DATA));
 
-    // a `DateTimeL` instance three minutes after `NTF1S_B_DATA_LINE0`
-    static ref NTF1S_B_DATA_LINE0_AFTER: DateTimeLOpt = {
-        match DateTimeL::parse_from_rfc3339("2001-01-01T12:37:56-00:00") {
-            Ok(dt) => Some(dt),
-            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
-        }
-    };
+static NTF9_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF9));
 
-    //
-    // NTF1S_C
-    //
+//
+// NTF7_2
+//
 
-    static ref NTF1S_C: NamedTempFile = {
-        let ntf = create_temp_file(NTF1S_C_DATA);
-        // set the file's modified time to `NTF1S_C_MTIME_UNIXEPOCH`
-        let mtime = filetime::FileTime::from_unix_time(NTF1S_C_MTIME_UNIXEPOCH, 0);
-        match filetime::set_file_mtime(ntf.path(), mtime) {
-            Ok(_) => {},
-            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
-        }
+static NTF7_2: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(NTF7_2_DATA));
 
-        ntf
-    };
+static NTF7_2_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF7_2));
 
-    static ref NTF1S_C_PATH: FPath = ntf_fpath(&NTF1S_C);
+//
+// NTF0X12000
+// zero-byte x12,000 times
+//
 
-    //
-    // NTF2S_A
-    //
+static NTF0X12000: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file_data(NTF0X12000_DATA));
 
-    static ref NTF2S_A: NamedTempFile = {
-        let ntf = create_temp_file(NTF2S_A_DATA);
-        // set the file's modified time to `NTF2S_A_MTIME_UNIXEPOCH`
-        let mtime = filetime::FileTime::from_unix_time(NTF2S_A_MTIME_UNIXEPOCH, 0);
-        match filetime::set_file_mtime(ntf.path(), mtime) {
-            Ok(_) => {},
-            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
-        }
+static NTF0X12000_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF0X12000));
 
-        ntf
-    };
+//
 
-    static ref NTF2S_A_PATH: FPath = ntf_fpath(&NTF2S_A);
+/// 76208400
+/// Thursday, June 1, 1972 1:00:00 AM GMT+00:00
+/// Wednesday, May 31, 1972 6:00:00 PM GMT-07:00
+static SYSTEMTIME_1972_06_01: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(&76208400));
 
-    // a `DateTimeL` instance at `NTF2S_A_DATA_LINE1`
-    static ref NTF2S_A_DATA_LINE1_AFTER: DateTimeLOpt = {
-        match DateTimeL::parse_from_rfc3339("2001-01-02T23:45:60-00:00") {
-            Ok(dt) => Some(dt),
-            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
-        }
-    };
-
-    //
-    // NTF5
-    //
-
-    // a `DateTimeL` instance a few hours before `NTF5_DATA_LINE2` and after
-    // `NTF5_DATA_LINE1`
-    static ref NTF5_DATA_LINE2_BEFORE: DateTimeLOpt = {
-        match DateTimeL::parse_from_rfc3339("2000-03-01T12:00:00-00:00") {
-            Ok(dt) => Some(dt),
-            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
-        }
-    };
-
-    // a `DateTimeL` instance some hours after `NTF5_DATA_LINE4`
-    static ref NTF5_DATA_LINE4_AFTER: DateTimeLOpt = {
-        match DateTimeL::parse_from_rfc3339("2000-05-05T23:00:00-00:00") {
-            Ok(dt) => Some(dt),
-            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
-        }
-    };
-
-    static ref NTF5_LINE2_DATETIME: DateTimeL = {
-        match datetime_parse_from_str(
-            NTF5_LINE2_DATETIME_STR, NTF5_LINE2_DATETIME_PATTERN, true, &TIMEZONE_0
-        ) {
-            Some(dt) => dt,
-            None => {
-                panic!("bad parameters to datetime_parse_from_str for NTF5_LINE2_DATETIME_STR");
-            }
-        }
-    };
-
-    static ref NTF5: NamedTempFile = {
-        let ntf = create_temp_file(NTF5_DATA);
-        // set the file's modified time to `NTF5_MTIME_UNIXEPOCH`
-        let mtime = filetime::FileTime::from_unix_time(NTF5_MTIME_UNIXEPOCH, 0);
-        match filetime::set_file_mtime(ntf.path(), mtime) {
-            Ok(_) => {},
-            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
-        }
-
-        ntf
-    };
-
-    static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
-
-    //
-    // NTF5X4
-    //
-
-    static ref NTF5X4: NamedTempFile = {
-        let ntf = create_temp_file(NTF5X4_DATA);
-        // set the file's modified time to `NTF5X4_MTIME_UNIXEPOCH`
-        let mtime = filetime::FileTime::from_unix_time(NTF5X4_MTIME_UNIXEPOCH, 0);
-        match filetime::set_file_mtime(ntf.path(), mtime) {
-            Ok(_) => {},
-            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
-        }
-
-        ntf
-    };
-
-    static ref NTF5X4_PATH: FPath = ntf_fpath(&NTF5X4);
-
-    //
-    // NTF3
-    //
-
-    static ref NTF3_LINE1_DATETIME: DateTimeL = {
-        match datetime_parse_from_str(
-            NTF3_LINE1_DATETIME_STR, NTF3_LINE1_DATETIME_PATTERN, true, &TIMEZONE_0
-        ) {
-            Some(dt) => dt,
-            None => {
-                panic!("bad parameters to datetime_parse_from_str for NTF3_LINE1_DATETIME_STR");
-            }
-        }
-    };
-
-    static ref NTF3: NamedTempFile = create_temp_file(NTF3_DATA);
-
-    static ref NTF3_PATH: FPath = ntf_fpath(&NTF3);
-
-    //
-    // NTF9
-    //
-
-    static ref NTF9: NamedTempFile = create_temp_file(NTF9_DATA);
-
-    static ref NTF9_PATH: FPath = ntf_fpath(&NTF9);
-
-    //
-    // NTF7_2
-    //
-
-    static ref NTF7_2: NamedTempFile = create_temp_file(NTF7_2_DATA);
-
-    static ref NTF7_2_PATH: FPath = ntf_fpath(&NTF7_2);
-
-    //
-    // NTF0X12000
-    // zero-byte x12,000 times
-    //
-
-    static ref NTF0X12000: NamedTempFile = create_temp_file_data(NTF0X12000_DATA);
-
-    static ref NTF0X12000_PATH: FPath = ntf_fpath(&NTF0X12000);
-
-    //
-
-    // 76208400
-    // Thursday, June 1, 1972 1:00:00 AM GMT+00:00
-    // Wednesday, May 31, 1972 6:00:00 PM GMT-07:00
-    static ref SYSTEMTIME_1972_06_01: SystemTime = seconds_to_systemtime(&76208400);
-
-    // 107744400
-    // Friday, June 1, 1973 1:00:00 AM GMT+00:00
-    // Thursday, May 31, 1973 6:00:00 PM GMT-07:00
-    static ref SYSTEMTIME_1973_06_01: SystemTime = seconds_to_systemtime(&107744400);
-}
+/// 107744400
+/// Friday, June 1, 1973 1:00:00 AM GMT+00:00
+/// Thursday, May 31, 1973 6:00:00 PM GMT-07:00
+#[allow(dead_code)]
+static SYSTEMTIME_1973_06_01: LazyLock<SystemTime> = LazyLock::new(|| seconds_to_systemtime(&107744400));
 
 /// Helper to wrap the match and panic checks
 fn new_SyslogProcessor(

@@ -2390,7 +2390,7 @@ pub type FixedStructDynPtr = Box<dyn FixedStructTrait>;
 ///
 /// `Send` required for sending from file processing thread to main thread
 ///
-/// `std::marker::Sync` required for `lazy_static!`
+/// `std::marker::Sync` required for `LazyLock`
 ///
 /// See <https://doc.rust-lang.org/1.66.0/reference/items/traits.html#object-safety>
 pub trait FixedStructTrait

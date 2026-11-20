@@ -12,7 +12,7 @@ use std::path::PathBuf;
 use std::time::Duration;
 
 use ::const_format::concatcp;
-use ::lazy_static::lazy_static;
+use std::sync::LazyLock;
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
     defn,
@@ -161,10 +161,8 @@ const FT_EVTX_NORM: FileType = FileType::Evtx {
     archival_type: FileTypeArchive::Normal,
 };
 
-lazy_static! {
-    static ref NTF5: NamedTempFile = create_temp_file(NTF5_DATA);
-    static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
-}
+static NTF5: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(NTF5_DATA));
+static NTF5_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF5));
 
 /// helper to `test_summary_longest_line_sysline`
 fn summary_with_longest_values(
@@ -667,7 +665,7 @@ fn test_PrinterLogMessage_print_evtx(
         }
     }
     eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
-    let expect_prints: usize = *EVTX_KPNP_EVENT_COUNT as usize;
+    let expect_prints: usize = EVTX_KPNP_EVENT_COUNT as usize;
     assert_eq!(prints, expect_prints, "Expected {} prints, got {}", expect_prints, prints);
     assert_eq!(
         printed_bytes, expected_printed_bytes,
@@ -747,7 +745,7 @@ fn test_PrinterLogMessage_print_journal(
         }
     }
     eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
-    let expect_prints: usize = *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT as usize;
+    let expect_prints: usize = JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT as usize;
     assert_eq!(prints, expect_prints, "Expected {} prints, got {}", expect_prints, prints,);
     assert_eq!(
         printed_bytes, expected_printed_bytes,

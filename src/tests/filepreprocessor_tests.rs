@@ -8,10 +8,10 @@
 
 use std::fs::copy;
 use std::io::Write;
+use std::sync::LazyLock;
 
 #[allow(unused_imports)]
 use ::filepath::FilePath; // provide `path` function on `File`
-use ::lazy_static::lazy_static;
 use ::si_trace_print::{
     defn,
     defo,
@@ -110,49 +110,47 @@ use crate::tests::common::{
 const TEXT_ASCII: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ .,;:'\"!?@#$%^&*()_+-=~`<>\n";
 const TEXT_ASCII_BYTES: &[u8] = TEXT_ASCII.as_bytes();
 
-lazy_static! {
-    pub static ref TEXT_UTF8_BOM_BYTES: Vec<u8> = [
-        BOM_UTF8.as_slice(),
-        TEXT_ASCII_BYTES
-    ]
-    .concat();
-    pub static ref TEXT_UTF16BE_STRING: String = encode_utf16be(TEXT_ASCII);
-    pub static ref TEXT_UTF16BE_BYTES: Vec<u8> = TEXT_UTF16BE_STRING
-        .as_bytes()
-        .to_vec();
-    pub static ref TEXT_UTF16BE_BOM_BYTES: Vec<u8> = [
-        BOM_UTF16BE.as_slice(),
-        TEXT_UTF16BE_BYTES.as_slice()
-    ]
-    .concat();
-    pub static ref TEXT_UTF16LE_STRING: String = encode_utf16le(TEXT_ASCII);
-    pub static ref TEXT_UTF16LE_BYTES: Vec<u8> = TEXT_UTF16LE_STRING
-        .as_bytes()
-        .to_vec();
-    pub static ref TEXT_UTF16LE_BOM_BYTES: Vec<u8> = [
-        BOM_UTF16LE.as_slice(),
-        TEXT_UTF16LE_BYTES.as_slice()
-    ]
-    .concat();
-    pub static ref TEXT_UTF32BE_STRING: String = encode_utf32be(TEXT_ASCII);
-    pub static ref TEXT_UTF32BE_BYTES: Vec<u8> = TEXT_UTF32BE_STRING
-        .as_bytes()
-        .to_vec();
-    pub static ref TEXT_UTF32BE_BOM_BYTES: Vec<u8> = [
-        BOM_UTF32BE.as_slice(),
-        TEXT_UTF32BE_BYTES.as_slice()
-    ]
-    .concat();
-    pub static ref TEXT_UTF32LE_STRING: String = encode_utf32le(TEXT_ASCII);
-    pub static ref TEXT_UTF32LE_BYTES: Vec<u8> = TEXT_UTF32LE_STRING
-        .as_bytes()
-        .to_vec();
-    pub static ref TEXT_UTF32LE_BOM_BYTES: Vec<u8> = [
-        BOM_UTF32LE.as_slice(),
-        TEXT_UTF32LE_BYTES.as_slice()
-    ]
-    .concat();
-}
+pub static TEXT_UTF8_BOM_BYTES: LazyLock<Vec<u8>> = LazyLock::new(|| [
+    BOM_UTF8.as_slice(),
+    TEXT_ASCII_BYTES
+]
+.concat());
+pub static TEXT_UTF16BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16be(TEXT_ASCII));
+pub static TEXT_UTF16BE_BYTES: LazyLock<Vec<u8>> = LazyLock::new(|| TEXT_UTF16BE_STRING
+    .as_bytes()
+    .to_vec());
+pub static TEXT_UTF16BE_BOM_BYTES: LazyLock<Vec<u8>> = LazyLock::new(|| [
+    BOM_UTF16BE.as_slice(),
+    TEXT_UTF16BE_BYTES.as_slice()
+]
+.concat());
+pub static TEXT_UTF16LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16le(TEXT_ASCII));
+pub static TEXT_UTF16LE_BYTES: LazyLock<Vec<u8>> = LazyLock::new(|| TEXT_UTF16LE_STRING
+    .as_bytes()
+    .to_vec());
+pub static TEXT_UTF16LE_BOM_BYTES: LazyLock<Vec<u8>> = LazyLock::new(|| [
+    BOM_UTF16LE.as_slice(),
+    TEXT_UTF16LE_BYTES.as_slice()
+]
+.concat());
+pub static TEXT_UTF32BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32be(TEXT_ASCII));
+pub static TEXT_UTF32BE_BYTES: LazyLock<Vec<u8>> = LazyLock::new(|| TEXT_UTF32BE_STRING
+    .as_bytes()
+    .to_vec());
+pub static TEXT_UTF32BE_BOM_BYTES: LazyLock<Vec<u8>> = LazyLock::new(|| [
+    BOM_UTF32BE.as_slice(),
+    TEXT_UTF32BE_BYTES.as_slice()
+]
+.concat());
+pub static TEXT_UTF32LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32le(TEXT_ASCII));
+pub static TEXT_UTF32LE_BYTES: LazyLock<Vec<u8>> = LazyLock::new(|| TEXT_UTF32LE_STRING
+    .as_bytes()
+    .to_vec());
+pub static TEXT_UTF32LE_BOM_BYTES: LazyLock<Vec<u8>> = LazyLock::new(|| [
+    BOM_UTF32LE.as_slice(),
+    TEXT_UTF32LE_BYTES.as_slice()
+]
+.concat());
 
 #[test_case(&TEXT_ASCII_BYTES, Some(FileTypeTextEncoding::Utf8Ascii))]
 #[test_case(&TEXT_UTF8_BOM_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf8BOM))]
@@ -807,11 +805,7 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::
 #[test_case("wtmp.1", FTUTMPN, true)]
 #[test_case("WTMP.1", FTUTMPN, true; "WTMP.1 ALLCAPS")]
 #[test_case("host.wtmp", FTUTMPN, true)]
-#[test_case(
-    "192.168.1.1.btmp",
-    FTUTMPN,
-    true
-)]
+#[test_case("192.168.1.1.btmp", FTUTMPN, true)]
 #[test_case("file.utmp", FTUTMPN, true)]
 #[test_case("btmpx", FTUTMPXN, true; "btmpx")]
 #[test_case("utmpx", FTUTMPXN, true; "utmpx")]
@@ -825,45 +819,21 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::
 #[test_case("lastlog", FTLASTLOGN, true)]
 #[test_case("lastlogx", FTLASTLOGXN, true)]
 #[test_case("lastlog.1", FTLASTLOGN, true)]
-#[test_case(
-    "lastlog.bak",
-    FTLASTLOGN,
-    true
-)]
-#[test_case(
-    "lastlog.2.bak",
-    FTLASTLOGN,
-    true
-)]
+#[test_case("lastlog.bak", FTLASTLOGN,true)]
+#[test_case("lastlog.2.bak", FTLASTLOGN,true)]
 #[test_case("lastlog.gz", FTLASTLOGG, true)]
-#[test_case(
-    "lastlog.XZ",
-    FTLASTLOG_X,
-    true
-)]
-#[test_case(
-    "lastlog.1.XZ",
-    FTLASTLOG_X,
-    true
-)]
+#[test_case("lastlog.XZ", FTLASTLOG_X, true)]
+#[test_case("lastlog.1.XZ", FTLASTLOG_X, true)]
 // FixedStruct Acct
 #[test_case("acct", FTACCTN, true)]
 #[test_case("acct.2", FTACCTN, true)]
 #[test_case("acct-20220101", FTTN8, true)]
 #[test_case("pacct", FTACCTV3N, true)]
 #[test_case("pacct.1", FTACCTV3N, true)]
-#[test_case(
-    "pacct.20220101",
-    FTACCTV3N,
-    true
-)]
+#[test_case("pacct.20220101", FTACCTV3N,true)]
 #[test_case("pacct.bz2", FTACCTV3B, true)]
 #[test_case("pacct.gz", FTACCTV3G, true)]
-#[test_case(
-    "pacct.20220101.gz",
-    FTACCTV3G,
-    true
-)]
+#[test_case("pacct.20220101.gz", FTACCTV3G, true)]
 #[test_case("pacct.xz", FTACCTV3X, true)]
 // on FreeBSD 13, there is a log file `utx.log` that is a variable-length utmpx-ish format file
 #[test_case("utx.log", FTTN8, true)]
@@ -876,11 +846,7 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::
 #[test_case("file.evtx", FTEVTXN, true)]
 #[test_case("FILE.EVTX", FTEVTXN, true; "FILE.EVTX ALLCAPS")]
 #[test_case("file.evtx.1", FTEVTXN, true)]
-#[test_case(
-    "file.xz.evtx.1",
-    FTEVTXN,
-    true
-)]
+#[test_case("file.xz.evtx.1", FTEVTXN, true)]
 #[test_case("xz.evtx", FTEVTXN, true)]
 #[test_case("tar.evtx", FTEVTXN, true)]
 #[test_case("mp3.evtx", FTEVTXN, true)]
@@ -902,11 +868,7 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::
 #[test_case("a.journal~.1", FTJOURNALN, true; "a.journal tilde 1")]
 #[test_case("a.journal~.old", FTJOURNALN, true; "a.journal tilde old")]
 #[test_case("A.JOURNAL~", FTJOURNALN, true; "A.JOURNAL ALLCAPS tilde")]
-#[test_case(
-    "user-1000.journal",
-    FTJOURNALN,
-    true
-)]
+#[test_case("user-1000.journal", FTJOURNALN, true)]
 #[test_case(
     "user-1000@2feff012228b405bb557ccd80a0ba755-000000005100032b-0006129e5481135e.journal",
     FTJOURNALN,
@@ -918,45 +880,17 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::
     true
 )]
 // bz2
-#[test_case(
-    "user-1000.journal.BZ2",
-    FTJOURNALB,
-    true
-)]
+#[test_case("user-1000.journal.BZ2", FTJOURNALB, true)]
 // gz
-#[test_case(
-    "user-1000.journal.gz",
-    FTJOURNALG,
-    true
-)]
-#[test_case(
-    "journal.journal.gz",
-    FTJOURNALG,
-    true
-)]
+#[test_case("user-1000.journal.gz", FTJOURNALG, true)]
+#[test_case("journal.journal.gz", FTJOURNALG, true)]
 #[test_case("journal.gz", FTJOURNALG, true)]
-#[test_case(
-    "journal.gz.xz",
-    FTJOURNALG,
-    true
-)] // Issue #14
+#[test_case("journal.gz.xz", FTJOURNALG, true)] // Issue #14
 // lz4
-#[test_case(
-    "user-1000.journal.lz4",
-    FTJOURNALL4,
-    true
-)]
+#[test_case("user-1000.journal.lz4", FTJOURNALL4, true)]
 // xz
-#[test_case(
-    "user-1000.journal.xz",
-    FTJOURNALX,
-    true
-)]
-#[test_case(
-    "journal.journal.xz",
-    FTJOURNALX,
-    true
-)]
+#[test_case("user-1000.journal.xz", FTJOURNALX, true)]
+#[test_case("journal.journal.xz", FTJOURNALX, true)]
 #[test_case("journal.xz", FTJOURNALX, true)]
 #[test_case("-.journal.xz", FTJOURNALX, true; "dash dot journal dot xz")]
 #[test_case("--.journal.xz", FTJOURNALX, true; "dash dash dot journal dot xz")]
@@ -966,109 +900,54 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(FileType::
     FTJOURNALX,
     true
 )]
-#[test_case(
-    "journal.xz.gz",
-    FTJOURNALX,
-    true
-)] // Issue #14
+#[test_case("journal.xz.gz", FTJOURNALX, true)] // Issue #14
 //
 // Unparseable
 #[test_case("data.tgz", FTTN8, true)]
-#[test_case(
-    "data.tgz",
-    FTUNPARSABLE,
-    false
-)]
-#[test_case(
-    "data.tgz.old",
-    FTUNPARSABLE,
-    false
-)]
+#[test_case("data.tgz", FTUNPARSABLE, false)]
+#[test_case("data.tgz.old", FTUNPARSABLE, false)]
 #[test_case("data.tgz.old", FTTN8, true)]
-#[test_case(
-    "data.tgz.old.1",
-    FTUNPARSABLE,
-    false
-)]
+#[test_case("data.tgz.old.1", FTUNPARSABLE, false)]
 #[test_case("data.tgz.old.1", FTTN8, true)]
 #[test_case("lib.dll", FTUNPARSABLE, false)]
 #[test_case("lib.dll", FTTN8, true)]
 #[test_case("log.bz", FTUNPARSABLE, false)]
 #[test_case("log.bz", FTTN8, true)]
 #[test_case("logs.tgz", FTTN8, true)]
-#[test_case(
-    "logs.tgz",
-    FTUNPARSABLE,
-    false
-)]
-#[test_case(
-    "log.tgz.99",
-    FTUNPARSABLE,
-    false
-)]
+#[test_case("logs.tgz", FTUNPARSABLE, false)]
+#[test_case("log.tgz.99", FTUNPARSABLE, false)]
 #[test_case("log.tgz.99", FTTN8, true)]
-#[test_case(
-    "logs.2.zip",
-    FTZIP,
-    false
-)]
+#[test_case("logs.2.zip", FTZIP, false)]
 #[test_case("logs.2.zip", FTZIP, true)]
-#[test_case(
-    "logs.tgz.99",
-    FTUNPARSABLE,
-    false
-)]
+#[test_case("logs.tgz.99", FTUNPARSABLE, false)]
 #[test_case("logs.tgz.99", FTTN8, true)]
 #[test_case("LOGS.TGZ.99", FTUNPARSABLE, false; "LOGS.TGZ.99 ALLCAPS unparsable")]
 #[test_case("LOGS.TGZ.99", FTTN8, true; "LOGS.TGZ.99 ALLCAPS filetype_utf8")]
-#[test_case(
-    "logs.xz.zip",
-    FTZIP,
-    false
-)]
+#[test_case("logs.xz.zip", FTZIP, false)]
 #[test_case("logs.xz.zip", FTZIP, true)]
-#[test_case(
-    "logs.zip",
-    FTZIP,
-    false
-)]
+#[test_case("logs.zip", FTZIP, false)]
 #[test_case("logs.zip", FTZIP, true)]
-#[test_case(
-    "logs.zip.2",
-    FTZIP,
-    false
-)]
+#[test_case("logs.zip.2", FTZIP, false)]
 #[test_case("logs.zip.2", FTZIP, true)]
-#[test_case(
-    "media.avi",
-    FTUNPARSABLE,
-    false
-)]
+#[test_case("media.avi", FTUNPARSABLE, false)]
 #[test_case("media.avi", FTTN8, true)]
-#[test_case(
-    "media.mp3",
-    FTUNPARSABLE,
-    false
-)]
+#[test_case("media.mp3", FTUNPARSABLE, false)]
 #[test_case("media.mp3", FTTN8, true)]
 #[test_case("mp3", FTTN8, false)]
 #[test_case("mp3", FTTN8, true)]
-#[test_case(
-    "media.mp4",
-    FTUNPARSABLE,
-    false
-)]
+#[test_case("media.mp4", FTUNPARSABLE, false)]
 #[test_case("media.mp4", FTTN8, true)]
 #[test_case("pic.jpg", FTUNPARSABLE, false)]
 #[test_case("pic.jpg", FTTN8, true)]
 #[test_case("pic.png", FTUNPARSABLE, false)]
 #[test_case("pic.png", FTTN8, true)]
-#[test_case(
-    "prog.exe",
-    FTUNPARSABLE,
-    false
-)]
+#[test_case("prog.exe", FTUNPARSABLE, false)]
 #[test_case("prog.exe", FTTN8, true)]
+// unparseable full name match
+#[test_case("README", FTUNPARSABLE, false)]
+#[test_case("README", FTTN8, true)]
+#[test_case("readme", FTTN8, false)]
+#[test_case("readme", FTTN8, true)]
 // oddities
 #[test_case("bz2", FTTN8, true)]
 #[test_case("bz2", FTTN8, false)]

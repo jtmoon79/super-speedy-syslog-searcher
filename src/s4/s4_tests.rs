@@ -3,6 +3,7 @@
 //! Tests for `s4.rs`
 
 use std::collections::HashMap;
+use std::sync::LazyLock;
 
 use ::s4lib::common::{
     FIXEDOFFSET0,
@@ -47,7 +48,6 @@ use ::chrono::{
     Duration,
     TimeZone,
 };
-use ::lazy_static::lazy_static;
 use ::si_trace_print::stack::stack_offset_set;
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -106,10 +106,10 @@ fn test_select_remove_reregister_and_signal() {
     assert_eq!(operation.recv(&signal_recv), Ok(()));
 }
 
-lazy_static! {
+
     /// 1970-01-01T01:00:00+01:00
-    pub static ref DT_0_E1: DateTimeL = ymdhms(&FO_E1, 0, 0, 0, 1, 0, 0);
-}
+    pub static DT_0_E1: LazyLock<DateTimeL> = LazyLock::new(|| ymdhms(&FO_E1, 0, 0, 0, 1, 0, 0));
+
 
 #[test_case("+00", FO0; "+00 east(0)")]
 #[test_case("+0000", FO0; "+0000 east(0)")]

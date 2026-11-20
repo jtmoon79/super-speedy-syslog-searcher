@@ -8,11 +8,11 @@
 
 use std::io::Write; // for `flush()`
 use std::str;
+use std::sync::LazyLock;
 use std::time::UNIX_EPOCH;
 
 use ::bstr::ByteSlice;
 use ::const_format::concatcp;
-use ::lazy_static::lazy_static;
 use ::more_asserts::assert_le;
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -280,10 +280,8 @@ const NTF5_DATA_LINE3_OFFSET: usize = NTF5_DATA_LINE2_OFFSET
 const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET
     + NTF5_DATA_LINE3.len();
 
-lazy_static! {
-    static ref NTF5: NamedTempFile = create_temp_file(NTF5_DATA);
-    static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
-}
+static NTF5: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(NTF5_DATA));
+static NTF5_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF5));
 
 pub const REGEX_ID_NTF5: RegexId = 141;
 
@@ -738,80 +736,80 @@ const NTF26_DATA_LINE25n: &str = "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n
 const NTF26_DATA_DT26: &str = "2020-01-01 00:00:26";
 const NTF26_DATA_LINE26n: &str = "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n";
 
-lazy_static! {
-    static ref NTF26: NamedTempFile = {
-        create_temp_file(NTF26_DATA)
-    };
-    static ref NTF26_PATH: FPath = {
-        ntf_fpath(&NTF26)
-    };
 
-    /// exhaustive checks (one for every sysline)
-    static ref NTF26_checks: TestFindSyslineAtDatetimeFilterChecks<'static> = {
-        Vec::from([
-            (0, NTF26_DATA_DT0, FOUND, NTF26_DATA_LINE0n),
-            (0, NTF26_DATA_DT1, FOUND, NTF26_DATA_LINE1n),
-            (0, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE2n),
-            (0, NTF26_DATA_DT3, FOUND, NTF26_DATA_LINE3n),
-            (0, NTF26_DATA_DT4, FOUND, NTF26_DATA_LINE4n),
-            (0, "2020-01-01 00:00:05", FOUND, "2020-01-01 00:00:05abcde\n"),
-            (0, "2020-01-01 00:00:06", FOUND, "2020-01-01 00:00:06abcdef\n"),
-            (0, "2020-01-01 00:00:07", FOUND, "2020-01-01 00:00:07abcdefg\n"),
-            (0, "2020-01-01 00:00:08", FOUND, "2020-01-01 00:00:08abcdefgh\n"),
-            (0, "2020-01-01 00:00:09", FOUND, "2020-01-01 00:00:09abcdefghi\n"),
-            (0, "2020-01-01 00:00:10", FOUND, "2020-01-01 00:00:10abcdefghij\n"),
-            (0, "2020-01-01 00:00:11", FOUND, "2020-01-01 00:00:11abcdefghijk\n"),
-            (0, "2020-01-01 00:00:12", FOUND, "2020-01-01 00:00:12abcdefghijkl\n"),
-            (0, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE13n),
-            (0, "2020-01-01 00:00:14", FOUND, "2020-01-01 00:00:14abcdefghijklmn\n"),
-            (0, "2020-01-01 00:00:15", FOUND, "2020-01-01 00:00:15abcdefghijklmno\n"),
-            (0, "2020-01-01 00:00:16", FOUND, "2020-01-01 00:00:16abcdefghijklmnop\n"),
-            (0, "2020-01-01 00:00:17", FOUND, "2020-01-01 00:00:17abcdefghijklmnopq\n"),
-            (0, "2020-01-01 00:00:18", FOUND, "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
-            (0, "2020-01-01 00:00:19", FOUND, "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
-            (0, "2020-01-01 00:00:20", FOUND, "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
-            (0, "2020-01-01 00:00:21", FOUND, "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
-            (0, "2020-01-01 00:00:22", FOUND, "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
-            (0, "2020-01-01 00:00:23", FOUND, "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
-            (0, NTF26_DATA_DT24, FOUND, NTF26_DATA_LINE24n),
-            (0, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE25n),
-            (0, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE26n),
-            //(99999, NTF26_DATA_DT26, DONE, ""),
-        ])
-    };
+static NTF26: LazyLock<NamedTempFile> = LazyLock::new(|| {
+    create_temp_file(NTF26_DATA)
+});
+static NTF26_PATH: LazyLock<FPath> = LazyLock::new(|| {
+    ntf_fpath(&NTF26)
+});
 
-    static ref NTF26_checksx: TestFindSyslineAtDatetimeFilterChecks<'static> = {
-        Vec::from([
-            (0, NTF26_DATA_DT0, FOUND, NTF26_DATA_LINE0n),
-            (19, NTF26_DATA_DT1, FOUND, NTF26_DATA_LINE1n),
-            (40, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE2n),
-            (62, NTF26_DATA_DT3, FOUND, NTF26_DATA_LINE3n),
-            (85, NTF26_DATA_DT4, FOUND, NTF26_DATA_LINE4n),
-            (109, "2020-01-01 00:00:05", FOUND, "2020-01-01 00:00:05abcde\n"),
-            (134, "2020-01-01 00:00:06", FOUND, "2020-01-01 00:00:06abcdef\n"),
-            (162, "2020-01-01 00:00:07", FOUND, "2020-01-01 00:00:07abcdefg\n"),
-            (187, "2020-01-01 00:00:08", FOUND, "2020-01-01 00:00:08abcdefgh\n"),
-            (215, "2020-01-01 00:00:09", FOUND, "2020-01-01 00:00:09abcdefghi\n"),
-            (244, "2020-01-01 00:00:10", FOUND, "2020-01-01 00:00:10abcdefghij\n"),
-            (274, "2020-01-01 00:00:11", FOUND, "2020-01-01 00:00:11abcdefghijk\n"),
-            (305, "2020-01-01 00:00:12", FOUND, "2020-01-01 00:00:12abcdefghijkl\n"),
-            (337, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE13n),
-            (370, "2020-01-01 00:00:14", FOUND, "2020-01-01 00:00:14abcdefghijklmn\n"),
-            (404, "2020-01-01 00:00:15", FOUND, "2020-01-01 00:00:15abcdefghijklmno\n"),
-            (439, "2020-01-01 00:00:16", FOUND, "2020-01-01 00:00:16abcdefghijklmnop\n"),
-            (475, "2020-01-01 00:00:17", FOUND, "2020-01-01 00:00:17abcdefghijklmnopq\n"),
-            (512, "2020-01-01 00:00:18", FOUND, "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
-            (550, "2020-01-01 00:00:19", FOUND, "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
-            (589, "2020-01-01 00:00:20", FOUND, "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
-            (629, "2020-01-01 00:00:21", FOUND, "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
-            (670, "2020-01-01 00:00:22", FOUND, "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
-            (712, "2020-01-01 00:00:23", FOUND, "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
-            (755, NTF26_DATA_DT24, FOUND, NTF26_DATA_LINE24n),
-            (799, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE25n),
-            (844, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE26n),
-        ])
-    };
-}
+/// exhaustive checks (one for every sysline)
+static NTF26_checks: LazyLock<TestFindSyslineAtDatetimeFilterChecks<'static>> = LazyLock::new(|| {
+    Vec::from([
+        (0, NTF26_DATA_DT0, FOUND, NTF26_DATA_LINE0n),
+        (0, NTF26_DATA_DT1, FOUND, NTF26_DATA_LINE1n),
+        (0, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE2n),
+        (0, NTF26_DATA_DT3, FOUND, NTF26_DATA_LINE3n),
+        (0, NTF26_DATA_DT4, FOUND, NTF26_DATA_LINE4n),
+        (0, "2020-01-01 00:00:05", FOUND, "2020-01-01 00:00:05abcde\n"),
+        (0, "2020-01-01 00:00:06", FOUND, "2020-01-01 00:00:06abcdef\n"),
+        (0, "2020-01-01 00:00:07", FOUND, "2020-01-01 00:00:07abcdefg\n"),
+        (0, "2020-01-01 00:00:08", FOUND, "2020-01-01 00:00:08abcdefgh\n"),
+        (0, "2020-01-01 00:00:09", FOUND, "2020-01-01 00:00:09abcdefghi\n"),
+        (0, "2020-01-01 00:00:10", FOUND, "2020-01-01 00:00:10abcdefghij\n"),
+        (0, "2020-01-01 00:00:11", FOUND, "2020-01-01 00:00:11abcdefghijk\n"),
+        (0, "2020-01-01 00:00:12", FOUND, "2020-01-01 00:00:12abcdefghijkl\n"),
+        (0, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE13n),
+        (0, "2020-01-01 00:00:14", FOUND, "2020-01-01 00:00:14abcdefghijklmn\n"),
+        (0, "2020-01-01 00:00:15", FOUND, "2020-01-01 00:00:15abcdefghijklmno\n"),
+        (0, "2020-01-01 00:00:16", FOUND, "2020-01-01 00:00:16abcdefghijklmnop\n"),
+        (0, "2020-01-01 00:00:17", FOUND, "2020-01-01 00:00:17abcdefghijklmnopq\n"),
+        (0, "2020-01-01 00:00:18", FOUND, "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
+        (0, "2020-01-01 00:00:19", FOUND, "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
+        (0, "2020-01-01 00:00:20", FOUND, "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
+        (0, "2020-01-01 00:00:21", FOUND, "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
+        (0, "2020-01-01 00:00:22", FOUND, "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
+        (0, "2020-01-01 00:00:23", FOUND, "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
+        (0, NTF26_DATA_DT24, FOUND, NTF26_DATA_LINE24n),
+        (0, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE25n),
+        (0, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE26n),
+        //(99999, NTF26_DATA_DT26, DONE, ""),
+    ])
+});
+
+static NTF26_checksx: LazyLock<TestFindSyslineAtDatetimeFilterChecks<'static>> = LazyLock::new(|| {
+    Vec::from([
+        (0, NTF26_DATA_DT0, FOUND, NTF26_DATA_LINE0n),
+        (19, NTF26_DATA_DT1, FOUND, NTF26_DATA_LINE1n),
+        (40, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE2n),
+        (62, NTF26_DATA_DT3, FOUND, NTF26_DATA_LINE3n),
+        (85, NTF26_DATA_DT4, FOUND, NTF26_DATA_LINE4n),
+        (109, "2020-01-01 00:00:05", FOUND, "2020-01-01 00:00:05abcde\n"),
+        (134, "2020-01-01 00:00:06", FOUND, "2020-01-01 00:00:06abcdef\n"),
+        (162, "2020-01-01 00:00:07", FOUND, "2020-01-01 00:00:07abcdefg\n"),
+        (187, "2020-01-01 00:00:08", FOUND, "2020-01-01 00:00:08abcdefgh\n"),
+        (215, "2020-01-01 00:00:09", FOUND, "2020-01-01 00:00:09abcdefghi\n"),
+        (244, "2020-01-01 00:00:10", FOUND, "2020-01-01 00:00:10abcdefghij\n"),
+        (274, "2020-01-01 00:00:11", FOUND, "2020-01-01 00:00:11abcdefghijk\n"),
+        (305, "2020-01-01 00:00:12", FOUND, "2020-01-01 00:00:12abcdefghijkl\n"),
+        (337, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE13n),
+        (370, "2020-01-01 00:00:14", FOUND, "2020-01-01 00:00:14abcdefghijklmn\n"),
+        (404, "2020-01-01 00:00:15", FOUND, "2020-01-01 00:00:15abcdefghijklmno\n"),
+        (439, "2020-01-01 00:00:16", FOUND, "2020-01-01 00:00:16abcdefghijklmnop\n"),
+        (475, "2020-01-01 00:00:17", FOUND, "2020-01-01 00:00:17abcdefghijklmnopq\n"),
+        (512, "2020-01-01 00:00:18", FOUND, "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
+        (550, "2020-01-01 00:00:19", FOUND, "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
+        (589, "2020-01-01 00:00:20", FOUND, "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
+        (629, "2020-01-01 00:00:21", FOUND, "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
+        (670, "2020-01-01 00:00:22", FOUND, "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
+        (712, "2020-01-01 00:00:23", FOUND, "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
+        (755, NTF26_DATA_DT24, FOUND, NTF26_DATA_LINE24n),
+        (799, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE25n),
+        (844, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE26n),
+    ])
+});
+
 
 // TODO: [2022/03/16] create test cases with varying sets of Checks passed-in, current setup is
 // always       clean, sequential series of checks from file_offset 0.
@@ -3441,36 +3439,35 @@ fn impl_test_find_sysline_between_datetime_filter(
     defx!();
 }
 
-lazy_static! {
-    /// many checks, not exhaustive
-    static ref NTF26B_checks: TestFindSyslineBetweenDatetimeFilterChecks<'static> = {
-        Vec::from([
-            (0, NTF26_DATA_DT0, NTF26_DATA_DT0, FOUND, NTF26_DATA_LINE0n),
-            (0, NTF26_DATA_DT0, NTF26_DATA_DT1, FOUND, NTF26_DATA_LINE0n),
-            (0, NTF26_DATA_DT0, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE0n),
-            (0, NTF26_DATA_DT0, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE0n),
-            (0, NTF26_DATA_DT0, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE0n),
-            (0, NTF26_DATA_DT1, NTF26_DATA_DT1, FOUND, NTF26_DATA_LINE1n),
-            (0, NTF26_DATA_DT1, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE1n),
-            (0, NTF26_DATA_DT1, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE1n),
-            (0, NTF26_DATA_DT1, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE1n),
-            (0, NTF26_DATA_DT2, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE2n),
-            (0, NTF26_DATA_DT2, NTF26_DATA_DT3, FOUND, NTF26_DATA_LINE2n),
-            (0, NTF26_DATA_DT2, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE2n),
-            (0, NTF26_DATA_DT2, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE2n),
-            (0, NTF26_DATA_DT2, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE2n),
-            (0, NTF26_DATA_DT13, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE13n),
-            (0, NTF26_DATA_DT13, NTF26_DATA_DT24, FOUND, NTF26_DATA_LINE13n),
-            (0, NTF26_DATA_DT24, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE24n),
-            (0, NTF26_DATA_DT24, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE24n),
-            (0, NTF26_DATA_DT25, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE25n),
-            (0, NTF26_DATA_DT25, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE25n),
-            (0, NTF26_DATA_DT26, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE26n),
-            (0, NTF26_DATA_DT26, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE26n),
-            //(99999, NTF26_DATA_DT26, NTF26_DATA_DT26, DONE, ""),
-        ])
-    };
-}
+/// many checks, not exhaustive
+static NTF26B_checks: LazyLock<TestFindSyslineBetweenDatetimeFilterChecks<'static>> = LazyLock::new(|| {
+    Vec::from([
+        (0, NTF26_DATA_DT0, NTF26_DATA_DT0, FOUND, NTF26_DATA_LINE0n),
+        (0, NTF26_DATA_DT0, NTF26_DATA_DT1, FOUND, NTF26_DATA_LINE0n),
+        (0, NTF26_DATA_DT0, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE0n),
+        (0, NTF26_DATA_DT0, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE0n),
+        (0, NTF26_DATA_DT0, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE0n),
+        (0, NTF26_DATA_DT1, NTF26_DATA_DT1, FOUND, NTF26_DATA_LINE1n),
+        (0, NTF26_DATA_DT1, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE1n),
+        (0, NTF26_DATA_DT1, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE1n),
+        (0, NTF26_DATA_DT1, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE1n),
+        (0, NTF26_DATA_DT2, NTF26_DATA_DT2, FOUND, NTF26_DATA_LINE2n),
+        (0, NTF26_DATA_DT2, NTF26_DATA_DT3, FOUND, NTF26_DATA_LINE2n),
+        (0, NTF26_DATA_DT2, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE2n),
+        (0, NTF26_DATA_DT2, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE2n),
+        (0, NTF26_DATA_DT2, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE2n),
+        (0, NTF26_DATA_DT13, NTF26_DATA_DT13, FOUND, NTF26_DATA_LINE13n),
+        (0, NTF26_DATA_DT13, NTF26_DATA_DT24, FOUND, NTF26_DATA_LINE13n),
+        (0, NTF26_DATA_DT24, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE24n),
+        (0, NTF26_DATA_DT24, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE24n),
+        (0, NTF26_DATA_DT25, NTF26_DATA_DT25, FOUND, NTF26_DATA_LINE25n),
+        (0, NTF26_DATA_DT25, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE25n),
+        (0, NTF26_DATA_DT26, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE26n),
+        (0, NTF26_DATA_DT26, NTF26_DATA_DT26, FOUND, NTF26_DATA_LINE26n),
+        //(99999, NTF26_DATA_DT26, NTF26_DATA_DT26, DONE, ""),
+    ])
+});
+
 
 fn NTF26B_checks_copy() -> TestFindSyslineBetweenDatetimeFilterChecks<'static> {
     // must manually copy `NTF26_checks`
@@ -3636,10 +3633,8 @@ const test_data_file_A1_dt6_checks: [TestSyslineReaderCheck; 6] = [
     ("2000-01-01 00:00:05 abcde", 139),
 ];
 
-lazy_static! {
-    static ref NTF_A1: NamedTempFile = create_temp_file(test_data_file_A1_dt6);
-    static ref NTF_A1_path: FPath = ntf_fpath(&NTF_A1);
-}
+static NTF_A1: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(test_data_file_A1_dt6));
+static NTF_A1_path: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_A1));
 
 #[test]
 fn test_find_sysline_A1_dt6_4_0_() {
@@ -4040,10 +4035,8 @@ const test_data_A2_dt6_checks_many: TestDataA2Dt6Checks = [
     (140, DONE, 0, ""),
 ];
 
-lazy_static! {
-    static ref test_data_A2_dt6_ntf: NamedTempFile = create_temp_file(test_data_A2_dt6);
-    static ref test_data_A2_dt6_ntf_path: FPath = ntf_fpath(&test_data_A2_dt6_ntf);
-}
+static test_data_A2_dt6_ntf: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(test_data_A2_dt6));
+static test_data_A2_dt6_ntf_path: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&test_data_A2_dt6_ntf));
 
 fn copy_TestDataA2Dt6Checks(checks: &TestDataA2Dt6Checks) -> TestDataA2Dt6ChecksVec {
     let mut data = TestDataA2Dt6ChecksVec::new();
@@ -4194,10 +4187,8 @@ const test_data_file_C_dt6_checks: [TestSyslineReaderCheck; 6] = [
     ("[DEBUG] 2000-01-01 00:00:05|abcde", 188),
 ];
 
-lazy_static! {
-    static ref test_SyslineReader_C_ntf: NamedTempFile = create_temp_file(test_data_file_C_dt6);
-    static ref test_SyslineReader_C_ntf_path: FPath = ntf_fpath(&test_SyslineReader_C_ntf);
-}
+static test_SyslineReader_C_ntf: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(test_data_file_C_dt6));
+static test_SyslineReader_C_ntf_path: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&test_SyslineReader_C_ntf));
 
 #[test]
 fn test_find_sysline_C_dt6_0() {
@@ -4285,10 +4276,8 @@ const test_data_file_E_dt6_sysline1_end: FileOffset =
 const test_data_file_E_dt6_sysline2_end: FileOffset =
     test_data_file_E_dt6_sysline1_end + test_data_file_E_dt6_sysline2.len() as FileOffset;
 
-lazy_static! {
-    static ref test_SyslineReader_E_ntf: NamedTempFile = create_temp_file(test_data_file_E_dt6);
-    static ref test_SyslineReader_E_ntf_path: FPath = ntf_fpath(&test_SyslineReader_E_ntf);
-}
+static test_SyslineReader_E_ntf: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(test_data_file_E_dt6));
+static test_SyslineReader_E_ntf_path: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&test_SyslineReader_E_ntf));
 
 #[test]
 fn test_find_sysline_E_dt6_0() {
@@ -4473,10 +4462,8 @@ const test_data_file_F_dt6_sysline2_end: FileOffset =
 const test_data_file_F_dt6_sysline3_end: FileOffset =
     test_data_file_F_dt6_sysline2_end + test_data_file_F_dt6_sysline3.len() as FileOffset;
 
-lazy_static! {
-    static ref test_SyslineReader_F_ntf: NamedTempFile = create_temp_file(test_data_file_F_dt6);
-    static ref test_SyslineReader_F_ntf_path: FPath = ntf_fpath(&test_SyslineReader_F_ntf);
-}
+static test_SyslineReader_F_ntf: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(test_data_file_F_dt6));
+static test_SyslineReader_F_ntf_path: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&test_SyslineReader_F_ntf));
 
 #[test]
 fn test_find_sysline_F_dt6_45() {
@@ -4630,10 +4617,8 @@ const test_data_file_G_dt4_sysline2_end: FileOffset =
 const test_data_file_G_dt4_sysline3_end: FileOffset =
     test_data_file_G_dt4_sysline2_end + test_data_file_G_dt4_sysline3.len() as FileOffset;
 
-lazy_static! {
-    static ref test_SyslineReader_G_ntf: NamedTempFile = create_temp_file(test_data_file_G_dt4);
-    static ref test_SyslineReader_G_ntf_path: FPath = ntf_fpath(&test_SyslineReader_G_ntf);
-}
+static test_SyslineReader_G_ntf: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(test_data_file_G_dt4));
+static test_SyslineReader_G_ntf_path: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&test_SyslineReader_G_ntf));
 
 #[test]
 fn test_find_sysline_G_dt4_0() {
@@ -4812,10 +4797,8 @@ const test_data_file_H_dt4_sysline3_end: FileOffset =
 
 pub const REGEX_ID_H_dt4: RegexId = 45;
 
-lazy_static! {
-    static ref test_SyslineReader_H_ntf: NamedTempFile = create_temp_file(test_data_file_H_dt4);
-    static ref test_SyslineReader_H_ntf_path: FPath = ntf_fpath(&test_SyslineReader_H_ntf);
-}
+static test_SyslineReader_H_ntf: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(test_data_file_H_dt4));
+static test_SyslineReader_H_ntf_path: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&test_SyslineReader_H_ntf));
 
 #[test]
 fn test_find_sysline_H_dt4_sysline0() {
@@ -5162,28 +5145,19 @@ const NTF_A3_DATA_LINE12: &str = concatcp!(NTF_A3_DATA_LINE1, NTF_A3_DATA_LINE2)
 
 pub const REGEX_ID_A3: RegexId = 45;
 
-lazy_static! {
-    static ref NTF_A3_DATA_LINE1_STRING: String = String::from(NTF_A3_DATA_LINE1);
-    static ref NTF_A3_DATA_LINE2_STRING: String = String::from(NTF_A3_DATA_LINE2);
+static NTF_A3_DATA_LINE1_STRING: LazyLock<String> = LazyLock::new(|| String::from(NTF_A3_DATA_LINE1));
+static NTF_A3_DATA_LINE2_STRING: LazyLock<String> = LazyLock::new(|| String::from(NTF_A3_DATA_LINE2));
 
-    static ref NTF_A3_DATA_LINE1_BYTES_LEN: usize = NTF_A3_DATA_LINE1_STRING.len();
-    /// length `NTF_A3_DATA_LINE1_STRING` to nearest even number
-    static ref NTF_A3_DATA_LINE1_BYTES_LEN_EVEN: usize = {
-        let len_ = NTF_A3_DATA_LINE1_STRING.len();
-        if len_.is_multiple_of(2) {
-            len_
-        } else {
-            len_ + 1
-        }
-    };
-    static ref NTF_A3_DATA_LINE2_BYTES_LEN: usize = NTF_A3_DATA_LINE2_STRING.len();
+const NTF_A3_DATA_LINE1_BYTES_LEN: usize = NTF_A3_DATA_LINE1.len();
+/// length `NTF_A3_DATA_LINE1_STRING` to nearest even number
+const NTF_A3_DATA_LINE1_BYTES_LEN_EVEN: usize = NTF_A3_DATA_LINE1.len() + NTF_A3_DATA_LINE1.len() % 2;
+const NTF_A3_DATA_LINE2_BYTES_LEN: usize = NTF_A3_DATA_LINE2.len();
 
-    static ref NTF_A3_1: NamedTempFile = create_temp_file(NTF_A3_DATA_LINE1);
-    static ref NTF_A3_1_PATH: FPath = ntf_fpath(&NTF_A3_1);
+static NTF_A3_1: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(NTF_A3_DATA_LINE1));
+static NTF_A3_1_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_A3_1));
 
-    static ref NTF_A3_12: NamedTempFile = create_temp_file(NTF_A3_DATA_LINE12);
-    static ref NTF_A3_12_PATH: FPath = ntf_fpath(&NTF_A3_12);
-}
+static NTF_A3_12: LazyLock<NamedTempFile> = LazyLock::new(|| create_temp_file(NTF_A3_DATA_LINE12));
+static NTF_A3_12_PATH: LazyLock<FPath> = LazyLock::new(|| ntf_fpath(&NTF_A3_12));
 
 #[test_case(true; "cache")]
 #[test_case(false; "nocache")]
@@ -5228,10 +5202,10 @@ fn test_find_sysline_in_block__A3__1_LINE1LEN(cache: bool) {
         eprintln!("Regex #{} not compiled", REGEX_ID_A3);
         return;
     }
-    let fo: FileOffset = *NTF_A3_DATA_LINE1_BYTES_LEN as FileOffset;
+    let fo: FileOffset = NTF_A3_DATA_LINE1_BYTES_LEN as FileOffset;
     defo!("fo {:?}", fo);
     // use blocks of the same size as the first line in the test file
-    let bsz: BlockSz = *NTF_A3_DATA_LINE1_BYTES_LEN_EVEN as BlockSz;
+    let bsz: BlockSz = NTF_A3_DATA_LINE1_BYTES_LEN_EVEN as BlockSz;
     defo!("bsz {:?}", bsz);
     let checks: CheckFindSyslineInBlock = vec![
         (0, FOUND, NTF_A3_DATA_LINE1_STRING.clone()),
@@ -5254,11 +5228,11 @@ fn test_find_sysline_in_block__A3__12_LINE1LEN(cache: bool) {
         eprintln!("Regex #{} not compiled", REGEX_ID_A3);
         return;
     }
-    let fo: FileOffset = *NTF_A3_DATA_LINE1_BYTES_LEN as FileOffset;
-    let fo12: FileOffset = (*NTF_A3_DATA_LINE1_BYTES_LEN + *NTF_A3_DATA_LINE2_BYTES_LEN) as FileOffset;
+    let fo: FileOffset = NTF_A3_DATA_LINE1_BYTES_LEN as FileOffset;
+    let fo12: FileOffset = (NTF_A3_DATA_LINE1_BYTES_LEN + NTF_A3_DATA_LINE2_BYTES_LEN) as FileOffset;
     defo!("fo {:?}", fo);
     // use blocks of the same size as the first line in the test file
-    let bsz: BlockSz = *NTF_A3_DATA_LINE1_BYTES_LEN_EVEN as BlockSz;
+    let bsz: BlockSz = NTF_A3_DATA_LINE1_BYTES_LEN_EVEN as BlockSz;
     defo!("bsz {:?}", bsz);
     let checks: CheckFindSyslineInBlock = vec![
         (0, FOUND, NTF_A3_DATA_LINE1_STRING.clone()),
@@ -5360,62 +5334,60 @@ const DTF56B_SYSLINE5_UTF8: &str = DTF56B_SYSLINE5;
 
 const DTF56B_SYSLINE0_LEN: usize = DTF56B_SYSLINE0.len();
 
-lazy_static! {
-    pub static ref DTF56B_SYSLINE0_UTF8_STRING: String = String::from(DTF56B_SYSLINE0);
-    pub static ref DTF56B_SYSLINE1_UTF8_STRING: String = String::from(DTF56B_SYSLINE1);
-    pub static ref DTF56B_SYSLINE2_UTF8_STRING: String = String::from(DTF56B_SYSLINE2);
-    pub static ref DTF56B_SYSLINE3_UTF8_STRING: String = String::from(DTF56B_SYSLINE3);
-    pub static ref DTF56B_SYSLINE4_UTF8_STRING: String = String::from(DTF56B_SYSLINE4);
-    pub static ref DTF56B_SYSLINE5_UTF8_STRING: String = String::from(DTF56B_SYSLINE5);
-    pub static ref DTF56B_SYSLINE0_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE0);
-    pub static ref DTF56B_SYSLINE0_UTF16BE: &'static str = DTF56B_SYSLINE0_UTF16BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE1_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE1);
-    pub static ref DTF56B_SYSLINE1_UTF16BE: &'static str = DTF56B_SYSLINE1_UTF16BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE2_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE2);
-    pub static ref DTF56B_SYSLINE2_UTF16BE: &'static str = DTF56B_SYSLINE2_UTF16BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE3_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE3);
-    pub static ref DTF56B_SYSLINE3_UTF16BE: &'static str = DTF56B_SYSLINE3_UTF16BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE4_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE4);
-    pub static ref DTF56B_SYSLINE4_UTF16BE: &'static str = DTF56B_SYSLINE4_UTF16BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE5_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE5);
-    pub static ref DTF56B_SYSLINE5_UTF16BE: &'static str = DTF56B_SYSLINE5_UTF16BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE0_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE0);
-    pub static ref DTF56B_SYSLINE0_UTF16LE: &'static str = DTF56B_SYSLINE0_UTF16LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE1_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE1);
-    pub static ref DTF56B_SYSLINE1_UTF16LE: &'static str = DTF56B_SYSLINE1_UTF16LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE2_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE2);
-    pub static ref DTF56B_SYSLINE2_UTF16LE: &'static str = DTF56B_SYSLINE2_UTF16LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE3_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE3);
-    pub static ref DTF56B_SYSLINE3_UTF16LE: &'static str = DTF56B_SYSLINE3_UTF16LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE4_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE4);
-    pub static ref DTF56B_SYSLINE4_UTF16LE: &'static str = DTF56B_SYSLINE4_UTF16LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE5_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE5);
-    pub static ref DTF56B_SYSLINE5_UTF16LE: &'static str = DTF56B_SYSLINE5_UTF16LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE0_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE0);
-    pub static ref DTF56B_SYSLINE0_UTF32BE: &'static str = DTF56B_SYSLINE0_UTF32BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE1_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE1);
-    pub static ref DTF56B_SYSLINE1_UTF32BE: &'static str = DTF56B_SYSLINE1_UTF32BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE2_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE2);
-    pub static ref DTF56B_SYSLINE2_UTF32BE: &'static str = DTF56B_SYSLINE2_UTF32BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE3_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE3);
-    pub static ref DTF56B_SYSLINE3_UTF32BE: &'static str = DTF56B_SYSLINE3_UTF32BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE4_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE4);
-    pub static ref DTF56B_SYSLINE4_UTF32BE: &'static str = DTF56B_SYSLINE4_UTF32BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE5_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE5);
-    pub static ref DTF56B_SYSLINE5_UTF32BE: &'static str = DTF56B_SYSLINE5_UTF32BE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE0_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE0);
-    pub static ref DTF56B_SYSLINE0_UTF32LE: &'static str = DTF56B_SYSLINE0_UTF32LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE1_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE1);
-    pub static ref DTF56B_SYSLINE1_UTF32LE: &'static str = DTF56B_SYSLINE1_UTF32LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE2_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE2);
-    pub static ref DTF56B_SYSLINE2_UTF32LE: &'static str = DTF56B_SYSLINE2_UTF32LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE3_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE3);
-    pub static ref DTF56B_SYSLINE3_UTF32LE: &'static str = DTF56B_SYSLINE3_UTF32LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE4_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE4);
-    pub static ref DTF56B_SYSLINE4_UTF32LE: &'static str = DTF56B_SYSLINE4_UTF32LE_STRING.as_str();
-    pub static ref DTF56B_SYSLINE5_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE5);
-    pub static ref DTF56B_SYSLINE5_UTF32LE: &'static str = DTF56B_SYSLINE5_UTF32LE_STRING.as_str();
-}
+pub static DTF56B_SYSLINE0_UTF8_STRING: LazyLock<String> = LazyLock::new(|| String::from(DTF56B_SYSLINE0));
+pub static DTF56B_SYSLINE1_UTF8_STRING: LazyLock<String> = LazyLock::new(|| String::from(DTF56B_SYSLINE1));
+pub static DTF56B_SYSLINE2_UTF8_STRING: LazyLock<String> = LazyLock::new(|| String::from(DTF56B_SYSLINE2));
+pub static DTF56B_SYSLINE3_UTF8_STRING: LazyLock<String> = LazyLock::new(|| String::from(DTF56B_SYSLINE3));
+pub static DTF56B_SYSLINE4_UTF8_STRING: LazyLock<String> = LazyLock::new(|| String::from(DTF56B_SYSLINE4));
+pub static DTF56B_SYSLINE5_UTF8_STRING: LazyLock<String> = LazyLock::new(|| String::from(DTF56B_SYSLINE5));
+pub static DTF56B_SYSLINE0_UTF16BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16be(DTF56B_SYSLINE0));
+pub static DTF56B_SYSLINE0_UTF16BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE0_UTF16BE_STRING.as_str());
+pub static DTF56B_SYSLINE1_UTF16BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16be(DTF56B_SYSLINE1));
+pub static DTF56B_SYSLINE1_UTF16BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE1_UTF16BE_STRING.as_str());
+pub static DTF56B_SYSLINE2_UTF16BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16be(DTF56B_SYSLINE2));
+pub static DTF56B_SYSLINE2_UTF16BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE2_UTF16BE_STRING.as_str());
+pub static DTF56B_SYSLINE3_UTF16BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16be(DTF56B_SYSLINE3));
+pub static DTF56B_SYSLINE3_UTF16BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE3_UTF16BE_STRING.as_str());
+pub static DTF56B_SYSLINE4_UTF16BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16be(DTF56B_SYSLINE4));
+pub static DTF56B_SYSLINE4_UTF16BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE4_UTF16BE_STRING.as_str());
+pub static DTF56B_SYSLINE5_UTF16BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16be(DTF56B_SYSLINE5));
+pub static DTF56B_SYSLINE5_UTF16BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE5_UTF16BE_STRING.as_str());
+pub static DTF56B_SYSLINE0_UTF16LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16le(DTF56B_SYSLINE0));
+pub static DTF56B_SYSLINE0_UTF16LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE0_UTF16LE_STRING.as_str());
+pub static DTF56B_SYSLINE1_UTF16LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16le(DTF56B_SYSLINE1));
+pub static DTF56B_SYSLINE1_UTF16LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE1_UTF16LE_STRING.as_str());
+pub static DTF56B_SYSLINE2_UTF16LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16le(DTF56B_SYSLINE2));
+pub static DTF56B_SYSLINE2_UTF16LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE2_UTF16LE_STRING.as_str());
+pub static DTF56B_SYSLINE3_UTF16LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16le(DTF56B_SYSLINE3));
+pub static DTF56B_SYSLINE3_UTF16LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE3_UTF16LE_STRING.as_str());
+pub static DTF56B_SYSLINE4_UTF16LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16le(DTF56B_SYSLINE4));
+pub static DTF56B_SYSLINE4_UTF16LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE4_UTF16LE_STRING.as_str());
+pub static DTF56B_SYSLINE5_UTF16LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf16le(DTF56B_SYSLINE5));
+pub static DTF56B_SYSLINE5_UTF16LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE5_UTF16LE_STRING.as_str());
+pub static DTF56B_SYSLINE0_UTF32BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32be(DTF56B_SYSLINE0));
+pub static DTF56B_SYSLINE0_UTF32BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE0_UTF32BE_STRING.as_str());
+pub static DTF56B_SYSLINE1_UTF32BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32be(DTF56B_SYSLINE1));
+pub static DTF56B_SYSLINE1_UTF32BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE1_UTF32BE_STRING.as_str());
+pub static DTF56B_SYSLINE2_UTF32BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32be(DTF56B_SYSLINE2));
+pub static DTF56B_SYSLINE2_UTF32BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE2_UTF32BE_STRING.as_str());
+pub static DTF56B_SYSLINE3_UTF32BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32be(DTF56B_SYSLINE3));
+pub static DTF56B_SYSLINE3_UTF32BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE3_UTF32BE_STRING.as_str());
+pub static DTF56B_SYSLINE4_UTF32BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32be(DTF56B_SYSLINE4));
+pub static DTF56B_SYSLINE4_UTF32BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE4_UTF32BE_STRING.as_str());
+pub static DTF56B_SYSLINE5_UTF32BE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32be(DTF56B_SYSLINE5));
+pub static DTF56B_SYSLINE5_UTF32BE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE5_UTF32BE_STRING.as_str());
+pub static DTF56B_SYSLINE0_UTF32LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32le(DTF56B_SYSLINE0));
+pub static DTF56B_SYSLINE0_UTF32LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE0_UTF32LE_STRING.as_str());
+pub static DTF56B_SYSLINE1_UTF32LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32le(DTF56B_SYSLINE1));
+pub static DTF56B_SYSLINE1_UTF32LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE1_UTF32LE_STRING.as_str());
+pub static DTF56B_SYSLINE2_UTF32LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32le(DTF56B_SYSLINE2));
+pub static DTF56B_SYSLINE2_UTF32LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE2_UTF32LE_STRING.as_str());
+pub static DTF56B_SYSLINE3_UTF32LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32le(DTF56B_SYSLINE3));
+pub static DTF56B_SYSLINE3_UTF32LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE3_UTF32LE_STRING.as_str());
+pub static DTF56B_SYSLINE4_UTF32LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32le(DTF56B_SYSLINE4));
+pub static DTF56B_SYSLINE4_UTF32LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE4_UTF32LE_STRING.as_str());
+pub static DTF56B_SYSLINE5_UTF32LE_STRING: LazyLock<String> = LazyLock::new(|| encode_utf32le(DTF56B_SYSLINE5));
+pub static DTF56B_SYSLINE5_UTF32LE: LazyLock<&'static str> = LazyLock::new(|| DTF56B_SYSLINE5_UTF32LE_STRING.as_str());
 
 // UTF-8
 const DTF56B_SYSLINE0_OFFSET_UTF8: FileOffset = 0;
@@ -6425,11 +6397,9 @@ fn test_ezcheck_slice(
     );
 }
 
-lazy_static! {
-    static ref DTF_2_20_FPATH: FPath = FPath::from("./logs/other/tests/dtf2-20-out-of-order.log");
-    pub static ref DTF_2_20_DT1: DateTimeL = ymdhms(&FO_0, 2000, 1, 1, 0, 0, 0);
-    pub static ref DTF_2_20_DT2: DateTimeL = ymdhms(&FO_0, 2000, 1, 1, 0, 0, 19);
-}
+static DTF_2_20_FPATH: LazyLock<FPath> = LazyLock::new(|| FPath::from("./logs/other/tests/dtf2-20-out-of-order.log"));
+pub static DTF_2_20_DT1: LazyLock<DateTimeL> = LazyLock::new(|| ymdhms(&FO_0, 2000, 1, 1, 0, 0, 0));
+pub static DTF_2_20_DT2: LazyLock<DateTimeL> = LazyLock::new(|| ymdhms(&FO_0, 2000, 1, 1, 0, 0, 19));
 
 #[test_case(
     &*NTF_GZ_8BYTE_FPATH,
