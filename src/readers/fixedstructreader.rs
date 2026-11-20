@@ -556,23 +556,18 @@ impl FixedStructReader {
         // store the entries found and processed during `preprocess_file` into
         // `fixedstructreader.cache_entries`, to avoid duplicating work later on
         for (fo, fixedstructptr) in list_entries.into_iter() {
-            // TODO: cost-savings: if `FixedStructTrait` had a `tv_pair` function then that time
-            //       value could be checked against `map_tvpair_fo` *before* creating a new
-            //       `FixedStruct`. However, the maximum number of `FixedStruct` entries
-            //       created and then discarded will be very few so this is a marginal
-            //       improvement.
+            if !fixedstructreader
+                .map_tvpair_fo
+                .values()
+                .any(|fo2| &fo == fo2)
+            {
+                def1o!("skip entry at fo {}; not in map_tvpair_fo", fo);
+                continue;
+            }
             match FixedStruct::from_fixedstructptr(fo, &tz_offset, fixedstructptr) {
                 Ok(fixedstruct) => {
-                    if fixedstructreader
-                        .map_tvpair_fo
-                        .iter()
-                        .any(|(_tv_pair, fo2)| &fo == fo2)
-                    {
-                        def1o!("insert entry at fo {}", fo);
-                        fixedstructreader.insert_cache_entry(fixedstruct);
-                    } else {
-                        def1o!("skip entry at fo {}; not in map_tvpair_fo", fo);
-                    }
+                    def1o!("insert entry at fo {}", fo);
+                    fixedstructreader.insert_cache_entry(fixedstruct);
                 }
                 Err(err) => {
                     de_err!("FixedStruct::from_fixedstructptr Error {}; file {:?}", err, fixedstructreader.path());
