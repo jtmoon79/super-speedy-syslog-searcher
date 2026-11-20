@@ -125,6 +125,7 @@ pub use ::ere_datetimes_impl::{
     YEAR_FALLBACKDUMMY,
     Uptime,
 };
+use zeroize::Zeroize;
 
 /// A _Year_ in a date
 pub type Year = i32;
@@ -145,6 +146,7 @@ use crate::{
     de_err,
     de_wrn,
     debug_panic,
+    debug_panic_if,
 };
 
 // -----------------------------------------------
@@ -1375,6 +1377,9 @@ pub(crate) fn captures_to_buffer_bytes(
           year_opt, systemtime_at_uptime_zero, tz_offset_string);
 
     let mut at: usize = 0;
+    const BUFLEN: usize = 30;
+    // buffer for `numtoa`
+    let mut buf_num: [u8; BUFLEN] = [0; BUFLEN];
 
     defo!("process <epoch> {:?}…", dtfs.epoch);
     match dtfs.epoch {
@@ -1430,12 +1435,10 @@ pub(crate) fn captures_to_buffer_bytes(
 
             // copy the `uptime` capture group to a temporary local buffer
             let mut at_uptime = 0;
-            const BUFLEN: usize = 30;
-            let mut buf_uptime: [u8; BUFLEN] = [0; BUFLEN];
-            copy_capturegroup_to_buffer!(CGI_UPTIME, data, captures, buf_uptime, at_uptime);
-            defo!("buf_uptime {:?}", buffer_to_string_noraw(&buf_uptime));
+            copy_capturegroup_to_buffer!(CGI_UPTIME, data, captures, buf_num, at_uptime);
+            defo!("buf_num {:?}", buffer_to_string_noraw(&buf_num));
             // TODO: use `u8_to_str`
-            let buf_uptime_s: &str = match std::str::from_utf8(&buf_uptime[..at_uptime]) {
+            let buf_num_s: &str = match std::str::from_utf8(&buf_num[..at_uptime]) {
                 Ok(s) => s,
                 Err(_err) => {
                     de_err!("uptime str::from_utf8 error: {}", _err);
@@ -1443,9 +1446,9 @@ pub(crate) fn captures_to_buffer_bytes(
                     "0"
                 }
             };
-            defo!("buf_uptime_s {:?}", buf_uptime_s);
+            defo!("buf_num_s {:?}", buf_num_s);
             // extract the uptime string to an `Uptime` value
-            let uptime_val: Uptime = match buf_uptime_s.parse::<Uptime>() {
+            let uptime_val: Uptime = match buf_num_s.parse::<Uptime>() {
                 Ok(uptime_) => uptime_,
                 Err(_err) => {
                     de_err!("uptime parse error: {}", _err);
@@ -1476,7 +1479,7 @@ pub(crate) fn captures_to_buffer_bytes(
             };
             defo!("uptime_zero_plus_uptime {:?}", uptime_zero_plus_uptime);
             // convert the `uptime_zero_plus_uptime` value to a string to a [u8]
-            buf_uptime.fill(0);
+            buf_num.fill(0);
             let uptime_zero_plus_uptime_dur = match uptime_zero_plus_uptime.duration_since(SystemTime::UNIX_EPOCH) {
                 Ok(dur) => dur,
                 Err(_err) => {
@@ -1487,10 +1490,10 @@ pub(crate) fn captures_to_buffer_bytes(
             };
             let uptime_zero_plus_uptime_n = uptime_zero_plus_uptime_dur.as_secs();
             defo!("uptime_zero_plus_uptime_n {:?}", uptime_zero_plus_uptime_n);
-            let buf_uptime_plus: &[u8] = uptime_zero_plus_uptime_n.numtoa(10, &mut buf_uptime);
-            defo!("buf_uptime_plus {:?}", buffer_to_string_noraw(buf_uptime_plus));
+            let buf_num_plus: &[u8] = uptime_zero_plus_uptime_n.numtoa(10, &mut buf_num);
+            defo!("buf_num_plus {:?}", buffer_to_string_noraw(buf_num_plus));
             // copy the local temporary buffer to the main buffer
-            copy_slice_to_buffer!(&buf_uptime_plus, buffer, at);
+            copy_slice_to_buffer!(&buf_num_plus, buffer, at);
             defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Uptime::_none => {}
@@ -1517,12 +1520,10 @@ pub(crate) fn captures_to_buffer_bytes(
             if !found_year{
                 match year_opt {
                     Some(year) => {
-                        // TODO: 2022/07/11 cost-savings: pass in `Option<&[u8]>`, avoid creating `String`
-                        //       i.e. pass in another buffer
-                        let year_s: String = year.to_string();
-                        debug_assert_eq!(year_s.len(), 4, "Bad year string {:?}", year_s);
-                        defo!("using fallback year {:?}", year_s);
-                        copy_slice_to_buffer!(year_s.as_bytes(), buffer, at);
+                        debug_panic_if!(year >= &2200, "year {year} is too big");
+                        buf_num.zeroize();
+                        let year_buf_at: &[u8] = year.numtoa(10, &mut buf_num);
+                        copy_slice_to_buffer!(year_buf_at, buffer, at);
                         defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                     }
                     None => {
