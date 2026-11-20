@@ -1518,6 +1518,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 match year_opt {
                     Some(year) => {
                         // TODO: 2022/07/11 cost-savings: pass in `Option<&[u8]>`, avoid creating `String`
+                        //       i.e. pass in another buffer
                         let year_s: String = year.to_string();
                         debug_assert_eq!(year_s.len(), 4, "Bad year string {:?}", year_s);
                         defo!("using fallback year {:?}", year_s);
