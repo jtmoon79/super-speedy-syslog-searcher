@@ -2900,8 +2900,8 @@ environment variable "#, ENV_LIBSYSTEMD, r#". This library is used to read
 the systemd shared library automatically.
 
 
-Environment variable "#, ENV_BLOCKSZ, r#" can be used to set the block size
-though it is not recommended.
+Environment variable "#, ENV_BLOCKSZ, r#" can be used to set the block size.
+It is not recommended to change this.
 
 
 Environment variable "#, ENV_FILE_HANDLE_OPEN_MAX, r#" can be used to set the
@@ -2998,10 +2998,10 @@ struct CLI_Args {
     before: Option<String>,
 
     /// Default timezone offset for datetimes without a timezone.
-    /// For example, log message "{20200102T120000} Starting service" has a
-    /// datetime substring "20200102T120000".
-    /// That datetime substring does not have a timezone offset
-    /// so this TZ_OFFSET value would be used.
+    /// For example, log message "[2020/01/02T12:00:00] Starting service" has a
+    /// datetime substring "2020/01/02T12:00:00".
+    /// That datetime does not have a timezone offset
+    /// so the TZ_OFFSET value would be used.
     /// Example values, "+12", "-0800", "+02:00", or "EDT".
     /// To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
     /// If not passed then the local system timezone offset is used.
@@ -3171,7 +3171,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     )]
     color_theme_light: bool,
 
-    /// Print a summary of files processed to stderr.
+    /// Print a technical summary of files processed to stderr.
     /// Most useful for developers.
     #[clap(
         short,
