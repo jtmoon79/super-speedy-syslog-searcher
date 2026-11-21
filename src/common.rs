@@ -168,6 +168,19 @@ macro_rules! debug_panic {
 }
 pub use debug_panic;
 
+/// panics in debug builds (but not in test builds like [`debug_panic`]),
+/// otherwise a no-op
+#[macro_export]
+macro_rules! debug_only_panic {
+    ($($args:tt)*) => (
+        if cfg!(all(debug_assertions, not(test)))
+        {
+            panic!($($args)*);
+        }
+    )
+}
+pub use debug_only_panic;
+
 /// panics in debug builds if `conditional` is true, otherwise a no-op
 // TODO: [2026/04/23] find places where `debug_panic_if` may be used to simplify code.
 #[macro_export]

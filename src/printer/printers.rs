@@ -30,6 +30,9 @@ use ::si_trace_print::{
     defo,
     defx,
     defñ,
+    def1n,
+    def1o,
+    def1x,
 };
 #[doc(hidden)]
 pub use ::termcolor::{
@@ -43,6 +46,7 @@ pub use ::termcolor::{
 use crate::common::{
     Bytes,
     debug_panic,
+    debug_only_panic,
     FPath,
     FileTypeTextEncoding,
     NLu8,
@@ -138,24 +142,30 @@ impl fmt::Write for DateTimeBuffer {
         &mut self,
         s: &str,
     ) -> fmt::Result {
+        def1n!("s={s:?}");
         if let Some(overflow) = &mut self.overflow {
-            debug_panic!("DateTimeBuffer has an allocated overflow");
+            debug_only_panic!("DateTimeBuffer has an allocated overflow");
             overflow.extend_from_slice(s.as_bytes());
+            def1x!();
             return Ok(());
         }
 
         let len = self.inline_len + s.len();
+        def1o!("len={len}");
         if len <= self.inline.len() {
             self.inline[self.inline_len..len].copy_from_slice(s.as_bytes());
             self.inline_len = len;
+            def1x!();
             return Ok(());
         }
 
-        debug_panic!("DateTimeBuffer allocating overflow for len {len}");
+        debug_only_panic!("DateTimeBuffer allocating overflow for len {len}");
         let mut overflow = Vec::with_capacity(len);
         overflow.extend_from_slice(&self.inline[..self.inline_len]);
         overflow.extend_from_slice(s.as_bytes());
         self.overflow = Some(overflow);
+
+        def1x!();
 
         Ok(())
     }
