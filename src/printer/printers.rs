@@ -108,7 +108,8 @@ const DATETIME_BUFFER_INLINE_CAP: usize = 64;
 
 const COLORS_TEXT_LEN: usize = 28;
 
-/// Keeps normal datetime prefixes inline; longer user formats spill to the heap.
+/// Write a `DateTimeL` to this buffer, ideally writing all data into `inline`.
+/// Longer strings will spill over onto heap-allocated `overflow`.
 struct DateTimeBuffer {
     inline: [u8; DATETIME_BUFFER_INLINE_CAP],
     inline_len: usize,
@@ -138,6 +139,7 @@ impl fmt::Write for DateTimeBuffer {
         s: &str,
     ) -> fmt::Result {
         if let Some(overflow) = &mut self.overflow {
+            debug_panic!("DateTimeBuffer has an allocated overflow");
             overflow.extend_from_slice(s.as_bytes());
             return Ok(());
         }
@@ -149,10 +151,12 @@ impl fmt::Write for DateTimeBuffer {
             return Ok(());
         }
 
+        debug_panic!("DateTimeBuffer allocating overflow for len {len}");
         let mut overflow = Vec::with_capacity(len);
         overflow.extend_from_slice(&self.inline[..self.inline_len]);
         overflow.extend_from_slice(s.as_bytes());
         self.overflow = Some(overflow);
+
         Ok(())
     }
 }
@@ -165,8 +169,7 @@ impl fmt::Write for DateTimeBuffer {
 //
 // TODO: It is presumptious to assume a dark background console. Would be good
 //       to react to the console (is it light or dark?) and adjust at run-time.
-//       Not sure if that is possible.
-//       Issue #261
+//       Not sure if that is possible. Issue #261
 pub const COLORS_TEXT_DT: [Color; COLORS_TEXT_LEN] = [
     // XXX: colors with low pixel values are difficult to see on dark console
     //      backgrounds recommend at least one pixel value of 102 or greater
@@ -1039,6 +1042,7 @@ impl PrinterLogMessage {
         &self,
         dt: DateTimeL,
     ) -> DateTimeBuffer {
+        // XXX: `DelayedFormat` allocates
         let dt_delayedformat = dt.format(
             self.prepend_date_format.as_str(),
         );
