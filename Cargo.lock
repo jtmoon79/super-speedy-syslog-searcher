@@ -946,7 +946,7 @@ dependencies = [
  "bisector",
  "camino",
  "cargo_metadata 0.23.1",
- "clap 4.6.7",
+ "clap 4.6.9",
  "clap-cargo",
  "ctrlc",
  "dirs",
@@ -1152,12 +1152,12 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "4.6.7"
+version = "4.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aa8876b300ab35ba921adea3dfd70157a46249b33f95c9084ae5709785478946"
+checksum = "844c5c0b65be192cb68d570cca1b21a6444431d24e39c084dc0336177015337c"
 dependencies = [
  "clap_builder",
- "clap_derive 4.6.7",
+ "clap_derive 4.6.9",
 ]
 
 [[package]]
@@ -1168,7 +1168,7 @@ checksum = "936551935c8258754bb8216aec040957d261f977303754b9bf1a213518388006"
 dependencies = [
  "anstyle",
  "cargo_metadata 0.23.1",
- "clap 4.6.7",
+ "clap 4.6.9",
  "serde",
  "serde_json",
 ]
@@ -1191,7 +1191,7 @@ version = "4.6.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "037e2a1a92236d0aff7e845093f64661d6df4c02c9fcc61a60e9e1d736fa392f"
 dependencies = [
- "clap 4.6.7",
+ "clap 4.6.9",
 ]
 
 [[package]]
@@ -1209,9 +1209,9 @@ dependencies = [
 
 [[package]]
 name = "clap_derive"
-version = "4.6.7"
+version = "4.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f9c751b79415d4e559e3d1fcf128e09e720eb673a06d26cf6f392d37d75b66e0"
+checksum = "b4c174f11f949b9ca8c60580925e282b9cbd5454750e506f08648b2038080cd7"
 dependencies = [
  "heck 0.5.0",
  "proc-macro2",
@@ -1466,7 +1466,7 @@ dependencies = [
  "anes",
  "cast",
  "ciborium",
- "clap 4.6.7",
+ "clap 4.6.9",
  "criterion-plot 0.5.0",
  "is-terminal",
  "itertools 0.10.5",
@@ -1493,7 +1493,7 @@ dependencies = [
  "anes",
  "cast",
  "ciborium",
- "clap 4.6.7",
+ "clap 4.6.9",
  "criterion-plot 0.8.2",
  "itertools 0.13.0",
  "num-traits",
@@ -2075,7 +2075,7 @@ dependencies = [
  "anyhow",
  "bitflags 2.13.2",
  "bumpalo",
- "clap 4.6.7",
+ "clap 4.6.9",
  "crc32fast",
  "dialoguer",
  "encoding_rs",
@@ -2195,7 +2195,7 @@ dependencies = [
  "anyhow",
  "blondie",
  "cargo_metadata 0.23.1",
- "clap 4.6.7",
+ "clap 4.6.9",
  "clap_complete",
  "indicatif",
  "inferno 0.12.8",
@@ -5209,7 +5209,7 @@ dependencies = [
  "cbc",
  "chardet",
  "chrono",
- "clap 4.6.7",
+ "clap 4.6.9",
  "compact_str",
  "const-str",
  "const_format",
