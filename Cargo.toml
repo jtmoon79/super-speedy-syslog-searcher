@@ -122,7 +122,7 @@ num-traits = "0.2.19"
 numtoa = "1.0.1"
 pathsearch = "0.2.0"
 phf = { version = "0.14.0", features = ["macros"] }
-rand = { version = "0.10.3", features = ["thread_rng"] }
+rand = { version = "0.10.4", features = ["thread_rng"] }
 rangemap = "1.8.0"
 regex = { version = "1.13.2", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
 serde_json = "1.0.154"
