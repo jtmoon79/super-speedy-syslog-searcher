@@ -819,6 +819,8 @@ for TIER_TARGET in "${tiertargets_to_build[@]}"; do
         echo >&2
     fi
 
+    rustup_component_add "${TARGET}"
+
     built_command='_'
     cross_build_result=false
     if cross_build "${TARGET}" "$@"; then
@@ -826,17 +828,11 @@ for TIER_TARGET in "${tiertargets_to_build[@]}"; do
         built_command="${cross_build_command}"
     fi
 
-    rustup_component_add_result=false
     cargo_build_nightly_result=false
     if ! $cross_build_result; then
-        if rustup_component_add "${TARGET}"; then
-            rustup_component_add_result=true
-            if cargo_build_nightly "${TARGET}" "$@"; then
-                cargo_build_nightly_result=true
-                built_command="${cargo_build_nightly_command}"
-            fi
-        else
-            echo -e "${CLR_RED}ERROR: could not add nightly components for target '${TARGET}'${CLR_RESET}" >&2
+        if cargo_build_nightly "${TARGET}" "$@"; then
+            cargo_build_nightly_result=true
+            built_command="${cargo_build_nightly_command}"
         fi
     fi
 
