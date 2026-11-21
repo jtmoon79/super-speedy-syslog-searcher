@@ -36,10 +36,8 @@ pub const EVTX_KPNP_DATA1_S_E: &str = r#"
   <System>
     <TimeCreated SystemTime="2023-03-10T03:49:43"#;
 
-#[allow(dead_code)]
 static EVTX_KPNP_DATA1_TIMESTAMP: LazyLock<Timestamp> = LazyLock::new(|| Timestamp::new(1678420183, 0).unwrap());
 /// EVTX #1
-#[allow(dead_code)]
 static EVTX_1: LazyLock<Evtx> = LazyLock::new(|| Evtx::new_forced(
     *EVTX_KPNP_ENTRY1_DT,
     DtBegEndPairOpt::Some(DtBegEndPair { beg: 420, end: 447 }),

@@ -7,7 +7,6 @@
 #![allow(clippy::too_many_arguments)]
 
 use std::hint::black_box;
-use std::sync::LazyLock;
 
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
@@ -31,17 +30,7 @@ use crate::common::{
     LogMessageType,
     summary_stats_enable,
 };
-use crate::data::common::{
-    DtBegEndPair,
-    DtBegEndPairOpt,
-};
 use crate::data::datetime::DateTimeLOpt;
-use crate::data::evtx::{
-    Evtx,
-    EvtxRS,
-    RecordId,
-    Timestamp,
-};
 #[cfg(target_family = "unix")]
 use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::readers::evtxreader::EvtxReader;
@@ -49,7 +38,6 @@ use crate::readers::evtxreader::EvtxReader;
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{
-    EVTX_KPNP_DATA1_S,
     EVTX_KPNP_ENTRY_FO,
     EVTX_KPNP_ENTRY1_DT,
     EVTX_KPNP_ENTRY227_DT,
@@ -76,28 +64,6 @@ use crate::tests::common::{
     NTF_LOG_EMPTY_FPATH,
     path_id_generator,
 };
-
-pub const EVTX_KPNP_DATA1_ID: RecordId = 1;
-
-/// Error, broken data
-pub const EVTX_KPNP_DATA1_S_E: &str = r#"
-<?xml version="1.0" encoding="utf-8"?>
-<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
-  <System>
-    <TimeCreated SystemTime="2023-03-10T03:49:43"#;
-
-static EVTX_KPNP_DATA1_TIMESTAMP: LazyLock<Timestamp> = LazyLock::new(|| Timestamp::new(1678420183, 0).unwrap());
-/// EVTX #1
-static EVTX_1: LazyLock<Evtx> = LazyLock::new(|| Evtx::new_forced(
-    *EVTX_KPNP_ENTRY1_DT,
-    DtBegEndPairOpt::Some(DtBegEndPair { beg: 420, end: 447 }),
-    EvtxRS {
-        event_record_id: EVTX_KPNP_DATA1_ID,
-        timestamp: *EVTX_KPNP_DATA1_TIMESTAMP,
-        data: String::from(EVTX_KPNP_DATA1_S),
-        recovered: false
-    }
-));
 
 const FT_NORM: FileType = FileType::Evtx {
     archival_type: FileTypeArchive::Normal,
