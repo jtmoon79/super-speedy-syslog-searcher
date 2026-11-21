@@ -645,8 +645,9 @@ function rustup_target_add_try() (
 )
 
 function rustup_component_add() (
-    set -x
-    rustup component add --toolchain "nightly" --target "$1" rustc rust-src rust-std
+    local target="$1"
+    (set -eux; rustup component add --toolchain "nightly" --target "${target}" rustc rust-src rust-std) || true
+    (set -eux; rustup component add --toolchain "$MSRV" --target "${target}" rustc rust-src rust-std) || true
 )
 
 function set_build_dir() {
