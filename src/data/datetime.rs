@@ -1520,7 +1520,7 @@ pub(crate) fn captures_to_buffer_bytes(
             if !found_year{
                 match year_opt {
                     Some(year) => {
-                        debug_panic_if!(year >= &2200, "year {year} is too big");
+                        debug_panic_if!(year >= &3000, "year {year} is too big");
                         buf_num.zeroize();
                         let year_buf_at: &[u8] = year.numtoa(10, &mut buf_num);
                         copy_slice_to_buffer!(year_buf_at, buffer, at);
