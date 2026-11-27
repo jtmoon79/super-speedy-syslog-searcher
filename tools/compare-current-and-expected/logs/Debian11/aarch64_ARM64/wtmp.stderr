@@ -3,32 +3,32 @@ Files:
 
 File: ./logs/Debian11/aarch64_ARM64/wtmp
   About:
-      FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
-      FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Layout Type   : Fs_Linux_Arm64Aarch64_Utmpx
+    FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+    FixedStructTyp: Utmp
+    LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
+    Layout Type   : Fs_Linux_Arm64Aarch64_Utmpx
   Printed:
-      Bytes         : 1146
-      Flushes       : 5
-      Entries       : 5
+    Bytes         : 1146
+    Flushes       : 5
+    Entries       : 5
   Processed:
-      File size     : 2000 (0x7D0) (bytes)
-      bytes         : 2000 (0x7D0)
-      bytes total   : 2000 (0x7D0)
-      Block size    : 256 (0x100)
-      Blocks        : 8
-      Blocks total  : 8 (2048 bytes)
-      Entries       : 5
-      Entry size    : 400 (bytes)
-      Entry hi-score: 104
-      first Entry   : @0
-      Entry high    : 5
-      peak map size : 5
-      Datetime first: 2024-02-18 05:01:23 +08:00 (2024-02-17 21:01:23.767336 +00:00)
-      Datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
-      out of order  : 0
+    File size     : 2000 (0x7D0) (bytes)
+    bytes         : 2000 (0x7D0)
+    bytes total   : 2000 (0x7D0)
+    Block size    : 256 (0x100)
+    Blocks        : 8
+    Blocks total  : 8 (2048 bytes)
+    Entries       : 5
+    Entry size    : 400 (bytes)
+    Entry hi-score: 104
+    first Entry   : @0
+    Entry high    : 5
+    peak map size : 5
+    Datetime first: 2024-02-18 05:01:23 +08:00 (2024-02-17 21:01:23.767336 +00:00)
+    Datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
+    out of order  : 0
   Processing stores:
-      storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
+    storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
   Processing Drops:
 
 Program summary:

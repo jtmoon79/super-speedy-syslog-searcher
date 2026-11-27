@@ -3,47 +3,47 @@ Files:
 
 File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
   About:
-      Subpath       : dtf9c-12x2.log
-      FileType      : TEXT UTF8/ASCII (TAR) (text log)
-      LogMessageType: text log lines
+    Subpath       : dtf9c-12x2.log
+    FileType      : TEXT UTF8/ASCII (TAR) (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 2506
-      Flushes       : 23
-      Lines         : 25
-      Syslines      : 23
-      Datetime First: 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
-      Datetime last : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)
+    Bytes         : 2506
+    Flushes       : 23
+    Lines         : 25
+    Syslines      : 23
+    Datetime First: 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
+    Datetime Last : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)
   Processed:
-      file size archive   : 10240 (0x2800) (bytes)
-      file size unarchived: 431 (0x1AF) (bytes)
-      bytes         : 431 (0x1AF)
-      bytes total   : 431 (0x1AF)
-      Block size    : 256 (0x100)
-      Blocks        : 2
-      Blocks total  : 2 (512 bytes)
-      Lines         : 25
-      Line longest  : 19 (bytes)
-      Line parts    : 26
-      Syslines      : 25
-      Sysline longest: 35 (bytes)
-      Syslines high : 23
-      Datetime first: 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
-      Datetime last : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)
-      out of order  : 0
+    file size archive   : 10240 (0x2800) (bytes)
+    file size unarchived: 431 (0x1AF) (bytes)
+    bytes         : 431 (0x1AF)
+    bytes total   : 431 (0x1AF)
+    Block size    : 256 (0x100)
+    Blocks        : 2
+    Blocks total  : 2 (512 bytes)
+    Lines         : 25
+    Line longest  : 19 (bytes)
+    Line parts    : 26
+    Syslines      : 25
+    Sysline longest: 35 (bytes)
+    Syslines high : 23
+    Datetime first: 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
+    Datetime last : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)
+    out of order  : 0
   Parsers:
-                   datetime format missing year; estimated year of last sysline 2011
+      datetime format missing year; estimated year of last sysline 2011
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit 23, miss 51, 31.1%
-      caching: LineReader::find_line() LRU cache                   : hit  4, miss 50,  7.4%, put 50
-      copying: SyslineReader::get_boxptrs()                        : sgl 60, dbl   1, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit 22, miss 25, 46.8%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  1, miss 25,  3.8%, put 25
-      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 48,  0.0%, put 48
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 22, miss 31, 41.5%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss 32,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 29,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 27, miss 34
+    storage: LineReader::find_line() lines                       : hit 23, miss 51, 31.1%
+    caching: LineReader::find_line() LRU cache                   : hit  4, miss 50,  7.4%, put 50
+    copying: SyslineReader::get_boxptrs()                        : sgl 60, dbl   1, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit 22, miss 25, 46.8%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  1, miss 25,  3.8%, put 25
+    caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 48,  0.0%, put 48
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 22, miss 31, 41.5%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss 32,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 29,  0.0%, largest skipped 0
+    process: regex captures                                      : hit 27, miss 34
   Processing Drops:
 
 Program summary:

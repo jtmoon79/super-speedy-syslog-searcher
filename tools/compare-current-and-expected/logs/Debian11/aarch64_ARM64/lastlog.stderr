@@ -3,32 +3,32 @@ Files:
 
 File: ./logs/Debian11/aarch64_ARM64/lastlog
   About:
-      FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
-      FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Layout Type   : Fs_Linux_Arm64Aarch64_Lastlog
+    FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+    FixedStructTyp: Lastlog
+    LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
+    Layout Type   : Fs_Linux_Arm64Aarch64_Lastlog
   Printed:
-      Bytes         : 127
-      Flushes       : 1
-      Entries       : 1
+    Bytes         : 127
+    Flushes       : 1
+    Entries       : 1
   Processed:
-      File size     : 296296 (0x48568) (bytes)
-      bytes         : 296296 (0x48568)
-      bytes total   : 296296 (0x48568)
-      Block size    : 256 (0x100)
-      Blocks        : 1158
-      Blocks total  : 1158 (296448 bytes)
-      Entries       : 1
-      Entry size    : 296 (bytes)
-      Entry hi-score: 81
-      first Entry   : @296000
-      Entry high    : 1
-      peak map size : 1
-      Datetime first: 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.000000 +00:00)
-      Datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.000000 +00:00)
-      out of order  : 0
+    File size     : 296296 (0x48568) (bytes)
+    bytes         : 296296 (0x48568)
+    bytes total   : 296296 (0x48568)
+    Block size    : 256 (0x100)
+    Blocks        : 1158
+    Blocks total  : 1158 (296448 bytes)
+    Entries       : 1
+    Entry size    : 296 (bytes)
+    Entry hi-score: 81
+    first Entry   : @296000
+    Entry high    : 1
+    peak map size : 1
+    Datetime first: 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.000000 +00:00)
+    Datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.000000 +00:00)
+    out of order  : 0
   Processing stores:
-      storage: FixedStructReader::find_entry()                     : hit    1, miss    0, 100.0%
+    storage: FixedStructReader::find_entry()                     : hit    1, miss    0, 100.0%
   Processing Drops:
 
 Program summary:

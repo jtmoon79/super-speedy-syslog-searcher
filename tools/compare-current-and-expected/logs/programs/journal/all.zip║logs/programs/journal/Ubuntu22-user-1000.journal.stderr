@@ -3,25 +3,25 @@ Files:
 
 File: ./logs/programs/journal/all.zip|logs/programs/journal/Ubuntu22-user-1000.journal
   About:
-      Subpath       : logs/programs/journal/Ubuntu22-user-1000.journal
-      FileType      : JOURNAL (ZIP) (systemd Journal)
-      LogMessageType: systemd journal entry
+    Subpath       : logs/programs/journal/Ubuntu22-user-1000.journal
+    FileType      : JOURNAL (ZIP) (systemd Journal)
+    LogMessageType: systemd journal entry
   Printed:
-      Bytes         : 2149545
-      Flushes       : 1264
-      Journal Events: 422
-      Journal Event Largest Processed: 1321 (bytes)
-      Journal Event Largest Accepted : 1321 (bytes)
-      Datetime First: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
-      Datetime Last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+    Bytes         : 2149545
+    Flushes       : 1264
+    Journal Events: 422
+    Journal Event Largest Processed: 1321 (bytes)
+    Journal Event Largest Accepted : 1321 (bytes)
+    Datetime First: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+    Datetime Last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
   Processed:
-      File size     : 8388608 (0x800000) (bytes)
-      Journal events: 422
-      lib. API calls: 29533
-      API errors    : 0
-      Datetime first: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
-      Datetime last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
-      Out of order  : 0
+    File size     : 8388608 (0x800000) (bytes)
+    Journal events: 422
+    lib. API calls: 29533
+    API errors    : 0
+    Datetime first: 2023-04-01 14:26:24 +08:00 (2023-04-01 06:26:24.164572 +00:00)
+    Datetime last : 2023-04-01 14:44:32 +08:00 (2023-04-01 06:44:32.784185 +00:00)
+    Out of order  : 0
 
 Program summary:
 

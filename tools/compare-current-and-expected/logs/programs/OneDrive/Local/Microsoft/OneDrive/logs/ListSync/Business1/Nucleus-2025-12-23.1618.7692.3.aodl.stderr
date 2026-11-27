@@ -3,33 +3,34 @@ Files:
 
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
   About:
-      FileType      : AODL (OneDrive Log)
-      LogMessageType: ODL event (OneDrive Log)
-      Processing Err: 58 ODL protected tokens could not be decoded; original tokens retained
+    FileType      : AODL (OneDrive Log)
+    LogMessageType: ODL event (OneDrive Log)
+    Processing warnings (1):
+      58 ODL protected tokens could not be decoded; original tokens retained
   Printed:
-      Events        : 829
-      Bytes         : 209309
-      Flushes       : 829
-      Event Largest Processed: 302
-      Event Largest Accepted : 302
-      Datetime First: 2025-12-24 00:18:40.364 +08:00
-      Datetime Last : 2025-12-24 07:18:57.170 +08:00
+    Events        : 829
+    Bytes         : 209309
+    Flushes       : 829
+    Event Largest Processed: 302
+    Event Largest Accepted : 302
+    Datetime First: 2025-12-24 00:18:40 +08:00 (2025-12-23 16:18:40.364000 +00:00)
+    Datetime Last : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
   Processed:
-      File size          : 130902
-      ODL version        : 3
-      Internal gzip      : false
-      Decoding data avail?    : true
-      Supplementary files used: 1
-        ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/general.keystore
-      Supplementary files not available: 2
-      Events processed   : 829
-      Events accepted    : 829
-      Events undecoded   : 392
-      Decoding failures  : 58
-      Records skipped    : 0
-      Out of order       : 0
-      Datetime first     : 2025-12-24 00:18:40.364 +08:00
-      Datetime last      : 2025-12-24 07:18:57.170 +08:00
+    File size          : 130902
+    ODL version        : 3
+    Internal gzip      : false
+    Decoding data avail?    : true
+    Supplementary files used: 1
+      ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/general.keystore
+    Supplementary files not available: 2
+    Events processed   : 829
+    Events accepted    : 829
+    Events undecoded   : 392
+    Decoding failures  : 58
+    Records skipped    : 0
+    Out of order       : 0
+    Datetime First     : 2025-12-24 00:18:40 +08:00 (2025-12-23 16:18:40.364000 +00:00)
+    Datetime Last      : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
 
 Program summary:
 

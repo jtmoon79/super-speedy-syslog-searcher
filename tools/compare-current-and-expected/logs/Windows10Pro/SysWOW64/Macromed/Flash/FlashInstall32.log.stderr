@@ -3,45 +3,45 @@ Files:
 
 File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 174135
-      Flushes       : 160
-      Lines         : 1233
-      Syslines      : 101
-      Datetime First: 2019-01-29 02:07:21 +08:00 (2019-01-28 18:07:21.228000 +00:00)
-      Datetime last : 2021-05-01 21:39:34 +08:00 (2021-05-01 13:39:34.643000 +00:00)
+    Bytes         : 174135
+    Flushes       : 160
+    Lines         : 1233
+    Syslines      : 101
+    Datetime First: 2019-01-29 02:07:21 +08:00 (2019-01-28 18:07:21.228000 +00:00)
+    Datetime Last : 2021-05-01 21:39:34 +08:00 (2021-05-01 13:39:34.643000 +00:00)
   Processed:
-      File size     : 118786 (0x1D002) (bytes)
-      bytes         : 118786 (0x1D002)
-      bytes total   : 118786 (0x1D002)
-      Block size    : 256 (0x100)
-      Blocks        : 465
-      Blocks total  : 465 (119040 bytes)
-      Lines         : 1233
-      Line longest  : 378 (bytes)
-      Line parts    : 1688
-      Syslines      : 101
-      Sysline longest: 5230 (bytes)
-      Syslines high : 7
-      Datetime first: 2019-01-29 02:07:21 +08:00 (2019-01-28 18:07:21.228000 +00:00)
-      Datetime last : 2021-05-01 21:39:34 +08:00 (2021-05-01 13:39:34.643000 +00:00)
-      out of order  : 20
-      out of order max: 11s 39ms
+    File size     : 118786 (0x1D002) (bytes)
+    bytes         : 118786 (0x1D002)
+    bytes total   : 118786 (0x1D002)
+    Block size    : 256 (0x100)
+    Blocks        : 465
+    Blocks total  : 465 (119040 bytes)
+    Lines         : 1233
+    Line longest  : 378 (bytes)
+    Line parts    : 1688
+    Syslines      : 101
+    Sysline longest: 5230 (bytes)
+    Syslines high : 7
+    Datetime first: 2019-01-29 02:07:21 +08:00 (2019-01-28 18:07:21.228000 +00:00)
+    Datetime last : 2021-05-01 21:39:34 +08:00 (2021-05-01 13:39:34.643000 +00:00)
+    out of order  : 20
+    out of order max: 11s 39ms
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit    0, miss 2467,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  104, miss 1234,  7.8%, put 1233
-      copying: SyslineReader::get_boxptrs()                        : sgl 1302, dbl   448, mult    1
-      storage: SyslineReader::find_sysline() syslines              : hit    0, miss  102,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    2,  0.0%, put    1
-      caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss  102,  0.0%, put  101
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  101, miss 1235,  7.6%, put    0
-      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit    0, miss    0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss    0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  101, miss 1650
+    storage: LineReader::find_line() lines                       : hit    0, miss 2467,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  104, miss 1234,  7.8%, put 1233
+    copying: SyslineReader::get_boxptrs()                        : sgl 1302, dbl   448, mult    1
+    storage: SyslineReader::find_sysline() syslines              : hit    0, miss  102,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    2,  0.0%, put    1
+    caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss  102,  0.0%, put  101
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  101, miss 1235,  7.6%, put    0
+    optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit    0, miss    0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit    0, miss    0,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  101, miss 1650
   Processing Drops:
 
 Program summary:

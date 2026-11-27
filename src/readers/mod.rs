@@ -95,6 +95,8 @@
 
 pub mod aslparser;
 pub mod aslreader;
+pub mod aulparser;
+pub mod aulreader;
 pub mod blockreader;
 pub mod etlparser;
 pub mod etlreader;

@@ -3,46 +3,46 @@ Files:
 
 File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 1766
-      Flushes       : 16
-      Lines         : 16
-      Syslines      : 16
-      Datetime First: 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
-      Datetime last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
+    Bytes         : 1766
+    Flushes       : 16
+    Lines         : 16
+    Syslines      : 16
+    Datetime First: 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
+    Datetime Last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
   Processed:
-      File size     : 1197 (0x4AD) (bytes)
-      bytes         : 941 (0x3AD)
-      bytes total   : 1197 (0x4AD)
-      Block size    : 256 (0x100)
-      Blocks        : 4
-      Blocks total  : 5 (1280 bytes)
-      Lines         : 23
-      Line longest  : 23 (bytes)
-      Line parts    : 25
-      Syslines      : 22
-      Sysline longest: 23 (bytes)
-      Syslines high : 20
-      Datetime first: 1972-01-01 00:00:00 -02:00 (1972-01-01 02:00:00.000000 +00:00)
-      Datetime last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
-      out of order  : 0
-      out of order max: 365d 23h 59m 59s
+    File size     : 1197 (0x4AD) (bytes)
+    bytes         : 941 (0x3AD)
+    bytes total   : 1197 (0x4AD)
+    Block size    : 256 (0x100)
+    Blocks        : 4
+    Blocks total  : 5 (1280 bytes)
+    Lines         : 23
+    Line longest  : 23 (bytes)
+    Line parts    : 25
+    Syslines      : 22
+    Sysline longest: 23 (bytes)
+    Syslines high : 20
+    Datetime first: 1972-01-01 00:00:00 -02:00 (1972-01-01 02:00:00.000000 +00:00)
+    Datetime last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
+    out of order  : 0
+    out of order max: 365d 23h 59m 59s
   Parsers:
-                   datetime format missing year; estimated year of last sysline 2000
+      datetime format missing year; estimated year of last sysline 2000
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit 18, miss 45, 28.6%
-      caching: LineReader::find_line() LRU cache                   : hit  3, miss 41,  6.8%, put 41
-      copying: SyslineReader::get_boxptrs()                        : sgl 56, dbl   2, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit 15, miss 22, 40.5%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  5, miss 22, 18.5%, put 22
-      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 42,  0.0%, put 42
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 16, miss 27, 37.2%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss 29,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 29,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 27, miss 31
+    storage: LineReader::find_line() lines                       : hit 18, miss 45, 28.6%
+    caching: LineReader::find_line() LRU cache                   : hit  3, miss 41,  6.8%, put 41
+    copying: SyslineReader::get_boxptrs()                        : sgl 56, dbl   2, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit 15, miss 22, 40.5%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  5, miss 22, 18.5%, put 22
+    caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 42,  0.0%, put 42
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 16, miss 27, 37.2%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss 29,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 29,  0.0%, largest skipped 0
+    process: regex captures                                      : hit 27, miss 31
   Processing Drops:
 
 Program summary:

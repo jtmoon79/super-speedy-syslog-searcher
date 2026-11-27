@@ -3,46 +3,46 @@ Files:
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVELS.log
   About:
-      Subpath       : ./logs/other/tests/dtf7-20-LEVELS.log
-      FileType      : TEXT UTF8/ASCII (TAR) (text log)
-      LogMessageType: text log lines
+    Subpath       : ./logs/other/tests/dtf7-20-LEVELS.log
+    FileType      : TEXT UTF8/ASCII (TAR) (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 3460
-      Flushes       : 20
-      Lines         : 20
-      Syslines      : 20
-      Datetime First: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
-      Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
+    Bytes         : 3460
+    Flushes       : 20
+    Lines         : 20
+    Syslines      : 20
+    Datetime First: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+    Datetime Last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
   Processed:
-      file size archive   : 10240 (0x2800) (bytes)
-      file size unarchived: 1260 (0x4EC) (bytes)
-      bytes         : 1260 (0x4EC)
-      bytes total   : 1260 (0x4EC)
-      Block size    : 256 (0x100)
-      Blocks        : 5
-      Blocks total  : 5 (1280 bytes)
-      Lines         : 20
-      Line longest  : 73 (bytes)
-      Line parts    : 24
-      Syslines      : 20
-      Sysline longest: 73 (bytes)
-      Syslines high : 15
-      Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
-      Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
-      out of order  : 0
+    file size archive   : 10240 (0x2800) (bytes)
+    file size unarchived: 1260 (0x4EC) (bytes)
+    bytes         : 1260 (0x4EC)
+    bytes total   : 1260 (0x4EC)
+    Block size    : 256 (0x100)
+    Blocks        : 5
+    Blocks total  : 5 (1280 bytes)
+    Lines         : 20
+    Line longest  : 73 (bytes)
+    Line parts    : 24
+    Syslines      : 20
+    Sysline longest: 73 (bytes)
+    Syslines high : 15
+    Datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+    Datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  20, 50.0%, put  20
-      copying: SyslineReader::get_boxptrs()                        : sgl 152, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 143,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  20, miss 136
+    storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  20, miss  20, 50.0%, put  20
+    copying: SyslineReader::get_boxptrs()                        : sgl 152, dbl    4, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 143,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  20, miss 136
   Processing Drops:
 
 Program summary:

@@ -3,33 +3,33 @@ Files:
 
 File: ./logs/CentOS7/x86_64/lastlog
   About:
-      FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
-      FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Layout Type   : Fs_Linux_x86_Lastlog
+    FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+    FixedStructTyp: Lastlog
+    LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
+    Layout Type   : Fs_Linux_x86_Lastlog
   Printed:
-      Bytes         : 231
-      Flushes       : 2
-      Entries       : 2
+    Bytes         : 231
+    Flushes       : 2
+    Entries       : 2
   Processed:
-      File size     : 292584 (0x476E8) (bytes)
-      bytes         : 292584 (0x476E8)
-      bytes total   : 292584 (0x476E8)
-      Block size    : 256 (0x100)
-      Blocks        : 1143
-      Blocks total  : 1143 (292608 bytes)
-      Entries       : 2
-      Entry size    : 292 (bytes)
-      Entry hi-score: 75
-      first Entry   : @0
-      Entry high    : 2
-      peak map size : 2
-      Datetime first: 2023-12-15 16:10:21 +08:00 (2023-12-15 08:10:21.000000 +00:00)
-      Datetime last : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.000000 +00:00)
-      out of order  : 1
-      out of order max: 78d 22h 53m 37s
+    File size     : 292584 (0x476E8) (bytes)
+    bytes         : 292584 (0x476E8)
+    bytes total   : 292584 (0x476E8)
+    Block size    : 256 (0x100)
+    Blocks        : 1143
+    Blocks total  : 1143 (292608 bytes)
+    Entries       : 2
+    Entry size    : 292 (bytes)
+    Entry hi-score: 75
+    first Entry   : @0
+    Entry high    : 2
+    peak map size : 2
+    Datetime first: 2023-12-15 16:10:21 +08:00 (2023-12-15 08:10:21.000000 +00:00)
+    Datetime last : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.000000 +00:00)
+    out of order  : 1
+    out of order max: 78d 22h 53m 37s
   Processing stores:
-      storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
+    storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
   Processing Drops:
 
 Program summary:

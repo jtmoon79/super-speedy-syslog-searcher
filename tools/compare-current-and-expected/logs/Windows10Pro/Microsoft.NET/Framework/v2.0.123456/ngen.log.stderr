@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 716
-      Flushes       : 4
-      Lines         : 4
-      Syslines      : 4
-      Datetime First: 2020-05-27 12:25:40 +08:00 (2020-05-27 04:25:40.000000 +00:00)
-      Datetime last : 2020-05-27 12:25:41 +08:00 (2020-05-27 04:25:41.000000 +00:00)
+    Bytes         : 716
+    Flushes       : 4
+    Lines         : 4
+    Syslines      : 4
+    Datetime First: 2020-05-27 12:25:40 +08:00 (2020-05-27 04:25:40.000000 +00:00)
+    Datetime Last : 2020-05-27 12:25:41 +08:00 (2020-05-27 04:25:41.000000 +00:00)
   Processed:
-      File size     : 674 (0x2A2) (bytes)
-      bytes         : 674 (0x2A2)
-      bytes total   : 674 (0x2A2)
-      Block size    : 256 (0x100)
-      Blocks        : 3
-      Blocks total  : 3 (768 bytes)
-      Lines         : 4
-      Line longest  : 228 (bytes)
-      Line parts    : 7
-      Syslines      : 4
-      Sysline longest: 228 (bytes)
-      Syslines high : 4
-      Datetime first: 2020-05-27 12:25:40 +08:00 (2020-05-27 04:25:40.000000 +00:00)
-      Datetime last : 2020-05-27 12:25:41 +08:00 (2020-05-27 04:25:41.000000 +00:00)
-      out of order  : 0
+    File size     : 674 (0x2A2) (bytes)
+    bytes         : 674 (0x2A2)
+    bytes total   : 674 (0x2A2)
+    Block size    : 256 (0x100)
+    Blocks        : 3
+    Blocks total  : 3 (768 bytes)
+    Lines         : 4
+    Line longest  : 228 (bytes)
+    Line parts    : 7
+    Syslines      : 4
+    Sysline longest: 228 (bytes)
+    Syslines high : 4
+    Datetime first: 2020-05-27 12:25:40 +08:00 (2020-05-27 04:25:40.000000 +00:00)
+    Datetime last : 2020-05-27 12:25:41 +08:00 (2020-05-27 04:25:41.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss   5, 50.0%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 188, dbl    1, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   5,  0.0%, put   4
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   4, 50.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss   0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   4, miss 185
+    storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit   5, miss   5, 50.0%, put   4
+    copying: SyslineReader::get_boxptrs()                        : sgl 188, dbl    1, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   5,  0.0%, put   4
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   4, 50.0%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss   0,  0.0%, largest skipped 0
+    process: regex captures                                      : hit   4, miss 185
   Processing Drops:
 
 Program summary:

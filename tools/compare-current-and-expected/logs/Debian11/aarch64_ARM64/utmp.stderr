@@ -3,33 +3,33 @@ Files:
 
 File: ./logs/Debian11/aarch64_ARM64/utmp
   About:
-      FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
-      FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Layout Type   : Fs_Linux_Arm64Aarch64_Utmpx
+    FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+    FixedStructTyp: Utmp
+    LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
+    Layout Type   : Fs_Linux_Arm64Aarch64_Utmpx
   Printed:
-      Bytes         : 1370
-      Flushes       : 6
-      Entries       : 6
+    Bytes         : 1370
+    Flushes       : 6
+    Entries       : 6
   Processed:
-      File size     : 2400 (0x960) (bytes)
-      bytes         : 2400 (0x960)
-      bytes total   : 2400 (0x960)
-      Block size    : 256 (0x100)
-      Blocks        : 10
-      Blocks total  : 10 (2560 bytes)
-      Entries       : 6
-      Entry size    : 400 (bytes)
-      Entry hi-score: 126
-      first Entry   : @0
-      Entry high    : 5
-      peak map size : 6
-      Datetime first: 2023-12-11 06:45:53 +08:00 (2023-12-10 22:45:53.034179 +00:00)
-      Datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
-      out of order  : 3
-      out of order max: 68d 22h 9m 57s 294.708ms
+    File size     : 2400 (0x960) (bytes)
+    bytes         : 2400 (0x960)
+    bytes total   : 2400 (0x960)
+    Block size    : 256 (0x100)
+    Blocks        : 10
+    Blocks total  : 10 (2560 bytes)
+    Entries       : 6
+    Entry size    : 400 (bytes)
+    Entry hi-score: 126
+    first Entry   : @0
+    Entry high    : 5
+    peak map size : 6
+    Datetime first: 2023-12-11 06:45:53 +08:00 (2023-12-10 22:45:53.034179 +00:00)
+    Datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
+    out of order  : 3
+    out of order max: 68d 22h 9m 57s 294.708ms
   Processing stores:
-      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
+    storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
 
 Program summary:

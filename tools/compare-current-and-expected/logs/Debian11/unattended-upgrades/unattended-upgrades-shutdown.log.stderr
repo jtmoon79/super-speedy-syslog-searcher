@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 1091
-      Flushes       : 5
-      Lines         : 5
-      Syslines      : 5
-      Datetime First: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
-      Datetime last : 2022-10-11 00:02:37 +08:00 (2022-10-10 16:02:37.174000 +00:00)
+    Bytes         : 1091
+    Flushes       : 5
+    Lines         : 5
+    Syslines      : 5
+    Datetime First: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
+    Datetime Last : 2022-10-11 00:02:37 +08:00 (2022-10-10 16:02:37.174000 +00:00)
   Processed:
-      File size     : 596 (0x254) (bytes)
-      bytes         : 596 (0x254)
-      bytes total   : 596 (0x254)
-      Block size    : 256 (0x100)
-      Blocks        : 3
-      Blocks total  : 3 (768 bytes)
-      Lines         : 5
-      Line longest  : 144 (bytes)
-      Line parts    : 7
-      Syslines      : 5
-      Sysline longest: 144 (bytes)
-      Syslines high : 5
-      Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
-      Datetime last : 2022-10-11 00:02:37 +08:00 (2022-10-10 16:02:37.174000 +00:00)
-      out of order  : 0
+    File size     : 596 (0x254) (bytes)
+    bytes         : 596 (0x254)
+    bytes total   : 596 (0x254)
+    Block size    : 256 (0x100)
+    Blocks        : 3
+    Blocks total  : 3 (768 bytes)
+    Lines         : 5
+    Line longest  : 144 (bytes)
+    Line parts    : 7
+    Syslines      : 5
+    Sysline longest: 144 (bytes)
+    Syslines high : 5
+    Datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
+    Datetime last : 2022-10-11 00:02:37 +08:00 (2022-10-10 16:02:37.174000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  5, miss  5, 50.0%, put  5
-      copying: SyslineReader::get_boxptrs()                        : sgl 77, dbl   1, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  5, 16.7%, put  5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  4, miss  5, 44.4%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 73,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  5, miss 73
+    storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  5, miss  5, 50.0%, put  5
+    copying: SyslineReader::get_boxptrs()                        : sgl 77, dbl   1, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss  5,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  5, 16.7%, put  5
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  4, miss  5, 44.4%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 73,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  5, miss 73
   Processing Drops:
 
 Program summary:

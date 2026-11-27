@@ -3,32 +3,32 @@ Files:
 
 File: ./logs/NetBSD9.3/x86_32/utmpx
   About:
-      FileType      : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
-      FixedStructTyp: Utmpx
-      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Layout Type   : Fs_Netbsd_x8632_Utmpx
+    FileType      : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+    FixedStructTyp: Utmpx
+    LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
+    Layout Type   : Fs_Netbsd_x8632_Utmpx
   Printed:
-      Bytes         : 2059
-      Flushes       : 9
-      Entries       : 9
+    Bytes         : 2059
+    Flushes       : 9
+    Entries       : 9
   Processed:
-      File size     : 5160 (0x1428) (bytes)
-      bytes         : 5160 (0x1428)
-      bytes total   : 5160 (0x1428)
-      Block size    : 256 (0x100)
-      Blocks        : 21
-      Blocks total  : 21 (5376 bytes)
-      Entries       : 9
-      Entry size    : 516 (bytes)
-      Entry hi-score: 141
-      first Entry   : @516
-      Entry high    : 4
-      peak map size : 9
-      Datetime first: 2024-02-25 16:15:04 +08:00 (2024-02-25 08:15:04.020154 +00:00)
-      Datetime last : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.275011 +00:00)
-      out of order  : 0
+    File size     : 5160 (0x1428) (bytes)
+    bytes         : 5160 (0x1428)
+    bytes total   : 5160 (0x1428)
+    Block size    : 256 (0x100)
+    Blocks        : 21
+    Blocks total  : 21 (5376 bytes)
+    Entries       : 9
+    Entry size    : 516 (bytes)
+    Entry hi-score: 141
+    first Entry   : @516
+    Entry high    : 4
+    peak map size : 9
+    Datetime first: 2024-02-25 16:15:04 +08:00 (2024-02-25 08:15:04.020154 +00:00)
+    Datetime last : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.275011 +00:00)
+    out of order  : 0
   Processing stores:
-      storage: FixedStructReader::find_entry()                     : hit  4, miss  5, 44.4%
+    storage: FixedStructReader::find_entry()                     : hit  4, miss  5, 44.4%
   Processing Drops:
 
 Program summary:

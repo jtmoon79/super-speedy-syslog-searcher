@@ -109,6 +109,7 @@
 //! [`Read`]: std::io::Read
 
 pub mod asl;
+pub mod aul;
 pub mod common;
 pub mod datetime;
 pub mod etl;

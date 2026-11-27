@@ -3,9 +3,9 @@ Files:
 
 File: ./logs/other/tests/invalid.gz
   About:
-      FileType      : TEXT UTF8/ASCII (GZIP) (text log)
-      LogMessageType: text log lines
-      Processing Err: failed to fill whole buffer read gzip header file "./logs/other/tests/invalid.gz"
+    FileType      : TEXT UTF8/ASCII (GZIP) (text log)
+    LogMessageType: text log lines
+    Processing Err: failed to fill whole buffer read gzip header file "./logs/other/tests/invalid.gz"
   Error: failed to fill whole buffer read gzip header file "./logs/other/tests/invalid.gz"
 
 Program summary:

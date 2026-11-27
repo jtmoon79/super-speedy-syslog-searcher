@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/upstart/DiskHealthCk.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 342
-      Flushes       : 2
-      Lines         : 2
-      Syslines      : 2
-      Datetime First: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
-      Datetime last : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
+    Bytes         : 342
+    Flushes       : 2
+    Lines         : 2
+    Syslines      : 2
+    Datetime First: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
+    Datetime Last : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
   Processed:
-      File size     : 192 (0xC0) (bytes)
-      bytes         : 192 (0xC0)
-      bytes total   : 192 (0xC0)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 1 (256 bytes)
-      Lines         : 2
-      Line longest  : 96 (bytes)
-      Line parts    : 2
-      Syslines      : 2
-      Sysline longest: 96 (bytes)
-      Syslines high : 2
-      Datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
-      Datetime last : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
-      out of order  : 0
+    File size     : 192 (0xC0) (bytes)
+    bytes         : 192 (0xC0)
+    bytes total   : 192 (0xC0)
+    Block size    : 256 (0x100)
+    Blocks        : 1
+    Blocks total  : 1 (256 bytes)
+    Lines         : 2
+    Line longest  : 96 (bytes)
+    Line parts    : 2
+    Syslines      : 2
+    Sysline longest: 96 (bytes)
+    Syslines high : 2
+    Datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
+    Datetime last : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  2, miss  2, 50.0%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 76, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  2, 33.3%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 71,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  2, miss 74
+    storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  2, miss  2, 50.0%, put  2
+    copying: SyslineReader::get_boxptrs()                        : sgl 76, dbl   0, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  2, 33.3%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 71,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  2, miss 74
   Processing Drops:
 
 Program summary:

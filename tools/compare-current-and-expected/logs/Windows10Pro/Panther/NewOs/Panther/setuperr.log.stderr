@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 5521
-      Flushes       : 16
-      Lines         : 33
-      Syslines      : 15
-      Datetime First: 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
-      Datetime last : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
+    Bytes         : 5521
+    Flushes       : 16
+    Lines         : 33
+    Syslines      : 15
+    Datetime First: 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
+    Datetime Last : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
   Processed:
-      File size     : 2716 (0xA9C) (bytes)
-      bytes         : 2716 (0xA9C)
-      bytes total   : 2716 (0xA9C)
-      Block size    : 256 (0x100)
-      Blocks        : 11
-      Blocks total  : 11 (2816 bytes)
-      Lines         : 33
-      Line longest  : 181 (bytes)
-      Line parts    : 43
-      Syslines      : 15
-      Sysline longest: 1072 (bytes)
-      Syslines high : 10
-      Datetime first: 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
-      Datetime last : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
-      out of order  : 0
+    File size     : 2716 (0xA9C) (bytes)
+    bytes         : 2716 (0xA9C)
+    bytes total   : 2716 (0xA9C)
+    Block size    : 256 (0x100)
+    Blocks        : 11
+    Blocks total  : 11 (2816 bytes)
+    Lines         : 33
+    Line longest  : 181 (bytes)
+    Line parts    : 43
+    Syslines      : 15
+    Sysline longest: 1072 (bytes)
+    Syslines high : 10
+    Datetime first: 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
+    Datetime last : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   2, miss  63,  3.1%
-      caching: LineReader::find_line() LRU cache                   : hit  15, miss  33, 31.2%, put  33
-      copying: SyslineReader::get_boxptrs()                        : sgl 102, dbl    7, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  15,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  15,  6.2%, put  15
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  14, miss  33, 29.8%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  16, miss  88, 15.4%, largest skipped 49
-      process: regex captures                                      : hit  15, miss  78
+    storage: LineReader::find_line() lines                       : hit   2, miss  63,  3.1%
+    caching: LineReader::find_line() LRU cache                   : hit  15, miss  33, 31.2%, put  33
+    copying: SyslineReader::get_boxptrs()                        : sgl 102, dbl    7, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss  15,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  15,  6.2%, put  15
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  14, miss  33, 29.8%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  16, miss  88, 15.4%, largest skipped 49
+    process: regex captures                                      : hit  15, miss  78
   Processing Drops:
 
 Program summary:

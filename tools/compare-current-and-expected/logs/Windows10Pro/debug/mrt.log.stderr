@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Windows10Pro/debug/mrt.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 4269
-      Flushes       : 5
-      Lines         : 47
-      Syslines      : 5
-      Datetime First: 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
-      Datetime last : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
+    Bytes         : 4269
+    Flushes       : 5
+    Lines         : 47
+    Syslines      : 5
+    Datetime First: 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
+    Datetime Last : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
   Processed:
-      File size     : 1427 (0x593) (bytes)
-      bytes         : 1427 (0x593)
-      bytes total   : 1427 (0x593)
-      Block size    : 256 (0x100)
-      Blocks        : 6
-      Blocks total  : 6 (1536 bytes)
-      Lines         : 49
-      Line longest  : 88 (bytes)
-      Line parts    : 54
-      Syslines      : 5
-      Sysline longest: 277 (bytes)
-      Syslines high : 5
-      Datetime first: 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
-      Datetime last : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
-      out of order  : 0
+    File size     : 1427 (0x593) (bytes)
+    bytes         : 1427 (0x593)
+    bytes total   : 1427 (0x593)
+    Block size    : 256 (0x100)
+    Blocks        : 6
+    Blocks total  : 6 (1536 bytes)
+    Lines         : 49
+    Line longest  : 88 (bytes)
+    Line parts    : 54
+    Syslines      : 5
+    Sysline longest: 277 (bytes)
+    Syslines high : 5
+    Datetime first: 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
+    Datetime last : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  12, miss  87, 12.1%
-      caching: LineReader::find_line() LRU cache                   : hit  12, miss  50, 19.4%, put  49
-      copying: SyslineReader::get_boxptrs()                        : sgl 810, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  55,  8.3%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  33, miss  53, 38.4%, largest skipped 87
-      optimize:SyslineReader::ezcheck12d2                          : hit 258, miss 470, 35.4%, largest skipped 87
-      process: regex captures                                      : hit   5, miss 518
+    storage: LineReader::find_line() lines                       : hit  12, miss  87, 12.1%
+    caching: LineReader::find_line() LRU cache                   : hit  12, miss  50, 19.4%, put  49
+    copying: SyslineReader::get_boxptrs()                        : sgl 810, dbl    4, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  55,  8.3%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  33, miss  53, 38.4%, largest skipped 87
+    optimize:SyslineReader::ezcheck12d2                          : hit 258, miss 470, 35.4%, largest skipped 87
+    process: regex captures                                      : hit   5, miss 518
   Processing Drops:
 
 Program summary:

@@ -1043,15 +1043,38 @@ impl std::fmt::Display for OdlSubType {
     }
 }
 
+/// *Apple Unified Logs* storage format
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+pub enum AulStorageType {
+    /// The log is stored live in-place within the system, e.g. under `/var/db/diagnostics` and `/var/db/uuidtext`.
+    InPlace,
+    /// The log is stored in a separate archive path, e.g. under `log-collect.logarchive/`.
+    LogArchive,
+}
+
+/// Evidence used to recognize an Apple Unified Logs capture.
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+pub enum AulDetection {
+    /// The path was explicitly configured in `S4_AUL_PATHS`.
+    ByEnvironment,
+    /// A trace file was found in a recognized Apple Unified Logs directory layout.
+    ByTrace,
+    /// Trace evidence and a standard, nonempty timesync companion layout were found.
+    ByTraceTimesync,
+}
+
 /// A file's major type to distinguish which _Reader_ struct should use it and
 /// how the _Readers_ processes it.
-// TODO: [2023/04] types Unset, Unparsable, Unknown are confusing to keep around
-//       and make extra work for all match statements.
-//       Can they be removed?
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
 pub enum FileType {
     /// _Apple System Log_ file
     Asl { archival_type: FileTypeArchive },
+    /// One captured Apple Unified Log set.
+    Aul {
+        archival_type: FileTypeArchive,
+        storage_type: AulStorageType,
+        detection: AulDetection
+    },
     /// a Windows [Event Trace Log] file
     ///
     /// [Event Trace Log]: https://learn.microsoft.com/en-us/windows-hardware/test/wpt/opening-and-analyzing-etl-files-in-wpa
@@ -1088,6 +1111,7 @@ impl std::fmt::Display for FileType {
     ) -> std::fmt::Result {
         match self {
             FileType::Asl{ .. } => write!(f, "ASL"),
+            FileType::Aul{ .. } => write!(f, "AUL"),
             FileType::Etl{ .. } => write!(f, "ETL"),
             FileType::Evtx{ .. } => write!(f, "EVTX"),
             FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Acct, .. } => write!(f, "ACCT"),
@@ -1108,6 +1132,7 @@ impl FileType {
     /// Returns `true` if this is a compressed file
     pub const fn is_compressed(&self) -> bool {
         match self {
+            FileType::Aul { .. } => false,
             FileType::Asl{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Asl{ archival_type: FileTypeArchive::Bz2 } => true,
             FileType::Asl{ archival_type: FileTypeArchive::Gz } => true,
@@ -1164,6 +1189,7 @@ impl FileType {
     /// Returns `true` if the file is within an archived file
     pub const fn is_archived(&self) -> bool {
         match self {
+            FileType::Aul { .. } => false,
             FileType::Asl{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Asl{ archival_type: FileTypeArchive::Bz2 } => false,
             FileType::Asl{ archival_type: FileTypeArchive::Gz } => false,
@@ -1221,6 +1247,7 @@ impl FileType {
     pub const fn is_supported(&self) -> bool {
         match self {
             FileType::Asl { .. } => true,
+            FileType::Aul { archival_type, .. } => matches!(archival_type, FileTypeArchive::Normal),
             FileType::Etl { .. } => true,
             FileType::Evtx { .. } => true,
             FileType::FixedStruct { .. } => true,
@@ -1235,6 +1262,7 @@ impl FileType {
     pub const fn to_logmessagetype(&self) -> LogMessageType {
         match self {
             FileType::Asl { .. } => LogMessageType::Asl,
+            FileType::Aul { .. } => LogMessageType::Aul,
             FileType::Etl { .. } => LogMessageType::Etl,
             FileType::Evtx { .. } => LogMessageType::Evtx,
             FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
@@ -1253,6 +1281,7 @@ impl FileType {
     pub const fn to_filetypearchive(&self) -> FileTypeArchive {
         match self {
             FileType::Asl { archival_type } => *archival_type,
+            FileType::Aul { archival_type, .. } => *archival_type,
             FileType::Etl { archival_type } => *archival_type,
             FileType::Evtx { archival_type } => *archival_type,
             FileType::FixedStruct { archival_type, .. } => *archival_type,
@@ -1302,6 +1331,7 @@ impl FileType {
     pub const fn archival_type(&self) -> FileTypeArchive {
         match self {
             FileType::Asl { archival_type } => *archival_type,
+            FileType::Aul { archival_type, .. } => *archival_type,
             FileType::Etl { archival_type } => *archival_type,
             FileType::Evtx { archival_type } => *archival_type,
             FileType::FixedStruct { archival_type, .. } => *archival_type,
@@ -1322,6 +1352,7 @@ impl FileType {
     pub const fn pretty_name(&self) -> &'static str {
         match self {
             FileType::Asl { .. } => "Apple System Log",
+            FileType::Aul { .. } => "Apple Unified Logs",
             FileType::Etl { .. } => "Windows Event Trace Log",
             FileType::Evtx { .. } => "Windows XML EventLog",
             FileType::FixedStruct { .. } => "Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx)",
@@ -1376,6 +1407,8 @@ pub enum LogMessageType {
     Odl,
     /// a native Apple System Log (ASL) event.
     Asl,
+    /// A native Apple Unified Log event.
+    Aul,
     /// Special case, used to indicate "ALL" or "ANY" message type.
     /// Useful for code objects tracking multiple files.
     #[default]
@@ -1394,6 +1427,7 @@ impl std::fmt::Display for LogMessageType {
             LogMessageType::Journal => write!(f, "systemd journal entry"),
             LogMessageType::Odl => write!(f, "ODL event (OneDrive Log)"),
             LogMessageType::Asl => write!(f, "ASL event (Apple System Log)"),
+            LogMessageType::Aul => write!(f, "AUL event (Apple Unified Log)"),
             LogMessageType::Sysline => write!(f, "text log lines"),
             LogMessageType::All => write!(f, "ALL"),
         }

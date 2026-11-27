@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synomkthumbd.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 2240
-      Flushes       : 16
-      Lines         : 16
-      Syslines      : 16
-      Datetime First: 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
-      Datetime last : 2020-03-07 12:23:02 -08:00 (2020-03-07 20:23:02.000000 +00:00)
+    Bytes         : 2240
+    Flushes       : 16
+    Lines         : 16
+    Syslines      : 16
+    Datetime First: 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
+    Datetime Last : 2020-03-07 12:23:02 -08:00 (2020-03-07 20:23:02.000000 +00:00)
   Processed:
-      File size     : 1040 (0x410) (bytes)
-      bytes         : 1040 (0x410)
-      bytes total   : 1040 (0x410)
-      Block size    : 256 (0x100)
-      Blocks        : 5
-      Blocks total  : 5 (1280 bytes)
-      Lines         : 16
-      Line longest  : 65 (bytes)
-      Line parts    : 20
-      Syslines      : 16
-      Sysline longest: 65 (bytes)
-      Syslines high : 14
-      Datetime first: 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
-      Datetime last : 2020-03-07 12:23:02 -08:00 (2020-03-07 20:23:02.000000 +00:00)
-      out of order  : 0
+    File size     : 1040 (0x410) (bytes)
+    bytes         : 1040 (0x410)
+    bytes total   : 1040 (0x410)
+    Block size    : 256 (0x100)
+    Blocks        : 5
+    Blocks total  : 5 (1280 bytes)
+    Lines         : 16
+    Line longest  : 65 (bytes)
+    Line parts    : 20
+    Syslines      : 16
+    Sysline longest: 65 (bytes)
+    Syslines high : 14
+    Datetime first: 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
+    Datetime last : 2020-03-07 12:23:02 -08:00 (2020-03-07 20:23:02.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss 31,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 16, miss 16, 50.0%, put 16
-      copying: SyslineReader::get_boxptrs()                        : sgl 89, dbl   1, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 16,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 16,  5.9%, put 16
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 15, miss 16, 48.4%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 85,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 16, miss 74
+    storage: LineReader::find_line() lines                       : hit  0, miss 31,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit 16, miss 16, 50.0%, put 16
+    copying: SyslineReader::get_boxptrs()                        : sgl 89, dbl   1, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss 16,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 16,  5.9%, put 16
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 15, miss 16, 48.4%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 85,  0.0%, largest skipped 0
+    process: regex captures                                      : hit 16, miss 74
   Processing Drops:
 
 Program summary:

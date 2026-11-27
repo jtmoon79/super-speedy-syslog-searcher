@@ -13,6 +13,8 @@
 pub mod asl_tests;
 pub mod aslparser_tests;
 pub mod aslreader_tests;
+pub mod aulparser_tests;
+pub mod aulreader_tests;
 pub mod blockreader_tests;
 pub mod common;
 pub mod datetime_tests;

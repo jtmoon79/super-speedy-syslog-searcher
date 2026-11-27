@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/other/tests/basic-basic-dt10-repeats.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 5500
-      Flushes       : 55
-      Lines         : 55
-      Syslines      : 55
-      Datetime First: 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
-      Datetime last : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
+    Bytes         : 5500
+    Flushes       : 55
+    Lines         : 55
+    Syslines      : 55
+    Datetime First: 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
+    Datetime Last : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
   Processed:
-      File size     : 1210 (0x4BA) (bytes)
-      bytes         : 1210 (0x4BA)
-      bytes total   : 1210 (0x4BA)
-      Block size    : 256 (0x100)
-      Blocks        : 5
-      Blocks total  : 5 (1280 bytes)
-      Lines         : 55
-      Line longest  : 22 (bytes)
-      Line parts    : 59
-      Syslines      : 55
-      Sysline longest: 22 (bytes)
-      Syslines high : 37
-      Datetime first: 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
-      Datetime last : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
-      out of order  : 0
+    File size     : 1210 (0x4BA) (bytes)
+    bytes         : 1210 (0x4BA)
+    bytes total   : 1210 (0x4BA)
+    Block size    : 256 (0x100)
+    Blocks        : 5
+    Blocks total  : 5 (1280 bytes)
+    Lines         : 55
+    Line longest  : 22 (bytes)
+    Line parts    : 59
+    Syslines      : 55
+    Sysline longest: 22 (bytes)
+    Syslines high : 37
+    Datetime first: 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
+    Datetime last : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss 109,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  55, miss  55, 50.0%, put  55
-      copying: SyslineReader::get_boxptrs()                        : sgl 129, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  55,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  55,  1.8%, put  55
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  54, miss  55, 49.5%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 128,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  55, miss  78
+    storage: LineReader::find_line() lines                       : hit   0, miss 109,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  55, miss  55, 50.0%, put  55
+    copying: SyslineReader::get_boxptrs()                        : sgl 129, dbl    4, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss  55,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  55,  1.8%, put  55
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  54, miss  55, 49.5%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 128,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  55, miss  78
   Processing Drops:
 
 Program summary:

@@ -215,6 +215,7 @@ pub fn decompress_to_ntf(
 
             archival_type
         }
+        FileType::Aul { .. } => return Err(Error::other("Apple Unified Logs require an unpacked directory")),
         FileType::Unparsable => {
             debug_panic!("Unexpected {:?}", file_type);
 

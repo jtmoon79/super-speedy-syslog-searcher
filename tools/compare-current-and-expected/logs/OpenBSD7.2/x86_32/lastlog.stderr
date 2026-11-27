@@ -3,32 +3,32 @@ Files:
 
 File: ./logs/OpenBSD7.2/x86_32/lastlog
   About:
-      FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
-      FixedStructTyp: Lastlog
-      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Layout Type   : Fs_Openbsd_x86_Lastlog
+    FileType      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+    FixedStructTyp: Lastlog
+    LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
+    Layout Type   : Fs_Openbsd_x86_Lastlog
   Printed:
-      Bytes         : 107
-      Flushes       : 1
-      Entries       : 1
+    Bytes         : 107
+    Flushes       : 1
+    Entries       : 1
   Processed:
-      File size     : 272 (0x110) (bytes)
-      bytes         : 272 (0x110)
-      bytes total   : 272 (0x110)
-      Block size    : 256 (0x100)
-      Blocks        : 2
-      Blocks total  : 2 (512 bytes)
-      Entries       : 1
-      Entry size    : 272 (bytes)
-      Entry hi-score: 50
-      first Entry   : @0
-      Entry high    : 1
-      peak map size : 1
-      Datetime first: 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
-      Datetime last : 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
-      out of order  : 0
+    File size     : 272 (0x110) (bytes)
+    bytes         : 272 (0x110)
+    bytes total   : 272 (0x110)
+    Block size    : 256 (0x100)
+    Blocks        : 2
+    Blocks total  : 2 (512 bytes)
+    Entries       : 1
+    Entry size    : 272 (bytes)
+    Entry hi-score: 50
+    first Entry   : @0
+    Entry high    : 1
+    peak map size : 1
+    Datetime first: 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
+    Datetime last : 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
+    out of order  : 0
   Processing stores:
-      storage: FixedStructReader::find_entry()                     : hit 1, miss 0, 100.0%
+    storage: FixedStructReader::find_entry()                     : hit 1, miss 0, 100.0%
   Processing Drops:
 
 Program summary:

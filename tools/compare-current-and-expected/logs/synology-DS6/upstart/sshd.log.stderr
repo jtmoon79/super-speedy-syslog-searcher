@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/upstart/sshd.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 2033
-      Flushes       : 6
-      Lines         : 19
-      Syslines      : 6
-      Datetime First: 2016-12-08 18:54:05 -08:00 (2016-12-09 02:54:05.000000 +00:00)
-      Datetime last : 2016-12-08 18:54:10 -08:00 (2016-12-09 02:54:10.000000 +00:00)
+    Bytes         : 2033
+    Flushes       : 6
+    Lines         : 19
+    Syslines      : 6
+    Datetime First: 2016-12-08 18:54:05 -08:00 (2016-12-09 02:54:05.000000 +00:00)
+    Datetime Last : 2016-12-08 18:54:10 -08:00 (2016-12-09 02:54:10.000000 +00:00)
   Processed:
-      File size     : 760 (0x2F8) (bytes)
-      bytes         : 760 (0x2F8)
-      bytes total   : 760 (0x2F8)
-      Block size    : 256 (0x100)
-      Blocks        : 3
-      Blocks total  : 3 (768 bytes)
-      Lines         : 19
-      Line longest  : 98 (bytes)
-      Line parts    : 21
-      Syslines      : 6
-      Sysline longest: 287 (bytes)
-      Syslines high : 6
-      Datetime first: 2016-12-08 18:54:05 -08:00 (2016-12-09 02:54:05.000000 +00:00)
-      Datetime last : 2016-12-08 18:54:10 -08:00 (2016-12-09 02:54:10.000000 +00:00)
-      out of order  : 0
+    File size     : 760 (0x2F8) (bytes)
+    bytes         : 760 (0x2F8)
+    bytes total   : 760 (0x2F8)
+    Block size    : 256 (0x100)
+    Blocks        : 3
+    Blocks total  : 3 (768 bytes)
+    Lines         : 19
+    Line longest  : 98 (bytes)
+    Line parts    : 21
+    Syslines      : 6
+    Sysline longest: 287 (bytes)
+    Syslines high : 6
+    Datetime first: 2016-12-08 18:54:05 -08:00 (2016-12-09 02:54:05.000000 +00:00)
+    Datetime last : 2016-12-08 18:54:10 -08:00 (2016-12-09 02:54:10.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  6, miss 19, 24.0%, put 19
-      copying: SyslineReader::get_boxptrs()                        : sgl 92, dbl   1, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  6, 14.3%, put  6
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss 19, 20.8%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 10, miss 78, 11.4%, largest skipped 24
-      process: regex captures                                      : hit  6, miss 77
+    storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  6, miss 19, 24.0%, put 19
+    copying: SyslineReader::get_boxptrs()                        : sgl 92, dbl   1, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  6, 14.3%, put  6
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss 19, 20.8%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit 10, miss 78, 11.4%, largest skipped 24
+    process: regex captures                                      : hit  6, miss 77
   Processing Drops:
 
 Program summary:

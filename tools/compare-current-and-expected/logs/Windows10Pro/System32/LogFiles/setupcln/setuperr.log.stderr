@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 24705
-      Flushes       : 105
-      Lines         : 105
-      Syslines      : 105
-      Datetime First: 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
-      Datetime last : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)
+    Bytes         : 24705
+    Flushes       : 105
+    Lines         : 105
+    Syslines      : 105
+    Datetime First: 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
+    Datetime Last : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)
   Processed:
-      File size     : 15258 (0x3B9A) (bytes)
-      bytes         : 15258 (0x3B9A)
-      bytes total   : 15258 (0x3B9A)
-      Block size    : 256 (0x100)
-      Blocks        : 60
-      Blocks total  : 60 (15360 bytes)
-      Lines         : 105
-      Line longest  : 230 (bytes)
-      Line parts    : 164
-      Syslines      : 105
-      Sysline longest: 230 (bytes)
-      Syslines high : 7
-      Datetime first: 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
-      Datetime last : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)
-      out of order  : 0
+    File size     : 15258 (0x3B9A) (bytes)
+    bytes         : 15258 (0x3B9A)
+    bytes total   : 15258 (0x3B9A)
+    Block size    : 256 (0x100)
+    Blocks        : 60
+    Blocks total  : 60 (15360 bytes)
+    Lines         : 105
+    Line longest  : 230 (bytes)
+    Line parts    : 164
+    Syslines      : 105
+    Sysline longest: 230 (bytes)
+    Syslines high : 7
+    Datetime first: 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
+    Datetime last : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss 211,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 106, miss 106, 50.0%, put 105
-      copying: SyslineReader::get_boxptrs()                        : sgl 163, dbl   20, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss 106,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 106,  0.0%, put 105
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 105, miss 105, 50.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 178,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 105, miss  78
+    storage: LineReader::find_line() lines                       : hit   0, miss 211,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit 106, miss 106, 50.0%, put 105
+    copying: SyslineReader::get_boxptrs()                        : sgl 163, dbl   20, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss 106,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 106,  0.0%, put 105
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 105, miss 105, 50.0%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 178,  0.0%, largest skipped 0
+    process: regex captures                                      : hit 105, miss  78
   Processing Drops:
 
 Program summary:

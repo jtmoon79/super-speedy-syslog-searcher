@@ -40,11 +40,9 @@ use crate::readers::helpers::path_to_fpath;
 /// See <https://github.com/Stebalien/tempfile/issues/183>.
 pub const STR_TEMPFILE_PREFIX: &str = "tmp-s4-test-";
 
-pub static STRING_TEMPFILE_PREFIX: LazyLock<String> =
-    LazyLock::new(|| String::from(STR_TEMPFILE_PREFIX));
+pub static STRING_TEMPFILE_PREFIX: LazyLock<String> = LazyLock::new(|| String::from(STR_TEMPFILE_PREFIX));
 /// there is no `String::default` so create this just once
-static STRING_TEMPFILE_SUFFIX: LazyLock<String> =
-    LazyLock::new(|| String::from(""));
+static STRING_TEMPFILE_SUFFIX: LazyLock<String> = LazyLock::new(|| String::from(""));
 
 /// Small helper function for copying `NamedTempFile` path to a `FPath`.
 pub fn ntf_fpath(ntf: &NamedTempFile) -> FPath {

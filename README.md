@@ -47,7 +47,7 @@ systemd journal logs (`.journal`),
 Windows Event Logs (`.evtx`),
 Windows Event Trace Logs (`.etl`),
 OneDrive Log files (`.odl`, `.aodl`, `.odlgz`, `.odlsent`),
-and Apple System Logs (`.asl`).
+Apple System Logs (`.asl`), and captured Apple Unified Logs.
 `s4` can read logs that are compressed (`.bz2`, `.gz`, `.lz4`, `.xz`),
 or archived logs (`.tar`, `.zip`).
 
@@ -75,6 +75,7 @@ or archived logs (`.tar`, `.zip`).
   - [Why `s4`?](#why-s4)
   - [Features](#features)
   - [Limitations](#limitations)
+  - [Apple Unified Logs](#apple-unified-logs)
   - [Antifeatures](#antifeatures)
   - [Feature Comparisons](#feature-comparisons)
   - [Performance Comparisons](#performance-comparisons)
@@ -506,6 +507,14 @@ s4 --separator '\x1E' /var/log/some.log \
 
 <br/>
 
+Parse Apple Unified Logs on a local Mac
+
+```shell
+s4 /var/db
+```
+
+Or pass the path of `.logarchive` files
+
 ---
 
 ### Claude SKILL.md
@@ -868,6 +877,7 @@ See the real-world example rationale in the section below,
     ([`acct`, `pacct`], [`lastlog`], [`utmp`, `utmpx`])
     from multiple Operating Systems and CPU architectures
   - binary [Apple System Log] files (`.asl`)
+  - [Apple Unified Logs] directories or `.logarchive`
   - binary [Windows Event Log] files (`.evtx`)
   - binary [Windows Event Trace Log] files (`.etl`)
   - binary [systemd journal] files with printing options matching [`journalctl`]
@@ -894,6 +904,7 @@ See the real-world example rationale in the section below,
 [ISO 8601]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles
 [Red Hat Audit Log]: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/security_guide/sec-understanding_audit_log_files
 [strace]: https://www.man7.org/linux/man-pages/man1/strace.1.html
+[Apple Unified Logs]: https://developer.apple.com/documentation/os/logging
 [Apple System Log]: https://kb.binalyze.com/air/features/acquisition/acquisition-profiles/macos-collections/apple-system-logs-asl
 [OneDrive Log]: https://support.microsoft.com/en-us/topic/understanding-the-user-activity-logs-report-80d0b3b1-1ee3-4777-8c68-6c0dedf1f980
 [Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log

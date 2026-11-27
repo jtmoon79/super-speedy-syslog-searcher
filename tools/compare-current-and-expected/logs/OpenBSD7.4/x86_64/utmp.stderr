@@ -3,32 +3,32 @@ Files:
 
 File: ./logs/OpenBSD7.4/x86_64/utmp
   About:
-      FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
-      FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Layout Type   : Fs_Openbsd_x86_Utmp
+    FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+    FixedStructTyp: Utmp
+    LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
+    Layout Type   : Fs_Openbsd_x86_Utmp
   Printed:
-      Bytes         : 259
-      Flushes       : 2
-      Entries       : 2
+    Bytes         : 259
+    Flushes       : 2
+    Entries       : 2
   Processed:
-      File size     : 6992 (0x1B50) (bytes)
-      bytes         : 6992 (0x1B50)
-      bytes total   : 6992 (0x1B50)
-      Block size    : 256 (0x100)
-      Blocks        : 28
-      Blocks total  : 28 (7168 bytes)
-      Entries       : 2
-      Entry size    : 304 (bytes)
-      Entry hi-score: 96
-      first Entry   : @608
-      Entry high    : 2
-      peak map size : 2
-      Datetime first: 2024-01-29 08:17:22 +08:00 (2024-01-29 00:17:22.000000 +00:00)
-      Datetime last : 2024-01-29 08:18:26 +08:00 (2024-01-29 00:18:26.000000 +00:00)
-      out of order  : 0
+    File size     : 6992 (0x1B50) (bytes)
+    bytes         : 6992 (0x1B50)
+    bytes total   : 6992 (0x1B50)
+    Block size    : 256 (0x100)
+    Blocks        : 28
+    Blocks total  : 28 (7168 bytes)
+    Entries       : 2
+    Entry size    : 304 (bytes)
+    Entry hi-score: 96
+    first Entry   : @608
+    Entry high    : 2
+    peak map size : 2
+    Datetime first: 2024-01-29 08:17:22 +08:00 (2024-01-29 00:17:22.000000 +00:00)
+    Datetime last : 2024-01-29 08:18:26 +08:00 (2024-01-29 00:18:26.000000 +00:00)
+    out of order  : 0
   Processing stores:
-      storage: FixedStructReader::find_entry()                     : hit  2, miss  0, 100.0%
+    storage: FixedStructReader::find_entry()                     : hit  2, miss  0, 100.0%
   Processing Drops:
 
 Program summary:

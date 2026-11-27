@@ -3,28 +3,28 @@ Files:
 
 File: ./logs/programs/Event_Trace_Log/WindowsUpdate.20260923.202143.590.3.etl
   About:
-      FileType      : ETL (Windows Event Trace Log)
-      LogMessageType: ETL event (Windows Event Trace Log)
+    FileType      : ETL (Windows Event Trace Log)
+    LogMessageType: ETL event (Windows Event Trace Log)
   Printed:
-      Bytes         : 0
-      Flushes       : 0
-      Events        : 0
-      Event largest processed: 734 (bytes)
-      Event largest accepted : 0 (bytes)
+    Bytes         : 0
+    Flushes       : 0
+    Events        : 0
+    Event largest processed: 734 (bytes)
+    Event largest accepted : 0 (bytes)
   Processed:
-      File size          : 28672 (0x7000) (bytes)
-      Session name       : "WindowsUpdate_trace_log"
-      Buffers read       : 7
-      Buffers compressed : 0
-      Events processed   : 79
-      Events accepted    : 0
-      Events TraceLogging: 77
-      Events kernel      : 1
-      Events undecoded   : 1
-      Records skipped    : 0
-      Datetime first     : 2026-09-24 11:21:43 +08:00 (2026-09-24 03:21:43.591463 +00:00)
-      Datetime last      : 2026-09-24 11:45:40 +08:00 (2026-09-24 03:45:40.261853 +00:00)
-      Out of order       : 0
+    File size          : 28672 (0x7000) (bytes)
+    Session name       : "WindowsUpdate_trace_log"
+    Buffers read       : 7
+    Buffers compressed : 0
+    Events processed   : 79
+    Events accepted    : 0
+    Events TraceLogging: 77
+    Events kernel      : 1
+    Events undecoded   : 1
+    Records skipped    : 0
+    Datetime first     : 2026-09-24 11:21:43 +08:00 (2026-09-24 03:21:43.591463 +00:00)
+    Datetime last      : 2026-09-24 11:45:40 +08:00 (2026-09-24 03:45:40.261853 +00:00)
+    Out of order       : 0
 
 Program summary:
 

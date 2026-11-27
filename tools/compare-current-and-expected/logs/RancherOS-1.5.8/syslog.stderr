@@ -3,45 +3,45 @@ Files:
 
 File: ./logs/RancherOS-1.5.8/syslog
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 1867
-      Flushes       : 10
-      Lines         : 10
-      Syslines      : 10
-      Datetime First: 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
-      Datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
+    Bytes         : 1867
+    Flushes       : 10
+    Lines         : 10
+    Syslines      : 10
+    Datetime First: 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
+    Datetime Last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
   Processed:
-      File size     : 1267 (0x4F3) (bytes)
-      bytes         : 1267 (0x4F3)
-      bytes total   : 1267 (0x4F3)
-      Block size    : 256 (0x100)
-      Blocks        : 5
-      Blocks total  : 5 (1280 bytes)
-      Lines         : 10
-      Line longest  : 177 (bytes)
-      Line parts    : 14
-      Syslines      : 11
-      Sysline longest: 177 (bytes)
-      Syslines high : 10
-      Datetime first: 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
-      Datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
-      out of order  : 0
+    File size     : 1267 (0x4F3) (bytes)
+    bytes         : 1267 (0x4F3)
+    bytes total   : 1267 (0x4F3)
+    Block size    : 256 (0x100)
+    Blocks        : 5
+    Blocks total  : 5 (1280 bytes)
+    Lines         : 10
+    Line longest  : 177 (bytes)
+    Line parts    : 14
+    Syslines      : 11
+    Sysline longest: 177 (bytes)
+    Syslines high : 10
+    Datetime first: 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
+    Datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
+    out of order  : 0
   Parsers:
-                   datetime format missing year; estimated year of last sysline 2022
+      datetime format missing year; estimated year of last sysline 2022
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  9, miss 21, 30.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss 21,  4.5%, put 21
-      copying: SyslineReader::get_boxptrs()                        : sgl 41, dbl   3, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  9, miss 11, 45.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  1, miss 11,  8.3%, put 11
-      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 21,  0.0%, put 21
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  9, miss 12, 42.9%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss 15,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 29,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 12, miss 32
+    storage: LineReader::find_line() lines                       : hit  9, miss 21, 30.0%
+    caching: LineReader::find_line() LRU cache                   : hit  1, miss 21,  4.5%, put 21
+    copying: SyslineReader::get_boxptrs()                        : sgl 41, dbl   3, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  9, miss 11, 45.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  1, miss 11,  8.3%, put 11
+    caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 21,  0.0%, put 21
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  9, miss 12, 42.9%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss 15,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 29,  0.0%, largest skipped 0
+    process: regex captures                                      : hit 12, miss 32
   Processing Drops:
 
 Program summary:

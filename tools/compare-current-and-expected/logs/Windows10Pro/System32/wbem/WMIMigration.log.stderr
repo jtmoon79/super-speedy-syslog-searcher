@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 8399
-      Flushes       : 40
-      Lines         : 42
-      Syslines      : 40
-      Datetime First: 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)
-      Datetime last : 2020-05-27 12:25:43 +08:00 (2020-05-27 04:25:43.087700 +00:00)
+    Bytes         : 8399
+    Flushes       : 40
+    Lines         : 42
+    Syslines      : 40
+    Datetime First: 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)
+    Datetime Last : 2020-05-27 12:25:43 +08:00 (2020-05-27 04:25:43.087700 +00:00)
   Processed:
-      File size     : 4997 (0x1385) (bytes)
-      bytes         : 4997 (0x1385)
-      bytes total   : 4997 (0x1385)
-      Block size    : 256 (0x100)
-      Blocks        : 20
-      Blocks total  : 20 (5120 bytes)
-      Lines         : 42
-      Line longest  : 144 (bytes)
-      Line parts    : 61
-      Syslines      : 40
-      Sysline longest: 144 (bytes)
-      Syslines high : 9
-      Datetime first: 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)
-      Datetime last : 2020-05-27 12:25:43 +08:00 (2020-05-27 04:25:43.087700 +00:00)
-      out of order  : 0
+    File size     : 4997 (0x1385) (bytes)
+    bytes         : 4997 (0x1385)
+    bytes total   : 4997 (0x1385)
+    Block size    : 256 (0x100)
+    Blocks        : 20
+    Blocks total  : 20 (5120 bytes)
+    Lines         : 42
+    Line longest  : 144 (bytes)
+    Line parts    : 61
+    Syslines      : 40
+    Sysline longest: 144 (bytes)
+    Syslines high : 9
+    Datetime first: 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)
+    Datetime last : 2020-05-27 12:25:43 +08:00 (2020-05-27 04:25:43.087700 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  2, miss 81,  2.4%
-      caching: LineReader::find_line() LRU cache                   : hit 40, miss 42, 48.8%, put 42
-      copying: SyslineReader::get_boxptrs()                        : sgl 53, dbl  12, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 40,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 40,  2.4%, put 40
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 39, miss 42, 48.1%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  2,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 63,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 40, miss 25
+    storage: LineReader::find_line() lines                       : hit  2, miss 81,  2.4%
+    caching: LineReader::find_line() LRU cache                   : hit 40, miss 42, 48.8%, put 42
+    copying: SyslineReader::get_boxptrs()                        : sgl 53, dbl  12, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss 40,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 40,  2.4%, put 40
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 39, miss 42, 48.1%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  2,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 63,  0.0%, largest skipped 0
+    process: regex captures                                      : hit 40, miss 25
   Processing Drops:
 
 Program summary:
