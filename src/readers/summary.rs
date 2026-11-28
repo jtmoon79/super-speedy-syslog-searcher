@@ -62,6 +62,7 @@ use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::journalreader::SummaryJournalReader;
 use crate::readers::linereader::SummaryLineReader;
 use crate::readers::aslreader::SummaryAslReader;
+pub use crate::readers::aulreader::SummaryAulReader;
 use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::SummarySyslogProcessor;
 use crate::readers::odlreader::SummaryOdlReader;
@@ -91,6 +92,8 @@ pub enum SummaryReaderData {
     FixedStruct((SummaryBlockReader, SummaryFixedStructReader)),
     /// Native Apple System Log reader statistics.
     Asl(SummaryAslReader),
+    /// Apple Unified Logs reader statistics.
+    Aul(SummaryAulReader),
     /// For a [`EtlReader`].
     ///
     /// [`EtlReader`]: crate::readers::etlreader::EtlReader
@@ -393,8 +396,8 @@ impl Summary {
                     error,
                 }
             }
-            LogMessageType::All => {
-                panic!("LogMessageType::All is not supported; path {:?}", path);
+            LogMessageType::Aul | LogMessageType::All => {
+                panic!("{logmessagetype:?} is not supported by Summary::new; path {path:?}");
             }
         }
     }
@@ -443,6 +446,7 @@ impl Summary {
             SummaryReaderData::Evtx(_) => None,
             SummaryReaderData::Journal(_) => None,
             SummaryReaderData::Asl(_) => None,
+            SummaryReaderData::Aul(_) => None,
         }
     }
 
@@ -470,6 +474,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_first_accepted,
             SummaryReaderData::Odl(summaryodlreader) => &summaryodlreader.odlreader_datetime_first_accepted,
+            SummaryReaderData::Aul(stats) => &stats.datetime_first_accepted,
             SummaryReaderData::Evtx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_accepted,
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_first_accepted
@@ -500,6 +505,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_first_processed,
             SummaryReaderData::Odl(summaryodlreader) => &summaryodlreader.odlreader_datetime_first_processed,
+            SummaryReaderData::Aul(stats) => &stats.datetime_first_processed,
             SummaryReaderData::Evtx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_processed,
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_first_processed
@@ -529,6 +535,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_last_accepted,
             SummaryReaderData::Odl(summaryodlreader) => &summaryodlreader.odlreader_datetime_last_accepted,
+            SummaryReaderData::Aul(stats) => &stats.datetime_last_accepted,
             SummaryReaderData::Evtx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_accepted,
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_last_accepted
@@ -558,6 +565,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => &summaryetlreader.etlreader_datetime_last_processed,
             SummaryReaderData::Odl(summaryodlreader) => &summaryodlreader.odlreader_datetime_last_processed,
+            SummaryReaderData::Aul(stats) => &stats.datetime_last_processed,
             SummaryReaderData::Evtx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_processed,
             SummaryReaderData::Journal(summaryjournalreader) => {
                 &summaryjournalreader.journalreader_datetime_last_processed
@@ -587,6 +595,7 @@ impl Summary {
             }
             SummaryReaderData::Etl(summaryetlreader) => summaryetlreader.etlreader_out_of_order,
             SummaryReaderData::Odl(summaryodlreader) => summaryodlreader.odlreader_out_of_order,
+            SummaryReaderData::Aul(stats) => stats.out_of_order,
             SummaryReaderData::Evtx(summaryevtxreader) => summaryevtxreader.evtxreader_out_of_order,
             SummaryReaderData::Journal(summaryjournalreader) => summaryjournalreader.journalreader_out_of_order,
             SummaryReaderData::Asl(summaryaslreader) => summaryaslreader.aslreader_out_of_order,
@@ -610,6 +619,7 @@ impl Summary {
             SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => summaryfixedstructreader.fixedstructreader_out_of_order_max,
             SummaryReaderData::Etl(summaryetlreader) => summaryetlreader.etlreader_out_of_order_max,
             SummaryReaderData::Odl(summaryodlreader) => summaryodlreader.odlreader_out_of_order_max,
+            SummaryReaderData::Aul(_) => None,
             SummaryReaderData::Evtx(summaryevtxreader) => summaryevtxreader.evtxreader_out_of_order_max,
             SummaryReaderData::Journal(summaryjournalreader) => summaryjournalreader.journalreader_out_of_order_max,
             SummaryReaderData::Asl(summaryaslreader) => summaryaslreader.aslreader_out_of_order_max,
@@ -683,6 +693,7 @@ impl Summary {
             SummaryReaderData::Odl(summaryodlreader) => {
                 max!(summaryodlreader.odlreader_events_accepted, summaryodlreader.odlreader_events_processed)
             }
+            SummaryReaderData::Aul(stats) => stats.records_processed.max(stats.records_accepted),
             SummaryReaderData::Evtx(summaryevtxreader) => {
                 max!(
                     summaryevtxreader.evtxreader_events_accepted,
@@ -740,6 +751,7 @@ impl Summary {
             SummaryReaderData::Evtx(_summaryevtxreader) => 0,
             SummaryReaderData::Journal(_summaryjournalreader) => 0,
             SummaryReaderData::Asl(_) => 0,
+            SummaryReaderData::Aul(_) => 0,
         }
     }
 }
@@ -875,6 +887,7 @@ impl fmt::Debug for Summary {
                                 .finish(),
                             // Summary::default()
                             FileType::Asl { archival_type: _ }
+                            | FileType::Aul { .. }
                             | FileType::Etl { archival_type: _ }
                             | FileType::Evtx { archival_type: _ }
                             | FileType::Journal { archival_type: _ }
@@ -938,6 +951,11 @@ impl fmt::Debug for Summary {
                 .debug_struct("Odl")
                 .field("events processed", &summaryodlreader.odlreader_events_processed)
                 .field("events accepted", &summaryodlreader.odlreader_events_accepted)
+                .finish(),
+            SummaryReaderData::Aul(stats) => f
+                .debug_struct("Aul")
+                .field("records processed", &stats.records_processed)
+                .field("records accepted", &stats.records_accepted)
                 .finish(),
             SummaryReaderData::Evtx(summaryevtxreader) => match self.filetype {
                 None => {

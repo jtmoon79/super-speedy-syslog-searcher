@@ -3,32 +3,32 @@ Files:
 
 File: ./logs/OpenBSD7.2/x86_32/wtmp
   About:
-      FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
-      FixedStructTyp: Utmp
-      LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Layout Type   : Fs_Openbsd_x86_Utmp
+    FileType      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+    FixedStructTyp: Utmp
+    LogMessageType: fixedstruct entry (Unix acct/lastlog/lastlogx/utmp/utmpx)
+    Layout Type   : Fs_Openbsd_x86_Utmp
   Printed:
-      Bytes         : 2342
-      Flushes       : 19
-      Entries       : 19
+    Bytes         : 2342
+    Flushes       : 19
+    Entries       : 19
   Processed:
-      File size     : 5776 (0x1690) (bytes)
-      bytes         : 5776 (0x1690)
-      bytes total   : 5776 (0x1690)
-      Block size    : 256 (0x100)
-      Blocks        : 23
-      Blocks total  : 23 (5888 bytes)
-      Entries       : 19
-      Entry size    : 304 (bytes)
-      Entry hi-score: 96
-      first Entry   : @0
-      Entry high    : 5
-      peak map size : 19
-      Datetime first: 2023-03-29 05:17:37 +08:00 (2023-03-28 21:17:37.000000 +00:00)
-      Datetime last : 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
-      out of order  : 0
+    File size     : 5776 (0x1690) (bytes)
+    bytes         : 5776 (0x1690)
+    bytes total   : 5776 (0x1690)
+    Block size    : 256 (0x100)
+    Blocks        : 23
+    Blocks total  : 23 (5888 bytes)
+    Entries       : 19
+    Entry size    : 304 (bytes)
+    Entry hi-score: 96
+    first Entry   : @0
+    Entry high    : 5
+    peak map size : 19
+    Datetime first: 2023-03-29 05:17:37 +08:00 (2023-03-28 21:17:37.000000 +00:00)
+    Datetime last : 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
+    out of order  : 0
   Processing stores:
-      storage: FixedStructReader::find_entry()                     : hit  5, miss 14, 26.3%
+    storage: FixedStructReader::find_entry()                     : hit  5, miss 14, 26.3%
   Processing Drops:
 
 Program summary:

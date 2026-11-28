@@ -7,6 +7,10 @@
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 
 use std::borrow::Cow;
+use std::collections::{
+    HashMap,
+    HashSet,
+};
 use std::ffi::OsStr;
 use std::fs::File;
 use std::path::{
@@ -15,6 +19,7 @@ use std::path::{
 };
 #[cfg(test)]
 use std::str::FromStr; // for `String::from_str`
+use std::sync::LazyLock;
 
 use ::chardet::detect;
 use ::const_format::concatcp;
@@ -25,6 +30,9 @@ use ::si_trace_print::{
     defo,
     defx,
     defñ,
+    def1n,
+    def1o,
+    def1x,
     den,
     deo,
     dex,
@@ -34,6 +42,8 @@ use ::tar;
 use ::zip;
 
 use crate::common::{
+    AulDetection,
+    AulStorageType,
     BOM_UTF16BE,
     BOM_UTF16LE,
     BOM_UTF32BE,
@@ -476,6 +486,7 @@ fn ratio_to_score(
     std::cmp::min((numerator * 255) / denominator, 255) as u8
 }
 
+/// Aid in detecting a UTF-8 encoded file with a BOM
 fn score_heuristic_utf8_with_bom(bytes: &[u8]) -> u8 {
     if !bytes.starts_with(&BOM_UTF8) {
         return SCORE_NO_MATCH;
@@ -487,6 +498,7 @@ fn score_heuristic_utf8_with_bom(bytes: &[u8]) -> u8 {
     }
 }
 
+/// Aid in detecting a UTF-8 encoded file without a BOM
 fn score_heuristic_utf8_without_bom(bytes: &[u8]) -> u8 {
     // NUL-heavy UTF-16/UTF-32 ASCII text is technically valid UTF-8 bytes.
     if bytes.contains(&0) {
@@ -499,6 +511,7 @@ fn score_heuristic_utf8_without_bom(bytes: &[u8]) -> u8 {
     }
 }
 
+/// Aid in detecting a UTF-16 encoded file.
 /// Score UTF-16 shape; `& !1` keeps the sample aligned to full code units.
 fn score_heuristic_utf16(
     bytes: &[u8],
@@ -578,22 +591,27 @@ fn score_heuristic_utf16(
     }
 }
 
+/// Aid in detecting a UTF-16BE encoded file with a BOM
 fn score_heuristic_utf16be_with_bom(bytes: &[u8]) -> u8 {
     score_heuristic_utf16(bytes, true, false)
 }
 
+/// Aid in detecting a UTF-16BE encoded file without a BOM
 fn score_heuristic_utf16be_without_bom(bytes: &[u8]) -> u8 {
     score_heuristic_utf16(bytes, false, false)
 }
 
+/// Aid in detecting a UTF-16LE encoded file with a BOM
 fn score_heuristic_utf16le_with_bom(bytes: &[u8]) -> u8 {
     score_heuristic_utf16(bytes, true, true)
 }
 
+/// Aid in detecting a UTF-16LE encoded file without a BOM
 fn score_heuristic_utf16le_without_bom(bytes: &[u8]) -> u8 {
     score_heuristic_utf16(bytes, false, true)
 }
 
+/// Aid in detecting a UTF-32 encoded file.
 /// Score UTF-32 shape; `& !3` keeps the sample aligned to full code units.
 fn score_heuristic_utf32(
     bytes: &[u8],
@@ -652,18 +670,22 @@ fn score_heuristic_utf32(
     }
 }
 
+/// Aid in detecting a UTF-32BE encoded file with a BOM
 fn score_heuristic_utf32be_with_bom(bytes: &[u8]) -> u8 {
     score_heuristic_utf32(bytes, true, false)
 }
 
+/// Aid in detecting a UTF-32BE encoded file without a BOM
 fn score_heuristic_utf32be_without_bom(bytes: &[u8]) -> u8 {
     score_heuristic_utf32(bytes, false, false)
 }
 
+/// Aid in detecting a UTF-32LE encoded file with a BOM
 fn score_heuristic_utf32le_with_bom(bytes: &[u8]) -> u8 {
     score_heuristic_utf32(bytes, true, true)
 }
 
+/// Aid in detecting a UTF-32LE encoded file without a BOM
 fn score_heuristic_utf32le_without_bom(bytes: &[u8]) -> u8 {
     score_heuristic_utf32(bytes, false, true)
 }
@@ -786,6 +808,13 @@ pub fn detect_filetype_text_encoding(bytes: &[u8]) -> Option<FileTypeTextEncodin
 pub enum ProcessPathResult {
     /// File can be processed by `s4`
     FileValid(FPath, FileType),
+    /// File can be processed by `s4` specifically for Apple Unified Logs
+    FileValidAppleUnifiedLogs {
+        diagnostics: FPath,
+        uuidtext: FPath,
+        storage_type: AulStorageType,
+        detection: AulDetection,
+    },
     FileErrEmpty(FPath, FileType),
     FileErrTooSmall(FPath, FileType, FileSz),
     // TODO: [2022/06] `FileErrNoPermissions` not currently checked until too late
@@ -808,6 +837,20 @@ impl PartialEq for ProcessPathResult {
     /// implemented for comparisons in tests
     fn eq(&self, other: &Self) -> bool {
         match (self, other) {
+            (
+                ProcessPathResult::FileValidAppleUnifiedLogs {
+                    diagnostics: a,
+                    uuidtext: b,
+                    storage_type: e,
+                    detection: g,
+                },
+                ProcessPathResult::FileValidAppleUnifiedLogs {
+                    diagnostics: c,
+                    uuidtext: d,
+                    storage_type: f,
+                    detection: h,
+                },
+            ) => a == c && b == d && e == f && g == h,
             (
                 ProcessPathResult::FileValid(fpath1, f1),
                 ProcessPathResult::FileValid(fpath2, f2)
@@ -934,6 +977,7 @@ pub type ProcessPathResults = Vec<ProcessPathResult>;
 pub enum PathToFiletypeResult {
     Filetype(FileType),
     Archive(FileTypeArchiveMultiple, FileTypeArchive),
+    AppleUnifiedLogs(AulStorageType, AulDetection),
 }
 
 /// Determine the `FileType` of a file based on the `pathbuf` file name.
@@ -1491,6 +1535,12 @@ pub fn pathbuf_to_filetype(
     pathbuf: &PathBuf,
     unparseable_are_text: bool,
 ) -> PathToFiletypeResult {
+    if let Some(ProcessPathResult::FileValidAppleUnifiedLogs { storage_type, detection, .. }) =
+        detect_aul_path(pathbuf)
+    {
+        return PathToFiletypeResult::AppleUnifiedLogs(storage_type, detection);
+    }
+
     pathbuf_to_filetype_impl(pathbuf, unparseable_are_text, None)
 }
 
@@ -1539,6 +1589,7 @@ fn archive_selection(
     fn result_path(result: &ProcessPathResult) -> &str {
         match result {
             ProcessPathResult::FileValid(path, _)
+            | ProcessPathResult::FileValidAppleUnifiedLogs { diagnostics: path, .. }
             | ProcessPathResult::FileErrEmpty(path, _)
             | ProcessPathResult::FileErrTooSmall(path, _, _)
             | ProcessPathResult::FileErrNoPermissions(path)
@@ -1816,12 +1867,14 @@ fn process_path_tar_impl(
                             }
                         );
                     }
-                    FileType::Unparsable => {
+                    FileType::Aul { .. }
+                    | FileType::Unparsable => {
                         result = ProcessPathResult::FileErrNotSupported(fullpath, None);
                     }
                 }
             }
-            PathToFiletypeResult::Archive(..) => {
+            PathToFiletypeResult::Archive(..)
+            | PathToFiletypeResult::AppleUnifiedLogs(..) => {
                 // Issue #14 cannot support nested archives
                 result = ProcessPathResult::FileErrNotSupported(
                     fullpath,
@@ -1954,7 +2007,9 @@ fn process_path_zip_impl(
             continue;
         }
         let result = match path_to_filetype(Path::new(name.as_ref()), unparseable_are_text) {
-            PathToFiletypeResult::Archive(..) => ProcessPathResult::FileErrNotSupported(
+            PathToFiletypeResult::Archive(..)
+            | PathToFiletypeResult::AppleUnifiedLogs(..)
+            => ProcessPathResult::FileErrNotSupported(
                 fullpath, Some(format!("nested archives are not supported, found at entry {index}")),
             ),
             PathToFiletypeResult::Filetype(FileType::Unparsable) => {
@@ -1973,6 +2028,7 @@ fn process_path_zip_impl(
                     | FileType::FixedStruct { archival_type, .. }
                     | FileType::Journal { archival_type }
                     | FileType::Odl { archival_type, .. }
+                    | FileType::Aul { archival_type, .. }
                     | FileType::Text { archival_type, .. }
                     => *archival_type = FileTypeArchive::Zip,
                     FileType::Unparsable => unreachable!(),
@@ -2041,26 +2097,258 @@ fn process_archive_selector(
     }
 }
 
-/// Return all parseable files in the `path`.
+pub(crate) const AUL_TRACE_DIRS: [&str; 4] = ["Persist", "Special", "Signpost", "HighVolume"];
+pub(crate) const AUL_LOGDATA_FILENAME: &str = "logdata.LiveData.tracev3";
+pub(crate) const AUL_TIMESYNC_DIR: &str = "timesync";
+pub(crate) const AUL_TIMESYNC_SUFFIX: &str = ".timesync";
+pub(crate) static EXT_LOGARCHIVE: LazyLock<&OsStr> = LazyLock::new(|| &OsStr::new("logarchive"));
+pub(crate) static EXT_TRACEV3: LazyLock<&OsStr> = LazyLock::new(|| &OsStr::new("tracev3"));
+const ENV_AUL_PATHS: &str = "S4_AUL_PATHS";
+
+/// Check if a given path is an Apple Unified Log trace file.
+pub(crate) fn is_aul_trace(path: &Path) -> bool {
+    let ret = path.extension() == Some(EXT_TRACEV3.as_ref())
+        && !path.file_name().unwrap_or_default().to_string_lossy().starts_with("._");
+    defñ!("path is {} AUL trace {path:?}", if ret { "" } else { "not" });
+
+    ret
+}
+
+/// Check for Apple Unified Log traces in either the flattened or in-place layout.
+fn has_aul_traces(root: &Path) -> bool {
+    if root.join(AUL_LOGDATA_FILENAME).is_file() {
+        defñ!("found file {AUL_LOGDATA_FILENAME:?}");
+        return true;
+    }
+
+    let ret: bool = AUL_TRACE_DIRS.iter().any(|name| {
+        std::fs::read_dir(root.join(name)).is_ok_and(|entries| {
+            entries.filter_map(Result::ok).any(|entry|
+                if entry.path().is_file() && is_aul_trace(&entry.path()) {
+                    defñ!("found AUL trace: {:?}", entry.path());
+                    true
+                } else {
+                    false
+                }
+            )
+        })
+    });
+
+    if !ret {
+        defñ!("no AUL traces found in {root:?}");
+    }
+
+    ret
+}
+
+fn has_aul_timesync(root: &Path) -> bool {
+    defñ!("checking {root:?}");
+    std::fs::read_dir(root.join(AUL_TIMESYNC_DIR)).is_ok_and(|entries| {
+        entries.filter_map(Result::ok).any(|entry| {
+            let Ok(file_name) = entry.file_name().into_string() else {
+                return false;
+            };
+            let valid_name = file_name.strip_suffix(AUL_TIMESYNC_SUFFIX)
+                .is_some_and(|stem| {
+                    stem.len() == 16
+                        && stem.bytes().all(|byte| byte.is_ascii_hexdigit())
+                });
+            valid_name
+                && entry.file_type().is_ok_and(|file_type| file_type.is_file())
+                && entry.metadata().is_ok_and(|metadata| metadata.len() > 0)
+        })
+    })
+}
+
+fn aul_detection(root: &Path) -> AulDetection {
+    if has_aul_timesync(root) {
+        defñ!("{root:?} ByTraceTimesync");
+
+        AulDetection::ByTraceTimesync
+    } else {
+        defñ!("{root:?} ByTrace");
+
+        AulDetection::ByTrace
+    }
+}
+
+/// Create one logical *Apple Unified Logs* input from its trace and string roots.
+fn create_apple_unified_logs(
+    diagnostics: PathBuf,
+    uuidtext: PathBuf,
+    storage_type: AulStorageType,
+    detection: AulDetection,
+) -> ProcessPathResult {
+    defñ!("AppleUnifiedLogs{{{diagnostics:?}, {uuidtext:?}, {storage_type:?}, {detection:?}}}");
+    ProcessPathResult::FileValidAppleUnifiedLogs {
+        diagnostics: path_to_fpath(&diagnostics),
+        uuidtext: path_to_fpath(&uuidtext),
+        storage_type,
+        detection,
+    }
+}
+
+/// Detect a flattened `.logarchive` by its directory suffix and trace files.
 ///
-/// Given a directory, recurses the directory.<br/>
-/// Given a plain file path, returns that path.<br/>
-/// For each recursed file, checks if file is parseable (correct file type,
-/// appropriate permissions).<br/>
-/// For archive files, `.tar` and `.zip`, enumerates files within the archive.<br/>
-/// For compressed files, `.gz` `.xz`, presumes they hold only one file
-/// (Relates to Issue #11, Issue #8).
+/// LogArchive roots store traces and their companion data in one tree, so both
+/// logical parser roots are the archive directory.
+fn detect_aul_logarchive_path(path: &Path) -> Option<ProcessPathResult> {
+    defn!("logarchive path={path:?}");
+    if path.extension() != Some(EXT_LOGARCHIVE.as_ref()) || !has_aul_traces(path) {
+        defx!("not an Apple Unified Logs LogArchive");
+        return None;
+    }
+
+    let capture = create_apple_unified_logs(
+        path.to_owned(),
+        path.to_owned(),
+        AulStorageType::LogArchive,
+        aul_detection(path),
+    );
+    defx!("detected LogArchive: {capture:?}");
+
+    Some(capture)
+}
+
+/// Detect an in-place capture from one of its sibling data directories.
 ///
-/// This behavior assumes a user-passed file path should attempt to be parsed.
-/// Archive members follow directory-discovery exclusions even for user-passed archives.
-/// A missing filesystem path may select an archive member or directory with `archive|member`.
-/// Exact member selections use the same text-parser override as directly passed files.
+/// The only assumed layout is sibling `diagnostics` and `uuidtext` names.
+/// Their absolute location is intentionally unrestricted. Trace evidence must
+/// be present in `diagnostics`; `uuidtext` may be missing and is still passed to
+/// the reader so it can report the companion-data failure with file context.
+fn detect_aul_in_place_path(path: &Path) -> Option<ProcessPathResult> {
+    defn!("in-place path={path:?}");
+    let name: &str = match path.file_name() {
+        Some(name) => name.to_str()?,
+        None => {
+            defx!("return None; file_name is None");
+            return None
+        },
+    };
+    if !matches!(name, "diagnostics" | "uuidtext") {
+        defx!("return None; does not match 'diagnostics' or 'uuidtext'");
+        return None;
+    }
+    let parent: &Path = match path.parent() {
+        Some(parent) => parent,
+        None => {
+            defx!("return None; parent is None");
+            return None;
+        }
+    };
+    let diagnostics: PathBuf = parent.join("diagnostics");
+    let uuidtext: PathBuf = parent.join("uuidtext");
+
+    let capture = has_aul_traces(&diagnostics).then(|| create_apple_unified_logs(
+        diagnostics,
+        uuidtext,
+        AulStorageType::InPlace,
+        aul_detection(parent.join("diagnostics").as_path()),
+    ));
+    defx!("in-place capture={capture:?}");
+
+    capture
+}
+
+/// Detect either *Apple Unified Logs* storage layout and retain its storage type.
+fn detect_aul_path(path: &Path) -> Option<ProcessPathResult> {
+    fn detect(path: &Path) -> Option<ProcessPathResult> {
+        if path.extension() == Some(EXT_LOGARCHIVE.as_ref()) {
+            return detect_aul_logarchive_path(path);
+        }
+        if path.file_name().is_some_and(|name| matches!(name.to_str(), Some("diagnostics" | "uuidtext"))) {
+            return detect_aul_in_place_path(path);
+        }
+        None
+    }
+
+    if !path.is_dir() {
+        return None;
+    }
+
+    detect(path).or_else(|| path.is_symlink().then(|| path.canonicalize().ok()).flatten()
+        .and_then(|canonical_path| detect(&canonical_path)))
+}
+
+/// Allow user-passed *Apple Unified Logs* paths via the environment variable `S4_AUL_PATHS`
+fn configured_aul_paths() -> Vec<PathBuf> {
+    std::env::var_os(ENV_AUL_PATHS).map_or_else(Vec::new, |value| {
+        std::env::split_paths(&value)
+            .filter(|path| !path.as_os_str().is_empty())
+            .filter_map(|path| path.canonicalize().ok())
+            .collect()
+    })
+}
+
+fn is_configured_aul_path(path: &Path, configured_paths: &[PathBuf]) -> bool {
+    path.canonicalize().is_ok_and(|path| configured_paths.contains(&path))
+}
+
+/// Detect if the given path is a configured *Apple Unified Logs* path.
+fn detect_aul_configured_path(
+    path: &Path,
+    configured_paths: &[PathBuf],
+) -> Option<ProcessPathResult> {
+    defn!("({path:?}, configured_paths)");
+    if configured_paths.is_empty()
+        || !path.is_dir()
+        || !is_configured_aul_path(path, configured_paths)
+    {
+        defx!("return None");
+        return None;
+    }
+
+    let diagnostics = path.join("diagnostics");
+    let uuidtext = path.join("uuidtext");
+    if diagnostics.is_dir() || uuidtext.is_dir() {
+        let detection = if has_aul_traces(&diagnostics) {
+            aul_detection(&diagnostics)
+        } else {
+            AulDetection::ByEnvironment
+        };
+        defx!("return Some(AppleUnifiedLogs{{{diagnostics:?}, {{{uuidtext:?}}}, AulStorageType::InPlace, {detection:?}}})");
+        return Some(create_apple_unified_logs(
+            diagnostics,
+            uuidtext,
+            AulStorageType::InPlace,
+            detection,
+        ));
+    }
+
+    let detection = if has_aul_traces(path) {
+        aul_detection(path)
+    } else {
+        AulDetection::ByEnvironment
+    };
+    defx!("return Some(AppleUnifiedLogs{{{path:?}, {{{path:?}}}, AulStorageType::LogArchive, {detection:?}}})");
+
+    Some(create_apple_unified_logs(
+        path.to_owned(),
+        path.to_owned(),
+        AulStorageType::LogArchive,
+        detection,
+    ))
+}
+
+fn detect_aul_path_with_configured(
+    path: &Path,
+    configured_paths: &[PathBuf],
+) -> Option<ProcessPathResult> {
+    detect_aul_path(path).or_else(|| detect_aul_configured_path(path, configured_paths))
+}
+
+/// Find parseable files, archive members, and Apple Unified Log captures.
+///
+/// Recognized Apple Unified Log captures are not traversed. A directly passed
+/// file or an exact `archive|member` selection is tried as text if its format
+/// is unknown; other archive members follow directory-discovery exclusions.
 pub fn process_path(
     path: &FPath,
     _unparseable_are_text: bool,
 ) -> ProcessPathResults {
     defn!("({:?}, {:?})", path, _unparseable_are_text);
 
+    let configured_aul_paths = configured_aul_paths();
     let mut std_path: PathBuf = PathBuf::from(path);
 
     defo!("std_path {:?}", std_path);
@@ -2099,6 +2387,12 @@ pub fn process_path(
     defo!("std_path {:?}", std_path);
 
     if std_path.is_file() {
+        if std_path.extension() == Some(EXT_TRACEV3.as_ref()) {
+            defx!("return FileErr for found TraceV3 {path:?} file");
+            return vec![ProcessPathResult::FileErr(
+                path.clone(), "Apple Unified Logs require a capture directory, not an individual tracev3 file".into(),
+            )];
+        }
         // if passed a path to a file (or a symlink to a plain file)
         // then assume the user wants to force an attempt to process
         // such a file (even if it's known to be unparsable, e.g. `picture.png`)
@@ -2129,7 +2423,17 @@ pub fn process_path(
                     }
                 }
             }
+            PathToFiletypeResult::AppleUnifiedLogs(..) => {
+                debug_panic!("unexpected AppleUnifiedLogs path");
+                return vec![ProcessPathResult::FileErr(path.clone(), "unexpected AppleUnifiedLogs path".into())];
+            }
         }
+    }
+
+    // Direct Apple Unified Logs roots are processed as one logical input.
+    if let Some(capture) = detect_aul_path_with_configured(Path::new(path), &configured_aul_paths) {
+        defx!("direct Apple Unified Logs path detected");
+        return vec![capture];
     }
 
     // getting here means `path` likely refers to a directory
@@ -2140,12 +2444,31 @@ pub fn process_path(
     defo!("jwalk::rayon::max_num_threads = {}", jwalk::rayon::max_num_threads());
 
     defo!("WalkDir({:?})…", path);
-    for entry in jwalk::WalkDir::new(path.as_str())
+    for entry in jwalk::WalkDirGeneric::<((), Option<ProcessPathResult>)>::new(path.as_str())
         .follow_links(true)
         .sort(true)
+        .process_read_dir(move |_, _, _, children| {
+            def1n!("pre-processing {} entries", children.len());
+            // do not let jwalk descend into Apple Unified Logs directories
+            for entry in children.iter_mut().filter_map(|entry| entry.as_mut().ok())
+            {
+                def1o!("pre-process {:?}", entry.path());
+                if ! entry.file_type().is_dir() {
+                    def1x!("not a directory");
+                    continue;
+                }
+                let path: PathBuf = entry.path();
+                if let Some(capture) = detect_aul_path_with_configured(&path, &configured_aul_paths) {
+                    def1o!("Apple Unified Logs path detected at {path:?}");
+                    entry.read_children = None;
+                    entry.client_state = Some(capture);
+                }
+            }
+            def1x!();
+        })
     {
         // XXX: what is type `T` in `Result<T, E>` returned by `WalkDir`?
-        let path_entry = match entry {
+        let mut path_entry = match entry {
             Ok(val) => {
                 defo!("Ok({:?})", val);
                 val
@@ -2156,6 +2479,10 @@ pub fn process_path(
             }
         };
 
+        if let Some(capture) = path_entry.client_state.take() {
+            paths.push(capture);
+            continue;
+        }
         defo!("analayzing {:?}", path_entry);
         let std_path_entry: &Path = &path_entry.path();
         let fpath_entry: FPath = path_to_fpath(std_path_entry);
@@ -2173,10 +2500,18 @@ pub fn process_path(
             paths.push(ProcessPathResult::FileErrNotAFile(fpath_entry));
             continue;
         }
+        if std_path_entry.extension() == Some(EXT_TRACEV3.as_ref()) {
+            defo!("Skip TraceV3 file {:?}", path_entry);
+            continue;
+        }
         let result: PathToFiletypeResult = path_to_filetype(std_path_entry, false);
         defo!("path_to_filetype({:?}) returned {:?}", std_path_entry, result);
         let filetype: FileType = match result {
             PathToFiletypeResult::Filetype(filetype) => filetype,
+            PathToFiletypeResult::AppleUnifiedLogs(..) => {
+                debug_panic!("Apple Unified Logs should not be classified as a single file");
+                continue;
+            },
             PathToFiletypeResult::Archive(archive, fta) => {
                 let results: ProcessPathResults = match archive {
                     FileTypeArchiveMultiple::Zip => {
@@ -2232,6 +2567,7 @@ pub fn process_path(
             | FileType::Journal{ archival_type: FileTypeArchive::Xz }
             | FileType::Journal{ archival_type: FileTypeArchive::Zip }
             | FileType::Odl{ .. }
+            | FileType::Aul{ .. }
             | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
             | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: _ }
             | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
@@ -2253,6 +2589,35 @@ pub fn process_path(
             }
         }
     }
+
+    let mut aul_captures = HashMap::<(String, String, AulStorageType), AulDetection>::new();
+    for result in &paths {
+        if let ProcessPathResult::FileValidAppleUnifiedLogs {
+            diagnostics,
+            uuidtext,
+            storage_type,
+            detection,
+        } = result
+        {
+            aul_captures.entry((diagnostics.clone(), uuidtext.clone(), *storage_type))
+                .and_modify(|best| *best = (*best).max(*detection))
+                .or_insert(*detection);
+        }
+    }
+    let mut aul_captures_retained = HashSet::new();
+    paths.retain(|result| {
+        let ProcessPathResult::FileValidAppleUnifiedLogs {
+            diagnostics,
+            uuidtext,
+            storage_type,
+            detection,
+        } = result else {
+            return true;
+        };
+
+        let key = (diagnostics.clone(), uuidtext.clone(), *storage_type);
+        *detection == aul_captures[&key] && aul_captures_retained.insert(key)
+    });
     defx!("return {:?}", paths);
 
     paths

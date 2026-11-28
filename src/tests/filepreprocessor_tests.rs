@@ -994,7 +994,8 @@ fn test_fpath_to_filetype(
     let (filetype_expect, filetype_result) = match result {
         PathToFiletypeResult::Filetype(ftr) => match expect_result {
             PathToFiletypeResult::Filetype(fte) => (fte, ftr),
-            PathToFiletypeResult::Archive(_ftam, _fta) => {
+            PathToFiletypeResult::Archive(..)
+            | PathToFiletypeResult::AppleUnifiedLogs(..) => {
                 panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
             }
         },
@@ -1007,7 +1008,9 @@ fn test_fpath_to_filetype(
                 defx!();
                 return;
             }
+            PathToFiletypeResult::AppleUnifiedLogs(..) => panic!("Expected Apple Unified Logs"),
         },
+        PathToFiletypeResult::AppleUnifiedLogs(..) => panic!("Unexpected Apple Unified Logs"),
     };
     defo!("filetype {:?}", filetype_result);
     assert_eq!(
@@ -1029,7 +1032,8 @@ fn test_fpath_to_filetype(
     let (filetype_expect, filetype_result) = match result {
         PathToFiletypeResult::Filetype(ft) => match expect_result {
             PathToFiletypeResult::Filetype(fte) => (fte, ft),
-            PathToFiletypeResult::Archive(_ftam, _fta) => {
+            PathToFiletypeResult::Archive(..)
+            | PathToFiletypeResult::AppleUnifiedLogs(..) => {
                 panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
             }
         },
@@ -1042,7 +1046,9 @@ fn test_fpath_to_filetype(
                 defx!();
                 return;
             }
+            PathToFiletypeResult::AppleUnifiedLogs(..) => panic!("Expected Apple Unified Logs"),
         },
+        PathToFiletypeResult::AppleUnifiedLogs(..) => panic!("Unexpected Apple Unified Logs"),
     };
     defo!("filetype {:?}", filetype_result);
     assert_eq!(
@@ -1240,6 +1246,34 @@ fn test_process_path_archive_selection_outer_paths() {
     assert!(matches!(&process_path(&input, true)[..], [ProcessPathResult::FileErrNotSupported(_, _)]));
     let input = format!("{}|root.log", path_to_fpath(dir.path()));
     assert!(matches!(&process_path(&input, true)[..], [ProcessPathResult::FileErrNotAFile(_)]));
+}
+
+#[test]
+fn test_process_path_apple_unified_logs_preserves_relative_path() {
+    let cwd = std::env::current_dir().unwrap();
+    let dir = ::tempfile::tempdir_in(&cwd).unwrap();
+    let diagnostics_abs = dir.path().join("capture/diagnostics");
+    std::fs::create_dir_all(&diagnostics_abs).unwrap();
+    std::fs::write(diagnostics_abs.join("logdata.LiveData.tracev3"), b"trace").unwrap();
+
+    let root_relative = format!(
+        "./{}",
+        path_to_fpath(&dir.path().strip_prefix(&cwd).unwrap().to_path_buf())
+    );
+    let diagnostics_relative = format!("{root_relative}/capture/diagnostics");
+    let uuidtext_relative = format!("{root_relative}/capture/uuidtext");
+
+    let assert_capture = |results: ProcessPathResults| {
+        assert_eq!(results.len(), 1, "{results:?}");
+        assert!(matches!(
+            &results[0],
+            ProcessPathResult::FileValidAppleUnifiedLogs { diagnostics, uuidtext, .. }
+                if diagnostics == &diagnostics_relative && uuidtext == &uuidtext_relative
+        ), "{results:?}");
+    };
+
+    assert_capture(process_path(&diagnostics_relative, true));
+    assert_capture(process_path(&root_relative, true));
 }
 
 #[cfg(unix)]

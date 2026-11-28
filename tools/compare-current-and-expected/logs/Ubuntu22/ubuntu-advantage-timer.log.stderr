@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 1824
-      Flushes       : 12
-      Lines         : 12
-      Syslines      : 12
-      Datetime First: 2022-10-03 22:47:11 +08:00 (2022-10-03 14:47:11.886000 +00:00)
-      Datetime last : 2022-10-05 19:56:09 +08:00 (2022-10-05 11:56:09.575000 +00:00)
+    Bytes         : 1824
+    Flushes       : 12
+    Lines         : 12
+    Syslines      : 12
+    Datetime First: 2022-10-03 22:47:11 +08:00 (2022-10-03 14:47:11.886000 +00:00)
+    Datetime Last : 2022-10-05 19:56:09 +08:00 (2022-10-05 11:56:09.575000 +00:00)
   Processed:
-      File size     : 948 (0x3B4) (bytes)
-      bytes         : 948 (0x3B4)
-      bytes total   : 948 (0x3B4)
-      Block size    : 256 (0x100)
-      Blocks        : 4
-      Blocks total  : 4 (1024 bytes)
-      Lines         : 12
-      Line longest  : 80 (bytes)
-      Line parts    : 15
-      Syslines      : 12
-      Sysline longest: 80 (bytes)
-      Syslines high : 12
-      Datetime first: 2022-10-03 22:47:11 +08:00 (2022-10-03 14:47:11.886000 +00:00)
-      Datetime last : 2022-10-05 19:56:09 +08:00 (2022-10-05 11:56:09.575000 +00:00)
-      out of order  : 0
+    File size     : 948 (0x3B4) (bytes)
+    bytes         : 948 (0x3B4)
+    bytes total   : 948 (0x3B4)
+    Block size    : 256 (0x100)
+    Blocks        : 4
+    Blocks total  : 4 (1024 bytes)
+    Lines         : 12
+    Line longest  : 80 (bytes)
+    Line parts    : 15
+    Syslines      : 12
+    Sysline longest: 80 (bytes)
+    Syslines high : 12
+    Datetime first: 2022-10-03 22:47:11 +08:00 (2022-10-03 14:47:11.886000 +00:00)
+    Datetime last : 2022-10-05 19:56:09 +08:00 (2022-10-05 11:56:09.575000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 12, miss 12, 50.0%, put 12
-      copying: SyslineReader::get_boxptrs()                        : sgl 83, dbl   2, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 12,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 12,  7.7%, put 12
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 11, miss 12, 47.8%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 80,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 12, miss 73
+    storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit 12, miss 12, 50.0%, put 12
+    copying: SyslineReader::get_boxptrs()                        : sgl 83, dbl   2, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss 12,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 12,  7.7%, put 12
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 11, miss 12, 47.8%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 80,  0.0%, largest skipped 0
+    process: regex captures                                      : hit 12, miss 73
   Processing Drops:
 
 Program summary:

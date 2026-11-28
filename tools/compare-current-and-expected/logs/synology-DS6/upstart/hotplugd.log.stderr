@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/upstart/hotplugd.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 844
-      Flushes       : 4
-      Lines         : 4
-      Syslines      : 4
-      Datetime First: 2017-09-17 10:12:07 -07:00 (2017-09-17 17:12:07.000000 +00:00)
-      Datetime last : 2017-10-19 10:21:22 -07:00 (2017-10-19 17:21:22.000000 +00:00)
+    Bytes         : 844
+    Flushes       : 4
+    Lines         : 4
+    Syslines      : 4
+    Datetime First: 2017-09-17 10:12:07 -07:00 (2017-09-17 17:12:07.000000 +00:00)
+    Datetime Last : 2017-10-19 10:21:22 -07:00 (2017-10-19 17:21:22.000000 +00:00)
   Processed:
-      File size     : 560 (0x230) (bytes)
-      bytes         : 560 (0x230)
-      bytes total   : 560 (0x230)
-      Block size    : 256 (0x100)
-      Blocks        : 3
-      Blocks total  : 3 (768 bytes)
-      Lines         : 4
-      Line longest  : 140 (bytes)
-      Line parts    : 7
-      Syslines      : 4
-      Sysline longest: 140 (bytes)
-      Syslines high : 4
-      Datetime first: 2017-09-17 10:12:07 -07:00 (2017-09-17 17:12:07.000000 +00:00)
-      Datetime last : 2017-10-19 10:21:22 -07:00 (2017-10-19 17:21:22.000000 +00:00)
-      out of order  : 0
+    File size     : 560 (0x230) (bytes)
+    bytes         : 560 (0x230)
+    bytes total   : 560 (0x230)
+    Block size    : 256 (0x100)
+    Blocks        : 3
+    Blocks total  : 3 (768 bytes)
+    Lines         : 4
+    Line longest  : 140 (bytes)
+    Line parts    : 7
+    Syslines      : 4
+    Sysline longest: 140 (bytes)
+    Syslines high : 4
+    Datetime first: 2017-09-17 10:12:07 -07:00 (2017-09-17 17:12:07.000000 +00:00)
+    Datetime last : 2017-10-19 10:21:22 -07:00 (2017-10-19 17:21:22.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  5, miss  5, 50.0%, put  4
-      copying: SyslineReader::get_boxptrs()                        : sgl 78, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  5,  0.0%, put  4
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  4, miss  4, 50.0%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 73,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  4, miss 74
+    storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  5, miss  5, 50.0%, put  4
+    copying: SyslineReader::get_boxptrs()                        : sgl 78, dbl   0, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss  5,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  5,  0.0%, put  4
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  4, miss  4, 50.0%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 73,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  4, miss 74
   Processing Drops:
 
 Program summary:

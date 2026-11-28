@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/smart_quick_log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 794
-      Flushes       : 4
-      Lines         : 8
-      Syslines      : 4
-      Datetime First: 2020-03-05 00:00:03 +08:00 (2020-03-04 16:00:03.000000 +00:00)
-      Datetime last : 2020-03-05 00:00:04 +08:00 (2020-03-04 16:00:04.000000 +00:00)
+    Bytes         : 794
+    Flushes       : 4
+    Lines         : 8
+    Syslines      : 4
+    Datetime First: 2020-03-05 00:00:03 +08:00 (2020-03-04 16:00:03.000000 +00:00)
+    Datetime Last : 2020-03-05 00:00:04 +08:00 (2020-03-04 16:00:04.000000 +00:00)
   Processed:
-      File size     : 266 (0x10A) (bytes)
-      bytes         : 266 (0x10A)
-      bytes total   : 266 (0x10A)
-      Block size    : 256 (0x100)
-      Blocks        : 2
-      Blocks total  : 2 (512 bytes)
-      Lines         : 8
-      Line longest  : 43 (bytes)
-      Line parts    : 9
-      Syslines      : 4
-      Sysline longest: 70 (bytes)
-      Syslines high : 4
-      Datetime first: 2020-03-05 00:00:03 +08:00 (2020-03-04 16:00:03.000000 +00:00)
-      Datetime last : 2020-03-05 00:00:04 +08:00 (2020-03-04 16:00:04.000000 +00:00)
-      out of order  : 0
+    File size     : 266 (0x10A) (bytes)
+    bytes         : 266 (0x10A)
+    bytes total   : 266 (0x10A)
+    Block size    : 256 (0x100)
+    Blocks        : 2
+    Blocks total  : 2 (512 bytes)
+    Lines         : 8
+    Line longest  : 43 (bytes)
+    Line parts    : 9
+    Syslines      : 4
+    Sysline longest: 70 (bytes)
+    Syslines high : 4
+    Datetime first: 2020-03-05 00:00:03 +08:00 (2020-03-04 16:00:03.000000 +00:00)
+    Datetime last : 2020-03-05 00:00:04 +08:00 (2020-03-04 16:00:04.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   4, miss   8, 33.3%, put   8
-      copying: SyslineReader::get_boxptrs()                        : sgl 334, dbl    1, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   4, 20.0%, put   4
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss   8, 27.3%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  34,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 301,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   4, miss 331
+    storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit   4, miss   8, 33.3%, put   8
+    copying: SyslineReader::get_boxptrs()                        : sgl 334, dbl    1, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   4, 20.0%, put   4
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss   8, 27.3%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss  34,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 301,  0.0%, largest skipped 0
+    process: regex captures                                      : hit   4, miss 331
   Processing Drops:
 
 Program summary:

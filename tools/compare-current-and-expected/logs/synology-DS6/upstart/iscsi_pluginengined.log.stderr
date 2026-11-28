@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 2792
-      Flushes       : 17
-      Lines         : 19
-      Syslines      : 17
-      Datetime First: 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
-      Datetime last : 2017-02-04 23:07:11 -08:00 (2017-02-05 07:07:11.000000 +00:00)
+    Bytes         : 2792
+    Flushes       : 17
+    Lines         : 19
+    Syslines      : 17
+    Datetime First: 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
+    Datetime Last : 2017-02-04 23:07:11 -08:00 (2017-02-05 07:07:11.000000 +00:00)
   Processed:
-      File size     : 1234 (0x4D2) (bytes)
-      bytes         : 1234 (0x4D2)
-      bytes total   : 1234 (0x4D2)
-      Block size    : 256 (0x100)
-      Blocks        : 5
-      Blocks total  : 5 (1280 bytes)
-      Lines         : 19
-      Line longest  : 69 (bytes)
-      Line parts    : 23
-      Syslines      : 17
-      Sysline longest: 110 (bytes)
-      Syslines high : 13
-      Datetime first: 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
-      Datetime last : 2017-02-04 23:07:11 -08:00 (2017-02-05 07:07:11.000000 +00:00)
-      out of order  : 0
+    File size     : 1234 (0x4D2) (bytes)
+    bytes         : 1234 (0x4D2)
+    bytes total   : 1234 (0x4D2)
+    Block size    : 256 (0x100)
+    Blocks        : 5
+    Blocks total  : 5 (1280 bytes)
+    Lines         : 19
+    Line longest  : 69 (bytes)
+    Line parts    : 23
+    Syslines      : 17
+    Sysline longest: 110 (bytes)
+    Syslines high : 13
+    Datetime first: 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
+    Datetime last : 2017-02-04 23:07:11 -08:00 (2017-02-05 07:07:11.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  17, miss  19, 47.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 278, dbl    2, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  17,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  17,  5.6%, put  17
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  16, miss  19, 45.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  21, miss   5, 80.8%, largest skipped 40
-      optimize:SyslineReader::ezcheck12d2                          : hit 168, miss  86, 66.1%, largest skipped 40
-      process: regex captures                                      : hit  17, miss  74
+    storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  17, miss  19, 47.2%, put  19
+    copying: SyslineReader::get_boxptrs()                        : sgl 278, dbl    2, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss  17,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  17,  5.6%, put  17
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  16, miss  19, 45.7%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  21, miss   5, 80.8%, largest skipped 40
+    optimize:SyslineReader::ezcheck12d2                          : hit 168, miss  86, 66.1%, largest skipped 40
+    process: regex captures                                      : hit  17, miss  74
   Processing Drops:
 
 Program summary:

@@ -188,6 +188,9 @@ fn test_decompress_to_ntf_ok_some(
         FileType::Unparsable => {
             panic!();
         }
+        FileType::Aul { .. } => {
+            panic!();
+        }
         FileType::Asl { archival_type }
         | FileType::Etl { archival_type }
         | FileType::Evtx { archival_type }
@@ -252,7 +255,7 @@ fn test_decompress_to_ntf_ok_none(
 ) {
     // XXX: catch error for newly added FileType or FileTypeArchive variants not yet handled
     match filetype {
-        FileType::Unparsable => {
+        FileType::Unparsable | FileType::Aul { .. } => {
             panic!();
         }
         FileType::Asl { archival_type }
@@ -321,6 +324,7 @@ fn test_decompress_to_ntf_panic(
     // XXX: catch error for newly added FileType or FileTypeArchive variants not yet handled
     match filetype {
         FileType::Unparsable => {}
+        FileType::Aul { .. } => unreachable!("not tested by this case"),
         FileType::Asl { archival_type }
         | FileType::Etl { archival_type }
         | FileType::Evtx { archival_type }

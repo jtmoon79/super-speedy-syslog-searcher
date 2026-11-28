@@ -985,7 +985,7 @@ impl PrinterLogMessage {
         self.print_native_event(odl)
     }
 
-    fn print_native_event(
+    pub fn print_native_event(
         &mut self,
         etl: &impl PrintableEvent,
     ) -> PrinterLogMessageResult {

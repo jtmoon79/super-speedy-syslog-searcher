@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Orbi/var/log/soapclient/soap_agent
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 3503
-      Flushes       : 19
-      Lines         : 19
-      Syslines      : 19
-      Datetime First: 2022-05-10 14:22:57 +08:00 (2022-05-10 06:22:57.000000 +00:00)
-      Datetime last : 2022-05-10 15:09:27 +08:00 (2022-05-10 07:09:27.000000 +00:00)
+    Bytes         : 3503
+    Flushes       : 19
+    Lines         : 19
+    Syslines      : 19
+    Datetime First: 2022-05-10 14:22:57 +08:00 (2022-05-10 06:22:57.000000 +00:00)
+    Datetime Last : 2022-05-10 15:09:27 +08:00 (2022-05-10 07:09:27.000000 +00:00)
   Processed:
-      File size     : 2135 (0x857) (bytes)
-      bytes         : 2135 (0x857)
-      bytes total   : 2135 (0x857)
-      Block size    : 256 (0x100)
-      Blocks        : 9
-      Blocks total  : 9 (2304 bytes)
-      Lines         : 19
-      Line longest  : 146 (bytes)
-      Line parts    : 28
-      Syslines      : 19
-      Sysline longest: 146 (bytes)
-      Syslines high : 9
-      Datetime first: 2022-05-10 14:22:57 +08:00 (2022-05-10 06:22:57.000000 +00:00)
-      Datetime last : 2022-05-10 15:09:27 +08:00 (2022-05-10 07:09:27.000000 +00:00)
-      out of order  : 0
+    File size     : 2135 (0x857) (bytes)
+    bytes         : 2135 (0x857)
+    bytes total   : 2135 (0x857)
+    Block size    : 256 (0x100)
+    Blocks        : 9
+    Blocks total  : 9 (2304 bytes)
+    Lines         : 19
+    Line longest  : 146 (bytes)
+    Line parts    : 28
+    Syslines      : 19
+    Sysline longest: 146 (bytes)
+    Syslines high : 9
+    Datetime first: 2022-05-10 14:22:57 +08:00 (2022-05-10 06:22:57.000000 +00:00)
+    Datetime last : 2022-05-10 15:09:27 +08:00 (2022-05-10 07:09:27.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  20, 50.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 151, dbl    8, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  20,  0.0%, put  19
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  19, 50.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  19, miss 140
+    storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  20, miss  20, 50.0%, put  19
+    copying: SyslineReader::get_boxptrs()                        : sgl 151, dbl    8, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  20,  0.0%, put  19
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  19, 50.0%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  19, miss 140
   Processing Drops:
 
 Program summary:

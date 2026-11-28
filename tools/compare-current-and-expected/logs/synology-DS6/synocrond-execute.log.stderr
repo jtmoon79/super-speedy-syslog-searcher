@@ -3,45 +3,45 @@ Files:
 
 File: ./logs/synology-DS6/synocrond-execute.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 3821
-      Flushes       : 19
-      Lines         : 19
-      Syslines      : 19
-      Datetime First: 2020-12-06 00:59:44 +08:00 (2020-12-05 16:59:44.000000 +00:00)
-      Datetime last : 2020-12-11 04:56:46 +08:00 (2020-12-10 20:56:46.000000 +00:00)
+    Bytes         : 3821
+    Flushes       : 19
+    Lines         : 19
+    Syslines      : 19
+    Datetime First: 2020-12-06 00:59:44 +08:00 (2020-12-05 16:59:44.000000 +00:00)
+    Datetime Last : 2020-12-11 04:56:46 +08:00 (2020-12-10 20:56:46.000000 +00:00)
   Processed:
-      File size     : 2453 (0x995) (bytes)
-      bytes         : 2453 (0x995)
-      bytes total   : 2453 (0x995)
-      Block size    : 256 (0x100)
-      Blocks        : 10
-      Blocks total  : 10 (2560 bytes)
-      Lines         : 19
-      Line longest  : 174 (bytes)
-      Line parts    : 29
-      Syslines      : 19
-      Sysline longest: 174 (bytes)
-      Syslines high : 19
-      Datetime first: 2020-12-06 00:59:44 +08:00 (2020-12-05 16:59:44.000000 +00:00)
-      Datetime last : 2020-12-11 04:56:46 +08:00 (2020-12-10 20:56:46.000000 +00:00)
-      out of order  : 0
+    File size     : 2453 (0x995) (bytes)
+    bytes         : 2453 (0x995)
+    bytes total   : 2453 (0x995)
+    Block size    : 256 (0x100)
+    Blocks        : 10
+    Blocks total  : 10 (2560 bytes)
+    Lines         : 19
+    Line longest  : 174 (bytes)
+    Line parts    : 29
+    Syslines      : 19
+    Sysline longest: 174 (bytes)
+    Syslines high : 19
+    Datetime first: 2020-12-06 00:59:44 +08:00 (2020-12-05 16:59:44.000000 +00:00)
+    Datetime last : 2020-12-11 04:56:46 +08:00 (2020-12-10 20:56:46.000000 +00:00)
+    out of order  : 0
   Parsers:
-                   datetime format missing year; estimated year of last sysline 2020
+      datetime format missing year; estimated year of last sysline 2020
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  18, miss  40, 31.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss  39,  2.5%, put  38
-      copying: SyslineReader::get_boxptrs()                        : sgl 207, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit  18, miss  20, 47.4%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss  20,  4.8%, put  19
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  39,  0.0%, put  38
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  18, miss  20, 47.4%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  40,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 167,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  20, miss 187
+    storage: LineReader::find_line() lines                       : hit  18, miss  40, 31.0%
+    caching: LineReader::find_line() LRU cache                   : hit   1, miss  39,  2.5%, put  38
+    copying: SyslineReader::get_boxptrs()                        : sgl 207, dbl    0, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit  18, miss  20, 47.4%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss  20,  4.8%, put  19
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  39,  0.0%, put  38
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  18, miss  20, 47.4%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss  40,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 167,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  20, miss 187
   Processing Drops:
 
 Program summary:

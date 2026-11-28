@@ -139,6 +139,7 @@ const FILE_HANDLE_UNMANAGED_DEFAULT_COUNT: usize = 1;
 /// Expected number of unmanaged OS handles owned by one `PyRunner`.
 ///
 /// `PyRunner` starts a child process with piped stdin, stdout, and stderr.
+// TODO: this should be removed.
 pub(crate) const FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT: u8 = 3;
 
 /// Expected number of unmanaged OS handles owned by one `JournalReader`.
@@ -148,10 +149,13 @@ const FILE_HANDLE_UNMANAGED_JOURNAL_COUNT: u8 = 1;
 /// counts needed for the `filetype`.
 pub const fn filetype_handle_counts(filetype: FileType) -> (u8, u8) {
     match filetype {
-        FileType::Asl { .. }
-        | FileType::Etl { .. } => (1, FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT),
+        // TODO: review these values
+        FileType::Asl { .. } => (1, 0),
+        FileType::Etl { .. } => (1, FILE_HANDLE_UNMANAGED_PYRUNNER_COUNT), // XXX: `PyRunner` was expunged from this program.
         FileType::Journal { .. } => (1, FILE_HANDLE_UNMANAGED_JOURNAL_COUNT),
-        FileType::Evtx { .. } | FileType::Odl { .. }
+        FileType::Evtx { .. }
+        | FileType::Odl { .. }
+        | FileType::Aul { .. } // XXX: is this value wrong? Does not Apple Unified Logs require many handles?
         | FileType::FixedStruct { .. }
         | FileType::Text { .. } => (1, 0),
         FileType::Unparsable => (0, 0),

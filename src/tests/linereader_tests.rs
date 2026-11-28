@@ -168,8 +168,9 @@ fn filetype_for_linereader_test(path: &FPath) -> FileType {
     }
     match fpath_to_filetype(path, true) {
         PathToFiletypeResult::Filetype(ft) => ft,
-        PathToFiletypeResult::Archive(..) => {
-            panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
+        PathToFiletypeResult::Archive(..)
+        | PathToFiletypeResult::AppleUnifiedLogs(..) => {
+            panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive|AppleUnifiedLogs", path);
         }
     }
 }

@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Ubuntu22/dmesg.0.gz
   About:
-      FileType      : TEXT UTF8/ASCII (GZIP) (text log)
-      LogMessageType: text log lines
-      Processing Err: failed to calculate systemtime at uptime zero
+    FileType      : TEXT UTF8/ASCII (GZIP) (text log)
+    LogMessageType: text log lines
+    Processing Err: failed to calculate systemtime at uptime zero
   Printed:
-      Bytes         : 0
-      Flushes       : 0
-      Lines         : 0
-      Syslines      : 0
+    Bytes         : 0
+    Flushes       : 0
+    Lines         : 0
+    Syslines      : 0
   Processed:
-      file size compressed  : 569 (0x239) (bytes)
-      file size uncompressed: 1161 (0x489) (bytes)
-      bytes         : 1161 (0x489)
-      bytes total   : 1161 (0x489)
-      Block size    : 256 (0x100)
-      Blocks        : 5
-      Blocks total  : 5 (1280 bytes)
-      Lines         : 2
-      Line longest  : 237 (bytes)
-      Line parts    : 3
-      Syslines      : 1
-      Sysline longest: 53 (bytes)
-      Syslines high : 1
-      Datetime first: 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.342000 +00:00)
-      Datetime last : 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.342000 +00:00)
-      out of order  : 0
+    file size compressed  : 569 (0x239) (bytes)
+    file size uncompressed: 1161 (0x489) (bytes)
+    bytes         : 1161 (0x489)
+    bytes total   : 1161 (0x489)
+    Block size    : 256 (0x100)
+    Blocks        : 5
+    Blocks total  : 5 (1280 bytes)
+    Lines         : 2
+    Line longest  : 237 (bytes)
+    Line parts    : 3
+    Syslines      : 1
+    Sysline longest: 53 (bytes)
+    Syslines high : 1
+    Datetime first: 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.342000 +00:00)
+    Datetime last : 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.342000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 161, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  16,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 145,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   2, miss 159
+    storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
+    copying: SyslineReader::get_boxptrs()                        : sgl 161, dbl    0, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss  16,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 145,  0.0%, largest skipped 0
+    process: regex captures                                      : hit   2, miss 159
   Processing Drops:
 
 Program summary:

@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Ubuntu18/apt/history.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 969
-      Flushes       : 2
-      Lines         : 5
-      Syslines      : 2
-      Datetime First: 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)
-      Datetime last : 2020-03-05 11:57:11 +08:00 (2020-03-05 03:57:11.000000 +00:00)
+    Bytes         : 969
+    Flushes       : 2
+    Lines         : 5
+    Syslines      : 2
+    Datetime First: 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)
+    Datetime Last : 2020-03-05 11:57:11 +08:00 (2020-03-05 03:57:11.000000 +00:00)
   Processed:
-      File size     : 660 (0x294) (bytes)
-      bytes         : 660 (0x294)
-      bytes total   : 660 (0x294)
-      Block size    : 256 (0x100)
-      Blocks        : 3
-      Blocks total  : 3 (768 bytes)
-      Lines         : 6
-      Line longest  : 536 (bytes)
-      Line parts    : 9
-      Syslines      : 2
-      Sysline longest: 628 (bytes)
-      Syslines high : 2
-      Datetime first: 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)
-      Datetime last : 2020-03-05 11:57:11 +08:00 (2020-03-05 03:57:11.000000 +00:00)
-      out of order  : 0
+    File size     : 660 (0x294) (bytes)
+    bytes         : 660 (0x294)
+    bytes total   : 660 (0x294)
+    Block size    : 256 (0x100)
+    Blocks        : 3
+    Blocks total  : 3 (768 bytes)
+    Lines         : 6
+    Line longest  : 536 (bytes)
+    Line parts    : 9
+    Syslines      : 2
+    Sysline longest: 628 (bytes)
+    Syslines high : 2
+    Datetime first: 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)
+    Datetime last : 2020-03-05 11:57:11 +08:00 (2020-03-05 03:57:11.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   1, miss  12,  7.7%
-      caching: LineReader::find_line() LRU cache                   : hit   7, miss   7, 50.0%, put   6
-      copying: SyslineReader::get_boxptrs()                        : sgl 425, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   3,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   3,  0.0%, put   2
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss  10, 16.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  22, miss  25, 46.8%, largest skipped 30
-      optimize:SyslineReader::ezcheck12d2                          : hit 168, miss 210, 44.4%, largest skipped 30
-      process: regex captures                                      : hit   2, miss 233
+    storage: LineReader::find_line() lines                       : hit   1, miss  12,  7.7%
+    caching: LineReader::find_line() LRU cache                   : hit   7, miss   7, 50.0%, put   6
+    copying: SyslineReader::get_boxptrs()                        : sgl 425, dbl    0, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss   3,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   3,  0.0%, put   2
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss  10, 16.7%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  22, miss  25, 46.8%, largest skipped 30
+    optimize:SyslineReader::ezcheck12d2                          : hit 168, miss 210, 44.4%, largest skipped 30
+    process: regex captures                                      : hit   2, miss 233
   Processing Drops:
 
 Program summary:

@@ -583,8 +583,9 @@ fn new_SyslogProcessor(
     let result = fpath_to_filetype(path, true);
     let filetype = match result {
         PathToFiletypeResult::Filetype(ft) => ft,
-        PathToFiletypeResult::Archive(..) => {
-            panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
+        PathToFiletypeResult::Archive(..)
+        | PathToFiletypeResult::AppleUnifiedLogs(..) => {
+            panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive|AppleUnifiedLogs", path);
         }
     };
     match SyslogProcessor::new(path_id_generator(), path.clone(), filetype, blocksz, tzo, None, None) {

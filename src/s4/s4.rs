@@ -166,6 +166,7 @@ use ::si_trace_print::{
 use ::unicode_width;
 
 use ::s4lib::common::{
+    AulDetection,
     Count,
     FPath,
     FPaths,
@@ -253,6 +254,8 @@ use ::s4lib::readers::blockreader::{
     ENV_BLOCKSZ,
 };
 use ::s4lib::readers::aslreader::AslReader;
+use ::s4lib::readers::aulparser::capture_upstream_log;
+use ::s4lib::readers::aulreader::AulReader;
 use ::s4lib::readers::etlreader::EtlReader;
 use ::s4lib::readers::odlreader::OdlReader;
 use ::s4lib::readers::evtxreader::EvtxReader;
@@ -293,6 +296,7 @@ use ::s4lib::readers::journalreader::{
 use ::s4lib::readers::summary::{
     Summary,
     SummaryOpt,
+    SummaryReaderData,
 };
 use ::s4lib::readers::syslinereader::ResultFindSysline;
 use ::s4lib::readers::syslogprocessor::{
@@ -2774,6 +2778,10 @@ File name extensions that are skipped unless passed directly are:
 s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
 archived within a .tar or .zip file.
 
+For Apple Unified Logs, pass an unpacked .logarchive directory or a capture
+with sibling diagnostics and uuidtext directories. Output is JSON Lines unless
+prefixes or separators are requested. Cannot process such logs within a .tar or .zip.
+
 
 DateTime Filters may be strftime specifier patterns:
     "%Y%m%dT%H%M%S*"
@@ -4142,6 +4150,9 @@ pub fn main() -> ExitCode {
 
     if cli_opt_summary {
         summary_stats_enable();
+        if log::set_logger(&AulDiagnostics).is_ok() {
+            log::set_max_level(log::LevelFilter::Warn);
+        }
     }
 
     let mut processed_paths: ProcessPathResults = ProcessPathResults::with_capacity(paths.len() * 4);
@@ -4220,6 +4231,7 @@ pub enum FileTypeExecData {
     None,
     /// Journal processing thread needs to know the journal output format
     Journal(JournalOutput),
+    Aul { diagnostics: FPath, uuidtext: FPath, detection: AulDetection },
 }
 
 /// Data to initialize a file processing thread.
@@ -5121,6 +5133,48 @@ fn exec_odlparser(
     chan_send(&chan_send_dt, ChanDatum::FileSummary(Some(reader.summary_complete()), status), &path);
 }
 
+struct AulDiagnostics;
+
+impl log::Log for AulDiagnostics {
+    fn enabled(&self, metadata: &log::Metadata<'_>) -> bool {
+        metadata.level() <= log::Level::Warn && metadata.target().starts_with("macos_unifiedlogs")
+    }
+
+    fn log(&self, record: &log::Record<'_>) {
+        capture_upstream_log(record);
+    }
+
+    fn flush(&self) {}
+}
+
+fn exec_aulprocessor(chan_send_dt: ChanSendDatum, thread_init_data: ThreadInitData) {
+    let (path, pathid, filetype, exec_data, _, after, before, _) = thread_init_data;
+    let FileTypeExecData::Aul { diagnostics, uuidtext, detection } = exec_data else {
+        unreachable!("AUL capture roots missing")
+    };
+    if !chan_send(&chan_send_dt, ChanDatum::FileInfo(None, FILEOK), &path) {
+        return;
+    }
+    let mut reader = AulReader::new_with_detection(pathid, diagnostics.into(), uuidtext.into(), detection);
+    let result = reader.run(&after, &before, &EXIT_EARLY, |event| {
+        chan_send(&chan_send_dt, ChanDatum::NewMessage(LogMessage::Aul(event), false), &path)
+    });
+    exit_early_return!();
+    if let Err(err) = &result {
+        e_err!("{err}");
+    }
+    let summary = Summary {
+        path: path.clone(),
+        filetype: Some(filetype),
+        logmessagetype: LogMessageType::Aul,
+        readerdata: SummaryReaderData::Aul(reader.into_stats()),
+        error: result.as_ref().err().map(ToString::to_string),
+        path_ntf: None,
+    };
+    let status = result.map_or_else(FileProcessingResultBlockZero::FileErrIo, |()| FILEOK);
+    chan_send(&chan_send_dt, ChanDatum::FileSummary(Some(summary), status), &path);
+}
+
 /// Drive the native Apple System Log reader.
 fn exec_aslreader(
     chan_send_dt: ChanSendDatum,
@@ -5342,6 +5396,7 @@ fn exec_fileprocessor_thread(
 
     match thread_init_data.2 {
         FileType::Asl { .. } => exec_aslreader(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Aul { .. } => exec_aulprocessor(chan_send_dt, thread_init_data),
         FileType::FixedStruct { .. } => exec_fixedstructprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Etl { .. } => exec_etlprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Evtx { .. } => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
@@ -5417,7 +5472,7 @@ fn processing_loop(
     // precount the number of valid files that will be processed
     let file_count: usize = paths_results
         .iter()
-        .filter(|x| matches!(x, ProcessPathResult::FileValid(..)))
+        .filter(|x| matches!(x, ProcessPathResult::FileValid(..) | ProcessPathResult::FileValidAppleUnifiedLogs { .. }))
         .count();
 
     // create various mappings of PathId -> Thingy:
@@ -5453,6 +5508,7 @@ fn processing_loop(
     // map `PathId` to `LogMessageType`
     let mut map_pathid_logmessagetype = MapPathIdToLogMessageType::with_capacity(file_count);
     let mut paths_total: usize = 0;
+    let mut aul_captures = HashMap::new();
 
     // analyze the results of each `ProcessPathResult` and fill maps
     // - `map_pathid_path`
@@ -5467,6 +5523,35 @@ fn processing_loop(
         let pathid_counter: PathId = counter as PathId;
         defo!("match {:?}", processpathresult);
         match processpathresult {
+            ProcessPathResult::FileValidAppleUnifiedLogs {
+                ref diagnostics,
+                ref uuidtext,
+                storage_type,
+                detection,
+            } => {
+                let key = (
+                    std::fs::canonicalize(diagnostics).unwrap_or_else(|_| PathBuf::from(diagnostics)),
+                    std::fs::canonicalize(uuidtext).unwrap_or_else(|_| PathBuf::from(uuidtext)),
+                    storage_type,
+                );
+                if let Some((prior_pathid, prior_detection)) = aul_captures.get_mut(&key) {
+                    if detection > *prior_detection {
+                        *prior_detection = detection;
+                        map_pathid_results.insert(*prior_pathid, processpathresult);
+                    }
+                    continue;
+                }
+                aul_captures.insert(key, (pathid_counter, detection));
+                map_pathid_path.insert(pathid_counter, diagnostics.clone());
+                map_pathid_filetype.insert(pathid_counter, FileType::Aul {
+                    archival_type: FileTypeArchive::Normal,
+                    storage_type,
+                    detection,
+                });
+                map_pathid_received_fileinfo.insert(pathid_counter, false);
+                map_pathid_logmessagetype.insert(pathid_counter, LogMessageType::Aul);
+                map_pathid_results.insert(pathid_counter, processpathresult);
+            }
             // XXX: use `ref` to avoid "use of partially moved value" error
             ProcessPathResult::FileValid(ref path, ref filetype) => {
                 if matches!(filetype, FileType::Unparsable) {
@@ -5612,6 +5697,7 @@ fn processing_loop(
             ProcessPathResult::FileErr(path, message) =>
                 e_err!("{} for {:?}", message, path),
             ProcessPathResult::FileValid(..) => {}
+            ProcessPathResult::FileValidAppleUnifiedLogs { .. } => {}
         }
     }
 
@@ -5690,20 +5776,14 @@ fn processing_loop(
         let path = map_pathid_path
             .get(pathid)
             .unwrap_or_else(|| panic!("bad pathid {pathid}"));
-        let (filetype, _) = match map_pathid_results.get(pathid) {
-            Some(processpathresult) => match processpathresult {
-                ProcessPathResult::FileValid(_path, filetype) => (filetype, _path),
-                val => {
-                    e_err!("unhandled ProcessPathResult {:?}", val);
-                    continue;
-                }
+        let filetype = &map_pathid_filetype[pathid];
+        let filetypeexecdata = match &map_pathid_results[pathid] {
+            ProcessPathResult::FileValidAppleUnifiedLogs { diagnostics, uuidtext, detection, .. } => FileTypeExecData::Aul {
+                diagnostics: diagnostics.clone(),
+                uuidtext: uuidtext.clone(),
+                detection: *detection,
             },
-            None => {
-                panic!("bad pathid {pathid} for path {path:?}");
-            }
-        };
-        let filetypeexecdata = match filetype {
-            FileType::Journal { .. } => FileTypeExecData::Journal(journal_output),
+            ProcessPathResult::FileValid(_, FileType::Journal { .. }) => FileTypeExecData::Journal(journal_output),
             _ => FileTypeExecData::None,
         };
         let thread_data: ThreadInitData = (
@@ -5731,6 +5811,11 @@ fn processing_loop(
                 // experiments showed 124 KiB, not compressed
             {
                 1024 * 154
+            }
+            (false, FileType::Aul { .. }) =>
+                // experiments showed 88 KiB
+            {
+                1024 * 120
             }
             (false, FileType::Etl {..}) =>
                 // experiments showed 124Ki, not compressed
@@ -6537,6 +6622,33 @@ fn processing_loop(
                         );
                         summaryprinted.summaryprint_update_odl(odl, printed, flushed
                         );
+                    }
+                }
+                LogMessage::Aul(aul) => {
+                    let (printed, flushed) = match printer.print_native_event(aul) {
+                        Ok((printed, flushed)) => (printed as Count, flushed as Count),
+                        Err(error) => {
+                            if !has_print_err {
+                                has_print_err = true;
+                                e_err!("failed to print {}", error);
+                            }
+                            EXIT_EARLY.store(true, Ordering::Relaxed);
+                            disconnect.push(*pathid);
+                            (0, 0)
+                        }
+                    };
+                    if sepb_print {
+                        write_stdout(sepb);
+                        if cli_opt_summary {
+                            summaryprinted.bytes += sepb.len() as Count;
+                            summaryprinted.flushed += 1;
+                        }
+                    }
+                    _messages_printed += 1;
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        SummaryPrinted::_summaryprint_map_update(log_message, pathid, &mut map_pathid_sumpr, printed, flushed);
+                        summaryprinted.summaryprint_update_aul(log_message.dt(), printed, flushed);
                     }
                 }
                 LogMessage::Etl(etl) => {

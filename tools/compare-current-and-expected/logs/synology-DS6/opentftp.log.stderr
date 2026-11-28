@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/opentftp.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 2497
-      Flushes       : 21
-      Lines         : 21
-      Syslines      : 21
-      Datetime First: 2017-01-31 11:25:20 +08:00 (2017-01-31 03:25:20.000000 +00:00)
-      Datetime last : 2017-02-22 21:46:30 +08:00 (2017-02-22 13:46:30.000000 +00:00)
+    Bytes         : 2497
+    Flushes       : 21
+    Lines         : 21
+    Syslines      : 21
+    Datetime First: 2017-01-31 11:25:20 +08:00 (2017-01-31 03:25:20.000000 +00:00)
+    Datetime Last : 2017-02-22 21:46:30 +08:00 (2017-02-22 13:46:30.000000 +00:00)
   Processed:
-      File size     : 1174 (0x496) (bytes)
-      bytes         : 1174 (0x496)
-      bytes total   : 1174 (0x496)
-      Block size    : 256 (0x100)
-      Blocks        : 5
-      Blocks total  : 5 (1280 bytes)
-      Lines         : 21
-      Line longest  : 108 (bytes)
-      Line parts    : 25
-      Syslines      : 21
-      Sysline longest: 108 (bytes)
-      Syslines high : 17
-      Datetime first: 2017-01-31 11:25:20 +08:00 (2017-01-31 03:25:20.000000 +00:00)
-      Datetime last : 2017-02-22 21:46:30 +08:00 (2017-02-22 13:46:30.000000 +00:00)
-      out of order  : 0
+    File size     : 1174 (0x496) (bytes)
+    bytes         : 1174 (0x496)
+    bytes total   : 1174 (0x496)
+    Block size    : 256 (0x100)
+    Blocks        : 5
+    Blocks total  : 5 (1280 bytes)
+    Lines         : 21
+    Line longest  : 108 (bytes)
+    Line parts    : 25
+    Syslines      : 21
+    Sysline longest: 108 (bytes)
+    Syslines high : 17
+    Datetime first: 2017-01-31 11:25:20 +08:00 (2017-01-31 03:25:20.000000 +00:00)
+    Datetime last : 2017-02-22 21:46:30 +08:00 (2017-02-22 13:46:30.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss 41,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 21, miss 21, 50.0%, put 21
-      copying: SyslineReader::get_boxptrs()                        : sgl 24, dbl   2, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 21,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 21,  4.5%, put 21
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 20, miss 21, 48.8%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss 21,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss  5,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 21, miss  5
+    storage: LineReader::find_line() lines                       : hit  0, miss 41,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit 21, miss 21, 50.0%, put 21
+    copying: SyslineReader::get_boxptrs()                        : sgl 24, dbl   2, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss 21,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 21,  4.5%, put 21
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 20, miss 21, 48.8%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss 21,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss  5,  0.0%, largest skipped 0
+    process: regex captures                                      : hit 21, miss  5
   Processing Drops:
 
 Program summary:

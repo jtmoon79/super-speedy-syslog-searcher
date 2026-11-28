@@ -3,45 +3,45 @@ Files:
 
 File: ./logs/FedoraRemix29/hawkeye.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 5798
-      Flushes       : 36
-      Lines         : 37
-      Syslines      : 36
-      Datetime First: 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
-      Datetime last : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
+    Bytes         : 5798
+    Flushes       : 36
+    Lines         : 37
+    Syslines      : 36
+    Datetime First: 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
+    Datetime Last : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
   Processed:
-      File size     : 3467 (0xD8B) (bytes)
-      bytes         : 3467 (0xD8B)
-      bytes total   : 3467 (0xD8B)
-      Block size    : 256 (0x100)
-      Blocks        : 14
-      Blocks total  : 14 (3584 bytes)
-      Lines         : 37
-      Line longest  : 198 (bytes)
-      Line parts    : 50
-      Syslines      : 37
-      Sysline longest: 198 (bytes)
-      Syslines high : 36
-      Datetime first: 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
-      Datetime last : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
-      out of order  : 0
+    File size     : 3467 (0xD8B) (bytes)
+    bytes         : 3467 (0xD8B)
+    bytes total   : 3467 (0xD8B)
+    Block size    : 256 (0x100)
+    Blocks        : 14
+    Blocks total  : 14 (3584 bytes)
+    Lines         : 37
+    Line longest  : 198 (bytes)
+    Line parts    : 50
+    Syslines      : 37
+    Sysline longest: 198 (bytes)
+    Syslines high : 36
+    Datetime first: 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
+    Datetime last : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
+    out of order  : 0
   Parsers:
-                   datetime format missing year; estimated year of last sysline 2021
+      datetime format missing year; estimated year of last sysline 2021
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  35, miss  75, 31.8%
-      caching: LineReader::find_line() LRU cache                   : hit   2, miss  74,  2.6%, put  74
-      copying: SyslineReader::get_boxptrs()                        : sgl 190, dbl    6, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit  35, miss  37, 48.6%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss  37,  2.6%, put  37
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  73,  0.0%, put  73
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  35, miss  40, 46.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  51,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 145,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  38, miss 158
+    storage: LineReader::find_line() lines                       : hit  35, miss  75, 31.8%
+    caching: LineReader::find_line() LRU cache                   : hit   2, miss  74,  2.6%, put  74
+    copying: SyslineReader::get_boxptrs()                        : sgl 190, dbl    6, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit  35, miss  37, 48.6%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss  37,  2.6%, put  37
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  73,  0.0%, put  73
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  35, miss  40, 46.7%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss  51,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 145,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  38, miss 158
   Processing Drops:
 
 Program summary:

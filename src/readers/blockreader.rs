@@ -2503,7 +2503,8 @@ impl BlockReader {
                 });
                 def1o!("FileZip: zip_opt created for {:?}", path_subpath);
             }
-            FileType::Unparsable => {
+            FileType::Aul { .. }
+            | FileType::Unparsable => {
                 debug_panic!("BlockReader::new bad filetype {:?} for file {:?}", filetype, path);
 
                 return Result::Err(Error::new(
@@ -2770,6 +2771,7 @@ impl BlockReader {
                 ..
             } => self.filesz_actual,
             // Unparsable
+            FileType::Aul { .. } => panic!("Apple Unified Logs do not use a BlockReader"),
             FileType::Unparsable => panic!("BlockerReader::filesz Unexpected Unparsable"),
         }
     }
@@ -2932,7 +2934,8 @@ impl BlockReader {
                     self.file_metadata_modified
                 }
             }
-            FileType::Unparsable => panic!("BlockerReader::mtime unexpected Unparsable"),
+            FileType::Aul { .. }
+            | FileType::Unparsable => panic!("BlockReader::mtime unexpected {:?}", self.filetype),
         }
     }
 
@@ -3359,7 +3362,8 @@ impl BlockReader {
                 ..
             } => true,
             // Unparsable
-            FileType::Unparsable => false,
+            FileType::Aul { .. }
+            | FileType::Unparsable => false,
         }
     }
 
@@ -4914,7 +4918,8 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Zip,
                 ..
             } => self.read_block_FileZip(blockoffset),
-            FileType::Unparsable => {
+            FileType::Aul { .. }
+            | FileType::Unparsable => {
                 panic!(
                     "BlockReader::read_block bad filetype {:?}; path {:?}",
                     self.filetype,

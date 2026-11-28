@@ -25,7 +25,17 @@ use ::chrono::{
     Timelike,
 };
 use ::current_platform::CURRENT_PLATFORM;
-use ::si_trace_print::defñ;
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+};
 
 use crate::common::{
     debug_panic,
@@ -112,8 +122,8 @@ const OPT_SUMMARY_PRINT_DROP_STATS: bool = true;
 
 /// For printing various levels of indentation.
 const OPT_SUMMARY_PRINT_INDENT1: &str = "  ";
-const OPT_SUMMARY_PRINT_INDENT2: &str = "      ";
-const OPT_SUMMARY_PRINT_INDENT3: &str = "                   ";
+const OPT_SUMMARY_PRINT_INDENT2: &str = "    ";
+const OPT_SUMMARY_PRINT_INDENT3: &str = "      ";
 
 /// datetime format for primary printing of datetime
 const DATETIMEFMT: &str = "%Y-%m-%d %H:%M:%S %:z";
@@ -211,6 +221,7 @@ pub struct SummaryPrinted {
     pub journalentries: Count,
     /// count of native `Odl` events printed
     pub odlentries: Count,
+    pub aulentries: Count,
     /// last datetime printed
     pub dt_first: DateTimeLOpt,
     pub dt_last: DateTimeLOpt,
@@ -274,6 +285,7 @@ impl SummaryPrinted {
             evtxentries: 0,
             journalentries: 0,
             odlentries: 0,
+            aulentries: 0,
             dt_first: None,
             dt_last: None,
         }
@@ -306,6 +318,23 @@ impl SummaryPrinted {
             summaryevtxreader_opt,
             summaryjournalreader_opt,
         ) = match &summary.readerdata {
+            SummaryReaderData::Aul(_) => {
+                eprintln!("{}Printed:", indent1);
+                eprintln!("{}Events        : {}", indent2, self.aulentries);
+                eprintln!("{}Bytes         : {}", indent2, self.bytes);
+                eprintln!("{}Flushes       : {}", indent2, self.flushed);
+                if let Some(dt) = self.dt_first {
+                    eprint!("{}Datetime First: ", indent2);
+                    print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                    eprintln!();
+                }
+                if let Some(dt) = self.dt_last {
+                    eprint!("{}Datetime Last : ", indent2);
+                    print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                    eprintln!();
+                }
+                return;
+            }
             SummaryReaderData::Odl(statistics) => {
                 eprintln!("{}Printed:", indent1);
                 eprintln!("{}Events        : {}", indent2, self.odlentries);
@@ -314,10 +343,14 @@ impl SummaryPrinted {
                 eprintln!("{}Event Largest Processed: {}", indent2, statistics.odlreader_event_largest_processed);
                 eprintln!("{}Event Largest Accepted : {}", indent2, statistics.odlreader_event_largest_accepted);
                 if let Some(dt) = self.dt_first {
-                    eprintln!("{}Datetime First: {}", indent2, dt);
+                    eprint!("{}Datetime First: ", indent2);
+                    print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                    eprintln!();
                 }
                 if let Some(dt) = self.dt_last {
-                    eprintln!("{}Datetime Last : {}", indent2, dt);
+                    eprint!("{}Datetime Last : ", indent2);
+                    print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                    eprintln!();
                 }
                 return;
             }
@@ -434,7 +467,7 @@ impl SummaryPrinted {
                 eprintln!();
             }
             if let Some(dt) = self.dt_last {
-                eprint!("{}Datetime last : ", indent2);
+                eprint!("{}Datetime Last : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                 eprintln!();
             }
@@ -647,6 +680,13 @@ impl SummaryPrinted {
         self.summaryprint_update_dt(odl.dt());
     }
 
+    pub fn summaryprint_update_aul(&mut self, dt: &DateTimeL, printed: Count, flushed: Count) {
+        self.aulentries += 1;
+        self.bytes += printed;
+        self.flushed += flushed;
+        self.summaryprint_update_dt(dt);
+    }
+
     pub fn summaryprint_map_update_odl(
         odl: &Odl,
         pathid: &PathId,
@@ -847,6 +887,9 @@ impl SummaryPrinted {
         defñ!();
         match logmessage {
             LogMessage::Odl(odl) => Self::summaryprint_map_update_odl(odl, pathid, map_, printed, flushed),
+            LogMessage::Aul(_) => map_.entry(*pathid)
+                .or_insert_with(|| Self::new(LogMessageType::Aul))
+                .summaryprint_update_aul(logmessage.dt(), printed, flushed),
             LogMessage::Etl(etl) => Self::summaryprint_map_update_etl(etl, pathid, map_, printed, flushed),
             LogMessage::Evtx(evtx) => Self::summaryprint_map_update_evtx(evtx, pathid, map_, printed, flushed),
             LogMessage::FixedStruct(entry) => {
@@ -1241,6 +1284,14 @@ pub fn print_summary(
     eprintln!("Printed FixedStruct    : {}", summaryprinted.fixedstructentries);
     eprintln!("Printed Journal events : {}", summaryprinted.journalentries);
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
+    if map_pathid_filetype.values().any(|ft| matches!(ft, FileType::Aul { .. })) {
+        eprintln!("Printed AUL events     : {}", summaryprinted.aulentries);
+        let out_of_order: Count = map_pathid_summary.values()
+            .filter(|summary| summary.logmessagetype == LogMessageType::Aul)
+            .map(Summary::datetime_out_of_order)
+            .sum();
+        eprintln!("AUL events out of order: {}", out_of_order);
+    }
     eprintln!("Line Maximum                   : {}", LINE_SEARCH_MAX);
     eprintln!("Line longest                   : {}", longest_line);
     eprintln!("Sysline longest                : {}", longest_sysline);
@@ -1487,6 +1538,7 @@ fn print_file_about(
             return;
         }
     }
+    eprintln!("{}Thread stack  : {} (bytes)", OPT_SUMMARY_PRINT_INDENT2, stack_size);
     // print filetype leadin
     eprint!("{}FileType      : ", OPT_SUMMARY_PRINT_INDENT2);
     // print the filetype basic info
@@ -1498,6 +1550,7 @@ fn print_file_about(
             eprint!("{}", ot);
         }
         FileType::Asl { .. }
+        | FileType::Aul { .. }
         | FileType::FixedStruct { .. }
         | FileType::Etl { .. }
         | FileType::Evtx { .. }
@@ -1510,6 +1563,7 @@ fn print_file_about(
     // print the filetype archival type if applicable
     match filetype {
         FileType::Asl { archival_type: at }
+        | FileType::Aul { archival_type: at, .. }
         | FileType::Etl { archival_type: at }
         | FileType::Evtx { archival_type: at }
         | FileType::FixedStruct { archival_type: at, .. }
@@ -1534,23 +1588,31 @@ fn print_file_about(
     }
     // print log message type
     eprintln!("{}LogMessageType: {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
+    // print the filetype archival type if applicable
+    match filetype {
+        FileType::Aul { archival_type: _, storage_type, detection } => {
+            eprintln!("{}Storage Type  : {:?}", OPT_SUMMARY_PRINT_INDENT2, storage_type);
+            eprintln!("{}Detection     : {:?}", OPT_SUMMARY_PRINT_INDENT2, detection);
+        },
+        _ => {}
+    }
 
     if let Some(summary) = summary_opt {
         match &summary.readerdata {
             SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => {
                 if let Some(fst) = summaryfixedstructreader.fixedstructreader_fixedstructtype_opt {
-                    eprintln!(
-                        "{}Layout Type   : {:?}",
-                        OPT_SUMMARY_PRINT_INDENT2,
-                        fst,
-                    );
+                    eprintln!("{}Layout Type   : {:?}", OPT_SUMMARY_PRINT_INDENT2, fst);
+                }
+            }
+            SummaryReaderData::Aul(summaryaulreader) => {
+                eprintln!("{}Files ({}):", OPT_SUMMARY_PRINT_INDENT2, summaryaulreader.files_processed.len());
+                for file_ in &summaryaulreader.files_processed {
+                    eprintln!("{}{}", OPT_SUMMARY_PRINT_INDENT3, file_);
                 }
             }
             _ => {}
         }
     }
-
-    eprintln!("{}Thread stack  : {} (bytes)", OPT_SUMMARY_PRINT_INDENT2, stack_size);
 
     // print `FileProcessingResult` if it was not okay
     if let Some(result) = file_processing_result {
@@ -1571,15 +1633,32 @@ fn print_file_about(
     }
 
     if let Some(summary) = summary_opt {
+        if let SummaryReaderData::Aul(statistics) = &summary.readerdata {
+            if !statistics.aulreader_warnings.is_empty() {
+                eprintln!("{}Processing warnings ({}):", OPT_SUMMARY_PRINT_INDENT2, statistics.aulreader_warnings.len());
+                for (path, warning) in &statistics.aulreader_warnings {
+                    eprint!("{}{}: ", OPT_SUMMARY_PRINT_INDENT3, fpath_to_prependpath(path));
+                    print_colored_stderr(
+                        COLOR_ERROR,
+                        Some(*color_choice),
+                        warning.as_bytes(),
+                    );
+                    eprintln!();
+                }
+            }
+        }
         if let SummaryReaderData::Odl(statistics) = &summary.readerdata {
-            for warning in &statistics.odlreader_warnings {
-                eprint!("{}Processing Err: ", OPT_SUMMARY_PRINT_INDENT2);
-                print_colored_stderr(
-                    COLOR_WARN,
-                    Some(*color_choice),
-                    warning.as_bytes(),
-                );
-                eprintln!();
+            if !statistics.odlreader_warnings.is_empty() {
+                eprintln!("{}Processing warnings ({}):", OPT_SUMMARY_PRINT_INDENT2, statistics.odlreader_warnings.len());
+                for warning in &statistics.odlreader_warnings {
+                    eprint!("{}", OPT_SUMMARY_PRINT_INDENT3);
+                    print_colored_stderr(
+                        COLOR_WARN,
+                        Some(*color_choice),
+                        warning.as_bytes(),
+                    );
+                    eprintln!();
+                }
             }
         }
     }
@@ -1799,6 +1878,35 @@ fn print_summary_opt_processed(
             }
             return;
         }
+        SummaryReaderData::Aul(stats) => {
+            eprintln!("{indent2}Files opened             : {}", stats.files_opened);
+            eprintln!("{indent2}Records processed        : {}", stats.records_processed);
+            eprintln!("{indent2}Records accepted         : {}", stats.records_accepted);
+            eprintln!("{indent2}Records failed           : {}", stats.records_failed);
+            eprintln!("{indent2}Records incomplete       : {}", stats.records_incomplete);
+            eprintln!("{indent2}Records skipped no calibration: {}", stats.records_skipped_no_calibration);
+            eprintln!("{indent2}Records oversize hold max: {}", stats.records_oversize_hold_max);
+            eprintln!("{indent2}Records oversize total   : {}", stats.records_oversize_total);
+            eprintln!("{indent2}Records oversize hi      : {}", stats.records_oversize_hi);
+            eprintln!("{indent2}Records oversize unfound : {}", stats.records_oversize_unfound);
+            eprint!("{indent2}Out of order             : ");
+            eprintln_display_color_error(
+                &stats.out_of_order,
+                |n| *n != 0,
+                color_choice,
+            );
+            if let Some(dt) = stats.datetime_first_processed {
+                eprint!("{indent2}Datetime first           : ");
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
+            }
+            if let Some(dt) = stats.datetime_last_processed {
+                eprint!("{indent2}Datetime last            : ");
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
+            }
+            return;
+        }
         SummaryReaderData::Odl(stats) => {
             eprintln!("{}File size          : {}", indent2, stats.odlreader_filesz);
             eprintln!("{}ODL version        : {}", indent2, stats.odlreader_version);
@@ -1819,10 +1927,14 @@ fn print_summary_opt_processed(
                 eprintln!("{}Out of order max   : {}", indent2, seconds_to_dhmsm(duration));
             }
             if let Some(dt) = stats.odlreader_datetime_first_processed {
-                eprintln!("{}Datetime first     : {}", indent2, dt);
+                eprint!("{}Datetime First     : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
             }
             if let Some(dt) = stats.odlreader_datetime_last_processed {
-                eprintln!("{}Datetime last      : {}", indent2, dt);
+                eprint!("{}Datetime Last      : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
             }
             return;
         }
@@ -2030,6 +2142,7 @@ fn print_summary_opt_processed_summaryblockreader(
             );
         }
         FileType::Asl{..}
+        | FileType::Aul { .. }
         | FileType::Etl{..}
         | FileType::Evtx{..}
         | FileType::Journal{..}
@@ -2402,6 +2515,7 @@ fn print_cache_stats(
         SummaryReaderData::Evtx(_summaryevtxreader) => {}
         SummaryReaderData::Journal(_summaryjournalreader) => {}
         SummaryReaderData::Asl(_) => {}
+        SummaryReaderData::Aul(_) => {}
         SummaryReaderData::Dummy => panic!("Unexpected SummaryReaderData::Dummy"),
     }
 }
@@ -2428,6 +2542,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
         None => debug_panic!("unexpected None for summary.filetype"),
         Some(filetype_) => match filetype_ {
             FileType::Asl { .. }
+            | FileType::Aul { .. }
             | FileType::Etl { .. }
             | FileType::Evtx { .. }
             | FileType::Journal { .. }
@@ -2496,6 +2611,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
         SummaryReaderData::Evtx(..) => debug_panic!("Unexpected SummaryReaderData::Evtx"),
         SummaryReaderData::Journal(..) => debug_panic!("Unexpected SummaryReaderData::Journal"),
         SummaryReaderData::Asl(..) => debug_panic!("Unexpected SummaryReaderData::Asl"),
+        SummaryReaderData::Aul(..) => debug_panic!("Unexpected SummaryReaderData::Aul"),
         SummaryReaderData::Dummy => debug_panic!("Unexpected SummaryReaderData::Dummy"),
     }
 }
@@ -2693,7 +2809,8 @@ fn print_files_processpathresult(
 
     for result in map_pathid_result.values() {
         match result {
-            ProcessPathResult::FileValid(path, _filetype) => {
+            ProcessPathResult::FileValid(path, _)
+            | ProcessPathResult::FileValidAppleUnifiedLogs { diagnostics: path, .. } => {
                 // defo!("FileValid");
                 print_(format!("File: {} ", fpath_to_prependpath(path)), color_choice, color_default);
             }

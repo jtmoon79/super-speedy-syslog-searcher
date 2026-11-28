@@ -3,6 +3,7 @@
 //! Common types and constants for `readers`.
 
 use crate::data::asl::Asl;
+use crate::data::aul::Aul;
 use crate::data::datetime::DateTimeL;
 use crate::data::etl::Etl;
 use crate::data::evtx::Evtx;
@@ -23,6 +24,7 @@ pub enum LogMessage {
     Journal(JournalEntry),
     Odl(Odl),
     Asl(Asl),
+    Aul(Aul),
 }
 pub type LogMessageOpt = Option<LogMessage>;
 
@@ -38,6 +40,7 @@ impl LogMessage {
             LogMessage::Journal(journal) => journal.dt(),
             LogMessage::Odl(odl) => odl.dt(),
             LogMessage::Asl(asl) => asl.dt(),
+            LogMessage::Aul(aul) => aul.dt(),
         }
     }
 }

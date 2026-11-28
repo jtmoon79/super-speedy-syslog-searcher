@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Debian11/apache2/error.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 1013
-      Flushes       : 5
-      Lines         : 5
-      Syslines      : 5
-      Datetime First: 2022-10-10 23:56:29 +08:00 (2022-10-10 15:56:29.204202 +00:00)
-      Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.467654 +00:00)
+    Bytes         : 1013
+    Flushes       : 5
+    Lines         : 5
+    Syslines      : 5
+    Datetime First: 2022-10-10 23:56:29 +08:00 (2022-10-10 15:56:29.204202 +00:00)
+    Datetime Last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.467654 +00:00)
   Processed:
-      File size     : 693 (0x2B5) (bytes)
-      bytes         : 693 (0x2B5)
-      bytes total   : 693 (0x2B5)
-      Block size    : 256 (0x100)
-      Blocks        : 3
-      Blocks total  : 3 (768 bytes)
-      Lines         : 5
-      Line longest  : 158 (bytes)
-      Line parts    : 8
-      Syslines      : 5
-      Sysline longest: 158 (bytes)
-      Syslines high : 5
-      Datetime first: 2022-10-10 23:56:29 +08:00 (2022-10-10 15:56:29.204202 +00:00)
-      Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.467654 +00:00)
-      out of order  : 0
+    File size     : 693 (0x2B5) (bytes)
+    bytes         : 693 (0x2B5)
+    bytes total   : 693 (0x2B5)
+    Block size    : 256 (0x100)
+    Blocks        : 3
+    Blocks total  : 3 (768 bytes)
+    Lines         : 5
+    Line longest  : 158 (bytes)
+    Line parts    : 8
+    Syslines      : 5
+    Sysline longest: 158 (bytes)
+    Syslines high : 5
+    Datetime first: 2022-10-10 23:56:29 +08:00 (2022-10-10 15:56:29.204202 +00:00)
+    Datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.467654 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss 11,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  6, miss  6, 50.0%, put  5
-      copying: SyslineReader::get_boxptrs()                        : sgl 58, dbl   2, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  6,  0.0%, put  5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss  5, 50.0%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 55,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  5, miss 55
+    storage: LineReader::find_line() lines                       : hit  0, miss 11,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  6, miss  6, 50.0%, put  5
+    copying: SyslineReader::get_boxptrs()                        : sgl 58, dbl   2, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  6,  0.0%, put  5
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss  5, 50.0%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 55,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  5, miss 55
   Processing Drops:
 
 Program summary:

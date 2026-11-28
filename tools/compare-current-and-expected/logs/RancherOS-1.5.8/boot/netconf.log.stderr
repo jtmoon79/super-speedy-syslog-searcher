@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/RancherOS-1.5.8/boot/netconf.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 4480
-      Flushes       : 18
-      Lines         : 21
-      Syslines      : 18
-      Datetime First: 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
-      Datetime last : 2022-10-10 20:23:33 +00:00 (2022-10-10 20:23:33.000000 +00:00)
+    Bytes         : 4480
+    Flushes       : 18
+    Lines         : 21
+    Syslines      : 18
+    Datetime First: 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
+    Datetime Last : 2022-10-10 20:23:33 +00:00 (2022-10-10 20:23:33.000000 +00:00)
   Processed:
-      File size     : 3010 (0xBC2) (bytes)
-      bytes         : 3010 (0xBC2)
-      bytes total   : 3010 (0xBC2)
-      Block size    : 256 (0x100)
-      Blocks        : 12
-      Blocks total  : 12 (3072 bytes)
-      Lines         : 21
-      Line longest  : 1352 (bytes)
-      Line parts    : 32
-      Syslines      : 18
-      Sysline longest: 1352 (bytes)
-      Syslines high : 9
-      Datetime first: 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
-      Datetime last : 2022-10-10 20:23:33 +00:00 (2022-10-10 20:23:33.000000 +00:00)
-      out of order  : 0
+    File size     : 3010 (0xBC2) (bytes)
+    bytes         : 3010 (0xBC2)
+    bytes total   : 3010 (0xBC2)
+    Block size    : 256 (0x100)
+    Blocks        : 12
+    Blocks total  : 12 (3072 bytes)
+    Lines         : 21
+    Line longest  : 1352 (bytes)
+    Line parts    : 32
+    Syslines      : 18
+    Sysline longest: 1352 (bytes)
+    Syslines high : 9
+    Datetime first: 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
+    Datetime last : 2022-10-10 20:23:33 +00:00 (2022-10-10 20:23:33.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
-      caching: LineReader::find_line() LRU cache                   : hit  18, miss  21, 46.2%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 152, dbl    6, mult   1
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  18,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  18,  5.3%, put  18
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  17, miss  21, 44.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 145,  0.7%, largest skipped 9
-      process: regex captures                                      : hit  18, miss 140
+    storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
+    caching: LineReader::find_line() LRU cache                   : hit  18, miss  21, 46.2%, put  21
+    copying: SyslineReader::get_boxptrs()                        : sgl 152, dbl    6, mult   1
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss  18,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  18,  5.3%, put  18
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  17, miss  21, 44.7%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 145,  0.7%, largest skipped 9
+    process: regex captures                                      : hit  18, miss 140
   Processing Drops:
 
 Program summary:

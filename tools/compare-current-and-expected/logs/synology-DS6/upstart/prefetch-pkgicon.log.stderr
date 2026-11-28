@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 176
-      Flushes       : 1
-      Lines         : 1
-      Syslines      : 1
-      Datetime First: 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
-      Datetime last : 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
+    Bytes         : 176
+    Flushes       : 1
+    Lines         : 1
+    Syslines      : 1
+    Datetime First: 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
+    Datetime Last : 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
   Processed:
-      File size     : 97 (0x61) (bytes)
-      bytes         : 97 (0x61)
-      bytes total   : 97 (0x61)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 1 (256 bytes)
-      Lines         : 1
-      Line longest  : 97 (bytes)
-      Line parts    : 1
-      Syslines      : 1
-      Sysline longest: 97 (bytes)
-      Syslines high : 1
-      Datetime first: 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
-      Datetime last : 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
-      out of order  : 0
+    File size     : 97 (0x61) (bytes)
+    bytes         : 97 (0x61)
+    bytes total   : 97 (0x61)
+    Block size    : 256 (0x100)
+    Blocks        : 1
+    Blocks total  : 1 (256 bytes)
+    Lines         : 1
+    Line longest  : 97 (bytes)
+    Line parts    : 1
+    Syslines      : 1
+    Sysline longest: 97 (bytes)
+    Syslines high : 1
+    Datetime first: 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
+    Datetime last : 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  1,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  1, 50.0%, put  1
-      copying: SyslineReader::get_boxptrs()                        : sgl 75, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  1,  0.0%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 70,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  1, miss 74
+    storage: LineReader::find_line() lines                       : hit  0, miss  1,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  1, miss  1, 50.0%, put  1
+    copying: SyslineReader::get_boxptrs()                        : sgl 75, dbl   0, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  1,  0.0%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 70,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  1, miss 74
   Processing Drops:
 
 Program summary:

@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 16901
-      Flushes       : 12
-      Lines         : 128
-      Syslines      : 5
-      Datetime First: 2020-05-21 11:03:50 +08:00 (2020-05-21 03:03:50.069000 +00:00)
-      Datetime last : 2020-05-27 11:27:05 +08:00 (2020-05-27 03:27:05.575000 +00:00)
+    Bytes         : 16901
+    Flushes       : 12
+    Lines         : 128
+    Syslines      : 5
+    Datetime First: 2020-05-21 11:03:50 +08:00 (2020-05-21 03:03:50.069000 +00:00)
+    Datetime Last : 2020-05-27 11:27:05 +08:00 (2020-05-27 03:27:05.575000 +00:00)
   Processed:
-      File size     : 7330 (0x1CA2) (bytes)
-      bytes         : 7330 (0x1CA2)
-      bytes total   : 7330 (0x1CA2)
-      Block size    : 256 (0x100)
-      Blocks        : 29
-      Blocks total  : 29 (7424 bytes)
-      Lines         : 129
-      Line longest  : 160 (bytes)
-      Line parts    : 158
-      Syslines      : 5
-      Sysline longest: 6800 (bytes)
-      Syslines high : 5
-      Datetime first: 2020-05-21 11:03:50 +08:00 (2020-05-21 03:03:50.069000 +00:00)
-      Datetime last : 2020-05-27 11:27:05 +08:00 (2020-05-27 03:27:05.575000 +00:00)
-      out of order  : 0
+    File size     : 7330 (0x1CA2) (bytes)
+    bytes         : 7330 (0x1CA2)
+    bytes total   : 7330 (0x1CA2)
+    Block size    : 256 (0x100)
+    Blocks        : 29
+    Blocks total  : 29 (7424 bytes)
+    Lines         : 129
+    Line longest  : 160 (bytes)
+    Line parts    : 158
+    Syslines      : 5
+    Sysline longest: 6800 (bytes)
+    Syslines high : 5
+    Datetime first: 2020-05-21 11:03:50 +08:00 (2020-05-21 03:03:50.069000 +00:00)
+    Datetime last : 2020-05-27 11:27:05 +08:00 (2020-05-27 03:27:05.575000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   3, miss 256,  1.2%
-      caching: LineReader::find_line() LRU cache                   : hit   9, miss 130,  6.5%, put 129
-      copying: SyslineReader::get_boxptrs()                        : sgl 610, dbl   28, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss 132,  3.6%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  30, miss  25, 54.5%, largest skipped 29
-      optimize:SyslineReader::ezcheck12d2                          : hit 249, miss 334, 42.7%, largest skipped 112
-      process: regex captures                                      : hit   5, miss 354
+    storage: LineReader::find_line() lines                       : hit   3, miss 256,  1.2%
+    caching: LineReader::find_line() LRU cache                   : hit   9, miss 130,  6.5%, put 129
+    copying: SyslineReader::get_boxptrs()                        : sgl 610, dbl   28, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss 132,  3.6%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  30, miss  25, 54.5%, largest skipped 29
+    optimize:SyslineReader::ezcheck12d2                          : hit 249, miss 334, 42.7%, largest skipped 112
+    process: regex captures                                      : hit   5, miss 354
   Processing Drops:
 
 Program summary:

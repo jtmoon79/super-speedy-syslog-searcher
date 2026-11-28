@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/upstart/telnetd.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 2213
-      Flushes       : 15
-      Lines         : 19
-      Syslines      : 15
-      Datetime First: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
-      Datetime last : 2019-09-08 19:24:51 -07:00 (2019-09-09 02:24:51.000000 +00:00)
+    Bytes         : 2213
+    Flushes       : 15
+    Lines         : 19
+    Syslines      : 15
+    Datetime First: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
+    Datetime Last : 2019-09-08 19:24:51 -07:00 (2019-09-09 02:24:51.000000 +00:00)
   Processed:
-      File size     : 883 (0x373) (bytes)
-      bytes         : 883 (0x373)
-      bytes total   : 883 (0x373)
-      Block size    : 256 (0x100)
-      Blocks        : 4
-      Blocks total  : 4 (1024 bytes)
-      Lines         : 19
-      Line longest  : 60 (bytes)
-      Line parts    : 22
-      Syslines      : 15
-      Sysline longest: 73 (bytes)
-      Syslines high : 15
-      Datetime first: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
-      Datetime last : 2019-09-08 19:24:51 -07:00 (2019-09-09 02:24:51.000000 +00:00)
-      out of order  : 0
+    File size     : 883 (0x373) (bytes)
+    bytes         : 883 (0x373)
+    bytes total   : 883 (0x373)
+    Block size    : 256 (0x100)
+    Blocks        : 4
+    Blocks total  : 4 (1024 bytes)
+    Lines         : 19
+    Line longest  : 60 (bytes)
+    Line parts    : 22
+    Syslines      : 15
+    Sysline longest: 73 (bytes)
+    Syslines high : 15
+    Datetime first: 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
+    Datetime last : 2019-09-08 19:24:51 -07:00 (2019-09-09 02:24:51.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 15, miss 19, 44.1%, put 19
-      copying: SyslineReader::get_boxptrs()                        : sgl 90, dbl   3, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 15,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 15,  6.2%, put 15
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 14, miss 19, 42.4%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  4, miss 84,  4.5%, largest skipped 17
-      process: regex captures                                      : hit 15, miss 74
+    storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit 15, miss 19, 44.1%, put 19
+    copying: SyslineReader::get_boxptrs()                        : sgl 90, dbl   3, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss 15,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 15,  6.2%, put 15
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 14, miss 19, 42.4%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  4, miss 84,  4.5%, largest skipped 17
+    process: regex captures                                      : hit 15, miss 74
   Processing Drops:
 
 Program summary:

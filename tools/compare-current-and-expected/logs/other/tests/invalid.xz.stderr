@@ -3,9 +3,9 @@ Files:
 
 File: ./logs/other/tests/invalid.xz
   About:
-      FileType      : TEXT UTF8/ASCII (XZ) (text log)
-      LogMessageType: text log lines
-      Processing Err: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
+    FileType      : TEXT UTF8/ASCII (XZ) (text log)
+    LogMessageType: text log lines
+    Processing Err: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
   Error: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
 
 Program summary:

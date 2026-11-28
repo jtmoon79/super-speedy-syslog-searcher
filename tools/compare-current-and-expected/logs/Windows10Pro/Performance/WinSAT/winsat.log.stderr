@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 12069
-      Flushes       : 6
-      Lines         : 74
-      Syslines      : 3
-      Datetime First: 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
-      Datetime last : 2022-09-14 12:38:46 +08:00 (2022-09-14 04:38:46.000000 +00:00)
+    Bytes         : 12069
+    Flushes       : 6
+    Lines         : 74
+    Syslines      : 3
+    Datetime First: 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
+    Datetime Last : 2022-09-14 12:38:46 +08:00 (2022-09-14 04:38:46.000000 +00:00)
   Processed:
-      File size     : 6149 (0x1805) (bytes)
-      bytes         : 6149 (0x1805)
-      bytes total   : 6149 (0x1805)
-      Block size    : 256 (0x100)
-      Blocks        : 25
-      Blocks total  : 25 (6400 bytes)
-      Lines         : 74
-      Line longest  : 138 (bytes)
-      Line parts    : 99
-      Syslines      : 3
-      Sysline longest: 2102 (bytes)
-      Syslines high : 3
-      Datetime first: 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
-      Datetime last : 2022-09-14 12:38:46 +08:00 (2022-09-14 04:38:46.000000 +00:00)
-      out of order  : 0
+    File size     : 6149 (0x1805) (bytes)
+    bytes         : 6149 (0x1805)
+    bytes total   : 6149 (0x1805)
+    Block size    : 256 (0x100)
+    Blocks        : 25
+    Blocks total  : 25 (6400 bytes)
+    Lines         : 74
+    Line longest  : 138 (bytes)
+    Line parts    : 99
+    Syslines      : 3
+    Sysline longest: 2102 (bytes)
+    Syslines high : 3
+    Datetime first: 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
+    Datetime last : 2022-09-14 12:38:46 +08:00 (2022-09-14 04:38:46.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   5, miss 144,  3.4%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss  75,  6.2%, put  74
-      copying: SyslineReader::get_boxptrs()                        : sgl 291, dbl   24, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  75,  3.8%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  26,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 289,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   3, miss 312
+    storage: LineReader::find_line() lines                       : hit   5, miss 144,  3.4%
+    caching: LineReader::find_line() LRU cache                   : hit   5, miss  75,  6.2%, put  74
+    copying: SyslineReader::get_boxptrs()                        : sgl 291, dbl   24, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  75,  3.8%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss  26,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 289,  0.0%, largest skipped 0
+    process: regex captures                                      : hit   3, miss 312
   Processing Drops:
 
 Program summary:

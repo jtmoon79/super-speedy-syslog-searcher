@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 2449
-      Flushes       : 2
-      Lines         : 19
-      Syslines      : 2
-      Datetime First: 2019-06-28 21:14:49 -07:00 (2019-06-29 04:14:49.000000 +00:00)
-      Datetime last : 2019-09-04 18:38:13 -07:00 (2019-09-05 01:38:13.000000 +00:00)
+    Bytes         : 2449
+    Flushes       : 2
+    Lines         : 19
+    Syslines      : 2
+    Datetime First: 2019-06-28 21:14:49 -07:00 (2019-06-29 04:14:49.000000 +00:00)
+    Datetime Last : 2019-09-04 18:38:13 -07:00 (2019-09-05 01:38:13.000000 +00:00)
   Processed:
-      File size     : 948 (0x3B4) (bytes)
-      bytes         : 948 (0x3B4)
-      bytes total   : 948 (0x3B4)
-      Block size    : 256 (0x100)
-      Blocks        : 4
-      Blocks total  : 4 (1024 bytes)
-      Lines         : 19
-      Line longest  : 86 (bytes)
-      Line parts    : 23
-      Syslines      : 2
-      Sysline longest: 475 (bytes)
-      Syslines high : 2
-      Datetime first: 2019-06-28 21:14:49 -07:00 (2019-06-29 04:14:49.000000 +00:00)
-      Datetime last : 2019-09-04 18:38:13 -07:00 (2019-09-05 01:38:13.000000 +00:00)
-      out of order  : 0
+    File size     : 948 (0x3B4) (bytes)
+    bytes         : 948 (0x3B4)
+    bytes total   : 948 (0x3B4)
+    Block size    : 256 (0x100)
+    Blocks        : 4
+    Blocks total  : 4 (1024 bytes)
+    Lines         : 19
+    Line longest  : 86 (bytes)
+    Line parts    : 23
+    Syslines      : 2
+    Sysline longest: 475 (bytes)
+    Syslines high : 2
+    Datetime first: 2019-06-28 21:14:49 -07:00 (2019-06-29 04:14:49.000000 +00:00)
+    Datetime last : 2019-09-04 18:38:13 -07:00 (2019-09-05 01:38:13.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   6, miss  20, 23.1%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 654, dbl    2, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   3,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   3,  0.0%, put   2
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss  22,  8.3%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  54, miss  14, 79.4%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit 345, miss 243, 58.7%, largest skipped 49
-      process: regex captures                                      : hit   2, miss 255
+    storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit   6, miss  20, 23.1%, put  19
+    copying: SyslineReader::get_boxptrs()                        : sgl 654, dbl    2, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss   3,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   3,  0.0%, put   2
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss  22,  8.3%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  54, miss  14, 79.4%, largest skipped 39
+    optimize:SyslineReader::ezcheck12d2                          : hit 345, miss 243, 58.7%, largest skipped 49
+    process: regex captures                                      : hit   2, miss 255
   Processing Drops:
 
 Program summary:

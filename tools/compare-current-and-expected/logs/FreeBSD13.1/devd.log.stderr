@@ -3,45 +3,45 @@ Files:
 
 File: ./logs/FreeBSD13.1/devd.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 1714
-      Flushes       : 9
-      Lines         : 19
-      Syslines      : 9
-      Datetime First: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
-      Datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
+    Bytes         : 1714
+    Flushes       : 9
+    Lines         : 19
+    Syslines      : 9
+    Datetime First: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
+    Datetime Last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
   Processed:
-      File size     : 612 (0x264) (bytes)
-      bytes         : 612 (0x264)
-      bytes total   : 612 (0x264)
-      Block size    : 256 (0x100)
-      Blocks        : 3
-      Blocks total  : 3 (768 bytes)
-      Lines         : 19
-      Line longest  : 59 (bytes)
-      Line parts    : 21
-      Syslines      : 10
-      Sysline longest: 69 (bytes)
-      Syslines high : 9
-      Datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
-      Datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
-      out of order  : 0
+    File size     : 612 (0x264) (bytes)
+    bytes         : 612 (0x264)
+    bytes total   : 612 (0x264)
+    Block size    : 256 (0x100)
+    Blocks        : 3
+    Blocks total  : 3 (768 bytes)
+    Lines         : 19
+    Line longest  : 59 (bytes)
+    Line parts    : 21
+    Syslines      : 10
+    Sysline longest: 69 (bytes)
+    Syslines high : 9
+    Datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
+    Datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
+    out of order  : 0
   Parsers:
-                   datetime format missing year; estimated year of last sysline 2023
+      datetime format missing year; estimated year of last sysline 2023
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  17, miss  40, 29.8%
-      caching: LineReader::find_line() LRU cache                   : hit   2, miss  39,  4.9%, put  39
-      copying: SyslineReader::get_boxptrs()                        : sgl 249, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   8, miss  10, 44.4%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss  10,  9.1%, put  10
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  19,  0.0%, put  19
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   8, miss  32, 20.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  39, miss  14, 73.6%, largest skipped 8
-      optimize:SyslineReader::ezcheck12d2                          : hit 167, miss  29, 85.2%, largest skipped 8
-      process: regex captures                                      : hit  11, miss  32
+    storage: LineReader::find_line() lines                       : hit  17, miss  40, 29.8%
+    caching: LineReader::find_line() LRU cache                   : hit   2, miss  39,  4.9%, put  39
+    copying: SyslineReader::get_boxptrs()                        : sgl 249, dbl    0, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   8, miss  10, 44.4%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss  10,  9.1%, put  10
+    caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  19,  0.0%, put  19
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   8, miss  32, 20.0%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  39, miss  14, 73.6%, largest skipped 8
+    optimize:SyslineReader::ezcheck12d2                          : hit 167, miss  29, 85.2%, largest skipped 8
+    process: regex captures                                      : hit  11, miss  32
   Processing Drops:
 
 Program summary:

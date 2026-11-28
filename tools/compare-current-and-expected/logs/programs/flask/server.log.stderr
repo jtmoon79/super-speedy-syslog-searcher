@@ -3,44 +3,44 @@ Files:
 
 File: ./logs/programs/flask/server.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 492
-      Flushes       : 4
-      Lines         : 4
-      Syslines      : 4
-      Datetime First: 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)
-      Datetime last : 2024-03-22 15:11:55 +08:00 (2024-03-22 07:11:55.000000 +00:00)
+    Bytes         : 492
+    Flushes       : 4
+    Lines         : 4
+    Syslines      : 4
+    Datetime First: 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)
+    Datetime Last : 2024-03-22 15:11:55 +08:00 (2024-03-22 07:11:55.000000 +00:00)
   Processed:
-      File size     : 240 (0xF0) (bytes)
-      bytes         : 240 (0xF0)
-      bytes total   : 240 (0xF0)
-      Block size    : 256 (0x100)
-      Blocks        : 1
-      Blocks total  : 1 (256 bytes)
-      Lines         : 4
-      Line longest  : 60 (bytes)
-      Line parts    : 4
-      Syslines      : 4
-      Sysline longest: 60 (bytes)
-      Syslines high : 4
-      Datetime first: 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)
-      Datetime last : 2024-03-22 15:11:55 +08:00 (2024-03-22 07:11:55.000000 +00:00)
-      out of order  : 0
+    File size     : 240 (0xF0) (bytes)
+    bytes         : 240 (0xF0)
+    bytes total   : 240 (0xF0)
+    Block size    : 256 (0x100)
+    Blocks        : 1
+    Blocks total  : 1 (256 bytes)
+    Lines         : 4
+    Line longest  : 60 (bytes)
+    Line parts    : 4
+    Syslines      : 4
+    Sysline longest: 60 (bytes)
+    Syslines high : 4
+    Datetime first: 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)
+    Datetime last : 2024-03-22 15:11:55 +08:00 (2024-03-22 07:11:55.000000 +00:00)
+    out of order  : 0
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  7,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  4, miss  4, 50.0%, put  4
-      copying: SyslineReader::get_boxptrs()                        : sgl 53, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  4,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  4, 20.0%, put  4
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  3, miss  4, 42.9%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 48,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  4, miss 49
+    storage: LineReader::find_line() lines                       : hit  0, miss  7,  0.0%
+    caching: LineReader::find_line() LRU cache                   : hit  4, miss  4, 50.0%, put  4
+    copying: SyslineReader::get_boxptrs()                        : sgl 53, dbl   0, mult  0
+    storage: SyslineReader::find_sysline() syslines              : hit  0, miss  4,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+    caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  4, 20.0%, put  4
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  3, miss  4, 42.9%, put  0
+    optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit  0, miss  5,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 48,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  4, miss 49
   Processing Drops:
 
 Program summary:

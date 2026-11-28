@@ -3,45 +3,45 @@ Files:
 
 File: ./logs/RancherOS-1.5.8/boot/respawn.log
   About:
-      FileType      : TEXT UTF8/ASCII (text log)
-      LogMessageType: text log lines
+    FileType      : TEXT UTF8/ASCII (text log)
+    LogMessageType: text log lines
   Printed:
-      Bytes         : 3179
-      Flushes       : 20
-      Lines         : 21
-      Syslines      : 20
-      Datetime First: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
-      Datetime last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
+    Bytes         : 3179
+    Flushes       : 20
+    Lines         : 21
+    Syslines      : 20
+    Datetime First: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
+    Datetime Last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
   Processed:
-      File size     : 1709 (0x6AD) (bytes)
-      bytes         : 1709 (0x6AD)
-      bytes total   : 1709 (0x6AD)
-      Block size    : 256 (0x100)
-      Blocks        : 7
-      Blocks total  : 7 (1792 bytes)
-      Lines         : 21
-      Line longest  : 164 (bytes)
-      Line parts    : 27
-      Syslines      : 20
-      Sysline longest: 164 (bytes)
-      Syslines high : 13
-      Datetime first: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
-      Datetime last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
-      out of order  : 2
-      out of order max: 612d 56m 22s
+    File size     : 1709 (0x6AD) (bytes)
+    bytes         : 1709 (0x6AD)
+    bytes total   : 1709 (0x6AD)
+    Block size    : 256 (0x100)
+    Blocks        : 7
+    Blocks total  : 7 (1792 bytes)
+    Lines         : 21
+    Line longest  : 164 (bytes)
+    Line parts    : 27
+    Syslines      : 20
+    Sysline longest: 164 (bytes)
+    Syslines high : 13
+    Datetime first: 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
+    Datetime last : 2022-10-10 20:23:35 +00:00 (2022-10-10 20:23:35.000000 +00:00)
+    out of order  : 2
+    out of order max: 612d 56m 22s
   Parsers:
   Processing stores:
-      storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 153, dbl    6, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  21, 47.5%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  20, miss 139
+    storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
+    caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  21
+    copying: SyslineReader::get_boxptrs()                        : sgl 153, dbl    6, mult   0
+    storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
+    caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
+    caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
+    caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  21, 47.5%, put   0
+    optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
+    optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
+    process: regex captures                                      : hit  20, miss 139
   Processing Drops:
 
 Program summary:
