@@ -5812,8 +5812,10 @@ fn processing_loop(
             {
                 1024 * 154
             }
-            (false, FileType::Aul { .. }) => {
-                1024 * 200
+            (false, FileType::Aul { .. }) =>
+                // experiments showed 88 KiB
+            {
+                1024 * 120
             }
             (false, FileType::Etl {..}) =>
                 // experiments showed 124Ki, not compressed
